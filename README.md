@@ -45,7 +45,7 @@ class BasePopulation(BaseIterativeModel):
 
 
 ### import
-Just use the command `from beagle import *` import all of the objects.
+Just use the command `from pyrimidine import *` import all of the objects.
 
 ### subclass
 

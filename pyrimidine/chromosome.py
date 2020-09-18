@@ -130,17 +130,28 @@ class FloatChromosome(VectorChromosome):
 class UnitFloatChromosome(FloatChromosome):
     element_class = UnitFloatGene
 
-class ProbabilityChromosome(FloatChromosome):
+_max0 = np.frompyfunc(max0, 1, 1)
+class PositiveChromosome(FloatChromosome):
+    def max0(self):
+        self = _max0(self)
+
+class ProbabilityChromosome(PositiveChromosome):
     """ProbabilityChromosome
     The genes represent a distribution, such as [0.1,0.2,0.3,0.4].
     
     Extends:
         FloatChromosome
     """
+
     element_class = UnitFloatGene
 
     @classmethod
-    def random(cls, size):
+    def random(cls, size=None):
+        if size is None:
+            if cls.default_size:
+                size = cls.default_size
+            else:
+                raise UnknownSizeError(cls)
         return cls(np.random.dirichlet(np.ones(size)), gene=cls.element_class)
 
 
@@ -167,21 +178,36 @@ class ProbabilityChromosome(FloatChromosome):
                 self[j] = p-r
         return self
 
+
     def cross(self, other):
         k = randint(1, len(self)-2)
         array=np.hstack((self[:k], other[k:]))
         array /= array.sum()
         return self.__class__(array=array, gene=self.gene)
 
-    def random_neighbour(self, mu=0, simga=0.1):
+    # def random_neighbour(self, mu=0, simga=0.1):
+    #     # select a neighour randomly
+    #     cpy = self.clone(fitness=None)
+    #     i, j = randint2(0, len(cpy)-1)
+    #     p = cpy[i] + cpy[j]
+    #     r = np.random.uniform(0, p)
+    #     cpy[i] = r
+    #     cpy[j] = p-r
+    #     return cpy
+
+    def random_neighbour(self):
         # select a neighour randomly
-        cpy = self.clone(fitness=None)
-        i, j = randint2(0, len(cpy)-1)
-        p = cpy[i] + cpy[j]
-        r = np.random.uniform(0, p)
-        cpy[i] = r
-        cpy[j] = p-r
-        return cpy
+        r = self.random(size=self.n_genes)
+        epsilon = 0.001
+        return self + epsilon * (r - self)
+
+    def mutate(self, *args, **kwargs):
+        super(ProbabilityChromosome, self).mutate(*args, **kwargs)
+        self.normalize()
+
+    def normalize(self):
+        self.max0()
+        self /= self.sum()
 
 
 class CircleChromosome(FloatChromosome):
