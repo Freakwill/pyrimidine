@@ -227,9 +227,9 @@ see `# examples/example0`
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from beagle import SimpleBinaryIndividual, SGAPopulation
+from pyrimidine import SimpleBinaryIndividual, SGAPopulation
 
-from beagle.benchmarks.optimization import *
+from pyrimidine.benchmarks.optimization import *
 
 # generate a knapsack problem randomly
 evaluate = Knapsack.random()
