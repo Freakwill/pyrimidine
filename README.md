@@ -2,7 +2,7 @@
 
 OO implement of genetic algorithm by python
 
-![LOGO](logo.jpeg)
+![LOGO](logo.png)
 
 
 ## Why

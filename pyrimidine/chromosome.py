@@ -122,7 +122,7 @@ class FloatChromosome(VectorChromosome):
 
     def random_neighbour(self, mu=0, simga=0.1):
         # select a neighour randomly
-        cpy = self.clone(fitness=None)
+        cpy = self.clone()
         n = scipy.stats.norm(self.mu, self.sigma)
         cpy += n.rvs(len(self))
         return cpy
@@ -133,7 +133,7 @@ class UnitFloatChromosome(FloatChromosome):
 _max0 = np.frompyfunc(max0, 1, 1)
 class PositiveChromosome(FloatChromosome):
     def max0(self):
-        self = _max0(self)
+        self[:] = _max0(self)
 
 class ProbabilityChromosome(PositiveChromosome):
     """ProbabilityChromosome
@@ -158,25 +158,25 @@ class ProbabilityChromosome(PositiveChromosome):
     def check(self):
         raise np.sum(self) == 1
 
-    def mutate(self, indep_prob=0.1):
-        """Mutation of ProbabilityChromosome
-        if mutation happend on two genes i and j, then select a number r randomly
-        i <- r, j <= p - r, where p is the sum of the original probs of i and j.
+    # def mutate(self, indep_prob=0.1):
+    #     """Mutation of ProbabilityChromosome
+    #     if mutation happend on two genes i and j, then select a number r randomly
+    #     i <- r, j <= p - r, where p is the sum of the original probs of i and j.
         
-        Keyword Arguments:
-            indep_prob {number} -- independent prob of mutation for any gene (default: {0.1})
+    #     Keyword Arguments:
+    #         indep_prob {number} -- independent prob of mutation for any gene (default: {0.1})
         
-        Returns:
-            ProbabilityChromosome -- new obj after mutation
-        """
-        for i in range(len(self)-1):
-            if random() < indep_prob:
-                j = randint(i+1, len(self)-1)
-                p = self[i] + self[j]
-                r = np.random.uniform(0, p)
-                self[i] = r
-                self[j] = p-r
-        return self
+    #     Returns:
+    #         ProbabilityChromosome -- new obj after mutation
+    #     """
+    #     for i in range(len(self)-1):
+    #         if random() < indep_prob:
+    #             j = randint(i+1, len(self)-1)
+    #             p = self[i] + self[j]
+    #             r = np.random.uniform(0, p)
+    #             self[i] = r
+    #             self[j] = p-r
+    #     return self
 
 
     def cross(self, other):
@@ -185,21 +185,16 @@ class ProbabilityChromosome(PositiveChromosome):
         array /= array.sum()
         return self.__class__(array=array, gene=self.gene)
 
-    # def random_neighbour(self, mu=0, simga=0.1):
-    #     # select a neighour randomly
-    #     cpy = self.clone(fitness=None)
-    #     i, j = randint2(0, len(cpy)-1)
-    #     p = cpy[i] + cpy[j]
-    #     r = np.random.uniform(0, p)
-    #     cpy[i] = r
-    #     cpy[j] = p-r
-    #     return cpy
-
     def random_neighbour(self):
         # select a neighour randomly
-        r = self.random(size=self.n_genes)
-        epsilon = 0.001
-        return self + epsilon * (r - self)
+        cpy = self.clone()
+        i, j = randint2(0, len(cpy)-1)
+        p = cpy[i] + cpy[j]
+        r = np.random.uniform(0, p)
+        cpy[i] = r
+        cpy[j] = p-r
+        return cpy
+
 
     def mutate(self, *args, **kwargs):
         super(ProbabilityChromosome, self).mutate(*args, **kwargs)

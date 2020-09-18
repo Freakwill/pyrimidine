@@ -6,23 +6,24 @@ from pyrimidine.local_search import *
 from random import randint
 
 
-from pyrimidine.benchmarks.matrix import *
+from pyrimidine.benchmarks.matrix import NMF as NMF_
 
 from digit_converter import *
 
 
-N, p = 200, 50
+N, p = 100, 10
 c = 3
-evaluate = NMF.random(N=N, p=p)
+evaluate = NMF_.random(N=N, p=p)
+
+class _Chromosome(ProbabilityChromosome):
+    pass
 
 
-class _Individual(MultiIndividual):
+class _Individual(MultiIndividual, SimulatedAnnealing):
     """base class of individual
 
     You should implement the methods, cross, mute
     """
-
-    element_class = ProbabilityChromosome
 
     def _fitness(self):
         A = np.vstack(self.chromosomes[:N])
@@ -30,30 +31,38 @@ class _Individual(MultiIndividual):
         return evaluate(A, B)
 
 
-class MyIndividual(_Individual, SimulatedAnnealing):
-
+class YourIndividual(_Individual):
+    element_class = ProbabilityChromosome
     def get_neighbour(self):
         cpy = self.clone(fitness=None)
-        r = randint(0, self.n_chromosomes-1)
-        cpy.chromosomes[r].mutate()
+        cpy.mutate()
         return cpy
 
-    # def get_neighbour(self):
-    #     # select a neighour randomly
-    #     cpy = self.clone(fitness=None)
-    #     cpy.chromosomes = [chromosome.random_neighbour() for chromosome in self.chromosomes]
-    #     return cpy
+
+class MyIndividual(_Individual):
+    element_class = _Chromosome
+
+    def get_neighbour(self):
+        # select a neighour randomly
+        cpy = self.clone(fitness=None)
+        cpy.chromosomes = [chromosome.random_neighbour() for chromosome in self.chromosomes]
+        return cpy
 
 
-i = MyIndividual.random(size=20, sizes=(3,)* N + (p,)*c)
+from sklearn.decomposition import NMF
+nmf = NMF(n_components=c)
+W = nmf.fit_transform(evaluate.M)
+H = nmf.components_
+err = -evaluate(W, H.T)
 
-print(i, i.fitness)
+i = MyIndividual.random(sizes=(c,)* N + (p,)*c)
+j = i.clone()
+data = i.history(stat={'Error': lambda i: -i.fitness}, ngen=150)
+yourdata = j.history(stat={'Error': lambda i: -i.fitness}, ngen=150)
 
-data = i.history()
-print(i, i.fitness)
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(data['Fitness'])
-
+ax.plot(np.arange(150), data['Error'], 'r-+', np.arange(150), yourdata['Error'], 'b-o', [0, 150], [err, err], 'k--')
+ax.legend(('My Error', 'Your Error', 'EM Error'))
 plt.show()
