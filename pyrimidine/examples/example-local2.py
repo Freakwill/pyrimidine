@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from beagle import *
-from beagle.local_search import *
+from pyrimidine import *
+from pyrimidine.local_search import *
 from random import random
 
 
-from beagle.benchmarks.special import *
+from pyrimidine.benchmarks.special import *
 
 from digit_converter import *
 

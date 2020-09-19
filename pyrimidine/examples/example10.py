@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from beagle import SimpleBinaryIndividual, AgePopulation, AgeIndividual, SGAPopulation
+from pyrimidine import SimpleBinaryIndividual, AgePopulation, AgeIndividual, SGAPopulation
 
-from beagle.benchmarks.cluster import *
+from pyrimidine.benchmarks.cluster import *
 
 # generate a knapsack problem randomly
 evaluate = KMeans.random(N=100)

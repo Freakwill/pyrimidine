@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from beagle import *
+from pyrimidine import *
 import numpy as np
 
 
-t = np.random.randint(1, 5, 100)
-n = np.random.randint(1, 4, 100)
+t = np.random.randint(1, 5, 20)
+n = np.random.randint(1, 4, 20)
 
 import collections
 def max_repeat(x):
@@ -33,12 +33,13 @@ class MyPopulation(SGAPopulation):
     element_class = MyIndividual
 
 if __name__ == '__main__':
-    pop = MyPopulation.random(n_individuals=50, size=100)
+    pop = MyPopulation.random(n_individuals=20, size=20)
     # pop.evolve()
     # print(pop.best_individual)
-    d = pop.history(ngen=200, stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'})
+    d = pop.history(ngen=100, stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'})
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.plot(d.index, d['Fitness'], d.index, d['Best Fitness'], '.-')
+    ax.legend(('Fitness', 'Best Fitness'))
     plt.show()

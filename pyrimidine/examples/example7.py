@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from beagle import *
+from pyrimidine import *
 import numpy as np
 
 from digit_converter import *

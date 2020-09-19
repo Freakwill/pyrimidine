@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from beagle import *
+from pyrimidine import *
 import numpy as np
 
-from beagle.benchmarks.matrix import *
+from pyrimidine.benchmarks.matrix import *
 
 N=500
 p=100

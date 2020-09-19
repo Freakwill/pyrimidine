@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from beagle import *
-from beagle.benchmarks.approximation import _basis, n_basis_, Function1DApproximation
+from pyrimidine import *
+from pyrimidine.benchmarks.approximation import _basis, n_basis_, Function1DApproximation
 import numpy as np
 
 evaluate = Function1DApproximation(function=np.arctan,lb=-1, ub=1)
@@ -15,10 +15,10 @@ class MyIndividual(SimpleFloatIndividual):
 class MyPopulation(SGAPopulation):
     element_class = MyIndividual
 
-pop = MyPopulation.random(n_individuals=50, size=n_basis_)
+pop = MyPopulation.random(n_individuals=30, size=n_basis_)
 
 stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
-pop.evolve(ngen=300, verbose=False)
+pop.evolve(ngen=100, verbose=False)
 
 
 import matplotlib.pyplot as plt

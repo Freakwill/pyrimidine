@@ -13,7 +13,7 @@ BasePopulation: set of individuals, represents a set of a problem
 BaseSpecies: set of population for more complicated optimalization
 
 
-Subclass the classes and overide some main method esp. _fitness.
+Subclass the classes and override some main method esp. _fitness.
 
 Example:
     select ti, ni from t, n
@@ -119,6 +119,7 @@ class BaseIterativeModel:
         # ngen = ngen or self.ngen or self.default_ngen
         for gen in range(1, ngen+1):
             self.transitate(gen)
+            self.post_process()
             if verbose and (per == 1 or gen % per ==0):
                 print(f'{gen} & ', self._row)
 
@@ -135,14 +136,15 @@ class BaseIterativeModel:
         """
         if stat is None:
             stat = {'Fitness':'fitness'}
-        H = []
+ 
         self.init()
+        import pandas as pd
+        H = pd.DataFrame(data={k:[(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self)] for k, s in stat.items()})
         for gen in range(ngen):
             self.transitate(gen, *args, **kwargs)
-            H.append([(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) for _, s in stat.items()])
-        import pandas as pd
-        data = pd.DataFrame(H, columns=stat.keys())
-        return data
+            self.post_process()
+            H = H.append({k:(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) for k, s in stat.items()}, ignore_index=True)
+        return H
 
     def perf(self, n_repeat=10, *args, **kwargs):
         import time
@@ -158,6 +160,9 @@ class BaseIterativeModel:
             else:
                 data += data0
         return data / n_repeat, np.mean(times)
+
+    def post_process(self):
+        raise NotImplementedError
 
 
 class Solution(object):
@@ -234,8 +239,27 @@ class BaseChromosome:
     def equal(self, other):
         return np.all(self == other)
 
+class BaseFitnessModel(BaseIterativeModel):
+    __fitness = None
 
-class BaseIndividual(BaseIterativeModel):
+    @property
+    def fitness(self):
+        if self.__fitness is None:
+            self.__fitness = self._fitness()
+        return self.__fitness
+
+    @fitness.setter
+    def fitness(self, f):
+        self.__fitness = f
+
+    def _fitness(self):
+        raise NotImplementedError
+
+    def post_process(self):
+        self.__fitness = None
+
+
+class BaseIndividual(BaseFitnessModel):
     """base class of individual
 
     a sequence of chromosomes that may vary in sizes.
@@ -247,8 +271,8 @@ class BaseIndividual(BaseIterativeModel):
     default_size = 1
 
     def __init__(self, chromosomes, fitness=None, age=0):
-        self.__chromosomes = chromosomes
-        self.__fitness = fitness
+        self.chromosomes = chromosomes
+        self.fitness = fitness
         self.age = age
         self.n_chromosomes = len(chromosomes)
 
@@ -290,18 +314,6 @@ class BaseIndividual(BaseIterativeModel):
         self.__chromosomes = c
         self.fitness = None
 
-    @property
-    def fitness(self):
-        if self.__fitness is None:
-            self.fitness = self._fitness()
-        return self.__fitness
-
-    @fitness.setter
-    def fitness(self, f):
-        self.__fitness = f
-
-    def _fitness(self):
-        return 0
 
     def cross(self, other):
         return self.__class__([chromosome.cross(other_c) for chromosome, other_c in zip(self.chromosomes, other.chromosomes)])
@@ -349,7 +361,7 @@ class BaseIndividual(BaseIterativeModel):
         return np.all([c.equal(oc) for c, oc in zip(self.chromosomes, other.chromosomes)])
 
 
-class BasePopulation(BaseIterativeModel):
+class BasePopulation(BaseFitnessModel):
     """The base class of population in GA
     
     Represents a state of a stachostic process (Markov process)
@@ -374,6 +386,11 @@ class BasePopulation(BaseIterativeModel):
         self.individuals = [i.clone(type_=self.element_class) if not isinstance(i, self.element_class) else i for i in individuals]
         self.default_size = len(individuals)
         self.sorted_individuals = []
+
+    def __setstate__(self, state):
+        self.element_class = state['element_class']
+        self.default_size = state.get('default_size', self.__class__.default_size)
+        self.individuals = state['individuals']
 
     def __len__(self):
         return self.n_individuals
@@ -477,9 +494,17 @@ class BasePopulation(BaseIterativeModel):
         for individual in self.individuals:
             individual.evolve(*args, **kwargs)
 
-    @property
-    def fitness(self):
+
+    def _fitness(self):
         return np.mean([individual.fitness for individual in self.individuals])
+
+    @property
+    def mean_fitness(self):
+        return self._fitness()
+
+    # @property
+    # def fitness(self):
+    #     return self._fitness()
 
     @property
     def best_fitness(self):
@@ -541,6 +566,26 @@ class BasePopulation(BaseIterativeModel):
         self.individuals = self.individuals[k:] + other.individuals[:l]
         other.individuals = other.individuals[l:] + self.individuals[:k]
 
+    def save(self, filename='population.pkl'):
+        import pickle
+        if isinstance(filename, str):
+            pklPath = pathlib.Path(filename)
+        if pklPath.exists():
+            print(Warning(f'There exists {filename}, It has been over written'))
+        with open(pklPath, 'wb') as fo:
+            pickle.dump(self, fo)
+
+    @staticmethod
+    def load(filename='population.pkl'):
+        import pickle
+        if isinstance(filename, str):
+            pklPath = pathlib.Path('filename.pkl')
+        if pklPath.exists():
+            with open(pklPath, 'rb') as fo:
+                return pickle.load(pklPath)
+        else:
+            raise IOError(f'Could not find {filename}!')
+
 
 class ParallelPopulation(BasePopulation):
 
@@ -553,7 +598,7 @@ class ParallelPopulation(BasePopulation):
         self.individuals += offspring
 
 
-class BaseSpecies:
+class BaseSpecies(BaseFitnessModel):
     element_class = BasePopulation
     default_size = 2
 

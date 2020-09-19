@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from beagle import BinaryChromosome, BaseIndividual, AgePopulation, AgeIndividual, SGAPopulation
+from pyrimidine import BinaryChromosome, BaseIndividual, AgePopulation, AgeIndividual, SGAPopulation
 
-from beagle.benchmarks.optimization import *
+from pyrimidine.benchmarks.optimization import *
 from digit_converter import *
 
 

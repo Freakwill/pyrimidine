@@ -3,9 +3,9 @@
 
 
 
-from beagle import *
+from pyrimidine import *
 from digit_converter import *
-from beagle.benchmarks.neural_network import MLP
+from pyrimidine.benchmarks.neural_network import MLP
 
 import numpy as np
 

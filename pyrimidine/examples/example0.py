@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from beagle import SimpleBinaryIndividual, SGAPopulation
+from pyrimidine import SimpleBinaryIndividual, SGAPopulation
 
-from beagle.benchmarks.optimization import *
+from pyrimidine.benchmarks.optimization import *
 
 # generate a knapsack problem randomly
 evaluate = Knapsack.random()
@@ -21,11 +21,11 @@ pop = MyPopulation.random(size=20)
 stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
 data = pop.history(stat=stat)
 
-# import matplotlib.pyplot as plt
-# fig = plt.figure()
-# ax = fig.add_subplot(111)
-# ax.plot(data.index, data['Fitness'], data.index, data['Best Fitness'])
-# ax.legend(('Fitness', 'Best Fitness'))
-# ax.set_xlabel('Generations')
-# ax.set_ylabel('Fitness')
-# plt.show()
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(data.index, data['Fitness'], data.index, data['Best Fitness'])
+ax.legend(('Fitness', 'Best Fitness'))
+ax.set_xlabel('Generations')
+ax.set_ylabel('Fitness')
+plt.show()

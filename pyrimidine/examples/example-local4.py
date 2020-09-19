@@ -11,12 +11,17 @@ from pyrimidine.benchmarks.matrix import NMF as NMF_
 from digit_converter import *
 
 
-N, p = 100, 10
-c = 3
+N, p = 50, 10
+c = 2
 evaluate = NMF_.random(N=N, p=p)
 
 class _Chromosome(ProbabilityChromosome):
-    pass
+
+    def random_neighbour(self):
+        # select a neighour randomly
+        r = self.random(size=self.n_genes)
+        epsilon = 0.01
+        return self + epsilon * (r - self)
 
 
 class _Individual(MultiIndividual, SimulatedAnnealing):
@@ -57,12 +62,12 @@ err = -evaluate(W, H.T)
 
 i = MyIndividual.random(sizes=(c,)* N + (p,)*c)
 j = i.clone()
-data = i.history(stat={'Error': lambda i: -i.fitness}, ngen=150)
-yourdata = j.history(stat={'Error': lambda i: -i.fitness}, ngen=150)
+data = i.history(stat={'Error': lambda i: -i.fitness}, ngen=200)
+yourdata = j.history(stat={'Error': lambda i: -i.fitness}, ngen=200)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(np.arange(150), data['Error'], 'r-+', np.arange(150), yourdata['Error'], 'b-o', [0, 150], [err, err], 'k--')
+ax.plot(np.arange(200), yourdata['Error'], 'bo', np.arange(200), data['Error'], 'r+', [0, 200], [err, err], 'k--')
 ax.legend(('My Error', 'Your Error', 'EM Error'))
 plt.show()

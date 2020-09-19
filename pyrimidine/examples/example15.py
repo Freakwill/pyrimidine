@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from beagle import *
-from beagle.benchmarks.fitting import *
+from pyrimidine import *
+from pyrimidine.benchmarks.fitting import *
 import numpy as np
 
 from digit_converter import *

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from beagle.benchmarks.special import *
+from pyrimidine.benchmarks.special import *
 
 
-from beagle import *
+from pyrimidine import *
 from digit_converter import *
 
 import numpy as np
