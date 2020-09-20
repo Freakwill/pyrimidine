@@ -3,7 +3,7 @@
 
 import math
 from random import random
-from beagle.base import BaseIterativeModel
+from pyrimidine.base import BaseIterativeModel
 
 
 class SimulatedAnnealing(BaseIterativeModel):
@@ -17,7 +17,7 @@ class SimulatedAnnealing(BaseIterativeModel):
         state
     """
 
-    config={'c': 0.99,
+    params = {'c': 0.995,
         'cc': 0.999,
         'nepoch': 100,
         'initT': 100,

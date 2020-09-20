@@ -5,7 +5,7 @@
 import numpy as np
 import scipy.stats
 
-from beagle.base import BaseIterativeModel
+from pyrimidine.base import BaseIterativeModel
 
 
 class RandomWalk(BaseIterativeModel):
@@ -19,7 +19,7 @@ class RandomWalk(BaseIterativeModel):
         state
     """
 
-    config={'mu': 0,
+    params={'mu': 0,
         'sigma': 0.1,
         'gen': 100}
 

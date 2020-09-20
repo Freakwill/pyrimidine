@@ -3,14 +3,14 @@
 
 
 from random import random, choice
-from beagle.base import BaseIterativeModel
+from pyrimidine.base import BaseIterativeModel
 
 
 class BaseTabuSearch(BaseIterativeModel):
     """Tabu Search algorithm
     """
 
-    config={'value': 0,
+    params = {'value': 0,
         'tabu_list': [],
         'actions': None}
 

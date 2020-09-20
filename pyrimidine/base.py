@@ -66,24 +66,24 @@ class BaseIterativeModel:
 
     _head = 'best solution & fitness'
 
-    config = {}
+    params = {}
 
     # def __getitem__(self, key):
-    #     return self.config[key]
+    #     return self.params[key]
 
     # def __setitem__(self, key, value):
-    #     self.config[key] = value
+    #     self.params[key] = value
     # 
     
     def __new__(cls, *args, **kwargs):
         # constructor of BaseIterativeModel
         obj = super(BaseIterativeModel, cls).__new__(cls)
-        for k, v in cls.config.items():
+        for k, v in cls.params.items():
             setattr(obj, k, v)
         return obj
 
     # def __getattr__(self, key):
-    #     return self.config[key]
+    #     return self.params[key]
 
     @property
     def _row(self):
@@ -375,7 +375,7 @@ class BasePopulation(BaseFitnessModel):
 
     _head = 'best individual & fitness & number of individuals'
 
-    config = {'mate_prob':0.7, 'mutate_prob':0.2, 'tournsize':5}
+    params = {'mate_prob':0.7, 'mutate_prob':0.2, 'tournsize':5}
 
     @property
     def _row(self):
@@ -602,7 +602,7 @@ class BaseSpecies(BaseFitnessModel):
     element_class = BasePopulation
     default_size = 2
 
-    config = {'migrate_prob': 0.5}
+    params = {'migrate_prob': 0.5}
 
     @classmethod
     def random(cls, n_populations=None, *args, **kwargs):
