@@ -10,7 +10,11 @@ Welcome to pyrimidine's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   Home
+   Install
+   API Reference
+   Examples
+   Customize
 
 Indices and tables
 ==================
