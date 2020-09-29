@@ -15,7 +15,7 @@ evaluate = Knapsack.random()
 
 
 
-class _Individual(SimpleBinaryIndividual):
+class _Individual(MonoBinaryIndividual):
     """base class of individual
 
     You should implement the methods, cross, mute

@@ -11,14 +11,25 @@ class Knapsack:
     where ci, wi selected from c, w
     """
     def __init__(self, w, c, W, M=100):
+        """
+        
+        Arguments:
+            w {array} -- weight array of goods
+            c {array} -- value array of goods
+            W {number} -- upper bound of total weight
+        
+        Keyword Arguments:
+            M {number} -- penalty (default: {100})
+        """
+
         self.w = w
         self.c = c
         self.W = W
         self.M = M
 
     @staticmethod
-    def random(n=20, W=100):
-        w = np.random.randint(1, 11, n)
+    def random(n=50, W=0.7):
+        w = np.random.randint(1, 21, n)
         c = np.random.randint(1, 21, n)
         if W<1:
             W = np.sum(w) * W
@@ -27,8 +38,8 @@ class Knapsack:
 
     def __call__(self, x):
         c, w, W, M = self.c, self.w, self.W, self.M
-        v = sum([ci for i, ci in zip(x, c) if i==1])
-        if sum([wi for i, wi in zip(x, w) if i==1]) <= W:
+        v = np.sum([ci for i, ci in zip(x, c) if i==1])
+        if np.sum([wi for i, wi in zip(x, w) if i==1]) <= W:
             return v
         else:
             return -v * M

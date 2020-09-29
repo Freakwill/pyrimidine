@@ -6,19 +6,19 @@ import numpy as np
 
 from digit_converter import *
 
-c =IntegerConverter()
+c = IntegerConverter()
 
 class _Chromosome(BinaryChromosome):
     def decode(self):
         return c(self)
 
 
-class MyIndividual(MultiIndividual):
+class MyIndividual(MultiIndividual[_Chromosome]):
     """base class of individual
 
     You should implement the methods, cross, mute
     """
-    element_class = _Chromosome
+
     default_size = 3
 
     def decode(self):

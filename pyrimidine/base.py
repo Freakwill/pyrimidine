@@ -56,8 +56,9 @@ import types
 from operator import attrgetter
 from random import random, choice
 import numpy as np
-from utils import *
+from pyrimidine.utils import uniformly_select
 from pyrimidine.errors import *
+from pyrimidine.meta import *
 
 
 class BaseIterativeModel:
@@ -239,6 +240,7 @@ class BaseChromosome:
     def equal(self, other):
         return np.all(self == other)
 
+
 class BaseFitnessModel(BaseIterativeModel):
     __fitness = None
 
@@ -259,7 +261,7 @@ class BaseFitnessModel(BaseIterativeModel):
         self.__fitness = None
 
 
-class BaseIndividual(BaseFitnessModel):
+class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
     """base class of individual
 
     a sequence of chromosomes that may vary in sizes.
@@ -270,14 +272,8 @@ class BaseIndividual(BaseFitnessModel):
     element_class = BaseChromosome
     default_size = 1
 
-    def __init__(self, chromosomes, fitness=None, age=0):
-        self.chromosomes = chromosomes
-        self.fitness = fitness
-        self.age = age
-        self.n_chromosomes = len(chromosomes)
-
-    def __getitem__(self, k):
-        return self.chromosomes[k]
+    # def __getitem__(self, k):
+    #     return self.chromosomes[k]
 
     def __repr__(self):
         return self.__class__.__name__ + f':= {" $ ".join(repr(chromosome) for chromosome in self.chromosomes)}'
@@ -288,7 +284,7 @@ class BaseIndividual(BaseFitnessModel):
     def __format__(self, spec=None):
         if spec is None:
             return str(self)
-        elif spec in{'d', 'decode'}:
+        elif spec in {'d', 'decode'}:
             return ' | '.join(str(x) for x in self.decode())
         else:
             return str(self)
@@ -297,21 +293,21 @@ class BaseIndividual(BaseFitnessModel):
     def random(cls, n_chromosomes=None, *args, **kwargs):
         if issubclass(cls.element_class, BaseChromosome):
             if 'sizes' in kwargs:
-                return cls(chromosomes=[cls.element_class.random(size=size) for size in kwargs['sizes']])
+                return cls([cls.element_class.random(size=size) for size in kwargs['sizes']])
             else:
                 if n_chromosomes is None:
                     n_chromosomes = cls.default_size
-                return cls(chromosomes=[cls.element_class.random(*args, **kwargs) for _ in range(n_chromosomes)])
+                return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_chromosomes)])
         else:
-            return cls(chromosomes=[c.random(*args, **kwargs) for c in cls.element_class])
+            return cls([c.random(*args, **kwargs) for c in cls.element_class])
 
     @property
     def chromosomes(self):
-        return self.__chromosomes
+        return self.__elements
 
     @chromosomes.setter
     def chromosomes(self, c):
-        self.__chromosomes = c
+        self.__elements = c
         self.fitness = None
 
 
@@ -361,7 +357,7 @@ class BaseIndividual(BaseFitnessModel):
         return np.all([c.equal(oc) for c, oc in zip(self.chromosomes, other.chromosomes)])
 
 
-class BasePopulation(BaseFitnessModel):
+class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     """The base class of population in GA
     
     Represents a state of a stachostic process (Markov process)
@@ -372,6 +368,7 @@ class BasePopulation(BaseFitnessModel):
 
     element_class = BaseIndividual
     default_size = 20
+        
 
     _head = 'best individual & fitness & number of individuals'
 
@@ -384,7 +381,6 @@ class BasePopulation(BaseFitnessModel):
 
     def __init__(self, individuals=[]):
         self.individuals = [i.clone(type_=self.element_class) if not isinstance(i, self.element_class) else i for i in individuals]
-        self.default_size = len(individuals)
         self.sorted_individuals = []
 
     def __setstate__(self, state):
@@ -392,31 +388,21 @@ class BasePopulation(BaseFitnessModel):
         self.default_size = state.get('default_size', self.__class__.default_size)
         self.individuals = state['individuals']
 
-    def __len__(self):
-        return self.n_individuals
-
     @property
     def individuals(self):
-        return self.__individuals
+        return self.__elements
 
     @individuals.setter
     def individuals(self, x):
-        self.__individuals = x
-        self.n_individuals = len(x)
+        self.__elements = x
+        self.n_elements = self.n_individuals = len(x)
         self.sorted = False
 
     @classmethod
     def random(cls, n_individuals=None, *args, **kwargs):
         if n_individuals is None:
             n_individuals = cls.default_size
-        return cls(individuals=[cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
-
-
-    def __iter__(self):
-        return iter(self.individuals)
-
-    def __getitem__(self, k):
-        return self.individuals[k]
+        return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
 
     def transitate(self, *args, **kwargs):
         """
@@ -450,7 +436,7 @@ class BasePopulation(BaseFitnessModel):
             elif n_rest <= size:
                 aspirants = rest
             else:
-                aspirants = np.random.choice(rest, size)
+                aspirants = uniformly_select(rest, size)
             winner = max(aspirants, key=attrgetter('fitness'))
             chosen.append(winner)
             rest.remove(winner)
@@ -598,7 +584,7 @@ class ParallelPopulation(BasePopulation):
         self.individuals += offspring
 
 
-class BaseSpecies(BaseFitnessModel):
+class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
     element_class = BasePopulation
     default_size = 2
 
@@ -608,12 +594,22 @@ class BaseSpecies(BaseFitnessModel):
     def random(cls, n_populations=None, *args, **kwargs):
         if n_populations is None:
             n_populations = cls.default_size
-        return cls(populations=[cls.element_class.random(*args, **kwargs) for _ in range(n_populations)])
+        return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_populations)])
 
     def migrate(self, migrate_prob=None):
         for population, other in zip(self.populations[:-1], self.populations[1:]):
             if random() < (migrate_prob or self.migrate_prob):
                 population.cross(other)
+
+    @property
+    def populations(self):
+        return self.__elements
+
+    @populations.setter
+    def populations(self, x):
+        self.__elements = x
+        self.n_elements = self.n_populations = len(x)
+        self.sorted = False
 
 
 class BaseEnvironment:

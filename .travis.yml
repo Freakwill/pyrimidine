@@ -1,0 +1,29 @@
+language: python
+
+python:
+  - "3.5"
+  - "3.6"      # current default Python on Travis CI
+  - "3.7"
+  - "3.8"
+  - "3.8-dev"  # 3.8 development branch
+  - "nightly"  # nightly build
+# command to install dependencies
+# install:
+#  - pip install -r requirements.txt
+# command to run tests
+
+# install:
+# - "./.travis/install.sh"
+script:
+- "./.travis/run.sh"
+deploy:
+  provider: releases
+  file:
+  - dist/*.whl
+  - dist/*.tar.gz
+  file_glob: true
+  on:
+    repo: Freakwill/pyrimidine
+    tags: true
+  skip_cleanup: true
+

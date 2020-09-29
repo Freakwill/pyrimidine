@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from beagle import *
+from pyrimidine import *
 from digit_converter import BinaryConverter
 bc = BinaryConverter(exponent=8)
 

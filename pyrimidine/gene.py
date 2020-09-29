@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from pyrimidine import BaseGene
+from . import BaseGene
 
 
 class NaturalGene(np.int_, BaseGene):

@@ -3,7 +3,7 @@
 
 import math
 from random import random
-from pyrimidine.base import BaseIterativeModel
+from .base import BaseIterativeModel
 
 
 class SimulatedAnnealing(BaseIterativeModel):

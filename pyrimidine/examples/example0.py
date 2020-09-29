@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pyrimidine import SimpleBinaryIndividual, SGAPopulation
+from pyrimidine import MonoBinaryIndividual, SGAPopulation
 
 from pyrimidine.benchmarks.optimization import *
 
 # generate a knapsack problem randomly
 evaluate = Knapsack.random()
 
-class MyIndividual(SimpleBinaryIndividual):
+class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
-        return evaluate(self)
+        return evaluate(self[0])
 
 
 class MyPopulation(SGAPopulation):

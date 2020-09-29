@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pyrimidine import (BaseIndividual, 
-    BinaryChromosome, BaseChromosome, FloatChromosome)
+from .base import BaseIndividual
+from .chromosome import BinaryChromosome, BaseChromosome, FloatChromosome
+from .meta import MetaMultiContainer
+
 
 class MultiIndividual(BaseIndividual):
     pass
 
-class SimpleIndividual(BaseIndividual):
+class MonoIndividual(BaseIndividual):
     """base class of individual with one choromosome
 
     You should implement the methods, cross, mute
@@ -16,7 +18,7 @@ class SimpleIndividual(BaseIndividual):
 
     @classmethod
     def random(cls, *args, **kwargs):
-        return cls(chromosomes=[cls.element_class.random(*args, **kwargs)])
+        return cls([cls.element_class.random(*args, **kwargs)])
 
     @property
     def chromosome(self):
@@ -26,19 +28,20 @@ class SimpleIndividual(BaseIndividual):
         return iter(self.chromosome)
 
 
-class SimpleBinaryIndividual(SimpleIndividual):
+class MonoBinaryIndividual(MonoIndividual):
     """simple binary individual
     encoded as a sequence such as 010011
+
+    Equiv. to `MonoBinaryIndividual = MonoIndividual[BinaryChromosome]`
     """
 
     element_class = BinaryChromosome
 
-class BinaryIndividual(BaseIndividual):
-    """simple binary individual
-    encoded as a sequence such as 010011
+class BinaryIndividual(MultiIndividual):
+    """non-simple binary individual
     """
 
-    element_class = BinaryChromosome
+    element_class = BinaryChromosome,
 
 class FloatIndividual(BaseIndividual):
     """simple binary individual
@@ -47,14 +50,14 @@ class FloatIndividual(BaseIndividual):
 
     element_class = FloatChromosome
 
-class SimpleFloatIndividual(SimpleIndividual):
+class MonoFloatIndividual(MonoIndividual):
     """simple binary individual
     encoded as a sequence such as 010011
     """
 
     element_class = FloatChromosome
 
-class MixIndividual(BaseIndividual):
+class MixIndividual(BaseIndividual, metaclass=MetaMultiContainer):
     """base class of individual
 
     You should implement the methods, cross, mute
@@ -65,7 +68,7 @@ class MixIndividual(BaseIndividual):
     def random(cls, sizes=(8,), n_chromosomes=None, size=None, *args, **kwargs):
         if sizes is None:
             sizes = (size,) * n_chromosomes
-        return cls(chromosomes=[C.random(size=l, *args, **kwargs) for C, l in zip(cls.element_class, sizes)])
+        return cls([C.random(size=l, *args, **kwargs) for C, l in zip(cls.element_class, sizes)])
 
 
 class AgeIndividual(BaseIndividual):

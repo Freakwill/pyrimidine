@@ -3,7 +3,7 @@
 
 
 from random import random, choice
-from pyrimidine.base import BaseIterativeModel
+from .base import BaseIterativeModel
 
 
 class BaseTabuSearch(BaseIterativeModel):
