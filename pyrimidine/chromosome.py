@@ -4,8 +4,8 @@
 import numpy as np
 import scipy.stats
 
-from pyrimidine import (BaseChromosome, BaseGene, 
-    BinaryGene, FloatGene, UnitFloatGene, CircleGene)
+from .base import BaseChromosome, BaseGene
+from .gene import BinaryGene, FloatGene, UnitFloatGene, CircleGene
 from .utils import *
 
 

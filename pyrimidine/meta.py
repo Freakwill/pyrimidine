@@ -135,37 +135,41 @@ class MetaContainer(type):
         return type.__new__(cls, name, bases, attrs)
 
     def __call__(self, *args, **kwargs):
-        if args:
-            self.__elements, = args
         o = super(MetaContainer, self).__call__(*args, **kwargs)
         for k, v in kwargs.items():
             setattr(o, k, v)
+        if args:
+            o.__elements, = args
         return o
 
     def __getitem__(self, class_):
         self.element_class = class_
+        if isinstance(class_, tuple):
+            self.__metaclass__ = MetaList
         return self
 
-class MetaMonoContainer(MetaContainer):
+class MetaList(MetaContainer):
+    # a list is a container of elements with the same type
     def __new__(cls, name, bases, attrs):
-        # constructor of MetaMultiContainer
         if 'element_class' in attrs:
             element_class = attrs['element_class']
             if isinstance(element_class, tuple):
                 raise TypeError('`element_class` should not be a tuple!')
-        return super(MetaMultiContainer, cls).__new__(cls, name, bases, attrs)
+        return super(MetaList, cls).__new__(cls, name, bases, attrs)
 
 
-class MetaMultiContainer(MetaContainer):
+class MetaTuple(MetaContainer):
+    # a tuple is a container of elements with different types
     def __new__(cls, name, bases, attrs):
         # constructor of MetaMultiContainer
         if 'element_class' in attrs:
             element_class = attrs['element_class']
             if not isinstance(element_class, tuple):
                 raise TypeError('`element_class` should be a tuple!')
-        return super(MetaMultiContainer, cls).__new__(cls, name, bases, attrs)
+        return super(MetaTuple, cls).__new__(cls, name, bases, attrs)
 
 class MetaHighContainer(MetaContainer):
+    # High order container is a container of  containers.
     def __new__(cls, name, bases, attrs):
         # constructor of MetaHighContainer
         if 'element_class' in attrs:

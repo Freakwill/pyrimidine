@@ -42,7 +42,7 @@ class MyIndividual(MultiIndividual[_Chromosome]):
 if __name__ == '__main__':
     SGAPopulation.element_class = MyIndividual
 
-    pop = SGAPopulation.random(n_individuals=30, n_chromosomes=3, size=15)
+    pop = SGAPopulation.random(n_individuals=30, size=15)
     d= pop.history(ngen=100, stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'})
     import matplotlib.pyplot as plt
     fig = plt.figure()

@@ -3,13 +3,13 @@
 
 from .base import BaseIndividual
 from .chromosome import BinaryChromosome, BaseChromosome, FloatChromosome
-from .meta import MetaMultiContainer
+from .meta import MetaTuple, MetaList
 
 
-class MultiIndividual(BaseIndividual):
+class MultiIndividual(BaseIndividual, metaclass=MetaTuple):
     pass
 
-class MonoIndividual(BaseIndividual):
+class MonoIndividual(BaseIndividual, metaclass=MetaList):
     """base class of individual with one choromosome
 
     You should implement the methods, cross, mute
@@ -57,17 +57,20 @@ class MonoFloatIndividual(MonoIndividual):
 
     element_class = FloatChromosome
 
-class MixIndividual(BaseIndividual, metaclass=MetaMultiContainer):
+class MixIndividual(BaseIndividual, metaclass=MetaTuple):
     """base class of individual
 
     You should implement the methods, cross, mute
     """
-    element_class = BaseChromosome,
+    element_class = BaseChromosome, BaseChromosome
 
     @classmethod
-    def random(cls, sizes=(8,), n_chromosomes=None, size=None, *args, **kwargs):
+    def random(cls, sizes=(8, 8), n_chromosomes=None, size=None, *args, **kwargs):
         if sizes is None:
             sizes = (size,) * n_chromosomes
+        else:
+            if len(sizes) != len(cls.element_class):
+                print(Warning('the length of sizes is not equal to the number of elements'))
         return cls([C.random(size=l, *args, **kwargs) for C, l in zip(cls.element_class, sizes)])
 
 

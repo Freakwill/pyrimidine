@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pyrimidine import MonoBinaryIndividual, SGAPopulation
+from pyrimidine import MonoBinaryIndividual, SGAPopulation, BinaryChromosome
 
 from pyrimidine.benchmarks.optimization import *
 
@@ -10,7 +10,7 @@ evaluate = Knapsack.random()
 
 class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
-        return evaluate(self[0])
+        return evaluate(self.chromosome)
 
 
 class MyPopulation(SGAPopulation):

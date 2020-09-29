@@ -56,9 +56,9 @@ import types
 from operator import attrgetter
 from random import random, choice
 import numpy as np
-from pyrimidine.utils import uniformly_select
-from pyrimidine.errors import *
-from pyrimidine.meta import *
+from .utils import uniformly_select
+from .errors import *
+from .meta import MetaHighContainer, MetaContainer, MetaTuple, MetaList
 
 
 class BaseIterativeModel:
@@ -291,15 +291,17 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
 
     @classmethod
     def random(cls, n_chromosomes=None, *args, **kwargs):
-        if issubclass(cls.element_class, BaseChromosome):
+        if isinstance(cls, MetaList):
             if 'sizes' in kwargs:
                 return cls([cls.element_class.random(size=size) for size in kwargs['sizes']])
             else:
                 if n_chromosomes is None:
                     n_chromosomes = cls.default_size
                 return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_chromosomes)])
-        else:
-            return cls([c.random(*args, **kwargs) for c in cls.element_class])
+
+        elif isinstance(cls, MetaTuple):
+            return cls([C.random(*args, **kwargs) for C in zip(cls.element_class)])
+
 
     @property
     def chromosomes(self):
