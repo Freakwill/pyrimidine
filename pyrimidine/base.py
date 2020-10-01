@@ -313,7 +313,7 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
         self.fitness = None
 
 
-    def cross(self, other):
+    def cross(self, other, k=None):
         return self.__class__([chromosome.cross(other_c) for chromosome, other_c in zip(self.chromosomes, other.chromosomes)])
 
     def mutate(self):
@@ -472,11 +472,11 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
     def remove(self, individual):
         self.individuals.remove(individual)
-        self.n_individuals -=1
+        self.n_individuals -= 1
 
     def pop(self, k=-1):
         self.individuals.pop(k)
-        self.n_individuals -=1
+        self.n_individuals -= 1
 
     def local_search(self, *args, **kwargs):
         for individual in self.individuals:
@@ -527,7 +527,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         return np.argsort([individual.fitness for individual in self.individuals])
 
 
-    def _ranking(self, individual):
+    def get_rank(self, individual):
         r = 0
         for ind in self.sorted_individuals:
             if ind.fitness <= individual.fitness:
@@ -612,6 +612,28 @@ class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
         self.__elements = x
         self.n_elements = self.n_populations = len(x)
         self.sorted = False
+        self.fitness = None
+
+    def transitate(self, *args, **kwargs):
+        for population in self.populations:
+            population.transitate(*args, **kwargs)
+
+    @property
+    def best_fitness(self):
+        return np.max([np.max([individual.fitness for individual in pop.individuals]) for pop in self.populations])
+
+    @property
+    def best_individual(self):
+        inds = self.individuals
+        k = np.argmax([individual.fitness for individual in inds])
+        return inds[k]
+
+    @property
+    def individuals(self):
+        inds = []
+        for pop in self.populations:
+            inds.extend(pop.individuals)
+        return inds
 
 
 class BaseEnvironment:

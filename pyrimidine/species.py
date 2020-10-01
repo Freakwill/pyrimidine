@@ -5,9 +5,44 @@ from . import BaseSpecies
 
 class DualSpecies(BaseSpecies):
 
+    @property  
+    def male_population(self):
+        return self.populations[0]
+
+    @property  
+    def female_population(self):
+        return self.populations[1]
+
+    @property  
+    def males(self):
+        return self.populations[0].individuals
+
+    @property  
+    def females(self):
+        return self.populations[1].individuals
+
+    @property
+    def male_fitness(self):
+        return self.populations[0].fitness
+
+    @property
+    def female_fitness(self):
+        return self.populations[1].fitness
+    
+
     def mate(self):
-        for individual0 in self.populations[0]:
-            individual0.cross(individual1) for individual1 in self.populations[1]
+        offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
+        self.populations[0].individuals += offspring
+        offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
+        self.populations[1].individuals += offspring
+
 
     def transitate(self, *args, **kwargs):
-        pass
+        self.populations[0].select()
+        self.populations[1].select()
+        self.mate()
+        self.populations[0].mutate()
+        self.populations[1].mutate()
+        self.populations[0].ranking()
+        self.populations[1].ranking()
+        self.populations[0].fitness = self.populations[1].fitness = None
