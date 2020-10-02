@@ -26,7 +26,11 @@ class _Individual(MixIndividual[BinaryChromosome, BinaryChromosome]):
 
 class _Population(BasePopulation):
     element_class = _Individual
-    default_size = 20
+    default_size = 10
+
+    def select(self):
+        ks = np.argsort([individual.fitness for individual in self.individuals])
+        self.individuals = [self.individuals[k] for k in ks[-10:]]
 
 class MySpecies(DualSpecies):
     element_class = _Population
@@ -36,12 +40,18 @@ class MySpecies(DualSpecies):
         fr = self.populations[1].get_rank(female)
         return c(male.expect) <= fr and c(female.expect) <= mr
 
+    @property
+    def expect(self):
+        return np.mean([ind.expect for ind in self.males] + [ind.expect for ind in self.females])
+    
 
-sp = MySpecies.random(sizes=(20, 8))
+
+sp = MySpecies.random(sizes=(50, 8))
 
 
-stat={'Male Fitness':'male_fitness', 'Female Fitness':'female_fitness', 'Best Fitness': 'best_fitness'}
-data = sp.history(stat=stat)
+stat={'Male Fitness':'male_fitness', 'Female Fitness':'female_fitness', 'Best Fitness': 'best_fitness', 'Mean Expect': 'expect'}
+data = sp.history(stat=stat, ngen=200)
+data.to_csv('hehe.csv')
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

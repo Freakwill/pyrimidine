@@ -15,11 +15,12 @@ class MyIndividual(MonoBinaryIndividual):
 
 class MyPopulation(SGAPopulation):
     element_class = MyIndividual
+    default_size = 20
 
-pop = MyPopulation.random(size=20)
+pop = MyPopulation.random(size=50)
 
 stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
-data = pop.history(stat=stat)
+data = pop.history(stat=stat, ngen=200)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

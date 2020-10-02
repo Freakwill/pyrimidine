@@ -35,6 +35,10 @@ class DualSpecies(BaseSpecies):
         self.populations[0].individuals += offspring
         offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
         self.populations[1].individuals += offspring
+        
+
+    def match(self, male, female):
+        return True
 
 
     def transitate(self, *args, **kwargs):

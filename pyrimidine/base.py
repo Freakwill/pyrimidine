@@ -85,6 +85,12 @@ class BaseIterativeModel:
 
     # def __getattr__(self, key):
     #     return self.params[key]
+    #     
+    
+    # def config(self, params, **kwargs):
+    #     self.params.update(params)
+    #     for k, v in kwargs.items():
+    #         setter(self, k, v)
 
     @property
     def _row(self):
@@ -130,7 +136,8 @@ class BaseIterativeModel:
         Keyword Arguments:
             ngen {number} -- number of generations (default: {100})
             stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
-            (default: {'fitness':lambda x:x.fitness})
+                           The value could be a string that should be a method pre-defined.
+            (default: {'Fitness': 'fitness'})
         
         Returns:
             DataFrame
@@ -482,7 +489,6 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         for individual in self.individuals:
             individual.evolve(*args, **kwargs)
 
-
     def _fitness(self):
         return np.mean([individual.fitness for individual in self.individuals])
 
@@ -502,6 +508,10 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     def best_individual(self):
         k = np.argmax([individual.fitness for individual in self.individuals])
         return self.individuals[k]
+
+    def get_best_individuals(self, k=1):
+        # first k best individuals
+        return self.sorted_individuals[-k:]
 
     @property
     def worst_individual(self):

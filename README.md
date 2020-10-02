@@ -23,14 +23,27 @@ Container class has an attribute `element_class`, telling itself the class of th
 
 Following is the part of the source code of `BaseIndividual` and `BasePopulation`.
 ```python
-class BaseIndividual(BaseIterativeModel):
+class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
     element_class = BaseChromosome
     default_size = 1
     
-class BasePopulation(BaseIterativeModel):
+class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     element_class = BaseIndividual
     default_size = 20
 ```
+
+
+
+There is mainly tow kinds of containers: list and tuple as in programming language `Haskell`. See following examples.
+
+```python
+# individual with chromosomes of type _Chromosome
+_Individual1 = BaseIndividual[_Choromosome]
+# individual with 2 chromosomes of type _Chromosome1 and _Chromosome2 respectively
+_Individual2 = MixIndividual[_Chromosome1, _Chromosome2]
+```
+
+
 
 ## Use
 
@@ -56,10 +69,10 @@ Generally, it is an array of genes.
 As an array of 0-1s, `BinaryChromosome` is used most frequently.
 
 #### Individual
-just subclass `SimpleIndividual` in most cases.
+just subclass `MonoIndividual` in most cases.
 
 ```python
-class MyIndividual(SimpleIndividual):
+class MyIndividual(MonoIndividual):
     """individual with only one chromosome
     we set the gene is 0 or 1 in the chromosome
     """
@@ -69,24 +82,31 @@ class MyIndividual(SimpleIndividual):
         ...
 ```
 
-equivalent to
+Since class `MonoBinaryIndividual` is defined to be such individual, it is equivalent to
 
 ```python
-class MyIndividual(SimpleBinaryIndividual):
-
+class MyIndividual(MonoBinaryIndividual):
+    # only need define the fitness
     def _fitness(self):
         ...
 ```
 
 
 
-If an individual contains several chromosomes, then subclass `BaseIndividual`. It could be applied in multi-real-variable optimization problems.
+If an individual contains several chromosomes, then subclass `MultiIndividual`. It could be applied in multi-real-variable optimization problems.
+
+
+
+In most cases, we have to decode chromosomes to real numbers.
 
 ```python
 class _Chromosome(BinaryChromosome):
     def decode(self):
-        """if the sequence of 0-1 represents a real number, then overide the method
-        to transform it to a nubmer"""
+        """Decode a binary chromosome
+        
+        if the sequence of 0-1 represents a real number, then overide the method
+        to transform it to a nubmer
+        """
 
 class ExampleIndividual(BaseIndividual):
     element_class = _Chromosome
@@ -97,10 +117,12 @@ class ExampleIndividual(BaseIndividual):
         return evaluate(x)
 ```
 
+
+
 If the chromosomes in an individual are different with each other, then subclass `MixIndividual`, meanwhile, the property `element_class` should be assigned with a tuple of classes for each chromosome.
 
 ```python
-class MyIndividual(ExampleIndividual, MixIndividual):
+class MyIndividual(MixIndividual):
     """
     Inherit the fitness from ExampleIndividual directly.
     It has 6 chromosomes, 5 are instances of _Chromosome, 1 is instance of FloatChromosome
@@ -108,7 +130,7 @@ class MyIndividual(ExampleIndividual, MixIndividual):
     element_class = (_Chromosome,)*5 + (FloatChromosome,)
 ```
 
-
+It equivalent to `MyIndividual=MixIndividual[(_Chromosome,)*5 + (FloatChromosome,)]`
 
 #### Population
 
@@ -117,7 +139,7 @@ class MyPopulation(SGAPopulation):
     element_class = MyIndividual
 ```
 
-`element_class` is the most important attribute of the class that defines the class of the individual of the population.
+`element_class` is the most important attribute of the class that defines the class of the individual of the population. It is equivalent to `MyPopulation=SGAPopulation[MyIndividual]`.
 
 
 
@@ -141,6 +163,8 @@ For `MixIndividual`, we recommand to use, for example
 
 In fact, `random` method of `Population` will call random method of `Individual`. If you want to generate an individual, then just execute `MyIndividual.random(n_chromosomes=5, size=10)`, for simple individuals, just execute `SimpleIndividual.random(size=10)` since its `n_chromosomes` equals to 1.
 
+
+
 ### Evolution
 
 #### `evolve` method
@@ -154,15 +178,23 @@ print(pop.best_individual)
 
 set `verbose=True` to display the data for each generation.
 
+
+
 #### History
 
 Get the history of the evolution.
 
 ```python
 stat={'Fitness':'fitness', 'Best Fitness': lambda pop: pop.best_individual.fitness}
-data = pop.history(stat=stat)
+data = pop.history(stat=stat)  # use history instead of evolve
 ```
-`stat` is a dict mapping keys to function, where string 'fitness' means function `lambda pop:pop.fitness` which gets the mean fitness of pop.
+`stat` is a dict mapping keys to function, where string 'fitness' means function `lambda pop:pop.fitness` which gets the mean fitness of pop. Since we have defined pop.best_individual.fitness as a property, `stat` could be redefine as `{'Fitness':'fitness', 'Best Fitness': 'best_fitness'}`.
+
+
+
+#### performance
+
+Use `pop.perf()` to check the performance.
 
 
 
@@ -191,10 +223,7 @@ def max_repeat(x):
     bm=np.argmax([b for a, b in c.items()])
     return list(c.keys())[bm]
 
-class MyIndividual(SimpleIndividual):
-    # or subclass SimpleBinaryIndividual
-
-    element_class = BinaryChromosome
+class MyIndividual(BinaryIndividual):
 
     def _fitness(self):
         x = self.evaluate()
@@ -227,14 +256,14 @@ see `# examples/example0`
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pyrimidine import SimpleBinaryIndividual, SGAPopulation
+from pyrimidine import MonoBinaryIndividual, SGAPopulation
 
 from pyrimidine.benchmarks.optimization import *
 
 # generate a knapsack problem randomly
 evaluate = Knapsack.random()
 
-class MyIndividual(SimpleBinaryIndividual):
+class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
         return evaluate(self)
 

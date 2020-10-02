@@ -10,7 +10,7 @@ class MultiIndividual(BaseIndividual, metaclass=MetaTuple):
     pass
 
 class MonoIndividual(BaseIndividual, metaclass=MetaList):
-    """base class of individual with one choromosome
+    """Base class of individual with one choromosome
 
     You should implement the methods, cross, mute
     """
@@ -26,6 +26,16 @@ class MonoIndividual(BaseIndividual, metaclass=MetaList):
 
     def __iter__(self):
         return iter(self.chromosome)
+
+    @property
+    def individuals(self):
+        return self.__elements
+
+    @individuals.setter
+    def individuals(self, x):
+        if len(x)>=2:
+            raise ValueError('A monoIndividual has only one chromosome! But you give more than one.')
+        super(MonoIndividual, self).individuals = x
 
 
 class MonoBinaryIndividual(MonoIndividual):
