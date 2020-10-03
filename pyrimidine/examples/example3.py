@@ -51,7 +51,7 @@ if __name__ == '__main__':
     pop.mutate_prob = 0.4
     stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
 
-    data = pop.history(ngen=350, stat=stat)
+    data = pop.history(n_iter=350, stat=stat)
 
     import matplotlib.pyplot as plt
     fig = plt.figure()
@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
     pop.mate_prob = 1
     pop.mutate_prob= 1
-    d = pop.history(ngen=350, stat={'Fitness':'fitness', 'Best Fitness':'best_fitness', 
+    d = pop.history(n_iter=350, stat={'Fitness':'fitness', 'Best Fitness':'best_fitness', 
         'mean threshold': lambda pop: np.mean([ind.threshold for ind in pop.individuals]),
         'mean mate_prob': lambda pop: np.mean([ind.mate_prob for ind in pop.individuals]),
         'mean mutate_prob': lambda pop: np.mean([ind.mutate_prob for ind in pop.individuals]),

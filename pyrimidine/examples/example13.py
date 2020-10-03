@@ -42,7 +42,7 @@ fig = plt.figure()
 ax = fig.add_subplot(111)
 params = pop.best_individual.chromosomes
 yy = evaluate.fit(*params)
-pop.evolve(ngen=200, verbose=False)
+pop.evolve(n_iter=200, verbose=False)
 params = pop.best_individual.chromosomes
 yyy = evaluate.fit(*params)
 ax.plot(X, y, X, yy, X, yyy)

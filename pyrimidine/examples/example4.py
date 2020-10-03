@@ -50,7 +50,7 @@ if __name__ == '__main__':
     ga = SGAPopulation.random(n_individuals=20, n_chromosomes=10, size=10)
     ga.mate_prob = 0.9
 
-    d= ga.history(ngen=10, stat=stat)
+    d= ga.history(n_iter=10, stat=stat)
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     ga = LocalSearchPopulation.random(n_individuals=20, n_chromosomes=10, size=10)
     ga.mate_prob = 0.9
-    d= ga.history(ngen=10, stat=stat)
+    d= ga.history(n_iter=10, stat=stat)
     ax.plot(d.index, d['Fitness'], d.index, d['Best Fitness'], '.-')
     ax.legend(('Traditional','Traditional best', 'SA', 'SA best'))
     plt.show()

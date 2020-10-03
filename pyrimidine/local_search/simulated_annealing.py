@@ -23,12 +23,12 @@ class SimulatedAnnealing(BaseIterativeModel):
         'initT': 100,
         'ngen': 100}
 
-    def transitate(self, gen):
+    def transitate(self, k):
         T = self.initT
         for epoch in range(self.nepoch):
             self.move(T)
             T *= self.cc ** self.nepoch
-        self.initT *= self.c ** gen
+        self.initT *= self.c ** k
 
     def move(self, T):
         """Transition of states

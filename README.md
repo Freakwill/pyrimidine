@@ -226,8 +226,8 @@ def max_repeat(x):
 class MyIndividual(BinaryIndividual):
 
     def _fitness(self):
-        x = self.evaluate()
-        return - x[0] - x[1]
+        x, y = self.evaluate()
+        return - x - y
 
     def evaluate(self):
         return abs(np.dot(n, self.chromosome)-10), max_repeat(ti for ti, c in zip(t, self) if c==1)

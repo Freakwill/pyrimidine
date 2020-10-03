@@ -74,7 +74,7 @@ if __name__ == '__main__':
     pop = SGAPopulation.random(n_individuals=40, sizes=(8,)*20)
     pop.mate_prob = 0.9
     stat = {'Fitness':'fitness', 'Best Fitness': lambda pop: pop.best_individual.fitness}
-    d= pop.history(ngen=350, stat=stat)
+    d= pop.history(n_iter=350, stat=stat)
     d.to_csv('h1.csv')
     import matplotlib.pyplot as plt
     fig = plt.figure()

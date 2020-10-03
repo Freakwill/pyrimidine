@@ -16,18 +16,18 @@ def max_repeat(x):
     return list(c.keys())[bm]
 
 
-class MyIndividual(SimpleBinaryIndividual):
+class MyIndividual(MonoBinaryIndividual):
 
     def _fitness(self):
         """
         select ti, ni from t, n
         sum of ni ~ 10, while ti dose not repeat
         """
-        x = self.evaluate()
-        return - x[0] - x[1]
+        x, y = self.evaluate()
+        return - (x + y)
 
     def evaluate(self):
-        return abs(np.sum([ni for ni, c in zip(n, self) if c==1])-10), max_repeat(ti for ti, c in zip(t, self) if c==1)
+        return abs(np.sum([ni for ni, c in zip(n, self.chromosome) if c==1])-10), max_repeat(ti for ti, c in zip(t, self.chromosome) if c==1)
 
 class MyPopulation(SGAPopulation):
     element_class = MyIndividual
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     pop = MyPopulation.random(n_individuals=20, size=20)
     # pop.evolve()
     # print(pop.best_individual)
-    d = pop.history(ngen=100, stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'})
+    d = pop.history(n_iter=100, stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'})
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)

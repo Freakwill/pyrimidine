@@ -50,7 +50,7 @@ sp = MySpecies.random(sizes=(50, 8))
 
 
 stat={'Male Fitness':'male_fitness', 'Female Fitness':'female_fitness', 'Best Fitness': 'best_fitness', 'Mean Expect': 'expect'}
-data = sp.history(stat=stat, ngen=200)
+data = sp.history(stat=stat, n_iter=200)
 data.to_csv('hehe.csv')
 
 import matplotlib.pyplot as plt

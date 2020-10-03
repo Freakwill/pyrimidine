@@ -3,9 +3,10 @@
 import numpy as np
 
 class Kantorovich(object):
-    '''[Summary for Class Kantorovich]Kantorovich has 2 (principal) propteries
+    '''
     a: a
-    b: b [1]'''
+    b: b
+    '''
     def __init__(self, a=0.5, b=1):
         self.a = a
         self.b = b

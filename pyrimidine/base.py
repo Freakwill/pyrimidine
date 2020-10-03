@@ -117,24 +117,24 @@ class BaseIterativeModel:
         """
         raise NotImplementedError
 
-    def evolve(self, ngen=100, per=1, verbose=False, decode=False):
+    def evolve(self, n_iter=100, per=1, verbose=False, decode=False):
         if verbose:
             print('iteration & ' , self._head)
             print('-------------------------------------------------------------')
             print('0 & ', self._row)
         self.init()
-        # ngen = ngen or self.ngen or self.default_ngen
-        for gen in range(1, ngen+1):
-            self.transitate(gen)
+        # n_iter = n_iter or self.n_iter or self.default_n_iter
+        for k in range(1, n_iter+1):
+            self.transitate(k)
             self.post_process()
-            if verbose and (per == 1 or gen % per ==0):
-                print(f'{gen} & ', self._row)
+            if verbose and (per == 1 or k % per ==0):
+                print(f'{k} & ', self._row)
 
-    def history(self, ngen=100, stat=None, *args, **kwargs):
+    def history(self, n_iter=100, stat=None, *args, **kwargs):
         """Get the history of the whole evolution
 
         Keyword Arguments:
-            ngen {number} -- number of generations (default: {100})
+            n_iter {number} -- number of iterations (default: {100})
             stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
                            The value could be a string that should be a method pre-defined.
             (default: {'Fitness': 'fitness'})
@@ -148,7 +148,7 @@ class BaseIterativeModel:
         self.init()
         import pandas as pd
         H = pd.DataFrame(data={k:[(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self)] for k, s in stat.items()})
-        for gen in range(ngen):
+        for gen in range(n_iter):
             self.transitate(gen, *args, **kwargs)
             self.post_process()
             H = H.append({k:(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) for k, s in stat.items()}, ignore_index=True)
@@ -509,6 +509,11 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         k = np.argmax([individual.fitness for individual in self.individuals])
         return self.individuals[k]
 
+    @property
+    def best_(self):
+        k = np.argmax([individual.fitness for individual in self.individuals])
+        return self.individuals[k]
+
     def get_best_individuals(self, k=1):
         # first k best individuals
         if k<1:
@@ -517,6 +522,11 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
     @property
     def worst_individual(self):
+        k = np.argmin([individual.fitness for individual in self.individuals])
+        return self.individuals[k]
+
+    @property
+    def worst_(self):
         k = np.argmin([individual.fitness for individual in self.individuals])
         return self.individuals[k]
 
@@ -558,7 +568,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
     @property
     def solution(self):
-        return self.best_individual
+        return self.best_
 
     def cross(self, other):
         k = randint(1, self.n_individuals//2)
@@ -636,6 +646,12 @@ class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
 
     @property
     def best_individual(self):
+        inds = self.individuals
+        k = np.argmax([individual.fitness for individual in inds])
+        return inds[k]
+
+    @property
+    def best_(self):
         inds = self.individuals
         k = np.argmax([individual.fitness for individual in inds])
         return inds[k]

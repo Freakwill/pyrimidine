@@ -49,7 +49,7 @@ fig = plt.figure()
 ax = fig.add_subplot(111)
 
 def animate(i):
-    pop.evolve(ngen=2, verbose=False)
+    pop.evolve(n_iter=2, verbose=False)
     params = pop.best_individual.decode()
     im = evaluate.toimage(*params)
     plt.imshow(im)

@@ -23,7 +23,7 @@ pop = MyParticleSwarm.random()
 
 
 stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
-data = pop.history(stat=stat, ngen=100)
+data = pop.history(stat=stat, n_iter=100)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

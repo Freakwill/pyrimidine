@@ -5,12 +5,11 @@ from pyrimidine import MonoBinaryIndividual, SGAPopulation, BinaryChromosome
 
 from pyrimidine.benchmarks.optimization import *
 
-# generate a knapsack problem randomly
-evaluate = Knapsack.random(n=20)
+_evaluate = Knapsack.random(n=20)
 
 class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
-        return evaluate(self.chromosome)
+        return _evaluate(self.chromosome)
 
 
 class MyPopulation(SGAPopulation):
@@ -20,7 +19,7 @@ class MyPopulation(SGAPopulation):
 pop = MyPopulation.random(size=20)
 
 stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
-data = pop.history(stat=stat, ngen=100)
+data = pop.history(stat=stat, n_iter=100)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

@@ -79,7 +79,7 @@ if __name__ == '__main__':
     pop = SGAPopulation.random(n_individuals=20, n_chromosomes=8, size=10)
     pop.mate_prob = 0.9
     stat = {'Fitness':'fitness', 'Best Fitness': 'best_fitness'}
-    d = pop.history(ngen=100, stat=stat)
+    d = pop.history(n_iter=100, stat=stat)
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
