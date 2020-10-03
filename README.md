@@ -242,7 +242,7 @@ print(pop.best_individual)
 
 
 
-Notate that there is only one chromosome in SimpleIndividual, which could be represented as `self.chromosome` .
+Notate that there is only one chromosome in `MonoIndividual`, which could be got by `self.chromosome` .
 
 ### Example2: Knapsack Problem
 
@@ -261,7 +261,7 @@ from pyrimidine import MonoBinaryIndividual, SGAPopulation
 from pyrimidine.benchmarks.optimization import *
 
 # generate a knapsack problem randomly
-evaluate = Knapsack.random()
+evaluate = Knapsack.random(n=20)
 
 class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
@@ -275,6 +275,7 @@ pop = MyPopulation.random(size=20)
 
 stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
 data = pop.history(stat=stat)
+# data is an instance of DataFrame of pandas
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
@@ -287,3 +288,10 @@ plt.show()
 
 ```
 
+![plot-history](/Users/william/Programming/myGithub/pyrimidine/plot-history.png)
+
+
+
+## Extension
+
+`pyrimidine` is extendable. It is easy to implement others iterative model, such as simulation annealing and particle swarm optimization.

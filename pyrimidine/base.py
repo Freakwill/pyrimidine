@@ -298,7 +298,7 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
 
     @classmethod
     def random(cls, n_chromosomes=None, *args, **kwargs):
-        if isinstance(cls, MetaList):
+        if isinstance(cls, (MetaList, MetaContainer)):
             if 'sizes' in kwargs:
                 return cls([cls.element_class.random(size=size) for size in kwargs['sizes']])
             else:
@@ -511,6 +511,8 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
     def get_best_individuals(self, k=1):
         # first k best individuals
+        if k<1:
+            k = int(self.n_individuals * k)
         return self.sorted_individuals[-k:]
 
     @property

@@ -39,10 +39,11 @@ class Knapsack:
     def __call__(self, x):
         c, w, W, M = self.c, self.w, self.W, self.M
         v = np.sum([ci for i, ci in zip(x, c) if i==1])
-        if np.sum([wi for i, wi in zip(x, w) if i==1]) <= W:
+        w = np.sum([wi for i, wi in zip(x, w) if i==1])
+        if  w <= W:
             return v
         else:
-            return -v * M
+            return - 1/(1 + np.exp(-v)) * M
 
 
 class MLE:

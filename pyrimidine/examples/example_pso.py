@@ -1,23 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pyrimidine import MonoBinaryIndividual, SGAPopulation, BinaryChromosome
+from pyrimidine.pso import Particle, ParticleSwarm
 
-from pyrimidine.benchmarks.optimization import *
+from pyrimidine.benchmarks.special import *
 
 # generate a knapsack problem randomly
-evaluate = Knapsack.random(n=20)
+def evaluate(x):
+    return -rosenbrock(8)(x)
 
-class MyIndividual(MonoBinaryIndividual):
+class _Particle(Particle):
+    default_size = 8
     def _fitness(self):
-        return evaluate(self.chromosome)
+        return evaluate(self.chromosomes[0])
 
 
-class MyPopulation(SGAPopulation):
-    element_class = MyIndividual
+class MyParticleSwarm(ParticleSwarm):
+    element_class = _Particle
     default_size = 20
 
-pop = MyPopulation.random(size=20)
+pop = MyParticleSwarm.random()
+
 
 stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
 data = pop.history(stat=stat, ngen=100)

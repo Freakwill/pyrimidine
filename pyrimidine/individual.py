@@ -6,7 +6,7 @@ from .chromosome import BinaryChromosome, BaseChromosome, FloatChromosome
 from .meta import MetaTuple, MetaList
 
 
-class MultiIndividual(BaseIndividual, metaclass=MetaTuple):
+class MultiIndividual(BaseIndividual, metaclass=MetaList):
     pass
 
 class MonoIndividual(BaseIndividual, metaclass=MetaList):
@@ -51,7 +51,7 @@ class BinaryIndividual(MultiIndividual):
     """non-simple binary individual
     """
 
-    element_class = BinaryChromosome,
+    element_class = BinaryChromosome
 
 class FloatIndividual(BaseIndividual):
     """simple binary individual

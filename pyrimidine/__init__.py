@@ -7,4 +7,5 @@ from pyrimidine.gene import *
 from pyrimidine.chromosome import *
 from pyrimidine.individual import *
 from pyrimidine.population import *
+from pyrimidine.species import *
 from pyrimidine.trait_ga import *

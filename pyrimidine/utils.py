@@ -36,8 +36,8 @@ from scipy.stats import rv_discrete
 def boltzmann_select(xs, fs):
     L = len(xs)
     ps = softmax(fs)
-    rv = rv_discrete(np.arange(L), ps)
-    k = rv
+    rv = rv_discrete(values=(np.arange(L), ps))
+    k = rv.rvs()
     return xs[k]
 
 def uniformly_select(xs, n=1):
