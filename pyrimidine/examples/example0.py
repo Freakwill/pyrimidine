@@ -18,14 +18,13 @@ class MyPopulation(SGAPopulation):
 
 pop = MyPopulation.random(size=20)
 
-stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
+stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
 data = pop.history(stat=stat, n_iter=100)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(data.index, data['Fitness'], data.index, data['Best Fitness'])
-ax.legend(('Fitness', 'Best Fitness'))
+data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 plt.show()

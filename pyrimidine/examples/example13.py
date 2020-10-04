@@ -35,7 +35,7 @@ class MyPopulation(SGAPopulation):
 
 pop = MyPopulation.random(n_individuals=30, n_chromosomes=2, sizes=(10, 10, 10))
 
-stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
+stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

@@ -5,18 +5,35 @@ from .base import BasePopulation, random
 from .utils import gauss
 
 class SGAPopulation(BasePopulation):
+    """Standard Genetic Algo I.
+    
+    Extends:
+        BasePopulation
+    """
+    
+    def transitate(self, *args, **kwargs):
+        """
+        Transitation of the states of population by SGA
+        """
+        elder = self.clone()
+        super(SGAPopulation, self).transitate(*args, **kwargs)
+        self.merge(elder, select=True)
+
+
+class SGA2Population(BasePopulation):
     """Standard Genetic Algo II.
     
     Extends:
         BasePopulation
     """
+
     
     def transitate(self, k=None, *args, **kwargs):
         """
         Transitation of the states of population by SGA
         """
         elder = self.clone()
-        elder.select(k)
+        elder.select_best_individuals(.2)
         super(SGAPopulation, self).transitate(*args, **kwargs)
         self.merge(elder, select=True)
 

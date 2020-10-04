@@ -17,7 +17,7 @@ class MyPopulation(SGAPopulation):
 
 pop = MyPopulation.random(n_individuals=200, size=n_basis_)
 
-stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
+stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
 pop.evolve(n_iter=250, verbose=False)
 
 

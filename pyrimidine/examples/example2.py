@@ -78,7 +78,7 @@ if __name__ == '__main__':
 
     pop = SGAPopulation.random(n_individuals=20, n_chromosomes=8, size=10)
     pop.mate_prob = 0.9
-    stat = {'Fitness':'fitness', 'Best Fitness': 'best_fitness'}
+    stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
     d = pop.history(n_iter=100, stat=stat)
     import matplotlib.pyplot as plt
     fig = plt.figure()
@@ -88,9 +88,9 @@ if __name__ == '__main__':
     pop = MyPopulation.random(n_individuals=20, sizes=[10,10,10,10,10,10,10,10, 10])
 
     pop.mate_prob = 0.9
-    d = pop.history(ngen=100, stat=stat)
+    d = pop.history(n_iter=100, stat=stat)
 
-    ax.plot(d.index, d['Fitness'], d.index, d['Best Fitness'], '.-')
+    ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
     ax.legend(('Traditional','Traditional best', 'Trait', 'Trait best'))
     plt.show()
 

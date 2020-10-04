@@ -43,24 +43,24 @@ class MyIndividual(ExampleIndividual, SimulatedAnnealing):
 
 
 if __name__ == '__main__':
-    stat={'Fitness':'fitness', 'Best Fitness': lambda pop: pop.best_individual.fitness}
+    stat={'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
     
     SGAPopulation.element_class = ExampleIndividual
 
     ga = SGAPopulation.random(n_individuals=20, n_chromosomes=10, size=10)
     ga.mate_prob = 0.9
 
-    d= ga.history(n_iter=10, stat=stat)
+    data= ga.history(n_iter=10, stat=stat)
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.plot(d.index, d['Fitness'], d.index, d['Best Fitness'], '.-')
+    data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 
     LocalSearchPopulation.element_class = MyIndividual
 
-    ga = LocalSearchPopulation.random(n_individuals=20, n_chromosomes=10, size=10)
-    ga.mate_prob = 0.9
-    d= ga.history(n_iter=10, stat=stat)
-    ax.plot(d.index, d['Fitness'], d.index, d['Best Fitness'], '.-')
+    lga = LocalSearchPopulation.random(n_individuals=20, n_chromosomes=10, size=10)
+    lga.mate_prob = 0.9
+    d= lga.history(n_iter=10, stat=stat)
+    d[['Mean Fitness', 'Best Fitness']].plot(ax=ax, style='.-')
     ax.legend(('Traditional','Traditional best', 'SA', 'SA best'))
     plt.show()

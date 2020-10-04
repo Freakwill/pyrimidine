@@ -33,7 +33,7 @@ def max_repeat(x):
     bm=np.argmax([b for a, b in c.items()])
     return list(c.keys())[bm]
 
-class MyIndividual(SimpleIndividual):
+class MyIndividual(MonoIndividual):
 
     element_class = BinaryChromosome
 
@@ -117,7 +117,7 @@ class BaseIterativeModel:
         """
         raise NotImplementedError
 
-    def evolve(self, n_iter=100, per=1, verbose=False, decode=False):
+    def evolve(self, n_iter=100, per=1, verbose=False, decode=False, *args, **kwargs):
         if verbose:
             print('iteration & ' , self._head)
             print('-------------------------------------------------------------')
@@ -125,7 +125,7 @@ class BaseIterativeModel:
         self.init()
         # n_iter = n_iter or self.n_iter or self.default_n_iter
         for k in range(1, n_iter+1):
-            self.transitate(k)
+            self.transitate(k, *args, **kwargs)
             self.post_process()
             if verbose and (per == 1 or k % per ==0):
                 print(f'{k} & ', self._row)
@@ -148,8 +148,8 @@ class BaseIterativeModel:
         self.init()
         import pandas as pd
         H = pd.DataFrame(data={k:[(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self)] for k, s in stat.items()})
-        for gen in range(n_iter):
-            self.transitate(gen, *args, **kwargs)
+        for k in range(n_iter):
+            self.transitate(k, *args, **kwargs)
             self.post_process()
             H = H.append({k:(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) for k, s in stat.items()}, ignore_index=True)
         return H
@@ -170,7 +170,7 @@ class BaseIterativeModel:
         return data / n_repeat, np.mean(times)
 
     def post_process(self):
-        raise NotImplementedError
+        pass
 
 
 class Solution(object):
@@ -204,50 +204,6 @@ class BaseGene:
         return cls(np.random.choice(cls.values, *args, **kwargs))
 
 
-class BaseChromosome:
-    default_size = (8,)
-    element_class = BaseGene
-
-    def __repr__(self):
-        return self.__class__.__name__ + f': {"/".join(repr(gene) for gene in self)}'
-
-    def __str__(self):
-        return "/".join(str(gene) for gene in self)
-
-    @classmethod
-    def random(cls, size=None):
-        raise NotImplementedError
-
-
-    def cross(self, other):
-        raise NotImplementedError
-
-    # def __mul__(self, n):
-    #     class c(BaseIndividual):
-    #         element_class = self
-
-    def merge(self, *other):
-        raise NotImplementedError
-
-    def mutate(self):
-        raise NotImplementedError
-
-    def decode(self):
-        """Decoding of the chromesome
-        Translate the chromesome to (part of) solution, maybe a number.
-        """
-        return self
-
-    def clone(self):
-        return self.copy()
-
-    def __eq__(self, other):
-        return np.all(self == other)
-
-    def equal(self, other):
-        return np.all(self == other)
-
-
 class BaseFitnessModel(BaseIterativeModel):
     __fitness = None
 
@@ -266,6 +222,51 @@ class BaseFitnessModel(BaseIterativeModel):
 
     def post_process(self):
         self.__fitness = None
+
+
+class BaseChromosome(BaseFitnessModel):
+    default_size = (8,)
+    element_class = BaseGene
+
+    def __repr__(self):
+        return self.__class__.__name__ + f': {"/".join(repr(gene) for gene in self)}'
+
+    def __str__(self):
+        return "/".join(str(gene) for gene in self)
+
+    @classmethod
+    def random(cls, size=None):
+        raise NotImplementedError
+
+
+    def cross(self, other):
+        raise NotImplementedError
+
+    def merge(self, *other):
+        raise NotImplementedError
+
+    def mutate(self):
+        raise NotImplementedError
+
+    def decode(self):
+        """Decoding of the chromesome
+        Translate the chromesome to (part of) solution, maybe a number.
+        """
+        return self
+
+    @classmethod
+    def encode(cls, x):
+        raise NotImplementedError
+
+
+    def clone(self):
+        return self.copy()
+
+    def __eq__(self, other):
+        return np.all(self == other)
+
+    def equal(self, other):
+        return np.all(self == other)
 
 
 class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
@@ -425,21 +426,21 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     def migrate(self, other):
         raise NotImplementedError
 
-    def select(self, k=None, tournsize=None):
-        """Select the best individual among *tournsize* randomly chosen
-        individuals, *k* times. The list returned contains
-        references to the input *individuals*.
+    def select(self, n_sel=None, tournsize=None):
+        """Select the best individual among `tournsize` randomly chosen
+        individuals, `n_sel` times. The list returned contains
+        references to the input `individuals`.
         """
 
-        if k is None:
-            k = self.default_size
-        elif 0 < k <= 1:
-            k = int(self.n_individuals * k)
+        if n_sel is None:
+            n_sel = self.default_size
+        elif 0 < n_sel <= 1:
+            n_sel = int(self.n_individuals * n_sel)
         chosen = []
         rest = self.individuals
         size = tournsize or self.tournsize
         n_rest = self.n_individuals
-        for i in range(k):
+        for i in range(n_sel):
             if n_rest == 1:
                 break
             elif n_rest <= size:
@@ -452,6 +453,12 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
             n_rest -= 1
         if chosen:
             self.individuals = chosen
+
+    def select_best_individuals(self, n=1):
+        # first n best individuals
+        if n<1:
+            n = int(self.n_individuals * n)
+        self.individuals = self.sorted_individuals[-n:]
 
     def clone(self, type_=None):
         if type_ is None:
@@ -490,11 +497,11 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
             individual.evolve(*args, **kwargs)
 
     def _fitness(self):
-        return np.mean([individual.fitness for individual in self.individuals])
+        return self.mean_fitness
 
     @property
     def mean_fitness(self):
-        return self._fitness()
+        return np.mean([individual.fitness for individual in self.individuals])
 
     # @property
     # def fitness(self):
@@ -514,11 +521,11 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         k = np.argmax([individual.fitness for individual in self.individuals])
         return self.individuals[k]
 
-    def get_best_individuals(self, k=1):
-        # first k best individuals
-        if k<1:
-            k = int(self.n_individuals * k)
-        return self.sorted_individuals[-k:]
+    def get_best_individuals(self, n=1):
+        # first n best individuals
+        if n<1:
+            n = int(self.n_individuals * n)
+        return self.sorted_individuals[-n:]
 
     @property
     def worst_individual(self):
@@ -668,6 +675,9 @@ class BaseEnvironment:
     """Base Class of Environment
     main method is evaluate that calculating the fitness of an individual or a population
     """
+    def __init__(self, model:BaseIterativeModel):
+        self.model = model
+
     def evaluate(self, x):
         if hasattr(x, 'fitness'):
             return x.fitness
@@ -680,6 +690,6 @@ class BaseEnvironment:
         else:
             raise NotImplementedError
 
-    def select(self, pop, k):
+    def select(self, pop, n_sel):
         raise NotImplementedError
         

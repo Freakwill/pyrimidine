@@ -46,31 +46,30 @@ class ExampleIndividual2(ExampleIndividual, TraitThresholdIndividual):
 if __name__ == '__main__':
     SGAPopulation.element_class = ExampleIndividual
 
-    pop = SGAPopulation.random(n_individuals=50, sizes=[h*input_dim, h, h, 8])
+    pop = SGAPopulation.random(n_individuals=40, sizes=[h*input_dim, h, h, 8])
     pop.mate_prob = 0.8
     pop.mutate_prob = 0.4
-    stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
+    stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
 
-    data = pop.history(n_iter=350, stat=stat)
+    data = pop.history(n_iter=250, stat=stat)
 
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.plot(data.index, data['Fitness'], data.index, data['Best Fitness'])
-
+    data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
    
     SGAPopulation.element_class = ExampleIndividual2
-    pop = SGAPopulation.random(n_individuals=50, sizes=[h*input_dim, h, h, 8, 3])
+    pop = SGAPopulation.random(n_individuals=40, sizes=[h*input_dim, h, h, 8, 3])
 
     pop.mate_prob = 1
     pop.mutate_prob= 1
-    d = pop.history(n_iter=350, stat={'Fitness':'fitness', 'Best Fitness':'best_fitness', 
+    d = pop.history(n_iter=250, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness', 
         'mean threshold': lambda pop: np.mean([ind.threshold for ind in pop.individuals]),
         'mean mate_prob': lambda pop: np.mean([ind.mate_prob for ind in pop.individuals]),
         'mean mutate_prob': lambda pop: np.mean([ind.mutate_prob for ind in pop.individuals]),
         })
     d.to_csv('h.csv')
-    ax.plot(d.index, d['Fitness'], d.index, d['Best Fitness'], '.-')
+    d[['Mean Fitness', 'Best Fitness']].plot(ax=ax, style='.-')
     ax.legend(('Traditional','Traditional best', 'New', 'New best'))
     ax.set_xlabel('Generation')
     plt.show()

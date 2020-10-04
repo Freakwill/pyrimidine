@@ -10,7 +10,7 @@ from digit_converter import *
 
 from PIL import Image
 
-evaluate = Painting(image=Image.open('/Users/William/Pictures/taiji.jpg'))
+evaluate = Painting(image=Image.open('/Users/William/Pictures/heart.jpg'), size=(100,100))
 
 
 class _Gene(NaturalGene):
@@ -19,15 +19,17 @@ class _Gene(NaturalGene):
 class _Chromosome(VectorChromosome):
     element_class = _Gene
 
+n_basis = 20
+
 class MyIndividual(MixIndividual):
     element_class = UnitFloatChromosome, _Chromosome, BinaryChromosome
 
     def decode(self):
         c = self.chromosomes[2]
-        c = c.reshape((8, 3, 8))
+        c = c.reshape((n_basis, 3, 8))
         d = np.array([[colorConverter(c[i,j,:]) for j in range(c.shape[1])] for i in range(c.shape[0])])
         theta = self.chromosomes[0]
-        t = self.chromosomes[1].reshape((8, 2))
+        t = self.chromosomes[1].reshape((n_basis, 2))
         return theta, t, d
 
     def _fitness(self):
@@ -38,7 +40,7 @@ class MyIndividual(MixIndividual):
 class MyPopulation(SGAPopulation):
     element_class = MyIndividual
 
-pop = MyPopulation.random(n_individuals=5, sizes=(8, 8*2, 8*3*8))
+pop = MyPopulation.random(n_individuals=20, sizes=(n_basis, n_basis*2, 24*n_basis))
 
 
 import matplotlib
@@ -51,6 +53,7 @@ ax = fig.add_subplot(111)
 def animate(i):
     pop.evolve(n_iter=2, verbose=False)
     params = pop.best_individual.decode()
+    print(pop.best_fitness)
     im = evaluate.toimage(*params)
     plt.imshow(im)
 
