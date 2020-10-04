@@ -11,7 +11,7 @@ from pyrimidine.benchmarks.special import *
 from digit_converter import *
 
 
-c=IntervalConverter(-30,30)
+c=IntervalConverter(-10,10)
 
 evaluate = rosenbrock(8)
 
@@ -19,7 +19,7 @@ class _Chromosome(BinaryChromosome):
     def decode(self):
         return c(self)
 
-class _Individual(BaseIndividual):
+class _Individual(PolyIndividual):
     """base class of individual
 
     You should implement the methods, cross, mute
@@ -53,8 +53,4 @@ ax = fig.add_subplot(111)
 ax.plot(ts_data.index, ts_data['Fitness'])
 
 plt.show()
-
-
-
-
 

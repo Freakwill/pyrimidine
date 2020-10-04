@@ -172,6 +172,12 @@ class BaseIterativeModel:
     def post_process(self):
         pass
 
+    # @classmethod
+    # def redefine(cls, m, f):
+    #     import types
+    #     cls_=types.new_class(cls.__name__, (cls,), {m: f})
+    #     return cls_
+
 
 class Solution(object):
     '''[Summary for Class Solution]'''
@@ -222,6 +228,13 @@ class BaseFitnessModel(BaseIterativeModel):
 
     def post_process(self):
         self.__fitness = None
+
+    @classmethod
+    def set_fitness(cls, f):
+        class C(cls):
+            def _fitness(self):
+                return f(self)
+        return C
 
 
 class BaseChromosome(BaseFitnessModel):

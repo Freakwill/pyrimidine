@@ -36,10 +36,13 @@ if __name__ == '__main__':
     pop = MyPopulation.random(n_individuals=20, size=20)
     # pop.evolve()
     # print(pop.best_individual)
-    d = pop.history(n_iter=100, stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'})
+    stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
+    data = pop.history(stat=stat, n_iter=100)
+
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.plot(d.index, d['Fitness'], d.index, d['Best Fitness'], '.-')
-    ax.legend(('Fitness', 'Best Fitness'))
+    data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+    ax.set_xlabel('Generations')
+    ax.set_ylabel('Fitness')
     plt.show()

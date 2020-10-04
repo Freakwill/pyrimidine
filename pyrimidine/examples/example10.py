@@ -30,7 +30,7 @@ class MyPopulation(AgePopulation):
 pop = YourPopulation.random(size=100)
 _pop = pop.clone(type_=MyPopulation)
 
-stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'}
+stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
 
 # pop.evolve(verbose=True)
 
@@ -39,14 +39,14 @@ data = pop.history(n_iter=200, stat=stat)
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(data.index, data['Fitness'], data.index, data['Best Fitness'])
+data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 
 
 pop = MyPopulation(individuals=_pop)
 
 data = pop.history(n_iter=200, stat=stat)
 
-ax.plot(data.index, data['Fitness'], data.index, data['Best Fitness'])
+data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.legend(('Fitness', 'Best Fitness', 'My Fitness', 'My Best Fitness'))
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')

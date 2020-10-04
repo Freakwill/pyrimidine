@@ -35,12 +35,16 @@ if __name__ == '__main__':
     SGAPopulation.element_class = MyIndividual
 
     pop = SGAPopulation.random(n_individuals=30, sizes=(N, N, N, p, p, p, 3))
-    d= pop.history(n_iter=100, stat={'Fitness':'fitness', 'Best Fitness':'best_fitness'})
+    
+    stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
+    data = pop.history(stat=stat, n_iter=100)
+
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.plot(d.index, d['Fitness'], d.index, d['Best Fitness'], '.-')
-    ax.legend(('Fitness', 'Best'))
+    data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+    ax.set_xlabel('Generations')
+    ax.set_ylabel('Fitness')
     plt.show()
 
 

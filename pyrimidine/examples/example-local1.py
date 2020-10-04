@@ -31,18 +31,19 @@ class _Individual(BaseIndividual):
         x = [self[k].decode() for k in range(20)]
         return - evaluate(x)
 
+print(BaseIndividual.class_name)
+
 
 class SAIndividual(_Individual, SimulatedAnnealing):
 
     def get_neighbour(self):
-        cpy = self.clone()
-        cpy.fitness = None
-        r = randint(0, self.n_chromosomes-1)
+        cpy = self.clone(fitness=None)
+        r = randint(0, len(self)-1)
         cpy.chromosomes[r].mutate()
         return cpy
 
 
-class Individual2(SimpleIndividual):
+class Individual2(MonoIndividual):
     """base class of individual
 
     You should implement the methods, cross, mute

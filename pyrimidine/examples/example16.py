@@ -56,10 +56,7 @@ data.to_csv('hehe.csv')
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(data.index, data['Male Fitness'], data.index, data['Female Fitness'], data.index, data['Best Fitness'])
-ax.legend(('Male Fitness', 'Female Fitness', 'Best Fitness'))
+data[['Male Fitness', 'Female Fitness','Best Fitness']].plot(ax=ax)
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 plt.show()
-
-
