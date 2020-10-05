@@ -206,10 +206,18 @@ class ProbabilityChromosome(PositiveChromosome):
 
 
 class CircleChromosome(FloatChromosome):
+    """Used in Quantum-Chromosome
+    
+    Extends:
+        FloatChromosome
+    """
     element_class = CircleGene
 
     def mutate(self, *args, **kwargs):
         super(CircleChromosome, self).mutate(*args, **kwargs)
+        self.normalize()
+
+    def normalize(self):
         self.chromosome %= self.element_class.period
 
-
+QuantumChromosome = CircleChromosome

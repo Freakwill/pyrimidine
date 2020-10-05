@@ -9,6 +9,10 @@ from .meta import MetaTuple, MetaList
 class MultiIndividual(BaseIndividual, metaclass=MetaList):
     pass
 
+
+class PolyIndividual(BaseIndividual, metaclass=MetaList):
+    pass
+
 class MonoIndividual(BaseIndividual, metaclass=MetaList):
     """Base class of individual with one choromosome
 
@@ -24,8 +28,8 @@ class MonoIndividual(BaseIndividual, metaclass=MetaList):
     def chromosome(self):
         return self.chromosomes[0]
 
-    def __iter__(self):
-        return iter(self.chromosome)
+    # def __iter__(self):
+    #     return iter(self.chromosome)
 
     @property
     def individuals(self):
