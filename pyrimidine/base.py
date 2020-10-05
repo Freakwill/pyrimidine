@@ -173,14 +173,11 @@ class BaseIterativeModel:
         pass
 
     # @classmethod
-    # def redefine(cls, m, f):
-    #     import types
-    #     cls_=types.new_class(cls.__name__, (cls,), {m: f})
-    #     return cls_
+    # def config(cls, d):
+    #     cls.params.update(d)
 
 
 class Solution(object):
-    '''[Summary for Class Solution]'''
     def __init__(self, value, goal_value=None):
         self.value = value
         self.goal_value = goal_value

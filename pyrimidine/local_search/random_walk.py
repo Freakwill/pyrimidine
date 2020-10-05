@@ -5,10 +5,10 @@
 import numpy as np
 import scipy.stats
 
-from .base import BaseIterativeModel
+from pyrimidine.base import BaseIterativeModel
 
 
-class RandomWalk(BaseIterativeModel):
+class RandomWalk(BaseFitnessModel):
     """Random Walk
         
     Arguments:
@@ -19,15 +19,14 @@ class RandomWalk(BaseIterativeModel):
         state
     """
 
-    params={'mu': 0,
-        'sigma': 0.1,
-        'gen': 100}
+    params={'sigma': 1}
 
-    def transitate(self, gen):
+    def transitate(self, k, *args, **kwargs):
         """Transition of states
         """
-
-        n = scipy.stats.norm(self.mu, self.sigma)
+        
+        sigma *= self.sigma * 0.99**k
+        n = scipy.stats.norm(0, sigma)
         cpy = self.clone(fitness=None)
         cpy.chromosomes = [chromosome + n.rvs(chromosome.n_genes) for chromosome in cpy.chromosomes]
 
@@ -35,4 +34,5 @@ class RandomWalk(BaseIterativeModel):
         D = cpy.fitness - self.fitness
         if D > 0:
             self.chromosomes = cpy.chromosomes
+            self.fitness = cpy.fitness
 

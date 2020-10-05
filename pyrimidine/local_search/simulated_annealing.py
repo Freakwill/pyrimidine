@@ -3,7 +3,7 @@
 
 import math
 from random import random
-from .base import BaseIterativeModel
+from pyrimidine.base import BaseIterativeModel
 
 
 class SimulatedAnnealing(BaseIterativeModel):
@@ -23,12 +23,12 @@ class SimulatedAnnealing(BaseIterativeModel):
         'initT': 100,
         'ngen': 100}
 
-    def transitate(self, k):
+    def transitate(self, *args, **kwargs):
         T = self.initT
         for epoch in range(self.nepoch):
             self.move(T)
             T *= self.cc ** self.nepoch
-        self.initT *= self.c ** k
+        self.initT *= self.c
 
     def move(self, T):
         """Transition of states

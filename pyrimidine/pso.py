@@ -3,16 +3,26 @@
 
 from .base import BasePopulation
 from .chromosome import FloatChromosome
-from .individual import MultiIndividual
+from .individual import PolyIndividual
 from .utils import gauss, random
 
 import numpy as np
 
-class Particle(MultiIndividual):
-    # `phantom`: Particle -- the current state of the particle moving in the solution space.
+
+class Particle(PolyIndividual):
+    """A particle in PSO
+    
+    Extends:
+        PolyIndividual
+    
+    Variables:
+        default_size {number} -- one individual represented by 2 chromosomes: position and velocity
+        phantom {Particle} -- the current state of the particle moving in the solution space.
+    """
 
     element_class = FloatChromosome
     default_size = 2
+    phantom = None
 
     def backup(self):
         self.chromosomes[0] = self.position
@@ -64,7 +74,7 @@ class ParticleSwarm(BasePopulation):
         for particle in self.particles:
             particle.init()
     
-    def transitate(self, k=None, *args, **kwargs):
+    def transitate(self, *args, **kwargs):
         """
         Transitation of the states of population by SGA
         """

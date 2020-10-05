@@ -3,10 +3,10 @@
 
 
 from random import random, choice
-from .base import BaseIterativeModel
+from pyrimidine.base import BaseFitnessModel
 
 
-class BaseTabuSearch(BaseIterativeModel):
+class BaseTabuSearch(BaseFitnessModel):
     """Tabu Search algorithm
     """
 
@@ -17,7 +17,7 @@ class BaseTabuSearch(BaseIterativeModel):
     def init(self):
         self.best_fitness = self.fitness
 
-    def transitate(self, gen):
+    def transitate(self, *args, **kwargs):
         action = choice(self.__class__.actions)
         cpy = self.move(action)
         if action not in self.tabu_list:
