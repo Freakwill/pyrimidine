@@ -59,7 +59,7 @@ class MyIndividual(Mixin, TraitThresholdIndividual):
         return self.chromosomes[-3].decode()
 
 class MyPopulation(SGAPopulation):
-    def transitate(self, *args, **kwargs):
+    def transit(self, *args, **kwargs):
         """
         Transitation of the states of population
         Standard flow of the Genetic Algorithm
