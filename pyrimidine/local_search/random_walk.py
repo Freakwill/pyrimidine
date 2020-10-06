@@ -21,7 +21,7 @@ class RandomWalk(BaseFitnessModel):
 
     params={'sigma': 1}
 
-    def transitate(self, k, *args, **kwargs):
+    def transit(self, k, *args, **kwargs):
         """Transition of states
         """
         

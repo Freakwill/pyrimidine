@@ -74,9 +74,9 @@ class ParticleSwarm(BasePopulation):
         for particle in self.particles:
             particle.init()
     
-    def transitate(self, *args, **kwargs):
+    def transit(self, *args, **kwargs):
         """
-        Transitation of the states of population by SGA
+        Transitation of the states of particles
         """
         for particle in self:
             if particle.phantom.fitness > particle.fitness:
@@ -92,6 +92,7 @@ class ParticleSwarm(BasePopulation):
         self.move()
 
     def move(self):
+        # moving rule of particles
         xi = random()
         eta = random()
         for particle in self:

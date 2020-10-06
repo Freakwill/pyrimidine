@@ -17,7 +17,7 @@ class BaseTabuSearch(BaseFitnessModel):
     def init(self):
         self.best_fitness = self.fitness
 
-    def transitate(self, *args, **kwargs):
+    def transit(self, *args, **kwargs):
         action = choice(self.__class__.actions)
         cpy = self.move(action)
         if action not in self.tabu_list:

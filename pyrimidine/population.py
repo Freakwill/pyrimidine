@@ -11,12 +11,12 @@ class SGAPopulation(BasePopulation):
         BasePopulation
     """
     
-    def transitate(self, *args, **kwargs):
+    def transit(self, *args, **kwargs):
         """
         Transitation of the states of population by SGA
         """
         elder = self.clone()
-        super(SGAPopulation, self).transitate(*args, **kwargs)
+        super(SGAPopulation, self).transit(*args, **kwargs)
         self.merge(elder, select=True)
 
 
@@ -28,21 +28,21 @@ class SGA2Population(BasePopulation):
     """
 
     
-    def transitate(self, k=None, *args, **kwargs):
+    def transit(self, k=None, *args, **kwargs):
         """
         Transitation of the states of population by SGA
         """
         elder = self.clone()
         elder.select_best_individuals(.2)
-        super(SGAPopulation, self).transitate(*args, **kwargs)
+        super(SGAPopulation, self).transit(*args, **kwargs)
         self.merge(elder, select=True)
 
 
 class EliminationPopulation(BasePopulation):
-    def transitate(self, k=None, *args, **kwargs):
+    def transit(self, k=None, *args, **kwargs):
         elder = self.clone()
         elder.select(k)
-        super(EliminationPopulation, self).transitate(*args, **kwargs)
+        super(EliminationPopulation, self).transit(*args, **kwargs)
         self.eliminate()
         self.merge(elder, select=True)
 
@@ -63,7 +63,7 @@ class AgePopulation(EliminationPopulation):
 
 class LocalSearchPopulation(BasePopulation):
     '''[Summary for Class LocalSearchPopulation]'''
-    def transitate(self, mutate_prob=0.3, mate_prob=0.7):
+    def transit(self, mutate_prob=0.3, mate_prob=0.7):
         """
         Transitation of the states of population by SGA
         """

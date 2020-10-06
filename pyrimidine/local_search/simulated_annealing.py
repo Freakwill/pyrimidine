@@ -23,7 +23,7 @@ class SimulatedAnnealing(BaseIterativeModel):
         'initT': 100,
         'ngen': 100}
 
-    def transitate(self, *args, **kwargs):
+    def transit(self, *args, **kwargs):
         T = self.initT
         for epoch in range(self.nepoch):
             self.move(T)
