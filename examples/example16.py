@@ -9,7 +9,7 @@ from digit_converter import *
 c = unitIntervalConverter
 
 # generate a knapsack problem randomly
-evaluate = Knapsack.random()
+_evaluate = Knapsack.random(n=50)
 
 class _Individual(MixIndividual[BinaryChromosome, BinaryChromosome]):
 
@@ -17,7 +17,7 @@ class _Individual(MixIndividual[BinaryChromosome, BinaryChromosome]):
         return self[0]
 
     def _fitness(self):
-        return evaluate(self.decode())
+        return _evaluate(self.decode())
 
     @property
     def expect(self):
@@ -26,7 +26,7 @@ class _Individual(MixIndividual[BinaryChromosome, BinaryChromosome]):
 
 class _Population(BasePopulation):
     element_class = _Individual
-    default_size = 10
+    default_size = 20
 
     def select(self):
         ks = np.argsort([individual.fitness for individual in self.individuals])
@@ -43,20 +43,35 @@ class MySpecies(DualSpecies):
     @property
     def expect(self):
         return np.mean([ind.expect for ind in self.males] + [ind.expect for ind in self.females])
-    
 
 
 sp = MySpecies.random(sizes=(50, 8))
 
+class MyIndividual(MonoBinaryIndividual):
+    def _fitness(self):
+        return _evaluate(self.chromosome)
+    
+class MyPopulation(SGAPopulation):
+    element_class = MyIndividual
+    default_size = 40
+
+pop = MyPopulation()
+pop.individuals = sp.populations[0].individuals + sp.populations[1].individuals
+
 
 stat={'Male Fitness':'male_fitness', 'Female Fitness':'female_fitness', 'Best Fitness': 'best_fitness', 'Mean Expect': 'expect'}
-data = sp.history(stat=stat, n_iter=200)
-data.to_csv('hehe.csv')
+data = sp.history(stat=stat, n_iter=500)
+# data.to_csv('hehe.csv')
+
+data2 = pop.history(n_iter=500)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-data[['Male Fitness', 'Female Fitness','Best Fitness']].plot(ax=ax)
+data['Best Fitness'].plot(ax=ax)
+
+data2['Best Fitness'].plot(ax=ax, style='--')
+ax.legend(('Fitness I', 'Fitness II'))
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 plt.show()

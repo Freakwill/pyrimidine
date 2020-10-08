@@ -591,7 +591,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         individual.ranking = r
         return r
 
-    def ranking(self):
+    def rank(self):
         for k, individual in enumerate(self.sorted_individuals):
             r = 1
             for i in self.sorted_individuals[k+1:]:
@@ -728,5 +728,4 @@ class BaseEnvironment:
             raise NotImplementedError
 
     def select(self, pop, n_sel):
-        raise NotImplementedError
-        
+        raise NotImplementedError   

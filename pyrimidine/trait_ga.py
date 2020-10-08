@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pyrimidine import *
+from . import *
+from .utils import *
 from random import random
 
 class TraitIndividual(MixIndividual):
@@ -17,6 +18,9 @@ class TraitIndividual(MixIndividual):
         else:
             return self
 
+    def select_aspirants(self, individuals, size):
+        return choice_with_prob(individuals, [ind.desire for ind in individuals], size)
+
     @property
     def mutate_prob(self):
         return self.chromosomes[-1][0]
@@ -25,6 +29,10 @@ class TraitIndividual(MixIndividual):
     def mate_prob(self):
         return self.chromosomes[-1][1]
 
+    @property
+    def desire(self):
+        return self.chromosomes[-1][2]
+    
 
 class TraitThresholdIndividual(TraitIndividual):
     ranking = None

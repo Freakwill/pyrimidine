@@ -4,13 +4,14 @@
 
 **Platforms**: Linux and Windows
 
-**PyPI package name**: pytest
+**PyPI package name**: pyrimidine
 
 **Documentation as PDF**: download latest
 
 `pyrimidine` is a framework that makes building simple and scalable tests easy. Tests are expressive and readable—no boilerplate code required. Get started in minutes with a small unit test or complex functional test for your application or library.
 
-## Install pytest
+## Install pyrimidine
+
 Run the following command to install `pyrimidine`:
 
 `pip install [-U] pytest`
