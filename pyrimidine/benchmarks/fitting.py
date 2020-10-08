@@ -30,24 +30,36 @@ class Fitting:
 
     def __call__(self, *params):
         yy = self.fit(*params)
-        return - LA.norm(self.y-yy)/ self.n
+        return - LA.norm(self.y-yy) / self.n
 
 
-_char = lambda x, y: x+2*y < 30 and x>=0 and y>=0
+class CurveFitting(Fitting):
+
+
+    def fit(self, *params):
+        return np.vstack((np.sum([c*relu(b * self.X - a) for a, b, c in zip(*params[:3])], axis=0), np.sum([c*relu(b * self.X - a) for a, b, c in zip(*params[3:])], axis=0)))
+
+
+
+_char = lambda x, y: x+2*y < 20 and x>=0 and y>=0
 
 from math import cos, sin
 def basis(a, t, d=1):
+    # basis in the form {di* char_ti(x-di)}
     c = cos(a)
     s = sin(a)
-    return lambda xs, ys: np.array([[d * _char((c - 2*s) * (x - t[0]), (2*c+s) * (y - t[1]))
-        for x in xs] for y in ys])
+    return lambda xs, ys: np.array([[d * _char(c*x-s*y, s*x+c*y)
+        for x in xs-t[0]] for y in ys-t[1]])
 
+
+from PIL import Image
 class Painting(Fitting):
-    def __init__(self, image):
-        self.size = image.size
-        self.mode = image.mode
-        from PIL_ext import image2output
-        self.y = np.asarray(image, np.int8)
+    def __init__(self, image, size=None, mode=None):
+
+        self.size = size or image.size
+        self.mode = mode or image.mode
+        self.y = np.asarray(image.resize(self.size), np.uint8)
+        self.n = 256
 
     def fit(self, *params):
         ks = np.arange(self.size[0])
@@ -57,7 +69,3 @@ class Painting(Fitting):
     def toimage(self, *params):
         yy = self.fit(*params)
         return Image.fromarray(yy.astype('uint8')).convert(self.mode)
-
-    def __call__(self, *params):
-        yy = self.fit(*params)
-        return - LA.norm((self.y-yy) / 256)

@@ -24,7 +24,7 @@ class MLP:
     @staticmethod
     def random(N=100, p=2):
         X = np.random.random(size=(N, p))
-        Y = np.sin(X[:, 0]) + np.cos(X[:, 1]) + np.sin(X[:, 0]*2) + np.cos(X[:, 1]*2)
+        Y = np.sin(X[:, 0]) + np.cos(X[:, 1]) + np.sin(X[:, 0]*2) + np.cos(X[:, 1]*2) * np.cos(X[:, 2])
 
         return MLP(X, Y)
 

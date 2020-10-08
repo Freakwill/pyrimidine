@@ -33,16 +33,31 @@ def binary_select(a, b, p=0.5):
 from scipy.special import softmax
 from scipy.stats import rv_discrete
 
-def boltzmann_select(xs, fs):
+def boltzmann_select(xs, fs, T=1):
     L = len(xs)
-    ps = softmax(fs)
+    ps = softmax(fs /T)
     rv = rv_discrete(values=(np.arange(L), ps))
     k = rv.rvs()
     return xs[k]
 
-def uniformly_select(xs, n=1):
+def choice_with_prob(xs, ps, n=1):
     L = len(xs)
-    ks = np.random.choice(np.arange(L), n)
+    ps /= np.sum(ps)
+    X = np.arange(L)
+    ks = []
+    for _ in range(n):
+        rv = rv_discrete(values=(X, ps))
+        k = rv.rvs()
+        X = np.delete(X, k)
+        ps = np.delte(ps, k)
+        ps /= np.sum(ps)
+        ks.append(k)
+
+    return [xs[k] for k in ks]
+
+def choice_uniform(xs, n=1):
+    L = len(xs)
+    ks = np.random.choice(L, n)
     return [xs[k] for k in ks]
 
 # def gauss_pdf(x, mu=0, sigma=1):

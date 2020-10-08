@@ -1,20 +1,20 @@
-# pyrimidine: 基于面向对象的遗传算法 Python 框架
+# Pyrimidine: 基于面向对象的遗传算法 Python 框架
 
 
 
-【摘要】pyrimidine是笔者开发的用于实现遗传算法的通用框架。它也可以实现任何迭代模型，如模拟退火，粒子群算法。它的设计基于面向对象，利用了Python的元编程功能：把群体看成个体的容器，又把个体看成染色体的容器；而容器是一个元类，用来构造不同结构的个体类和群体类。因为它是高度面向对象的，所以它容易扩展、改进。
+【摘要】Pyrimidine是笔者开发的用于实现遗传算法的通用框架。它也可以实现任何迭代模型，如模拟退火，粒子群算法。它的设计基于面向对象，利用了Python的元编程功能：把群体看成个体的容器，又把个体看成染色体的容器；而容器是一个元类，用来构造不同结构的个体类和群体类。因为它是高度面向对象的，所以它容易扩展、改进。
 
 
 
-【关键字】pyrimidine，遗传算法，Python，面向对象编程，元编程
+【关键字】Pyrimidine，遗传算法，Python，面向对象编程，元编程
 
 
 
 ## 前言
 
-遗传算法是一种通用优化方法。遗传算法模仿进化论中自然选择来解决优化问题。它是最早被开发出来的智能算法[1-3]，已经在多个领域得到广泛使用，并被改造成各种变体，并和新的算法相结合。本文不回顾它的原理，关于更多内容请参考文献[4]以及其中罗列的文献。
+遗传算法是一种通用优化方法。遗传算法模仿进化论中自然选择来解决优化问题。它是最早被开发出来的智能算法[1-4]，已经在多个领域得到广泛使用，并被改造成各种变体，并和新的算法相结合[5-6]。本文不回顾它的原理，关于更多内容请参考文献[4]以及其中罗列的文献。
 
-目前有多种语言提供了实现遗传算法框架的库。其中Python就提供了数个遗传算法框架库，如知名的deap，gaft, 适合于机器学习参数优化的tpot, 作为scikit-learn[5]扩展的scikit-opt和[gplearn](https://github.com/trevorstephens/gplearn)等等。本文介绍由笔者设计的通用算法框架pyrimidine. 它比其它库更加严格遵循面向对象编程模式，同时利用了Python的元编程功能。
+目前有多种语言提供了实现遗传算法框架的库。其中Python就提供了数个遗传算法框架库，如知名的deap[7]，gaft, 适合于机器学习参数优化的tpot[8-9], 作为scikit-learn[10]扩展的scikit-opt和[gplearn](https://github.com/trevorstephens/gplearn)等等。本文介绍由笔者设计的通用算法框架pyrimidine. 它比其它库更加严格遵循面向对象编程模式，同时利用了Python的元编程功能。
 
 
 
@@ -22,19 +22,19 @@
 
 算法设计主要有两部分构成：实现遗传算法的基本概念的类，如个体，群体；用于构造这些类的元类。
 
-在用Python具体实现时，容器就是对象列表（或者其他可行的迭代器）。如群体是个体列表；个体是染色体列表；最后，染色体则是基因的数组。基因数组的具体实现是比较关键的。可以采用标准库array，也可以采用著名的第三方数值计算库numpy。后者在各种数值计算中比较方便，但是交叉操作比较慢。
+在用Python具体实现时，容器就是对象列表（或者其他可行的迭代器）。如群体是个体列表；个体是染色体列表；最后，染色体则是基因的数组。基因数组的具体实现是比较关键的。可以采用标准库array，也可以采用著名的第三方数值计算库numpy[11]。后者在各种数值计算中比较方便，但是交叉操作比较慢。
 
 
 
 ### 容器元类
 
-这个元类参考了函数式编程语言Haskell和类型理论[5]。容器主要有两种：列表和元组，其中列表表示容器中的元素有相同类型，元组则无此限制。不介意用户修改元类，因此本文不详细介绍元类内容。
+这个元类参考了函数式编程语言Haskell和类型理论[12]。容器主要有两种：列表和元组，其中列表表示容器中的元素有相同类型，元组则无此限制。不介意用户修改元类，因此本文不详细介绍元类内容。
 
 下文的基类都是由元类构造的。利用元类提供的方法，构造一个由若干染色体ExampleChromosome组成的个体ExampleIndividual，只需这样定义`ExampleIndividual=BaseIndividual[ExampleChromosome]`，其中`BaseIndividual`是所有个体类的基类. 这种写法受变量类型的影响, 比如字符串列表，写作`List[String]`。
 
 ### 基本类
 
-pyrimidine 中存在三个最基本的类。BaseChromosome, BaseIndividual, BasePopulation, 分别表示染色体、个体、种群。上文已经说明，个体是允许有多个染色体的，这个一般的遗传算法的设计不一样。设计算法时的一般顺序是，继承BaseChromosome，构造用户的染色体类，然后继承BaseIndividual，构造用于的个体类，最后用相同的方法构造种群类。为了方便用户，pyrimidine提供了一些常用子类，无需用户重复设置。继承了这些类，同时就拥有了，解的编码方案，染色体的杂交和变异方法。遗传算法一般采用二进制编码。pyrimidine 提供了BinaryChromosome 用于二进制情形。继承此类，就拥有了二进制编码，以及两点杂交，每位基因独立变异的算法组件。
+pyrimidine 中存在三个最基本的类。BaseChromosome, BaseIndividual, BasePopulation, 分别表示染色体、个体、种群。上文已经说明，个体是允许有多个染色体的，这和一般的遗传算法的设计不一样。设计算法时的一般顺序是，继承BaseChromosome，构造用户的染色体类，然后继承BaseIndividual，构造用于的个体类，最后用相同的方法构造种群类。为了方便用户，pyrimidine提供了一些常用子类，无需用户重复设置。继承了这些类，同时就拥有了，解的编码方案，染色体的杂交和变异方法。遗传算法一般采用二进制编码。pyrimidine 提供了BinaryChromosome 用于二进制情形。继承此类，就拥有了二进制编码，以及两点杂交，每位基因独立变异的算法组件。
 
 一般，用户会从如下的子类构造开始算法设计，其中MonoIndividual强制个体只能有一条染色体（对算法来说，强制不是必须的，也可改用BaseIndividual）。
 
@@ -59,7 +59,7 @@ class MyIndividual(MonoBinaryIndividual):
 
 
 
-这些类同时继承了`BaseIterativeModel`，用来规范迭代格式，包括导出用于可视化的数据。开发新算法，关键是重载方法`transitate`，所有迭代算法都是在重复调用这个方法。对于遗传算法来说，`transitate`主要就是相继执行各种遗传操作。
+这些类同时继承了`BaseIterativeModel`，用来规范迭代格式，包括导出用于可视化的数据。开发新算法，关键是重载方法`transit`，所有迭代算法都是在重复调用这个方法。对于遗传算法来说，`transit`主要就是相继执行各种遗传操作。
 
 
 
@@ -112,9 +112,8 @@ pop.evolve()
 为了考察算法性能，通常要绘制适应值曲线，或者其他量值的迭代序列，可改用方法`history`。该方法能返回一个pandas.DataFrame对象，记录了关于每一代种群的统计结果。用户可以用它来自由绘制性能曲线。一般用户要提供一个“统计量字典”：键是统计量的名称，值是从种群到数值的函数（字符串只限于已经定义好的种群方法或属性，而且以数量为返回值）。参看下述代码。
 
 ```python
-stat={'Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
+stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
 data = pop.history(stat=stat, n_iter=100)
-
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -129,6 +128,31 @@ plt.show()
 ![](/Users/william/Programming/myGithub/pyrimidine/plot-history.png)
 
 
+
+### 算法扩展
+
+用pyrimidine开发新的算法非常简单。在经典遗传算法中，整个种群的变异率和交叉率是一致的，但pyrimidine可以轻易将它们编码到每个个体中，使它们随着迭代而发生变化。
+
+```python
+class NewIndividual(MixIndividual):
+    element_class = (BinaryChromosome, FloatChromosome)
+    def mutate(self):
+        # 根据self[1][0]变异
+    def cross(self, other):
+        # 根据self[1][1]交叉
+    def _fitness(self):
+        # 适应值只和第一个染色体有关
+        f(self[0])
+    
+class NewPopulation(SGAPopulation):
+    element_class = NewIndividual
+    default_size = 20
+
+# 8 表示变量的编码长度，2代表变异率和交叉率
+pop = NewPopulation.random(sizes=(8, 2))
+```
+
+`FloatChromosome`已经配备了用于浮点数的遗传操作，无需用户定义。这样就可开发出一种变异率和交叉率具有演化特点的遗传算法。
 
 ## 比较
 
@@ -164,7 +188,7 @@ def cross(self, other):
 
 笔者进行了大量的实验和改进，证明pyrimidine是一个可用于实现多种遗传算法的通用框架。比起其他框架，它的设计具有很强的可扩展性，可以实现任何迭代模型，如模拟退火，粒子群算法。如果用户开发新算法，那么pyrimidine会是一个不错的选择。
 
-目前，pyrimidine还在开发中，但是大部分API已经固定，用户不用担心变动。pyrimidine 要求适应值是一个数，因此还不能解决多目标问题，除非把它们归结为单目标问题。pyrimidine 采用了numpy的数值类，交叉操作比deap慢，但用户可以改用其他实现方案。当然，还有其他需要改进的地方。此外，pyrimidine 的文档还不够丰富，正在制作中。
+目前，pyrimidine还在开发中，但是大部分API已经固定，用户不用担心变动。pyrimidine 要求适应值是一个数，因此还不能解决多目标问题，除非把它们归结为单目标问题。pyrimidine 采用了numpy的数值类，交叉操作比deap慢，但不难改用其他实现方案。当然，还有其他需要改进的地方。此外，pyrimidine 的文档还不够丰富，正在制作中。
 
 完整源码已经上传至GitHub，包含大量实例（见子文件夹examples）。https://github.com/Freakwill/pyrimidine。
 
@@ -172,14 +196,16 @@ def cross(self, other):
 
 <center>参考文献</center>
 [1] Holland, J. Adaptation in Natural and Artificial Systems[M]. The Univ. of Michigan, 1975.
-
 [2] 汪定伟，王俊伟，王洪峰，张瑞友，郭哲. 智能优化方法[M]. 北京：高等教育出版社, 2007.
-
 [3] D. Simon. 进化优化算法——基于仿生和种群的计算机智能方法[M]. 北京: 清华大学出版社, 2018.
-
 [4] 玄光男， 程润伟. 遗传算法与工程优化[M]. 北京: 清华大学出版社, 2004.
-
-[5] Scikit-learn https://scikit-learn.org/[OL].
-
-[5] 韩冬. 魔力 Haskell[M]. 北京：人民邮电出版社，2016.
+[5] 叶志伟 王明威 王春枝. 自然计算及其图像处理与分析应用[M]. 北京：中国水利水电出版社, 2019.
+[6] 李士勇 李妍 林永茂. 智能优化算法与涌现计算[M]. 北京: 清华大学出版社, 2019.
+[7]Félix-Antoine Fortin, François-Michel De Rainville, Marc-André Gardner, Marc Parizeau and Christian Gagné, DEAP: Evolutionary Algorithms Made Easy[J]. Journal of Machine Learning Research, 2012, 13: 2171-2175.
+[8] Randal S. Olson, Ryan J. Urbanowicz, Peter C. Andrews, Nicole A. Lavender, La Creis Kidd, and Jason H. Moore. Automating biomedical data science through tree-based pipeline optimization[J]. Applications of Evolutionary Computation, 2016: 123-137.
+[9] Trang T. Le, Weixuan Fu and Jason H. Moore. Scaling tree-based automated machine learning to biomedical big data with a feature set selector. Bioinformatics[J], 2020, 36(1): 250-256.
+[10] Scikit-learn https://scikit-learn.org/[OL].
+[11]Numpy. https://numpy.org/[OL].
+[12] 韩冬. 魔力 Haskell[M]. 北京：人民邮电出版社，2016.
+[13] typing — Support for type hints. https://docs.python.org/3.8/library/typing.html?highlight=typing#module-typing[OL]
 

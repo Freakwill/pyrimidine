@@ -13,27 +13,33 @@ class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
         return _evaluate(self.chromosome)
 
-    @property
     def dual(self):
-        return MyIndividual([c.dual for c in self])
+        return self.__class__([c.dual() for c in self.chromosomes])
     
 
 # MyIndividual = MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))
 
-class MyPopulation(DualPopulation):
+class _Population1(SGAPopulation):
     element_class = MyIndividual
-    default_size = 20
+    default_size = 50
 
-pop = MyPopulation.random(size=n)
+class _Population2(DualPopulation):
+    element_class = MyIndividual
+    default_size = 50
+
+pop1 = _Population1.random(size=n)
+pop2 = _Population2.random(size=n)
 
 stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
-data = pop.history(stat=stat, n_iter=200)
-
+data1 = pop1.history(stat=stat, n_iter=300)
+data2 = pop2.history(stat=stat, n_iter=300)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+data1[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+data2[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+ax.legend(('M1', 'B1', 'M2', 'B2'))
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 plt.show()

@@ -11,7 +11,7 @@ Why is the package named as pyrimidine? Because it begins with `py`.
 
 ## Download
 
-It is not uploaded to pypi at present, so just download it from github.
+It has been uploaded to pypi, so download it with `pip install pyrimidine`, and also could download it from github.
 
 ## Idea
 

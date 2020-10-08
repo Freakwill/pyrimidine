@@ -56,7 +56,7 @@ import types
 from operator import attrgetter
 from random import random, choice
 import numpy as np
-from .utils import uniformly_select
+from .utils import choice_uniform
 from .errors import *
 from .meta import MetaHighContainer, MetaContainer, MetaTuple, MetaList
 
@@ -91,6 +91,10 @@ class BaseIterativeModel:
     #     self.params.update(params)
     #     for k, v in kwargs.items():
     #         setter(self, k, v)
+    
+    @property
+    def solution(self):
+        raise NotImplementedError('Not define solution for the model!')   
 
     @property
     def _row(self):
@@ -101,7 +105,7 @@ class BaseIterativeModel:
         pass
     
 
-    def transitate(self, *args, **kwargs):
+    def transit(self, *args, **kwargs):
         """
         The core method of the object.
 
@@ -109,23 +113,23 @@ class BaseIterativeModel:
         according to some rules, such as crossing and mutating for individuals in GA,
         or moving method in Simulated Annealing.
         """
-        raise NotImplementedError
+        raise NotImplementedError('`transit`, the core of the algorithm, is not defined yet!')
 
     def local_search(self, *args, **kwargs):
         """
         The local search method for global search algorithm.
         """
-        raise NotImplementedError
+        raise NotImplementedError('If you apply local search, then you have to define `local_search` method')
 
     def evolve(self, n_iter=100, per=1, verbose=False, decode=False, *args, **kwargs):
         if verbose:
             print('iteration & ' , self._head)
             print('-------------------------------------------------------------')
-            print('0 & ', self._row)
+            print(f'0 & {self._row}')
         self.init()
         # n_iter = n_iter or self.n_iter or self.default_n_iter
         for k in range(1, n_iter+1):
-            self.transitate(k, *args, **kwargs)
+            self.transit(k, *args, **kwargs)
             self.post_process()
             if verbose and (per == 1 or k % per ==0):
                 print(f'{k} & ', self._row)
@@ -149,7 +153,7 @@ class BaseIterativeModel:
         import pandas as pd
         H = pd.DataFrame(data={k:[(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self)] for k, s in stat.items()})
         for k in range(n_iter):
-            self.transitate(k, *args, **kwargs)
+            self.transit(k, *args, **kwargs)
             self.post_process()
             H = H.append({k:(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) for k, s in stat.items()}, ignore_index=True)
         return H
@@ -172,21 +176,29 @@ class BaseIterativeModel:
     def post_process(self):
         pass
 
-    # @classmethod
-    # def config(cls, d):
-    #     cls.params.update(d)
+    @classmethod
+    def config(cls, d):
+        cls.params.update(d)
+    
+    def set_params(self, **kwargs):
+        self.params.update(kwargs)
 
+    @classmethod
+    def set_size(cls, sz):
+        cls.default_size = sz
+        return cls
+ 
 
-class Solution(object):
-    def __init__(self, value, goal_value=None):
-        self.value = value
-        self.goal_value = goal_value
+# class Solution(object):
+#     def __init__(self, value, goal_value=None):
+#         self.value = value
+#         self.goal_value = goal_value
 
-    def __str__(self):
-        if self.goal_value is None:
-            return ' | '.join(str(x) for x in self.value)
-        else:
-            return f"{' | '.join(str(x) for x in self.value)} & {self.goal_value}"
+#     def __str__(self):
+#         if self.goal_value is None:
+#             return ' | '.join(str(x) for x in self.value)
+#         else:
+#             return f"{' | '.join(str(x) for x in self.value)} & {self.goal_value}"
 
 
 class BaseGene:
@@ -424,7 +436,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
             n_individuals = cls.default_size
         return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
 
-    def transitate(self, *args, **kwargs):
+    def transit(self, *args, **kwargs):
         """
         Transitation of the states of population
         Standard flow of the Genetic Algorithm
@@ -436,6 +448,10 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     def migrate(self, other):
         raise NotImplementedError
 
+
+    def select_aspirants(self, individuals, size):
+        return choice_uniform(individuals, size)
+
     def select(self, n_sel=None, tournsize=None):
         """Select the best individual among `tournsize` randomly chosen
         individuals, `n_sel` times. The list returned contains
@@ -446,7 +462,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
             n_sel = self.default_size
         elif 0 < n_sel <= 1:
             n_sel = int(self.n_individuals * n_sel)
-        chosen = []
+        winners = []
         rest = self.individuals
         size = tournsize or self.tournsize
         n_rest = self.n_individuals
@@ -456,13 +472,13 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
             elif n_rest <= size:
                 aspirants = rest
             else:
-                aspirants = uniformly_select(rest, size)
+                aspirants = self.select_aspirants(rest, size)
             winner = max(aspirants, key=attrgetter('fitness'))
-            chosen.append(winner)
+            winners.append(winner)
             rest.remove(winner)
             n_rest -= 1
-        if chosen:
-            self.individuals = chosen
+        if winners:
+            self.individuals = winners
 
     def select_best_individuals(self, n=1):
         # first n best individuals
@@ -614,6 +630,17 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
             raise IOError(f'Could not find {filename}!')
 
 
+    def dual(self):
+        return self.__class__([c.dual() for c in self.chromosomes])
+
+
+    def history(self, n_iter=100, stat=None, *args, **kwargs):
+        if stat is None:
+            stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
+        return super(BaseFitnessModel, self).history(n_iter=n_iter, stat=stat, *args, **kwargs)
+
+
+
 class ParallelPopulation(BasePopulation):
 
     def mutate(self):
@@ -653,9 +680,9 @@ class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
         self.sorted = False
         self.fitness = None
 
-    def transitate(self, *args, **kwargs):
+    def transit(self, *args, **kwargs):
         for population in self.populations:
-            population.transitate(*args, **kwargs)
+            population.transit(*args, **kwargs)
 
     @property
     def best_fitness(self):

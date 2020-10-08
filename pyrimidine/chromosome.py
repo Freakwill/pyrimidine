@@ -110,6 +110,9 @@ class BinaryChromosome(VectorChromosome):
     def __str__(self):
         return f'{"".join(str(gene) for gene in self)}'
 
+    def dual(self):
+        return BinaryChromosome(1 - self)
+
 
 class FloatChromosome(VectorChromosome):
     element_class = FloatGene
@@ -129,6 +132,9 @@ class FloatChromosome(VectorChromosome):
 
 class UnitFloatChromosome(FloatChromosome):
     element_class = UnitFloatGene
+
+    def dual(self):
+        return UnitFloatChromosome(1 - self)
 
 _max0 = np.frompyfunc(max0, 1, 1)
 class PositiveChromosome(FloatChromosome):
