@@ -33,9 +33,9 @@ class ExampleIndividual(Mixin, MultiIndividual):
     element_class = _Chromosome
 
 class MyIndividual(Mixin, MixIndividual[(_Chromosome,)*8 + (uChromosome,)]):
-    """base class of individual
-
-    You should implement the methods, cross, mute
+    """my own individual class
+    
+    Method `mate` is overriden.
     """
     ranking = None
     threshold = 0.25
@@ -59,15 +59,10 @@ class MyIndividual(Mixin, MixIndividual[(_Chromosome,)*8 + (uChromosome,)]):
 class MyPopulation(SGAPopulation):
     element_class = MyIndividual
     def transit(self, *args, **kwargs):
-        """
-        Transitation of the states of population
-        Standard flow of the Genetic Algorithm
-        """
         self.sort()
         self.select()
         self.mate()
         self.mutate()
-        self.sorted_individuals = []
 
 
 if __name__ == '__main__':
@@ -80,11 +75,11 @@ if __name__ == '__main__':
 
     _Population = SGAPopulation[ExampleIndividual]
     pop = _Population.random(n_individuals=20, n_chromosomes=8, size=10)
-    d = pop.history(n_iter=300, stat=stat)
+    d = pop.history(n_iter=100, stat=stat)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
 
     pop = MyPopulation.random(n_individuals=20, sizes=[10]*8+[10])
-    d = pop.history(n_iter=300, stat=stat)
+    d = pop.history(n_iter=100, stat=stat)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
     ax.legend(('Traditional mean','Traditional best', 'New mean', 'New best'))
     plt.show()
