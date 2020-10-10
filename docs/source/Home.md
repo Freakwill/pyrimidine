@@ -35,7 +35,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
 
 
-There is mainly tow kinds of containers: list and tuple as in programming language `Haskell`. See following examples.
+There are mainly tow kinds of containers: list and tuple as in programming language `Haskell`. See following examples.
 
 ```python
 # individual with chromosomes of type _Chromosome

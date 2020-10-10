@@ -14,7 +14,7 @@
 
 Run the following command to install `pyrimidine`:
 
-`pip install [-U] pytest`
+`pip install [-U] pyrimidine`
 Check the version:
 
 `$ pyrimidine --version`

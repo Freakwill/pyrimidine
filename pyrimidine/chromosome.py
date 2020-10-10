@@ -55,7 +55,7 @@ class ArrayChromosome(np.ndarray, BaseChromosome):
     def merge(self, *other):
         return self
 
-    def clone(self):
+    def clone(self, *args, **kwargs):
         return self.__class__(array=self.copy(), gene=self.gene)
 
     # def mutate(self, indep_prob=0.1):

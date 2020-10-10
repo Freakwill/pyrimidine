@@ -32,23 +32,17 @@ class DualSpecies(BaseSpecies):
     
 
     def mate(self):
-        # offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
-        # self.populations[0].individuals += offspring
-        # offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
-        # self.populations[1].individuals += offspring
-        for male in self.males:
-            females = choice_with_fitness(self.females, [f.fitness for f in self.females], 5)
-            for female in females:
-                if self.match(male, female):
-                    self.populations[0].individuals.append(male.cross(female))
-                    self.populations[1].individuals.append(male.cross(female))
-        for female in self.females:
-            males = choice_with_fitness(self.males, [f.fitness for f in self.males], 5)
-            for male in males:
-                if self.match(male, female):
-                    self.populations[0].individuals.append(male.cross(female))
-                    self.populations[1].individuals.append(male.cross(female))
-    
+        offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
+        self.populations[0].individuals += offspring
+        offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
+        self.populations[1].individuals += offspring
+        for _ in range(3):
+            shuffle(self.females)
+            offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
+            self.populations[0].individuals += offspring
+            offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
+            self.populations[1].individuals += offspring
+
 
     def match(self, male, female):
         return True

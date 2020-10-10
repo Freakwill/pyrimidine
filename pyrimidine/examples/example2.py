@@ -7,6 +7,8 @@ from pyrimidine.benchmarks.special import *
 from pyrimidine import *
 from digit_converter import *
 
+import numpy as np
+
 
 def evaluate(x):
     return -rosenbrock(8)(x)
@@ -32,11 +34,12 @@ class Mixin:
 class ExampleIndividual(Mixin, MultiIndividual):
     element_class = _Chromosome
 
-class MyIndividual(Mixin, MixIndividual[(_Chromosome,)*8 + (uChromosome,)]):
+class MyIndividual(Mixin, MixIndividual):
     """base class of individual
 
     You should implement the methods, cross, mute
     """
+    element_class = (_Chromosome,)*8 + (uChromosome,)
     ranking = None
     threshold = 0.25
 
@@ -47,18 +50,18 @@ class MyIndividual(Mixin, MixIndividual[(_Chromosome,)*8 + (uChromosome,)]):
 
     def mate(self, other, mate_prob=None):
 
-        if other.ranking and self.ranking:
-            if self.threshold <= other.ranking and other.threshold <= self.ranking:
-                return super(MyIndividual, self).mate(other, mate_prob=0.9)
+        if other.ranking:
+            if self.threshold <= other.ranking:
+                return super(MyIndividual, self).mate(other, mate_prob=1)
             else:
-                mate_prob = 1 - (self.threshold + other.threshold)/2
-                return super(MyIndividual, self).mate(other)
+                mate_prob = self.threshold
+                return super(MyIndividual, self).mate(other, mate_prob=mate_prob)
         else:
             return super(MyIndividual, self).mate(other)
 
 class MyPopulation(SGAPopulation):
     element_class = MyIndividual
-    def transit(self, *args, **kwargs):
+    def transitate(self, *args, **kwargs):
         """
         Transitation of the states of population
         Standard flow of the Genetic Algorithm
@@ -67,25 +70,27 @@ class MyPopulation(SGAPopulation):
         self.select()
         self.mate()
         self.mutate()
-        self.sorted_individuals = []
 
 
 if __name__ == '__main__':
 
-    stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
+    SGAPopulation.element_class = ExampleIndividual
 
+    pop = SGAPopulation.random(n_individuals=20, n_chromosomes=8, size=10)
+    pop.mate_prob = 0.9
+    stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
+    d = pop.history(n_iter=100, stat=stat)
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
+    ax.plot(d.index, d['Fitness'], d.index, d['Best Fitness'], '.-')
 
-    _Population = SGAPopulation[ExampleIndividual]
-    pop = _Population.random(n_individuals=20, n_chromosomes=8, size=10)
-    d = pop.history(n_iter=300, stat=stat)
-    ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
+    pop = MyPopulation.random(n_individuals=20, sizes=[10,10,10,10,10,10,10,10, 10])
 
-    pop = MyPopulation.random(n_individuals=20, sizes=[10]*8+[10])
-    d = pop.history(n_iter=300, stat=stat)
+    pop.mate_prob = 0.9
+    d = pop.history(n_iter=100, stat=stat)
+
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
-    ax.legend(('Traditional mean','Traditional best', 'New mean', 'New best'))
+    ax.legend(('Traditional','Traditional best', 'Trait', 'Trait best'))
     plt.show()
 

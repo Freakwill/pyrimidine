@@ -162,9 +162,10 @@ class BaseIterativeModel:
         import time
         times = []
         data = None
-        for _ in range(n_repeat):   
+        for _ in range(n_repeat): 
+            cpy = self.clone()
             time1 = time.perf_counter()
-            data0 = self.history(*args, **kwargs)
+            data0 = cpy.history(*args, **kwargs)
             time2 = time.perf_counter()
             times.append(time2 - time1)
             if data is None:
@@ -187,6 +188,9 @@ class BaseIterativeModel:
     def set_size(cls, sz):
         cls.default_size = sz
         return cls
+
+    def clone(self, type_=None, *args, **kwargs):
+        raise NotImplementedError
  
 
 # class Solution(object):
@@ -245,6 +249,13 @@ class BaseFitnessModel(BaseIterativeModel):
                 return f(self)
         return C
 
+    def clone(self, type_=None, fitness=None):
+        if type_ is None:
+            type_ = self.__class__
+        if fitness is True:
+            fitness = self.fitness
+        return type_([i.clone(type_=type_.element_class, fitness=fitness) for i in self], fitness=fitness)
+
 
 class BaseChromosome(BaseFitnessModel):
     default_size = (8,)
@@ -281,7 +292,7 @@ class BaseChromosome(BaseFitnessModel):
         raise NotImplementedError
 
 
-    def clone(self):
+    def clone(self, *args, **kwargs):
         return self.copy()
 
     def __eq__(self, other):
@@ -363,14 +374,6 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
         for i in inds:
             i.mutate()
         return inds
-
-
-    def clone(self, type_=None, fitness=True):
-        if type_ is None:
-            type_ = self.__class__
-        if fitness is True:
-            fitness = self.fitness
-        return type_([chromosome.clone() for chromosome in self.chromosomes], fitness=fitness)
 
 
     def get_neighbour(self):
@@ -486,11 +489,6 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
             n = int(self.n_individuals * n)
         self.individuals = self.sorted_individuals[-n:]
 
-    def clone(self, type_=None):
-        if type_ is None:
-            type_ = self.__class__
-        return type_([individual.clone(type_=type_.element_class) for individual in self.individuals])
-
     def parallel(self, func):
         return parallel(func, self.individuals)
 
@@ -575,8 +573,8 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         self.__sorted_individuals = s
 
     def sort(self):
-        self.individuals = self.sorted_individuals
-
+        ks = np.argsort([individual.fitness for individual in self.individuals])
+        self.individuals = [self.individuals[k] for k in ks]
 
     def argsort(self):
         return np.argsort([individual.fitness for individual in self.individuals])
@@ -657,6 +655,13 @@ class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
     default_size = 2
 
     params = {'migrate_prob': 0.5}
+
+    def _fitness(self):
+        return self.mean_fitness
+
+    @property
+    def mean_fitness(self):
+        return np.mean([_.fitness for _ in self])
 
     @classmethod
     def random(cls, n_populations=None, *args, **kwargs):

@@ -98,6 +98,11 @@ class MetaContainer(type):
         attrs['__len__'] = _len
         attrs['__iter__'] = _iter
 
+        def _get_all(self, attr_name):
+            return [getattr(elm, attr_name) for elm in self.__elements]
+
+        attrs['get_all'] = _get_all
+
         @property
         def _elements(self):
             return self.__elements
@@ -109,6 +114,18 @@ class MetaContainer(type):
             self.n_elements = len(x)
             setattr(self, 'n_' + element_name, len(x))
         attrs['elements'] = attrs[element_name] = _elements
+
+        # @property
+        # def _n_elements(self):
+        #     if hasattr(self, '__n_elements'):
+        #         return self.__n_elements
+        #     else:
+        #         return len(self.elements)
+
+        # @_n_elements.setter
+        # def _elements(self, x):
+        #     self.__n_elements = x
+        # attrs['n_elements'] = attrs['n_' + element_name] = _n_elements
 
         # if 'random' not in attrs:
         #     print(Warning('Define a `random` method'))
@@ -122,7 +139,7 @@ class MetaContainer(type):
 
 
         def _type_check(self):
-            return all(isinstance(elm, self.element_class) for elm in self)
+            return all(isinstance(elm, self.element_class) for elm in self.__elements)
         attrs['type_check'] = _type_check
 
 
@@ -135,7 +152,7 @@ class MetaContainer(type):
         return type.__new__(cls, name, bases, attrs)
 
     def __call__(self, *args, **kwargs):
-        o = super(MetaContainer, self).__call__(*args, **kwargs)
+        o = super(MetaContainer, self).__call__()
         for k, v in kwargs.items():
             setattr(o, k, v)
         if args:
@@ -144,8 +161,6 @@ class MetaContainer(type):
 
     def __getitem__(self, class_):
         self.element_class = class_
-        if isinstance(class_, tuple):
-            self.__metaclass__ = MetaList
         return self
 
 class MetaList(MetaContainer):
@@ -156,6 +171,12 @@ class MetaList(MetaContainer):
             if isinstance(element_class, tuple):
                 raise TypeError('`element_class` should not be a tuple!')
         return super(MetaList, cls).__new__(cls, name, bases, attrs)
+
+    def __getitem__(self, class_):
+        self.element_class = class_
+        if isinstance(class_, tuple):
+            raise TypeError('`element_class` should not be a tuple!')
+        return self
 
 
 class MetaTuple(MetaContainer):
@@ -176,6 +197,15 @@ class MetaHighContainer(MetaContainer):
             element_class = attrs['element_class']
             if not isinstance(element_class, MetaContainer) or isinstance(element_class, tuple) and isinstance(element_class[0], MetaContainer):
                 raise TypeError('`element_class` should be an instance of MetaContainer, or a list of such instances')
+
+        def _flatten(self, type_):
+            elms = []
+            for elm in self.__elements:
+                elm.extend(elm.__elements)
+            return elms
+
+        attrs['flatten'] = _flatten
+
         return super(MetaHighContainer, cls).__new__(cls, name, bases, attrs)
 
 
