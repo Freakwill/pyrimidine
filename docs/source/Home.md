@@ -1,13 +1,17 @@
 # pyrimidine: a universal framework for genetic algorithm
 
-It is an object-oriental implement of genetic algorithm by python
+It is a highly object-oriental implement of genetic algorithm by Python.
 
-![LOGO](/Users/william/Programming/myGithub/pyrimidine/logo.png)
+![LOGO](logo.png)
 
 
 ## Why
 
-Why is the package named as pyrimidine? Because it begins with `py`.
+Why is the package named as "pyrimidine"? Because it begins with "py". 
+
+--- Are you kiding? 
+
+--- No, I am serious.
 
 ## Download
 
