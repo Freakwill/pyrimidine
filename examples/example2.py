@@ -8,8 +8,9 @@ from pyrimidine import *
 from digit_converter import *
 
 
+ndim = 10
 def evaluate(x):
-    return -rosenbrock(8)(x)
+    return -rosenbrock(ndim)(x)
 
 c=IntervalConverter(-5,5)
 
@@ -26,13 +27,13 @@ class uChromosome(BinaryChromosome):
 
 class Mixin:
     def _fitness(self):
-        x = [self[k].decode() for k in range(8)]
+        x = [self[k].decode() for k in range(ndim)]
         return evaluate(x)
 
 class ExampleIndividual(Mixin, MultiIndividual):
     element_class = _Chromosome
 
-class MyIndividual(Mixin, MixIndividual[(_Chromosome,)*8 + (uChromosome,)]):
+class MyIndividual(Mixin, MixIndividual[(_Chromosome,)*ndim + (uChromosome,)]):
     """my own individual class
     
     Method `mate` is overriden.
@@ -48,11 +49,19 @@ class MyIndividual(Mixin, MixIndividual[(_Chromosome,)*8 + (uChromosome,)]):
     def mate(self, other, mate_prob=None):
 
         if other.ranking and self.ranking:
-            if self.threshold <= other.ranking and other.threshold <= self.ranking:
-                return super(MyIndividual, self).mate(other, mate_prob=0.9)
+            if self.threshold <= other.ranking:
+                if other.threshold <= self.ranking:
+                    return super(MyIndividual, self).mate(other, mate_prob=0.95)
+                else:
+                    mate_prob = 1-other.threshold
+                    return super(MyIndividual, self).mate(other, mate_prob)
             else:
-                mate_prob = 1 - (self.threshold + other.threshold)/2
-                return super(MyIndividual, self).mate(other)
+                if other.threshold <= self.ranking:
+                    mate_prob = 1-self.threshold
+                    return super(MyIndividual, self).mate(other, mate_prob=0.95)
+                else:
+                    mate_prob = 1-(self.threshold+other.threshold)/2
+                    return super(MyIndividual, self).mate(other, mate_prob)
         else:
             return super(MyIndividual, self).mate(other)
 
@@ -74,11 +83,11 @@ if __name__ == '__main__':
     ax = fig.add_subplot(111)
 
     _Population = SGAPopulation[ExampleIndividual]
-    pop = _Population.random(n_individuals=20, n_chromosomes=8, size=10)
-    d = pop.history(n_iter=100, stat=stat)
+    pop = MyPopulation.random(n_individuals=20, sizes=[8]*ndim+[8])
+    cpy = pop.clone(_Population)
+    d = cpy.history(n_iter=100, stat=stat)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
 
-    pop = MyPopulation.random(n_individuals=20, sizes=[10]*8+[10])
     d = pop.history(n_iter=100, stat=stat)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
     ax.legend(('Traditional mean','Traditional best', 'New mean', 'New best'))

@@ -12,7 +12,7 @@ def evolve(self):
         self.transit()
 ```
 
-
+Users could override `transit` to implement any other iteration form.
 
 ## Individuals
 

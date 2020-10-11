@@ -3,6 +3,7 @@
 from pyrimidine import *
 import numpy as np
 from pyrimidine.benchmarks.optimization import *
+from pyrimidine.utils import shuffle
 
 from digit_converter import *
 
@@ -11,7 +12,7 @@ c = unitIntervalConverter
 # generate a knapsack problem randomly
 _evaluate = Knapsack.random(n=50)
 
-class _Individual(MixIndividual[BinaryChromosome, BinaryChromosome]):
+class _Individual(PolyIndividual[BinaryChromosome]):
 
     def decode(self):
         return self[0]
@@ -26,7 +27,7 @@ class _Individual(MixIndividual[BinaryChromosome, BinaryChromosome]):
 
 class _Population(BasePopulation):
     element_class = _Individual
-    default_size = 20
+    default_size = 25
 
     def select(self):
         ks = np.argsort([individual.fitness for individual in self.individuals])
@@ -50,20 +51,36 @@ sp = MySpecies.random(sizes=(50, 8))
 class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
         return _evaluate(self.chromosome)
+
+    def mate(self, mate_prob=None):
+        offspring = [individual.cross(other) for individual, other in zip(self.individuals[::2], self.individuals[1::2])
+        if random() < (mate_prob or self.mate_prob)]
+        self.individuals += offspring
+        X = self.individuals[1::2]
+        shuffle(X)
+        offspring = [individual.cross(other) for individual, other in zip(self.individuals[::2], X)
+        if random() < (mate_prob or self.mate_prob)]
+        self.individuals += offspring
     
 class MyPopulation(SGAPopulation):
     element_class = MyIndividual
-    default_size = 40
+    default_size = 58
 
 pop = MyPopulation(individuals=sp.populations[0].clone().individuals + sp.populations[1].clone().individuals, fitness=sp.fitness)
 
 stat={'Male Fitness':'male_fitness', 'Female Fitness':'female_fitness', 'Best Fitness': 'best_fitness', 'Mean Expect': 'expect'}
+
+import time
+
+time1 = time.perf_counter()
 data = sp.history(stat=stat, n_iter=300)
-# data.to_csv('hehe.csv')
+time2 = time.perf_counter()
+print(time2 - time1)
 
-data2 = pop.history(n_iter=400)
-
-# print(t, t2)
+time1 = time.perf_counter()
+data2 = pop.history(n_iter=300)
+time2 = time.perf_counter()
+print(time2 - time1)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

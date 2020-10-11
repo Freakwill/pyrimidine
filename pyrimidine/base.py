@@ -224,6 +224,16 @@ class BaseGene:
 
 
 class BaseFitnessModel(BaseIterativeModel):
+    """Iterative model with fitness
+
+    The fitness should be stored until the the state of the model is changed.
+    
+    Extends:
+        BaseIterativeModel
+    
+    Variables:
+        __fitness {[type]} -- [description]
+    """
     __fitness = None
 
     @property
@@ -271,7 +281,6 @@ class BaseChromosome(BaseFitnessModel):
     def random(cls, size=None):
         raise NotImplementedError
 
-
     def cross(self, other):
         raise NotImplementedError
 
@@ -290,7 +299,6 @@ class BaseChromosome(BaseFitnessModel):
     @classmethod
     def encode(cls, x):
         raise NotImplementedError
-
 
     def clone(self, *args, **kwargs):
         return self.copy()
@@ -313,16 +321,24 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
     element_class = BaseChromosome
     default_size = 1
 
-    # def __getitem__(self, k):
-    #     return self.chromosomes[k]
 
     def __repr__(self):
-        return self.__class__.__name__ + f':= {" $ ".join(repr(chromosome) for chromosome in self.chromosomes)}'
+        # seperate the chromosomes with $ 
+        sep = " $ "
+        return f'{self.__class__.__name__}:= {sep.join(repr(chromosome) for chromosome in self.chromosomes)}'
 
     def __str__(self):
-        return self.__class__.__name__ + f':= {" $ ".join(str(chromosome) for chromosome in self.chromosomes)}'
+        sep = " $ "
+        return sep.join(str(chromosome) for chromosome in self.chromosomes)
 
     def __format__(self, spec=None):
+        """ 
+        Keyword Arguments:
+            spec {str} -- set to be `decode` if need decoding (default: {None})
+        
+        Returns:
+            str
+        """
         if spec is None:
             return str(self)
         elif spec in {'d', 'decode'}:
@@ -332,6 +348,18 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
 
     @classmethod
     def random(cls, n_chromosomes=None, *args, **kwargs):
+        """Generate an object of Individual randomly
+        
+        Arguments:
+            **kwargs -- set sizes for the sizes of chromosomes
+        
+        Keyword Arguments:
+            n_chromosomes {number} -- the number of chromosomes (default: {None})
+        
+        Returns:
+            BaseIndividual -- an object of Individual
+        """
+
         if isinstance(cls, (MetaList, MetaContainer)):
             if 'sizes' in kwargs:
                 return cls([cls.element_class.random(size=size) for size in kwargs['sizes']])
@@ -350,36 +378,40 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
 
     @chromosomes.setter
     def chromosomes(self, c):
+        """Set the fitness to be None, when setting chromosomes of the object
+        
+        Decorators:
+            chromosomes.setter
+        
+        Arguments:
+            c {list} -- a list of chromosomes
+        """
         self.__elements = c
         self.fitness = None
 
 
     def cross(self, other, k=None):
+        # Cross operation of two individual
         return self.__class__([chromosome.cross(other_c) for chromosome, other_c in zip(self.chromosomes, other.chromosomes)])
 
     def mutate(self):
+        # Mutating operation of an individual
         self.fitness = None
         for chromosome in self.chromosomes:
             chromosome.mutate()
 
-    # def __add__(self, other):
-    #     return self.chromosomes +
-
-    def __mul__(self, other):
-        return self.mate(other)
-
-
     def proliferate(self, k=2):
+        # Proliferating operation of an individual
         inds = [self.clone()] * k
         for i in inds:
             i.mutate()
         return inds
 
-
     def get_neighbour(self):
         raise NotImplementedError
 
     def decode(self):
+        # To decode an individual
         return [chromosome.decode() for chromosome in self.chromosomes if hasattr(chromosome,'decode')]
 
     def __getstate__(self):
@@ -429,9 +461,10 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
     @individuals.setter
     def individuals(self, x):
-        self.__elements = x
-        self.n_elements = self.n_individuals = len(x)
+        # Set the fitness to be None, when setting individuals of the object
+        self.elements = x
         self.sorted = False
+        self.fitness = None
 
     @classmethod
     def random(cls, n_individuals=None, *args, **kwargs):
@@ -440,9 +473,9 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
 
     def transit(self, *args, **kwargs):
-        """
-        Transitation of the states of population
-        Standard flow of the Genetic Algorithm
+        """Transitation of the states of population
+
+        It is considered to be the standard flow of the Genetic Algorithm
         """
         self.select()
         self.mate()
@@ -527,9 +560,6 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     def mean_fitness(self):
         return np.mean([individual.fitness for individual in self.individuals])
 
-    # @property
-    # def fitness(self):
-    #     return self._fitness()
 
     @property
     def best_fitness(self):
@@ -680,8 +710,8 @@ class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
 
     @populations.setter
     def populations(self, x):
-        self.__elements = x
-        self.n_elements = self.n_populations = len(x)
+        # Set the fitness to be None, when setting populations of the object
+        self.elements = x
         self.sorted = False
         self.fitness = None
 
