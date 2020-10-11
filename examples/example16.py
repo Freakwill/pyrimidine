@@ -10,7 +10,9 @@ from digit_converter import *
 c = unitIntervalConverter
 
 # generate a knapsack problem randomly
-_evaluate = Knapsack.random(n=50)
+
+n_bags = 100
+_evaluate = Knapsack.random(n=n_bags)
 
 class _Individual(PolyIndividual[BinaryChromosome]):
 
@@ -22,65 +24,60 @@ class _Individual(PolyIndividual[BinaryChromosome]):
 
     @property
     def expect(self):
-        return self[1]
+        return c(self[1])
 
 
 class _Population(BasePopulation):
     element_class = _Individual
-    default_size = 25
-
-    def select(self):
-        ks = np.argsort([individual.fitness for individual in self.individuals])
-        self.individuals = [self.individuals[k] for k in ks[-10:]]
+    default_size = 20
 
 class MySpecies(DualSpecies):
     element_class = _Population
 
     def match(self, male, female):
-        mr = self.populations[0].get_rank(male)
-        fr = self.populations[1].get_rank(female)
-        return c(male.expect) <= fr and c(female.expect) <= mr
+        return male.expect <= male.ranking and female.expect <= female.ranking
 
     @property
     def expect(self):
         return np.mean([ind.expect for ind in self.males] + [ind.expect for ind in self.females])
 
+    @property
+    def best_expect(self):
+        return self.best_individual.expect
 
-sp = MySpecies.random(sizes=(50, 8))
 
-class MyIndividual(MonoBinaryIndividual):
-    def _fitness(self):
-        return _evaluate(self.chromosome)
+class YourSpecies(DualSpecies):
+    element_class = _Population
 
-    def mate(self, mate_prob=None):
-        offspring = [individual.cross(other) for individual, other in zip(self.individuals[::2], self.individuals[1::2])
-        if random() < (mate_prob or self.mate_prob)]
-        self.individuals += offspring
-        X = self.individuals[1::2]
-        shuffle(X)
-        offspring = [individual.cross(other) for individual, other in zip(self.individuals[::2], X)
-        if random() < (mate_prob or self.mate_prob)]
-        self.individuals += offspring
+    def mate(self):
+        male_offspring = []
+        female_offspring = []
+        for _ in range(1):
+            shuffle(self.females)
+            for male, female in zip(self.males, self.females):
+                child = male.cross(female)
+                if random()<0.5:
+                    male_offspring.append(child)
+                else:
+                    female_offspring.append(child)
+
+        self.populations[0].individuals += male_offspring
+        self.populations[1].individuals += female_offspring
+
     
-class MyPopulation(SGAPopulation):
-    element_class = MyIndividual
-    default_size = 58
+sp = MySpecies.random(sizes=(n_bags, 10))
+sp2 = sp.clone(type_=YourSpecies)
 
-pop = MyPopulation(individuals=sp.populations[0].clone().individuals + sp.populations[1].clone().individuals, fitness=sp.fitness)
+stat={'Male Fitness':'male_fitness', 'Female Fitness':'female_fitness', 'Best Fitness': 'best_fitness', 'Mean Expect': 'expect', 'Best Expect': 'best_expect'}
 
-stat={'Male Fitness':'male_fitness', 'Female Fitness':'female_fitness', 'Best Fitness': 'best_fitness', 'Mean Expect': 'expect'}
+data, t = sp.perf(stat=stat, n_iter=200, n_repeats=1)
 
-import time
+data.to_csv('h.csv')
 
-time1 = time.perf_counter()
-data = sp.history(stat=stat, n_iter=300)
-time2 = time.perf_counter()
-print(time2 - time1)
+stat={'Male Fitness':'male_fitness', 'Female Fitness':'female_fitness', 'Best Fitness': 'best_fitness'}
+data2, t2 = sp2.perf(stat=stat, n_iter=200, n_repeats=1)
 
-time1 = time.perf_counter()
-data2 = pop.history(n_iter=300)
-time2 = time.perf_counter()
-print(time2 - time1)
+print(t,t2)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

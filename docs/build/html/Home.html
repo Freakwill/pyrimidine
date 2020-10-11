@@ -35,6 +35,42 @@
             
   <div class="section" id="pyrimidine-a-universal-framework-for-genetic-algorithm">
 <h1>pyrimidine: a universal framework for genetic algorithm<a class="headerlink" href="#pyrimidine-a-universal-framework-for-genetic-algorithm" title="Permalink to this headline">¶</a></h1>
+<p>It is a highly object-oriental implement of genetic algorithm by Python.</p>
+<p><img alt="LOGO" src="_images/logo.png" /></p>
+<div class="section" id="why">
+<h2>Why<a class="headerlink" href="#why" title="Permalink to this headline">¶</a></h2>
+<p>Why is the package named as “pyrimidine”? Because it begins with “py”.</p>
+<p>— Are you kiding?</p>
+<p>— No, I am serious.</p>
+</div>
+<div class="section" id="download">
+<h2>Download<a class="headerlink" href="#download" title="Permalink to this headline">¶</a></h2>
+<p>It has been uploaded to pypi, so download it with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyrimidine</span></code>, and also could download it from github.</p>
+</div>
+<div class="section" id="idea">
+<h2>Idea<a class="headerlink" href="#idea" title="Permalink to this headline">¶</a></h2>
+<p>We regard the population as a container of individuals, an individual as a container of chromosomes
+and a chromosome as a container(array) of genes.</p>
+<p>The container could be a list or an array.
+Container class has an attribute <code class="docutils literal notranslate"><span class="pre">element_class</span></code>, telling itself the class of the elements in it.</p>
+<p>Following is the part of the source code of <code class="docutils literal notranslate"><span class="pre">BaseIndividual</span></code> and <code class="docutils literal notranslate"><span class="pre">BasePopulation</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaseIndividual</span><span class="p">(</span><span class="n">BaseFitnessModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaContainer</span><span class="p">):</span>
+    <span class="n">element_class</span> <span class="o">=</span> <span class="n">BaseChromosome</span>
+    <span class="n">default_size</span> <span class="o">=</span> <span class="mi">1</span>
+    
+<span class="k">class</span> <span class="nc">BasePopulation</span><span class="p">(</span><span class="n">BaseFitnessModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaHighContainer</span><span class="p">):</span>
+    <span class="n">element_class</span> <span class="o">=</span> <span class="n">BaseIndividual</span>
+    <span class="n">default_size</span> <span class="o">=</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<p>There are mainly tow kinds of containers: list and tuple as in programming language <code class="docutils literal notranslate"><span class="pre">Haskell</span></code>. See following examples.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># individual with chromosomes of type _Chromosome</span>
+<span class="n">_Individual1</span> <span class="o">=</span> <span class="n">BaseIndividual</span><span class="p">[</span><span class="n">_Choromosome</span><span class="p">]</span>
+<span class="c1"># individual with 2 chromosomes of type _Chromosome1 and _Chromosome2 respectively</span>
+<span class="n">_Individual2</span> <span class="o">=</span> <span class="n">MixIndividual</span><span class="p">[</span><span class="n">_Chromosome1</span><span class="p">,</span> <span class="n">_Chromosome2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -56,7 +92,12 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pyrimidine: a universal framework for genetic algorithm</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyrimidine: a universal framework for genetic algorithm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#why">Why</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#download">Download</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#idea">Idea</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation and Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API%20Reference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples and customization tricks</a></li>

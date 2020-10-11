@@ -32,16 +32,22 @@ class DualSpecies(BaseSpecies):
     
 
     def mate(self):
-        offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
-        self.populations[0].individuals += offspring
-        offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
-        self.populations[1].individuals += offspring
-        for _ in range(3):
+        self.populations[0].rank()
+        self.populations[1].rank()
+        male_offspring = []
+        female_offspring = []
+        for _ in range(2):
             shuffle(self.females)
-            offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
-            self.populations[0].individuals += offspring
-            offspring = [male.cross(female) for male, female in zip(self.males, self.females) if self.match(male, female)]
-            self.populations[1].individuals += offspring
+            for male, female in zip(self.males, self.females):
+                if self.match(male, female):
+                    child = male.cross(female)
+                    if random()<0.5:
+                        male_offspring.append(child)
+                    else:
+                        female_offspring.append(child)
+
+        self.populations[0].individuals += male_offspring
+        self.populations[1].individuals += female_offspring
 
 
     def match(self, male, female):
@@ -54,6 +60,9 @@ class DualSpecies(BaseSpecies):
         self.mate()
         self.populations[0].mutate()
         self.populations[1].mutate()
-        self.populations[0].rank()
-        self.populations[1].rank()
+
+
+    def post_process(self):
+        super(DualSpecies, self).post_process()
         self.populations[0].fitness = self.populations[1].fitness = None
+

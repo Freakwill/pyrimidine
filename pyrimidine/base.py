@@ -56,7 +56,7 @@ import types
 from operator import attrgetter
 from random import random, choice
 import numpy as np
-from .utils import choice_uniform
+from .utils import choice_uniform, randint
 from .errors import *
 from .meta import MetaHighContainer, MetaContainer, MetaTuple, MetaList
 
@@ -141,13 +141,12 @@ class BaseIterativeModel:
             n_iter {number} -- number of iterations (default: {100})
             stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
                            The value could be a string that should be a method pre-defined.
-            (default: {'Fitness': 'fitness'})
         
         Returns:
             DataFrame
         """
         if stat is None:
-            stat = {'Fitness':'fitness'}
+            return
  
         self.init()
         import pandas as pd
@@ -158,11 +157,11 @@ class BaseIterativeModel:
             H = H.append({k:(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) for k, s in stat.items()}, ignore_index=True)
         return H
 
-    def perf(self, n_repeat=10, *args, **kwargs):
+    def perf(self, n_repeats=10, *args, **kwargs):
         import time
         times = []
         data = None
-        for _ in range(n_repeat): 
+        for _ in range(n_repeats): 
             cpy = self.clone()
             time1 = time.perf_counter()
             data0 = cpy.history(*args, **kwargs)
@@ -172,7 +171,7 @@ class BaseIterativeModel:
                 data = data0
             else:
                 data += data0
-        return data / n_repeat, np.mean(times)
+        return data / n_repeats, np.mean(times)
 
     def post_process(self):
         pass
@@ -265,6 +264,23 @@ class BaseFitnessModel(BaseIterativeModel):
         if fitness is True:
             fitness = self.fitness
         return type_([i.clone(type_=type_.element_class, fitness=fitness) for i in self], fitness=fitness)
+
+    def history(self, n_iter=100, stat=None, *args, **kwargs):
+        """Get the history of the whole evolution
+
+        Keyword Arguments:
+            n_iter {number} -- number of iterations (default: {100})
+            stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
+                           The value could be a string that should be a method pre-defined.
+            (default: {'Fitness': 'fitness'})
+        
+        Returns:
+            DataFrame
+        """
+        if stat is None:
+            stat = {'Fitness':'fitness'}
+ 
+        return super(BaseFitnessModel, self).history(n_iter=100, stat=stat, *args, **kwargs)
 
 
 class BaseChromosome(BaseFitnessModel):
@@ -435,6 +451,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
     element_class = BaseIndividual
     default_size = 20
+    __sorted_individuals = []
         
 
     _head = 'best individual & fitness & number of individuals'
@@ -445,10 +462,6 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     def _row(self):
         best = self.best_individual
         return f'{best:d} & {best.fitness} & {self.n_individuals}'
-
-    def __init__(self, individuals=[]):
-        self.individuals = [i.clone(type_=self.element_class) if not isinstance(i, self.element_class) else i for i in individuals]
-        self.sorted_individuals = []
 
     def __setstate__(self, state):
         self.element_class = state['element_class']
@@ -496,14 +509,14 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
         if n_sel is None:
             n_sel = self.default_size
-        elif 0 < n_sel <= 1:
+        elif 0 < n_sel < 1:
             n_sel = int(self.n_individuals * n_sel)
         winners = []
         rest = self.individuals
         size = tournsize or self.tournsize
         n_rest = self.n_individuals
         for i in range(n_sel):
-            if n_rest == 1:
+            if n_rest == 0:
                 break
             elif n_rest <= size:
                 aspirants = rest
@@ -609,33 +622,36 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     def argsort(self):
         return np.argsort([individual.fitness for individual in self.individuals])
 
-
     def get_rank(self, individual):
         r = 0
         for ind in self.sorted_individuals:
             if ind.fitness <= individual.fitness:
                 r += 1
-        r /= self.n_individuals
-        individual.ranking = r
-        return r
+            else:
+                break
+        individual.ranking = r / self.n_individuals
+        return individual.ranking
 
     def rank(self):
-        for k, individual in enumerate(self.sorted_individuals):
-            r = 1
-            for i in self.sorted_individuals[k+1:]:
+        sorted_individuals = [self.individuals[k] for k in self.argsort()]
+        for k, individual in enumerate(sorted_individuals):
+            r = 0
+            for i in sorted_individuals[k+1:]:
                 if i.fitness <= individual.fitness:
                     r += 1
-            individual.ranking = r / self.n_individuals
+                else:
+                    break
+            individual.ranking = (r + k) / self.n_individuals
+
 
     @property
     def solution(self):
         return self.best_
 
     def cross(self, other):
-        k = randint(1, self.n_individuals//2)
-        l = randint(1, other.n_individuals//2)
-        self.individuals = self.individuals[k:] + other.individuals[:l]
-        other.individuals = other.individuals[l:] + self.individuals[:k]
+        k = randint(1, self.n_individuals-2)
+        self.individuals = self.individuals[k:] + other.individuals[:k]
+        other.individuals = other.individuals[k:] + self.individuals[:k]
 
     def save(self, filename='population.pkl'):
         import pickle
@@ -691,7 +707,7 @@ class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
 
     @property
     def mean_fitness(self):
-        return np.mean([_.fitness for _ in self])
+        return np.mean([_.fitness for _ in self.individuals])
 
     @classmethod
     def random(cls, n_populations=None, *args, **kwargs):
@@ -718,6 +734,7 @@ class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
     def transit(self, *args, **kwargs):
         for population in self.populations:
             population.transit(*args, **kwargs)
+        self.migrate()
 
     @property
     def best_fitness(self):

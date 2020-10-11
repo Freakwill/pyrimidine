@@ -15,7 +15,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="Examples.html" />
+    <link rel="next" title="Examples and customization tricks" href="Examples.html" />
     <link rel="prev" title="Installation and Getting Started" href="Install.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -35,6 +35,29 @@
             
   <div class="section" id="api-reference">
 <h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="iterative-models">
+<h2>Iterative Models<a class="headerlink" href="#iterative-models" title="Permalink to this headline">¶</a></h2>
+<p>An iterative model is a class implementing iterative algorithms, repeating to call $x’=Tx$.</p>
+<p>Following is the core code of the class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">looping</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Users could override <code class="docutils literal notranslate"><span class="pre">transit</span></code> to implement any other iteration form.</p>
+</div>
+<div class="section" id="individuals">
+<h2>Individuals<a class="headerlink" href="#individuals" title="Permalink to this headline">¶</a></h2>
+<p>The class Individuals are inherited from <code class="docutils literal notranslate"><span class="pre">BaseIndividual</span></code>.</p>
+</div>
+<div class="section" id="populations">
+<h2>Populations<a class="headerlink" href="#populations" title="Permalink to this headline">¶</a></h2>
+<p>The class Individuals are inherited from <code class="docutils literal notranslate"><span class="pre">BasePopulation</span></code>.</p>
+</div>
+<div class="section" id="chromosomes">
+<h2>Chromosomes<a class="headerlink" href="#chromosomes" title="Permalink to this headline">¶</a></h2>
+<p>The chromosomes as an array of genes, could be regarded as the unit of genetic operations.</p>
+</div>
 </div>
 
 
@@ -56,8 +79,16 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Home.html">pyrimidine: a universal framework for genetic algorithm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation and Getting Started</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#iterative-models">Iterative Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#individuals">Individuals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#populations">Populations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chromosomes">Chromosomes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples and customization tricks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Customize.html">Configuration</a></li>
 </ul>
 
@@ -66,7 +97,7 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="Install.html" title="previous chapter">Installation and Getting Started</a></li>
-      <li>Next: <a href="Examples.html" title="next chapter">&lt;no title&gt;</a></li>
+      <li>Next: <a href="Examples.html" title="next chapter">Examples and customization tricks</a></li>
   </ul></li>
 </ul>
 </div>
