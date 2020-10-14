@@ -24,15 +24,13 @@ The individual classes are inherited from `BaseIndividual`.
 
 ## Populations
 
-The population classes are inherited from `BasePopulation`.
-
-
+The population classes are inherited from `BasePopulation`. `SGAPopulation` is the standard population for GA.
 
 
 
 ## Chromosomes
 
-The chromosomes as an array of genes, could be regarded as the unit of genetic operations.
+The chromosomes as an array of genes, could be regarded as the unit of genetic operations. `BinaryChromosome` is used frequently.
 
 
 

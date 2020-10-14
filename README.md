@@ -11,7 +11,7 @@ Why is the package named as pyrimidine? Because it begins with `py`.
 
 ## Download
 
-It has been uploaded to pypi, so download it with `pip install pyrimidine`, and also could download it from github.
+It is not uploaded to pypi at present, so just download it from github.
 
 ## Idea
 
@@ -69,10 +69,7 @@ Generally, it is an array of genes.
 As an array of 0-1s, `BinaryChromosome` is used most frequently.
 
 #### Individual
-
-The most important class is Individual, that represents the solution of a optimization problem.
-
-Just subclass `MonoIndividual` in most cases.
+just subclass `MonoIndividual` in most cases.
 
 ```python
 class MyIndividual(MonoIndividual):
@@ -91,12 +88,8 @@ Since class `MonoBinaryIndividual` is defined to be such individual, it is equiv
 class MyIndividual(MonoBinaryIndividual):
     # only need define the fitness
     def _fitness(self):
-        return f(self)
+        ...
 ```
-
-
-
-Another equivalent expression is `MyIndividual=MonoBinaryIndividual.set_fitness(f)` where we no longer depend on the `class` syntax sugar.
 
 
 
@@ -255,7 +248,7 @@ Notate that there is only one chromosome in `MonoIndividual`, which could be got
 
 One of the famous problem is the knapsack problem. It is a good example for GA.
 
-We apply `history` method in the example, that will record the main data of the whole evolution. The return value is an object of `pandas.DataFrame`. The argument `stat`  is a dict from a key to function/str(corresponding to a method) that map a population to a number. the numbers in one generation will be stored in a row of the dataframe.
+We set `history=True` in `evolve` method for the example, that will record the main data of the whole evolution. It will return an object of `pandas.DataFrame`. The argument `stat`  is a dict from a key to function/str(corresponding to a method) that map a population to a number. the numbers in one generation will be stored in a row of the dataframe.
 
 see `# examples/example0`
 
@@ -279,15 +272,9 @@ class MyPopulation(SGAPopulation):
     element_class = MyIndividual
 
 pop = MyPopulation.random(size=20)
-pop.evolve()
-print(pop.best_individual)
-```
 
-For visualization, just use `history` instead.
-
-```python
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-data = pop.history(stat=stat)
+data = pop.evolve(stat=stat, history=True)
 # data is an instance of DataFrame of pandas
 
 import matplotlib.pyplot as plt
@@ -297,9 +284,8 @@ data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 plt.show()
+
 ```
-
-
 
 ![plot-history](/Users/william/Programming/myGithub/pyrimidine/plot-history.png)
 
@@ -308,35 +294,3 @@ plt.show()
 ## Extension
 
 `pyrimidine` is extendable. It is easy to implement others iterative model, such as simulation annealing and particle swarm optimization.
-
-Following is a part of the cods in `pso.py`. We just override `transitate` method directly, since the transitation rule of PSO is really different from GA.
-
-```python
-class Particle(PolyIndividual):
-
-    def init(self):
-        self.phantom = self.clone()
-        self.phantom.fitness = self.fitness
-
-class ParticleSwarm(BasePopulation):
-
-    def init(self):
-        self.best_particles = self.get_best_individuals(self.n_best_particles)
-        for particle in self.particles:
-            particle.init()
-    
-    def transitate(self, *args, **kwargs):
-        for particle in self:
-            if particle.phantom.fitness > particle.fitness:
-                particle.backup()
-        for particle in self:
-            if particle not in self.best_particles:
-                for k, b in enumerate(self.best_particles):
-                    if particle.fitness <= b.fitness:
-                        break
-                if k > 0:
-                    self.best_particles.pop(k)
-                    self.best_particles.insert(k, particle)
-        self.move()
-```
-

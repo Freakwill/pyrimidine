@@ -38,11 +38,11 @@ pop = MyPopulation.random(n_individuals=20, size=n)
 pop.evolve()
 ```
 
-For visualization, just use `history` (return `DataFrame` object) instead.
+For visualization, just set `history=True` (return `DataFrame` object) in the evolve method.
 
 ```python
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-data = pop.history(stat=stat)
+data = pop.evolve(stat=stat, history=True)
 # data is an instance of DataFrame of pandas
 
 import matplotlib.pyplot as plt
