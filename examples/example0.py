@@ -13,9 +13,8 @@ class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
         return _evaluate(self.chromosome)
 
-    @property
     def dual(self):
-        return MyIndividual([c.dual for c in self])
+        return MyIndividual([c.dual() for c in self])
     
 
 # MyIndividual = MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))
@@ -27,7 +26,7 @@ class MyPopulation(DualPopulation):
 pop = MyPopulation.random(size=n)
 
 stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
-data = pop.history(stat=stat, n_iter=200)
+data = pop.evolve(stat=stat, n_iter=200, history=True)
 
 
 import matplotlib.pyplot as plt

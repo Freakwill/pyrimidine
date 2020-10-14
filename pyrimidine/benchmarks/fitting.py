@@ -30,14 +30,15 @@ class Fitting:
 
     def __call__(self, *params):
         yy = self.fit(*params)
-        return - LA.norm(self.y-yy) / self.n
+        return - LA.norm(self.y-yy, 'fro') / self.n
 
 
 class CurveFitting(Fitting):
 
 
     def fit(self, *params):
-        return np.vstack((np.sum([c*relu(b * self.X - a) for a, b, c in zip(*params[:3])], axis=0), np.sum([c*relu(b * self.X - a) for a, b, c in zip(*params[3:])], axis=0)))
+        return np.vstack((np.sum([c*relu(b * self.X - a) for a, b, c in zip(*params[:3])], axis=0), 
+            np.sum([c*relu(b * self.X - a) for a, b, c in zip(*params[3:])], axis=0)))
 
 
 

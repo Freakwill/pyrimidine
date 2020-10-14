@@ -5,7 +5,7 @@
 import numpy as np
 import scipy.stats
 
-from pyrimidine.base import BaseIterativeModel
+from pyrimidine.base import BaseFitnessModel
 
 
 class RandomWalk(BaseFitnessModel):

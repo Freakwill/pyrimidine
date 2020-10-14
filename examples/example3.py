@@ -68,7 +68,7 @@ if __name__ == '__main__':
 
     pop1.mate_prob = 0.1
     pop1.mutate_prob = 0.8
-    data1 = pop1.history(n_iter=300)
+    data1 = pop1.get_history(n_iter=300)
 
 
     import matplotlib.pyplot as plt

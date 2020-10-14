@@ -16,7 +16,7 @@ Users could override `transit` to implement any other iteration form.
 
 ## Individuals
 
-The class Individuals are inherited from `BaseIndividual`.
+The individual classes are inherited from `BaseIndividual`.
 
 
 
@@ -24,9 +24,7 @@ The class Individuals are inherited from `BaseIndividual`.
 
 ## Populations
 
-The class Individuals are inherited from `BasePopulation`.
-
-
+The population classes are inherited from `BasePopulation`.
 
 
 
@@ -35,3 +33,9 @@ The class Individuals are inherited from `BasePopulation`.
 ## Chromosomes
 
 The chromosomes as an array of genes, could be regarded as the unit of genetic operations.
+
+
+
+## Species
+
+For multi-populations GA. It is a container of populations.

@@ -43,7 +43,7 @@ if __name__ == '__main__':
     SGAPopulation.element_class = MyIndividual
 
     pop = SGAPopulation.random(n_individuals=30, size=15)
-    data = pop.history(n_iter=100, stat={'Mean Fitness':'mean fitness', 'Best Fitness':'best_fitness'})
+    data = pop.evolve(n_iter=100, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}, history=True)
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)

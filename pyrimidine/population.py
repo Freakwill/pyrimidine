@@ -11,7 +11,7 @@ class SGAPopulation(BasePopulation):
         BasePopulation
     """
 
-    params = {'n_elders': 0.2}
+    params = {'n_elders': 0.3}
     
     def transit(self, k=None, *args, **kwargs):
         """
@@ -22,6 +22,7 @@ class SGAPopulation(BasePopulation):
         super(SGAPopulation, self).transit(*args, **kwargs)
         self.merge(elder, select=True)
 
+
 class DualPopulation(BasePopulation):
     """Dual Genetic Algo.
     
@@ -29,7 +30,7 @@ class DualPopulation(BasePopulation):
         BasePopulation
     """
 
-    params ={'dual_prob': 0.2}
+    params ={'dual_prob': 0.2, 'n_elders': 0.3}
 
     def dual(self):
         for k, ind in enumerate(self.individuals):
@@ -45,7 +46,7 @@ class DualPopulation(BasePopulation):
         self.dual()
         elder = self.clone()
         elder.select_best_individuals(self.n_elders)
-        super(SGAPopulation, self).transit(*args, **kwargs)
+        super(DualPopulation, self).transit(*args, **kwargs)
         self.merge(elder, select=True)
 
 

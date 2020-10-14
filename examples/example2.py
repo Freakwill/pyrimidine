@@ -85,10 +85,10 @@ if __name__ == '__main__':
     _Population = SGAPopulation[ExampleIndividual]
     pop = MyPopulation.random(n_individuals=20, sizes=[8]*ndim+[8])
     cpy = pop.clone(_Population)
-    d = cpy.history(n_iter=100, stat=stat)
+    d = cpy.evolve(n_iter=100, stat=stat, history=True)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
 
-    d = pop.history(n_iter=100, stat=stat)
+    d = pop.evolve(n_iter=100, stat=stat, history=True)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
     ax.legend(('Traditional mean','Traditional best', 'New mean', 'New best'))
     plt.show()

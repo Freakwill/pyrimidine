@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pyrimidine import SimpleBinaryIndividual, AgePopulation, AgeIndividual, SGAPopulation
+from pyrimidine import MonoBinaryIndividual, AgePopulation, AgeIndividual, SGAPopulation
 
 from pyrimidine.benchmarks.cluster import *
 
@@ -9,10 +9,10 @@ from pyrimidine.benchmarks.cluster import *
 evaluate = KMeans.random(N=100)
 
 
-class YourIndividual(SimpleBinaryIndividual):
+class YourIndividual(MonoBinaryIndividual):
 
     def _fitness(self):
-        return - evaluate(self)
+        return - evaluate(self.chromosome)
 
 
 class YourPopulation(SGAPopulation):
@@ -34,7 +34,7 @@ stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
 
 # pop.evolve(verbose=True)
 
-data = pop.history(n_iter=200, stat=stat)
+data = pop.evolve(n_iter=200, stat=stat, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
@@ -44,7 +44,7 @@ data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 
 pop = MyPopulation(individuals=_pop)
 
-data = pop.history(n_iter=200, stat=stat)
+data = pop.evolve(n_iter=200, stat=stat, history=True)
 
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.legend(('Fitness', 'Best Fitness', 'My Fitness', 'My Best Fitness'))

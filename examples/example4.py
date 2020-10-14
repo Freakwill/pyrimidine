@@ -50,7 +50,7 @@ if __name__ == '__main__':
     ga = SGAPopulation.random(n_individuals=20, n_chromosomes=10, size=10)
     ga.mate_prob = 0.9
 
-    data= ga.history(n_iter=10, stat=stat)
+    data= ga.evolve(n_iter=10, stat=stat, history=True)
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     lga = LocalSearchPopulation.random(n_individuals=20, n_chromosomes=10, size=10)
     lga.mate_prob = 0.9
-    d= lga.history(n_iter=10, stat=stat)
+    d= lga.evolve(n_iter=10, stat=stat, history=True)
     d[['Mean Fitness', 'Best Fitness']].plot(ax=ax, style='.-')
     ax.legend(('Traditional','Traditional best', 'SA', 'SA best'))
     plt.show()

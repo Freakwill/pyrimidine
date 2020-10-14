@@ -16,12 +16,12 @@ BaseSpecies: set of population for more complicated optimalization
 Subclass the classes and override some main method esp. _fitness.
 
 Example:
-    select ti, ni from t, n
-    sum of ni ~ 10, while ti dose not repeat
+    select ti, ni from arraies t, n
+    sum of ni ~ 10 (for example), while ti are exptected to be not repeated
 
 The opt. problem is
     min sum of {ni} and maximum of frequences in {ti}
-    where i is selected.
+    where i are selected indexes.
 
 t = np.random.randint(1, 5, 100)
 n = np.random.randint(1, 4, 100)
@@ -121,41 +121,86 @@ class BaseIterativeModel:
         """
         raise NotImplementedError('If you apply local search, then you have to define `local_search` method')
 
-    def evolve(self, n_iter=100, per=1, verbose=False, decode=False, *args, **kwargs):
+    def ezolve(self, n_iter=100, *args, **kwargs):
+        # Extreamly eazy evolution method for lazybones
+        self.init()
+        for k in range(1, n_iter+1):
+            self.transit(k, *args, **kwargs)
+            self.post_process()
+
+    def evolve(self, n_iter=100, per=1, verbose=False, decode=False, stat={'Fitness': 'fitness'}, history=False, *args, **kwargs):
+        """Get the history of the whole evolution
+
+        Keyword Arguments:
+            n_iter {number} -- number of iterations (default: {100})
+            verbose {bool} -- to print the iteration process
+            decode {bool} -- decode to the real solution
+            stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
+                           The value could be a string that should be a method pre-defined.
+            history {bool} -- True for recording history, or a DataFrame object recording previous history.
+        
+        Returns:
+            DataFrame | None
+        """
+
         if verbose:
-            print('iteration & ' , self._head)
+            if stat:
+                _head = 'best solution & {" & ".join(stat.keys())}'
+            print('iteration & ' , _head)
             print('-------------------------------------------------------------')
-            print(f'0 & {self._row}')
+            print(f'0 & {self.solution} & {" & ".join(self._stat(stat).values())}')
+
+        if history:
+            import pandas as pd
+            history = pd.DataFrame(data={k:[v] for k, v in self._stat(stat).items()})
+            flag = True
+        elif not isinstance(history, pd.DataFrame):
+            raise TypeError('Argument `history` should be a DataFrame object.')
         self.init()
         # n_iter = n_iter or self.n_iter or self.default_n_iter
         for k in range(1, n_iter+1):
             self.transit(k, *args, **kwargs)
             self.post_process()
+            if flag and (per == 1 or k % per ==0):
+                stat_row = self._stat(stat)
+                history = history.append(stat_row, ignore_index=True)
             if verbose and (per == 1 or k % per ==0):
-                print(f'{k} & ', self._row)
+                print(f'0 & {self.solution} & {" & ".join(self._stat(stat).values())}')
+        return history
 
-    def history(self, n_iter=100, stat=None, *args, **kwargs):
+    def _stat(self, stat):
+        return {k: (getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) 
+                    else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) 
+                for k, s in stat.items()}
+
+    def get_history(self, n_iter=100, stat=None, history=None, *args, **kwargs):
         """Get the history of the whole evolution
 
         Keyword Arguments:
             n_iter {number} -- number of iterations (default: {100})
             stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
                            The value could be a string that should be a method pre-defined.
+            history {dict} -- the history of iteration (default: {None})
         
         Returns:
             DataFrame
         """
+        print(Warning('This method is deprecated!, use `evolve(history=True, ***)`'))
         if stat is None:
             return
  
         self.init()
         import pandas as pd
-        H = pd.DataFrame(data={k:[(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self)] for k, s in stat.items()})
-        for k in range(n_iter):
+        if history is None:
+            history = pd.DataFrame(data={k:[(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self)] for k, s in stat.items()})
+        elif not isinstance(history, pd.DataFrame):
+            raise TypeError('Argument `history` should be a DataFrame object.')
+
+        for k in range(1, n_iter+1):
             self.transit(k, *args, **kwargs)
             self.post_process()
-            H = H.append({k:(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) for k, s in stat.items()}, ignore_index=True)
-        return H
+            history = history.append({k:(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) for k, s in stat.items()}, ignore_index=True)
+        return history
 
     def perf(self, n_repeats=10, *args, **kwargs):
         import time
@@ -164,7 +209,7 @@ class BaseIterativeModel:
         for _ in range(n_repeats): 
             cpy = self.clone()
             time1 = time.perf_counter()
-            data0 = cpy.history(*args, **kwargs)
+            data0 = cpy.evolve(history=True, *args, **kwargs)
             time2 = time.perf_counter()
             times.append(time2 - time1)
             if data is None:
@@ -265,22 +310,13 @@ class BaseFitnessModel(BaseIterativeModel):
             fitness = self.fitness
         return type_([i.clone(type_=type_.element_class, fitness=fitness) for i in self], fitness=fitness)
 
-    def history(self, n_iter=100, stat=None, *args, **kwargs):
+    def evolve(self, stat=None, *args, **kwargs):
         """Get the history of the whole evolution
-
-        Keyword Arguments:
-            n_iter {number} -- number of iterations (default: {100})
-            stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
-                           The value could be a string that should be a method pre-defined.
-            (default: {'Fitness': 'fitness'})
-        
-        Returns:
-            DataFrame
         """
         if stat is None:
             stat = {'Fitness':'fitness'}
  
-        return super(BaseFitnessModel, self).history(n_iter=100, stat=stat, *args, **kwargs)
+        return super(BaseFitnessModel, self).evolve(stat=stat, *args, **kwargs)
 
 
 class BaseChromosome(BaseFitnessModel):
@@ -452,16 +488,17 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     element_class = BaseIndividual
     default_size = 20
     __sorted_individuals = []
-        
 
-    _head = 'best individual & fitness & number of individuals'
+    params = {'mate_prob':0.75, 'mutate_prob':0.2, 'tournsize':5}
 
-    params = {'mate_prob':0.7, 'mutate_prob':0.2, 'tournsize':5}
+    def evolve(self, stat=None, *args, **kwargs):
+        """Get the history of the whole evolution
+        """
+        if stat is None:
+            stat = {'Fitness':'fitness', 'Population': self.n_elements}
+ 
+        return super(BaseFitnessModel, self).evolve(stat=stat, *args, **kwargs)
 
-    @property
-    def _row(self):
-        best = self.best_individual
-        return f'{best:d} & {best.fitness} & {self.n_individuals}'
 
     def __setstate__(self, state):
         self.element_class = state['element_class']
@@ -475,9 +512,14 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     @individuals.setter
     def individuals(self, x):
         # Set the fitness to be None, when setting individuals of the object
-        self.elements = x
+        self.__elements = x
+        self.n_individuals = len(x)
         self.sorted = False
         self.fitness = None
+
+    @property
+    def n_individuals(self):
+        return len(self)
 
     @classmethod
     def random(cls, n_individuals=None, *args, **kwargs):
@@ -552,7 +594,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     def mate(self, mate_prob=None):
         offspring = [individual.cross(other) for individual, other in zip(self.individuals[::2], self.individuals[1::2])
         if random() < (mate_prob or self.mate_prob)]
-        self.individuals += offspring
+        self.individuals.extend(offspring)
 
     def remove(self, individual):
         self.individuals.remove(individual)
@@ -634,14 +676,18 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
     def rank(self):
         sorted_individuals = [self.individuals[k] for k in self.argsort()]
-        for k, individual in enumerate(sorted_individuals):
+        k = 0
+        while k < self.n_individuals:
             r = 0
+            individual = sorted_individuals[k]
             for i in sorted_individuals[k+1:]:
-                if i.fitness <= individual.fitness:
+                if i.fitness == individual.fitness:
                     r += 1
                 else:
                     break
-            individual.ranking = (r + k) / self.n_individuals
+            for i in sorted_individuals[k:k+r+1]:
+                i.ranking = (r + k) / self.n_individuals
+            k += r + 1
 
 
     @property
@@ -678,10 +724,10 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         return self.__class__([c.dual() for c in self.chromosomes])
 
 
-    def history(self, n_iter=100, stat=None, *args, **kwargs):
+    def evolve(self, stat=None, *args, **kwargs):
         if stat is None:
             stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
-        return super(BaseFitnessModel, self).history(n_iter=n_iter, stat=stat, *args, **kwargs)
+        return super(BaseFitnessModel, self).evolve(stat=stat, *args, **kwargs)
 
 
 
@@ -693,7 +739,7 @@ class ParallelPopulation(BasePopulation):
     def mate(self, mate_prob):
         offspring = parallel(lambda x: x[0].mate(x[1]), [(a, b) for a, b in zip(self.individuals[::2], self.individuals[1::2])
             if random() < (mate_prob or self.mate_prob)])
-        self.individuals += offspring
+        self.individuals.extend(offspring)
 
 
 class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
@@ -718,7 +764,9 @@ class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
     def migrate(self, migrate_prob=None):
         for population, other in zip(self.populations[:-1], self.populations[1:]):
             if random() < (migrate_prob or self.migrate_prob):
-                population.cross(other)
+                other.individuals.append(population.best_individual.clone())
+                population.individuals.append(other.best_individual.clone())
+
 
     @property
     def populations(self):

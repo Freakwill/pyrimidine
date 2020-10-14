@@ -37,7 +37,7 @@ if __name__ == '__main__':
     pop = SGAPopulation.random(n_individuals=30, sizes=(N, N, N, p, p, p, 3))
     
     stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
-    data = pop.history(stat=stat, n_iter=100)
+    data = pop.evolve(stat=stat, n_iter=100, history=True)
 
     import matplotlib.pyplot as plt
     fig = plt.figure()

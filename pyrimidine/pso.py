@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from .base import BasePopulation
+from .base import BaseIterativeModel
 from .chromosome import FloatChromosome
 from .individual import PolyIndividual
 from .utils import gauss, random
@@ -29,8 +29,7 @@ class Particle(PolyIndividual):
         self.fitness = self.phantom.fitness
 
     def init(self):
-        self.phantom = self.clone()
-        self.phantom.fitness = self.fitness
+        self.phantom = self.clone(fitness=self.fitness)
 
     @property
     def position(self):
@@ -57,7 +56,7 @@ class Particle(PolyIndividual):
         self.chromosomes[0] = x
 
 
-class ParticleSwarm(BasePopulation):
+class ParticleSwarm(BaseIterativeModel):
     """Standard Genetic Algo II.
     
     Extends:
@@ -73,6 +72,11 @@ class ParticleSwarm(BasePopulation):
         self.best_particles = self.get_best_individuals(self.n_best_particles)
         for particle in self.particles:
             particle.init()
+
+    # @property
+    # def n_elements(self):
+    #     return self.n_particles
+    
     
     def transit(self, *args, **kwargs):
         """

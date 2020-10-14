@@ -83,3 +83,19 @@ class MixMLE:
     def __call__(self, t, a):
         # assert np.sum(a) == 1
         return np.sum([self.logpdf(xi, t, a) for xi in self.x])
+
+
+from scipy.spatial.distance import euclidean, pdist, squareform
+
+class ShortestPath:
+    def __init__(self, points):
+        self.points = points
+        self.dm = squareform(pdist(points))
+
+    @staticmethod
+    def random(N):
+        return ShortestPath(np.random.random(size=(N, 2)))
+
+    def __call__(self, x):
+        return np.sum([self.dm[i,j] if i<j else self.dm[j, i] for i, j in zip(x[:-1], x[1:])])
+ 

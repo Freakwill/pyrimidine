@@ -77,7 +77,7 @@ if __name__ == '__main__':
     pop = SGAPopulation.random(n_individuals=40, sizes=(8,)*20)
     pop.mate_prob = 0.9
     stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
-    d= pop.history(n_iter=350, stat=stat)
+    d= pop.evolve(n_iter=350, stat=stat, history=True)
     d.to_csv('h1.csv')
     import matplotlib.pyplot as plt
     fig = plt.figure()
@@ -92,7 +92,7 @@ if __name__ == '__main__':
     stat.update({'Best Mate_prob': lambda pop:pop.best_individual.mate_prob,
         'Best Mutate_prob': lambda pop:pop.best_individual.mutate_prob,
         'Best Threshold': lambda pop:pop.best_individual.threshold})
-    d = pop.history(n_iter=350, stat=stat)
+    d = pop.evolve(n_iter=350, stat=stat, history=True)
     d.to_csv('h.csv')
     d[['Mean Fitness', 'Best Fitness']].plot(ax=ax, style='.-')
     ax.legend(('Traditional','Traditional best', 'Trait', 'Trait best'))

@@ -109,11 +109,11 @@ pop.evolve()
 
 ### 可视化
 
-为了考察算法性能，通常要绘制适应值曲线，或者其他量值的迭代序列，可改用方法`history`。该方法能返回一个pandas.DataFrame对象，记录了关于每一代种群的统计结果。用户可以用它来自由绘制性能曲线。一般用户要提供一个“统计量字典”：键是统计量的名称，值是从种群到数值的函数（字符串只限于已经定义好的种群方法或属性，而且以数量为返回值）。参看下述代码。
+为了考察算法性能，通常要绘制适应值曲线，或者其他量值的迭代序列，只需给`evlove`方法设置参数`history=True`。该方法能返回一个`pandas.DataFrame`对象，记录了关于每一代种群的统计结果。用户可以用它来自由绘制性能曲线。一般用户要提供一个“统计量字典”：键是统计量的名称，值是从种群到数值的函数（字符串只限于已经定义好的种群方法或属性，而且以数量为返回值）。参看下述代码。
 
 ```python
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-data = pop.history(stat=stat, n_iter=100)
+data = pop.evlove(stat=stat, n_iter=100, history=True)
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)

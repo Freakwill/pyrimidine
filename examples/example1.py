@@ -37,7 +37,7 @@ if __name__ == '__main__':
     # pop.evolve()
     # print(pop.best_individual)
     stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-    data = pop.history(stat=stat, n_iter=100)
+    data = pop.evolve(stat=stat, n_iter=100, history=True)
 
     import matplotlib.pyplot as plt
     fig = plt.figure()

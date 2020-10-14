@@ -62,8 +62,8 @@ err = -evaluate(W, H.T)
 
 i = MyIndividual.random(sizes=(c,)* N + (p,)*c)
 j = i.clone()
-data = i.history(stat={'Error': lambda i: -i.fitness}, n_iter=200)
-yourdata = j.history(stat={'Error': lambda i: -i.fitness}, n_iter=200)
+data = i.get_history(stat={'Error': lambda i: -i.fitness}, n_iter=200)
+yourdata = j.get_history(stat={'Error': lambda i: -i.fitness}, n_iter=200)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

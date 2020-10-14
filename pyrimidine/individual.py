@@ -18,6 +18,7 @@ class MonoIndividual(BaseIndividual, metaclass=MetaList):
 
     You should implement the methods, cross, mute
     """
+
     n_chromosomes = 1
 
     @classmethod
@@ -81,7 +82,10 @@ class MixIndividual(BaseIndividual, metaclass=MetaTuple):
     @classmethod
     def random(cls, sizes=(8, 8), n_chromosomes=None, size=None, *args, **kwargs):
         if sizes is None:
-            sizes = (size,) * n_chromosomes
+            if isinstance(size, int):
+                sizes = (size,) * n_chromosomes
+            else:
+                raise TypeError('Argument `size` should be an integer!')
         else:
             if len(sizes) != len(cls.element_class):
                 print(Warning('the length of sizes is not equal to the number of elements'))

@@ -31,8 +31,8 @@ pop1 = _Population1.random(size=n)
 pop2 = _Population2.random(size=n)
 
 stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
-data1 = pop1.history(stat=stat, n_iter=300)
-data2 = pop2.history(stat=stat, n_iter=300)
+data1 = pop1.get_history(stat=stat, n_iter=300)
+data2 = pop2.get_history(stat=stat, n_iter=300)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

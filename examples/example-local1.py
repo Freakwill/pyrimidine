@@ -31,7 +31,6 @@ class _Individual(BaseIndividual):
         x = [self[k].decode() for k in range(20)]
         return - evaluate(x)
 
-print(BaseIndividual.class_name)
 
 
 class SAIndividual(_Individual, SimulatedAnnealing):
@@ -64,12 +63,12 @@ sa_data = sa.history()
 
 # rw = RWIndividual.random(size=20)
 
-# rw_data = rw.history(ngen=500)
+# rw_data = rw.history(n_iter=500)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(sa_data.index, sa_data['Fitness'])
+sa_data[['Fitness']].plot(ax=ax)
 plt.show()
 
 

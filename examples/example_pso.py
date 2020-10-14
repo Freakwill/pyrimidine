@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from pyrimidine.base import BasePopulation
 from pyrimidine.pso import Particle, ParticleSwarm
 
 from pyrimidine.benchmarks.special import *
@@ -15,7 +16,7 @@ class _Particle(Particle):
         return evaluate(self.chromosomes[0])
 
 
-class MyParticleSwarm(ParticleSwarm):
+class MyParticleSwarm(ParticleSwarm, BasePopulation):
     element_class = _Particle
     default_size = 20
 
@@ -23,7 +24,7 @@ pop = MyParticleSwarm.random()
 
 
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-data = pop.history(stat=stat, n_iter=100)
+data = pop.evolve(stat=stat, n_iter=150, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

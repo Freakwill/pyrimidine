@@ -5,7 +5,7 @@ import numpy as np
 import scipy.stats
 
 from .base import BaseChromosome, BaseGene
-from .gene import BinaryGene, FloatGene, UnitFloatGene, CircleGene
+from .gene import *
 from .utils import *
 
 
@@ -112,6 +112,56 @@ class BinaryChromosome(VectorChromosome):
 
     def dual(self):
         return BinaryChromosome(1 - self)
+
+
+class NaturalChromosome(VectorChromosome):
+    element_class = NaturalGene
+
+    def mutate(self, indep_prob=0.1):
+        for i in range(len(self)):
+            if random()< indep_prob:
+                self[i] = NaturalGene.random()
+
+    def __str__(self):
+        return "".join(str(gene) for gene in self)
+
+    def dual(self):
+        return NaturalChromosome(self.element_class.ub - self)
+
+
+class PermutationChromosome(NaturalChromosome):
+    element_class = NaturalGene
+    default_size = 10
+
+    @classmethod
+    def random(cls, size=None):
+        size = size or cls.default_size
+        return cls(np.random.permutation(cls.default_size))
+
+    # def mutate(self):
+    #     i = randint(0, self.default_size-1)
+    #     if i == self.default_size-1:
+    #         j = 0
+    #     else:
+    #         j = i+1
+    #     t = self[i]; self[i] = self[j]; self[j] = t
+
+    def mutate(self):
+        i, j = randint2(0, self.default_size-1)
+        t = self[i]; self[i] = self[j]; self[j] = t
+
+    def cross(self, other):
+        k = randint(1, len(self)-2)
+        return self.__class__(array=np.hstack((self[:k], [g for g in other if g not in self[:k]])), gene=self.gene)
+
+    def __str__(self):
+        if len(self)>10:
+            return "|".join(str(gene) for gene in self)
+        return "".join(str(gene) for gene in self)
+
+    def dual(self):
+        return NaturalChromosome(self.element_class.ub - self)
+
 
 
 class FloatChromosome(VectorChromosome):

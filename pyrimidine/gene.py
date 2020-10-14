@@ -3,6 +3,7 @@
 
 import numpy as np
 from . import BaseGene
+from .utils import randint
 
 
 class NaturalGene(np.int_, BaseGene):
@@ -10,7 +11,7 @@ class NaturalGene(np.int_, BaseGene):
 
     @classmethod
     def _random(cls):
-        return cls(random.randint(cls.ub))
+        return cls(randint(0, cls.ub-1))
 
     @classmethod
     def random(cls, *args, **kwargs):
@@ -21,7 +22,7 @@ class BinaryGene(np.int_, BaseGene):
 
     @classmethod
     def _random(cls):
-        return cls(random.randint(2))
+        return cls(randint(0, 1))
 
     @classmethod
     def random(cls, *args, **kwargs):
@@ -30,6 +31,10 @@ class BinaryGene(np.int_, BaseGene):
 
 class FloatGene(np.float_, BaseGene):
     lb, ub = 0, 1
+
+    @classmethod
+    def _random(cls):
+        return cls(random.uniform(cls.lb, cls.ub))
 
     @classmethod
     def random(cls, *args, **kwargs):
