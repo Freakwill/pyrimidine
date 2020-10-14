@@ -19,6 +19,10 @@ Check the version:
 
 `$ pyrimidine --version`
 
+## Requirements
+
+`Pyrimidine` requires few packages. It only needs `numpy/scipy`, and `pandas/matplotlib` for visualization. The author also recommends `digit_converter` for chromosome encoding of solutions.
+
 ## First test
 
 ```python

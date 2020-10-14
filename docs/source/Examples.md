@@ -106,7 +106,7 @@ MyPopulation = SGAPopulation[MyIndividual]
 if __name__ == '__main__':
     pop = MyPopulation.random(n_individuals=20, size=20)
     stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-    data = pop.history(stat=stat, n_iter=100)
+    data = pop.evolve(stat=stat, n_iter=100, history=True)
 
     import matplotlib.pyplot as plt
     fig = plt.figure()
@@ -211,10 +211,10 @@ if __name__ == '__main__':
     _Population = SGAPopulation[ExampleIndividual]
     pop = MyPopulation.random(n_individuals=20, sizes=[8]*ndim+[8])
     cpy = pop.clone(_Population)
-    d = cpy.history(n_iter=100, stat=stat)
+    d = cpy.evolve(stat=stat, n_iter=100, history=True)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
 
-    d = pop.history(n_iter=100, stat=stat)
+    d = pop.history(n_iter=100, stat=stat, history=True)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
     ax.legend(('Traditional mean','Traditional best', 'New mean', 'New best'))
     plt.show()
@@ -228,3 +228,16 @@ if __name__ == '__main__':
 
 
 ### Customization Tricks
+
+Take PSO an example. First define `class ParticleSwarm(BaseIterativeModel):...`, subclass of BaseIterativeModel, as a Mixin where you should define method `transit` in most cases to implement the PSO algorithm.
+
+Then define subclass for more details esp. the attribute `element_class`.
+
+```python
+class MyParticleSwarm(ParticleSwarm, BasePopulation):
+    element_class = _Particle
+    default_size = 20
+    ...
+```
+
+see `example-pso.py` in `examples`.
