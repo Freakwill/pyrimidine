@@ -3,12 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to pyrimidine's world, a new framework for genetic algorithm
+Welcome to pyrimidine's world of genetic algorithm
 ====================================================================
+.. image:: logo.png
+   :width: 200
+   :height: 200
 
-image:: logo.png
-:width: 200
-:height: 200
+**pyrimidine** is a competitive framework for genetic algorithm.
 
 .. toctree::
    :maxdepth: 2
