@@ -6,9 +6,9 @@
 Welcome to pyrimidine's world, a new framework for genetic algorithm
 ====================================================================
 
-.. image:: logo.png
-   :width: 200
-   :height: 200
+image:: logo.png
+:width: 200
+:height: 200
 
 .. toctree::
    :maxdepth: 2
