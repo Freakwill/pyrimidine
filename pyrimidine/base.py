@@ -67,7 +67,7 @@ class BaseIterativeModel:
 
     _head = 'best solution & fitness'
 
-    params = {}
+    params = {'n_iter': 100}
 
     # def __getitem__(self, key):
     #     return self.params[key]
@@ -87,10 +87,10 @@ class BaseIterativeModel:
     #     return self.params[key]
     #     
     
-    # def config(self, params, **kwargs):
-    #     self.params.update(params)
-    #     for k, v in kwargs.items():
-    #         setter(self, k, v)
+    def config(self, params, **kwargs):
+        self.params.update(params)
+        for k, v in kwargs.items():
+            setter(self, k, v)
     
     @property
     def solution(self):
@@ -121,18 +121,19 @@ class BaseIterativeModel:
         """
         raise NotImplementedError('If you apply local search, then you have to define `local_search` method')
 
-    def ezolve(self, n_iter=100, *args, **kwargs):
+    def ezolve(self, n_iter=None, *args, **kwargs):
         # Extreamly eazy evolution method for lazybones
+        n_iter = n_iter or self.n_iter
         self.init()
         for k in range(1, n_iter+1):
             self.transit(k, *args, **kwargs)
             self.post_process()
 
-    def evolve(self, n_iter=100, per=1, verbose=False, decode=False, stat={'Fitness': 'fitness'}, history=False, *args, **kwargs):
+    def evolve(self, n_iter=None, per=1, verbose=False, decode=False, stat={'Fitness': 'fitness'}, history=False, *args, **kwargs):
         """Get the history of the whole evolution
 
         Keyword Arguments:
-            n_iter {number} -- number of iterations (default: {100})
+            n_iter {number} -- number of iterations (default: {None})
             verbose {bool} -- to print the iteration process
             decode {bool} -- decode to the real solution
             stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
@@ -142,6 +143,9 @@ class BaseIterativeModel:
         Returns:
             DataFrame | None
         """
+
+        n_iter = n_iter or self.n_iter
+        self.init()
 
         if verbose:
             if stat:
@@ -156,7 +160,6 @@ class BaseIterativeModel:
             flag = True
         elif not isinstance(history, pd.DataFrame):
             raise TypeError('Argument `history` should be a DataFrame object.')
-        self.init()
         # n_iter = n_iter or self.n_iter or self.default_n_iter
         for k in range(1, n_iter+1):
             self.transit(k, *args, **kwargs)
@@ -173,34 +176,13 @@ class BaseIterativeModel:
                     else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) 
                 for k, s in stat.items()}
 
-    def get_history(self, n_iter=100, stat=None, history=None, *args, **kwargs):
+    def history(self, H=None, *args, **kwargs):
         """Get the history of the whole evolution
 
-        Keyword Arguments:
-            n_iter {number} -- number of iterations (default: {100})
-            stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
-                           The value could be a string that should be a method pre-defined.
-            history {dict} -- the history of iteration (default: {None})
-        
-        Returns:
-            DataFrame
+        replaced by `evolve`
         """
-        print(Warning('This method is deprecated!, use `evolve(history=True, ***)`'))
-        if stat is None:
-            return
- 
-        self.init()
-        import pandas as pd
-        if history is None:
-            history = pd.DataFrame(data={k:[(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self)] for k, s in stat.items()})
-        elif not isinstance(history, pd.DataFrame):
-            raise TypeError('Argument `history` should be a DataFrame object.')
-
-        for k in range(1, n_iter+1):
-            self.transit(k, *args, **kwargs)
-            self.post_process()
-            history = history.append({k:(getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) for k, s in stat.items()}, ignore_index=True)
-        return history
+        raise DeprecationWarning('This method is deprecated from now on!!!, use `evolve(history=True, ***)` instead.')
+        return self.evolve(history=H, *args, **kwargs)
 
     def perf(self, n_repeats=10, *args, **kwargs):
         import time
@@ -276,8 +258,9 @@ class BaseFitnessModel(BaseIterativeModel):
         BaseIterativeModel
     
     Variables:
-        __fitness {[type]} -- [description]
+        __fitness {[type]} -- The value of a solution
     """
+
     __fitness = None
 
     @property
@@ -460,11 +443,24 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
         return inds
 
     def get_neighbour(self):
+        """to get a neighbour of an individual
+
+        e.g. mutate only one gene
+        """
         raise NotImplementedError
 
     def decode(self):
-        # To decode an individual
-        return [chromosome.decode() for chromosome in self.chromosomes if hasattr(chromosome,'decode')]
+        """Decode an individual to a real solution
+
+        For example, transform a 0-1 sequence to a real number.
+        """
+        return [chromosome.decode() for chromosome in self.chromosomes if hasattr(chromosome, 'decode')]
+
+    def dual(self):
+        """Get the dual individual
+        Applied in dual GA
+        """
+        raise NotImplementedError
 
     def __getstate__(self):
         return self.chromosomes, self.fitness
@@ -474,6 +470,11 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
 
     def __eq__(self, other):
         return np.all([c.equal(oc) for c, oc in zip(self.chromosomes, other.chromosomes)])
+
+    def __mul__(self, n):
+        class C(BasePopulation[self]):
+            default_size = n
+        return C
 
 
 class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
@@ -488,6 +489,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     element_class = BaseIndividual
     default_size = 20
     __sorted_individuals = []
+    hall_of_fame = []
 
     params = {'mate_prob':0.75, 'mutate_prob':0.2, 'tournsize':5}
 
@@ -497,7 +499,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         if stat is None:
             stat = {'Fitness':'fitness', 'Population': self.n_elements}
  
-        return super(BaseFitnessModel, self).evolve(stat=stat, *args, **kwargs)
+        return super(BasePopulation, self).evolve(stat=stat, *args, **kwargs)
 
 
     def __setstate__(self, state):
@@ -507,6 +509,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
     @property
     def individuals(self):
+        # alias for attribute `elements`
         return self.__elements
 
     @individuals.setter
@@ -537,16 +540,23 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         self.mutate()
 
     def migrate(self, other):
+        """Migration from one population to another
+
+        Applied in Multi population GA, 
+        where the best individual of one populaitonemigrates to another.
+        """
         raise NotImplementedError
 
 
     def select_aspirants(self, individuals, size):
+        # select `size` individuals from the list `individuals` in one tournament.
         return choice_uniform(individuals, size)
 
     def select(self, n_sel=None, tournsize=None):
-        """Select the best individual among `tournsize` randomly chosen
-        individuals, `n_sel` times. The list returned contains
-        references to the input `individuals`.
+        """The standard method of selecting operation in GA
+        
+        Select the best individual among `tournsize` randomly chosen
+        individuals, `n_sel` times.
         """
 
         if n_sel is None:
@@ -571,27 +581,40 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         if winners:
             self.individuals = winners
 
-    def select_best_individuals(self, n=1):
-        # first n best individuals
-        if n<1:
-            n = int(self.n_individuals * n)
-        self.individuals = self.sorted_individuals[-n:]
-
     def parallel(self, func):
         return parallel(func, self.individuals)
 
     def merge(self, other, select=False, *args, **kwargs):
+        """Merge two population.
+
+        Applied in the case when merging the offspring to the original population.
+        """
         self.individuals.extend(other.individuals)
         self.n_individuals += other.n_individuals
         if select:
             self.select(*args, **kwargs)
 
     def mutate(self, mutate_prob=None):
+        """Mutate the whole population.
+
+        Just call the method `mutate` of each individual
+        
+        Keyword Arguments:
+            mutate_prob {number} -- the proba. of mutation of one individual (default: {None})
+        """
         for individual in self.individuals:
             if random() < (mutate_prob or self.mutate_prob):
                 individual.mutate()
 
     def mate(self, mate_prob=None):
+        """Mate the whole population.
+
+        Just call the method `mate` of each individual (customizing anthor individual)
+        
+        Keyword Arguments:
+            mate_prob {number} -- the proba. of mating of two individuals (default: {None})
+        """
+
         offspring = [individual.cross(other) for individual, other in zip(self.individuals[::2], self.individuals[1::2])
         if random() < (mate_prob or self.mate_prob)]
         self.individuals.extend(offspring)
@@ -605,10 +628,15 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         self.n_individuals -= 1
 
     def local_search(self, *args, **kwargs):
+        # call local searching method
         for individual in self.individuals:
             individual.evolve(*args, **kwargs)
 
     def _fitness(self):
+        """Calculate the fitness of the whole population
+
+        Mean fitness by default.
+        """
         return self.mean_fitness
 
     @property
@@ -620,31 +648,36 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     def best_fitness(self):
         return np.max([individual.fitness for individual in self.individuals])
 
-    @property
-    def best_individual(self):
-        k = np.argmax([individual.fitness for individual in self.individuals])
-        return self.individuals[k]
 
-    @property
-    def best_(self):
-        k = np.argmax([individual.fitness for individual in self.individuals])
+    def get_best(self, key='fitness'):
+        # Get best individual under `key`
+        k = np.argmax([getattr(individual, key) for individual in self.individuals])
         return self.individuals[k]
 
     def get_best_individuals(self, n=1):
         # first n best individuals
-        if n<1:
+        if n < 1:
             n = int(self.n_individuals * n)
         return self.sorted_individuals[-n:]
 
-    @property
-    def worst_individual(self):
-        k = np.argmin([individual.fitness for individual in self.individuals])
+    def get_worst(self, key='fitness'):
+        k = np.argmin([getattr(individual, key) for individual in self.individuals])
         return self.individuals[k]
 
+
+    # Following is some useful aliases
     @property
-    def worst_(self):
-        k = np.argmin([individual.fitness for individual in self.individuals])
-        return self.individuals[k]
+    def worst_individual(self):
+        return self.get_worst()
+
+    @property
+    def best_individual(self):
+        return self.get_best()
+
+
+    @property
+    def solution(self):
+        return self.get_best()
 
     @property
     def sorted_individuals(self):
@@ -658,13 +691,18 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         self.__sorted_individuals = s
 
     def sort(self):
-        ks = np.argsort([individual.fitness for individual in self.individuals])
+        # sort the whole population
+        ks = self.argsort()
         self.individuals = [self.individuals[k] for k in ks]
 
     def argsort(self):
         return np.argsort([individual.fitness for individual in self.individuals])
 
     def get_rank(self, individual):
+        """get rank of one individual
+
+        Use `rank` if you call it frequently.
+        """
         r = 0
         for ind in self.sorted_individuals:
             if ind.fitness <= individual.fitness:
@@ -674,27 +712,29 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         individual.ranking = r / self.n_individuals
         return individual.ranking
 
-    def rank(self):
+    def rank(self, tied=False):
+        """Rank all individuals
+        """
         sorted_individuals = [self.individuals[k] for k in self.argsort()]
-        k = 0
-        while k < self.n_individuals:
-            r = 0
-            individual = sorted_individuals[k]
-            for i in sorted_individuals[k+1:]:
-                if i.fitness == individual.fitness:
-                    r += 1
-                else:
-                    break
-            for i in sorted_individuals[k:k+r+1]:
-                i.ranking = (r + k) / self.n_individuals
-            k += r + 1
-
-
-    @property
-    def solution(self):
-        return self.best_
+        if tied:
+            k = 0
+            while k < self.n_individuals:
+                r = 0
+                individual = sorted_individuals[k]
+                for i in sorted_individuals[k+1:]:
+                    if i.fitness == individual.fitness:
+                        r += 1
+                    else:
+                        break
+                for i in sorted_individuals[k:k+r+1]:
+                    i.ranking = (r + k) / self.n_individuals
+                k += r + 1
+        else:
+            for k, i in enumerate(sorted_individuals):
+                i.ranking = k / self.n_individuals
 
     def cross(self, other):
+        # cross two populations as two individuals
         k = randint(1, self.n_individuals-2)
         self.individuals = self.individuals[k:] + other.individuals[:k]
         other.individuals = other.individuals[k:] + self.individuals[:k]
@@ -788,17 +828,14 @@ class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
     def best_fitness(self):
         return np.max([np.max([individual.fitness for individual in pop.individuals]) for pop in self.populations])
 
-    @property
-    def best_individual(self):
+    def _best(self, key='fitness'):
         inds = self.individuals
-        k = np.argmax([individual.fitness for individual in inds])
+        k = np.argmax([getattr(individual, key) for individual in inds])
         return inds[k]
 
     @property
-    def best_(self):
-        inds = self.individuals
-        k = np.argmax([individual.fitness for individual in inds])
-        return inds[k]
+    def best_individual(self):
+        return self._best()
 
     @property
     def individuals(self):

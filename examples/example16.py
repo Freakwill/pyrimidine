@@ -83,8 +83,7 @@ class MyPopulation(_Population):
     #     super(MyPopulation, self).mate()
 
 
-
-sp = MySpecies.random(sizes=(n_bags, 10))
+sp = MySpecies.random(sizes=(n_bags, 3))
 sp2 = sp.clone(type_=YourSpecies)
 pop = MyPopulation(individuals=sp.populations[0].clone().individuals+sp.populations[1].clone().individuals)
 
@@ -103,7 +102,7 @@ stat={'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
 data3, t3 = pop.perf(stat=stat, n_iter=200, n_repeats=1)
 
 
-print(t,t2, t3)
+print(t, t2, t3)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

@@ -46,8 +46,8 @@ class DualSpecies(BaseSpecies):
                     else:
                         female_offspring.append(child)
 
-        self.populations[0].individuals += male_offspring
-        self.populations[1].individuals += female_offspring
+        self.populations[0].individuals.extend(male_offspring)
+        self.populations[1].individuals.extend(female_offspring)
 
 
     def match(self, male, female):

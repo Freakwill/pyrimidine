@@ -4,7 +4,10 @@
 import threading
 
 import operator
-from random import random, randint, gauss
+from random import random, randint, gauss, shuffle
+from math import exp
+
+from scipy.spatial.distance import euclidean
 
 import numpy as np
 
@@ -35,7 +38,7 @@ from scipy.stats import rv_discrete
 
 def boltzmann_select(xs, fs, T=1):
     L = len(xs)
-    ps = softmax(fs /T)
+    ps = softmax(np.array(fs) /T)
     rv = rv_discrete(values=(np.arange(L), ps))
     k = rv.rvs()
     return xs[k]
@@ -46,14 +49,22 @@ def choice_with_prob(xs, ps, n=1):
     X = np.arange(L)
     ks = []
     for _ in range(n):
-        rv = rv_discrete(values=(X, ps))
+        rv = rv_discrete(values=(np.arange(L), ps))
         k = rv.rvs()
+        ks.append(X[k])
         X = np.delete(X, k)
-        ps = np.delte(ps, k)
+        ps = np.delete(ps, k)
         ps /= np.sum(ps)
-        ks.append(k)
+        L -= 1
 
     return [xs[k] for k in ks]
+
+def choice_with_fitness(xs, fs=None, n=1, T=1):
+    if fx is None:
+        fx = [x.fitness for x in xs]
+    ps = softmax(np.array(fs) /T)
+    return choice_with_prob(xs, ps, n=1)
+
 
 def choice_uniform(xs, n=1):
     L = len(xs)
@@ -63,7 +74,7 @@ def choice_uniform(xs, n=1):
 # def gauss_pdf(x, mu=0, sigma=1):
 #     return np.exp(-(x-mu)**2/sigma)
 
-def randint2(lb=0, ub=9):
+def randint2(lb=0, ub=9, ordered=False):
     """Select two different numbers in [lb, ub] randomly
     
     Formally i != j ~ U(lb, ub)
@@ -82,9 +93,20 @@ def randint2(lb=0, ub=9):
     j = randint(i+1, d+i)
     if j > ub:
         j -= (d + 1)
+    if ordered:
+        if j < i:
+            return j, i
     return i, j
 
 
 def max0(x):
     return max((x, 0))
 
+
+def metropolis_rule(D, T, epsilon=0.000001):
+    
+    if D < 0:
+        p = exp(D/max(T, epsilon))
+        return random() < p
+    else:
+        return True

@@ -4,6 +4,7 @@
 from pyrimidine import *
 from pyrimidine.local_search import *
 from random import randint
+import numpy as np
 
 
 from pyrimidine.benchmarks.special import *
@@ -12,8 +13,8 @@ from digit_converter import *
 
 
 c=IntervalConverter(-30,30)
-
-evaluate = rosenbrock(20)
+n = 8
+evaluate = rosenbrock(n=n)
 
 class _Chromosome(BinaryChromosome):
     def decode(self):
@@ -25,15 +26,17 @@ class _Individual(BaseIndividual):
     You should implement the methods, cross, mute
     """
     element_class = _Chromosome
-    default_size = 20
+    default_size = n
+
+    def decode(self):
+        return np.array([self.chromosomes[k].decode() for k in range(n)])
 
     def _fitness(self):
-        x = [self[k].decode() for k in range(20)]
-        return - evaluate(x)
+        return - evaluate(self.decode())
 
 
 
-class SAIndividual(_Individual, SimulatedAnnealing):
+class SAIndividual(SimulatedAnnealing, _Individual):
 
     def get_neighbour(self):
         cpy = self.clone(fitness=None)
@@ -42,33 +45,26 @@ class SAIndividual(_Individual, SimulatedAnnealing):
         return cpy
 
 
-class Individual2(MonoIndividual):
-    """base class of individual
+# class Individual2(MonoIndividual):
+#     element_class = FloatChromosome
 
-    You should implement the methods, cross, mute
-    """
-    element_class = FloatChromosome
+#     def _fitness(self):
+#         x = self.chromosome
+#         return - evaluate(x)
 
-    def _fitness(self):
-        x = self.chromosome
-        return - evaluate(x)
-
-class RWIndividual(Individual2, RandomWalk):
-    pass
+# class RWIndividual(RandomWalk, Individual2):
+#     pass
 
 
-sa = SAIndividual.random(size=20)
+sa = SAIndividual.random(size=n)
 
-sa_data = sa.history()
+sa_data = sa.evolve(stat={'Fitness':'fitness', 'Phantom Fitness':lambda ind: ind.phantom.fitness}, history=True)
 
-# rw = RWIndividual.random(size=20)
-
-# rw_data = rw.history(n_iter=500)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-sa_data[['Fitness']].plot(ax=ax)
+sa_data.loc[40:,['Fitness', 'Phantom Fitness']].plot(ax=ax)
 plt.show()
 
 

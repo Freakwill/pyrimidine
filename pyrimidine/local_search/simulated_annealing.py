@@ -4,19 +4,7 @@
 import math
 from random import random
 from pyrimidine.base import BaseIterativeModel
-
-
-def metropolis_rule(D, T, epsilon=0.000001):
-    
-    if D < 0:
-        p = math.exp(D/max(T, epsilon))
-        if random() < p:
-            flag = True
-        else:
-            flag = False
-    else:
-        flag = True
-    return flag
+from pyrimidine.utils import metropolis_rule
 
 
 class SimulatedAnnealing(BaseIterativeModel):
@@ -24,23 +12,23 @@ class SimulatedAnnealing(BaseIterativeModel):
     """
 
     phantom = None
-    params = {'ext_c': 0.99,
-        'int_c': 0.995,
-        'nepoch': 500,
+
+    params = {'ext_c': 0.995,
+        'int_c': 0.996,
+        'nepoch': 200,
         'initT': 100,
         'termT': 0.0001}
 
     def init(self):
-        if self.phantom is None:
-            self.phantom = self.clone()
+        self.phantom = self.clone(fitness=None)
 
     def transit(self, *args, **kwargs):
         T = self.initT
         for epoch in range(self.nepoch):
             self.phantom.move(T)
             T *= self.int_c
-            # if T < self.termT:
-            #     break
+            if T < self.termT:
+                break
 
     def post_process(self):
 

@@ -90,8 +90,8 @@ class MetaContainer(type):
             return self.__elements[k]
 
         def _len(self):
-            if hasattr(self, 'n_' + element_name):
-                return getattr(self, 'n_' + element_name)
+            if hasattr(self, 'n_elements'):
+                return getattr(self, 'n_elements')
             return len(self.__elements)
 
         attrs['__getitem__'] = _getitem
@@ -111,8 +111,8 @@ class MetaContainer(type):
         def _elements(self, x):
             self.__elements = x
             L = len(x)
-            self.n_elements = len(x)
-            setattr(self, 'n_' + element_name, len(x))
+            self.n_elements = L
+            setattr(self, 'n_' + element_name, L)
         attrs['elements'] = attrs[element_name] = _elements
 
         # @property
@@ -156,7 +156,7 @@ class MetaContainer(type):
         for k, v in kwargs.items():
             setattr(o, k, v)
         if args:
-            o.__elements, = args
+            o.elements, = args
         return o
 
     def __getitem__(self, class_):

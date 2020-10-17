@@ -13,7 +13,7 @@ def evaluate(x):
 class _Particle(Particle):
     default_size = 8
     def _fitness(self):
-        return evaluate(self.chromosomes[0])
+        return evaluate(self.best_position)
 
 
 class MyParticleSwarm(ParticleSwarm, BasePopulation):

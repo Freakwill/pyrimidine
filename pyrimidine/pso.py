@@ -38,6 +38,7 @@ class Particle(PolyIndividual):
     @position.setter
     def position(self, x):
         self.phantom.chromosomes[0] = x
+        self.phantom.fitness = None
 
     @property
     def velocity(self):
@@ -54,13 +55,14 @@ class Particle(PolyIndividual):
     @best_position.setter
     def best_position(self, x):
         self.chromosomes[0] = x
+        self.fitness = None
 
 
 class ParticleSwarm(BaseIterativeModel):
-    """Standard Genetic Algo II.
+    """Standard PSO
     
     Extends:
-        BasePopulation
+        BaseIterativeModel
     """
     element_class = Particle
 
@@ -69,7 +71,7 @@ class ParticleSwarm(BaseIterativeModel):
     params = {'learning_factor': 2, 'acceleration_coefficient': 3, 'inertia':0.5, 'n_best_particles':0.1, 'max_velocity':None}
 
     def init(self):
-        self.best_particles = self.get_best_individuals(self.n_best_particles)
+        self.hall_of_fame = self.get_best_individuals(self.n_best_particles)
         for particle in self.particles:
             particle.init()
 
@@ -77,6 +79,15 @@ class ParticleSwarm(BaseIterativeModel):
     # def n_elements(self):
     #     return self.n_particles
     
+    def update_fame(self):
+        for particle in self:
+            if particle not in self.hall_of_fame:
+                for k, b in enumerate(self.hall_of_fame):
+                    if particle.fitness <= b.fitness:
+                        break
+                if k > 0:
+                    self.hall_of_fame.pop(k)
+                    self.hall_of_fame.insert(k, particle)
     
     def transit(self, *args, **kwargs):
         """
@@ -85,30 +96,25 @@ class ParticleSwarm(BaseIterativeModel):
         for particle in self:
             if particle.phantom.fitness > particle.fitness:
                 particle.backup()
-        for particle in self:
-            if particle not in self.best_particles:
-                for k, b in enumerate(self.best_particles):
-                    if particle.fitness <= b.fitness:
-                        break
-                if k > 0:
-                    self.best_particles.pop(k)
-                    self.best_particles.insert(k, particle)
+        self.update_fame()
         self.move()
 
     def move(self):
-        # moving rule of particles
+        """moving rule of particles
+
+        Particles move according to the hall of fame and the best record
+        """
         xi = random()
         eta = random()
         for particle in self:
-            if particle in self.best_particles:
+            if particle in self.hall_of_fame:
                 particle.velocity = (self.inertia * particle.velocity
              + self.learning_factor * xi * (particle.best_position-particle.position))
             else:
-                for b in self.best_particles:
+                for b in self.hall_of_fame:
                     if particle.fitness < b.fitness:
                         break
                 particle.velocity = (self.inertia * particle.velocity
                  + self.learning_factor * xi * (particle.best_position-particle.position)
                  + self.acceleration_coefficient * eta * (b.best_position-particle.position))
             particle.position += particle.velocity
-            particle.phantom.fitness = None

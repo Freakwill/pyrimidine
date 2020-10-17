@@ -1,17 +1,20 @@
 # pyrimidine
 
-OO implement of genetic algorithm by python
+OO implement of genetic algorithm by python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details.
 
 ![LOGO](logo.png)
 
-
 ## Why
 
-Why is the package named as pyrimidine? Because it begins with `py`.
+Why is the package named as “pyrimidine”? Because it begins with “py”.
+
+> — Are you kiding?
+>
+> — No, I am serious.
 
 ## Download
 
-It is not uploaded to pypi at present, so just download it from github.
+It has been uploaded to [pypi](https://pypi.org/project/pyrimidine/), so download it with `pip install pyrimidine`, and also could download it from github.
 
 ## Idea
 
@@ -294,3 +297,94 @@ plt.show()
 ## Extension
 
 `pyrimidine` is extendable. It is easy to implement others iterative model, such as simulation annealing and particle swarm optimization.
+
+
+
+Currently, it is recommended to define subclasses based on `BaseIterativeModel` as a maxin.
+
+In PSO, we regard a particle as an individual, and `ParticleSwarm` as a population. But in the following, we subclass it from `BaseIterativeModel`
+
+```python
+# pso.py
+class Particle(PolyIndividual):
+    """A particle in PSO
+
+    Variables:
+        default_size {number} -- one individual represented by 2 chromosomes: position and velocity
+        phantom {Particle} -- the current state of the particle moving in the solution space.
+    """
+
+    element_class = FloatChromosome
+    default_size = 2
+    phantom = None
+
+    def backup(self):
+        self.chromosomes[0] = self.position
+        self.fitness = self.phantom.fitness
+
+    def init(self):
+        self.phantom = self.clone(fitness=self.fitness)
+
+    # other methods
+
+
+class ParticleSwarm(BaseIterativeModel):
+    element_class = Particle
+    default_size = 20
+    params = {'learning_factor': 2, 'acceleration_coefficient': 3, 'inertia':0.5, 'n_best_particles':0.1, 'max_velocity':None}
+
+    def init(self):
+        self.best_particles = self.get_best_individuals(self.n_best_particles)
+        for particle in self.particles:
+            particle.init()
+
+    def transit(self, *args, **kwargs):
+        """
+        Transitation of the states of particles
+        """
+        for particle in self:
+            if particle.phantom.fitness > particle.fitness:
+                particle.backup()
+        for particle in self:
+            if particle not in self.best_particles:
+                for k, b in enumerate(self.best_particles):
+                    if particle.fitness <= b.fitness:
+                        break
+                if k > 0:
+                    self.best_particles.pop(k)
+                    self.best_particles.insert(k, particle)
+        self.move()
+
+    def move(self):
+        # moving rule of particles
+        xi = random()
+        eta = random()
+        for particle in self:
+            if particle in self.best_particles:
+                particle.velocity = (self.inertia * particle.velocity
+             + self.learning_factor * xi * (particle.best_position-particle.position))
+            else:
+                for b in self.best_particles:
+                    if particle.fitness < b.fitness:
+                        break
+                particle.velocity = (self.inertia * particle.velocity
+                 + self.learning_factor * xi * (particle.best_position-particle.position)
+                 + self.acceleration_coefficient * eta * (b.best_position-particle.position))
+            particle.position += particle.velocity
+            particle.phantom.fitness = None
+```
+
+If you want to apply PSO, then you can define
+
+```python
+class MyParticleSwarm(ParticleSwarm, BasePopulation):
+    element_class = _Particle
+    default_size = 20
+
+pop = MyParticleSwarm.random()
+```
+
+
+
+It is not coercive. It is possible to inherit `ParticleSwarm` from `BasePopulation` directly.
+
