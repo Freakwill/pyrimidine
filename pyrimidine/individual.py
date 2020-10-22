@@ -4,6 +4,7 @@
 from .base import BaseIndividual
 from .chromosome import BinaryChromosome, BaseChromosome, FloatChromosome
 from .meta import MetaTuple, MetaList
+from .utils import randint
 
 
 class MultiIndividual(BaseIndividual, metaclass=MetaList):
@@ -29,8 +30,8 @@ class MonoIndividual(BaseIndividual, metaclass=MetaList):
     def chromosome(self):
         return self.chromosomes[0]
 
-    # def __iter__(self):
-    #     return iter(self.chromosome)
+    def decode(self):
+        return self.chromosome.decode()
 
     @property
     def individuals(self):
@@ -80,12 +81,14 @@ class MixIndividual(BaseIndividual, metaclass=MetaTuple):
     element_class = BaseChromosome, BaseChromosome
 
     @classmethod
-    def random(cls, sizes=(8, 8), n_chromosomes=None, size=None, *args, **kwargs):
+    def random(cls, sizes=None, n_chromosomes=None, size=None, *args, **kwargs):
         if sizes is None:
             if isinstance(size, int):
                 sizes = (size,) * n_chromosomes
+            elif size is None:
+                return cls([C.random(*args, **kwargs) for C in cls.element_class])
             else:
-                raise TypeError('Argument `size` should be an integer!')
+                raise TypeError('Argument `size` should be an integer or None(by default)!')
         else:
             if len(sizes) != len(cls.element_class):
                 print(Warning('the length of sizes is not equal to the number of elements'))
@@ -96,3 +99,9 @@ class AgeIndividual(BaseIndividual):
     age = 0
     life_span = 100  # life span
 
+
+class GenderIndividual(MixIndividual):
+
+    @property
+    def gender(self):
+        raise NotImplementedError

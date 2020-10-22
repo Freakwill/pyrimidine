@@ -27,7 +27,7 @@ class MyPopulation(SGAPopulation):
     element_class = MyIndividual
 
 pop = MyPopulation.random(size=20)
-pop.evolve()
+pop.evolve()  # or pop.ezvolve() a clean version of `evolve`
 print(pop.best_individual)
 ```
 

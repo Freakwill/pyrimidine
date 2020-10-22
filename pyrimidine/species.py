@@ -5,6 +5,7 @@ from . import BaseSpecies
 from .utils import  *
 
 class DualSpecies(BaseSpecies):
+    params = {'n_elders':0.5}
 
     @property  
     def male_population(self):
@@ -55,11 +56,26 @@ class DualSpecies(BaseSpecies):
 
 
     def transit(self, *args, **kwargs):
+        elder = self.__class__([
+            self.populations[0].__class__(self.populations[0].get_best_individuals(self.n_elders * self.populations[0].default_size)),
+            self.populations[1].__class__(self.populations[1].get_best_individuals(self.n_elders * self.populations[1].default_size))
+            ]).clone()
+        self.select()
+        self.mate()
+        self.mutate()
+        self.merge(elder)
+
+    def select(self):
         self.populations[0].select()
         self.populations[1].select()
-        self.mate()
+
+    def mutate(self):
         self.populations[0].mutate()
         self.populations[1].mutate()
+
+    def merge(self, other):
+        self.populations[0].merge(other.populations[0])
+        self.populations[1].merge(other.populations[1])
 
 
     def post_process(self):

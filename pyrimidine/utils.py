@@ -102,6 +102,9 @@ def randint2(lb=0, ub=9, ordered=False):
 def max0(x):
     return max((x, 0))
 
+def hlim(x, lb=0, ub=1):
+    return min(max((x, lb)), ub)
+
 
 def metropolis_rule(D, T, epsilon=0.000001):
     

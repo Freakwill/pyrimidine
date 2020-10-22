@@ -1,6 +1,6 @@
-# pyrimidine
+# pyrimidine 🧬
 
-OO implement of genetic algorithm by python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details.
+:dna: OO implement of genetic algorithm by python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details. 
 
 ![LOGO](logo.png)
 
@@ -72,7 +72,7 @@ Generally, it is an array of genes.
 As an array of 0-1s, `BinaryChromosome` is used most frequently.
 
 #### Individual
-just subclass `MonoIndividual` in most cases.
+Just subclass `MonoIndividual` in most cases.
 
 ```python
 class MyIndividual(MonoIndividual):
@@ -189,7 +189,7 @@ Get the history of the evolution.
 
 ```python
 stat={'Fitness':'fitness', 'Best Fitness': lambda pop: pop.best_individual.fitness}
-data = pop.history(stat=stat)  # use history instead of evolve
+data = pop.evolve(stat=stat, history=True)  # record history
 ```
 `stat` is a dict mapping keys to function, where string 'fitness' means function `lambda pop:pop.fitness` which gets the mean fitness of pop. Since we have defined pop.best_individual.fitness as a property, `stat` could be redefine as `{'Fitness':'fitness', 'Best Fitness': 'best_fitness'}`.
 
@@ -200,6 +200,50 @@ data = pop.history(stat=stat)  # use history instead of evolve
 Use `pop.perf()` to check the performance.
 
 
+
+### Parameters (and some methods)
+
+It is recommended to put the parameters into `params` dict, such as
+
+```python
+class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
+    # The params would update those of base classes.
+    params = {'mate_prob':0.75, 'mutate_prob':0.2, 'tournsize':5}
+```
+
+#### setting `params` dynamically
+
+Use `cls.set_params(mate_prob=0.75)` to set params dynamically.
+
+
+
+#### setting `fitness`
+
+```python
+MyPopulation=SGAPopulation.set_fitness(f: obj -> number)
+# equiv. to
+class MyPopulation(SGAPopulation):
+     def _fitness(self):
+         # f: self -> nubmer
+```
+
+
+
+#### setting `element_class` and `default_size`
+
+```python
+MyPopulation=SGAPopulation[MyIndividual] * 20
+# equiv. to
+class MyPopulation(SGAPopulation):
+     element_class = MyIndividual # mentioned above
+     default_size = 20   # the default numbers of individuals
+```
+
+The are implimented by `set` method that sets a attribute with a value then return the object (here the population class).
+
+
+
+With the methods above, we could abandon `class` syntax sugar.
 
 ## Example
 

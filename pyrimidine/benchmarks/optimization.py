@@ -10,30 +10,39 @@ class Knapsack:
     s.t. sum_i wi <= W
     where ci, wi selected from c, w
     """
-    def __init__(self, w, c, W, M=100):
+    def __init__(self, w, c, W=0.7, M=100):
         """
         
         Arguments:
             w {array} -- weight array of goods
             c {array} -- value array of goods
-            W {number} -- upper bound of total weight
+            W {number} -- upper bound (proportion) of total weight
         
         Keyword Arguments:
             M {number} -- penalty (default: {100})
         """
 
+        if W < 1:
+            W = np.sum(w) * W
+
         self.w = w
         self.c = c
         self.W = W
         self.M = M
+        self.n_bags = len(c)
 
     @staticmethod
     def random(n=50, W=0.7):
         w = np.random.randint(1, 21, n)
         c = np.random.randint(1, 21, n)
-        if W<1:
-            W = np.sum(w) * W
         return Knapsack(w, c, W=W)
+
+    @staticmethod
+    def example(W=0.7):
+        w = [71, 34, 82, 23, 1, 88, 12, 57, 10, 68, 5, 33, 37, 69, 98, 24, 26, 83, 16, 26]
+        c = [26, 59, 30, 19, 66, 85, 94, 8, 3, 44, 5, 1, 41, 82, 76, 1, 12, 81, 73, 32]
+        return Knapsack(w, c, W=W)
+
 
 
     def __call__(self, x):

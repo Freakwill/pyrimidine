@@ -85,10 +85,17 @@ class BaseIterativeModel:
 
     # def __getattr__(self, key):
     #     return self.params[key]
-    #     
     
-    def config(self, params, **kwargs):
-        self.params.update(params)
+
+    # @property
+    # def params(self):
+    #     print(self.__params)
+    #     return self.__params
+
+    
+    def config(self, params={}, **kwargs):
+        if params:
+            self.__params.update(params)
         for k, v in kwargs.items():
             setter(self, k, v)
     
@@ -144,6 +151,8 @@ class BaseIterativeModel:
             DataFrame | None
         """
 
+        import pandas as pd
+
         n_iter = n_iter or self.n_iter
         self.init()
 
@@ -155,9 +164,10 @@ class BaseIterativeModel:
             print(f'0 & {self.solution} & {" & ".join(self._stat(stat).values())}')
 
         if history:
-            import pandas as pd
             history = pd.DataFrame(data={k:[v] for k, v in self._stat(stat).items()})
             flag = True
+        elif history is False:
+            flag = False
         elif not isinstance(history, pd.DataFrame):
             raise TypeError('Argument `history` should be a DataFrame object.')
         # n_iter = n_iter or self.n_iter or self.default_n_iter
@@ -176,20 +186,33 @@ class BaseIterativeModel:
                     else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) 
                 for k, s in stat.items()}
 
-    def history(self, H=None, *args, **kwargs):
+    def get_history(self, history=True, per=1, stat={'Fitness': 'fitness'}, *args, **kwargs):
         """Get the history of the whole evolution
 
-        replaced by `evolve`
+        Would be replaced by `evolve`
         """
-        raise DeprecationWarning('This method is deprecated from now on!!!, use `evolve(history=True, ***)` instead.')
-        return self.evolve(history=H, *args, **kwargs)
+        print(DeprecationWarning('This method is deprecated from now on!!!, use `evolve(history=True, ***)` instead.'))
+        n_iter = n_iter or self.n_iter
+        self.init()
+        if history is True:
+            import pandas as pd
+            history = pd.DataFrame(data={k:[v] for k, v in self._stat(stat).items()})
+        elif not isinstance(history, pd.DataFrame):
+            raise TypeError('Argument `history` should be a DataFrame object.')
+        for k in range(1, n_iter+1):
+            self.transit(k, *args, **kwargs)
+            self.post_process()
+            if per == 1 or k % per ==0:
+                stat_row = self._stat(stat)
+                history = history.append(stat_row, ignore_index=True)
+        return history
 
     def perf(self, n_repeats=10, *args, **kwargs):
         import time
         times = []
         data = None
-        for _ in range(n_repeats): 
-            cpy = self.clone()
+        for _ in range(n_repeats):
+            cpy = self.clone(fitness=None)
             time1 = time.perf_counter()
             data0 = cpy.evolve(history=True, *args, **kwargs)
             time2 = time.perf_counter()
@@ -202,18 +225,10 @@ class BaseIterativeModel:
 
     def post_process(self):
         pass
-
-    @classmethod
-    def config(cls, d):
-        cls.params.update(d)
-    
+  
     def set_params(self, **kwargs):
         self.params.update(kwargs)
-
-    @classmethod
-    def set_size(cls, sz):
-        cls.default_size = sz
-        return cls
+        return self
 
     def clone(self, type_=None, *args, **kwargs):
         raise NotImplementedError
@@ -291,7 +306,7 @@ class BaseFitnessModel(BaseIterativeModel):
             type_ = self.__class__
         if fitness is True:
             fitness = self.fitness
-        return type_([i.clone(type_=type_.element_class, fitness=fitness) for i in self], fitness=fitness)
+        return type_([i.clone(type_=type_.element_class, fitness=None) for i in self], fitness=fitness)
 
     def evolve(self, stat=None, *args, **kwargs):
         """Get the history of the whole evolution
@@ -315,6 +330,9 @@ class BaseChromosome(BaseFitnessModel):
     @classmethod
     def random(cls, size=None):
         raise NotImplementedError
+
+    def __matmul__(self, other):
+        return self.cross(other)
 
     def cross(self, other):
         raise NotImplementedError
@@ -395,7 +413,7 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
             BaseIndividual -- an object of Individual
         """
 
-        if isinstance(cls, (MetaList, MetaContainer)):
+        if isinstance(cls, (MetaList, MetaContainer)) and not isinstance(cls, MetaTuple):
             if 'sizes' in kwargs:
                 return cls([cls.element_class.random(size=size) for size in kwargs['sizes']])
             else:
@@ -423,6 +441,9 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
         """
         self.__elements = c
         self.fitness = None
+
+    def __matmul__(self, other):
+        return self.cross(other)
 
 
     def cross(self, other, k=None):
@@ -493,6 +514,9 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
     params = {'mate_prob':0.75, 'mutate_prob':0.2, 'tournsize':5}
 
+    def __str__(self):
+        return '\n'.join(map(str, self.individuals))
+
     def evolve(self, stat=None, *args, **kwargs):
         """Get the history of the whole evolution
         """
@@ -501,11 +525,15 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
  
         return super(BasePopulation, self).evolve(stat=stat, *args, **kwargs)
 
+    def __getstate__(self):
+        return {'element_class':self.element_class, 'default_size':self.default_size, 'individuals':self.individuals, 'params':self.params}
+
 
     def __setstate__(self, state):
-        self.element_class = state['element_class']
+        self.element_class = state.get('element_class', self.__class__.element_class)
         self.default_size = state.get('default_size', self.__class__.default_size)
-        self.individuals = state['individuals']
+        self.individuals = state.get('individuals', [])
+        self.params = state.get('params', {})
 
     @property
     def individuals(self):
@@ -522,13 +550,17 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
     @property
     def n_individuals(self):
-        return len(self)
+        return self.n_elements
 
     @classmethod
     def random(cls, n_individuals=None, *args, **kwargs):
         if n_individuals is None:
             n_individuals = cls.default_size
         return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
+
+
+    def add_individuals(self, inds:list):
+        self.individuals += inds
 
     def transit(self, *args, **kwargs):
         """Transitation of the states of population
@@ -584,15 +616,18 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     def parallel(self, func):
         return parallel(func, self.individuals)
 
-    def merge(self, other, select=False, *args, **kwargs):
+    def merge(self, other, n_sel=None):
         """Merge two population.
 
         Applied in the case when merging the offspring to the original population.
         """
-        self.individuals.extend(other.individuals)
-        self.n_individuals += other.n_individuals
-        if select:
-            self.select(*args, **kwargs)
+        if isinstance(other, (list, tuple)):
+            self.individuals += other
+        else:
+            self.individuals += other.individuals
+
+        if n_sel:
+            self.select(n_sel)
 
     def mutate(self, mutate_prob=None):
         """Mutate the whole population.
@@ -618,6 +653,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         offspring = [individual.cross(other) for individual, other in zip(self.individuals[::2], self.individuals[1::2])
         if random() < (mate_prob or self.mate_prob)]
         self.individuals.extend(offspring)
+        self.offspring = self.__class__(offspring)
 
     def remove(self, individual):
         self.individuals.remove(individual)
@@ -648,6 +684,10 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     def best_fitness(self):
         return np.max([individual.fitness for individual in self.individuals])
 
+    @property
+    def fitnesses(self):
+        return np.array([individual.fitness for individual in self.individuals])
+
 
     def get_best(self, key='fitness'):
         # Get best individual under `key`
@@ -658,6 +698,8 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
         # first n best individuals
         if n < 1:
             n = int(self.n_individuals * n)
+        elif not isinstance(n, int):
+            n = int(n)
         return self.sorted_individuals[-n:]
 
     def get_worst(self, key='fitness'):
@@ -668,16 +710,18 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     # Following is some useful aliases
     @property
     def worst_individual(self):
-        return self.get_worst()
+        k = np.argmin([individual.fitness for individual in self.individuals])
+        return self.individuals[k]
 
     @property
     def best_individual(self):
-        return self.get_best()
+        k = np.argmax([individual.fitness for individual in self.individuals])
+        return self.individuals[k]
 
 
     @property
     def solution(self):
-        return self.get_best()
+        return self.best_individual
 
     @property
     def sorted_individuals(self):
@@ -786,7 +830,10 @@ class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
     element_class = BasePopulation
     default_size = 2
 
-    params = {'migrate_prob': 0.5}
+    params = {'migrate_prob': 0.2}
+
+    def __str__(self):
+        return '\n'.join(map(str, self.individuals))
 
     def _fitness(self):
         return self.mean_fitness
@@ -828,14 +875,14 @@ class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
     def best_fitness(self):
         return np.max([np.max([individual.fitness for individual in pop.individuals]) for pop in self.populations])
 
-    def _best(self, key='fitness'):
+    def get_best(self, key='fitness'):
         inds = self.individuals
         k = np.argmax([getattr(individual, key) for individual in inds])
         return inds[k]
 
     @property
     def best_individual(self):
-        return self._best()
+        return self.get_best()
 
     @property
     def individuals(self):
@@ -843,6 +890,16 @@ class BaseSpecies(BaseFitnessModel, metaclass=MetaHighContainer):
         for pop in self.populations:
             inds.extend(pop.individuals)
         return inds
+
+    def __getstate__(self):
+        return {'element_class':self.element_class, 'default_size':self.default_size, 'populations':self.populations, 'params':self.params}
+
+
+    def __setstate__(self, state):
+        self.element_class = state.get('element_class', self.__class__.element_class)
+        self.default_size = state.get('default_size', self.__class__.default_size)
+        self.populations = state.get('populations', [])
+        self.params = state.get('params', {})
 
 
 class BaseEnvironment:
@@ -855,6 +912,8 @@ class BaseEnvironment:
     def evaluate(self, x):
         if hasattr(x, 'fitness'):
             return x.fitness
+        elif hasattr(x, '_fitness'):
+            return x._fitness()
         else:
             raise NotImplementedError
 
@@ -865,4 +924,4 @@ class BaseEnvironment:
             raise NotImplementedError
 
     def select(self, pop, n_sel):
-        raise NotImplementedError   
+        raise NotImplementedError

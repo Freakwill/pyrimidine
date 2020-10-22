@@ -3,6 +3,7 @@
 
 from .base import BasePopulation, random
 from .utils import gauss, random
+from . import MetaList
 
 class SGAPopulation(BasePopulation):
     """Standard Genetic Algo I.
@@ -11,16 +12,16 @@ class SGAPopulation(BasePopulation):
         BasePopulation
     """
 
-    params = {'n_elders': 0.3}
+    params = {'n_elders': 0.5}
     
     def transit(self, k=None, *args, **kwargs):
         """
         Transitation of the states of population by SGA
         """
-        elder = self.clone()
-        elder.select_best_individuals(self.n_elders)
+
+        elder = self.__class__(self.get_best_individuals(self.n_elders * self.default_size)).clone()
         super(SGAPopulation, self).transit(*args, **kwargs)
-        self.merge(elder, select=True)
+        self.merge(elder)
 
 
 class DualPopulation(BasePopulation):
@@ -45,9 +46,36 @@ class DualPopulation(BasePopulation):
         """
         self.dual()
         elder = self.clone()
-        elder.select_best_individuals(self.n_elders)
+        elder.get_best_individuals(self.n_elders)
         super(DualPopulation, self).transit(*args, **kwargs)
         self.merge(elder, select=True)
+
+
+class GamogenesisPopulation(SGAPopulation):
+    # element_class = GenderPopulation
+
+    """Gamogenesis Genetic Algo.
+    
+    Extends:
+        BasePopulation
+    """
+
+    def mate(self, mate_prob=None):
+        """Mate the whole population.
+
+        Just call the method `mate` of each individual (customizing anthor individual)
+        
+        Keyword Arguments:
+            mate_prob {number} -- the proba. of mating of two individuals (default: {None})
+        """
+
+        offspring = [individual.cross(other) for individual, other in zip(self.males, self.females)
+        if random() < (mate_prob or self.mate_prob)]
+        self.individuals.extend(offspring)
+        self.offspring = self.__class__(offspring)
+
+    def get_homosex(self, x=0):
+        return [i for i in self.individuals if i.gender==x]
 
 
 class EliminationPopulation(BasePopulation):

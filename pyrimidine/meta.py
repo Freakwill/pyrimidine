@@ -24,7 +24,35 @@ def get_stem(s):
     return s[-k-1:].lower()
 
 
-class MetaContainer(type):
+class System(type):
+    # alias of type
+    
+    def __new__(cls, name, bases, attrs):
+        
+        def _map_regester(self, m):
+            if hasattr(self, m):
+                raise AttributeError(f'`{m}` is an attribute of {self.__class__.__name__}, would not be regestered.')
+            def _m(obj, *args, **kwargs):
+                return [getattr(a, m)(*args, **kwargs) for a in obj]
+            setattr(self, m, MethodType(_m, self))
+        attrs['mapregester'] = _map_regester
+
+        def _element_regester(self, e):
+            if hasattr(self, e):
+                raise AttributeError(f'`{e}` is an attribute of {self.__class__.__name__}, would not be regestered.')
+            @property
+            def _p(obj):
+                return [getattr(a, e) for a in obj]
+            setattr(self, e, _p)
+        attrs['mapregester'] = _map_regester
+
+        obj = type.__new__(cls, name, bases, attrs)
+
+        return obj
+    
+
+
+class MetaContainer(System):
     """Container meta class
 
     A container is a algebric system with elements of some type
@@ -87,11 +115,12 @@ class MetaContainer(type):
             return iter(self.__elements)
 
         def _getitem(self, k):
+            print(DeprecationWarning('get item directly is not recommended now.'))
             return self.__elements[k]
 
         def _len(self):
-            if hasattr(self, 'n_elements'):
-                return getattr(self, 'n_elements')
+            if hasattr(self, '__n_elements'):
+                return getattr(self, '__n_elements')
             return len(self.__elements)
 
         attrs['__getitem__'] = _getitem
@@ -111,48 +140,44 @@ class MetaContainer(type):
         def _elements(self, x):
             self.__elements = x
             L = len(x)
-            self.n_elements = L
-            setattr(self, 'n_' + element_name, L)
+            self.__n_elements = L
+            # setattr(self, '__n_' + element_name, L)
         attrs['elements'] = attrs[element_name] = _elements
 
-        # @property
-        # def _n_elements(self):
-        #     if hasattr(self, '__n_elements'):
-        #         return self.__n_elements
-        #     else:
-        #         return len(self.elements)
+        @property
+        def _n_elements(self):
+            return self.__n_elements
 
-        # @_n_elements.setter
-        # def _elements(self, x):
-        #     self.__n_elements = x
-        # attrs['n_elements'] = attrs['n_' + element_name] = _n_elements
-
-        # if 'random' not in attrs:
-        #     print(Warning('Define a `random` method'))
-        def _regester(self, m):
-            if hasattr(self, m):
-                raise AttributeError(f'`{m}` is an attribute of {self.__class__.__name__}, would not be regestered.')
-            def _m(obj, *args, **kwargs):
-                return [getattr(a, m)(*args, **kwargs) for a in obj]
-            setattr(self, m, MethodType(_m, self))
-        attrs['regester'] = _regester
+        attrs['n_elements'] = _n_elements
 
 
         def _type_check(self):
             return all(isinstance(elm, self.element_class) for elm in self.__elements)
         attrs['type_check'] = _type_check
 
-
-        params = attrs.get('params', {})
+        params = {}
         for b in bases:
             if hasattr(b, 'params') and b.params:
                 params.update(b.params)
+                
+        params.update(attrs.get('params', {}))
         attrs['params'] = params
 
-        return type.__new__(cls, name, bases, attrs)
+        def _regester_map(self, name, key=None):
+            import types
+            def m(obj):
+                if key is None:
+                    return [getattr(_, name)() for _ in obj.elements]
+                else:
+                    return [key(_) for _ in obj.elements]
+            setattr(self, name, types.MethodType(m, self))
+        attrs['regester_map'] = _regester_map
+
+        return System.__new__(cls, name, bases, attrs)
 
     def __call__(self, *args, **kwargs):
         o = super(MetaContainer, self).__call__()
+        o.elements = []
         for k, v in kwargs.items():
             setattr(o, k, v)
         if args:
@@ -160,12 +185,21 @@ class MetaContainer(type):
         return o
 
     def __getitem__(self, class_):
-        self.element_class = class_
+        return self.set(element_class=class_)
+
+    def __mul__(self, n):
+        return self.set(default_size=n)
+
+    def set(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
         return self
+
 
 class MetaList(MetaContainer):
     # a list is a container of elements with the same type
     def __new__(cls, name, bases, attrs):
+
         if 'element_class' in attrs:
             element_class = attrs['element_class']
             if isinstance(element_class, tuple):
@@ -188,6 +222,9 @@ class MetaTuple(MetaContainer):
             if not isinstance(element_class, tuple):
                 raise TypeError('`element_class` should be a tuple!')
         return super(MetaTuple, cls).__new__(cls, name, bases, attrs)
+
+    def __mul__(self, n):
+        raise DeprecationWarning('It is meaningless to multiply the class by a number')
 
 class MetaHighContainer(MetaContainer):
     # High order container is a container of  containers.
@@ -221,12 +258,10 @@ if __name__ == '__main__':
     print(C.strings)
     print(c.strings)
     print(c.lasting)
-    print(c.n_strings)
+    print(c.n_elements)
     print(c[1])
     for a in c:
         print(a)
 
-    c.regester('upper')
+    c.regester_map('upper')
     print(c.upper())
-
-

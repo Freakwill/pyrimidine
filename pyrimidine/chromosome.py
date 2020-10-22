@@ -18,12 +18,11 @@ class ArrayChromosome(np.ndarray, BaseChromosome):
 
         obj = super(ArrayChromosome, cls).__new__(cls, shape=array.shape, dtype=gene)
         obj = np.asarray(array).view(cls)
-        obj.__gene = gene
         return obj
 
     def __array_finalize__(self, obj):
         if obj is None: return
-        self.__gene = getattr(obj, 'gene', None)
+        self.gene = getattr(obj, 'gene', None)
 
     def __len__(self):
         return self.shape[0]
@@ -34,7 +33,11 @@ class ArrayChromosome(np.ndarray, BaseChromosome):
     
     @property
     def gene(self):
-        return self.__gene
+        return self.element_class
+
+    @gene.setter
+    def gene(self, ec):
+        self.element_class = ec
 
     @classmethod
     def random(cls, *args, **kwargs):
@@ -49,7 +52,8 @@ class ArrayChromosome(np.ndarray, BaseChromosome):
         return f'{"|".join(str(gene) for gene in self)}'
 
     def cross(self, other):
-        k = randint(1, len(self)-2)
+        # note that when len(self) == 2 => k==1
+        k = randint(1, len(self)-1)
         return self.__class__(array=np.hstack((self[:k], other[k:])), gene=self.gene)
 
     def merge(self, *other):
@@ -180,16 +184,32 @@ class FloatChromosome(VectorChromosome):
         cpy += n.rvs(len(self))
         return cpy
 
-class UnitFloatChromosome(FloatChromosome):
+
+_max0 = np.frompyfunc(max0, 1, 1)
+_hl = np.frompyfunc(hlim, 1, 1)
+
+
+class PositiveChromosome(FloatChromosome):
+    def max0(self):
+        self[:] = _max0(self)
+
+
+class UnitFloatChromosome(PositiveChromosome):
     element_class = UnitFloatGene
 
     def dual(self):
         return UnitFloatChromosome(1 - self)
 
-_max0 = np.frompyfunc(max0, 1, 1)
-class PositiveChromosome(FloatChromosome):
-    def max0(self):
-        self[:] = _max0(self)
+    def tobinary(self):
+        return self >= 0.5
+
+    def mutate(self, *args, **kwargs):
+        super(UnitFloatChromosome, self).mutate(*args, **kwargs)
+        self.normalize()
+
+    def normalize(self):
+        self[:] = _hl(self)
+
 
 class ProbabilityChromosome(PositiveChromosome):
     """ProbabilityChromosome
@@ -274,6 +294,12 @@ class CircleChromosome(FloatChromosome):
         self.normalize()
 
     def normalize(self):
-        self.chromosome %= self.element_class.period
+        self %= self.element_class.period
 
-QuantumChromosome = CircleChromosome
+
+class QuantumChromosome(CircleChromosome):
+    measure_result = None
+    def decode(self):
+        rs = np.random.random(size=(len(self),))
+        self.measure_result = self.decode()
+        return np.cos(self) ** 2 < rs
