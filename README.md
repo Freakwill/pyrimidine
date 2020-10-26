@@ -4,6 +4,10 @@
 
 ![LOGO](logo.png)
 
+[TOC]
+
+
+
 ## Why
 
 Why is the package named as “pyrimidine”? Because it begins with “py”.
@@ -220,11 +224,20 @@ Use `cls.set_params(mate_prob=0.75)` to set params dynamically.
 #### setting `fitness`
 
 ```python
-MyPopulation=SGAPopulation.set_fitness(f: obj -> number)
+_Individual=BaseIndividual.set_fitness(f: obj -> number)
 # equiv. to
-class MyPopulation(SGAPopulation):
+class _Individual(BaseIndividual):
      def _fitness(self):
          # f: self -> nubmer
+```
+
+The individual will get fitness with the following property. It is not wise to define the property as a function!
+
+```python
+@property
+def fitness(self):
+     # do not define the property directly
+     # f: self -> nubmer
 ```
 
 
