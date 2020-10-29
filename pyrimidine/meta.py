@@ -159,7 +159,7 @@ class MetaContainer(System):
         for b in bases:
             if hasattr(b, 'params') and b.params:
                 params.update(b.params)
-                
+
         params.update(attrs.get('params', {}))
         attrs['params'] = params
 
@@ -187,7 +187,11 @@ class MetaContainer(System):
     def __getitem__(self, class_):
         return self.set(element_class=class_)
 
-    def __mul__(self, n):
+    # def __mul__(self, n):
+    #     print(DeprecationWarning(f'Use `// {n}` instead of `* {n}`'))
+    #     return self.set(default_size=n)
+
+    def __floordiv__(self, n):
         return self.set(default_size=n)
 
     def set(self, **kwargs):

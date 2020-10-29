@@ -1,53 +1,35 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pyrimidine import MonoBinaryIndividual, AgePopulation, AgeIndividual, SGAPopulation
+from pyrimidine import MonoBinaryIndividual
+from pyrimidine.population import *
 
-from pyrimidine.benchmarks.cluster import *
+from pyrimidine.benchmarks.optimization import *
 
-# generate a knapsack problem randomly
-evaluate = KMeans.random(N=100)
+n = 50
+_evaluate = Knapsack.random(n)
 
-
-class YourIndividual(MonoBinaryIndividual):
-
+class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
-        return - evaluate(self.chromosome)
+        return _evaluate(self.chromosome)
 
+    def dual(self):
+        return MyIndividual([c.dual() for c in self])
+    
 
-class YourPopulation(SGAPopulation):
-    element_class = YourIndividual
+# MyIndividual = MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))
 
-class MyIndividual(AgeIndividual, YourIndividual):
-    pass
+pop = MyIndividual.random(size=n) * 20
 
-class MyPopulation(AgePopulation):
-    element_class = MyIndividual
-    life_span = 70
-
-
-
-pop = YourPopulation.random(size=100)
-_pop = pop.clone(type_=MyPopulation)
 
 stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
+data = pop.evolve(stat=stat, n_iter=200, history=True)
 
-# pop.evolve(verbose=True)
-
-data = pop.evolve(n_iter=200, stat=stat, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
-
-
-pop = MyPopulation(individuals=_pop)
-
-data = pop.evolve(n_iter=200, stat=stat, history=True)
-
-data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
-ax.legend(('Fitness', 'Best Fitness', 'My Fitness', 'My Best Fitness'))
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 plt.show()

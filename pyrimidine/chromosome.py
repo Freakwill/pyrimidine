@@ -109,13 +109,13 @@ class BinaryChromosome(VectorChromosome):
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
             if random()< indep_prob:
-                self[i] = 1- self[i]
+                self[i] ^= 1
 
     def __str__(self):
         return f'{"".join(str(gene) for gene in self)}'
 
     def dual(self):
-        return BinaryChromosome(1 - self)
+        return BinaryChromosome(1 ^ self)
 
 
 class NaturalChromosome(VectorChromosome):
@@ -165,7 +165,6 @@ class PermutationChromosome(NaturalChromosome):
 
     def dual(self):
         return NaturalChromosome(self.element_class.ub - self)
-
 
 
 class FloatChromosome(VectorChromosome):

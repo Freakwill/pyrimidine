@@ -19,7 +19,7 @@ class MyIndividual(MonoBinaryIndividual):
 
 # MyIndividual = MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))
 
-class MyPopulation(SGAPopulation):
+class MyPopulation(SGA2Population):
     element_class = MyIndividual
     default_size = 20
 

@@ -36,6 +36,11 @@ Following is an equivalent expression without `class` keward.
 MyPopulation = SGAPopulation[MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))]
 pop = MyPopulation.random(n_individuals=20, size=n)
 pop.evolve()
+
+# or
+MyPopulation = SGAPopulation[MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))] // 20
+pop = MyPopulation.random(size=n)
+pop.evolve()
 ```
 
 For visualization, just set `history=True` (return `DataFrame` object) in the evolve method.

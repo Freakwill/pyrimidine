@@ -231,12 +231,12 @@ class _Individual(BaseIndividual):
          # f: self -> nubmer
 ```
 
-The individual will get fitness with the following property. It is not wise to define the property as a function!
+The individual will get fitness with the following property eventually. It is not wise to define the property as a function!
 
 ```python
 @property
 def fitness(self):
-     # do not define the property directly
+     # never try to define the property directly
      # f: self -> nubmer
 ```
 
@@ -245,7 +245,7 @@ def fitness(self):
 #### setting `element_class` and `default_size`
 
 ```python
-MyPopulation=SGAPopulation[MyIndividual] * 20
+MyPopulation=SGAPopulation[MyIndividual] // 20
 # equiv. to
 class MyPopulation(SGAPopulation):
      element_class = MyIndividual # mentioned above
@@ -254,9 +254,7 @@ class MyPopulation(SGAPopulation):
 
 The are implimented by `set` method that sets a attribute with a value then return the object (here the population class).
 
-
-
-With the methods above, we could abandon `class` syntax sugar.
+With the methods above, we could abandon `class` syntax sugar.:v:
 
 ## Example
 
@@ -325,11 +323,13 @@ evaluate = Knapsack.random(n=20)
 
 class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
-        return evaluate(self)
+        return evaluate(self.chromosome)
 
 
 class MyPopulation(SGAPopulation):
     element_class = MyIndividual
+    
+# equiv. to MyPopulation = SGAPopulation[MyIndividual.set_fitness(lambda o: evaluate(o.chromosome)]
 
 pop = MyPopulation.random(size=20)
 

@@ -22,7 +22,7 @@ class Gene2(FloatGene):
 class Chromosome2(FloatChromosome):
     element_class = Gene2
 
-class MyIndividual(MixIndividual):
+class _Individual(MixIndividual):
     element_class = Chromosome1, Chromosome2, Chromosome2
 
 
@@ -30,21 +30,23 @@ class MyIndividual(MixIndividual):
         return evaluate(*self.chromosomes)
 
 
-class MyPopulation(SGAPopulation):
-    element_class = MyIndividual
+MyPopulation = SGA2Population[_Individual] // 50
+YourPopulation = SGAPopulation[_Individual] // 50
 
-pop = MyPopulation.random(n_individuals=30, n_chromosomes=2, sizes=(10, 10, 10))
+pop = MyPopulation.random(sizes=(10, 10, 10))
+pop2 = pop.clone(type_=YourPopulation)
 
-stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
+pop.ezolve(n_iter=300)
+ind1 = pop.best_individual
+y1 = evaluate.fit(*ind1.chromosomes)
+
+pop2.ezolve(n_iter=300)
+ind2 = pop2.best_individual
+y2 = evaluate.fit(*ind2.chromosomes)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-params = pop.best_individual.chromosomes
-yy = evaluate.fit(*params)
-pop.evolve(n_iter=200, verbose=False)
-params = pop.best_individual.chromosomes
-yyy = evaluate.fit(*params)
-ax.plot(X, y, X, yy, X, yyy)
-ax.legend(('Original Function', 'Approximating Function (G1)', 'Approximating Function (G100)'))
+ax.plot(X, y, X, y1, X, y2)
+ax.legend(('Original Function', f'With hall of fame (Error: {-ind1.fitness})', f'Without (Error: {-ind2.fitness})'))
 plt.show()

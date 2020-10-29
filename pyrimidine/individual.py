@@ -33,6 +33,10 @@ class MonoIndividual(BaseIndividual, metaclass=MetaList):
     def decode(self):
         return self.chromosome.decode()
 
+    @classmethod
+    def set_size(cls, sz):
+        raise DeprecationWarning("Never set the size of this class!")
+
     @property
     def individuals(self):
         return self.__elements

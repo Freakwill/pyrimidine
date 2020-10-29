@@ -23,6 +23,40 @@ class SGAPopulation(BasePopulation):
         super(SGAPopulation, self).transit(*args, **kwargs)
         self.merge(elder)
 
+class SGA2Population(SGAPopulation):
+    """Standard Genetic Algo II.
+
+    With hall of fame
+    
+    Extends:
+        BasePopulation
+    """
+
+    params = {'fame_size':4}
+
+    def init(self):
+        self.halloffame = self.get_best_individuals(self.fame_size)
+
+    def transit(self, k=None, *args, **kwargs):
+        """
+        Transitation of the states of population by SGA
+        """
+        super(SGA2Population, self).transit(*args, **kwargs)
+        self.update_halloffame()
+        self.add_individuals([i.clone() for i in self.halloffame])
+
+    def update_halloffame(self):
+        b = self.best_individual
+        for i in self.halloffame:
+            if i.fitness < b.fitness:
+                self.halloffame.remove(i)
+                self.halloffame.append(b.clone())
+                break
+
+    @property
+    def best_fitness(self):
+        return max(_.fitness for _ in self.halloffame)
+
 
 class DualPopulation(BasePopulation):
     """Dual Genetic Algo.
@@ -68,9 +102,9 @@ class GamogenesisPopulation(SGAPopulation):
         Keyword Arguments:
             mate_prob {number} -- the proba. of mating of two individuals (default: {None})
         """
-
+        mate_prob = mate_prob or self.mate_prob
         offspring = [individual.cross(other) for individual, other in zip(self.males, self.females)
-        if random() < (mate_prob or self.mate_prob)]
+        if random() < mate_prob]
         self.individuals.extend(offspring)
         self.offspring = self.__class__(offspring)
 
@@ -84,7 +118,7 @@ class EliminationPopulation(BasePopulation):
         elder.select(k)
         super(EliminationPopulation, self).transit(*args, **kwargs)
         self.eliminate()
-        self.merge(elder, select=True)
+        self.merge(elder)
 
     def eliminate(self):
         for individual in self.individuals:
@@ -102,11 +136,15 @@ class AgePopulation(EliminationPopulation):
 
 
 class LocalSearchPopulation(BasePopulation):
-    '''LocalSearchPopulation'''
+    '''LocalSearchPopulation Class
+    
+    Population with `local_search` method
+    '''
 
     def transit(self, mutate_prob=0.3, mate_prob=0.7):
-        """
-        Transitation of the states of population by SGA
+        """Transitation of the states of population
+
+        Calling `local_search` method
         """
         c = self.clone()
         c.select(k=0.7)

@@ -17,14 +17,11 @@ class _Chromosome(PermutationChromosome):
     def decode(self):
         return np.hstack((self, [self[0]]))
 
-
 _Individual = MonoIndividual[_Chromosome].set_fitness(lambda obj: 1 / _evaluate(obj.decode()))
 
-_Population = SGAPopulation[_Individual] * 40
+_Population = SGA2Population[_Individual] // 80
 
-MySpecies = DualSpecies[_Population]
-
-sp = MySpecies.random()
+pop = _Population.random()
 
 from matplotlib import pyplot as plt
 from celluloid import Camera
@@ -34,19 +31,20 @@ ax = fig.add_subplot(111)
 
 points = _evaluate.points
 
+
 def animate(i):
-    sp.ezolve(n_iter=2)
-    x = sp.best_individual.decode()
+    pop.ezolve(n_iter=2)
+    x = pop.best_individual.decode()
     ax.plot(points[x, 0], points[x, 1], 'k-o')
-    ax.legend(('Best Solution', f'Generation {i*2}'))
+    ax.legend((f'Generation {i*2}({pop.best_fitness:.4})',))
 
 camera = Camera(fig)
-x = sp.best_individual.decode()
+x = pop.best_individual.decode()
 ax.plot(points[x, 0], points[x,1], 'k-o')
-ax.legend(('Generation 0',))
+ax.legend((f'Generation 0({pop.best_fitness:.4})',))
 for i in range(1, 801):
     animate(i)
     camera.snap()
+
 animation = camera.animate()
 animation.save('animation.mp4')
-

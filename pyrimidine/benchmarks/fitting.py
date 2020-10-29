@@ -30,7 +30,7 @@ class Fitting:
 
     def __call__(self, *params):
         yy = self.fit(*params)
-        return - LA.norm(self.y-yy, 'fro') / self.n
+        return - LA.norm(self.y-yy, 1) / self.n
 
 
 class CurveFitting(Fitting):
