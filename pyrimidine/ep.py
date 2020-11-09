@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from .base import BasePopulationModel
+from .base import BasePopulationModel, BaseChromosome
 from .chromosome import FloatChromosome
 from .individual import MixIndividual
-from .utils import max_lb
+from .utils import *
 
 import numpy as np
 
@@ -15,7 +15,7 @@ class BaseEPIndividual(MixIndividual):
 
     params = {'c':0.1, 'epsilon':0.0001}
 
-    element_class = FloatChromosome, FloatChromosome
+    element_class = BaseChromosome, FloatChromosome
 
     def decode(self):
         return self.chromosomes[0]
@@ -30,9 +30,10 @@ class BaseEPIndividual(MixIndividual):
     
 
     def mutate(self):
-        rx = np.random.rand(*self.chromosomes[0].shape)
-        rv = np.random.rand(*self.variance.shape)
+        rx = np.random.randn(*self.chromosomes[0].shape)
         self.chromosomes[0] += rx * np.sqrt(self.variance)
+
+        rv = np.random.randn(*self.variance.shape)
         self.variance += self.c * rv * np.sqrt(self.variance)
         self.variance = max_lb(self.epsilon)(self.variance)
 
@@ -40,9 +41,8 @@ class BaseEPIndividual(MixIndividual):
 class EPPopulation(BasePopulationModel):
     element_class = BaseEPIndividual
 
-    # def select(self):
-    #     self.individuals = self.get_best_individuals(0.5)
-    #     print(len(self.individuals))
+    def select(self):
+        self.individuals = choice_with_fitness(self.individuals, n=0.5*self.n_individuals)
 
     def transit(self, *args, **kwargs):
         cpy = self.clone()

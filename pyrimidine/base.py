@@ -284,6 +284,9 @@ class BaseFitnessModel(BaseIterativeModel):
     def fitness(self, f):
         self.__fitness = f
 
+    def get_fitness(self):
+        return self._fitness()
+
     def _fitness(self):
         raise NotImplementedError
 

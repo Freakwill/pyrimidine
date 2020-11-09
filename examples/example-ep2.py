@@ -11,6 +11,7 @@ n=10
 _evaluate = schaffer
 
 class _Individual(BaseEPIndividual):
+    element_class = FloatChromosome, FloatChromosome
 
     def decode(self):
         return self.chromosomes[0]
@@ -28,7 +29,7 @@ class _Population(EPPopulation, BasePopulation):
 pop = _Population.random(sizes=(n, n))
 
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
-data = pop.evolve(stat=stat, n_iter=100, period=5, history=True)
+data = pop.evolve(stat=stat, n_iter=500, period=5, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

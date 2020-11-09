@@ -12,6 +12,7 @@ from scipy.spatial.distance import euclidean
 import numpy as np
 import numba as nb
 
+
 class GOThread(threading.Thread):
     def __init__(self, target, *args, **kwargs):
         self.target = operator.methodcaller(target) if isinstance(target, str) else target
@@ -61,8 +62,8 @@ def choice_with_prob(xs, ps, n=1):
     return [xs[k] for k in ks]
 
 def choice_with_fitness(xs, fs=None, n=1, T=1):
-    if fx is None:
-        fx = [x.fitness for x in xs]
+    if fs is None:
+        fs = [x.fitness for x in xs]
     ps = softmax(np.array(fs) /T)
     return choice_with_prob(xs, ps, n=1)
 
