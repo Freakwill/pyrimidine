@@ -4,8 +4,10 @@
 from . import BaseSpecies
 from .utils import  *
 
+from itertools import product
+
 class DualSpecies(BaseSpecies):
-    params = {'n_elders':0.5}
+    params = {'n_elders':0.5, 'mate_prob':0.75}
 
     @property  
     def male_population(self):
@@ -30,25 +32,13 @@ class DualSpecies(BaseSpecies):
     @property
     def female_fitness(self):
         return self.populations[1].fitness
-    
 
     def mate(self):
-        self.populations[0].rank()
-        self.populations[1].rank()
-        male_offspring = []
-        female_offspring = []
-        for _ in range(2):
-            shuffle(self.females)
-            for male, female in zip(self.males, self.females):
-                if self.match(male, female):
-                    child = male.cross(female)
-                    if random()<0.5:
-                        male_offspring.append(child)
-                    else:
-                        female_offspring.append(child)
-
-        self.populations[0].individuals.extend(male_offspring)
-        self.populations[1].individuals.extend(female_offspring)
+        self.populations[0].rank(tied=True)
+        self.populations[1].rank(tied=True)
+        children = [male.cross(female) for male, female in product(self.males, self.females) if random() < self.mate_prob and self.match(male, female)]
+        self.populations[0].add_individuals(children[::2])
+        self.populations[1].add_individuals(children[1::2])
 
 
     def match(self, male, female):

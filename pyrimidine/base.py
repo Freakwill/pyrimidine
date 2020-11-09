@@ -136,11 +136,12 @@ class BaseIterativeModel:
             self.transit(k, *args, **kwargs)
             self.post_process()
 
-    def evolve(self, n_iter=None, per=1, verbose=False, decode=False, stat={'Fitness': 'fitness'}, history=False, *args, **kwargs):
+    def evolve(self, n_iter=None, period=1, verbose=False, decode=False, stat={'Fitness': 'fitness'}, history=False, *args, **kwargs):
         """Get the history of the whole evolution
 
         Keyword Arguments:
             n_iter {number} -- number of iterations (default: {None})
+            period {integer} -- the peroid of stat
             verbose {bool} -- to print the iteration process
             decode {bool} -- decode to the real solution
             stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
@@ -174,10 +175,10 @@ class BaseIterativeModel:
         for k in range(1, n_iter+1):
             self.transit(k, *args, **kwargs)
             self.post_process()
-            if flag and (per == 1 or k % per ==0):
+            if flag and (period == 1 or k % period ==0):
                 stat_row = self._stat(stat)
                 history = history.append(stat_row, ignore_index=True)
-            if verbose and (per == 1 or k % per ==0):
+            if verbose and (period == 1 or k % period ==0):
                 print(f'0 & {self.solution} & {" & ".join(self._stat(stat).values())}')
         return history
 
@@ -186,26 +187,13 @@ class BaseIterativeModel:
                     else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) 
                 for k, s in stat.items()}
 
-    def get_history(self, history=True, per=1, stat={'Fitness': 'fitness'}, *args, **kwargs):
+    def get_history(self, *args, **kwargs):
         """Get the history of the whole evolution
 
         Would be replaced by `evolve`
         """
-        print(DeprecationWarning('This method is deprecated from now on!!!, use `evolve(history=True, ***)` instead.'))
-        n_iter = n_iter or self.n_iter
-        self.init()
-        if history is True:
-            import pandas as pd
-            history = pd.DataFrame(data={k:[v] for k, v in self._stat(stat).items()})
-        elif not isinstance(history, pd.DataFrame):
-            raise TypeError('Argument `history` should be a DataFrame object.')
-        for k in range(1, n_iter+1):
-            self.transit(k, *args, **kwargs)
-            self.post_process()
-            if per == 1 or k % per ==0:
-                stat_row = self._stat(stat)
-                history = history.append(stat_row, ignore_index=True)
-        return history
+        raise DeprecationWarning('This method is deprecated from now on!!!, use `evolve(history=True, ***)` instead.')
+
 
     def perf(self, n_repeats=10, *args, **kwargs):
         """Get performance of Algo.

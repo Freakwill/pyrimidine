@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from .base import BaseIterativeModel
+from .base import BasePopulationModel
 from .chromosome import FloatChromosome
 from .individual import PolyIndividual
 from .utils import gauss, random
@@ -58,14 +58,14 @@ class Particle(PolyIndividual):
         self.fitness = None
 
 
-class ParticleSwarm(BaseIterativeModel):
+class ParticleSwarm(BasePopulationModel):
     """Standard PSO
     
     Extends:
         BaseIterativeModel
     """
+    
     element_class = Particle
-
     default_size = 20
 
     params = {'learning_factor': 2, 'acceleration_coefficient': 3, 'inertia':0.5, 'n_best_particles':0.1, 'max_velocity':None}

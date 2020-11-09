@@ -30,6 +30,7 @@ class Knapsack:
         self.W = W
         self.M = M
         self.n_bags = len(c)
+        self.__sorted = None
 
     @staticmethod
     def random(n=50, W=0.7):
@@ -43,7 +44,15 @@ class Knapsack:
         c = [26, 59, 30, 19, 66, 85, 94, 8, 3, 44, 5, 1, 41, 82, 76, 1, 12, 81, 73, 32]
         return Knapsack(w, c, W=W)
 
+    def argsort(self):
+        return np.argsort(self.c / self.w)
 
+    @property
+    def sorted(self):
+        if self.__sorted is None:
+            self.__sorted =self.argsort()
+
+        return self.__sorted
 
     def __call__(self, x):
         c, w, W, M = self.c, self.w, self.W, self.M
@@ -107,4 +116,41 @@ class ShortestPath:
 
     def __call__(self, x):
         return np.sum([self.dm[i,j] if i<j else self.dm[j, i] for i, j in zip(x[:-1], x[1:])])
- 
+
+class MinSpanningTree:
+    def __init__(self, nodes, edges=[]):
+        self.nodes = nodes
+        self.edges = edges
+
+    def prufer_decode(self, x):
+        P = x
+        Q = set(self.nodes) - set(P)
+        edges = []
+        while P:
+            i = min(Q)
+            j = P[0]
+            edges.append((i, j))
+            Q.remove(i)
+            P.pop(0)
+            if j not in P:
+                Q.add(j)
+        edges.append(tuple(Q))
+        return edges
+
+
+class FacilityLayout(object):
+    '''[Summary for Class FacilityLayout]FacilityLayout has 2 (principal) propteries
+    F: F
+    D: D'''
+    def __init__(self, F, D):
+        self.F = F
+        self.D = D
+    
+    @staticmethod
+    def random(self, n):
+        F = np.random.random(size=(n, n))
+        D = np.random.random(size=(n, n))
+        return FacilityLayout(F, D)
+
+    def __call__(self, x):
+        return np.dot(self.F.ravel(), np.array([self.D[xi, xj] for xj in x for xi in x]))

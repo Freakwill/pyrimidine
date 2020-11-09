@@ -82,7 +82,7 @@ class DualPopulation(BasePopulation):
         elder = self.clone()
         elder.get_best_individuals(self.n_elders)
         super(DualPopulation, self).transit(*args, **kwargs)
-        self.merge(elder, select=True)
+        self.merge(elder)
 
 
 class GamogenesisPopulation(SGAPopulation):

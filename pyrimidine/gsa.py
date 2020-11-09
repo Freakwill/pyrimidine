@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from .base import BaseIterativeModel
+from .base import BaseFitnessModel
 from .chromosome import FloatChromosome
 from .individual import PolyIndividual
 from .utils import euclidean, random, exp, metropolis_rule
@@ -53,11 +53,11 @@ class Particle(PolyIndividual):
             self.fitness = cpy.fitness
 
 
-class GravitySearch(BaseIterativeModel):
+class GravitySearch(BaseFitnessModel):
     """Standard GSA
     
     Extends:
-        BaseIterativeModel
+        BaseFitnessModel
     """
 
     element_class = Particle

@@ -10,6 +10,7 @@ from math import exp
 from scipy.spatial.distance import euclidean
 
 import numpy as np
+import numba as nb
 
 class GOThread(threading.Thread):
     def __init__(self, target, *args, **kwargs):
@@ -98,12 +99,20 @@ def randint2(lb=0, ub=9, ordered=False):
             return j, i
     return i, j
 
-
+@nb.vectorize()
 def max0(x):
-    return max((x, 0))
+    return 0 if x<=0 else x
 
-def hlim(x, lb=0, ub=1):
-    return min(max((x, lb)), ub)
+def max_lb(lb):
+    @nb.vectorize()
+    def m(x):
+        return lb if x<=lb else x
+    return m
+
+
+@nb.vectorize()
+def hl(x):
+    return 0 if x<=0 else (1 if x>=1 else x)
 
 
 def metropolis_rule(D, T, epsilon=0.000001):

@@ -325,11 +325,11 @@ class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
         return evaluate(self.chromosome)
 
-
 class MyPopulation(SGAPopulation):
     element_class = MyIndividual
     
-# equiv. to MyPopulation = SGAPopulation[MyIndividual.set_fitness(lambda o: evaluate(o.chromosome)]
+# equiv. to 
+# MyPopulation = SGAPopulation[MonoBinaryIndividual.set_fitness(lambda o: evaluate(o.chromosome)]
 
 pop = MyPopulation.random(size=20)
 

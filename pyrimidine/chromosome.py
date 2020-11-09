@@ -184,13 +184,9 @@ class FloatChromosome(VectorChromosome):
         return cpy
 
 
-_max0 = np.frompyfunc(max0, 1, 1)
-_hl = np.frompyfunc(hlim, 1, 1)
-
-
 class PositiveChromosome(FloatChromosome):
     def max0(self):
-        self[:] = _max0(self)
+        self[:] = max0(self)
 
 
 class UnitFloatChromosome(PositiveChromosome):
@@ -207,7 +203,7 @@ class UnitFloatChromosome(PositiveChromosome):
         self.normalize()
 
     def normalize(self):
-        self[:] = _hl(self)
+        self[:] = hl(self)
 
 
 class ProbabilityChromosome(PositiveChromosome):

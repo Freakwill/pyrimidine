@@ -2,42 +2,39 @@
 
 from pyrimidine import *
 import numpy as np
-from pyrimidine.benchmarks.optimization import *
+from pyrimidine.benchmarks.special import *
 
 
 # generate a knapsack problem randomly
 
-n_bags = 100
-_evaluate = Knapsack.random(n=n_bags)
+n=10
+_evaluate = schaffer
 
-class _Individual(PolyIndividual[BinaryChromosome]):
+class _Individual(BaseEPIndividual):
 
     def decode(self):
-        return self[0]
+        return self.chromosomes[0]
+
 
     def _fitness(self):
-        return _evaluate(self.decode())
+        return - _evaluate(self.decode())
 
 
-class _Population(BasePopulation):
+class _Population(EPPopulation, BasePopulation):
     element_class = _Individual
     default_size = 20
 
-class MySpecies(BaseSpecies):
-    element_class = _Population
 
-
-sp = MySpecies.random(sizes=(n_bags, 10))
+pop = _Population.random(sizes=(n, n))
 
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
-data, t = sp.perf(stat=stat, n_iter=200, n_repeats=1)
-print(t)
-
+data = pop.evolve(stat=stat, n_iter=100, period=5, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
+
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
-ax.set_xlabel('Generations')
+ax.set_xlabel('Generations * 5')
 ax.set_ylabel('Fitness')
 plt.show()

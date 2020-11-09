@@ -8,11 +8,11 @@ from pyrimidine import *
 from digit_converter import *
 
 
-ndim = 10
+ndim = 8
 def evaluate(x):
     return -rosenbrock(ndim)(x)
 
-c=IntervalConverter(-5,5)
+c=IntervalConverter(-1,1)
 
 
 class _Chromosome(BinaryChromosome):
@@ -27,7 +27,7 @@ class uChromosome(BinaryChromosome):
 
 class Mixin:
     def _fitness(self):
-        x = [self[k].decode() for k in range(ndim)]
+        x = [self.chromosomes[k].decode() for k in range(ndim)]
         return evaluate(x)
 
 class ExampleIndividual(Mixin, MultiIndividual):
@@ -39,7 +39,7 @@ class MyIndividual(Mixin, MixIndividual[(_Chromosome,)*ndim + (uChromosome,)]):
     Method `mate` is overriden.
     """
     ranking = None
-    threshold = 0.25
+    threshold = 0.3
 
     @property
     def threshold(self):
@@ -90,6 +90,6 @@ if __name__ == '__main__':
 
     d = pop.evolve(n_iter=100, stat=stat, history=True)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
-    ax.legend(('Traditional mean','Traditional best', 'New mean', 'New best'))
+    ax.legend(('Traditional mean', f'Traditional best({pop.best_fitness})', 'New mean', f'New best({pop.best_fitness})'))
     plt.show()
 
