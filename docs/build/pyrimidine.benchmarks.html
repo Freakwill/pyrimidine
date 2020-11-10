@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyrimidine.benchmarks package &#8212; pyrimidine 0.2 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="pyrimidine-benchmarks-package">
+<h1>pyrimidine.benchmarks package<a class="headerlink" href="#pyrimidine-benchmarks-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyrimidine.benchmarks.approximation">
+<span id="pyrimidine-benchmarks-approximation-module"></span><h2>pyrimidine.benchmarks.approximation module<a class="headerlink" href="#module-pyrimidine.benchmarks.approximation" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.approximation.Function1DApproximation">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.approximation.</code><code class="sig-name descname">Function1DApproximation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">lb</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">ub</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.approximation.Function1DApproximation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyrimidine.benchmarks.cluster">
+<span id="pyrimidine-benchmarks-cluster-module"></span><h2>pyrimidine.benchmarks.cluster module<a class="headerlink" href="#module-pyrimidine.benchmarks.cluster" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.cluster.KMeans">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.cluster.</code><code class="sig-name descname">KMeans</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">n_components</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.cluster.KMeans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>KMeans clustering Problem</p>
+<p>min J(c,mu)=sum_i ||xi-mu_ci||
+where xi in ci</p>
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.cluster.KMeans.random">
+<em class="property">static </em><code class="sig-name descname">random</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">N</span></em>, <em class="sig-param"><span class="n">p</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.cluster.KMeans.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyrimidine.benchmarks.fitting">
+<span id="pyrimidine-benchmarks-fitting-module"></span><h2>pyrimidine.benchmarks.fitting module<a class="headerlink" href="#module-pyrimidine.benchmarks.fitting" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.fitting.CurveFitting">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.fitting.</code><code class="sig-name descname">CurveFitting</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.fitting.CurveFitting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.benchmarks.fitting.Fitting" title="pyrimidine.benchmarks.fitting.Fitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyrimidine.benchmarks.fitting.Fitting</span></code></a></p>
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.fitting.CurveFitting.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">params</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.fitting.CurveFitting.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.fitting.Fitting">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.fitting.</code><code class="sig-name descname">Fitting</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.fitting.Fitting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.fitting.Fitting.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">params</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.fitting.Fitting.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.fitting.Fitting.random">
+<code class="sig-name descname">random</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.fitting.Fitting.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.fitting.Painting">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.fitting.</code><code class="sig-name descname">Painting</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.fitting.Painting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.benchmarks.fitting.Fitting" title="pyrimidine.benchmarks.fitting.Fitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyrimidine.benchmarks.fitting.Fitting</span></code></a></p>
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.fitting.Painting.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">params</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.fitting.Painting.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.fitting.Painting.toimage">
+<code class="sig-name descname">toimage</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">params</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.fitting.Painting.toimage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyrimidine.benchmarks.fitting.basis">
+<code class="sig-prename descclassname">pyrimidine.benchmarks.fitting.</code><code class="sig-name descname">basis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">t</span></em>, <em class="sig-param"><span class="n">d</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.fitting.basis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyrimidine.benchmarks.fitting.relu">
+<code class="sig-prename descclassname">pyrimidine.benchmarks.fitting.</code><code class="sig-name descname">relu</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.fitting.relu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pyrimidine.benchmarks.linear_model">
+<span id="pyrimidine-benchmarks-linear-model-module"></span><h2>pyrimidine.benchmarks.linear_model module<a class="headerlink" href="#module-pyrimidine.benchmarks.linear_model" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="pyrimidine.benchmarks.linear_model.fun">
+<code class="sig-prename descclassname">pyrimidine.benchmarks.linear_model.</code><code class="sig-name descname">fun</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.linear_model.fun" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyrimidine.benchmarks.linear_model.lsq">
+<code class="sig-prename descclassname">pyrimidine.benchmarks.linear_model.</code><code class="sig-name descname">lsq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">A</span></em>, <em class="sig-param"><span class="n">B</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">0.1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.linear_model.lsq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pyrimidine.benchmarks.matrix">
+<span id="pyrimidine-benchmarks-matrix-module"></span><h2>pyrimidine.benchmarks.matrix module<a class="headerlink" href="#module-pyrimidine.benchmarks.matrix" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.matrix.NMF">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.matrix.</code><code class="sig-name descname">NMF</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">M</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.matrix.NMF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.matrix.NMF.random">
+<em class="property">static </em><code class="sig-name descname">random</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">500</span></em>, <em class="sig-param"><span class="n">p</span><span class="o">=</span><span class="default_value">100</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.matrix.NMF.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyrimidine.benchmarks.neural_network">
+<span id="pyrimidine-benchmarks-neural-network-module"></span><h2>pyrimidine.benchmarks.neural_network module<a class="headerlink" href="#module-pyrimidine.benchmarks.neural_network" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.neural_network.MLP">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.neural_network.</code><code class="sig-name descname">MLP</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">Y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.neural_network.MLP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Y = A2f(A1X+b1)+b2</p>
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.neural_network.MLP.random">
+<em class="property">static </em><code class="sig-name descname">random</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">N</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">p</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.neural_network.MLP.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="pyrimidine.benchmarks.neural_network.relu">
+<code class="sig-prename descclassname">pyrimidine.benchmarks.neural_network.</code><code class="sig-name descname">relu</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.neural_network.relu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pyrimidine.benchmarks.optimization">
+<span id="pyrimidine-benchmarks-optimization-module"></span><h2>pyrimidine.benchmarks.optimization module<a class="headerlink" href="#module-pyrimidine.benchmarks.optimization" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.optimization.FacilityLayout">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.optimization.</code><code class="sig-name descname">FacilityLayout</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">F</span></em>, <em class="sig-param"><span class="n">D</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.FacilityLayout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>[Summary for Class FacilityLayout]FacilityLayout has 2 (principal) propteries
+F: F
+D: D</p>
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.optimization.FacilityLayout.random">
+<em class="property">static </em><code class="sig-name descname">random</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">n</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.FacilityLayout.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.optimization.Knapsack">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.optimization.</code><code class="sig-name descname">Knapsack</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">w</span></em>, <em class="sig-param"><span class="n">c</span></em>, <em class="sig-param"><span class="n">W</span><span class="o">=</span><span class="default_value">0.7</span></em>, <em class="sig-param"><span class="n">M</span><span class="o">=</span><span class="default_value">100</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.Knapsack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Knapsack Problem</p>
+<p>max sum_i ci
+s.t. sum_i wi &lt;= W
+where ci, wi selected from c, w</p>
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.optimization.Knapsack.argsort">
+<code class="sig-name descname">argsort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.Knapsack.argsort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.optimization.Knapsack.example">
+<em class="property">static </em><code class="sig-name descname">example</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">W</span><span class="o">=</span><span class="default_value">0.7</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.Knapsack.example" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.optimization.Knapsack.random">
+<em class="property">static </em><code class="sig-name descname">random</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">W</span><span class="o">=</span><span class="default_value">0.7</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.Knapsack.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.optimization.Knapsack.sorted">
+<em class="property">property </em><code class="sig-name descname">sorted</code><a class="headerlink" href="#pyrimidine.benchmarks.optimization.Knapsack.sorted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.optimization.MLE">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.optimization.</code><code class="sig-name descname">MLE</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pdf</span></em>, <em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.MLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.optimization.MLE.random">
+<em class="property">static </em><code class="sig-name descname">random</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">300</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.MLE.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.optimization.MinSpanningTree">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.optimization.</code><code class="sig-name descname">MinSpanningTree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nodes</span></em>, <em class="sig-param"><span class="n">edges</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.MinSpanningTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.optimization.MinSpanningTree.prufer_decode">
+<code class="sig-name descname">prufer_decode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.MinSpanningTree.prufer_decode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.optimization.MixMLE">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.optimization.</code><code class="sig-name descname">MixMLE</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pdfs</span></em>, <em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.MixMLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.optimization.MixMLE.logpdf">
+<code class="sig-name descname">logpdf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">t</span></em>, <em class="sig-param"><span class="n">a</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.MixMLE.logpdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.optimization.MixMLE.random">
+<em class="property">static </em><code class="sig-name descname">random</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_observants</span><span class="o">=</span><span class="default_value">300</span></em>, <em class="sig-param"><span class="n">n_components</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.MixMLE.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.optimization.ShortestPath">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.optimization.</code><code class="sig-name descname">ShortestPath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">points</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.ShortestPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="pyrimidine.benchmarks.optimization.ShortestPath.random">
+<em class="property">static </em><code class="sig-name descname">random</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">N</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.optimization.ShortestPath.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyrimidine.benchmarks.others">
+<span id="pyrimidine-benchmarks-others-module"></span><h2>pyrimidine.benchmarks.others module<a class="headerlink" href="#module-pyrimidine.benchmarks.others" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyrimidine.benchmarks.others.Kantorovich">
+<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.benchmarks.others.</code><code class="sig-name descname">Kantorovich</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">b</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.others.Kantorovich" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>a: a
+b: b</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyrimidine.benchmarks.special">
+<span id="pyrimidine-benchmarks-special-module"></span><h2>pyrimidine.benchmarks.special module<a class="headerlink" href="#module-pyrimidine.benchmarks.special" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="pyrimidine.benchmarks.special.griewangk">
+<code class="sig-prename descclassname">pyrimidine.benchmarks.special.</code><code class="sig-name descname">griewangk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.special.griewangk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyrimidine.benchmarks.special.hansen">
+<code class="sig-prename descclassname">pyrimidine.benchmarks.special.</code><code class="sig-name descname">hansen</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.special.hansen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyrimidine.benchmarks.special.michalewiez">
+<code class="sig-prename descclassname">pyrimidine.benchmarks.special.</code><code class="sig-name descname">michalewiez</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.special.michalewiez" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyrimidine.benchmarks.special.rastrigrin">
+<code class="sig-prename descclassname">pyrimidine.benchmarks.special.</code><code class="sig-name descname">rastrigrin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.special.rastrigrin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyrimidine.benchmarks.special.rosenbrock">
+<code class="sig-prename descclassname">pyrimidine.benchmarks.special.</code><code class="sig-name descname">rosenbrock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.special.rosenbrock" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyrimidine.benchmarks.special.schaffer">
+<code class="sig-prename descclassname">pyrimidine.benchmarks.special.</code><code class="sig-name descname">schaffer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.special.schaffer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pyrimidine.benchmarks">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyrimidine.benchmarks" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pyrimidine</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Home.html">pyrimidine: a universal framework for genetic algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation and Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API%20Reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples and customization tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Customize.html">Configuration</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, William Song.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/pyrimidine.benchmarks.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
