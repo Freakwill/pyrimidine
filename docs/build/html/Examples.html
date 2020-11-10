@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Examples and customization tricks &#8212; pyrimidine 0.1 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <title>Examples and customization tricks &#8212; pyrimidine 0.2 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
@@ -61,13 +61,18 @@
     <span class="n">element_class</span> <span class="o">=</span> <span class="n">MyIndividual</span>
 
 <span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>  <span class="c1"># or pop.ezvolve() a clean version of `evolve`</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">best_individual</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Following is an equivalent expression without <code class="docutils literal notranslate"><span class="pre">class</span></code> keward.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MyPopulation</span> <span class="o">=</span> <span class="n">SGAPopulation</span><span class="p">[</span><span class="n">MonoBinaryIndividual</span><span class="o">.</span><span class="n">set_fitness</span><span class="p">(</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">_evaluate</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">chromosome</span><span class="p">))]</span>
 <span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n_individuals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
+
+<span class="c1"># or</span>
+<span class="n">MyPopulation</span> <span class="o">=</span> <span class="n">SGAPopulation</span><span class="p">[</span><span class="n">MonoBinaryIndividual</span><span class="o">.</span><span class="n">set_fitness</span><span class="p">(</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">_evaluate</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">chromosome</span><span class="p">))]</span> <span class="o">//</span> <span class="mi">20</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
 <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -322,7 +327,7 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
       &copy;2020, William Song.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

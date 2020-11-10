@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyrimidine: a universal framework for genetic algorithm &#8212; pyrimidine 0.1 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <title>pyrimidine: a universal framework for genetic algorithm &#8212; pyrimidine 0.2 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation and Getting Started" href="Install.html" />
-    <link rel="prev" title="Welcome to pyrimidine’s documentation!" href="index.html" />
+    <link rel="prev" title="Welcome to pyrimidine’s world of genetic algorithm" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -66,6 +66,8 @@ Container class has an attribute <code class="docutils literal notranslate"><spa
 <p>There are mainly tow kinds of containers: list and tuple as in programming language <code class="docutils literal notranslate"><span class="pre">Haskell</span></code>. See following examples.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># individual with chromosomes of type _Chromosome</span>
 <span class="n">_Individual1</span> <span class="o">=</span> <span class="n">BaseIndividual</span><span class="p">[</span><span class="n">_Choromosome</span><span class="p">]</span>
+<span class="c1"># individual with 20 chromosomes of type _Chromosome</span>
+<span class="n">_Individual1</span> <span class="o">=</span> <span class="n">BaseIndividual</span><span class="p">[</span><span class="n">_Choromosome</span><span class="p">]</span> <span class="o">//</span> <span class="mi">20</span>
 <span class="c1"># individual with 2 chromosomes of type _Chromosome1 and _Chromosome2 respectively</span>
 <span class="n">_Individual2</span> <span class="o">=</span> <span class="n">MixIndividual</span><span class="p">[</span><span class="n">_Chromosome1</span><span class="p">,</span> <span class="n">_Chromosome2</span><span class="p">]</span>
 </pre></div>
@@ -108,7 +110,7 @@ Container class has an attribute <code class="docutils literal notranslate"><spa
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to pyrimidine’s documentation!</a></li>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to pyrimidine’s world of genetic algorithm</a></li>
       <li>Next: <a href="Install.html" title="next chapter">Installation and Getting Started</a></li>
   </ul></li>
 </ul>
@@ -139,7 +141,7 @@ Container class has an attribute <code class="docutils literal notranslate"><spa
       &copy;2020, William Song.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
