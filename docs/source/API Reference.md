@@ -14,6 +14,14 @@ def evolve(self):
 
 Users could override `transit` to implement any other iteration form.
 
+
+
+### Fitness Models
+
+Fitness Models are Iterative Models with fitness. Iteration in fitness models would be influenced by fitness.
+
+Indiviudal is a fitness model in GA.
+
 ## Individuals
 
 The individual classes are inherited from `BaseIndividual`. For instance, `BinaryIndividual` is a subclass encoded by   several binary chromosomes.
