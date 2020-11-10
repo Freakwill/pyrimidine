@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Reference &#8212; pyrimidine 0.2 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples and customization tricks" href="Examples.html" />
+    <link rel="prev" title="Installation and Getting Started" href="Install.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="iterative-models">
+<h2>Iterative Models<a class="headerlink" href="#iterative-models" title="Permalink to this headline">¶</a></h2>
+<p>An iterative model is a class implementing iterative algorithms, repeating to call $x’=Tx$.</p>
+<p>Following is the core code of the class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">looping</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Users could override <code class="docutils literal notranslate"><span class="pre">transit</span></code> to implement any other iteration form.</p>
+<div class="section" id="fitness-models">
+<h3>Fitness Models<a class="headerlink" href="#fitness-models" title="Permalink to this headline">¶</a></h3>
+<p>Fitness Models are Iterative Models with fitness. Iteration in fitness models would be influenced by fitness.</p>
+<p>Indiviudal is a fitness model in GA.</p>
+</div>
+</div>
+<div class="section" id="individuals">
+<h2>Individuals<a class="headerlink" href="#individuals" title="Permalink to this headline">¶</a></h2>
+<p>The individual classes are inherited from <code class="docutils literal notranslate"><span class="pre">BaseIndividual</span></code>. For instance, <code class="docutils literal notranslate"><span class="pre">BinaryIndividual</span></code> is a subclass encoded by   several binary chromosomes.</p>
+</div>
+<div class="section" id="populations">
+<h2>Populations<a class="headerlink" href="#populations" title="Permalink to this headline">¶</a></h2>
+<p>The population classes are inherited from <code class="docutils literal notranslate"><span class="pre">BasePopulation</span></code>. <code class="docutils literal notranslate"><span class="pre">SGAPopulation</span></code> is the standard population for GA.</p>
+</div>
+<div class="section" id="chromosomes">
+<h2>Chromosomes<a class="headerlink" href="#chromosomes" title="Permalink to this headline">¶</a></h2>
+<p>The chromosomes as an array of genes, could be regarded as the unit of genetic operations.  The subclass used most frequently is<code class="docutils literal notranslate"><span class="pre">BinaryChromosome</span></code>.</p>
+</div>
+<div class="section" id="species">
+<h2>Species<a class="headerlink" href="#species" title="Permalink to this headline">¶</a></h2>
+<p>For multi-populations GA. It is a container of populations.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pyrimidine</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Home.html">pyrimidine: a universal framework for genetic algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation and Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#iterative-models">Iterative Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#individuals">Individuals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#populations">Populations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chromosomes">Chromosomes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#species">Species</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples and customization tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Customize.html">Configuration</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Install.html" title="previous chapter">Installation and Getting Started</a></li>
+      <li>Next: <a href="Examples.html" title="next chapter">Examples and customization tricks</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, William Song.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/API Reference.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
