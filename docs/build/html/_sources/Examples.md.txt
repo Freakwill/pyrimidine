@@ -27,7 +27,7 @@ class MyPopulation(SGAPopulation):
     element_class = MyIndividual
 
 pop = MyPopulation.random(size=20)
-pop.evolve()
+pop.evolve()  # or pop.ezvolve() a clean version of `evolve`
 print(pop.best_individual)
 ```
 
@@ -35,6 +35,11 @@ Following is an equivalent expression without `class` keward.
 ```python
 MyPopulation = SGAPopulation[MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))]
 pop = MyPopulation.random(n_individuals=20, size=n)
+pop.evolve()
+
+# or
+MyPopulation = SGAPopulation[MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))] // 20
+pop = MyPopulation.random(size=n)
 pop.evolve()
 ```
 

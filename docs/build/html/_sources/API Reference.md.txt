@@ -14,11 +14,17 @@ def evolve(self):
 
 Users could override `transit` to implement any other iteration form.
 
+
+
+### Fitness Models
+
+Fitness Models are Iterative Models with fitness. Iteration in fitness models would be influenced by fitness.
+
+Indiviudal is a fitness model in GA.
+
 ## Individuals
 
-The individual classes are inherited from `BaseIndividual`.
-
-
+The individual classes are inherited from `BaseIndividual`. For instance, `BinaryIndividual` is a subclass encoded by   several binary chromosomes.
 
 
 
@@ -30,7 +36,7 @@ The population classes are inherited from `BasePopulation`. `SGAPopulation` is t
 
 ## Chromosomes
 
-The chromosomes as an array of genes, could be regarded as the unit of genetic operations. `BinaryChromosome` is used frequently.
+The chromosomes as an array of genes, could be regarded as the unit of genetic operations.  The subclass used most frequently is`BinaryChromosome`.
 
 
 

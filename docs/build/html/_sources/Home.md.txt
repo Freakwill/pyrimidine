@@ -44,6 +44,8 @@ There are mainly tow kinds of containers: list and tuple as in programming langu
 ```python
 # individual with chromosomes of type _Chromosome
 _Individual1 = BaseIndividual[_Choromosome]
+# individual with 20 chromosomes of type _Chromosome
+_Individual1 = BaseIndividual[_Choromosome] // 20
 # individual with 2 chromosomes of type _Chromosome1 and _Chromosome2 respectively
 _Individual2 = MixIndividual[_Chromosome1, _Chromosome2]
 ```

@@ -1,3 +1,5 @@
 *.DS_Store
+*.buildinfo
+*/source
 examples/*.csv
 examples/*.mp4
