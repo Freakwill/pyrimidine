@@ -1,6 +1,4 @@
 *.DS_Store
 *.buildinfo
-/docs/Makefile
-/docs/make.bat
 examples/*.csv
 examples/*.mp4
