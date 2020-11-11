@@ -25,15 +25,13 @@ class uChromosome(BinaryChromosome):
         return unitIntervalConverter(self)
 
 
-class Mixin:
-    def _fitness(self):
-        x = [self.chromosomes[k].decode() for k in range(ndim)]
-        return evaluate(x)
 
-class ExampleIndividual(Mixin, MultiIndividual):
-    element_class = _Chromosome
+def _fitness(self):
+    return evaluate(self.decode())
 
-class MyIndividual(Mixin, MixIndividual[(_Chromosome,)*ndim + (uChromosome,)]):
+ExampleIndividual = MultiIndividual[_Chromosome].set_fitness(_fitness)
+
+class MyIndividual(MixIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fitness(_fitness)):
     """my own individual class
     
     Method `mate` is overriden.
@@ -65,13 +63,11 @@ class MyIndividual(Mixin, MixIndividual[(_Chromosome,)*ndim + (uChromosome,)]):
         else:
             return super(MyIndividual, self).mate(other)
 
-class MyPopulation(SGAPopulation):
-    element_class = MyIndividual
+class MyPopulation(SGA2Population[MyIndividual]):
+
     def transit(self, *args, **kwargs):
         self.sort()
-        self.select()
-        self.mate()
-        self.mutate()
+        super(MyPopulation, self).transit(*args, **kwargs)
 
 
 if __name__ == '__main__':
@@ -82,14 +78,12 @@ if __name__ == '__main__':
     fig = plt.figure()
     ax = fig.add_subplot(111)
 
-    _Population = SGAPopulation[ExampleIndividual]
-    pop = MyPopulation.random(n_individuals=20, sizes=[8]*ndim+[8])
-    cpy = pop.clone(_Population)
-    d = cpy.evolve(n_iter=100, stat=stat, history=True)
+    pop = MyPopulation.random(n_individuals=40, sizes=[8]*ndim+[8])
+    cpy = pop.clone(SGA2Population[ExampleIndividual])
+    d = cpy.evolve(n_iter=200, stat=stat, history=True)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
-
-    d = pop.evolve(n_iter=100, stat=stat, history=True)
+    d = pop.evolve(n_iter=200, stat=stat, history=True)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
-    ax.legend(('Traditional mean', f'Traditional best({pop.best_fitness})', 'New mean', f'New best({pop.best_fitness})'))
+    ax.legend(('Traditional mean', f'Traditional best({cpy.best_fitness})', 'New mean', f'New best({pop.best_fitness})'))
     plt.show()
 

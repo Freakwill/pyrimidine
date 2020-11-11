@@ -137,7 +137,6 @@ In the following example, the binary chromosomes should be decoded to floats. We
 
 from pyrimidine.benchmarks.special import *
 
-
 from pyrimidine import *
 from digit_converter import *
 
@@ -158,15 +157,12 @@ class uChromosome(BinaryChromosome):
     def decode(self):
         return unitIntervalConverter(self)
 
-class Mixin:
-    def _fitness(self):
-        x = [self[k].decode() for k in range(ndim)]
-        return evaluate(x)
+def _fitness(i):
+    return evaluate(i.decode())
 
-class ExampleIndividual(Mixin, MultiIndividual):
-    element_class = _Chromosome
+ExampleIndividual = MultiIndividual[_Chromosome].set_fitness(_fitness)
 
-class MyIndividual(Mixin, MixIndividual[(_Chromosome,)*ndim + (uChromosome,)]):
+class MyIndividual(MixIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fitness(_fitness)):
     """my own individual class
     
     Method `mate` is overriden.
@@ -197,13 +193,11 @@ class MyIndividual(Mixin, MixIndividual[(_Chromosome,)*ndim + (uChromosome,)]):
         else:
             return super(MyIndividual, self).mate(other)
 
-class MyPopulation(SGAPopulation):
-    element_class = MyIndividual
+class MyPopulation(SGAPopulation[MyIndividual]):
+
     def transit(self, *args, **kwargs):
         self.sort()
-        self.select()
-        self.mate()
-        self.mutate()
+        super(MyPopulation, self).transit(*args, **kwargs)
 
 
 if __name__ == '__main__':

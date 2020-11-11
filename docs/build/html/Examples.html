@@ -157,7 +157,6 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 
 <span class="kn">from</span> <span class="nn">pyrimidine.benchmarks.special</span> <span class="kn">import</span> <span class="o">*</span>
 
-
 <span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">digit_converter</span> <span class="kn">import</span> <span class="o">*</span>
 
@@ -178,15 +177,12 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
     <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">unitIntervalConverter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-<span class="k">class</span> <span class="nc">Mixin</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ndim</span><span class="p">)]</span>
-        <span class="k">return</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_fitness</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
 
-<span class="k">class</span> <span class="nc">ExampleIndividual</span><span class="p">(</span><span class="n">Mixin</span><span class="p">,</span> <span class="n">MultiIndividual</span><span class="p">):</span>
-    <span class="n">element_class</span> <span class="o">=</span> <span class="n">_Chromosome</span>
+<span class="n">ExampleIndividual</span> <span class="o">=</span> <span class="n">MultiIndividual</span><span class="p">[</span><span class="n">_Chromosome</span><span class="p">]</span><span class="o">.</span><span class="n">set_fitness</span><span class="p">(</span><span class="n">_fitness</span><span class="p">)</span>
 
-<span class="k">class</span> <span class="nc">MyIndividual</span><span class="p">(</span><span class="n">Mixin</span><span class="p">,</span> <span class="n">MixIndividual</span><span class="p">[(</span><span class="n">_Chromosome</span><span class="p">,)</span><span class="o">*</span><span class="n">ndim</span> <span class="o">+</span> <span class="p">(</span><span class="n">uChromosome</span><span class="p">,)]):</span>
+<span class="k">class</span> <span class="nc">MyIndividual</span><span class="p">(</span><span class="n">MixIndividual</span><span class="p">[(</span><span class="n">_Chromosome</span><span class="p">,)</span><span class="o">*</span><span class="n">ndim</span> <span class="o">+</span> <span class="p">(</span><span class="n">uChromosome</span><span class="p">,)]</span><span class="o">.</span><span class="n">set_fitness</span><span class="p">(</span><span class="n">_fitness</span><span class="p">)):</span>
     <span class="sd">&quot;&quot;&quot;my own individual class</span>
 <span class="sd">    </span>
 <span class="sd">    Method `mate` is overriden.</span>
@@ -217,13 +213,11 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">MyIndividual</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">mate</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-<span class="k">class</span> <span class="nc">MyPopulation</span><span class="p">(</span><span class="n">SGAPopulation</span><span class="p">):</span>
-    <span class="n">element_class</span> <span class="o">=</span> <span class="n">MyIndividual</span>
+<span class="k">class</span> <span class="nc">MyPopulation</span><span class="p">(</span><span class="n">SGAPopulation</span><span class="p">[</span><span class="n">MyIndividual</span><span class="p">]):</span>
+
     <span class="k">def</span> <span class="nf">transit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mate</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mutate</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MyPopulation</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">transit</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
@@ -290,6 +284,7 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Customize.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">pyrimidine</a></li>
 </ul>
 
 <div class="relations">
