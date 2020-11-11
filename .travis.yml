@@ -13,7 +13,7 @@ install:
   - poetry build
 
 before_script: 
-  # - pip install pyrimidine
+  - pip install pyrimidine
   - pip install pytest
 
 script:
