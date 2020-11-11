@@ -1,8 +1,8 @@
 # Examples and customization tricks
 
-### Examples
+## Examples
 
-## A simple example --- Knapsack Problem
+### A simple example --- Knapsack Problem
 
 One of the famous problem is the knapsack problem. It is a good example for GA.
 
@@ -127,7 +127,7 @@ if __name__ == '__main__':
 
 
 
-### Create new algo.
+## Create new algo.
 
 In the following example, the binary chromosomes should be decoded to floats. We recommend `digit_converter` created by the author to handle it.
 

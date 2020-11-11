@@ -17,7 +17,7 @@ before_script:
   - pip install pytest
 
 script:
-  - "./.travis/run.sh"
+  # :- "./.travis/run.sh"
   - pytest .travis/test.py
 
 deploy:
