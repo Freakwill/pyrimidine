@@ -58,7 +58,7 @@ from random import random, choice
 import numpy as np
 from .utils import choice_uniform, randint
 from .errors import *
-from .meta import MetaHighContainer, MetaContainer, MetaTuple, MetaList
+from .meta import *
 
 
 class BaseIterativeModel:
@@ -78,7 +78,7 @@ class BaseIterativeModel:
     
     def __new__(cls, *args, **kwargs):
         # constructor of BaseIterativeModel
-        obj = super(BaseIterativeModel, cls).__new__(cls)
+        obj = object.__new__(cls, *args, **kwargs)
         for k, v in cls.params.items():
             setattr(obj, k, v)
         return obj
@@ -315,6 +315,15 @@ class BaseFitnessModel(BaseIterativeModel):
  
         return super(BaseFitnessModel, self).evolve(stat=stat, *args, **kwargs)
 
+    def __rshift__(self, t):
+        """
+        Short for clone method
+        """
+        return self.clone(type_=t, fitness=True)
+
+    def __rlshift__(self, t):
+        return self.clone(type_=t, fitness=True)
+
 
 class BaseChromosome(BaseFitnessModel):
     default_size = (8,)
@@ -355,11 +364,11 @@ class BaseChromosome(BaseFitnessModel):
     def clone(self, *args, **kwargs):
         return self.copy()
 
-    def __eq__(self, other):
-        return np.all(self == other)
+    # def __eq__(self, other):
+    #     return equal(self, other)
 
     def equal(self, other):
-        return np.all(self == other)
+        return np.array_equal(self, other)
 
 
 class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
@@ -497,7 +506,6 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
         C = SGAPopulation[self.__class__]
         return C([self.clone() for _ in range(n)])
 
-
 class BasePopulationModel(BaseFitnessModel):
     """subclass of BaseFitnessModel
 
@@ -565,7 +573,6 @@ class BasePopulationModel(BaseFitnessModel):
         k = np.argmin([getattr(individual, key) for individual in self.individuals])
         return self.individuals[k]
 
-
     # Following is some useful aliases
     @property
     def worst_individual(self):
@@ -576,7 +583,6 @@ class BasePopulationModel(BaseFitnessModel):
     def best_individual(self):
         k = np.argmax([individual.fitness for individual in self.individuals])
         return self.individuals[k]
-
 
     @property
     def solution(self):
@@ -600,7 +606,6 @@ class BasePopulationModel(BaseFitnessModel):
 
     def argsort(self):
         return np.argsort([individual.fitness for individual in self.individuals])
-
 
 
 class BasePopulation(BasePopulationModel, metaclass=MetaHighContainer):
@@ -645,6 +650,7 @@ class BasePopulation(BasePopulationModel, metaclass=MetaHighContainer):
         self.default_size = state.get('default_size', self.__class__.default_size)
         self.individuals = state.get('individuals', [])
         self.params = state.get('params', {})
+
 
     @classmethod
     def random(cls, n_individuals=None, *args, **kwargs):
@@ -846,6 +852,10 @@ class BaseSpecies(BasePopulationModel, metaclass=MetaHighContainer):
     default_size = 2
 
     params = {'migrate_prob': 0.2}
+
+    def init(self):
+        for p in self.populations:
+            p.init()
 
     def __str__(self):
         return '\n'.join(map(str, self.individuals))

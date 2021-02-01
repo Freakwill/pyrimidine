@@ -3,13 +3,18 @@
 
 from . import BaseSpecies
 from .utils import  *
+import threading
+
 
 from itertools import product
+
+class SimpleSpecies(BaseSpecies):
+    pass
 
 class DualSpecies(BaseSpecies):
     params = {'n_elders':0.5, 'mate_prob':0.75}
 
-    @property  
+    @property
     def male_population(self):
         return self.populations[0]
 
@@ -36,7 +41,20 @@ class DualSpecies(BaseSpecies):
     def mate(self):
         self.populations[0].rank(tied=True)
         self.populations[1].rank(tied=True)
-        children = [male.cross(female) for male, female in product(self.males, self.females) if random() < self.mate_prob and self.match(male, female)]
+        children = []
+        def _target(male, female):
+            if random()<0.5:
+                child = male.cross(female)
+            else:
+                child = female.cross(male)
+            children.append(child)
+        ps = [threading.Thread(target=_target, args=(male, female)) for male, female in product(self.males, self.females) if random() < self.mate_prob and self.match(male, female)]
+
+        for p in ps:
+            p.start()
+        for p in ps:
+            p.join()
+
         self.populations[0].add_individuals(children[::2])
         self.populations[1].add_individuals(children[1::2])
 

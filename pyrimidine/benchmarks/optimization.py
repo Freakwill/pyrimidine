@@ -137,11 +137,12 @@ class MinSpanningTree:
         edges.append(tuple(Q))
         return edges
 
-
 class FacilityLayout(object):
-    '''[Summary for Class FacilityLayout]FacilityLayout has 2 (principal) propteries
+    '''
     F: F
-    D: D'''
+    D: D
+    '''
+    
     def __init__(self, F, D):
         self.F = F
         self.D = D

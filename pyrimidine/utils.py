@@ -45,6 +45,7 @@ def boltzmann_select(xs, fs, T=1):
     k = rv.rvs()
     return xs[k]
 
+
 def choice_with_prob(xs, ps, n=1):
     L = len(xs)
     ps /= np.sum(ps)
@@ -61,6 +62,15 @@ def choice_with_prob(xs, ps, n=1):
 
     return [xs[k] for k in ks]
 
+
+def choice_with_prob_replace(xs, ps, n=1):
+    L = len(xs)
+    ps /= np.sum(ps)
+    rv = rv_discrete(values=(np.arange(L), ps))
+    ks = rv.rvs(size=n)
+    return [xs[k] for k in ks]
+
+
 def choice_with_fitness(xs, fs=None, n=1, T=1):
     if fs is None:
         fs = [x.fitness for x in xs]
@@ -73,8 +83,6 @@ def choice_uniform(xs, n=1):
     ks = np.random.choice(L, n)
     return [xs[k] for k in ks]
 
-# def gauss_pdf(x, mu=0, sigma=1):
-#     return np.exp(-(x-mu)**2/sigma)
 
 def randint2(lb=0, ub=9, ordered=False):
     """Select two different numbers in [lb, ub] randomly

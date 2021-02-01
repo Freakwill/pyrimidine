@@ -1,4 +1,4 @@
-# API Reference
+# API Design
 
 ## Iterative Models
 
@@ -27,6 +27,8 @@ Indiviudal is a fitness model in GA.
 The individual classes are inherited from `BaseIndividual`. For instance, `BinaryIndividual` is a subclass encoded by   several binary chromosomes.
 
 
+
+See `Examples` section for a simple example of binary individuals --- Knapsack Problem.
 
 ## Populations
 

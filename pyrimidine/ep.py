@@ -4,7 +4,10 @@
 from .base import BasePopulationModel, BaseChromosome
 from .chromosome import FloatChromosome
 from .individual import MixIndividual
-from .utils import *
+from .utils import max_lb
+from random import choice
+from toolz.itertoolz import groupby
+from operator import attrgetter
 
 import numpy as np
 
@@ -42,11 +45,20 @@ class EPPopulation(BasePopulationModel):
     element_class = BaseEPIndividual
 
     def select(self):
-        self.individuals = choice_with_fitness(self.individuals, n=0.5*self.n_individuals)
+        d = groupby(attrgetter('fitness'), self.sorted_individuals)
+        inds = []
+        ks = np.sort(list(d.keys()))[::-1]
+        while len(inds) < self.n_individuals:
+            for k in ks:
+                if d[k]:
+                    a = choice(d[k])
+                    inds.append(a)
+                    d[k].remove(a)
+        self.individuals = inds
+
 
     def transit(self, *args, **kwargs):
         cpy = self.clone()
         self.mutate()
         self.merge(cpy)
         self.select()
-

@@ -25,9 +25,12 @@ def get_stem(s):
 
 
 class System(type):
-    # alias of type
+    """Abstract class of systems
+    Just an alias of type
+    """
     
     def __new__(cls, name, bases, attrs):
+        # Create with regesters
         
         def _map_regester(self, m):
             if hasattr(self, m):
@@ -35,7 +38,7 @@ class System(type):
             def _m(obj, *args, **kwargs):
                 return [getattr(a, m)(*args, **kwargs) for a in obj]
             setattr(self, m, MethodType(_m, self))
-        attrs['mapregester'] = _map_regester
+        attrs['map_regester'] = _map_regester
 
         def _element_regester(self, e):
             if hasattr(self, e):
@@ -44,16 +47,15 @@ class System(type):
             def _p(obj):
                 return [getattr(a, e) for a in obj]
             setattr(self, e, _p)
-        attrs['mapregester'] = _map_regester
+        attrs['element_regester'] = _element_regester
 
         obj = type.__new__(cls, name, bases, attrs)
 
         return obj
-    
 
 
 class MetaContainer(System):
-    """Container meta class
+    """Meta class of containers
 
     A container is a algebric system with elements of some type
     and operators acting on the elements
@@ -62,6 +64,7 @@ class MetaContainer(System):
         ```
         from collections import UserString
         class C(metaclass=MetaContainer):
+            # container of strings
             element_class = UserString
             # element_name = string
 
@@ -101,7 +104,7 @@ class MetaContainer(System):
                     element_class = base.element_class
                     break
             else:
-                raise Exception('Provide element class.')
+                raise Exception('Have not provided element class yet.')
         if 'element_name' in attrs:
             element_name = attrs['element_name'] + 's'
         else:
@@ -181,7 +184,7 @@ class MetaContainer(System):
         for k, v in kwargs.items():
             setattr(o, k, v)
         if args:
-            o.elements, = args
+            o.elements, = args  # args is a tuple, you have to unpack it!
         return o
 
     def __getitem__(self, class_):
@@ -230,6 +233,7 @@ class MetaTuple(MetaContainer):
     def __mul__(self, n):
         raise DeprecationWarning('It is meaningless to multiply the class by a number')
 
+
 class MetaHighContainer(MetaContainer):
     # High order container is a container of  containers.
     def __new__(cls, name, bases, attrs):
@@ -250,6 +254,37 @@ class MetaHighContainer(MetaContainer):
         return super(MetaHighContainer, cls).__new__(cls, name, bases, attrs)
 
 
+import numpy as np
+class MetaArray(type):
+    def __new__(cls, name, bases, attrs):
+        # element_class = attrs['element_class']
+        if 'element_class' in attrs:
+            element_class = attrs['element_class']
+        else:
+            for base in bases:
+                if hasattr(base, 'element_class'):
+                    element_class = base.element_class
+                    break
+            else:
+                raise Exception('Have not provided element class yet.')
+        if not element_class.__name__.startswith('Base') and not issubclass(element_class, (int, float, np.int_, np.float_, np.bool_)):
+            raise TypeError('The types of elements should be numbers, i.e. subclass of int or float')
+        # if np.ndarray not in bases:
+        #     bases = (np.ndarray,) + bases
+        return type.__new__(cls, name, bases, attrs)
+
+    # def __call__(self, *args, **kwargs):
+    #     o = super(MetaArray, self).__new__([], dtype=self.element_class)
+    #     for k, v in kwargs.items():
+    #         setattr(o, k, v)
+    #     if args:
+    #         o = super(MetaArray, self).__new__(args, dtype=self.element_class)
+    #     return o
+
+
+class MetaSet(MetaContainer):
+    pass
+
 
 if __name__ == '__main__':
     from collections import UserString
@@ -262,6 +297,7 @@ if __name__ == '__main__':
     print(C.strings)
     print(c.strings)
     print(c.lasting)
+    print(c.elements)
     print(c.n_elements)
     print(c[1])
     for a in c:

@@ -5,6 +5,7 @@ from .base import BasePopulation, random
 from .utils import gauss, random
 from . import MetaList
 
+
 class SGAPopulation(BasePopulation):
     """Standard Genetic Algo I.
     
@@ -22,6 +23,7 @@ class SGAPopulation(BasePopulation):
         elder = self.__class__(self.get_best_individuals(self.n_elders * self.default_size)).clone()
         super(SGAPopulation, self).transit(*args, **kwargs)
         self.merge(elder)
+
 
 class SGA2Population(SGAPopulation):
     """Standard Genetic Algo II.
@@ -85,9 +87,7 @@ class DualPopulation(BasePopulation):
         self.merge(elder)
 
 
-class GamogenesisPopulation(SGAPopulation):
-    # element_class = GenderPopulation
-
+class GamogenesisPopulation(SGA2Population):
     """Gamogenesis Genetic Algo.
     
     Extends:

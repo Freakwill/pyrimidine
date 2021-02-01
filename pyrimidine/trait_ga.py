@@ -5,6 +5,29 @@ from . import *
 from .utils import *
 from random import random
 
+class BaseTraitIndividual(MixIndividual):
+
+    @property
+    def mutate_prob(self):
+        raise NotImplementedError
+
+    @mutate_prob.setter
+    def mutate_prob(self, v):
+        raise NotImplementedError
+
+    @property
+    def mate_prob(self):
+        raise NotImplementedError
+
+    @mate_prob.setter
+    def mate_prob(self, v):
+        raise NotImplementedError
+
+    @property
+    def desire(self):
+        raise NotImplementedError
+
+
 class TraitIndividual(MixIndividual):
     element_class = BinaryChromosome, FloatChromosome
 
@@ -13,25 +36,32 @@ class TraitIndividual(MixIndividual):
             super(TraitIndividual, self).mutate()
 
     def mate(self, other, mate_prob=None):
-        if random() < (mate_prob or self.mate_prob):
+        if random() < (mate_prob or (self.mate_prob + other.mate_prob)/2):
             return super(TraitIndividual, self).mate(other)
         else:
             return self
-
-    def select_aspirants(self, individuals, size):
-        return choice_with_prob(individuals, [ind.desire for ind in individuals], size)
 
     @property
     def mutate_prob(self):
         return self.chromosomes[-1][0]
 
+    @mutate_prob.setter
+    def mutate_prob(self, v):
+        self.chromosomes[-1][0] = v
+
     @property
     def mate_prob(self):
         return self.chromosomes[-1][1]
 
+    @mate_prob.setter
+    def mate_prob(self, v):
+        self.chromosomes[-1][1] = v
+
     @property
     def desire(self):
         return self.chromosomes[-1][2]
+
+
     
 
 class TraitThresholdIndividual(TraitIndividual):
@@ -51,5 +81,4 @@ class TraitThresholdIndividual(TraitIndividual):
     @property
     def threshold(self):
         return self.chromosomes[-1][-1]
-
 
