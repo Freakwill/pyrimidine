@@ -538,22 +538,29 @@ class BasePopulationModel(BaseFitnessModel):
     def _fitness(self):
         """Calculate the fitness of the whole population
 
-        Mean fitness by default.
+        Fitness of a population is the average fitness by default.
         """
         return self.mean_fitness
 
+    def _fitnesses(self):
+        return [individual.fitness for individual in self.individuals]
+
+
     @property
     def mean_fitness(self):
-        return np.mean([individual.fitness for individual in self.individuals])
+        return np.mean(self._fitnesses())
 
+    @property
+    def std_fitness(self):
+        return np.std(self._fitnesses())
 
     @property
     def best_fitness(self):
-        return np.max([individual.fitness for individual in self.individuals])
+        return np.max(self._fitnesses())
 
     @property
     def fitnesses(self):
-        return np.array([individual.fitness for individual in self.individuals])
+        return np.array(self._fitnesses())
 
 
     def get_best(self, key='fitness'):
@@ -576,12 +583,12 @@ class BasePopulationModel(BaseFitnessModel):
     # Following is some useful aliases
     @property
     def worst_individual(self):
-        k = np.argmin([individual.fitness for individual in self.individuals])
+        k = np.argmin(self._fitnesses())
         return self.individuals[k]
 
     @property
     def best_individual(self):
-        k = np.argmax([individual.fitness for individual in self.individuals])
+        k = np.argmax(self._fitnesses())
         return self.individuals[k]
 
     @property
@@ -591,7 +598,7 @@ class BasePopulationModel(BaseFitnessModel):
     @property
     def sorted_individuals(self):
         if self.__sorted_individuals == []:
-            ks = np.argsort([individual.fitness for individual in self.individuals])
+            ks = np.argsort(self._fitnesses())
             self.__sorted_individuals = [self.individuals[k] for k in ks]
         return self.__sorted_individuals
 
@@ -605,7 +612,7 @@ class BasePopulationModel(BaseFitnessModel):
         self.individuals = [self.individuals[k] for k in ks]
 
     def argsort(self):
-        return np.argsort([individual.fitness for individual in self.individuals])
+        return np.argsort(self._fitnesses())
 
 
 class BasePopulation(BasePopulationModel, metaclass=MetaHighContainer):
@@ -749,9 +756,10 @@ class BasePopulation(BasePopulationModel, metaclass=MetaHighContainer):
         Keyword Arguments:
             mate_prob {number} -- the proba. of mating of two individuals (default: {None})
         """
-
+        
+        mate_prob = mate_prob or self.mate_prob
         offspring = [individual.cross(other) for individual, other in zip(self.individuals[::2], self.individuals[1::2])
-        if random() < (mate_prob or self.mate_prob)]
+        if random() < mate_prob]
         self.individuals.extend(offspring)
         self.offspring = self.__class__(offspring)
 

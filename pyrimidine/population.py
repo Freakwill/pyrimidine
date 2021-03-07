@@ -34,7 +34,7 @@ class SGA2Population(SGAPopulation):
         BasePopulation
     """
 
-    params = {'fame_size':4}
+    params = {'fame_size': 4}
 
     def init(self):
         self.halloffame = self.get_best_individuals(self.fame_size)

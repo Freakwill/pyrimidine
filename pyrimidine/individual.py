@@ -77,7 +77,7 @@ class MonoFloatIndividual(MonoIndividual):
 
     element_class = FloatChromosome
 
-class MixIndividual(BaseIndividual, metaclass=MetaTuple):
+class MixedIndividual(BaseIndividual, metaclass=MetaTuple):
     """base class of individual
 
     You should implement the methods, cross, mute
@@ -104,7 +104,7 @@ class AgeIndividual(BaseIndividual):
     life_span = 100  # life span
 
 
-class GenderIndividual(MixIndividual):
+class GenderIndividual(MixedIndividual):
 
     @property
     def gender(self):

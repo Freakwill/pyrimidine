@@ -5,7 +5,7 @@ from . import *
 from .utils import *
 from random import random
 
-class BaseTraitIndividual(MixIndividual):
+class BaseSelfAdaptiveIndividual(MixedIndividual):
 
     @property
     def mutate_prob(self):
@@ -28,16 +28,25 @@ class BaseTraitIndividual(MixIndividual):
         raise NotImplementedError
 
 
-class TraitIndividual(MixIndividual):
+class _SelfAdaptiveIndividual(BaseSelfAdaptiveIndividual):
+    """Individual for Self-adaptive GA
+
+    Provide at least 2 chromosomes, one of them is coded by float numbers
+    representing the prob of mutation and mating.
+
+    Extends:
+        BaseSelfAdaptiveIndividual
+    """
+    
     element_class = BinaryChromosome, FloatChromosome
 
     def mutate(self):
         if random() < self.mutate_prob:
-            super(TraitIndividual, self).mutate()
+            super(SelfAdaptiveIndividual, self).mutate()
 
     def mate(self, other, mate_prob=None):
         if random() < (mate_prob or (self.mate_prob + other.mate_prob)/2):
-            return super(TraitIndividual, self).mate(other)
+            return super(SelfAdaptiveIndividual, self).mate(other)
         else:
             return self
 
@@ -64,21 +73,21 @@ class TraitIndividual(MixIndividual):
 
     
 
-class TraitThresholdIndividual(TraitIndividual):
+class SelfAdaptiveIndividual(_SelfAdaptiveIndividual):
     ranking = None
 
-    def mate(self, other, mate_prob=None):
-        if other.ranking:
-            if self.threshold <= other.ranking:
-                return super(TraitThresholdIndividual, self).mate(other, mate_prob=1)
-            elif self.threshold <= 2* other.ranking:
-                return super(TraitThresholdIndividual, self).mate(other, mate_prob=0.8)
-            else:
-                return super(TraitThresholdIndividual, self).mate(other, mate_prob=0.5)
-        else:
-            return super(TraitThresholdIndividual, self).mate(other)
+    # def mate(self, other, mate_prob=None):
+    #     if other.ranking:
+    #         if self.threshold <= other.ranking:
+    #             return super(TraitThresholdIndividual, self).mate(other, mate_prob=1)
+    #         elif self.threshold <= 2* other.ranking:
+    #             return super(TraitThresholdIndividual, self).mate(other, mate_prob=0.8)
+    #         else:
+    #             return super(TraitThresholdIndividual, self).mate(other, mate_prob=0.5)
+    #     else:
+    #         return super(TraitThresholdIndividual, self).mate(other)
 
-    @property
-    def threshold(self):
-        return self.chromosomes[-1][-1]
+    # @property
+    # def threshold(self):
+    #     return self.chromosomes[-1][-1]
 

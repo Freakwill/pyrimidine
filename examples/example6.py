@@ -18,17 +18,16 @@ class _Chromosome(BinaryChromosome):
     def decode(self):
         return c(self)
 
-
 class uChromosome(BinaryChromosome):
     def decode(self):
         return unitIntervalConverter(self)
 
-class Mixin:
+class _Mixin:
     def _fitness(self):
-        x = [self[_].decode() for _ in range(20)]
+        x = [self.chromosomes[i].decode() for i in range(20)]
         return evaluate(x)
 
-class ExampleIndividual(Mixin, MixIndividual):
+class ExampleIndividual(_Mixin, MixedIndividual):
     """base class of individual
 
     You should implement the methods, cross, mute
@@ -36,65 +35,50 @@ class ExampleIndividual(Mixin, MixIndividual):
     element_class = (_Chromosome,)*20
 
 
-
-class MyIndividual(Mixin, TraitThresholdIndividual):
+class MyIndividual(_Mixin, SelfAdaptiveIndividual):
     """base class of individual
 
     You should implement the methods, cross, mute
     """
-    element_class = (_Chromosome,)*20 + (uChromosome,)*3
+    element_class = (_Chromosome,)*20 + (uChromosome,)*2
     ranking = None
-    threshold = 0.25
-
-    @property
-    def threshold(self):
-        return self.chromosomes[-1].decode()
 
     @property
     def mutate_prob(self):
-        return self.chromosomes[-2].decode()
+        return self.chromosomes[-1].decode()
 
     @property
     def mate_prob(self):
-        return self.chromosomes[-3].decode()
+        return self.chromosomes[-2].decode()
 
-class MyPopulation(SGAPopulation):
-    def transit(self, *args, **kwargs):
-        """
-        Transitation of the states of population
-        Standard flow of the Genetic Algorithm
-        """
-        self.sort()
-        self.select()
-        self.mate()
-        self.mutate()
+class MyPopulation(SGA2Population):
+    element_class = MyIndividual
 
 
 if __name__ == '__main__':
 
-    SGAPopulation.element_class = ExampleIndividual
-
-    pop = SGAPopulation.random(n_individuals=40, sizes=(8,)*20)
-    pop.mate_prob = 0.9
-    stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
-    d= pop.evolve(n_iter=350, stat=stat, history=True)
-    d.to_csv('h1.csv')
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    d[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+    ax2 = ax.twinx()
+    stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness', 'Standard Deviation': lambda pop:np.std([ind.fitness for ind in pop])}
 
     MyPopulation.element_class = MyIndividual
-    pop = MyPopulation.random(n_individuals=40, sizes=(8,)*20+(8,)*3)
-
+    pop = MyPopulation.random(n_individuals=40, sizes=(8,)*20+(8,)*2)
+    cpy = pop.clone(type_=SGAPopulation[ExampleIndividual])
     pop.mate_prob = 1
     pop.mutate_prob = 1
-    stat.update({'Best Mate_prob': lambda pop:pop.best_individual.mate_prob,
-        'Best Mutate_prob': lambda pop:pop.best_individual.mutate_prob,
-        'Best Threshold': lambda pop:pop.best_individual.threshold})
-    d = pop.evolve(n_iter=350, stat=stat, history=True)
-    d.to_csv('h.csv')
+    d = pop.evolve(n_iter=500, stat=stat, history=True)
+
     d[['Mean Fitness', 'Best Fitness']].plot(ax=ax, style='.-')
-    ax.legend(('Traditional','Traditional best', 'Trait', 'Trait best'))
+    d['Standard Deviation'].plot(ax=ax2, style='--')
+
+    cpy.mate_prob = 0.9
+    d = cpy.evolve(n_iter=500, stat=stat, history=True)
+    d[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+    d['Standard Deviation'].plot(ax=ax2, style='--')
+
+    ax.legend(('Traditional','Traditional best', 'Self-adaptive', 'Self-adaptive best'))
+    ax2.legend(('Traditional', 'New'))
     plt.show()
 

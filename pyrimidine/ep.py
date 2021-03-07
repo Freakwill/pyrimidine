@@ -1,9 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Evolution Programming
+
+Invented by L. Fogel[Fogel et al. 1966]
+for designing FSM initially.
+
+General form of the algorithm:
+initialize a population with N individuals
+loop:
+    calculate f(x) for each x in population
+    mutate x for each x
+    get new population (mixed with the original population)
+    select best N individuals from the 2N mixed population
+
+The mutation:
+    x' <- x + r*sqrt(v)
+    v' <- v + c*r*sqrt(v) (make sure that v>epsilon)
+
+Caution: No cross operation in EP
+"""
+
 from .base import BasePopulationModel, BaseChromosome
 from .chromosome import FloatChromosome
-from .individual import MixIndividual
+from .individual import MixedIndividual
 from .utils import max_lb
 from random import choice
 from toolz.itertoolz import groupby
@@ -12,8 +32,9 @@ from operator import attrgetter
 import numpy as np
 
 
-class BaseEPIndividual(MixIndividual):
-    """A particle in EP
+class BaseEPIndividual(MixedIndividual):
+    """EP Individual Class
+    A single solution in EP
     """
 
     params = {'c':0.1, 'epsilon':0.0001}
@@ -42,6 +63,11 @@ class BaseEPIndividual(MixIndividual):
 
 
 class EPPopulation(BasePopulationModel):
+    """Evolution Programming
+    
+    Extends:
+        BasePopulationModel
+    """
     element_class = BaseEPIndividual
 
     def select(self):

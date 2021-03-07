@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 from pyrimidine import MonoBinaryIndividual
 from pyrimidine.population import *
 
@@ -33,6 +34,7 @@ pop2 = _Population2.random(size=n)
 stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
 data1 = pop1.evolve(stat=stat, n_iter=300, history=True)
 data2 = pop2.evolve(stat=stat, n_iter=300, history=True)
+
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

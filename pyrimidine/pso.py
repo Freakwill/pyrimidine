@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Particle Swarm Optimization
+
+Developed by J. Kennedy and R. Eberhart[Kennedy and Eberhart 2001]
+
+Each individual is represented position and velocity.
+"""
+
 from .base import BasePopulationModel
 from .chromosome import FloatChromosome
 from .individual import PolyIndividual

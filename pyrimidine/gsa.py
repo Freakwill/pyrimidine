@@ -10,7 +10,7 @@ import numpy as np
 
 
 class Particle(PolyIndividual):
-    """A particle in PSO
+    """A particle in GSA
     
     Extends:
         PolyIndividual

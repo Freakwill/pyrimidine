@@ -53,6 +53,16 @@ class System(type):
 
         return obj
 
+    def set(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+        return self
+
+    def set_methods(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, MethodType(v, self))
+        return self
+
 
 class MetaContainer(System):
     """Meta class of containers
@@ -118,7 +128,7 @@ class MetaContainer(System):
             return iter(self.__elements)
 
         def _getitem(self, k):
-            print(DeprecationWarning('get item directly is not recommended now.'))
+            # print(DeprecationWarning('get item directly is not recommended now.'))
             return self.__elements[k]
 
         def _len(self):
@@ -190,17 +200,14 @@ class MetaContainer(System):
     def __getitem__(self, class_):
         return self.set(element_class=class_)
 
-    # def __mul__(self, n):
-    #     print(DeprecationWarning(f'Use `// {n}` instead of `* {n}`'))
-    #     return self.set(default_size=n)
-
     def __floordiv__(self, n):
         return self.set(default_size=n)
 
-    def set(self, **kwargs):
-        for k, v in kwargs.items():
-            setattr(self, k, v)
-        return self
+
+    # def __add__(self, other):
+    #     class C(self):
+    #         element_class = self.element_class + other.element_class
+    #     return C
 
 
 class MetaList(MetaContainer):
@@ -269,8 +276,8 @@ class MetaArray(type):
                 raise Exception('Have not provided element class yet.')
         if not element_class.__name__.startswith('Base') and not issubclass(element_class, (int, float, np.int_, np.float_, np.bool_)):
             raise TypeError('The types of elements should be numbers, i.e. subclass of int or float')
-        # if np.ndarray not in bases:
-        #     bases = (np.ndarray,) + bases
+        if np.ndarray not in bases:
+            bases = (np.ndarray,) + bases
         return type.__new__(cls, name, bases, attrs)
 
     # def __call__(self, *args, **kwargs):
