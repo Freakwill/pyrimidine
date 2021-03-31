@@ -40,16 +40,16 @@ class MyIndividual(_Mixin, SelfAdaptiveIndividual):
 
     You should implement the methods, cross, mute
     """
-    element_class = (_Chromosome,)*20 + (uChromosome,)*2
+    element_class = (_Chromosome,)*20 + (FloatChromosome,)
     ranking = None
 
-    @property
-    def mutate_prob(self):
-        return self.chromosomes[-1].decode()
+    # @property
+    # def mutate_prob(self):
+    #     return self.chromosomes[-1]
 
-    @property
-    def mate_prob(self):
-        return self.chromosomes[-2].decode()
+    # @property
+    # def mate_prob(self):
+    #     return self.chromosomes[-2]
 
 class MyPopulation(SGA2Population):
     element_class = MyIndividual
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness', 'Standard Deviation': lambda pop:np.std([ind.fitness for ind in pop])}
 
     MyPopulation.element_class = MyIndividual
-    pop = MyPopulation.random(n_individuals=40, sizes=(8,)*20+(8,)*2)
+    pop = MyPopulation.random(n_individuals=40, sizes=(8,)*20+(2,))
     cpy = pop.clone(type_=SGAPopulation[ExampleIndividual])
     pop.mate_prob = 1
     pop.mutate_prob = 1

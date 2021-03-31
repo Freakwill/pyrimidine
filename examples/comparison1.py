@@ -36,7 +36,7 @@ class _Individual(PolyIndividual[BinaryChromosome]):
         return c(self.chromosomes[1])
     
 
-_Population = SGA2Population[_Individual] // 50
+_Population = HOFPopulation[_Individual] // 50
 
 
 class MySpecies(DualSpecies):

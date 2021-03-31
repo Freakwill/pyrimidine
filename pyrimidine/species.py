@@ -85,7 +85,6 @@ class DualSpecies(BaseSpecies):
         self.populations[0].merge(other.populations[0])
         self.populations[1].merge(other.populations[1])
 
-
     def post_process(self):
         super(DualSpecies, self).post_process()
         self.populations[0].fitness = self.populations[1].fitness = None

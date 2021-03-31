@@ -69,35 +69,6 @@ class BaseIterativeModel:
 
     params = {'n_iter': 100}
 
-    # def __getitem__(self, key):
-    #     return self.params[key]
-
-    # def __setitem__(self, key, value):
-    #     self.params[key] = value
-    # 
-    
-    def __new__(cls, *args, **kwargs):
-        # constructor of BaseIterativeModel
-        obj = object.__new__(cls, *args, **kwargs)
-        for k, v in cls.params.items():
-            setattr(obj, k, v)
-        return obj
-
-    # def __getattr__(self, key):
-    #     return self.params[key]
-    
-
-    # @property
-    # def params(self):
-    #     print(self.__params)
-    #     return self.__params
-
-    
-    def config(self, params={}, **kwargs):
-        if params:
-            self.__params.update(params)
-        for k, v in kwargs.items():
-            setter(self, k, v)
     
     @property
     def solution(self):
@@ -134,7 +105,7 @@ class BaseIterativeModel:
         self.init()
         for k in range(1, n_iter+1):
             self.transit(k, *args, **kwargs)
-            self.post_process()
+            self.postprocess()
 
     def evolve(self, n_iter=None, period=1, verbose=False, decode=False, stat={'Fitness': 'fitness'}, history=False, *args, **kwargs):
         """Get the history of the whole evolution
@@ -159,10 +130,10 @@ class BaseIterativeModel:
 
         if verbose:
             if stat:
-                _head = 'best solution & {" & ".join(stat.keys())}'
+                _head = f'best solution & {" & ".join(stat.keys())}'
             print('iteration & ' , _head)
             print('-------------------------------------------------------------')
-            print(f'0 & {self.solution} & {" & ".join(self._stat(stat).values())}')
+            print(f'0 & {self.solution} & {" & ".join(map(str, self._stat(stat).values()))}')
 
         if history:
             history = pd.DataFrame(data={k:[v] for k, v in self._stat(stat).items()})
@@ -174,18 +145,32 @@ class BaseIterativeModel:
         # n_iter = n_iter or self.n_iter or self.default_n_iter
         for k in range(1, n_iter+1):
             self.transit(k, *args, **kwargs)
-            self.post_process()
+            self.postprocess()
             if flag and (period == 1 or k % period ==0):
                 stat_row = self._stat(stat)
                 history = history.append(stat_row, ignore_index=True)
             if verbose and (period == 1 or k % period ==0):
-                print(f'0 & {self.solution} & {" & ".join(self._stat(stat).values())}')
+                print(f'{k} & {self.solution} & {" & ".join(map(str, self._stat(stat).values()))}')
         return history
 
     def _stat(self, stat):
-        return {k: (getattr(self, s)() if isinstance(getattr(self, s), types.FunctionType) 
-                    else getattr(self, s)) if isinstance(s, str) and hasattr(self, s) else s(self) 
-                for k, s in stat.items()}
+        res = {}
+        for k, s in stat.items():
+            if isinstance(s, str) and hasattr(self, s):
+                f = getattr(self, s)
+                if isinstance(f, types.FunctionType):
+                    res[k] = f()
+                else:
+                    res[k] = f
+            elif isinstance(s, types.FunctionType):
+                res[k] = s(self)
+            elif isinstance(s, (int, float)):
+                res[k] = s
+            else:
+                raise TypeError(f'The type of stat["{k}"] is not permissible!')
+        return res
+
+
 
     def get_history(self, *args, **kwargs):
         """Get the history of the whole evolution
@@ -219,27 +204,35 @@ class BaseIterativeModel:
                 data += data0
         return data / n_repeats, np.mean(times)
 
-    def post_process(self):
+    def postprocess(self):
         pass
-  
-    def set_params(self, **kwargs):
-        self.params.update(kwargs)
-        return self
 
     def clone(self, type_=None, *args, **kwargs):
         raise NotImplementedError
+
+    def encode(self):
+        return self
  
 
-# class Solution(object):
-#     def __init__(self, value, goal_value=None):
-#         self.value = value
-#         self.goal_value = goal_value
+    def save(self, filename='population.pkl'):
+        import pickle
+        if isinstance(filename, str):
+            pklPath = pathlib.Path(filename)
+        if pklPath.exists():
+            print(Warning(f'There exists {filename}, It has been over written'))
+        with open(pklPath, 'wb') as fo:
+            pickle.dump(self, fo)
 
-#     def __str__(self):
-#         if self.goal_value is None:
-#             return ' | '.join(str(x) for x in self.value)
-#         else:
-#             return f"{' | '.join(str(x) for x in self.value)} & {self.goal_value}"
+    @staticmethod
+    def load(filename='population.pkl'):
+        import pickle
+        if isinstance(filename, str):
+            pklPath = pathlib.Path('filename.pkl')
+        if pklPath.exists():
+            with open(pklPath, 'rb') as fo:
+                return pickle.load(pklPath)
+        else:
+            raise IOError(f'Could not find {filename}!')
 
 
 class BaseGene:
@@ -290,7 +283,7 @@ class BaseFitnessModel(BaseIterativeModel):
     def _fitness(self):
         raise NotImplementedError
 
-    def post_process(self):
+    def postprocess(self):
         self.__fitness = None
 
     @classmethod
@@ -328,6 +321,7 @@ class BaseFitnessModel(BaseIterativeModel):
 class BaseChromosome(BaseFitnessModel):
     default_size = (8,)
     element_class = BaseGene
+    gene = element_class
 
     def __repr__(self):
         return self.__class__.__name__ + f': {"/".join(repr(gene) for gene in self)}'
@@ -339,7 +333,8 @@ class BaseChromosome(BaseFitnessModel):
     def random(cls, size=None):
         raise NotImplementedError
 
-    def __matmul__(self, other):
+    def x(self, other):
+        # alias for cross
         return self.cross(other)
 
     def cross(self, other):
@@ -360,9 +355,6 @@ class BaseChromosome(BaseFitnessModel):
     @classmethod
     def encode(cls, x):
         raise NotImplementedError
-
-    def clone(self, *args, **kwargs):
-        return self.copy()
 
     # def __eq__(self, other):
     #     return equal(self, other)
@@ -450,9 +442,9 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
         self.__elements = c
         self.fitness = None
 
-    def __matmul__(self, other):
+    def x(self, other):
+        # alias for cross
         return self.cross(other)
-
 
     def cross(self, other, k=None):
         # Cross operation of two individual
@@ -514,6 +506,13 @@ class BasePopulationModel(BaseFitnessModel):
 
     __sorted_individuals = []
 
+    def evolve(self, stat=None, *args, **kwargs):
+        """Get the history of the whole evolution
+        """
+        if stat is None:
+            stat = {'Best Fitness':'best_fitness', 'Mean Fitness':'mean_fitness', 'STD Fitness':'std_fitness', 'Population': 'n_elements'}
+        return super(BasePopulationModel, self).evolve(stat=stat, *args, **kwargs)
+
     @property
     def individuals(self):
         raise NotImplementedError
@@ -540,7 +539,7 @@ class BasePopulationModel(BaseFitnessModel):
 
         Fitness of a population is the average fitness by default.
         """
-        return self.mean_fitness
+        raise NotImplementedError
 
     def _fitnesses(self):
         return [individual.fitness for individual in self.individuals]
@@ -587,6 +586,10 @@ class BasePopulationModel(BaseFitnessModel):
         return self.individuals[k]
 
     @property
+    def best_(self):
+        return self.best_individual
+
+    @property
     def best_individual(self):
         k = np.argmax(self._fitnesses())
         return self.individuals[k]
@@ -615,6 +618,15 @@ class BasePopulationModel(BaseFitnessModel):
         return np.argsort(self._fitnesses())
 
 
+    def drop(self, n=1):
+        if n < 1:
+            n = int(self.n_individuals * n)
+        elif not isinstance(n, int):
+            n = int(n)
+        ks = self.argsort()
+        self.individuals = [self.individuals[k] for k in ks[n:]]
+
+
 class BasePopulation(BasePopulationModel, metaclass=MetaHighContainer):
     """The base class of population in GA
     
@@ -638,15 +650,6 @@ class BasePopulation(BasePopulationModel, metaclass=MetaHighContainer):
     #     # alias for attribute `elements`
     #     return self.__elements
 
-    def evolve(self, stat=None, *args, **kwargs):
-        """Get the history of the whole evolution
-        """
-        if stat is None:
-            stat = {'Best Fitness':'best fitness', 'Mean Fitness':'mean_fitness', 'Population': self.n_elements}
-        return super(BaseFitnessModel, self).evolve(stat=stat, *args, **kwargs)
-
- 
-        return super(BasePopulation, self).evolve(stat=stat, *args, **kwargs)
 
     def __getstate__(self):
         return {'element_class':self.element_class, 'default_size':self.default_size, 'individuals':self.individuals, 'params':self.params}
@@ -818,26 +821,6 @@ class BasePopulation(BasePopulationModel, metaclass=MetaHighContainer):
         k = randint(1, self.n_individuals-2)
         self.individuals = self.individuals[k:] + other.individuals[:k]
         other.individuals = other.individuals[k:] + self.individuals[:k]
-
-    def save(self, filename='population.pkl'):
-        import pickle
-        if isinstance(filename, str):
-            pklPath = pathlib.Path(filename)
-        if pklPath.exists():
-            print(Warning(f'There exists {filename}, It has been over written'))
-        with open(pklPath, 'wb') as fo:
-            pickle.dump(self, fo)
-
-    @staticmethod
-    def load(filename='population.pkl'):
-        import pickle
-        if isinstance(filename, str):
-            pklPath = pathlib.Path('filename.pkl')
-        if pklPath.exists():
-            with open(pklPath, 'rb') as fo:
-                return pickle.load(pklPath)
-        else:
-            raise IOError(f'Could not find {filename}!')
 
 
     def dual(self):

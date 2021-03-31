@@ -70,6 +70,7 @@ class FloatIndividual(BaseIndividual):
 
     element_class = FloatChromosome
 
+
 class MonoFloatIndividual(MonoIndividual):
     """simple binary individual
     encoded as a sequence such as 010011

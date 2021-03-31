@@ -15,7 +15,7 @@ class YourIndividual(MonoBinaryIndividual):
         return evaluate(self.chromosome)
 
 
-class YourPopulation(SGA2Population):
+class YourPopulation(HOFPopulation):
     element_class = YourIndividual
 
 class MyIndividual(AgeIndividual, YourIndividual):

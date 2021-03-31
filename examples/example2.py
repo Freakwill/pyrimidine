@@ -63,7 +63,7 @@ class MyIndividual(MixIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fitne
         else:
             return super(MyIndividual, self).mate(other)
 
-class MyPopulation(SGA2Population[MyIndividual]):
+class MyPopulation(HOFPopulation[MyIndividual]):
 
     def transit(self, *args, **kwargs):
         self.sort()

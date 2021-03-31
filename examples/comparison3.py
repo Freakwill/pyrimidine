@@ -22,12 +22,12 @@ class _Chromosome(BinaryChromosome):
                 break
 
 
-class MyPopulation(SGA2Population):
+class MyPopulation(HOFPopulation):
     element_class = MonoIndividual[_Chromosome].set_fitness(lambda o:evaluate(o.chromosome))
     params = {'mutate_prob':.5}
 
 
-class YourPopulation(SGA2Population):
+class YourPopulation(HOFPopulation):
     element_class = MonoBinaryIndividual.set_fitness(lambda o:evaluate(o.chromosome))
 
 

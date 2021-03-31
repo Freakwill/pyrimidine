@@ -4,7 +4,7 @@
 import threading
 
 import operator
-from random import random, randint, gauss, shuffle
+from random import random, randint, gauss, shuffle, choice
 from math import exp
 
 from scipy.spatial.distance import euclidean

@@ -168,6 +168,7 @@ class MetaContainer(System):
             return all(isinstance(elm, self.element_class) for elm in self.__elements)
         attrs['type_check'] = _type_check
 
+        # inherit params instead of overwriting it, when setting params for a subclass
         params = {}
         for b in bases:
             if hasattr(b, 'params') and b.params:
@@ -175,6 +176,21 @@ class MetaContainer(System):
 
         params.update(attrs.get('params', {}))
         attrs['params'] = params
+
+        def _getattr(self, key):
+            if key in self.params:
+                return self.params[key]
+            else:
+                return self.__getattribute__(key)
+        attrs['__getattr__'] = _getattr
+
+        
+        def _config(self, params={}, **kwargs):
+            if params:
+                self.params.update(params)
+            for k, v in kwargs.items():
+                setter(self, k, v)
+        attrs['config'] = _config
 
         def _regester_map(self, name, key=None):
             import types

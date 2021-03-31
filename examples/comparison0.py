@@ -20,18 +20,18 @@ class MyIndividual(MonoBinaryIndividual):
 
 # MyIndividual = MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))
 
-class _Population1(SGAPopulation):
+class _Population1(StandardPopulation):
     element_class = MyIndividual
     default_size = 50
 
-class _Population2(DualPopulation):
+class _Population2(SGA2Population):
     element_class = MyIndividual
     default_size = 50
 
 pop1 = _Population1.random(size=n)
-pop2 = _Population2.random(size=n)
+pop2 = pop1.clone(type_=_Population2)
 
-stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
+stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
 data1 = pop1.evolve(stat=stat, n_iter=300, history=True)
 data2 = pop2.evolve(stat=stat, n_iter=300, history=True)
 

@@ -15,7 +15,7 @@ class NaturalGene(np.int_, BaseGene):
 
     @classmethod
     def random(cls, *args, **kwargs):
-        return cls(np.random.randint(cls.ub, *args, **kwargs))
+        return np.vectorize(cls)(np.random.randint(cls.ub, *args, **kwargs))
 
 class BinaryGene(np.int_, BaseGene):
     values = (0, 1)
@@ -26,7 +26,7 @@ class BinaryGene(np.int_, BaseGene):
 
     @classmethod
     def random(cls, *args, **kwargs):
-        return cls(np.random.randint(2, *args, **kwargs))
+        return np.vectorize(cls)(np.random.randint(2, *args, **kwargs))
 
 
 class FloatGene(np.float_, BaseGene):
@@ -38,7 +38,7 @@ class FloatGene(np.float_, BaseGene):
 
     @classmethod
     def random(cls, *args, **kwargs):
-        return cls(np.random.uniform(cls.lb, cls.ub, *args, **kwargs))
+        return np.vectorize(cls)(np.random.uniform(cls.lb, cls.ub, *args, **kwargs))
 
 
 class UnitFloatGene(FloatGene):

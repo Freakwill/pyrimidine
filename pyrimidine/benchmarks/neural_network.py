@@ -59,10 +59,11 @@ class RNN:
 
 
     def __call__(self, xs, h=1):
-        Z=0
+        Z = 0
         Xs = []
         for x in xs[:-h]:
             X, Z = _rnn(x, A1, b1, A2, b2, C1, c1, C2, c2, Z)
             Xs.append(X)
         E = LA.norm(_mlp(self.X, *x) - self.Y) / LA.norm(self.Y)
         return -E
+

@@ -2,46 +2,59 @@
 # -*- coding: utf-8 -*-
 
 from pyrimidine import *
-from digit_converter import BinaryConverter
-bc = BinaryConverter(exponent=8)
+from digit_converter import IntervalConverter
+c = IntervalConverter(lb=-60, ub=60)
+class _BinaryChromosome(BinaryChromosome):
+    def decode(self):
+        return c(self)
+
+c = IntervalConverter(lb=0, ub=5)
+class _BinaryChromosome2(BinaryChromosome):
+    def decode(self):
+        return c(self)
 
 import numpy as np
 import numpy.linalg as LA
 from sklearn.linear_model import *
+from pyrimidine.learn import BaseEstimator
 
-class GALinearRegression(LinearRegression):
+class GALinearRegression(BaseEstimator, LinearRegression):
     '''Linear Regression
 
     solve Xp = y, with min_p ||Xp-y|| + a||p||, a>=0
     '''
 
-    alpha = 0.2 # Regularization strength
+    alpha = 0.05 # Regularization strength
 
-    def fit(self, X, y):
-        pop = self.config(X,y)
-        pop.evolve()
-        best = pop.best_individual
-        self.coef_ = best.chromosomes[0]
-        self.intercept_ = bc(best.chromosomes[1])
-        return self
-
-    def predict(self, X):
-        return X @ self.coef_ + self.intercept_
+    def postprocess(self):
+        self.coef_ = self.best.chromosomes[0]
+        self.intercept_ = self.best.chromosomes[1].decode()
 
     def config(self, X, y):
-        class MyIndividual(MixIndividual):
-            element_class = FloatChromosome, BinaryChromosome
+        class MyIndividual(SelfAdaptiveIndividual):
+            params={'sigma':0.02}
+            element_class = FloatChromosome, _BinaryChromosome, _BinaryChromosome2, FloatChromosome
 
+            @property
+            def sigma(self):
+                return self.chromosomes[2].decode()
+
+            def mutate(self, copy=False):
+                self.fitness = None
+                for chromosome in self.chromosomes[1:]:
+                        chromosome.mutate()
+                self.chromosomes[0].mutate(sigma=self.sigma)
+                return self
 
             def _fitness(self):
                 coef = self.chromosomes[0]
-                intercept = bc(self.chromosomes[1])
+                intercept = self.chromosomes[1].decode()
                 return - LA.norm(X @ coef +intercept - y) - GALinearRegression.alpha * LA.norm(coef, 1)
 
-        class MyPopulation(SGAPopulation):
+        class MyPopulation(SGA2Population):
             element_class = MyIndividual
 
-        pop = MyPopulation.random(n_individuals=40, sizes=(11, 12))
+        pop = MyPopulation.random(n_individuals=100, sizes=(11, 12, 10, 2))
         return pop
 
 
@@ -78,5 +91,15 @@ if __name__ == '__main__':
     A, A_test, B, B_test = train_test_split(A, B, test_size=0.3)
     r = GALinearRegression()
     r.fit(A, B)
-    print(f'''train error: {r.score(A, B)}
+    print(f'''
+coef_: {r.coef_}
+intercept_: {r.intercept_}
+train error: {r.score(A, B)}
+test Error: {r.score(A_test, B_test)}''')
+    r = LinearRegression()
+    r.fit(A, B)
+    print(f'''
+coef_: {r.coef_}
+intercept_: {r.intercept_}
+train error: {r.score(A, B)}
 test Error: {r.score(A_test, B_test)}''')

@@ -90,7 +90,7 @@ class GravitySearch(BaseFitnessModel):
         for i, particle in enumerate(self):
             particle.accelerate = A[:, i]
 
-    def post_process(self):
+    def postprocess(self):
         self.gravity_coefficient *= exp(-self.attenuation_coefficient/self.n_iter)
 
     

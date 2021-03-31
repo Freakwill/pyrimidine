@@ -39,29 +39,31 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     default_size = 20
 ```
 
+*In new version, BasePopulation inherites from BasePopulationModel, which is a subclass of BaseFitnessModel*
 
-
-There is mainly tow kinds of containers: list and tuple as in programming language `Haskell`. See following examples.
+There is mainly tow kinds of containers: list and tuple as in programming language  `Haskell`. See following examples.
 
 ```python
 # individual with chromosomes of type _Chromosome
 _Individual1 = BaseIndividual[_Choromosome]
 # individual with 2 chromosomes of type _Chromosome1 and _Chromosome2 respectively
-_Individual2 = MixIndividual[_Chromosome1, _Chromosome2]
+_Individual2 = MixedIndividual[_Chromosome1, _Chromosome2]
 ```
 
 
+
+As an abstract calss, `BaseIndividual` represents any solution of an optimization problem, not only designed for GA. Similarly `BasePopulation` represents a set of solutions. Use `BasePopulationModel`, if it is not associated to GA too much.
 
 ## Use
 
 ### Main classes
 
-- BaseGene: the gene of chromosome
-- BaseChromosome: sequence of genes, represents part of a solution
-- BaseIndividual: sequence of chromosomes, represents a solution of a problem
-- BasePopulation: set of individuals, represents a set of a problem
+- `BaseGene`: the gene of chromosome
+- `BaseChromosome`: sequence of genes, represents part of a solution
+- `BaseIndividual`: sequence of chromosomes, represents a solution of a problem
+- `BasePopulation`: set of individuals, represents a set of a problem
                 also the state of a stachostic process
-- BaseSpecies: set of population for more complicated optimalization
+- `BaseSpecies`: set of population for more complicated optimalization
 
 
 ### import
@@ -100,7 +102,7 @@ class MyIndividual(MonoBinaryIndividual):
 
 
 
-If an individual contains several chromosomes, then subclass `MultiIndividual`. It could be applied in multi-real-variable optimization problems.
+If an individual contains several chromosomes, then subclass  `MultiIndividual`. It could be applied in multi-real-variable optimization problems.
 
 
 
@@ -431,11 +433,11 @@ class ParticleSwarm(BaseIterativeModel):
             particle.phantom.fitness = None
 ```
 
-If you want to apply PSO, then you can define
+If you want to apply PSO, then just define
 
 ```python
 class MyParticleSwarm(ParticleSwarm, BasePopulation):
-    element_class = _Particle
+    element_class = _Particle # any subclass of Particle you have defineded
     default_size = 20
 
 pop = MyParticleSwarm.random()

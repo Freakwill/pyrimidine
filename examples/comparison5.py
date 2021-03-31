@@ -30,7 +30,7 @@ class _Individual(MixIndividual):
         return evaluate(*self.chromosomes)
 
 
-MyPopulation = SGA2Population[_Individual] // 50
+MyPopulation = HOFPopulation[_Individual] // 50
 YourPopulation = SGAPopulation[_Individual] // 50
 
 pop = MyPopulation.random(sizes=(10, 10, 10))

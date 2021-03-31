@@ -38,6 +38,7 @@ class _SelfAdaptiveIndividual(BaseSelfAdaptiveIndividual):
         BaseSelfAdaptiveIndividual
     """
     
+    # By default, the second chromosome (a float vector) encodes the prob of mutation and mating
     element_class = BinaryChromosome, FloatChromosome
 
     def mutate(self):
@@ -69,8 +70,6 @@ class _SelfAdaptiveIndividual(BaseSelfAdaptiveIndividual):
     @property
     def desire(self):
         return self.chromosomes[-1][2]
-
-
     
 
 class SelfAdaptiveIndividual(_SelfAdaptiveIndividual):

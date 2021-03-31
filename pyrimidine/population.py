@@ -6,7 +6,7 @@ from .utils import gauss, random
 from . import MetaList
 
 
-class SGAPopulation(BasePopulation):
+class StandardPopulation(BasePopulation):
     """Standard Genetic Algo I.
     
     Extends:
@@ -21,43 +21,60 @@ class SGAPopulation(BasePopulation):
         """
 
         elder = self.__class__(self.get_best_individuals(self.n_elders * self.default_size)).clone()
-        super(SGAPopulation, self).transit(*args, **kwargs)
+        super(StandardPopulation, self).transit(*args, **kwargs)
         self.merge(elder)
 
 
-class SGA2Population(SGAPopulation):
+class SGAPopulation(StandardPopulation):
+    print('Use StandardPopulation in future!')
+    pass
+
+
+class HOFPopulation(StandardPopulation):
     """Standard Genetic Algo II.
 
     With hall of fame
     
     Extends:
-        BasePopulation
+        StandardPopulation
     """
 
-    params = {'fame_size': 4}
+    params = {'fame_size': 2}
 
     def init(self):
-        self.halloffame = self.get_best_individuals(self.fame_size)
+        self.hall_of_fame = self.get_best_individuals(self.fame_size)
 
-    def transit(self, k=None, *args, **kwargs):
+    def postprocess(self, k=None, *args, **kwargs):
         """
-        Transitation of the states of population by SGA
+        Update the hall of fame after one step of evolution
         """
-        super(SGA2Population, self).transit(*args, **kwargs)
-        self.update_halloffame()
-        self.add_individuals([i.clone() for i in self.halloffame])
+        self.update_hall_of_fame()
+        self.add_individuals([i.clone() for i in self.hall_of_fame])
 
-    def update_halloffame(self):
+    def update_hall_of_fame(self):
         b = self.best_individual
-        for i in self.halloffame:
+        for k, i in enumerate(self.hall_of_fame[::-1]):
             if i.fitness < b.fitness:
-                self.halloffame.remove(i)
-                self.halloffame.append(b.clone())
+                self.hall_of_fame.pop(-k-1)
+                self.hall_of_fame.insert(-k-1, b.clone())
                 break
+
+    # def update_hall_of_fame(self, n=2):
+    #     bs = self.get_best_individuals(n)
+    #     N = len(self.hall_of_fame)
+    #     k = N
+    #     for b in bs[::-1]:
+    #         while k > 0:
+    #             k -= 1
+    #             i = self.hall_of_fame[k]
+    #             if i.fitness < b.fitness:
+    #                 self.hall_of_fame.pop(k)
+    #                 self.hall_of_fame.insert(k, b.clone())
+    #                 break
 
     @property
     def best_fitness(self):
-        return max(_.fitness for _ in self.halloffame)
+        return max(_.fitness for _ in self.hall_of_fame)
 
 
 class DualPopulation(BasePopulation):
@@ -87,7 +104,7 @@ class DualPopulation(BasePopulation):
         self.merge(elder)
 
 
-class GamogenesisPopulation(SGA2Population):
+class GamogenesisPopulation(HOFPopulation):
     """Gamogenesis Genetic Algo.
     
     Extends:
@@ -149,9 +166,27 @@ class LocalSearchPopulation(BasePopulation):
         c = self.clone()
         c.select(k=0.7)
         self.select()
-        if random() < mate_prob:
-            self.mate()
-        if random() < mutate_prob:
-            self.mutate()
+        self.mate()
+        self.mutate()
         self.merge(c, select=True)
         self.local_search()
+
+
+class ModifiedPopulation(BasePopulation):
+    params = {'mutate_prob_ub':0.5, 'mutate_prob_lb':0.1}
+    def mutate(self):
+        fm = self.best_individual.fitness
+        fa = self.mean_fitness
+        for individual in self.individuals:
+            f = individual.fitness
+            if f > fa:
+                mutate_prob = self.mutate_prob_ub - (self.mutate_prob_ub-self.mutate_prob_lb) * (f-fa) / (fm-fa)
+            else:
+                mutate_prob = self.mutate_prob_ub
+            if random() < mutate_prob:
+                individual.mutate()
+
+
+# class SelfAdaptivePopulation(SGA2Population):
+#     """docstring for SelfAdaptivePopulation"""
+#     element_class = SelfAdaptiveIndividual

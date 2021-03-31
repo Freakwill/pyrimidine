@@ -54,7 +54,7 @@ class ArrayChromosome(np.ndarray, BaseChromosome):
     def cross(self, other):
         # note that when len(self) == 2 => k==1
         k = randint(1, len(self)-1)
-        return self.__class__(array=np.hstack((self[:k], other[k:])), gene=self.gene)
+        return self.__class__(array=np.concatenate((self[:k], other[k:]), axis=0), gene=self.gene)
 
     def merge(self, *other):
         return self
@@ -66,7 +66,6 @@ class ArrayChromosome(np.ndarray, BaseChromosome):
     #     for i in range(len(self)):
     #         if random() < indep_prob:
     #             self[i] = self.gene.random()
-
 
 
 class VectorChromosome(ArrayChromosome):
@@ -86,21 +85,21 @@ class VectorChromosome(ArrayChromosome):
                 self[i] = self.gene.random()
 
 
-# class MatrixChromosome(ArrayChromosome):
+class MatrixChromosome(ArrayChromosome):
     
-#     def mutate(self, indep_prob=0.1):
-#         r, c = self.shape
-#         for i in range(r):
-#             for j in range(c):
-#                 if random() < indep_prob:
-#                     self[i, j] = self.gene.random()
+    def mutate(self, indep_prob=0.1):
+        r, c = self.shape
+        for i in range(r):
+            for j in range(c):
+                if random() < indep_prob:
+                    self[i, j] += gauss(0, 0.1)
 
-#     def cross(self, other):
-#         r, c = self.shape
-#         k, l = randint(1, r-2), randint(1, c-2)
-#         A = np.hstack((self[:k, :l], other[k:, :l]))
-#         B = np.hstack((other[:k, l:], self[k:, :l]))
-#         return self.__class__(array=np.vstack((A, B)), gene=self.gene)
+    def cross(self, other):
+        r, c = self.shape
+        k, l = randint(1, r-1), randint(1, c-1)
+        A = np.vstack((self[:k, :l], other[k:, :l]))
+        B = np.vstack((other[:k, l:], self[k:, l:]))
+        return self.__class__(array=np.hstack((A, B)), gene=self.gene)
 
 
 class BinaryChromosome(VectorChromosome):
@@ -169,20 +168,25 @@ class PermutationChromosome(NaturalChromosome):
 
 class FloatChromosome(VectorChromosome):
     element_class = FloatGene
+    sigma = 0.05
 
-    def mutate(self, indep_prob=0.1, mu=0, sigma=0.1):
+    def mutate(self, indep_prob=0.1, mu=0, sigma=None):
+        sigma = sigma or self.sigma
         for i in range(len(self)):
             if random() < indep_prob:
                 self[i] += gauss(mu, sigma)
         return self
 
-    def random_neighbour(self, mu=0, simga=0.1):
+    def random_neighbour(self, mu=0, simga=None):
         # select a neighour randomly
+        sigma = sigma or self.sigma
         cpy = self.clone()
-        n = scipy.stats.norm(self.mu, self.sigma)
+        n = scipy.stats.norm(mu, sigma)
         cpy += n.rvs(len(self))
         return cpy
 
+class FloatMatrixChromosome(MatrixChromosome, FloatChromosome):
+    pass
 
 class PositiveChromosome(FloatChromosome):
     def max0(self):
