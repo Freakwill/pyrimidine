@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from pyrimidine import MonoBinaryIndividual
-from pyrimidine.population import SGA2Population
+from pyrimidine.population import *
 
 from pyrimidine.benchmarks.optimization import *
 
@@ -37,7 +37,7 @@ ax = fig.add_subplot(111)
 ax2 = ax.twinx()
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.legend(loc='upper left')
-data['Standard Deviation of Fitnesses'].plot(ax=ax2, style='r--')
+data['Standard Deviation of Fitnesses'].plot(ax=ax2, style='y-.')
 ax2.legend(loc='lower right')
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')

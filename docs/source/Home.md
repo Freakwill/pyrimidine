@@ -47,6 +47,9 @@ _Individual1 = BaseIndividual[_Choromosome]
 # individual with 20 chromosomes of type _Chromosome
 _Individual1 = BaseIndividual[_Choromosome] // 20
 # individual with 2 chromosomes of type _Chromosome1 and _Chromosome2 respectively
-_Individual2 = MixIndividual[_Chromosome1, _Chromosome2]
+_Individual2 = MixedIndividual[_Chromosome1, _Chromosome2]
 ```
 
+
+
+In fact, a container is treated as a special algebraic system.

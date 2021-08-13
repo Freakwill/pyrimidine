@@ -2,38 +2,38 @@
 # -*- coding: utf-8 -*-
 
 
-from pyrimidine import MonoBinaryIndividual
-from pyrimidine.population import *
+"""An easy knapsack problem
 
-from pyrimidine.benchmarks.optimization import *
+Your first example of pyrimidine
+"""
 
-n = 50
-_evaluate = Knapsack.random(n)
+from pyrimidine import MonoBinaryIndividual, BaseEnvironment
+from pyrimidine.population import StandardPopulation, HOFPopulation
 
-class MyIndividual(MonoBinaryIndividual):
-    def _fitness(self):
-        return _evaluate(self.chromosome)
+from pyrimidine.benchmarks.optimization import Knapsack
 
-    def dual(self):
-        return self.__class__([c.dual() for c in self.chromosomes])
-    
+n_bags = 50
+class Env(BaseEnvironment):
+    _evaluate = Knapsack.random(n_bags)
 
-# MyIndividual = MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))
+with Env() as env:
+    _Individual = MonoBinaryIndividual.set_fitness()  # get the fitness from env invisibly
 
-class _Population1(StandardPopulation):
-    element_class = MyIndividual
-    default_size = 50
+    class _Population1(StandardPopulation):
+        element_class = _Individual
+        default_size = n_bags
 
-class _Population2(SGA2Population):
-    element_class = MyIndividual
-    default_size = 50
+    class _Population2(HOFPopulation):
+        element_class = _Individual
+        default_size = n_bags
 
-pop1 = _Population1.random(size=n)
-pop2 = pop1.clone(type_=_Population2)
 
-stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-data1 = pop1.evolve(stat=stat, n_iter=300, history=True)
-data2 = pop2.evolve(stat=stat, n_iter=300, history=True)
+    pop1 = _Population1.random(size=n_bags)
+    pop2 = pop1.clone(type_=_Population2)
+
+    stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
+    data1 = pop1.evolve(stat=stat, n_iter=300, history=True)
+    data2 = pop2.evolve(stat=stat, n_iter=300, history=True)
 
 
 import matplotlib.pyplot as plt

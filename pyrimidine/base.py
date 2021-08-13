@@ -62,8 +62,7 @@ from .meta import *
 
 
 class BaseIterativeModel:
-
-    goal_function = None
+    # Mixin class for iterative algrithms
 
     _head = 'best solution & fitness'
 
@@ -72,7 +71,7 @@ class BaseIterativeModel:
     
     @property
     def solution(self):
-        raise NotImplementedError('Not define solution for the model!')   
+        raise NotImplementedError('Have not defined `solution` for the model yet!')   
 
     @property
     def _row(self):
@@ -147,8 +146,7 @@ class BaseIterativeModel:
             self.transit(k, *args, **kwargs)
             self.postprocess()
             if flag and (period == 1 or k % period ==0):
-                stat_row = self._stat(stat)
-                history = history.append(stat_row, ignore_index=True)
+                history = history.append(self._stat(stat), ignore_index=True)
             if verbose and (period == 1 or k % period ==0):
                 print(f'{k} & {self.solution} & {" & ".join(map(str, self._stat(stat).values()))}')
         return history
@@ -169,7 +167,6 @@ class BaseIterativeModel:
             else:
                 raise TypeError(f'The type of stat["{k}"] is not permissible!')
         return res
-
 
 
     def get_history(self, *args, **kwargs):
@@ -254,7 +251,7 @@ class BaseGene:
 
 
 class BaseFitnessModel(BaseIterativeModel):
-    """Iterative model with fitness
+    """Iterative models with fitness
 
     The fitness should be stored until the the state of the model is changed.
     
@@ -287,7 +284,12 @@ class BaseFitnessModel(BaseIterativeModel):
         self.__fitness = None
 
     @classmethod
-    def set_fitness(cls, f):
+    def set_fitness(cls, f=None):
+        if f is None:
+            if '_fitness' in globals():
+                f = globals()['_fitness']
+            else:
+                raise Exception('Function `_fitness` is not defined before setting fitness. You may not create the class in the context of environment.')
         class C(cls):
             def _fitness(self):
                 return f(self)
@@ -318,16 +320,15 @@ class BaseFitnessModel(BaseIterativeModel):
         return self.clone(type_=t, fitness=True)
 
 
-class BaseChromosome(BaseFitnessModel):
+class BaseChromosome(BaseFitnessModel, metaclass=MetaArray):
     default_size = (8,)
     element_class = BaseGene
-    gene = element_class
 
     def __repr__(self):
-        return self.__class__.__name__ + f': {"/".join(repr(gene) for gene in self)}'
+        return f'{self.__class__.__name__}: {"/".join(map(repr, self))}'
 
     def __str__(self):
-        return "/".join(str(gene) for gene in self)
+        return "/".join(map(str, self))
 
     @classmethod
     def random(cls, size=None):
@@ -355,9 +356,6 @@ class BaseChromosome(BaseFitnessModel):
     @classmethod
     def encode(cls, x):
         raise NotImplementedError
-
-    # def __eq__(self, other):
-    #     return equal(self, other)
 
     def equal(self, other):
         return np.array_equal(self, other)
@@ -498,6 +496,7 @@ class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
         C = SGAPopulation[self.__class__]
         return C([self.clone() for _ in range(n)])
 
+
 class BasePopulationModel(BaseFitnessModel):
     """subclass of BaseFitnessModel
 
@@ -511,11 +510,11 @@ class BasePopulationModel(BaseFitnessModel):
         """
         if stat is None:
             stat = {'Best Fitness':'best_fitness', 'Mean Fitness':'mean_fitness', 'STD Fitness':'std_fitness', 'Population': 'n_elements'}
-        return super(BasePopulationModel, self).evolve(stat=stat, *args, **kwargs)
+        return super().evolve(stat=stat, *args, **kwargs)
 
     @property
     def individuals(self):
-        raise NotImplementedError
+        return self.__elements
 
     @individuals.setter
     def individuals(self, x):
@@ -539,7 +538,7 @@ class BasePopulationModel(BaseFitnessModel):
 
         Fitness of a population is the average fitness by default.
         """
-        raise NotImplementedError
+        return self.mean_fitness
 
     def _fitnesses(self):
         return [individual.fitness for individual in self.individuals]
@@ -868,7 +867,7 @@ class BaseSpecies(BasePopulationModel, metaclass=MetaHighContainer):
 
     @property
     def populations(self):
-        return self.__elements
+        return self._elements
 
     @populations.setter
     def populations(self, x):
@@ -912,26 +911,27 @@ class BaseSpecies(BasePopulationModel, metaclass=MetaHighContainer):
         self.params = state.get('params', {})
 
 
-class BaseEnvironment:
+class BaseMultiPopulation(BaseSpecies):
+    pass
+
+class BaseEnvironment(BaseIterativeModel):
     """Base Class of Environment
     main method is evaluate that calculating the fitness of an individual or a population
     """
-    def __init__(self, model:BaseFitnessModel):
-        self.model = model
 
-    def evaluate(self, x):
-        if hasattr(x, 'fitness'):
-            return x.fitness
-        elif hasattr(x, '_fitness'):
-            return x._fitness()
-        else:
-            raise NotImplementedError
+    _evaluate = None
 
-    def exec(self, x, method):
-        if hasattr(x, method):
-            return getattr(x, method)
-        else:
-            raise NotImplementedError
+    def evaluate(self, *args, **kwargs):
+        return self._evaluate(*args, **kwargs)
 
     def select(self, pop, n_sel):
         raise NotImplementedError
+
+    def __enter__(self, *args, **kwargs):
+        globals()['_fitness'] = lambda o:self._evaluate(o.decode())
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        if '_fitness' in globals():
+            del globals()['_fitness']
+

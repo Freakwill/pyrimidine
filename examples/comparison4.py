@@ -22,7 +22,6 @@ class MyParticleSwarm(ParticleSwarm, BasePopulation):
 
 MyPopulation = HOFPopulation[MonoIndividual[FloatChromosome].set_fitness(lambda o:evaluate(o.chromosome))//8] // 20
 
-
 pop = MyParticleSwarm.random()
 
 pop2 = pop.clone(type_=MyPopulation)

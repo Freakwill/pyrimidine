@@ -4,24 +4,23 @@
 from pyrimidine import *
 from pyrimidine.local_search import *
 
-
 from pyrimidine.benchmarks.optimization import *
 
-
-_evaluate = ShortestPath.random(30)
+_evaluate = heart_path
 
 
 class _Chromosome(PermutationChromosome):
-    default_size = 30
+    default_size = 100
 
     def decode(self):
         return np.hstack((self, [self[0]]))
 
-_Individual = MonoIndividual[_Chromosome].set_fitness(lambda obj: 1 / _evaluate(obj.decode()))
+_Individual = MonoIndividual[_Chromosome].set_fitness(lambda obj: - _evaluate(obj.decode()))
 
-_Population = SGA2Population[_Individual] // 80
+_Population = HOFPopulation[_Individual] // 100
 
 pop = _Population.random()
+pop.init()
 
 from matplotlib import pyplot as plt
 from celluloid import Camera
@@ -31,19 +30,28 @@ ax = fig.add_subplot(111)
 
 points = _evaluate.points
 
-
-def animate(i):
-    pop.ezolve(n_iter=2)
+def animate(i, step=5, start=0):
+    pop.ezolve(n_iter=step)
     x = pop.best_individual.decode()
-    ax.plot(points[x, 0], points[x, 1], 'k-o')
-    ax.legend((f'Generation {i*2}({pop.best_fitness:.4})',))
+    ax.plot(points[x, 0], points[x, 1], 'r-o')
+    ax.legend((f'Generation {start+i*step}({-pop.best_fitness:.4})',))
 
 camera = Camera(fig)
 x = pop.best_individual.decode()
-ax.plot(points[x, 0], points[x,1], 'k-o')
-ax.legend((f'Generation 0({pop.best_fitness:.4})',))
-for i in range(1, 801):
-    animate(i)
+ax.set_title('GA (with hall of fame) for TSP')
+ax.plot(points[x, 0], points[x,1], 'r-o')
+ax.legend((f'Generation 0({-pop.best_fitness:.4})',))
+for i in range(1, 51):
+    animate(i, step=2)
+    camera.snap()
+for i in range(1, 101):
+    animate(i, start=50*2)
+    camera.snap()
+for i in range(1, 101):
+    animate(i, step=10, start=50*2+100*5)
+    camera.snap()
+for i in range(1, 101):
+    animate(i, step=20, start=50*2+100*5+100*10)
     camera.snap()
 
 animation = camera.animate()

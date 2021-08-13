@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pyrimidine import MonoBinaryIndividual, AgePopulation, AgeIndividual, SGAPopulation
+from pyrimidine import *
 
 from pyrimidine.benchmarks.optimization import *
 
@@ -18,7 +18,7 @@ class MyPopulation(AgePopulation):
     element_class = MyIndividual
 
 
-class YourPopulation(SGAPopulation):
+class YourPopulation(StandardPopulation):
     element_class = MyIndividual
 
 pop = YourPopulation.random(size=20)

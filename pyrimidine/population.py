@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Variants of Population classes
+
+StandardPopulation: Standard Genetic Algorithm
+HOFPopulation: Standard Genetic Algorithm with hall of fame
+"""
+
+import numpy as np
+
 from .base import BasePopulation, random
 from .utils import gauss, random
 from . import MetaList
+
 
 
 class StandardPopulation(BasePopulation):
@@ -21,13 +30,14 @@ class StandardPopulation(BasePopulation):
         """
 
         elder = self.__class__(self.get_best_individuals(self.n_elders * self.default_size)).clone()
-        super(StandardPopulation, self).transit(*args, **kwargs)
+        super().transit(*args, **kwargs)
         self.merge(elder)
 
 
 class SGAPopulation(StandardPopulation):
-    print('Use StandardPopulation in future!')
-    pass
+    def __init__(self, *args, **kwargs):
+        print('Deprecated warning: Use StandardPopulation in future!')
+        super().__init__(*args, **kwargs)
 
 
 class HOFPopulation(StandardPopulation):
@@ -40,6 +50,7 @@ class HOFPopulation(StandardPopulation):
     """
 
     params = {'fame_size': 2}
+    hall_of_fame = []
 
     def init(self):
         self.hall_of_fame = self.get_best_individuals(self.fame_size)
@@ -74,7 +85,10 @@ class HOFPopulation(StandardPopulation):
 
     @property
     def best_fitness(self):
-        return max(_.fitness for _ in self.hall_of_fame)
+        if self.hall_of_fame:
+            return max(_.fitness for _ in self.hall_of_fame)
+        else:
+            return np.max([_.fitness for _ in self.individuals])
 
 
 class DualPopulation(BasePopulation):
@@ -100,7 +114,7 @@ class DualPopulation(BasePopulation):
         self.dual()
         elder = self.clone()
         elder.get_best_individuals(self.n_elders)
-        super(DualPopulation, self).transit(*args, **kwargs)
+        super().transit(*args, **kwargs)
         self.merge(elder)
 
 
@@ -133,7 +147,7 @@ class EliminationPopulation(BasePopulation):
     def transit(self, k=None, *args, **kwargs):
         elder = self.clone()
         elder.select(k)
-        super(EliminationPopulation, self).transit(*args, **kwargs)
+        super().transit(*args, **kwargs)
         self.eliminate()
         self.merge(elder)
 

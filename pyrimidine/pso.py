@@ -34,6 +34,8 @@ class BaseParticle(PolyIndividual):
     memory = None
 
     def backup(self):
+        if self.memory is None:
+            self.memory = self.clone(fitness=None)
         self.memory = self.clone(fitness=self.fitness)
 
     def init(self):
@@ -62,6 +64,9 @@ class BaseParticle(PolyIndividual):
     @best_position.setter
     def best_position(self, x):
         self.memory.position = x
+
+    def decode(self):
+        return self.best_position
 
 class Particle(BaseParticle):
 

@@ -27,7 +27,7 @@ class MyPopulation(AgePopulation):
 
 
 
-pop = YourPopulation.random(size=100)
+pop = YourPopulation.random(size=20)
 cpy = pop.clone(type_=MyPopulation)
 
 stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
@@ -41,9 +41,7 @@ fig = plt.figure()
 ax = fig.add_subplot(111)
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 
-
-pop = MyPopulation(individuals=cpy.individuals)
-
+pop = MyPopulation(cpy.individuals)
 data = pop.evolve(n_iter=200, stat=stat, history=True)
 
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)

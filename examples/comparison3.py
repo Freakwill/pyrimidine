@@ -45,9 +45,8 @@ ax = fig.add_subplot(111)
 data2[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 
 
-pop = MyPopulation(individuals=cpy.individuals)
+pop = MyPopulation(cpy.individuals)
 data1, t1 = pop.perf(n_iter=200, stat=stat, history=True)
-print(t1,t2)
 data1[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.legend(('My Fitness', 'My Best Fitness', 'Your Fitness', 'Your Best Fitness'))
 ax.set_xlabel('Generations')

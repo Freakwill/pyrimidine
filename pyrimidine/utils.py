@@ -13,21 +13,21 @@ import numpy as np
 import numba as nb
 
 
-class GOThread(threading.Thread):
-    def __init__(self, target, *args, **kwargs):
-        self.target = operator.methodcaller(target) if isinstance(target, str) else target
-        super(GOThread, self).__init__(target=target, *args, **kwargs)
+# class GOThread(threading.Thread):
+#     def __init__(self, target, *args, **kwargs):
+#         self.target = operator.methodcaller(target) if isinstance(target, str) else target
+#         super(GOThread, self).__init__(target=target, *args, **kwargs)
 
 
-def parallel(func, individuals, *args, **kwargs):
-    threads = [GOThread(target=func, args=(individual,)+args, kwargs=kwargs) for individual in individuals]
-    for thread in threads:
-        thread.start()
+# def parallel(func, individuals, *args, **kwargs):
+#     threads = [GOThread(target=func, args=(individual,)+args, kwargs=kwargs) for individual in individuals]
+#     for thread in threads:
+#         thread.start()
 
-    for thread in threads:
-        thread.join()
+#     for thread in threads:
+#         thread.join()
 
-    return [thread.result for thread in threads]
+#     return [thread.result for thread in threads]
 
 def binary_select(a, b, p=0.5):
     if random() < p:
@@ -68,6 +68,14 @@ def choice_with_prob_replace(xs, ps, n=1):
     ps /= np.sum(ps)
     rv = rv_discrete(values=(np.arange(L), ps))
     ks = rv.rvs(size=n)
+    return [xs[k] for k in ks]
+
+from toolz import unique
+def choice_with_prob_unique(xs, ps, n=1):
+    L = len(xs)
+    ps /= np.sum(ps)
+    rv = rv_discrete(values=(np.arange(L), ps))
+    ks = unique(rv.rvs(size=n))
     return [xs[k] for k in ks]
 
 
@@ -131,3 +139,10 @@ def metropolis_rule(D, T, epsilon=0.000001):
         return random() < p
     else:
         return True
+
+
+def proportion(n):
+    if n is None:
+        n = D
+    elif 0 < n < 1:
+        n = int(N * n)

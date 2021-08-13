@@ -16,16 +16,53 @@ class ArrayChromosome(np.ndarray, BaseChromosome):
         if gene is None:
             gene = cls.element_class
 
-        obj = super(ArrayChromosome, cls).__new__(cls, shape=array.shape, dtype=gene)
+        obj = super().__new__(cls, shape=array.shape, dtype=gene)
         obj = np.asarray(array).view(cls)
         return obj
 
     def __array_finalize__(self, obj):
-        if obj is None: return
-        self.gene = getattr(obj, 'gene', None)
+        if obj is None:
+            return
+        elif isinstance(obj, (tuple, list)):
+            self.__array_finalize__(np.array(obj)) 
+            return
+        elif isinstance(obj, BaseChromosome):
+            self.gene = getattr(obj, 'gene', None)
+        elif isinstance(obj, np.ndarray):
+            self.gene = obj.dtype
+
+    def __array_ufunc__(self, ufunc, method, *inputs, **kwargs):
+
+        outputs = kwargs.get('out', None)
+        if outputs is None:
+            outputs = (None,) * ufunc.nout
+        else:
+            kwargs['out'] = tuple(outputs)
+
+        results = super().__array_ufunc__(ufunc, method, *inputs, **kwargs)
+
+        if results is NotImplemented:
+            return NotImplemented
+        elif ufunc.nout == 1:
+            output = outputs[0]
+            return (self.__class__(results, min_index=self.min_index, max_index=self.max_index)
+                if output is None else output)
+        else:
+            return tuple(self.__class__(result, min_index=self.min_index, max_index=self.max_index)
+                if output is None else output for result, output in zip(results, outputs))
 
     def __len__(self):
-        return self.shape[0]
+        return self.size
+
+    @property
+    def elements(self):
+        return np.asarray(self)
+
+    @elements.setter
+    def elements(self, x):
+        self.__elements = np.asarray(x)
+        L = len(x)
+        self.__n_elements = L
 
     @property
     def n_genes(self):

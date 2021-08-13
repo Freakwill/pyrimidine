@@ -12,32 +12,41 @@ from digit_converter import *
 
 
 N, p = 50, 10
-c = 2
+c = 3
 evaluate = NMF_.random(N=N, p=p)
 
-class _Chromosome(ProbabilityChromosome):
+class _PChromosome(ProbabilityChromosome):
 
     def random_neighbour(self):
         # select a neighour randomly
         r = self.random(size=self.n_genes)
-        epsilon = 0.01
-        return self + epsilon * (r - self)
+        epsilon = 0.001
+        return self + epsilon * r
+
+class _Chromosome(FloatChromosome):
+
+    def random_neighbour(self):
+        # select a neighour randomly
+        r = self.random(size=self.n_genes)
+        epsilon = 0.001
+        return self + epsilon * r
 
 
-class _Individual(MultiIndividual, SimulatedAnnealing):
+class _Individual(MixedIndividual, SimulatedAnnealing):
     """base class of individual
 
     You should implement the methods, cross, mute
     """
 
+    element_class = (FloatChromosome,) * N + (ProbabilityChromosome,) * p
+
     def _fitness(self):
         A = np.vstack(self.chromosomes[:N])
-        B = np.vstack(self.chromosomes[N:]).T
-        return evaluate(A, B)
+        B = np.vstack(self.chromosomes[N:])
+        return evaluate(A, B.T)
 
 
 class YourIndividual(_Individual):
-    element_class = ProbabilityChromosome
     def get_neighbour(self):
         cpy = self.clone(fitness=None)
         cpy.mutate()
@@ -45,7 +54,7 @@ class YourIndividual(_Individual):
 
 
 class MyIndividual(_Individual):
-    element_class = _Chromosome
+    element_class = (_Chromosome,) * N + (_PChromosome,) * p
 
     def get_neighbour(self):
         # select a neighour randomly
@@ -58,16 +67,16 @@ from sklearn.decomposition import NMF
 nmf = NMF(n_components=c)
 W = nmf.fit_transform(evaluate.M)
 H = nmf.components_
-err = -evaluate(W, H.T)
+err = -evaluate(W, H)
 
-i = MyIndividual.random(sizes=(c,)* N + (p,)*c)
+i = MyIndividual.random(sizes=(c,)* (N + p))
 j = i.clone()
-data = i.get_history(stat={'Error': lambda i: -i.fitness}, n_iter=200)
-yourdata = j.get_history(stat={'Error': lambda i: -i.fitness}, n_iter=200)
+data = i.evolve(stat={'Error': lambda i: -i.fitness}, n_iter=100, history=True)
+yourdata = j.evolve(stat={'Error': lambda i: -i.fitness}, n_iter=100, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(np.arange(200), yourdata['Error'], 'bo', np.arange(200), data['Error'], 'r+', [0, 200], [err, err], 'k--')
+ax.plot(np.arange(101), yourdata['Error'], 'bo', np.arange(101), data['Error'], 'r+', [0, 100], [err, err], 'k--')
 ax.legend(('My Error', 'Your Error', 'EM Error'))
 plt.show()

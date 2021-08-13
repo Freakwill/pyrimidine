@@ -1,12 +1,8 @@
-# pyrimidine 🧬
+# pyrimidine
 
-:dna: OO implement of genetic algorithm by python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details. 
+OO implement of genetic algorithm by python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details.
 
 ![LOGO](logo.png)
-
-[TOC]
-
-
 
 ## Why
 
@@ -39,31 +35,33 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
     default_size = 20
 ```
 
-*In new version, BasePopulation inherites from BasePopulationModel, which is a subclass of BaseFitnessModel*
 
-There is mainly tow kinds of containers: list and tuple as in programming language  `Haskell`. See following examples.
+
+There is mainly tow kinds of containers: list and tuple as in programming language `Haskell`. See following examples.
 
 ```python
 # individual with chromosomes of type _Chromosome
 _Individual1 = BaseIndividual[_Choromosome]
 # individual with 2 chromosomes of type _Chromosome1 and _Chromosome2 respectively
-_Individual2 = MixedIndividual[_Chromosome1, _Chromosome2]
+_Individual2 = MixIndividual[_Chromosome1, _Chromosome2]
 ```
 
 
 
-As an abstract calss, `BaseIndividual` represents any solution of an optimization problem, not only designed for GA. Similarly `BasePopulation` represents a set of solutions. Use `BasePopulationModel`, if it is not associated to GA too much.
+## New features
+
+propose a mature concept/metaclass `System`, consisting of a set of elements and operators on it as an implementing of algebraic system.
 
 ## Use
 
 ### Main classes
 
-- `BaseGene`: the gene of chromosome
-- `BaseChromosome`: sequence of genes, represents part of a solution
-- `BaseIndividual`: sequence of chromosomes, represents a solution of a problem
-- `BasePopulation`: set of individuals, represents a set of a problem
+- BaseGene: the gene of chromosome
+- BaseChromosome: sequence of genes, represents part of a solution
+- BaseIndividual: sequence of chromosomes, represents a solution of a problem
+- BasePopulation: set of individuals, represents a set of a problem
                 also the state of a stachostic process
-- `BaseSpecies`: set of population for more complicated optimalization
+- BaseSpecies: set of population for more complicated optimalization
 
 
 ### import
@@ -78,7 +76,7 @@ Generally, it is an array of genes.
 As an array of 0-1s, `BinaryChromosome` is used most frequently.
 
 #### Individual
-Just subclass `MonoIndividual` in most cases.
+just subclass `MonoIndividual` in most cases.
 
 ```python
 class MyIndividual(MonoIndividual):
@@ -102,7 +100,7 @@ class MyIndividual(MonoBinaryIndividual):
 
 
 
-If an individual contains several chromosomes, then subclass  `MultiIndividual`. It could be applied in multi-real-variable optimization problems.
+If an individual contains several chromosomes, then subclass `MultiIndividual`. It could be applied in multi-real-variable optimization problems.
 
 
 
@@ -195,7 +193,7 @@ Get the history of the evolution.
 
 ```python
 stat={'Fitness':'fitness', 'Best Fitness': lambda pop: pop.best_individual.fitness}
-data = pop.evolve(stat=stat, history=True)  # record history
+data = pop.history(stat=stat)  # use history instead of evolve
 ```
 `stat` is a dict mapping keys to function, where string 'fitness' means function `lambda pop:pop.fitness` which gets the mean fitness of pop. Since we have defined pop.best_individual.fitness as a property, `stat` could be redefine as `{'Fitness':'fitness', 'Best Fitness': 'best_fitness'}`.
 
@@ -206,57 +204,6 @@ data = pop.evolve(stat=stat, history=True)  # record history
 Use `pop.perf()` to check the performance.
 
 
-
-### Parameters (and some methods)
-
-It is recommended to put the parameters into `params` dict, such as
-
-```python
-class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
-    # The params would update those of base classes.
-    params = {'mate_prob':0.75, 'mutate_prob':0.2, 'tournsize':5}
-```
-
-#### setting `params` dynamically
-
-Use `cls.set_params(mate_prob=0.75)` to set params dynamically.
-
-
-
-#### setting `fitness`
-
-```python
-_Individual=BaseIndividual.set_fitness(f: obj -> number)
-# equiv. to
-class _Individual(BaseIndividual):
-     def _fitness(self):
-         # f: self -> nubmer
-```
-
-The individual will get fitness with the following property eventually. It is not wise to define the property as a function!
-
-```python
-@property
-def fitness(self):
-     # never try to define the property directly
-     # f: self -> nubmer
-```
-
-
-
-#### setting `element_class` and `default_size`
-
-```python
-MyPopulation=SGAPopulation[MyIndividual] // 20
-# equiv. to
-class MyPopulation(SGAPopulation):
-     element_class = MyIndividual # mentioned above
-     default_size = 20   # the default numbers of individuals
-```
-
-The are implimented by `set` method that sets a attribute with a value then return the object (here the population class).
-
-With the methods above, we could abandon `class` syntax sugar.:v:
 
 ## Example
 
@@ -325,13 +272,11 @@ evaluate = Knapsack.random(n=20)
 
 class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
-        return evaluate(self.chromosome)
+        return evaluate(self)
+
 
 class MyPopulation(SGAPopulation):
     element_class = MyIndividual
-    
-# equiv. to 
-# MyPopulation = SGAPopulation[MonoBinaryIndividual.set_fitness(lambda o: evaluate(o.chromosome)]
 
 pop = MyPopulation.random(size=20)
 
@@ -433,11 +378,11 @@ class ParticleSwarm(BaseIterativeModel):
             particle.phantom.fitness = None
 ```
 
-If you want to apply PSO, then just define
+If you want to apply PSO, then you can define
 
 ```python
 class MyParticleSwarm(ParticleSwarm, BasePopulation):
-    element_class = _Particle # any subclass of Particle you have defineded
+    element_class = _Particle
     default_size = 20
 
 pop = MyParticleSwarm.random()

@@ -45,7 +45,7 @@ class MonoIndividual(BaseIndividual, metaclass=MetaList):
     def individuals(self, x):
         if len(x)>=2:
             raise ValueError('A monoIndividual has only one chromosome! But you give more than one.')
-        super(MonoIndividual, self).individuals = x
+        super().individuals = x
 
 
 class MonoBinaryIndividual(MonoIndividual):

@@ -103,19 +103,43 @@ class MixMLE:
         return np.sum([self.logpdf(xi, t, a) for xi in self.x])
 
 
-from scipy.spatial.distance import euclidean, pdist, squareform
+from scipy.spatial.distance import pdist, squareform
 
 class ShortestPath:
     def __init__(self, points):
+        """TSP
+        
+        Arguments:
+            points {array with shape of N * 2} -- points of the path
+        """
         self.points = points
-        self.dm = squareform(pdist(points))
+        self._dm = squareform(pdist(points))
 
     @staticmethod
     def random(N):
         return ShortestPath(np.random.random(size=(N, 2)))
 
     def __call__(self, x):
-        return np.sum([self.dm[i,j] if i<j else self.dm[j, i] for i, j in zip(x[:-1], x[1:])])
+        return np.sum([self._dm[i,j] if i<j else self._dm[j, i] for i, j in zip(x[:-1], x[1:])])
+
+class CurvePath(ShortestPath):
+    def __init__(self, x, y):
+        _points = np.column_stack([x,y])
+        super().__init__(_points)
+
+
+def _heart(t, a=1):
+    x = np.cos(t)
+    y = np.sin(t) + np.power(x**2, 1/3)
+    return a* x, a* y
+
+t = np.linspace(0, 2*np.pi, 50)
+x1, y1 = _heart(t)
+x2, y2 = _heart(t, a=1.3)
+x = np.hstack((x1, x2))
+y = np.hstack((y1, y2))
+heart_path = CurvePath(x, y)
+
 
 class MinSpanningTree:
     def __init__(self, nodes, edges=[]):
