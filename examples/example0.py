@@ -3,23 +3,21 @@
 
 from pyrimidine import MonoBinaryIndividual
 from pyrimidine.population import *
-
 from pyrimidine.benchmarks.optimization import *
 
 n = 50
 _evaluate = Knapsack.random(n)
-
 
 # Define individual
 class MyIndividual(MonoBinaryIndividual):
     def _fitness(self) -> float:
         # To evaluate an individual!
         return _evaluate(self.chromosome)
-    
+
 # MyIndividual = MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))
 
 # Define Population
-class MyPopulation(HOFPopulation):
+class MyPopulation(StandardPopulation):
     element_class = MyIndividual
     default_size = 20
 
@@ -27,8 +25,8 @@ class MyPopulation(HOFPopulation):
 
 pop = MyPopulation.random(size=n)
 
-stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness', 'Standard Deviation of Fitnesses': 'std_fitness'}
-data = pop.evolve(stat=stat, n_iter=200, history=True)
+stat = {'Mean Fitness':'fitness', 'Best Fitness':'best_fitness', 'Standard Deviation of Fitnesses': 'std_fitness', 'type': lambda o: len(o.individuals)}
+data = pop.evolve(stat=stat, n_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt

@@ -14,6 +14,7 @@ class MultiIndividual(BaseIndividual, metaclass=MetaList):
 class PolyIndividual(BaseIndividual, metaclass=MetaList):
     pass
 
+
 class MonoIndividual(BaseIndividual, metaclass=MetaList):
     """Base class of individual with one choromosome
 
@@ -57,11 +58,13 @@ class MonoBinaryIndividual(MonoIndividual):
 
     element_class = BinaryChromosome
 
+
 class BinaryIndividual(MultiIndividual):
     """non-simple binary individual
     """
 
     element_class = BinaryChromosome
+
 
 class FloatIndividual(BaseIndividual):
     """simple binary individual
@@ -77,6 +80,7 @@ class MonoFloatIndividual(MonoIndividual):
     """
 
     element_class = FloatChromosome
+
 
 class MixedIndividual(BaseIndividual, metaclass=MetaTuple):
     """base class of individual

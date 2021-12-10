@@ -8,7 +8,7 @@ Developed by J. Kennedy and R. Eberhart[Kennedy and Eberhart 2001]
 Each individual is represented position and velocity.
 """
 
-from .base import BasePopulationModel
+from .base import PopulationModel
 from .chromosome import FloatChromosome
 from .individual import PolyIndividual
 from .utils import gauss, random
@@ -32,6 +32,8 @@ class BaseParticle(PolyIndividual):
     element_class = FloatChromosome
     default_size = 2
     memory = None
+
+    params = {'learning_factor': 2, 'acceleration_coefficient': 3, 'inertia':0.5}
 
     def backup(self):
         if self.memory is None:
@@ -68,6 +70,10 @@ class BaseParticle(PolyIndividual):
     def decode(self):
         return self.best_position
 
+    def update_vilocity(self, fame=None, *args, **kwargs):
+        raise NotImplementedError
+
+
 class Particle(BaseParticle):
 
     element_class = FloatChromosome
@@ -91,8 +97,22 @@ class Particle(BaseParticle):
     def velocity(self, v):
         self.chromosomes[1] = v
 
+    def move(self):
+        self.position += self.velocity
 
-class ParticleSwarm(BasePopulationModel):
+    def update_vilocity(self, fame=None, *args, **kwargs):
+        xi = random()
+        if fame is None:
+            particle.velocity = (self.inertia * particle.velocity
+                + self.learning_factor * xi * (particle.best_position-particle.position))
+        else:
+            eta = random()
+            particle.velocity = (self.inertia * particle.velocity
+                 + self.learning_factor * xi * (particle.best_position-particle.position)
+                 + self.acceleration_coefficient * eta * (fame.best_position-particle.position))
+
+
+class ParticleSwarm(PopulationModel):
     """Standard PSO
     
     Extends:
@@ -152,14 +172,34 @@ class ParticleSwarm(BasePopulationModel):
                 particle.velocity = (self.inertia * particle.velocity
              + self.learning_factor * xi * (particle.best_position-particle.position))
             else:
-                for b in self.hall_of_fame:
-                    if particle.fitness < b.fitness:
+                for fame in self.hall_of_fame:
+                    if particle.fitness < fame.fitness:
                         break
                 particle.velocity = (self.inertia * particle.velocity
                  + self.learning_factor * xi * (particle.best_position-particle.position)
-                 + self.acceleration_coefficient * eta * (b.best_position-particle.position))
+                 + self.acceleration_coefficient * eta * (fame.best_position-particle.position))
             particle.position += particle.velocity
 
     @property
     def best_fitness(self):
         return np.max([_.memory.fitness for _ in self.hall_of_fame])
+
+
+class DiscreteParticleSwarm(ParticleSwarm):
+    def move(self):
+        """moving rule of particles
+
+        Particles move according to the hall of fame and the best record
+        """
+        v1 = self.inertia
+        v2 = self.learning_factor
+        v3 = self.acceleration_coefficient
+        for particle in self:
+            if particle in self.hall_of_fame:
+                particle.velocity = def_velocity1(particle, v1, v2)
+            else:
+                for fame in self.hall_of_fame:
+                    if particle.fitness < fame.fitness:
+                        break
+                particle.velocity = def_velocity2(particle, fame, v1, v2, v3)
+            particle.move()

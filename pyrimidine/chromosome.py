@@ -9,7 +9,7 @@ from .gene import *
 from .utils import *
 
 
-class ArrayChromosome(np.ndarray, BaseChromosome):
+class ArrayChromosome(BaseChromosome, np.ndarray):
     element_class = BaseGene
 
     def __new__(cls, array, gene=None):

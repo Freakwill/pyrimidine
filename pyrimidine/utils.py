@@ -3,31 +3,15 @@
 
 import threading
 
-import operator
+from operator import methodcaller, attrgetter
 from random import random, randint, gauss, shuffle, choice
 from math import exp
 
 from scipy.spatial.distance import euclidean
 
 import numpy as np
-import numba as nb
+# import numba as nb
 
-
-# class GOThread(threading.Thread):
-#     def __init__(self, target, *args, **kwargs):
-#         self.target = operator.methodcaller(target) if isinstance(target, str) else target
-#         super(GOThread, self).__init__(target=target, *args, **kwargs)
-
-
-# def parallel(func, individuals, *args, **kwargs):
-#     threads = [GOThread(target=func, args=(individual,)+args, kwargs=kwargs) for individual in individuals]
-#     for thread in threads:
-#         thread.start()
-
-#     for thread in threads:
-#         thread.join()
-
-#     return [thread.result for thread in threads]
 
 def binary_select(a, b, p=0.5):
     if random() < p:
@@ -116,21 +100,19 @@ def randint2(lb=0, ub=9, ordered=False):
             return j, i
     return i, j
 
-@nb.vectorize()
+@np.vectorize
 def max0(x):
     return 0 if x<=0 else x
 
 def max_lb(lb):
-    @nb.vectorize()
+    @np.vectorize
     def m(x):
         return lb if x<=lb else x
     return m
 
-
-@nb.vectorize()
+@np.vectorize
 def hl(x):
     return 0 if x<=0 else (1 if x>=1 else x)
-
 
 def metropolis_rule(D, T, epsilon=0.000001):
     
@@ -140,9 +122,9 @@ def metropolis_rule(D, T, epsilon=0.000001):
     else:
         return True
 
-
-def proportion(n):
+def proportion(n, N):
     if n is None:
-        n = D
+        n = N
     elif 0 < n < 1:
         n = int(N * n)
+    return n

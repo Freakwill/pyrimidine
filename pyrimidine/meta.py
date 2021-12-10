@@ -3,6 +3,7 @@
 
 from types import MethodType
 from collections.abc import Iterable
+from operator import attrgetter
 
 
 def get_stem(s):
@@ -23,16 +24,18 @@ def get_stem(s):
         if a.isupper(): break
     return s[-k-1:].lower()
 
+from .mixin import *
 
 class ParamType(type):
     """just a wrapper of `type`
 
     Define `params` in classes whose metaclass of ParamType,
     then key-value pairs in `params` could be inherited from super classes, like attributes.
-    It make set and manage parameters of classes or instances more easily.
+    It make users set and manage parameters of classes or instances more easily.
     """
-    def __new__(cls, name, bases, attrs):
-        # inherit alias instead of overwriting it, when setting alias for a subclass
+    def __new__(cls, name, bases=(), attrs={}):
+        # inherit alias instead of overwriting it, when setting `alias` for a subclass
+        # alias is not recommended to use!
         alias = {}
         for b in bases:
             if hasattr(b, 'alias') and b.alias:
@@ -41,7 +44,7 @@ class ParamType(type):
         alias.update(attrs.get('alias', {}))
         attrs['alias'] = alias
 
-        # inherit params instead of overwriting it, when setting params for a subclass
+        # inherit params instead of overwriting it, when setting `params` for a subclass
         params = {}
         for b in bases:
             if hasattr(b, 'params') and b.params:
@@ -58,15 +61,25 @@ class ParamType(type):
             else:
                 return self.__getattribute__(key)
         attrs['__getattr__'] = _getattr
+
+        def _setattr(self, key, value):
+            if key in self.params:
+                self.params[key] = value
+            elif key in self.alias:
+                setattr(self, self.alias[key], value)
+            else:
+                super(IterativeModel, self).__setattr__(key, value)
+        attrs['__setattr__'] = _setattr
+
         return super().__new__(cls, name, bases, attrs)
 
 
 class System(ParamType):
-    """Abstract class of systems, as a wrapper of `type` generally
+    """Abstract class of systems
 
     A system consists of a set of elements and operators acting on them
 
-    It is refered to algebraic system.
+    It is refered to an algebraic system.
     """
     
     def __new__(cls, name, bases, attrs):
@@ -84,14 +97,14 @@ class System(ParamType):
                 return getattr(self, '__n_elements')
             return len(self.__elements)
 
-        attrs['__getitem__'] = _getitem
-        attrs['__len__'] = _len
-        attrs['__iter__'] = _iter
+        attrs.update(
+            {'__getitem__': _getitem,
+            '__len__': _len,
+            '__iter__': _iter}
+        )
 
         def _get_all(self, attr_name):
-            return [getattr(elm, attr_name) for elm in self._elements]
-
-        attrs['get_all'] = _get_all
+            return map(attrgetter(attr_name), self.__elements)
 
         @property
         def _elements(self):
@@ -100,49 +113,66 @@ class System(ParamType):
         @_elements.setter
         def _elements(self, x):
             self.__elements = x
-            L = len(x)
-            self.__n_elements = L
+            # L = len(x)
+            # self.__n_elements = L
             # setattr(self, '__n_' + element_name, L)
-        attrs['elements'] = _elements
 
         @property
         def _n_elements(self):
-            return self.__n_elements
+            # return self.__n_elements
+            return len(self.elements)
 
-        attrs['n_elements'] = _n_elements
+        attrs.update(
+            {"elements": _elements,
+            "n_elements": _n_elements,
+            "get_all": _get_all}
+        )
+
+        @property
+        def _operators(self):
+            return self.__operators
+
+        @_operators.setter
+        def _operators(self, x):
+            self.__operators = x
+
+        attrs.update(
+            {"operator": _operators}
+        )
 
         def _type_check(self):
             return all(isinstance(elm, self.element_class) for elm in self.__elements)
         attrs['type_check'] = _type_check
 
         def _regester_map(self, name, key=None):
-            import types
+            if key is None:
+                key = lambda e: getattr(e, name)()
             def m(obj):
-                if key is None:
-                    return [getattr(_, name)() for _ in obj.elements]
-                else:
-                    return list(map(key, obj.elements))
-            setattr(self, name, types.MethodType(m, self))
+                return map(key, obj.elements)
+            setattr(self, name, MethodType(m, self))
+
         attrs['regester_map'] = _regester_map
         
-        def _map_regester(self, m):
-            if hasattr(self, m):
-                raise AttributeError(f'`{m}` is an attribute of {self.__class__.__name__}, would not be regestered.')
-            def _m(obj, *args, **kwargs):
-                return [getattr(a, m)(*args, **kwargs) for a in obj]
-            setattr(self, m, MethodType(_m, self))
-        attrs['map_regester'] = _map_regester
+        # def _operator_regester(self, m):
+        #     if hasattr(self, m):
+        #         raise AttributeError(f'`{m}` is an attribute of {self.__class__.__name__}, would not be regestered.')
+        #     def _m(obj, *args, **kwargs):
+        #         return [getattr(a, m)(*args, **kwargs) for a in obj]
+        #     setattr(self, m, MethodType(_m, self))
 
-        def _element_regester(self, e):
-            if hasattr(self, e):
-                raise AttributeError(f'`{e}` is an attribute of {self.__class__.__name__}, would not be regestered.')
-            @property
-            def _p(obj):
-                return [getattr(a, e) for a in obj]
-            setattr(self, e, _p)
-        attrs['element_regester'] = _element_regester
+        # def _element_regester(self, e):
+        #     if hasattr(self, e):
+        #         raise AttributeError(f'`{e}` is an attribute of {self.__class__.__name__}, would not be regestered.')
+        #     @property
+        #     def _p(obj):
+        #         return [getattr(a, e) for a in obj]
+        #     setattr(self, e, _p)
+
+        # attrs.update({'operator_regester': _operator_regester,
+        # 'element_regester': _element_regester})
 
         return super().__new__(cls, name, bases, attrs)
+
 
     def set(self, *args, **kwargs):
         for k in args:
@@ -151,10 +181,24 @@ class System(ParamType):
             setattr(self, k, v)
         return self
 
+
     def set_methods(self, **kwargs):
         for k, m in kwargs.items():
             setattr(self, k, MethodType(m, self))
         return self
+
+
+    def __call__(self, *args, **kwargs):
+        o = super().__call__()
+
+        if not args:
+            raise Exception('Did not provide a list of elements as the unique positional argument!')
+        else:
+            o.elements = args[0]
+
+        for k, v in kwargs.items():
+            setattr(o, k, v)
+        return o
 
 
 class MetaContainer(System):
@@ -220,17 +264,20 @@ class MetaContainer(System):
             attrs['alias'].update({element_name:'elements'})
         else:
             attrs['alias'] = {element_name:'elements'}
+
         return super().__new__(cls, name, bases, attrs)
 
+    def mixin(self, *others):
+        class cls(*others, self):
+            pass
+        return cls
+
+
     def __call__(self, *args, **kwargs):
-        o = super().__call__()
-        o.elements = []
-        for k, v in kwargs.items():
-            setattr(o, k, v)
-        if len(args)==1:
-            o.elements, = args  # args is a tuple, you have to unpack it!
-        else:
-            raise Exception('Provide a list of elements as the unique positive argument!')
+        o = super().__call__(*args, **kwargs)
+
+        if '_environment' in globals():
+            o.environment = globals()['_environment']
         return o
 
     def __getitem__(self, class_):
@@ -239,21 +286,15 @@ class MetaContainer(System):
     def __floordiv__(self, n):
         return self.set(default_size=n)
 
-    def mixin(self, *others):
-        class cls(*others, self):
-            pass
-        return cls
-
 
 class MetaList(MetaContainer):
     # a list is a container of elements with the same type
     def __new__(cls, name, bases, attrs):
-
         if 'element_class' in attrs:
             element_class = attrs['element_class']
             if isinstance(element_class, tuple):
                 raise TypeError('`element_class` should not be a tuple!')
-        return super(MetaList, cls).__new__(cls, name, bases, attrs)
+        return super().__new__(cls, name, bases, attrs)
 
     def __getitem__(self, class_):
         self.element_class = class_
@@ -270,7 +311,7 @@ class MetaTuple(MetaContainer):
             element_class = attrs['element_class']
             if not isinstance(element_class, tuple):
                 raise TypeError('`element_class` should be a tuple!')
-        return super(MetaTuple, cls).__new__(cls, name, bases, attrs)
+        return super().__new__(cls, name, bases, attrs)
 
     def __mul__(self, n):
         raise DeprecationWarning('It is meaningless to multiply the class by a number')
@@ -293,7 +334,7 @@ class MetaHighContainer(MetaContainer):
 
         attrs['flatten'] = _flatten
 
-        return super(MetaHighContainer, cls).__new__(cls, name, bases, attrs)
+        return super().__new__(cls, name, bases, attrs)
 
 
 import numpy as np
@@ -310,12 +351,15 @@ class MetaArray(ParamType):
                 raise Exception('Have not provided element class yet.')
         if not element_class.__name__.startswith('Base') and not issubclass(element_class, (int, float, np.int_, np.float_, np.bool_)):
             raise TypeError('The types of elements should be numbers, i.e. subclass of int or float')
+        # if np.ndarray not in bases:
+        #     bases = (np.ndarray,) + bases
+            # raise Exception('The class should be a subclass of numpy.ndarray!')
 
-        return type.__new__(cls, name, bases, attrs)
+        return super().__new__(cls, name, bases, attrs)
 
 
     # def __call__(self, *args, **kwargs):
-    #     o = super(MetaArray, self).__new__([], dtype=self.element_class)
+    #     o = super().__call__([], dtype=self.element_class)
     #     for k, v in kwargs.items():
     #         setattr(o, k, v)
     #     if args:
@@ -325,19 +369,26 @@ class MetaArray(ParamType):
 
 if __name__ == '__main__':
     from collections import UserString
+
     class C(metaclass=MetaContainer):
         element_class = UserString
+        alias = {'n_strings': 'n_elements'}
         # element_name = 'string'
 
-    c = C(strings=[UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
+    c = C([UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
+    C.set_methods(n_elems=lambda c: 0)
     print(c.element_class)
     print(C.element_name)
     print(c.strings)
     print(c.lasting)
-    print(c.elements, 'one of them is', c.elements)
-    print(c.n_elements)
-    for a in c:
-        print(a)
+    print(c.elements, 'one of them is', c.elements[0])
+    print(c.n_elements == c.n_strings)
 
     c.regester_map('upper')
-    print(c.upper())
+    print(list(c.upper()))
+    def n_vowels(s):
+        return len([o for o in s if str(o) in 'ieaouIEAOU'])
+    c.regester_map('length', n_vowels)
+    print(list(c.length()))
+    print(c.n_elems())
+

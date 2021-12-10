@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from .base import *
+from .mixin import *
 from .errors import *
 from .gene import *
 from .chromosome import *

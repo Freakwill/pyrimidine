@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 import numpy as np
 import digit_converter
 
@@ -10,6 +9,7 @@ from .population import DualPopulation
 
 def _decode(c, a, b):
     return IntervalConverter(a, b)(c)
+
 
 def ga_min(fun, *xlim):
     # GA for minimizing fun defined on xlim
@@ -34,4 +34,3 @@ def ga_min(fun, *xlim):
     pop.ezolve()
 
     return pop.best_individual.decode()
-

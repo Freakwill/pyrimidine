@@ -17,7 +17,7 @@ class Env(BaseEnvironment):
     _evaluate = Knapsack.random(n_bags)
 
 with Env() as env:
-    _Individual = MonoBinaryIndividual.set_fitness()  # get the fitness from env invisibly
+    _Individual = MonoBinaryIndividual.set_fitness()
 
     class _Population1(StandardPopulation):
         element_class = _Individual

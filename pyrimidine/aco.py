@@ -18,7 +18,7 @@ class BaseAnt(BaseFitnessModel):
     def path(self, p):
         self.__path = p
         self.fitness = None
-    
+
 
     def __init__(self, *args, **kwargs):
         if args:
@@ -79,7 +79,7 @@ class BaseAntColony(BasePopulationModel, metaclass=MetaContainer):
     @property
     def ants(self):
         return self.elements
-    
+
 
     def transit(self, *args, **kwargs):
         self.init()
@@ -99,4 +99,3 @@ class BaseAntColony(BasePopulationModel, metaclass=MetaContainer):
         for ant in self.ants:
             delta += ant.pheromone
         self.pheromone = (1- self.volatilization_rate)*self.pheromone + delta
-

@@ -21,7 +21,7 @@ The mutation:
 Caution: No cross operation in EP
 """
 
-from .base import BasePopulationModel, BaseChromosome
+from .base import PopulationModel, BaseChromosome
 from .chromosome import FloatChromosome
 from .individual import MixedIndividual
 from .utils import max_lb
@@ -62,11 +62,11 @@ class BaseEPIndividual(MixedIndividual):
         self.variance = max_lb(self.epsilon)(self.variance)
 
 
-class EPPopulation(BasePopulationModel):
+class EPPopulation(PopulationModel):
     """Evolution Programming
     
     Extends:
-        BasePopulationModel
+        PopulationModel
     """
     element_class = BaseEPIndividual
 
