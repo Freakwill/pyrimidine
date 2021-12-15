@@ -22,8 +22,7 @@ It has been uploaded to pypi, so download it with `pip install pyrimidine`, and 
 We regard the population as a container of individuals, an individual as a container of chromosomes
 and a chromosome as a container(array) of genes.
 
-The container could be a list or an array.
-Container class has an attribute `element_class`, telling itself the class of the elements in it.
+The container could be a list or an array. Container class has an attribute `element_class`, telling itself the class of the elements in it.
 
 Following is the part of the source code of `BaseIndividual` and `BasePopulation`.
 
@@ -39,7 +38,7 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 
 
 
-There are mainly tow kinds of containers: list and tuple as in programming language `Haskell`. See following examples.
+There are mainly two kinds of containers: list and tuple as in programming language `Haskell`. See following examples.
 
 ```python
 # individual with chromosomes of type _Chromosome
@@ -52,4 +51,4 @@ _Individual2 = MixedIndividual[_Chromosome1, _Chromosome2]
 
 
 
-In fact, a container is treated as a special algebraic system.
+In fact, a container (so a population in GA) is treated as a special algebraic system. For this reason, we call it algebra-oriental design.

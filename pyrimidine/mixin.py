@@ -14,7 +14,6 @@ from .utils import methodcaller, attrgetter
 from .errors import *
 
 
-
 class IterativeModel:
     # Mixin class for iterative algrithms
 
@@ -22,18 +21,21 @@ class IterativeModel:
 
     params = {'n_iter': 100}
 
+
     @property
     def solution(self):
         raise NotImplementedError('Have not defined `solution` for the model yet!')   
+
 
     @property
     def _row(self):
         best = self.solution
         return f'{best} & {best.fitness}'
 
+
     def init(self):
         pass
-    
+
 
     def transit(self, *args, **kwargs):
         """
@@ -45,11 +47,13 @@ class IterativeModel:
         """
         raise NotImplementedError('`transit`, the core of the algorithm, is not defined yet!')
 
+
     def local_search(self, *args, **kwargs):
         """
         The local search method for global search algorithm.
         """
         raise NotImplementedError('If you apply local search, then you have to define `local_search` method')
+
 
     def ezolve(self, n_iter=None, *args, **kwargs):
         # Extreamly eazy evolution method for lazybones
@@ -78,8 +82,7 @@ class IterativeModel:
         n_iter = n_iter or self.n_iter
         self.init()
 
-        if isinstance(stat, dict):
-            stat = Statistics(stat)
+        if isinstance(stat, dict): stat = Statistics(stat)
 
         res = stat.do(self) if stat else {}
         keys = res.keys()
@@ -145,11 +148,14 @@ iteration & best solution & {" & ".join(res.keys())}
                 data += data0
         return data / n_repeats, np.mean(times)
 
+
     def postprocess(self):
         pass
 
+
     def clone(self, type_=None, *args, **kwargs):
         raise NotImplementedError
+
 
     def encode(self):
         return self
@@ -200,14 +206,18 @@ class FitnessModel(IterativeModel):
     def fitness(self, f):
         self.__fitness = f
 
+
     def get_fitness(self):
         return self._fitness()
+
 
     def _fitness(self):
         raise NotImplementedError
 
+
     def postprocess(self):
         self.__fitness = None
+
 
     @classmethod
     def set_fitness(cls, f=None):
@@ -217,8 +227,10 @@ class FitnessModel(IterativeModel):
             else:
                 raise Exception('Function `_fitness` is not defined before setting fitness. You may forget to create the class in the context of environment.')
         class C(cls):
-            _fitness=f
+            def _fitness(self):
+                return f(self)
         return C
+
 
     def clone(self, type_=None, fitness=None):
         if type_ is None:
@@ -226,6 +238,7 @@ class FitnessModel(IterativeModel):
         if fitness is True:
             fitness = self.fitness
         return type_(list(map(methodcaller('clone', type_=type_.element_class, fitness=None), self)), fitness=fitness)
+
 
     def evolve(self, stat=None, *args, **kwargs):
         """Get the history of the whole evolution
@@ -246,12 +259,13 @@ class FitnessModel(IterativeModel):
 
 
 class PopulationModel(FitnessModel):
-    """subclass of BaseFitnessModel
+    """mixin class for Population
 
     It is consisted of a set of solutions.
     """
 
     __sorted_individuals = []
+    alias = {"individuals": "elements"}
 
     def evolve(self, stat=None, *args, **kwargs):
         """Get the history of the whole evolution
@@ -260,25 +274,16 @@ class PopulationModel(FitnessModel):
             stat = {'Best Fitness':'best_fitness', 'Mean Fitness':'mean_fitness', 'STD Fitness':'std_fitness', 'Population': 'n_elements'}
         return super().evolve(stat=stat, *args, **kwargs)
 
-    @property
-    def individuals(self):
-        return self.__elements
 
-    @individuals.setter
-    def individuals(self, x):
-        # Set the fitness to be None, when setting individuals of the object
-        self.__elements = x
-        self.n_individuals = len(x)
+    def after_setter(self):
         self.sorted = False
         self.fitness = None
 
+
     @property
     def n_individuals(self):
-        return self.n_elements
+        return self.__n_elements
 
-    @n_individuals.setter
-    def n_individuals(self, v):
-        self.__n_elements = v
 
     def _fitness(self):
         """Calculate the fitness of the whole population
@@ -287,29 +292,36 @@ class PopulationModel(FitnessModel):
         """
         return self.mean_fitness
 
+
     def _fitnesses(self):
         return list(map(attrgetter('fitness'), self.individuals))
+
 
     @property
     def mean_fitness(self):
         return np.mean(self._fitnesses())
 
+
     @property
     def std_fitness(self):
         return np.std(self._fitnesses())
+
 
     @property
     def best_fitness(self):
         return np.max(self._fitnesses())
 
+
     @property
     def fitnesses(self):
         return np.array(self._fitnesses())
+
 
     def get_best(self, key='fitness'):
         # Get best individual under `key`
         k = np.argmax(tuple(map(attrgetter(key), self.individuals)))
         return self.individuals[k]
+
 
     def get_best_individuals(self, n=1):
         # first n best individuals
@@ -319,9 +331,11 @@ class PopulationModel(FitnessModel):
             n = int(n)
         return self.sorted_individuals[-n:]
 
+
     def get_worst(self, key='fitness'):
         k = np.argmin(tuple(map(attrgetter(key), self.individuals)))
         return self.individuals[k]
+
 
     # Following is some useful aliases
     @property
@@ -329,18 +343,22 @@ class PopulationModel(FitnessModel):
         k = np.argmin(self._fitnesses())
         return self.individuals[k]
 
+
     @property
     def best_(self):
         return self.best_individual
+
 
     @property
     def best_individual(self):
         k = np.argmax(self._fitnesses())
         return self.individuals[k]
 
+
     @property
     def solution(self):
         return self.best_individual
+
 
     @property
     def sorted_individuals(self):
@@ -349,9 +367,11 @@ class PopulationModel(FitnessModel):
             self.__sorted_individuals = [self.individuals[k] for k in ks]
         return self.__sorted_individuals
 
+
     @sorted_individuals.setter
     def sorted_individuals(self, s):
         self.__sorted_individuals = s
+
 
     def sort(self):
         # sort the whole population

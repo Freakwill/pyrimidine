@@ -128,6 +128,7 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
 
     element_class = BaseChromosome
     default_size = 1
+    alias = {"chromosomes":"elements"}
 
     def __repr__(self):
         # seperate the chromosomes with $ 
@@ -179,21 +180,7 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
             return cls([C.random(*args, **kwargs) for C in zip(cls.element_class)])
 
 
-    @property
-    def chromosomes(self):
-        return self.__elements
-
-    @chromosomes.setter
-    def chromosomes(self, c):
-        """Set the fitness to be None, when setting chromosomes of the object
-        
-        Decorators:
-            chromosomes.setter
-        
-        Arguments:
-            c {list} -- a list of chromosomes
-        """
-        self.__elements = c
+    def after_setter(self):
         self.fitness = None
 
     def _fitness(self):
@@ -279,14 +266,10 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
     hall_of_fame = []
 
     params = {'mate_prob':0.75, 'mutate_prob':0.2, 'tournsize':5}
+    alias = {'individuals': 'elements', 'n_individuals': 'n_elements'}
 
     def __str__(self):
         return '\n'.join(map(str, self.individuals))
-
-    # @property
-    # def individuals(self):
-    #     # alias for attribute `elements`
-    #     return self.__elements
 
 
     def __getstate__(self):
@@ -408,11 +391,9 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
 
     def remove(self, individual):
         self.individuals.remove(individual)
-        self.n_individuals -= 1
 
     def pop(self, k=-1):
         self.individuals.pop(k)
-        self.n_individuals -= 1
 
     def local_search(self, *args, **kwargs):
         # call local searching method
@@ -508,7 +489,7 @@ class BaseSpecies(PopulationModel, metaclass=MetaHighContainer):
 
     @property
     def populations(self):
-        return self._elements
+        return self.__elements
 
     @populations.setter
     def populations(self, x):
@@ -569,7 +550,7 @@ class BaseEnvironment(metaclass=ParamType):
         raise NotImplementedError
 
     def __enter__(self, *args, **kwargs):
-        globals()['_fitness'] = lambda o:self._evaluate(o.decode())
+        globals()['_fitness'] = lambda o: self._evaluate(o.decode())
         globals()['_environment'] = self
         return self
 

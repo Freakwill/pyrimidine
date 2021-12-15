@@ -17,7 +17,8 @@ class Env(BaseEnvironment):
     _evaluate = Knapsack.random(n_bags)
 
 with Env() as env:
-    _Individual = MonoBinaryIndividual.set_fitness()
+    _Individual = MonoBinaryIndividual.set_fitness(lambda o: env._evaluate(o.chromosome))
+
 
     class _Population1(StandardPopulation):
         element_class = _Individual
@@ -32,8 +33,8 @@ with Env() as env:
     pop2 = pop1.clone(type_=_Population2)
 
     stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-    data1 = pop1.evolve(stat=stat, n_iter=300, history=True)
-    data2 = pop2.evolve(stat=stat, n_iter=300, history=True)
+    data1 = pop1.evolve(stat=stat, n_iter=100, history=True)
+    data2 = pop2.evolve(stat=stat, n_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt
@@ -44,4 +45,5 @@ data2[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.legend(('M1', 'B1', 'M2', 'B2'))
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
+ax.set_title('Comparison between Standard GA and HOF GA')
 plt.show()

@@ -24,7 +24,19 @@ def get_stem(s):
         if a.isupper(): break
     return s[-k-1:].lower()
 
-from .mixin import *
+
+def inherit(attrs, attr, bases):
+    # inherit dict-valued attribute `attr` from `bases`
+    v = {}
+    for b in bases:
+        if hasattr(b, attr) and hasattr(b, attr):
+            v.update(getattr(b, attr))
+
+    v.update(attrs.get(attr,  {}))
+    v = {k:vk for k, vk in v.items() if k not in attrs}
+    attrs[attr] = v
+    return attrs
+
 
 class ParamType(type):
     """just a wrapper of `type`
@@ -36,42 +48,38 @@ class ParamType(type):
     def __new__(cls, name, bases=(), attrs={}):
         # inherit alias instead of overwriting it, when setting `alias` for a subclass
         # alias is not recommended to use!
-        alias = {}
-        for b in bases:
-            if hasattr(b, 'alias') and b.alias:
-                alias.update(b.alias)
-
-        alias.update(attrs.get('alias', {}))
-        attrs['alias'] = alias
+        attrs = inherit(attrs, 'alias', bases)
 
         # inherit params instead of overwriting it, when setting `params` for a subclass
-        params = {}
-        for b in bases:
-            if hasattr(b, 'params') and b.params:
-                params.update(b.params)
-
-        params.update(attrs.get('params', {}))
-        attrs['params'] = params
+        attrs = inherit(attrs, 'params', bases)
 
         def _getattr(self, key):
-            if key in self.params:
+            if key in self.__dict__:
+                return self.__dict__[key]
+            elif key in self.params:
                 return self.params[key]
             elif key in self.alias:
                 return getattr(self, self.alias[key])
             else:
-                return self.__getattribute__(key)
+                raise AttributeError(f'{key} is neither an attribute of {self}, nor in `param` or `alias`')
         attrs['__getattr__'] = _getattr
 
         def _setattr(self, key, value):
-            if key in self.params:
+            if key in self.__dict__:
+                self.__dict__[key] = value
+            elif key in self.params:
                 self.params[key] = value
             elif key in self.alias:
                 setattr(self, self.alias[key], value)
             else:
-                super(IterativeModel, self).__setattr__(key, value)
+                object.__setattr__(self, key, value)
         attrs['__setattr__'] = _setattr
 
         return super().__new__(cls, name, bases, attrs)
+
+    @classmethod
+    def __prepare__(cls, name, bases):
+        return {"alias":{}, "params":{}}
 
 
 class System(ParamType):
@@ -82,7 +90,7 @@ class System(ParamType):
     It is refered to an algebraic system.
     """
     
-    def __new__(cls, name, bases, attrs):
+    def __new__(cls, name, bases=(), attrs={}):
         # Create with regesters
         
         def _iter(self):
@@ -107,38 +115,32 @@ class System(ParamType):
             return map(attrgetter(attr_name), self.__elements)
 
         @property
+        def _n_elements(self):
+            return len(self.__elements)
+
+        @property
         def _elements(self):
             return self.__elements
 
         @_elements.setter
         def _elements(self, x):
             self.__elements = x
-            # L = len(x)
-            # self.__n_elements = L
-            # setattr(self, '__n_' + element_name, L)
+            if hasattr(self, 'after_setter'):
+                self.after_setter()
 
-        @property
-        def _n_elements(self):
-            # return self.__n_elements
-            return len(self.elements)
+        def _after_setter(self):
+            pass
 
         attrs.update(
             {"elements": _elements,
             "n_elements": _n_elements,
-            "get_all": _get_all}
+            "get_all": _get_all
+            }
         )
 
-        @property
-        def _operators(self):
-            return self.__operators
-
-        @_operators.setter
-        def _operators(self, x):
-            self.__operators = x
-
-        attrs.update(
-            {"operator": _operators}
-        )
+        # attrs.update(
+        #     {"operator": _operators}
+        # )
 
         def _type_check(self):
             return all(isinstance(elm, self.element_class) for elm in self.__elements)
@@ -194,7 +196,7 @@ class System(ParamType):
         if not args:
             raise Exception('Did not provide a list of elements as the unique positional argument!')
         else:
-            o.elements = args[0]
+            o.__elements = args[0]
 
         for k, v in kwargs.items():
             setattr(o, k, v)
@@ -260,17 +262,12 @@ class MetaContainer(System):
             else:
                 element_name = get_stem(element_class.__name__) + 's'
         setattr(cls, 'element_name', element_name)
-        if 'alias' in attrs:
-            attrs['alias'].update({element_name:'elements'})
-        else:
-            attrs['alias'] = {element_name:'elements'}
+
+        attrs['alias'].update({element_name:'elements',
+           'n_' +element_name:'n_elements'
+            })
 
         return super().__new__(cls, name, bases, attrs)
-
-    def mixin(self, *others):
-        class cls(*others, self):
-            pass
-        return cls
 
 
     def __call__(self, *args, **kwargs):
@@ -328,8 +325,8 @@ class MetaHighContainer(MetaContainer):
 
         def _flatten(self, type_):
             elms = []
-            for elm in self._elements:
-                elm.extend(elm._elements)
+            for elm in self.__elements:
+                elm.extend(elm.__elements)
             return elms
 
         attrs['flatten'] = _flatten
@@ -372,11 +369,20 @@ if __name__ == '__main__':
 
     class C(metaclass=MetaContainer):
         element_class = UserString
-        alias = {'n_strings': 'n_elements'}
+        # alias = {'n_strings': 'n_elements'}
         # element_name = 'string'
 
+        def foo(self):
+            pass
+
+        def after_setter(self):
+            self.fitness = 2
+
+    class D(C):
+        pass
+
     c = C([UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
-    C.set_methods(n_elems=lambda c: 0)
+    C.set_methods(n_elems=lambda c: 1)
     print(c.element_class)
     print(C.element_name)
     print(c.strings)
@@ -391,4 +397,10 @@ if __name__ == '__main__':
     c.regester_map('length', n_vowels)
     print(list(c.length()))
     print(c.n_elems())
+
+    c = D([UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
+    c.fitness = 1
+    c.strings += [UserString('wow')]
+    print(c.elements)
+    print(c.fitness)
 

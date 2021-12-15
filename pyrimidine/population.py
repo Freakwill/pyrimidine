@@ -59,7 +59,8 @@ class HOFPopulation(StandardPopulation):
         Update the hall of fame after one step of evolution
         """
         self.update_hall_of_fame()
-        self.add_individuals(map(methodcaller('clone'), self.hall_of_fame))
+        self.add_individuals(list(map(methodcaller('clone'), self.hall_of_fame)))
+
 
     def update_hall_of_fame(self):
         b = self.best_individual
