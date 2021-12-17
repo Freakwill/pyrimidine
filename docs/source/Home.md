@@ -27,16 +27,16 @@ The container could be a list or an array. Container class has an attribute `ele
 Following is the part of the source code of `BaseIndividual` and `BasePopulation`.
 
 ```python
-class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
+class BaseIndividual(FitnessModel, metaclass=MetaContainer):
     element_class = BaseChromosome
     default_size = 1
     
-class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
+class BasePopulation(FitnessModel, metaclass=MetaHighContainer):
     element_class = BaseIndividual
     default_size = 20
 ```
 
-
+where `FitnessModel` is a mixin, as a iteravtive model with fitness.
 
 There are mainly two kinds of containers: list and tuple as in programming language `Haskell`. See following examples.
 

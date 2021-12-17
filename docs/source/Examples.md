@@ -10,7 +10,7 @@ One of the famous problem is the knapsack problem. It is a good example for GA.
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pyrimidine import MonoBinaryIndividual, SGAPopulation
+from pyrimidine import MonoBinaryIndividual, StandardPopulation
 
 from pyrimidine.benchmarks.optimization import *
 
@@ -23,7 +23,7 @@ class MyIndividual(MonoBinaryIndividual):
         return evaluate(self)
 
 
-class MyPopulation(SGAPopulation):
+class MyPopulation(StandardPopulation):
     element_class = MyIndividual
 
 pop = MyPopulation.random(size=20)
@@ -33,12 +33,12 @@ print(pop.best_individual)
 
 Following is an equivalent expression without `class` keward.
 ```python
-MyPopulation = SGAPopulation[MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))]
+MyPopulation = StandardPopulation[MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))]
 pop = MyPopulation.random(n_individuals=20, size=n)
 pop.evolve()
 
 # or
-MyPopulation = SGAPopulation[MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))] // 20
+MyPopulation = StandardPopulation[MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))] // 20
 pop = MyPopulation.random(size=n)
 pop.evolve()
 ```
@@ -106,7 +106,7 @@ class MyIndividual(MonoBinaryIndividual):
     def evaluate(self):
         return abs(np.sum([ni for ni, c in zip(n, self.chromosome) if c==1])-M), max_repeat(ti for ti, c in zip(t, self.chromosome) if c==1)
 
-MyPopulation = SGAPopulation[MyIndividual]
+MyPopulation = StandardPopulation[MyIndividual]
 
 if __name__ == '__main__':
     pop = MyPopulation.random(n_individuals=20, size=20)
@@ -179,25 +179,25 @@ class MyIndividual(MixIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fitne
         if other.ranking and self.ranking:
             if self.threshold <= other.ranking:
                 if other.threshold <= self.ranking:
-                    return super(MyIndividual, self).mate(other, mate_prob=0.95)
+                    return super().mate(other, mate_prob=0.95)
                 else:
                     mate_prob = 1-other.threshold
-                    return super(MyIndividual, self).mate(other, mate_prob)
+                    return super().mate(other, mate_prob)
             else:
                 if other.threshold <= self.ranking:
                     mate_prob = 1-self.threshold
-                    return super(MyIndividual, self).mate(other, mate_prob=0.95)
+                    return super().mate(other, mate_prob=0.95)
                 else:
                     mate_prob = 1-(self.threshold+other.threshold)/2
-                    return super(MyIndividual, self).mate(other, mate_prob)
+                    return super().mate(other, mate_prob)
         else:
-            return super(MyIndividual, self).mate(other)
+            return super().mate(other)
 
 class MyPopulation(SGAPopulation[MyIndividual]):
 
     def transit(self, *args, **kwargs):
         self.sort()
-        super(MyPopulation, self).transit(*args, **kwargs)
+        super().transit(*args, **kwargs)
 
 
 if __name__ == '__main__':
@@ -207,7 +207,7 @@ if __name__ == '__main__':
     fig = plt.figure()
     ax = fig.add_subplot(111)
 
-    _Population = SGAPopulation[ExampleIndividual]
+    _Population = StandardPopulation[ExampleIndividual]
     pop = MyPopulation.random(n_individuals=20, sizes=[8]*ndim+[8])
     cpy = pop.clone(_Population)
     d = cpy.evolve(stat=stat, n_iter=100, history=True)
@@ -228,12 +228,12 @@ if __name__ == '__main__':
 
 ### Customization Tricks
 
-Take PSO an example. First define `class ParticleSwarm(BaseIterativeModel):...`, subclass of BaseIterativeModel, as a Mixin where you should define method `transit` in most cases to implement the PSO algorithm.
+Take PSO an example. First define `class ParticleSwarm(IterativeModel):...`, subclass of `IterativeModel`, as a mixin class where you should define method `transit` in most cases to implement the PSO algorithm.
 
 Then define subclass for more details esp. the attribute `element_class`.
 
 ```python
-class MyParticleSwarm(ParticleSwarm, BasePopulation):
+class MyParticleSwarm(ParticleSwarm, PopulationModel):
     element_class = _Particle
     default_size = 20
     ...

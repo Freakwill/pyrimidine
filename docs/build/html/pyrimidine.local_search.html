@@ -4,17 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>pyrimidine.local_search package &#8212; pyrimidine 0.2 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="pyrimidine.learn package" href="pyrimidine.learn.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -31,141 +32,24 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="pyrimidine-local-search-package">
+  <section id="pyrimidine-local-search-package">
 <h1>pyrimidine.local_search package<a class="headerlink" href="#pyrimidine-local-search-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
+<section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-pyrimidine.local_search.random_walk">
-<span id="pyrimidine-local-search-random-walk-module"></span><h2>pyrimidine.local_search.random_walk module<a class="headerlink" href="#module-pyrimidine.local_search.random_walk" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="pyrimidine.local_search.random_walk.RandomWalk">
-<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.local_search.random_walk.</code><code class="sig-name descname">RandomWalk</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.random_walk.RandomWalk" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseFitnessModel" title="pyrimidine.base.BaseFitnessModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyrimidine.base.BaseFitnessModel</span></code></a></p>
-<p>Random Walk</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><p>state {Individual} – state of the physical body in annealing
-initT {number} – initial temperature</p>
-</dd>
-<dt>Returns:</dt><dd><p>state</p>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt id="pyrimidine.local_search.random_walk.RandomWalk.params">
-<code class="sig-name descname">params</code><em class="property"> = {'sigma': 1}</em><a class="headerlink" href="#pyrimidine.local_search.random_walk.RandomWalk.params" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="pyrimidine.local_search.random_walk.RandomWalk.transit">
-<code class="sig-name descname">transit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.random_walk.RandomWalk.transit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transition of states</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-pyrimidine.local_search.simulated_annealing">
-<span id="pyrimidine-local-search-simulated-annealing-module"></span><h2>pyrimidine.local_search.simulated_annealing module<a class="headerlink" href="#module-pyrimidine.local_search.simulated_annealing" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing">
-<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.local_search.simulated_annealing.</code><code class="sig-name descname">SimulatedAnnealing</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseIterativeModel" title="pyrimidine.base.BaseIterativeModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyrimidine.base.BaseIterativeModel</span></code></a></p>
-<p>Simulated Annealing algorithm</p>
-<dl class="py method">
-<dt id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.init">
-<code class="sig-name descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.init" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.move">
-<code class="sig-name descname">move</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">T</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.move" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transition of states</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><p>T {number} – temperature</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params">
-<code class="sig-name descname">params</code><em class="property"> = {'ext_c': 0.995, 'initT': 100, 'int_c': 0.996, 'nepoch': 200, 'termT': 0.0001}</em><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom">
-<code class="sig-name descname">phantom</code><em class="property"> = None</em><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.post_process">
-<code class="sig-name descname">post_process</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.post_process" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.transit">
-<code class="sig-name descname">transit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.transit" title="Permalink to this definition">¶</a></dt>
-<dd><p>The core method of the object.</p>
-<p>The method transitating one state of the object to another state,
-according to some rules, such as crossing and mutating for individuals in GA,
-or moving method in Simulated Annealing.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt id="pyrimidine.local_search.simulated_annealing.random">
-<code class="sig-prename descclassname">pyrimidine.local_search.simulated_annealing.</code><code class="sig-name descname">random</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; x in the interval [0, 1).<a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.random" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-<div class="section" id="module-pyrimidine.local_search.tabu_search">
-<span id="pyrimidine-local-search-tabu-search-module"></span><h2>pyrimidine.local_search.tabu_search module<a class="headerlink" href="#module-pyrimidine.local_search.tabu_search" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="pyrimidine.local_search.tabu_search.BaseTabuSearch">
-<em class="property">class </em><code class="sig-prename descclassname">pyrimidine.local_search.tabu_search.</code><code class="sig-name descname">BaseTabuSearch</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseFitnessModel" title="pyrimidine.base.BaseFitnessModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyrimidine.base.BaseFitnessModel</span></code></a></p>
-<p>Tabu Search algorithm</p>
-<dl class="py method">
-<dt id="pyrimidine.local_search.tabu_search.BaseTabuSearch.init">
-<code class="sig-name descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.init" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="pyrimidine.local_search.tabu_search.BaseTabuSearch.move">
-<code class="sig-name descname">move</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">action</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.move" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="pyrimidine.local_search.tabu_search.BaseTabuSearch.params">
-<code class="sig-name descname">params</code><em class="property"> = {'actions': None, 'tabu_list': [], 'value': 0}</em><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.params" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="pyrimidine.local_search.tabu_search.BaseTabuSearch.transit">
-<code class="sig-name descname">transit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.transit" title="Permalink to this definition">¶</a></dt>
-<dd><p>The core method of the object.</p>
-<p>The method transitating one state of the object to another state,
-according to some rules, such as crossing and mutating for individuals in GA,
-or moving method in Simulated Annealing.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt id="pyrimidine.local_search.tabu_search.random">
-<code class="sig-prename descclassname">pyrimidine.local_search.tabu_search.</code><code class="sig-name descname">random</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; x in the interval [0, 1).<a class="headerlink" href="#pyrimidine.local_search.tabu_search.random" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-<div class="section" id="module-pyrimidine.local_search">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyrimidine.local_search" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="pyrimidine.local_search.random">
-<code class="sig-prename descclassname">pyrimidine.local_search.</code><code class="sig-name descname">random</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; x in the interval [0, 1).<a class="headerlink" href="#pyrimidine.local_search.random" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-</div>
+</section>
+<section id="pyrimidine-local-search-random-walk-module">
+<h2>pyrimidine.local_search.random_walk module<a class="headerlink" href="#pyrimidine-local-search-random-walk-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="pyrimidine-local-search-simulated-annealing-module">
+<h2>pyrimidine.local_search.simulated_annealing module<a class="headerlink" href="#pyrimidine-local-search-simulated-annealing-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="pyrimidine-local-search-tabu-search-module">
+<h2>pyrimidine.local_search.tabu_search module<a class="headerlink" href="#pyrimidine-local-search-tabu-search-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
 
 
           </div>
@@ -184,19 +68,27 @@ or moving method in Simulated Annealing.</p>
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Home.html">pyrimidine: a universal framework for genetic algorithm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation and Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="API%20Reference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples and customization tricks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Customize.html">Configuration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">pyrimidine</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pyrimidine.html">pyrimidine package</a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">pyrimidine</a><ul>
+  <li><a href="pyrimidine.html">pyrimidine package</a><ul>
+      <li>Previous: <a href="pyrimidine.learn.html" title="previous chapter">pyrimidine.learn package</a></li>
+  </ul></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
@@ -204,7 +96,7 @@ or moving method in Simulated Annealing.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -226,7 +118,7 @@ or moving method in Simulated Annealing.</p>
       &copy;2020, William Song.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.3.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
