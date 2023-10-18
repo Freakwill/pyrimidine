@@ -142,11 +142,11 @@ It equivalent to `MyIndividual=MixIndividual[(_Chromosome,)*5 + (FloatChromosome
 #### Population
 
 ```python
-class MyPopulation(SGAPopulation):
+class MyPopulation(StandardPopulation):
     element_class = MyIndividual
 ```
 
-`element_class` is the most important attribute of the class that defines the class of the individual of the population. It is equivalent to `MyPopulation=SGAPopulation[MyIndividual]`.
+`element_class` is the most important attribute of the class that defines the class of the individual of the population. It is equivalent to `MyPopulation=StandardPopulation[MyIndividual]`.
 
 
 
@@ -211,35 +211,40 @@ Use `pop.perf()` to check the performance.
 
 Description
 
-    select ti, ni from t, n
-    sum of ni ~ 10, while ti dose not repeat
+    select some of ti, ni, i=1,...,N
+    the sum of ni ~ 10, while ti dose not repeat
 
 The opt. problem is
 
     min abs(sum_i{ni}-10) + maximum of frequences in {ti}
     where i is selected.
 
+$$
+\min_I |\sum_{i\in I} n_i -10| + t_m\\
+I\subset\{1,\cdots,N\}
+$$
+where $t_m$ is the mode of $\{ti, i\in I\}$
+
 ```python
 t = np.random.randint(1, 5, 100)
 n = np.random.randint(1, 4, 100)
 
 import collections
+
 def max_repeat(x):
     # maximum of numbers of repeats
     c = collections.Counter(x)
-    bm=np.argmax([b for a, b in c.items()])
+    bm = np.argmax([b for a, b in c.items()])
     return list(c.keys())[bm]
 
 class MyIndividual(BinaryIndividual):
 
     def _fitness(self):
-        x, y = self.evaluate()
+        x = abs(np.dot(n, self.chromosome)-10)
+        y = max_repeat(ti for ti, c in zip(t, self) if c==1)
         return - x - y
 
-    def evaluate(self):
-        return abs(np.dot(n, self.chromosome)-10), max_repeat(ti for ti, c in zip(t, self) if c==1)
-
-class MyPopulation(SGAPopulation):
+class MyPopulation(StandardPopulation):
     element_class = MyIndividual
 
 pop = MyPopulation.random(n_individuals=50, size=100)
@@ -247,9 +252,19 @@ pop.evolve()
 print(pop.best_individual)
 ```
 
+Note that there is only one chromosome in `MonoIndividual`, which could be got by `self.chromosome`. In fact, the population could be the container of chromosomes. Therefore, we can rewrite the classes as follows.
 
+```python
+class MyChromosome(BinaryChromosome):
 
-Notate that there is only one chromosome in `MonoIndividual`, which could be got by `self.chromosome` .
+    def _fitness(self):
+        x = abs(np.dot(n, self)-10)
+        y = max_repeat(ti for ti, c in zip(t, self) if c==1)
+        return - x - y
+
+class MyPopulation(StandardPopulation):
+    element_class = Chromosome
+```
 
 ### Example2: Knapsack Problem
 
@@ -263,7 +278,7 @@ see `# examples/example0`
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pyrimidine import MonoBinaryIndividual, SGAPopulation
+from pyrimidine import MonoBinaryIndividual, StandardPopulation
 
 from pyrimidine.benchmarks.optimization import *
 
@@ -275,7 +290,7 @@ class MyIndividual(MonoBinaryIndividual):
         return evaluate(self)
 
 
-class MyPopulation(SGAPopulation):
+class MyPopulation(StandardPopulation):
     element_class = MyIndividual
 
 pop = MyPopulation.random(size=20)
@@ -300,11 +315,9 @@ plt.show()
 
 ## Extension
 
-`pyrimidine` is extendable. It is easy to implement others iterative model, such as simulation annealing and particle swarm optimization.
+`pyrimidine` is extremely extendable. It is easy to implement other iterative models or algorithms, such as simulation annealing(SA) and particle swarm optimization(PSO).
 
-
-
-Currently, it is recommended to define subclasses based on `BaseIterativeModel` as a maxin.
+Currently, it is recommended to define subclasses based on `BaseIterativeModel` as a mixin.
 
 In PSO, we regard a particle as an individual, and `ParticleSwarm` as a population. But in the following, we subclass it from `BaseIterativeModel`
 
@@ -388,7 +401,4 @@ class MyParticleSwarm(ParticleSwarm, BasePopulation):
 pop = MyParticleSwarm.random()
 ```
 
-
-
-It is not coercive. It is possible to inherit `ParticleSwarm` from `BasePopulation` directly.
-
+Of course, it is not coercive. It is allowed to inherit `ParticleSwarm` from `BasePopulation` directly.
