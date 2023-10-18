@@ -1,14 +1,9 @@
-# Pyrimidine: 基于面向对象的遗传算法 Python 框架
+# Pyrimidine: 遗传算法 Python 框架的代数式编程
 
-
-
-【摘要】Pyrimidine是笔者开发的用于实现遗传算法的通用框架。它也可以实现任何迭代模型，如模拟退火，粒子群算法。它的设计基于面向对象，利用了Python的元编程功能：把群体看成个体的容器，又把个体看成染色体的容器；而容器是一个元类，用来构造不同结构的个体类和群体类。因为它是高度面向对象的，所以它容易扩展、改进。
-
+【摘要】Pyrimidine是一个遗传算法的通用框架。它极易扩展，可实现任何迭代模型，如模拟退火，粒子群算法。它的设计基于面向对象，并充分利用了Python的元编程功能。我们提出容器元类，用来构造不同结构的个体类和群体类。这些类被理解为代数系统，其中的元素可以被执行各种操作，如种群中的个体变异与杂交。这些类也可能是高阶类的元素，从而能自动实现类级别的操作，如遗传算法中的种群迁移。我们把这样的设计成为代数式编程。
 
 
 【关键字】Pyrimidine，遗传算法，Python，面向对象编程，元编程
-
-
 
 ## 前言
 
@@ -16,15 +11,11 @@
 
 目前有多种语言提供了实现遗传算法框架的库。其中Python就提供了数个遗传算法框架库，如知名的deap[7]，gaft, 适合于机器学习参数优化的tpot[8-9], 作为scikit-learn[10]扩展的scikit-opt和[gplearn](https://github.com/trevorstephens/gplearn)等等。本文介绍由笔者设计的通用算法框架pyrimidine. 它比其它库更加严格遵循面向对象编程模式，同时利用了Python的元编程功能。
 
-
-
 ## 算法设计
 
 算法设计主要有两部分构成：实现遗传算法的基本概念的类，如个体，群体；用于构造这些类的元类。
 
 在用Python具体实现时，容器就是对象列表（或者其他可行的迭代器）。如群体是个体列表；个体是染色体列表；最后，染色体则是基因的数组。基因数组的具体实现是比较关键的。可以采用标准库array，也可以采用著名的第三方数值计算库numpy[11]。后者在各种数值计算中比较方便，但是交叉操作比较慢。
-
-
 
 ### 容器元类
 
@@ -57,10 +48,7 @@ class MyIndividual(MonoBinaryIndividual):
 
 如果要重新设计交叉和变异算法，那么重写个体类的`mutate`和`cross`方法，也可以重写染色体类的方法，因为个体类的遗传操作方法都是简单调用染色体类的方法。
 
-
-
 这些类同时继承了`BaseIterativeModel`，用来规范迭代格式，包括导出用于可视化的数据。开发新算法，关键是重载方法`transit`，所有迭代算法都是在重复调用这个方法。对于遗传算法来说，`transit`主要就是相继执行各种遗传操作。
-
 
 
 ## 举例
@@ -87,7 +75,6 @@ class MyIndividual(MonoBinaryIndividual):
     def _fitness(self):
         # 返回值必须是一个数
         return _evaluate(self.chromosome)
-
 
 class MyPopulation(SGAPopulation):
     element_class = MyIndividual
@@ -127,8 +114,6 @@ plt.show()
 
 ![](/Users/william/Programming/myGithub/pyrimidine/plot-history.png)
 
-
-
 ### 算法扩展
 
 用pyrimidine开发新的算法非常简单。在经典遗传算法中，整个种群的变异率和交叉率是一致的，但pyrimidine可以轻易将它们编码到每个个体中，使它们随着迭代而发生变化。
@@ -158,8 +143,6 @@ pop = NewPopulation.random(sizes=(8, 2))
 
 人们设计出多种遗传算法框架，比较有名的是deap，gaft。pyrimidine的设计主要受到这两个框架的影响，其类名就受gaft的直接影响。下图对pyrimidine和几种流行而成熟的框架做一个比较。
 
-
-
 | 库         | 设计风格         | 通用性     | 扩展性     | 可视化   |
 | ---------- | ---------------- | ---------- | ---------- | -------- |
 | pyrimidine | 面向对象，元编程     | 通用       | 可扩展     | 容易实现，可自定制    |
@@ -182,8 +165,6 @@ def cross(self, other):
     return self.__class__(array=array, gene=self.gene)
 ```
 
-
-
 ## 结语
 
 笔者进行了大量的实验和改进，证明pyrimidine是一个可用于实现多种遗传算法的通用框架。比起其他框架，它的设计具有很强的可扩展性，可以实现任何迭代模型，如模拟退火，粒子群算法。如果用户开发新算法，那么pyrimidine会是一个不错的选择。
@@ -191,8 +172,6 @@ def cross(self, other):
 目前，pyrimidine还在开发中，但是大部分API已经固定，用户不用担心变动。pyrimidine 要求适应值是一个数，因此还不能解决多目标问题，除非把它们归结为单目标问题。pyrimidine 采用了numpy的数值类，交叉操作比deap慢，但不难改用其他实现方案。当然，还有其他需要改进的地方。此外，pyrimidine 的文档还不够丰富，正在制作中。
 
 完整源码已经上传至GitHub，包含大量实例（见子文件夹examples）。https://github.com/Freakwill/pyrimidine。
-
-
 
 <center>参考文献</center>
 [1] Holland, J. Adaptation in Natural and Artificial Systems[M]. The Univ. of Michigan, 1975.

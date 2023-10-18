@@ -9,6 +9,10 @@ from .gene import *
 from .utils import *
 
 
+def _asarray(out):
+    return np.asarray(out) if isinstance(out, np.ndarray) else out
+
+
 class ArrayChromosome(BaseChromosome, np.ndarray):
     element_class = BaseGene
 
@@ -16,40 +20,40 @@ class ArrayChromosome(BaseChromosome, np.ndarray):
         if gene is None:
             gene = cls.element_class
 
-        obj = super().__new__(cls, shape=array.shape, dtype=gene)
-        obj = np.asarray(array).view(cls)
+        obj = np.asarray(array, dtype=gene).view(cls)
         return obj
 
     def __array_finalize__(self, obj):
         if obj is None:
             return
         elif isinstance(obj, (tuple, list)):
-            self.__array_finalize__(np.array(obj)) 
+            self.__array_finalize__(np.asarray(obj)) 
             return
         elif isinstance(obj, BaseChromosome):
             self.gene = getattr(obj, 'gene', None)
         elif isinstance(obj, np.ndarray):
             self.gene = obj.dtype
 
-    def __array_ufunc__(self, ufunc, method, *inputs, **kwargs):
+    def __array_ufunc__(self, ufunc, method, *inputs, out=None, **kwargs):
 
-        outputs = kwargs.get('out', None)
-        if outputs is None:
-            outputs = (None,) * ufunc.nout
-        else:
-            kwargs['out'] = tuple(outputs)
+        inputs = map(_asarray, inputs)
+        if out is not None:
+            out = map(_asarray, out)
 
-        results = super().__array_ufunc__(ufunc, method, *inputs, **kwargs)
+        results = super().__array_ufunc__(ufunc, method, *inputs, out=out, **kwargs)
 
         if results is NotImplemented:
             return NotImplemented
         elif ufunc.nout == 1:
-            output = outputs[0]
-            return (self.__class__(results, min_index=self.min_index, max_index=self.max_index)
-                if output is None else output)
+            if out is None:
+                return self.__class__(results)
+            else:
+                return self.__class__(out) if isinstance(out, np.ndarray) else out
         else:
-            return tuple(self.__class__(result, min_index=self.min_index, max_index=self.max_index)
-                if output is None else output for result, output in zip(results, outputs))
+            if out is None:
+                return tuple(map(lambda o: self.__class__(o) if isinstance(o, np.ndarray) else o, results))
+            else:
+                return tuple(map(lambda o: self.__class__(o) if isinstance(o, np.ndarray) else o, out))
 
     def __len__(self):
         return self.size

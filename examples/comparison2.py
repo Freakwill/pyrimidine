@@ -17,6 +17,7 @@ class YourIndividual(MonoBinaryIndividual):
 
 class YourPopulation(HOFPopulation):
     element_class = YourIndividual
+    default_size = 20
 
 class MyIndividual(AgeIndividual, YourIndividual):
     pass
@@ -24,10 +25,10 @@ class MyIndividual(AgeIndividual, YourIndividual):
 class MyPopulation(AgePopulation):
     element_class = MyIndividual
     life_span = 70
+    default_size = 20
 
 
-
-pop = YourPopulation.random(size=20)
+pop = YourPopulation.random()
 cpy = pop.clone(type_=MyPopulation)
 
 stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}

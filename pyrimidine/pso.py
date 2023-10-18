@@ -116,23 +116,20 @@ class ParticleSwarm(PopulationModel):
     """Standard PSO
     
     Extends:
-        BaseIterativeModel
+        PopulationModel
     """
     
     element_class = Particle
     default_size = 20
 
-    params = {'learning_factor': 2, 'acceleration_coefficient': 3, 'inertia':0.5, 'n_best_particles':0.1, 'max_velocity':None}
+    params = {'learning_factor': 2, 'acceleration_coefficient': 3,
+    'inertia':0.5, 'n_best_particles':0.1, 'max_velocity':None}
 
     def init(self):
         for particle in self.particles:
             particle.init()
         self.hall_of_fame = self.get_best_individuals(self.n_best_particles)
-        
 
-    # @property
-    # def n_elements(self):
-    #     return self.n_particles
     
     def update_fame(self):
         for particle in self.particles:
@@ -178,7 +175,7 @@ class ParticleSwarm(PopulationModel):
                 particle.velocity = (self.inertia * particle.velocity
                  + self.learning_factor * xi * (particle.best_position-particle.position)
                  + self.acceleration_coefficient * eta * (fame.best_position-particle.position))
-            particle.position += particle.velocity
+            particle.position = particle.position + particle.velocity
 
     @property
     def best_fitness(self):

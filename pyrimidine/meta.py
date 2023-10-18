@@ -61,7 +61,7 @@ class ParamType(type):
             elif key in self.alias:
                 return getattr(self, self.alias[key])
             else:
-                raise AttributeError(f'{key} is neither an attribute of {self}, nor in `param` or `alias`')
+                raise AttributeError(f'{key} is neither an attribute of {self.__name__}, nor in `param` or `alias`')
         attrs['__getattr__'] = _getattr
 
         def _setattr(self, key, value):
@@ -83,7 +83,7 @@ class ParamType(type):
 
 
 class System(ParamType):
-    """Abstract class of systems
+    """metaclass of systems
 
     A system consists of a set of elements and operators acting on them
 
@@ -128,8 +128,8 @@ class System(ParamType):
             if hasattr(self, 'after_setter'):
                 self.after_setter()
 
-        def _after_setter(self):
-            pass
+        # def _after_setter(self):
+        #     pass
 
         attrs.update(
             {"elements": _elements,
@@ -146,11 +146,13 @@ class System(ParamType):
             return all(isinstance(elm, self.element_class) for elm in self.__elements)
         attrs['type_check'] = _type_check
 
-        def _regester_map(self, name, key=None):
+        def _regester_map(self, name, key=None, force=True):
             if key is None:
                 key = lambda e: getattr(e, name)()
             def m(obj):
                 return map(key, obj.elements)
+            if not force and hasattr(self, name):
+                raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
             setattr(self, name, MethodType(m, self))
 
         attrs['regester_map'] = _regester_map
@@ -200,6 +202,9 @@ class System(ParamType):
 
         for k, v in kwargs.items():
             setattr(o, k, v)
+
+        if '_environment' in globals():
+            o.environment = globals()['_environment']
         return o
 
 
@@ -270,13 +275,6 @@ class MetaContainer(System):
         return super().__new__(cls, name, bases, attrs)
 
 
-    def __call__(self, *args, **kwargs):
-        o = super().__call__(*args, **kwargs)
-
-        if '_environment' in globals():
-            o.environment = globals()['_environment']
-        return o
-
     def __getitem__(self, class_):
         return self.set(element_class=class_)
 
@@ -310,8 +308,8 @@ class MetaTuple(MetaContainer):
                 raise TypeError('`element_class` should be a tuple!')
         return super().__new__(cls, name, bases, attrs)
 
-    def __mul__(self, n):
-        raise DeprecationWarning('It is meaningless to multiply the class by a number')
+    def __floordiv__(self, n):
+        raise DeprecationWarning('It is meaningless to do floordiv on the class by a number')
 
 
 class MetaHighContainer(MetaContainer):
@@ -360,7 +358,7 @@ class MetaArray(ParamType):
     #     for k, v in kwargs.items():
     #         setattr(o, k, v)
     #     if args:
-    #         o = super(MetaArray, self).__new__(args, dtype=self.element_class)
+    #         o = super().__new__(args, dtype=self.element_class)
     #     return o
 
 

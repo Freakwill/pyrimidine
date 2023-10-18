@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 
 from . import BaseSpecies
 from .utils import  *
@@ -10,6 +10,7 @@ from itertools import product
 
 class SimpleSpecies(BaseSpecies):
     pass
+
 
 class DualSpecies(BaseSpecies):
     params = {'n_elders':0.5, 'mate_prob':0.75}

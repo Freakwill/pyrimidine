@@ -63,6 +63,7 @@ class IterativeModel:
             self.transit(k, *args, **kwargs)
             self.postprocess()
 
+
     def evolve(self, n_iter=None, period=1, verbose=False, decode=False, stat={'Fitness': 'fitness'}, history=False, callbacks=()):
         """Get the history of the whole evolution
 
@@ -109,7 +110,7 @@ iteration & best solution & {" & ".join(res.keys())}
             for c in callbacks:
                 c(self)
             res = stat.do(self) if stat else {}
-            if history_flag and (period == 1 or k % period ==0):
+            if history_flag and (period == 1 or k % period == 0):
                 history = history.append(res, ignore_index=True)
             if verbose and (period == 1 or k % period ==0):
                 print(f'{k} & {self.solution} & {" & ".join(str(res[k]) for k in keys)}')
@@ -169,6 +170,7 @@ iteration & best solution & {" & ".join(res.keys())}
             print(Warning(f'There exists {filename}, It has been over written'))
         with open(pklPath, 'wb') as fo:
             pickle.dump(self, fo)
+
 
     @staticmethod
     def load(filename='population.pkl'):
@@ -357,6 +359,7 @@ class PopulationModel(FitnessModel):
 
     @property
     def solution(self):
+        # an alias of best_individual
         return self.best_individual
 
 

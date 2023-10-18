@@ -48,10 +48,7 @@ class MySpecies(DualSpecies):
         self.populations[1].init()
 
     def transit(self, k=None, *args, **kwargs):
-        """
-        Transitation of the states of population by SGA
-        """
-        super(MySpecies, self).transit(*args, **kwargs)
+        super().transit(*args, **kwargs)
         self.populations[0].update_halloffame()
         self.populations[0].add_individuals([i.clone() for i in self.populations[0].halloffame])
         self.populations[1].update_halloffame()

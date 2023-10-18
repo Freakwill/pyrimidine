@@ -40,9 +40,9 @@ class MyIndividual(MultiIndividual[_Chromosome]):
 
 
 if __name__ == '__main__':
-    SGAPopulation.element_class = MyIndividual
+    StandardPopulation.element_class = MyIndividual
 
-    pop = SGAPopulation.random(n_individuals=30, size=15)
+    pop = StandardPopulation.random(n_individuals=30, size=15)
     data = pop.evolve(n_iter=100, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}, history=True)
     import matplotlib.pyplot as plt
     fig = plt.figure()

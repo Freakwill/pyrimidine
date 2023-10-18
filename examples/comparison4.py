@@ -5,6 +5,7 @@ from pyrimidine import *
 from pyrimidine.pso import Particle, ParticleSwarm
 
 from pyrimidine.benchmarks.special import *
+import numpy as np
 
 # generate a knapsack problem randomly
 def evaluate(x):
@@ -27,10 +28,10 @@ pop = MyParticleSwarm.random()
 pop2 = pop.clone(type_=MyPopulation)
 
 
-stat={'Best Fitness':'best_fitness'}
+stat={'Best Fitness': 'best_fitness'}
 data = pop.evolve(stat=stat, n_iter=100, history=True)
 
-stat={'Best Fitness2':'best_fitness'}
+stat={'Best Fitness2': 'best_fitness'}
 data2 = pop2.evolve(stat=stat, n_iter=100, history=True)
 import matplotlib.pyplot as plt
 fig = plt.figure()
