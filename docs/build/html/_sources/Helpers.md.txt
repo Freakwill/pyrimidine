@@ -1,14 +1,13 @@
-#!/usr/bin/env python3
+# Helpers
 
-"""
-test for the helper `optimize.ga_min`
-"""
+To introduce useful helpers
 
+## Optimization
+```python
 from pyrimidine import optimize
 
-"""
-min x1^2 + x2
-x1, x2 in [-1, 1]
-"""
 solution = optimize.ga_min(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
 print(solution)
+```
+
+OUTPUT: [-0.0078125 -1.       ]

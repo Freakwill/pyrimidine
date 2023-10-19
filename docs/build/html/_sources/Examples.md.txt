@@ -2,7 +2,7 @@
 
 ## Examples
 
-### A simple example --- Knapsack Problem
+### A simple example --- Knapsack problem
 
 One of the famous problem is the knapsack problem. It is a good example for GA.
 
@@ -65,17 +65,16 @@ plt.show()
 
 ### Another Problem
 
-Given several problems with two properties: type and number. Select some elements from them, make sure the sum of the numbers equals to an constant $M$ and minimize the repeat number of types.
+Given several problems with two properties: type and number. Select some elements from them, make sure the sum of the numbers equals to an constant $M$ and minimize the repetition of types.
 $$
-\min  R=\max_i\max_{t\in T}\{t_i=t\}\\
-\sum_in_i=M\\
+\min  R=\max_t |\{t_i=t,i\in I\}|\\
+\sum_{i\in I} n_i=M\\
 t_i \in T, n_i \in N
 $$
 We encode a solution with binary chromosome, that means 0/1 presents to be unselected/selected.
 
 ```python
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from pyrimidine import *
 import numpy as np
@@ -87,24 +86,21 @@ M = 10
 
 import collections
 def max_repeat(x):
-    # maximum of repeat numbers
+    # Maximum repetition
     c = collections.Counter(x)
-    bm=np.argmax([b for a, b in c.items()])
-    return list(c.keys())[bm]
+    return np.max([b for a, b in c.items()])
 
 
 class MyIndividual(MonoBinaryIndividual):
 
     def _fitness(self):
         """
-        select ti, ni from t, n
-        sum of ni ~ 10, while ti dose not repeat
+        Description:
+            select ti, ni from t, n
+            the sum of ni ~ 10, while ti repeat as little as possible
         """
-        x, y = self.evaluate()
+        x, y = abs(np.sum([ni for ni, c in zip(n, self.chromosome) if c==1])-M), max_repeat(ti for ti, c in zip(t, self.chromosome) if c==1)
         return - (x + y)
-
-    def evaluate(self):
-        return abs(np.sum([ni for ni, c in zip(n, self.chromosome) if c==1])-M), max_repeat(ti for ti, c in zip(t, self.chromosome) if c==1)
 
 MyPopulation = StandardPopulation[MyIndividual]
 
@@ -123,7 +119,7 @@ if __name__ == '__main__':
 
 ```
 
-
+![](example.png)
 
 
 
