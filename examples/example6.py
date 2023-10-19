@@ -5,14 +5,14 @@ from pyrimidine.benchmarks.special import *
 
 
 from pyrimidine import *
-from digit_converter import *
+from digit_converter import IntervalConverter
 
 import numpy as np
 
 
 evaluate = lambda x: -rosenbrock(20)(x)
 
-c=IntervalConverter(-30,30)
+c = IntervalConverter(-30,30)
 
 class _Chromosome(BinaryChromosome):
     def decode(self):
@@ -51,7 +51,7 @@ class MyIndividual(_Mixin, SelfAdaptiveIndividual):
     # def mate_prob(self):
     #     return self.chromosomes[-2]
 
-class MyPopulation(SGA2Population):
+class MyPopulation(HOFPopulation):
     element_class = MyIndividual
 
 
@@ -65,16 +65,16 @@ if __name__ == '__main__':
 
     MyPopulation.element_class = MyIndividual
     pop = MyPopulation.random(n_individuals=40, sizes=(8,)*20+(2,))
-    cpy = pop.clone(type_=SGAPopulation[ExampleIndividual])
+    cpy = pop.clone(type_=StandardPopulation[ExampleIndividual])
     pop.mate_prob = 1
     pop.mutate_prob = 1
-    d = pop.evolve(n_iter=500, stat=stat, history=True)
+    d = pop.evolve(n_iter=500, stat=stat, history=True, period=10)
 
     d[['Mean Fitness', 'Best Fitness']].plot(ax=ax, style='.-')
     d['Standard Deviation'].plot(ax=ax2, style='--')
 
     cpy.mate_prob = 0.9
-    d = cpy.evolve(n_iter=500, stat=stat, history=True)
+    d = cpy.evolve(n_iter=500, stat=stat, history=True, period=10)
     d[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
     d['Standard Deviation'].plot(ax=ax2, style='--')
 

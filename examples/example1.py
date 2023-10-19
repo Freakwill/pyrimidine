@@ -16,7 +16,7 @@ def max_repeat(x):
 
 def _evaluate(x):
     """
-    select ti, ni from t, n
+    select ti, ni from t, n resp.
     the sum of ni ~ 10, while ti is repeated rarely
     """
     N = abs(np.sum([ni for ni, c in zip(n, x) if c==1])-30)
