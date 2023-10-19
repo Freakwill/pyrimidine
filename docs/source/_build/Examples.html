@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Examples and customization tricks &#8212; pyrimidine 0.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script src="_static/documentation_options.js?v=10f1778b"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration" href="Customize.html" />
+    <link rel="prev" title="Installation and Getting Started" href="Install.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="examples-and-customization-tricks">
+<h1>Examples and customization tricks<a class="headerlink" href="#examples-and-customization-tricks" title="Link to this heading">¶</a></h1>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<section id="a-simple-example-knapsack-problem">
+<h3>A simple example — Knapsack problem<a class="headerlink" href="#a-simple-example-knapsack-problem" title="Link to this heading">¶</a></h3>
+<p>One of the famous problem is the knapsack problem. It is a good example for GA.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="n">MonoBinaryIndividual</span><span class="p">,</span> <span class="n">StandardPopulation</span>
+
+<span class="kn">from</span> <span class="nn">pyrimidine.benchmarks.optimization</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># Generate a knapsack problem randomly</span>
+<span class="c1"># Users can replace it with your owen goal functions</span>
+<span class="n">evaluate</span> <span class="o">=</span> <span class="n">Knapsack</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">MyIndividual</span><span class="p">(</span><span class="n">MonoBinaryIndividual</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">MyPopulation</span><span class="p">(</span><span class="n">StandardPopulation</span><span class="p">):</span>
+    <span class="n">element_class</span> <span class="o">=</span> <span class="n">MyIndividual</span>
+
+<span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>  <span class="c1"># or pop.ezvolve() a clean version of `evolve`</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">best_individual</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Following is an equivalent expression without <code class="docutils literal notranslate"><span class="pre">class</span></code> keward.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MyPopulation</span> <span class="o">=</span> <span class="n">StandardPopulation</span><span class="p">[</span><span class="n">MonoBinaryIndividual</span><span class="o">.</span><span class="n">set_fitness</span><span class="p">(</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">_evaluate</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">chromosome</span><span class="p">))]</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n_individuals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
+
+<span class="c1"># or</span>
+<span class="n">MyPopulation</span> <span class="o">=</span> <span class="n">StandardPopulation</span><span class="p">[</span><span class="n">MonoBinaryIndividual</span><span class="o">.</span><span class="n">set_fitness</span><span class="p">(</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">_evaluate</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">chromosome</span><span class="p">))]</span> <span class="o">//</span> <span class="mi">20</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>For visualization, just set <code class="docutils literal notranslate"><span class="pre">history=True</span></code> (return <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> object) in the evolve method.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">:</span><span class="s1">&#39;mean_fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">:</span><span class="s1">&#39;best_fitness&#39;</span><span class="p">}</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># data is an instance of DataFrame of pandas</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">data</span><span class="p">[[</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Generations&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Fitness&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="_images/history.png" src="_images/history.png" /></p>
+</section>
+<section id="another-problem">
+<h3>Another Problem<a class="headerlink" href="#another-problem" title="Link to this heading">¶</a></h3>
+<p>Given several problems with two properties: type and number. Select some elements from them, make sure the sum of the numbers equals to an constant $M$ and minimize the repetition of types.
+$$
+\min  R=\max_t |{t_i=t,i\in I}|\
+\sum_{i\in I} n_i=M\
+t_i \in T, n_i \in N
+$$
+We encode a solution with binary chromosome, that means 0/1 presents to be unselected/selected.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">M</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="k">def</span> <span class="nf">max_repeat</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># Maximum repetition</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+
+
+<span class="k">class</span> <span class="nc">MyIndividual</span><span class="p">(</span><span class="n">MonoBinaryIndividual</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        select ti, ni from t, n</span>
+<span class="sd">        sum of ni ~ 10, while ti dose not repeat</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
+        <span class="k">return</span> <span class="o">-</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">ni</span> <span class="k">for</span> <span class="n">ni</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span><span class="o">==</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">M</span><span class="p">),</span> <span class="n">max_repeat</span><span class="p">(</span><span class="n">ti</span> <span class="k">for</span> <span class="n">ti</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">MyPopulation</span> <span class="o">=</span> <span class="n">StandardPopulation</span><span class="p">[</span><span class="n">MyIndividual</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n_individuals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">stat</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">:</span><span class="s1">&#39;mean_fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">:</span><span class="s1">&#39;best_fitness&#39;</span><span class="p">}</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Generations&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Fitness&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="_images/example.png" src="_images/example.png" /></p>
+</section>
+</section>
+<section id="create-new-algo">
+<h2>Create new algo.<a class="headerlink" href="#create-new-algo" title="Link to this heading">¶</a></h2>
+<p>In the following example, the binary chromosomes should be decoded to floats. We recommend <code class="docutils literal notranslate"><span class="pre">digit_converter</span></code> created by the author to handle it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">from</span> <span class="nn">pyrimidine.benchmarks.special</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">digit_converter</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="n">ndim</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">rosenbrock</span><span class="p">(</span><span class="n">ndim</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">c</span><span class="o">=</span><span class="n">IntervalConverter</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_Chromosome</span><span class="p">(</span><span class="n">BinaryChromosome</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">c</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">uChromosome</span><span class="p">(</span><span class="n">BinaryChromosome</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">unitIntervalConverter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_fitness</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+
+<span class="n">ExampleIndividual</span> <span class="o">=</span> <span class="n">MultiIndividual</span><span class="p">[</span><span class="n">_Chromosome</span><span class="p">]</span><span class="o">.</span><span class="n">set_fitness</span><span class="p">(</span><span class="n">_fitness</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">MyIndividual</span><span class="p">(</span><span class="n">MixIndividual</span><span class="p">[(</span><span class="n">_Chromosome</span><span class="p">,)</span><span class="o">*</span><span class="n">ndim</span> <span class="o">+</span> <span class="p">(</span><span class="n">uChromosome</span><span class="p">,)]</span><span class="o">.</span><span class="n">set_fitness</span><span class="p">(</span><span class="n">_fitness</span><span class="p">)):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;my own individual class</span>
+<span class="sd">    </span>
+<span class="sd">    Method `mate` is overriden.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ranking</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.25</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">threshold</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chromosomes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">mate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">mate_prob</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># mate with threshold and ranking</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">ranking</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranking</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">ranking</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">threshold</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranking</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">mate</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">mate_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">mate_prob</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">other</span><span class="o">.</span><span class="n">threshold</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">mate</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">mate_prob</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">threshold</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranking</span><span class="p">:</span>
+                    <span class="n">mate_prob</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">threshold</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">mate</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">mate_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">mate_prob</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">threshold</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+                    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">mate</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">mate_prob</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">mate</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">MyPopulation</span><span class="p">(</span><span class="n">SGAPopulation</span><span class="p">[</span><span class="n">MyIndividual</span><span class="p">]):</span>
+
+    <span class="k">def</span> <span class="nf">transit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">transit</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">stat</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">:</span><span class="s1">&#39;mean_fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">:</span> <span class="s1">&#39;best_fitness&#39;</span><span class="p">}</span>
+
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+
+    <span class="n">_Population</span> <span class="o">=</span> <span class="n">StandardPopulation</span><span class="p">[</span><span class="n">ExampleIndividual</span><span class="p">]</span>
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n_individuals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">*</span><span class="n">ndim</span><span class="o">+</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+    <span class="n">cpy</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">_Population</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">cpy</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">],</span> <span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Best Fitness&#39;</span><span class="p">],</span> <span class="s1">&#39;.-&#39;</span><span class="p">)</span>
+
+    <span class="n">d</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">],</span> <span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Best Fitness&#39;</span><span class="p">],</span> <span class="s1">&#39;.-&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="s1">&#39;Traditional mean&#39;</span><span class="p">,</span><span class="s1">&#39;Traditional best&#39;</span><span class="p">,</span> <span class="s1">&#39;New mean&#39;</span><span class="p">,</span> <span class="s1">&#39;New best&#39;</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="_images/comparison.png" src="_images/comparison.png" /></p>
+<section id="customization-tricks">
+<h3>Customization Tricks<a class="headerlink" href="#customization-tricks" title="Link to this heading">¶</a></h3>
+<p>Take PSO an example. First define <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">ParticleSwarm(IterativeModel):...</span></code>, subclass of <code class="docutils literal notranslate"><span class="pre">IterativeModel</span></code>, as a mixin class where you should define method <code class="docutils literal notranslate"><span class="pre">transit</span></code> in most cases to implement the PSO algorithm.</p>
+<p>Then define subclass for more details esp. the attribute <code class="docutils literal notranslate"><span class="pre">element_class</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyParticleSwarm</span><span class="p">(</span><span class="n">ParticleSwarm</span><span class="p">,</span> <span class="n">PopulationModel</span><span class="p">):</span>
+    <span class="n">element_class</span> <span class="o">=</span> <span class="n">_Particle</span>
+    <span class="n">default_size</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>see <code class="docutils literal notranslate"><span class="pre">example-pso.py</span></code> in <code class="docutils literal notranslate"><span class="pre">examples</span></code>.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pyrimidine</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Home.html">pyrimidine: a universal framework for genetic algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation and Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples and customization tricks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-new-algo">Create new algo.</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Customize.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">pyrimidine</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Install.html" title="previous chapter">Installation and Getting Started</a></li>
+      <li>Next: <a href="Customize.html" title="next chapter">Configuration</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, William Song.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/Examples.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -36,7 +36,6 @@ class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
 ```
 
 
-
 There is mainly tow kinds of containers: list and tuple as in programming language `Haskell`. See following examples.
 
 ```python
@@ -45,7 +44,6 @@ _Individual1 = BaseIndividual[_Choromosome]
 # individual with 2 chromosomes of type _Chromosome1 and _Chromosome2 respectively
 _Individual2 = MixIndividual[_Chromosome1, _Chromosome2]
 ```
-
 
 
 ## New features
@@ -99,9 +97,7 @@ class MyIndividual(MonoBinaryIndividual):
 ```
 
 
-
 If an individual contains several chromosomes, then subclass `MultiIndividual`. It could be applied in multi-real-variable optimization problems.
-
 
 
 In most cases, we have to decode chromosomes to real numbers.
@@ -123,7 +119,6 @@ class ExampleIndividual(BaseIndividual):
         x = self.decode()  # will call decode method of _Chromosome
         return evaluate(x)
 ```
-
 
 
 If the chromosomes in an individual are different with each other, then subclass `MixIndividual`, meanwhile, the property `element_class` should be assigned with a tuple of classes for each chromosome.
@@ -211,8 +206,8 @@ Use `pop.perf()` to check the performance.
 
 Description
 
-    select some of ti, ni, i=1,...,N
-    the sum of ni ~ 10, while ti dose not repeat
+    select some of ti, ni, i=1,...,L, ti in {1,2,...,T}, ni in {1,2,...,N}
+    the sum of ni approx. 10, while ti dose not repeat
 
 The opt. problem is
 
@@ -220,10 +215,11 @@ The opt. problem is
     where i is selected.
 
 $$
-\min_I |\sum_{i\in I} n_i -10| + t_m\\
-I\subset\{1,\cdots,N\}
+\min_I |\sum_{i\in I} n_i -10| + t_m
+\\
+I\subset\{1,\cdots,L\}
 $$
-where $t_m$ is the mode of $\{ti, i\in I\}$
+where $t_m$ is the mode of $\{t_i, i\in I\}$
 
 ```python
 t = np.random.randint(1, 5, 100)
@@ -232,10 +228,9 @@ n = np.random.randint(1, 4, 100)
 import collections
 
 def max_repeat(x):
-    # maximum of numbers of repeats
+    # Maximum repetition
     c = collections.Counter(x)
-    bm = np.argmax([b for a, b in c.items()])
-    return list(c.keys())[bm]
+    return np.max([b for a, b in c.items()])
 
 class MyIndividual(BinaryIndividual):
 

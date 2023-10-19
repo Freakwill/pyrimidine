@@ -33,11 +33,12 @@ class MyIndividual(MonoBinaryIndividual):
 # MyIndividual = MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))
 
 # Define Population
-class MyPopulation(SGA2Population):
+class MyPopulation(StandardPopulation):
     element_class = MyIndividual
     default_size = 20
 
-# MyPopulation = SGA2Population[MyIndividual] // 20
+# Equiv. to
+# MyPopulation = StandardPopulation[MyIndividual] // 20
 
 pop = MyPopulation.random(size=n)
 

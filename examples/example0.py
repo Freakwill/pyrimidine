@@ -21,8 +21,6 @@ class MyPopulation(HOFPopulation):
     element_class = MyIndividual
     default_size = 10
 
-# MyPopulation = SGA2Population[MyIndividual] // 20
-
 pop = MyPopulation.random(size=n_bags)
 
 stat = {'Mean Fitness':'fitness', 'Best Fitness':'best_fitness', 'Standard Deviation of Fitnesses': 'std_fitness', 'number': lambda o: len(o.individuals)}

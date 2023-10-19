@@ -51,7 +51,7 @@ class MonoIndividual(BaseIndividual, metaclass=MetaList):
 
 class MonoBinaryIndividual(MonoIndividual):
     """simple binary individual
-    encoded as a sequence such as 010011
+    encoded as a sequence such as 01001101
 
     Equiv. to `MonoBinaryIndividual = MonoIndividual[BinaryChromosome]`
     """

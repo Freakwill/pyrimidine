@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pyrimidine: a universal framework for genetic algorithm &#8212; pyrimidine 0.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script src="_static/documentation_options.js?v=10f1778b"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation and Getting Started" href="Install.html" />
+    <link rel="prev" title="Welcome to pyrimidine’s world of genetic algorithm" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="pyrimidine-a-universal-framework-for-genetic-algorithm">
+<h1>pyrimidine: a universal framework for genetic algorithm<a class="headerlink" href="#pyrimidine-a-universal-framework-for-genetic-algorithm" title="Link to this heading">¶</a></h1>
+<p>It is a highly object-oriental implement of genetic algorithm by Python.</p>
+<p><img alt="LOGO" src="_images/logo.png" /></p>
+<section id="why">
+<h2>Why<a class="headerlink" href="#why" title="Link to this heading">¶</a></h2>
+<p>Why is the package named as “pyrimidine”? Because it begins with “py”.</p>
+<p>— Are you kiding?</p>
+<p>— No, I am serious.</p>
+</section>
+<section id="download">
+<h2>Download<a class="headerlink" href="#download" title="Link to this heading">¶</a></h2>
+<p>It has been uploaded to pypi, so download it with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyrimidine</span></code>, and also could download it from github.</p>
+</section>
+<section id="idea">
+<h2>Idea<a class="headerlink" href="#idea" title="Link to this heading">¶</a></h2>
+<p>We regard the population as a container of individuals, an individual as a container of chromosomes
+and a chromosome as a container(array) of genes.</p>
+<p>The container could be a list or an array. Container class has an attribute <code class="docutils literal notranslate"><span class="pre">element_class</span></code>, telling itself the class of the elements in it.</p>
+<p>Following is the part of the source code of <code class="docutils literal notranslate"><span class="pre">BaseIndividual</span></code> and <code class="docutils literal notranslate"><span class="pre">BasePopulation</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaseIndividual</span><span class="p">(</span><span class="n">FitnessModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaContainer</span><span class="p">):</span>
+    <span class="n">element_class</span> <span class="o">=</span> <span class="n">BaseChromosome</span>
+    <span class="n">default_size</span> <span class="o">=</span> <span class="mi">1</span>
+    
+<span class="k">class</span> <span class="nc">BasePopulation</span><span class="p">(</span><span class="n">FitnessModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaHighContainer</span><span class="p">):</span>
+    <span class="n">element_class</span> <span class="o">=</span> <span class="n">BaseIndividual</span>
+    <span class="n">default_size</span> <span class="o">=</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">FitnessModel</span></code> is a mixin, as a iteravtive model with fitness.</p>
+<p>There are mainly two kinds of containers: list and tuple as in programming language <code class="docutils literal notranslate"><span class="pre">Haskell</span></code>. See following examples.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># individual with chromosomes of type _Chromosome</span>
+<span class="n">_Individual1</span> <span class="o">=</span> <span class="n">BaseIndividual</span><span class="p">[</span><span class="n">_Choromosome</span><span class="p">]</span>
+<span class="c1"># individual with 20 chromosomes of type _Chromosome</span>
+<span class="n">_Individual1</span> <span class="o">=</span> <span class="n">BaseIndividual</span><span class="p">[</span><span class="n">_Choromosome</span><span class="p">]</span> <span class="o">//</span> <span class="mi">20</span>
+<span class="c1"># individual with 2 chromosomes of type _Chromosome1 and _Chromosome2 respectively</span>
+<span class="n">_Individual2</span> <span class="o">=</span> <span class="n">MixedIndividual</span><span class="p">[</span><span class="n">_Chromosome1</span><span class="p">,</span> <span class="n">_Chromosome2</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In fact, a container (so a population in GA) is treated as a special algebraic system. For this reason, we call it algebra-oriental design.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pyrimidine</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyrimidine: a universal framework for genetic algorithm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#why">Why</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#download">Download</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#idea">Idea</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation and Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples and customization tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Customize.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">pyrimidine</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to pyrimidine’s world of genetic algorithm</a></li>
+      <li>Next: <a href="Install.html" title="next chapter">Installation and Getting Started</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, William Song.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/Home.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
