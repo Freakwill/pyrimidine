@@ -227,6 +227,13 @@ print(pop.best_individual)</p>
 <dt class="sig sig-object py" id="pyrimidine.base.BaseChromosome">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.base.</span></span><span class="sig-name descname"><span class="pre">BaseChromosome</span></span><a class="headerlink" href="#pyrimidine.base.BaseChromosome" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FitnessModel</span></code></p>
+<p>Base class of chromosomes</p>
+<p>Chromosome is an array of genes. It is the unit of the GA.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>default_size (int): the default number of genes in the chromosome
+element_class (TYPE): the type of gene</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseChromosome.alias">
 <span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pyrimidine.base.BaseChromosome.alias" title="Link to this definition">¶</a></dt>
@@ -296,8 +303,8 @@ Translate the chromesome to (part of) solution, maybe a number.</p>
 <dt class="sig sig-object py" id="pyrimidine.base.BaseEnvironment">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.base.</span></span><span class="sig-name descname"><span class="pre">BaseEnvironment</span></span><a class="headerlink" href="#pyrimidine.base.BaseEnvironment" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Base Class of Environment
-main method is evaluate that calculating the fitness of an individual or a population</p>
+<p>Base Class of environments</p>
+<p>The main method is <cite>evaluate</cite>, computing the fitness of an individual or a population</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseEnvironment.alias">
 <span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pyrimidine.base.BaseEnvironment.alias" title="Link to this definition">¶</a></dt>
@@ -340,7 +347,7 @@ main method is evaluate that calculating the fitness of an individual or a popul
 <dt class="sig sig-object py" id="pyrimidine.base.BaseIndividual">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.base.</span></span><span class="sig-name descname"><span class="pre">BaseIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BaseIndividual" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FitnessModel</span></code></p>
-<p>base class of individual</p>
+<p>Base class of individual</p>
 <p>a sequence of chromosomes that may vary in sizes.</p>
 <p>You should implement the methods, cross, mute</p>
 <dl class="py method">
