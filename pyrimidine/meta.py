@@ -7,7 +7,7 @@ from operator import attrgetter
 
 
 def get_stem(s):
-    """get the last part in Camel expression
+    """Get the last part in Camel expression
     
     Arguments:
         s {str} -- a string in Camel expression
