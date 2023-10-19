@@ -209,7 +209,7 @@ pop = NewPopulation.random(sizes=(8, 2))
 `FloatChromosome` is already equipped with genetic operations for floating-point numbers, eliminating the need for user definition. This setup enables the development of a genetic algorithm where mutation and crossover rates evolve dynamically.
 
 ### Design new algorithm
-
+Take PSO as example.
 
 ## Comparison
 
