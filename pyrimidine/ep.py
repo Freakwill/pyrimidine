@@ -33,7 +33,8 @@ import numpy as np
 
 
 class BaseEPIndividual(MixedIndividual):
-    """EP Individual Class
+    """Base class of EP Individual Class
+
     A single solution in EP
     """
 

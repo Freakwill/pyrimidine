@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+function optimization by GA
+"""
+
 from pyrimidine import *
 from pyrimidine.benchmarks.approximation import _basis, n_basis_, Function1DApproximation
 import numpy as np
@@ -12,14 +16,13 @@ class MyIndividual(MonoFloatIndividual):
         return evaluate(self.chromosome)
 
 
-class MyPopulation(SGAPopulation):
+class MyPopulation(StandardPopulation):
     element_class = MyIndividual
 
 pop = MyPopulation.random(n_individuals=200, size=n_basis_)
 
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
 pop.evolve(n_iter=250, verbose=False)
-
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
