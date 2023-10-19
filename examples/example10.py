@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
+"""
+Test for methods/operators: A[B], set, set_fitness, //
+"""
 
 from pyrimidine import *
-
 from pyrimidine.benchmarks.optimization import *
 
 n = 50
