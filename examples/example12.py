@@ -25,8 +25,8 @@ class MyIndividual(MultiIndividual):
 
     def _fitness(self):
         """
-        select ni from n
-        sum of ni ~ 10, while ti dose not repeat
+        select ni from n, ti from t
+        the sum of ni ~ 10, while ti is repeated rarely
         """
         return -nmf(*self.decode())
 
@@ -47,5 +47,3 @@ if __name__ == '__main__':
     ax.set_ylabel('Fitness')
     plt.show()
 
-
-    
