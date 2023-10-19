@@ -61,7 +61,7 @@ class ParamType(type):
             elif key in self.alias:
                 return getattr(self, self.alias[key])
             else:
-                raise AttributeError(f'{key} is neither an attribute of {self.__name__}, nor in `param` or `alias`')
+                raise AttributeError(f'{key} is neither an attribute of {self}, nor in `param` or `alias`')
         attrs['__getattr__'] = _getattr
 
         def _setattr(self, key, value):
@@ -80,6 +80,18 @@ class ParamType(type):
     @classmethod
     def __prepare__(cls, name, bases):
         return {"alias":{}, "params":{}}
+
+    def set(self, *args, **kwargs):
+        for k in args:
+            setattr(self, k, globals()[k])
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+        return self
+
+    def set_methods(self, **kwargs):
+        for k, m in kwargs.items():
+            setattr(self, k, MethodType(m, self))
+        return self
 
 
 class System(ParamType):
@@ -176,20 +188,6 @@ class System(ParamType):
         # 'element_regester': _element_regester})
 
         return super().__new__(cls, name, bases, attrs)
-
-
-    def set(self, *args, **kwargs):
-        for k in args:
-            setattr(self, k, globals()[k])
-        for k, v in kwargs.items():
-            setattr(self, k, v)
-        return self
-
-
-    def set_methods(self, **kwargs):
-        for k, m in kwargs.items():
-            setattr(self, k, MethodType(m, self))
-        return self
 
 
     def __call__(self, *args, **kwargs):
@@ -318,7 +316,9 @@ class MetaHighContainer(MetaContainer):
         # constructor of MetaHighContainer
         if 'element_class' in attrs:
             element_class = attrs['element_class']
-            if not isinstance(element_class, MetaContainer) or isinstance(element_class, tuple) and isinstance(element_class[0], MetaContainer):
+            if (not isinstance(element_class, MetaContainer)
+                and isinstance(element_class, tuple) and not isinstance(element_class[0], MetaContainer)
+                and not isinstance(element_class, ParamType)):
                 raise TypeError('`element_class` should be an instance of MetaContainer, or a list of such instances')
 
         def _flatten(self, type_):
@@ -333,7 +333,22 @@ class MetaHighContainer(MetaContainer):
 
 
 import numpy as np
+
+# import array
+
+# def array_check(bases):
+#     if array.array in bases or np.ndarray in bases:
+#         return True
+#     else:
+#         for base in bases:
+#             if isinstance(base, (array.array, np.ndarray)):
+#                 return True
+#         else:
+#             return False
+
+
 class MetaArray(ParamType):
+
     def __new__(cls, name, bases, attrs):
         if 'element_class' in attrs:
             element_class = attrs['element_class']
@@ -346,9 +361,9 @@ class MetaArray(ParamType):
                 raise Exception('Have not provided element class yet.')
         if not element_class.__name__.startswith('Base') and not issubclass(element_class, (int, float, np.int_, np.float_, np.bool_)):
             raise TypeError('The types of elements should be numbers, i.e. subclass of int or float')
-        # if np.ndarray not in bases:
-        #     bases = (np.ndarray,) + bases
-            # raise Exception('The class should be a subclass of numpy.ndarray!')
+
+        # if not name.startswith('Base') and array_check(bases):
+        #     raise Exception(f'The class `{name}` should be a subclass of numpy.ndarray or array.array!')
 
         return super().__new__(cls, name, bases, attrs)
 

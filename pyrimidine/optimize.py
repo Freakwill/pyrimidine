@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 
 import numpy as np
-import digit_converter
+from digit_converter import IntervalConverter
 
 from .individual import BinaryIndividual
-from .population import DualPopulation
+from .population import HOFPopulation
 
 
 def _decode(c, a, b):
     return IntervalConverter(a, b)(c)
 
 
-def ga_min(fun, *xlim):
-    # GA for minimizing fun defined on xlim
+def ga_min(func, *xlim):
+    """
+    GA for minimizing fun defined on xlim
+
+    Example:
+        ga_min(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+    """
 
     class _Individual(BinaryIndividual):
         default_size = len(xlim)
@@ -26,7 +31,7 @@ def ga_min(fun, *xlim):
         def decode(self):
             return np.array([_decode(c, a, b) for c, (a, b) in zip(self.chromosomes, xlim)])
 
-    class _Population(DualPopulation):
+    class _Population(HOFPopulation):
         element_class = _Individual
         default_size = 20
 

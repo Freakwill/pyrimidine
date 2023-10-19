@@ -95,14 +95,12 @@ class MyIndividual(MonoBinaryIndividual):
 
     def _fitness(self):
         """
-        select ti, ni from t, n
-        sum of ni ~ 10, while ti dose not repeat
+        Description:
+            select ti, ni from t, n
+            the sum of ni ~ 10, while ti repeat as little as possible
         """
-        x, y = self.evaluate()
+        x, y = abs(np.sum([ni for ni, c in zip(n, self.chromosome) if c==1])-M), max_repeat(ti for ti, c in zip(t, self.chromosome) if c==1)
         return - (x + y)
-
-    def evaluate(self):
-        return abs(np.sum([ni for ni, c in zip(n, self.chromosome) if c==1])-M), max_repeat(ti for ti, c in zip(t, self.chromosome) if c==1)
 
 MyPopulation = StandardPopulation[MyIndividual]
 

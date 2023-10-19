@@ -20,6 +20,7 @@ Welcome to pyrimidine's world of genetic algorithm
    API Reference
    Examples
    Customize
+   Helpers
 
 
    modules
