@@ -1,15 +1,23 @@
+#!/usr/bin/env python
+
+"""
+Bat Algorithm
+"""
+
 from .base import *
 
 class Bat(PolyIndividual):
     element_class = FloatChromosome
     default_size = 5
     phantom = None
-
+    
     def backup(self):
+        if self.memory is None:
+            self.memory = self.clone(fitness=None)
         self.memory = self.clone(fitness=self.fitness)
 
     def init(self):
-        self.memory = self.clone(fitness=self.fitness)
+        self.backup()
 
     @property
     def position(self):
