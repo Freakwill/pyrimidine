@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
+"""
+Test for Probabilitical GA
+"""
 
 from pyrimidine import *
 import numpy as np
