@@ -23,7 +23,10 @@ class MyPopulation(HOFPopulation):
 
 pop = MyPopulation.random(size=n_bags)
 
-stat = {'Mean Fitness':'fitness', 'Best Fitness':'best_fitness', 'Standard Deviation of Fitnesses': 'std_fitness', 'number': lambda o: len(o.individuals)}
+stat = {
+    'Mean Fitness':'fitness', 'Best Fitness':'best_fitness',
+    'Standard Deviation of Fitnesses': 'std_fitness', 'number': lambda o: len(o.individuals)
+    }
 data = pop.evolve(stat=stat, n_iter=100, history=True, verbose=True)
 
 

@@ -5,6 +5,7 @@
 
 Welcome to pyrimidine's world of genetic algorithm
 ====================================================================
+
 .. image:: logo.png
    :width: 200
    :height: 200
