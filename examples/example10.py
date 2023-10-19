@@ -9,17 +9,9 @@ from pyrimidine.benchmarks.optimization import *
 n = 50
 _evaluate = Knapsack.random(n)
 
-class MyIndividual(MonoBinaryIndividual):
-    def _fitness(self):
-        return _evaluate(self.chromosome)
+MyIndividual = MonoBinaryIndividual(size=n).set_fitness(lambda o: _evaluate(o.chromosome))
 
-    def dual(self):
-        return MyIndividual([c.dual() for c in self])
-    
-
-# MyIndividual = MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))
-
-pop = MyIndividual.random(size=n) * 20
+pop = MyIndividual.random() // 20
 
 
 stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
