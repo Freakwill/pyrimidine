@@ -37,7 +37,8 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx.ext.mathjax'
+    'sphinx.ext.mathjax',
+    'sphinx.ext.autosectionlabel',
     ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -65,3 +66,5 @@ html_static_path = ['_static']
 master_doc = 'index'
 
 html_domain_indices = True
+
+source_suffix = ['.rst', '.md']

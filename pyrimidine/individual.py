@@ -49,23 +49,26 @@ class MonoIndividual(BaseIndividual, metaclass=MetaList):
         super().individuals = x
 
 
-def MonoBinaryIndividual(size):
-    class _C(MonoIndividual):
+class MonoBinaryIndividual(MonoIndividual):
+
+    def __init__(self, size=8, *args, **kwargs):
         """simple binary individual
         encoded as a sequence such as 01001101
 
         Equiv. to `MonoBinaryIndividual = MonoIndividual[BinaryChromosome]`
         """
-        element_class = BinaryChromosome.set(default_size=size)
-    return _C
+        super().__init__(*args, **kwargs)
+        self.element_class = BinaryChromosome.set(default_size=size)
 
-def BinaryIndividual(size:tuple):
-    """
-    size should be a tuple of sizes of chromosomes in the individual
-    """
-    class _C(MultiIndividual):
-        element_class = tuple(BinaryChromosome.set(default_size=s) for s in size)
-    return _C
+
+class BinaryIndividual(MultiIndividual):
+
+    def __init__(self, size:tuple, *args, **kwargs):
+        """
+        size should be a tuple of sizes of chromosomes in the individual
+        """
+        super().__init__(**args, **kwargs)
+        self.element_class = tuple(BinaryChromosome.set(default_size=s) for s in size)
 
 
 class FloatIndividual(BaseIndividual):
