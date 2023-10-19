@@ -16,7 +16,7 @@ from .utils import gauss, random
 import numpy as np
 
 class BaseParticle(PolyIndividual):
-    """A particle in PSO
+    """Base class of particles in PSO
     
     Extends:
         PolyIndividual
@@ -75,6 +75,9 @@ class BaseParticle(PolyIndividual):
 
 
 class Particle(BaseParticle):
+    """
+    Particle class
+    """
 
     element_class = FloatChromosome
     default_size = 2
@@ -113,7 +116,7 @@ class Particle(BaseParticle):
 
 
 class ParticleSwarm(PopulationModel):
-    """Standard PSO
+    """Implimentation Standard PSO
     
     Extends:
         PopulationModel
