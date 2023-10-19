@@ -2253,11 +2253,19 @@ It make users set and manage parameters of classes or instances more easily.</p>
 </section>
 <section id="module-pyrimidine.optimize">
 <span id="pyrimidine-optimize-module"></span><h2>pyrimidine.optimize module<a class="headerlink" href="#module-pyrimidine.optimize" title="Link to this heading">¶</a></h2>
+<p>Helpers for GA</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.optimize.ga_min">
-<span class="sig-prename descclassname"><span class="pre">pyrimidine.optimize.</span></span><span class="sig-name descname"><span class="pre">ga_min</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">xlim</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.optimize.ga_min" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.optimize.</span></span><span class="sig-name descname"><span class="pre">ga_min</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*xlim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode=&lt;function</span> <span class="pre">_decode&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.optimize.ga_min" title="Link to this definition">¶</a></dt>
 <dd><p>GA for minimizing fun defined on xlim</p>
-<dl class="simple">
+<dl>
+<dt>Arguments:</dt><dd><p>func: objective function defined on R
+xlim: the intervals of xi
+decode: transform a binary sequence to a real number</p>
+<blockquote>
+<div><p>(‘0-1’ sequence, lower_bound, upper_bound) <a href="#id13"><span class="problematic" id="id14">|</span></a>-&gt; xi</p>
+</div></blockquote>
+</dd>
 <dt>Example:</dt><dd><p>ga_min(lambda x:x[0]**2+x[1], (-1,1), (-1,1))</p>
 </dd>
 </dl>
@@ -3302,7 +3310,6 @@ ub {number} – upper bound of interval (default: {9})</p>
 <li class="toctree-l1"><a class="reference internal" href="Home.html">pyrimidine: a universal framework for genetic algorithm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation and Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples and customization tricks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Customize.html">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Helpers.html">Helpers</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">pyrimidine</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">pyrimidine package</a></li>

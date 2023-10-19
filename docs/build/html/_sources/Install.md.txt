@@ -1,8 +1,8 @@
 # Installation and Getting Started
 
-**Pythons**: Python 3.6, 3.7, 3.8, 3.9, 3.10, PyPy3
+**Pythons**: Python 3.7, 3.8, 3.9, 3.10, PyPy3
 
-**Platforms**: Linux and Windows
+**Platforms**: Linux/Unix and Windows
 
 **PyPI package name**: pyrimidine
 
@@ -21,7 +21,9 @@ Check the version:
 
 ## Requirements
 
-`Pyrimidine` requires few packages. It only needs `numpy/scipy`, and `pandas/matplotlib` for visualization. The author also recommends `digit_converter` for chromosome encoding of solutions.
+`Pyrimidine` requires few packages. It only needs `numpy/scipy` for computing, and `pandas/matplotlib` for visualization. 
+
+The author also recommends `digit_converter` for chromosome encoding of solutions.
 
 `ezstat` is also required for statistics which is also created by the author.
 

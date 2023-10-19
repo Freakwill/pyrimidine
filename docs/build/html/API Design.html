@@ -49,24 +49,27 @@
 </section>
 <section id="individuals">
 <h2>Individuals<a class="headerlink" href="#individuals" title="Link to this heading">¶</a></h2>
+<p>An individual is defined as a container of chromosomes.</p>
 <p>The individual classes are inherited from <code class="docutils literal notranslate"><span class="pre">BaseIndividual</span></code>. For instance, <code class="docutils literal notranslate"><span class="pre">BinaryIndividual</span></code> is a subclass encoded by   several binary chromosomes.</p>
 <p>See <code class="docutils literal notranslate"><span class="pre">Examples</span></code> section for a simple example of binary individuals — Knapsack Problem.</p>
-</section>
-<section id="populations">
-<h2>Populations<a class="headerlink" href="#populations" title="Link to this heading">¶</a></h2>
-<p>The population classes are inherited from <code class="docutils literal notranslate"><span class="pre">BasePopulation</span></code>. <code class="docutils literal notranslate"><span class="pre">StandardPopulation</span></code> is the standard population for GA.</p>
 </section>
 <section id="chromosomes">
 <h2>Chromosomes<a class="headerlink" href="#chromosomes" title="Link to this heading">¶</a></h2>
 <p>The chromosomes as an array of genes, could be regarded as the unit of genetic operations.  The subclass used most frequently is<code class="docutils literal notranslate"><span class="pre">BinaryChromosome</span></code>.</p>
+<p>A chromosome is equivalent to an individual with only one chromosome, mathematically.</p>
+</section>
+<section id="populations">
+<h2>Populations<a class="headerlink" href="#populations" title="Link to this heading">¶</a></h2>
+<p>The population classes are inherited from <code class="docutils literal notranslate"><span class="pre">BasePopulation</span></code>. <code class="docutils literal notranslate"><span class="pre">StandardPopulation</span></code> is the standard population for GA. It is recommended to use <code class="docutils literal notranslate"><span class="pre">HOFPopulation</span></code> in most cases.</p>
+<p>A population is a container of individuals, in original meaning. But It is possible to be a container of chromosomes in the view of algebra.</p>
 </section>
 <section id="species">
 <h2>Species<a class="headerlink" href="#species" title="Link to this heading">¶</a></h2>
-<p>For multi-populations GA. It is a container of populations.</p>
+<p>It is useful for multi-populations GA. It is regarded as a container of populations.</p>
 </section>
 <section id="environment">
 <h2>Environment<a class="headerlink" href="#environment" title="Link to this heading">¶</a></h2>
-<p>as a context for evolution of individuals.</p>
+<p>It is designed to be the context for evolution of individuals. The aim of the class is not for numerical computing, instead for “the Skeuomorphic Design”.</p>
 </section>
 </section>
 
@@ -92,7 +95,6 @@
 <li class="toctree-l1"><a class="reference internal" href="Home.html">pyrimidine: a universal framework for genetic algorithm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation and Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples and customization tricks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Customize.html">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Helpers.html">Helpers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">pyrimidine</a></li>
 </ul>
