@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
+
+"""
+Metaclasses
+"""
 
 from types import MethodType
 from collections.abc import Iterable
@@ -332,7 +336,7 @@ class MetaTuple(MetaContainer):
 
 
 class MetaHighContainer(MetaContainer):
-    # High order container is a container of  containers.
+    # High order container is a container of containers.
     def __new__(cls, name, bases, attrs):
         # constructor of MetaHighContainer
         if 'element_class' in attrs:
@@ -388,14 +392,6 @@ class MetaArray(ParamType):
 
         return super().__new__(cls, name, bases, attrs)
 
-
-    # def __call__(self, *args, **kwargs):
-    #     o = super().__call__([], dtype=self.element_class)
-    #     for k, v in kwargs.items():
-    #         setattr(o, k, v)
-    #     if args:
-    #         o = super().__new__(args, dtype=self.element_class)
-    #     return o
 
 
 if __name__ == '__main__':
