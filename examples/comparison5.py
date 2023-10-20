@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 
 from pyrimidine import *
 from pyrimidine.benchmarks.fitting import *
@@ -31,7 +31,7 @@ class _Individual(MixIndividual):
 
 
 MyPopulation = HOFPopulation[_Individual] // 50
-YourPopulation = SGAPopulation[_Individual] // 50
+YourPopulation = StandardPopulation[_Individual] // 50
 
 pop = MyPopulation.random(sizes=(10, 10, 10))
 pop2 = pop.clone(type_=YourPopulation)
