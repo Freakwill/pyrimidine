@@ -182,10 +182,6 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
                 return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_chromosomes)])
 
 
-    def after_setter(self):
-        # clean up the fitness after setting the chromosomes
-        self.fitness = None
-
     def _fitness(self):
         if hasattr(self, 'environment'):
             return self.environment.evaluate(self)
@@ -293,7 +289,6 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
             n_individuals = cls.default_size
         return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
 
-
     def add_individuals(self, inds:list):
         self.individuals += inds
 
@@ -317,7 +312,8 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
 
     def select_aspirants(self, individuals, size):
         # select `size` individuals from the list `individuals` in one tournament.
-        return choice_uniform(individuals, size)
+        return choice(individuals, size=size, replace=False)
+
 
     def select(self, n_sel=None, tournsize=None):
         """The standard method of selecting operation in GA
@@ -518,7 +514,7 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
 
     @property
     def best_fitness(self):
-        return np.max([np.max([individual.fitness for individual in pop.individuals]) for pop in self.populations])
+        return np.max([pop.best_fitness for pop in self.populations])
 
     def get_best_individuals(self, n=1):
         # first n best individuals

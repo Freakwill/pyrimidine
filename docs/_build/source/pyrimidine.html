@@ -381,11 +381,6 @@ Translate the chromesome to (part of) solution, maybe a number.</p>
 <p>Base class of individual</p>
 <p>a sequence of chromosomes that may vary in sizes.</p>
 <p>You should implement the methods, cross, mute</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.base.BaseIndividual.after_setter">
-<span class="sig-name descname"><span class="pre">after_setter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BaseIndividual.after_setter" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseIndividual.alias">
 <span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chromosomes':</span> <span class="pre">'elements',</span> <span class="pre">'n_chromosomes':</span> <span class="pre">'n_elements'}</span></em><a class="headerlink" href="#pyrimidine.base.BaseIndividual.alias" title="Link to this definition">¶</a></dt>
@@ -2280,7 +2275,16 @@ It make users set and manage parameters of classes or instances more easily.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.meta.inherit">
 <span class="sig-prename descclassname"><span class="pre">pyrimidine.meta.</span></span><span class="sig-name descname"><span class="pre">inherit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.inherit" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>inherit attribute <cite>attr</cite> from <cite>bases</cite></p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>attrs (dict): THe dictionary of attributions 
+attr (string): An attribution
+bases (tuple): The base classes</p>
+</dd>
+<dt>Returns:</dt><dd><p>dict: The updated dictionary of attributions</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-pyrimidine.optimize">
@@ -3251,8 +3255,8 @@ or moving method in Simulated Annealing.</p>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pyrimidine.utils.choice_objects">
-<span class="sig-prename descclassname"><span class="pre">pyrimidine.utils.</span></span><span class="sig-name descname"><span class="pre">choice_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.utils.choice_objects" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.utils.choice">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.utils.</span></span><span class="sig-name descname"><span class="pre">choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.utils.choice" title="Link to this definition">¶</a></dt>
 <dd><p>Choose xi from xs with certain probability</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>xs (List): a list of objects
@@ -3266,8 +3270,17 @@ n (int, optional): number of samples</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.utils.choice_uniform">
-<span class="sig-prename descclassname"><span class="pre">pyrimidine.utils.</span></span><span class="sig-name descname"><span class="pre">choice_uniform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.utils.choice_uniform" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.utils.</span></span><span class="sig-name descname"><span class="pre">choice_uniform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.utils.choice_uniform" title="Link to this definition">¶</a></dt>
+<dd><p>Choose xi from xs with certain probability</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>xs (List): a list of objects
+ps (List): a list of numbers
+n (int, optional): number of samples</p>
+</dd>
+<dt>Returns:</dt><dd><p>List: the sampling result</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.utils.choice_unique">

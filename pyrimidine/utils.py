@@ -6,7 +6,7 @@ Helper functions
 
 
 from operator import methodcaller, attrgetter
-from random import random, randint, gauss, shuffle, choice
+from random import random, randint, gauss, shuffle
 from math import exp
 
 from scipy.spatial.distance import euclidean
@@ -34,7 +34,7 @@ def boltzmann_select(xs, fs, T=1):
     return xs[k]
 
 
-def choice_objects(xs, *args, **kwargs):
+def choice(xs, *args, **kwargs):
     """Choose xi from xs with certain probability
     
     Args:
@@ -45,9 +45,24 @@ def choice_objects(xs, *args, **kwargs):
     Returns:
         List: the sampling result
     """
-    L = len(xs)
-    ps /= np.sum(ps)
-    ks = np.random.choice(np.arange(L), *args, **kwargs)
+
+    ks = np.random.choice(np.arange(len(xs)), *args, **kwargs)
+    return [xs[k] for k in ks]
+
+
+def choice_uniform(xs, *args, **kwargs):
+    """Choose xi from xs with certain probability
+    
+    Args:
+        xs (List): a list of objects
+        ps (List): a list of numbers
+        n (int, optional): number of samples
+    
+    Returns:
+        List: the sampling result
+    """
+
+    ks = np.random.randint(0, len(xs), *args, **kwargs)
     return [xs[k] for k in ks]
 
 
@@ -73,14 +88,8 @@ def choice_unique(xs, ps, n=1):
 def choice_with_fitness(xs, fs=None, n=1, T=1):
     if fs is None:
         fs = [x.fitness for x in xs]
-    ps = softmax(np.array(fs) /T)
-    return choice_with_prob(xs, ps, n=1)
-
-
-def choice_uniform(xs, n=1):
-    L = len(xs)
-    ks = np.random.choice(L, n)
-    return [xs[k] for k in ks]
+    ps = softmax(np.array(fs) / T)
+    return choice(xs, p=ps, size=n)
 
 
 def randint2(lb=0, ub=9, ordered=False):

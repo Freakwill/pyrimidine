@@ -35,9 +35,9 @@ class MyIndividual(MultiIndividual):
 
 
 if __name__ == '__main__':
-    SGAPopulation.element_class = MyIndividual
+    StandardPopulation.element_class = MyIndividual
 
-    pop = SGAPopulation.random(n_individuals=30, sizes=(N, N, N, p, p, p, 3))
+    pop = StandardPopulation.random(n_individuals=30, sizes=(N, N, N, p, p, p, 3))
     
     stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
     data = pop.evolve(stat=stat, n_iter=100, history=True)

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
-def rosenbrock(n=5):
-    def f(x):
-        return sum((x[i+1]-x[i]**2)**2 * 100 + (x[i]-1)**2 for i in range(n-1))
-    return f
 
 from math import sin, sqrt, pi
 import numpy as np
+
+def rosenbrock(n=5):
+    def f(x):
+        return np.sum( (100 * (x[1:]-x[:-1]**2)**2 + x[:-1]-1) ** 2 )
+    return f
 
 def schaffer(x:np.ndarray):
     r2 = np.sum(x**2)

@@ -255,6 +255,10 @@ class FitnessModel(IterativeModel):
  
         return super().evolve(stat=stat, *args, **kwargs)
 
+    def after_setter(self):
+        # clean up the fitness after setting the chromosomes
+        self.fitness = None
+
 
 class PopulationModel(FitnessModel):
     """mixin class for Population
