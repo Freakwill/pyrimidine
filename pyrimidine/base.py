@@ -450,6 +450,7 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
 
 
 class ParallelPopulation(BasePopulation):
+    element_class = BaseIndividual
 
     def mutate(self):
         self.parallel('mutate')
@@ -540,7 +541,8 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
 
 
 class BaseSpecies(BaseMultiPopulation):
-    pass
+
+    element_class = BasePopulation
 
 
 class BaseEnvironment(metaclass=ParamType):

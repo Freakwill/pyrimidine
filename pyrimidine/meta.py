@@ -170,29 +170,29 @@ class System(ParamType):
         if f is regestered, then A has method f, automatically
         f(A) = {f(a), a in A} where f is a method of A.
         """
-        def _regester_map(self, name, key=None, force=True):
-            if key is None:
-                key = lambda e: getattr(e, name)()
-            def m(obj):
-                return map(key, obj.elements)
-            if not force and hasattr(self, name):
-                raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
-            setattr(self, name, MethodType(m, self))
+        # def _regester_map(self, name, key=None, force=True):
+        #     if key is None:
+        #         key = lambda e: getattr(e, name)()
+        #     def m(obj):
+        #         return map(key, obj.elements)
+        #     if not force and hasattr(self, name):
+        #         raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
+        #     setattr(self, name, MethodType(m, self))
 
 
-        def _regester_op(self, name, key=None, force=True):
-            if key is None:
-                key = lambda e, o: getattr(e, name)(o)
-            def m(obj):
-                return map(key, zip(obj.elements, other.elements))
-            if not force and hasattr(self, name):
-                raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
-            setattr(self, name, MethodType(m, self))
+        # def _regester_op(self, name, key=None, force=True):
+        #     if key is None:
+        #         key = lambda e, o: getattr(e, name)(o)
+        #     def m(obj):
+        #         return map(key, zip(obj.elements, other.elements))
+        #     if not force and hasattr(self, name):
+        #         raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
+        #     setattr(self, name, MethodType(m, self))
 
-        attrs = {
-            'regester_op': _regester_op,
-            'regester_map': _regester_map
-        }
+        # attrs = {
+        #     'regester_op': _regester_op,
+        #     'regester_map': _regester_map
+        # }
         
         # def _operator_regester(self, m):
         #     if hasattr(self, m):
@@ -281,6 +281,7 @@ class MetaContainer(System):
                     element_class = base.element_class
                     break
             else:
+                print(name, cls)
                 raise Exception('Have not provided element class yet.')
         if 'element_name' in attrs:
             element_name = attrs['element_name'] + 's'

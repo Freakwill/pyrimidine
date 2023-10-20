@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from pyrimidine import MonoBinaryIndividual
+from pyrimidine import MonoIndividual, BinaryChromosome
 from pyrimidine.population import *
 from pyrimidine.benchmarks.optimization import *
 
@@ -9,7 +9,8 @@ n_bags = 50
 _evaluate = Knapsack.random(n_bags)
 
 # Define individual
-class MyIndividual(MonoBinaryIndividual):
+class MyIndividual(MonoIndividual):
+    element_class = BinaryChromosome.set(default_size=n_bags)
     def _fitness(self) -> float:
         # To evaluate an individual!
         return _evaluate(self.chromosome)
@@ -21,7 +22,7 @@ class MyPopulation(HOFPopulation):
     element_class = MyIndividual
     default_size = 10
 
-pop = MyPopulation.random(size=n_bags)
+pop = MyPopulation.random()
 
 stat = {
     'Mean Fitness':'fitness', 'Best Fitness':'best_fitness',

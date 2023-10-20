@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
-from pyrimidine import *
 
+from pyrimidine import AgeIndividual, MonoIndividual, BinaryChromosome, StandardPopulation, AgePopulation
 from pyrimidine.benchmarks.optimization import *
 
 # generate a knapsack problem randomly
 evaluate = Knapsack.random(200, W=0.6)
 
-class MyIndividual(AgeIndividual, MonoBinaryIndividual):
+class MyIndividual(AgeIndividual, MonoIndividual):
+    element_class = BinaryChromosome.set(default_size=200)
     life_span=5
     def _fitness(self):
         return evaluate(self.chromosome)
@@ -30,7 +30,6 @@ import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
-
 
 pop = MyPopulation.random(size=20)
 
