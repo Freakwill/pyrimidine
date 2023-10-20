@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
-the main module of pyrimidine
+The main module of pyrimidine. The base classes are defined here.
 
 main classes:
 BaseGene: the gene of chromosome
@@ -53,14 +52,13 @@ print(pop.best_individual)
 """
 
 import types
-from random import random, choice
 import numpy as np
+from toolz import concat
 
-from .utils import choice_uniform, randint, attrgetter
+from .utils import choice_uniform, randint, attrgetter, random
 from .errors import *
 from .meta import *
 from .mixin import *
-
 
 
 class BaseGene:
@@ -69,17 +67,22 @@ class BaseGene:
     def __repr__(self):
         return self.__class__.__name__ + f': {self}'
 
-    def __str__(self):
-        return str(self)
-
     @classmethod
     def random(cls, *args, **kwargs):
         return cls(np.random.choice(cls.values, *args, **kwargs))
 
 
 class BaseChromosome(FitnessModel, metaclass=MetaArray):
-    default_size = (8,)
+    """Base class of chromosomes
+
+    Chromosome is an array of genes. It is the unit of the GA.
+
+    Attributes:
+        default_size (int): the default number of genes in the chromosome
+        element_class (TYPE): the type of gene
+    """
     element_class = BaseGene
+    default_size = 8
 
     def __repr__(self):
         return f'{self.__class__.__name__}: {"/".join(map(repr, self))}'
@@ -119,7 +122,7 @@ class BaseChromosome(FitnessModel, metaclass=MetaArray):
 
 
 class BaseIndividual(FitnessModel, metaclass=MetaContainer):
-    """base class of individual
+    """Base class of individual
 
     a sequence of chromosomes that may vary in sizes.
 
@@ -127,17 +130,17 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
     """
 
     element_class = BaseChromosome
-    default_size = 1
-    alias = {"chromosomes":"elements"}
+    default_size = 2
+    alias = {"chromosomes": "elements"}
 
     def __repr__(self):
         # seperate the chromosomes with $ 
         sep = " $ "
-        return f'{self.__class__.__name__}:= {sep.join(repr(chromosome) for chromosome in self.chromosomes)}'
+        return f'{self.__class__.__name__}:= {sep.join(map(repr, self.chromosomes))}'
 
     def __str__(self):
         sep = " $ "
-        return sep.join(str(chromosome) for chromosome in self.chromosomes)
+        return sep.join(map(str, self.chromosomes))
 
     def __format__(self, spec=None):
         """ 
@@ -150,7 +153,7 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
         if spec is None:
             return str(self)
         elif spec in {'d', 'decode'}:
-            return ' | '.join(str(x) for x in self.decode())
+            return ' | '.join(map(str, self.decode()))
         else:
             return str(self)
 
@@ -168,7 +171,9 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
             BaseIndividual -- an object of Individual
         """
 
-        if isinstance(cls, (MetaList, MetaContainer)) and not isinstance(cls, MetaTuple):
+        if isinstance(cls, MetaTuple):
+            return cls([C.random(*args, **kwargs) for C in cls.element_class])
+        elif isinstance(cls, (MetaList, MetaContainer)):
             if 'sizes' in kwargs:
                 return cls([cls.element_class.random(size=size) for size in kwargs['sizes']])
             else:
@@ -176,11 +181,9 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
                     n_chromosomes = cls.default_size
                 return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_chromosomes)])
 
-        elif isinstance(cls, MetaTuple):
-            return cls([C.random(*args, **kwargs) for C in zip(cls.element_class)])
-
 
     def after_setter(self):
+        # clean up the fitness after setting the chromosomes
         self.fitness = None
 
     def _fitness(self):
@@ -203,16 +206,8 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
             chromosome.mutate()
         return self
 
-    y = mutate # alias for cross
-
-    def proliferate(self, k=2):
-        # Proliferating operation of an individual
-        ind = self.clone()
-        ind.mutate()
-        return ind
-
     def replicate(self, k=2):
-        # Proliferating operation of an individual
+        # Replication operation of an individual
         ind = self.clone()
         ind.mutate()
         return ind
@@ -229,7 +224,7 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
 
         For example, transform a 0-1 sequence to a real number.
         """
-        return [chromosome.decode() for chromosome in self.chromosomes if hasattr(chromosome, 'decode')]
+        return [chromosome.decode() for chromosome in self.chromosomes]
 
     def dual(self):
         """Get the dual individual
@@ -247,8 +242,17 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
         return np.all([c.equal(oc) for c, oc in zip(self.chromosomes, other.chromosomes)])
 
     def __mul__(self, n):
-        from .population import SGAPopulation
-        C = SGAPopulation[self.__class__]
+        """population = individual * n
+        
+        Args:
+            n (TYPE): positive integer
+        
+        Returns:
+            TYPE: BasePopulation
+        """
+        assert isinstance(n, np.int_) and n>0, 'n must be a positive integer'
+        from .population import StandardPopulation
+        C = StandardPopulation[self.__class__]
         return C([self.clone() for _ in range(n)])
 
 
@@ -327,7 +331,7 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
         elif 0 < n_sel < 1:
             n_sel = int(self.n_individuals * n_sel)
         winners = []
-        rest = self.individuals
+        rest = np.arange(self.n_individuals)
         size = tournsize or self.tournsize
         n_rest = self.n_individuals
         for i in range(n_sel):
@@ -336,13 +340,14 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
             elif n_rest <= size:
                 aspirants = rest
             else:
-                aspirants = self.select_aspirants(rest, size)
-            winner = max(aspirants, key=attrgetter('fitness'))
+                aspirants = np.random.choice(rest, size, replace=False)
+            _winner = np.argmax([self.individuals[k].fitness for k in aspirants])
+            winner = aspirants[_winner]
             winners.append(winner)
-            rest.remove(winner)
+            np.delete(rest, winner)
             n_rest -= 1
         if winners:
-            self.individuals = winners
+            self.individuals = [self.individuals[k] for k in aspirants]
         else:
             raise Exception('No winners in the selection!')
 
@@ -459,7 +464,18 @@ class ParallelPopulation(BasePopulation):
         self.individuals.extend(offspring)
 
 
-class BaseSpecies(PopulationModel, metaclass=MetaHighContainer):
+class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
+    """Base class of BaseMultiPopulation
+    
+    Attributes:
+        default_size (int): Description
+        element_class (TYPE): type of the populations
+        elements (TYPE): populations as the elements
+        fitness (TYPE): mean fitness
+        params (dict): Description
+        sorted (bool): Description
+    """
+    
     element_class = BasePopulation
     default_size = 2
 
@@ -471,9 +487,6 @@ class BaseSpecies(PopulationModel, metaclass=MetaHighContainer):
 
     def __str__(self):
         return '\n'.join(map(str, self.individuals))
-
-    def _fitness(self):
-        return self.mean_fitness
 
     @classmethod
     def random(cls, n_populations=None, *args, **kwargs):
@@ -517,10 +530,7 @@ class BaseSpecies(PopulationModel, metaclass=MetaHighContainer):
 
     @property
     def individuals(self):
-        inds = []
-        for pop in self.populations:
-            inds.extend(pop.individuals)
-        return inds
+        return list(concat([pop.individuals for pop in self.populations]))
 
     def __getstate__(self):
         return {'element_class':self.element_class, 'default_size':self.default_size, 'populations':self.populations, 'params':self.params}
@@ -533,12 +543,14 @@ class BaseSpecies(PopulationModel, metaclass=MetaHighContainer):
         self.params = state.get('params', {})
 
 
-class BaseMultiPopulation(BaseSpecies):
+class BaseSpecies(BaseMultiPopulation):
     pass
 
+
 class BaseEnvironment(metaclass=ParamType):
-    """Base Class of Environment
-    main method is evaluate that calculating the fitness of an individual or a population
+    """Base Class of environments
+
+    The main method is `evaluate`, computing the fitness of an individual or a population
     """
 
     _evaluate = None

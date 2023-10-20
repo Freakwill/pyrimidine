@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 
 """
 Minin classes of iterative models
+
+IterativeModel: base class of all iterative models
+FitnessModel: IterativeModel with `fitness`
+PopulationModel: subclass of FitnessModel, population-like iterative models
 """
+
 
 import numpy as np
 import pandas as pd
@@ -16,9 +21,6 @@ from .errors import *
 
 class IterativeModel:
     # Mixin class for iterative algrithms
-
-    _head = 'best solution & fitness'
-
     params = {'n_iter': 100}
 
 
@@ -62,7 +64,6 @@ class IterativeModel:
         for k in range(1, n_iter+1):
             self.transit(k, *args, **kwargs)
             self.postprocess()
-
 
     def evolve(self, n_iter=None, period=1, verbose=False, decode=False, stat={'Fitness': 'fitness'}, history=False, callbacks=()):
         """Get the history of the whole evolution
@@ -110,8 +111,10 @@ iteration & best solution & {" & ".join(res.keys())}
             for c in callbacks:
                 c(self)
             res = stat.do(self) if stat else {}
-            if history_flag and (period == 1 or k % period == 0):
-                history = history.append(res, ignore_index=True)
+            if history_flag and (period == 1 or k % period ==0):
+                history = pd.concat([history,
+                    pd.Series(res.values(), index=res.keys()).to_frame().T],
+                    ignore_index=True)
             if verbose and (period == 1 or k % period ==0):
                 print(f'{k} & {self.solution} & {" & ".join(str(res[k]) for k in keys)}')
         return history
@@ -122,7 +125,7 @@ iteration & best solution & {" & ".join(res.keys())}
 
         Would be replaced by `evolve`
         """
-        raise DeprecationWarning('This method is deprecated from now on!!!, use `evolve(history=True, ***)` instead.')
+        raise DeprecationWarning('This method is deprecated from now on!!!, use `evolve(history=True, ...)` instead.')
 
 
     def perf(self, n_repeats=10, *args, **kwargs):
@@ -170,7 +173,6 @@ iteration & best solution & {" & ".join(res.keys())}
             print(Warning(f'There exists {filename}, It has been over written'))
         with open(pklPath, 'wb') as fo:
             pickle.dump(self, fo)
-
 
     @staticmethod
     def load(filename='population.pkl'):
@@ -229,9 +231,12 @@ class FitnessModel(IterativeModel):
             else:
                 raise Exception('Function `_fitness` is not defined before setting fitness. You may forget to create the class in the context of environment.')
         class C(cls):
-            def _fitness(self):
-                return f(self)
+            _fitness = f
         return C
+
+    @property
+    def solution(self):
+        return self
 
 
     def clone(self, type_=None, fitness=None):
@@ -249,15 +254,6 @@ class FitnessModel(IterativeModel):
             stat = {'Fitness':'fitness'}
  
         return super().evolve(stat=stat, *args, **kwargs)
-
-    # def __rshift__(self, t):
-    #     """
-    #     Short for clone method
-    #     """
-    #     return self.clone(type_=t, fitness=True)
-
-    # def __rlshift__(self, t):
-    #     return self.clone(type_=t, fitness=True)
 
 
 class PopulationModel(FitnessModel):
@@ -282,6 +278,9 @@ class PopulationModel(FitnessModel):
         self.fitness = None
 
 
+    def __len__(self):
+        return self.__n_elements
+
     @property
     def n_individuals(self):
         return self.__n_elements
@@ -290,9 +289,9 @@ class PopulationModel(FitnessModel):
     def _fitness(self):
         """Calculate the fitness of the whole population
 
-        Fitness of a population is the average fitness by default.
+        Fitness of a population is the best fitness by default.
         """
-        return self.mean_fitness
+        return self.best_fitness
 
 
     def _fitnesses(self):
@@ -359,7 +358,6 @@ class PopulationModel(FitnessModel):
 
     @property
     def solution(self):
-        # an alias of best_individual
         return self.best_individual
 
 

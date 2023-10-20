@@ -1,24 +1,20 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from pyrimidine import *
-from pyrimidine.local_search import *
-from random import randint
-
+from pyrimidine.local_search import SimulatedAnnealing
 
 from pyrimidine.benchmarks.optimization import *
-
-from digit_converter import *
 
 
 evaluate = Knapsack.random()
 
 
-class _Individual(MonoBinaryIndividual):
+class _Individual(MonoIndividual):
     """base class of individual
 
     You should implement the methods, cross, mute
     """
+    element_class = BinaryChromosome
 
     def _fitness(self):
         return evaluate(self.chromosome)
@@ -34,10 +30,13 @@ class MyIndividual(SimulatedAnnealing, _Individual):
 
 i = MyIndividual.random(size=20)
 
-data = i.get_history(n_iter=300)
+data = i.evolve(n_iter=100, history=True)
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
 data.plot(ax=ax)
+ax.set_title('Simulated Annealing')
+ax.set_ylabel('Value of Objective')
+ax.set_xlabel('Iterations')
 plt.show()
 

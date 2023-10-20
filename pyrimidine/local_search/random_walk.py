@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 
-import numpy as np
 import scipy.stats
 
-from pyrimidine.base import BaseFitnessModel
+from .. import FitnessModel
 
 
-class RandomWalk(BaseFitnessModel):
+class RandomWalk(FitnessModel):
     """Random Walk
         
     Arguments:

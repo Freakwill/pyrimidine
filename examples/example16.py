@@ -7,7 +7,7 @@ import numpy as np
 from pyrimidine.benchmarks.optimization import *
 from pyrimidine.utils import shuffle
 
-from digit_converter import *
+from digit_converter import unitIntervalConverter
 
 c = unitIntervalConverter
 
@@ -67,6 +67,7 @@ class YourSpecies(DualSpecies):
 
         self.populations[0].individuals += male_offspring
         self.populations[1].individuals += female_offspring
+
 
 class MyPopulation(_Population):
     default_size = 20

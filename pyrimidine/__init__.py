@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 
 from .base import *
 from .mixin import *
@@ -16,7 +16,7 @@ from .ep import *
 
 __template__ = """
 from pyrimidine import MonoBinaryIndividual
-from pyrimidine.population import SGA2Population
+from pyrimidine.population import HOFPopulation
 
 from pyrimidine.benchmarks.optimization import *
 
@@ -33,12 +33,11 @@ class MyIndividual(MonoBinaryIndividual):
 # MyIndividual = MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))
 
 # Define Population
-class MyPopulation(StandardPopulation):
+class MyPopulation(HOFPopulation):
     element_class = MyIndividual
     default_size = 20
 
-# Equiv. to
-# MyPopulation = StandardPopulation[MyIndividual] // 20
+# MyPopulation = HOFPopulation[MyIndividual] // 20
 
 pop = MyPopulation.random(size=n)
 

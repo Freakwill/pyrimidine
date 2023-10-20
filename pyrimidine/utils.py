@@ -1,16 +1,22 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
-import threading
+"""
+Helper functions
+"""
+
 
 from operator import methodcaller, attrgetter
 from random import random, randint, gauss, shuffle, choice
 from math import exp
 
 from scipy.spatial.distance import euclidean
+from scipy.special import softmax
+from scipy.stats import rv_discrete
 
 import numpy as np
+from toolz import unique
 # import numba as nb
+
 
 
 def binary_select(a, b, p=0.5):
@@ -19,8 +25,6 @@ def binary_select(a, b, p=0.5):
     else:
         return b
 
-from scipy.special import softmax
-from scipy.stats import rv_discrete
 
 def boltzmann_select(xs, fs, T=1):
     L = len(xs)
@@ -30,32 +34,35 @@ def boltzmann_select(xs, fs, T=1):
     return xs[k]
 
 
-def choice_with_prob(xs, ps, n=1):
+def choice_objects(xs, *args, **kwargs):
+    """Choose xi from xs with certain probability
+    
+    Args:
+        xs (List): a list of objects
+        ps (List): a list of numbers
+        n (int, optional): number of samples
+    
+    Returns:
+        List: the sampling result
+    """
     L = len(xs)
     ps /= np.sum(ps)
-    X = np.arange(L)
-    ks = []
-    for _ in range(n):
-        rv = rv_discrete(values=(np.arange(L), ps))
-        k = rv.rvs()
-        ks.append(X[k])
-        X = np.delete(X, k)
-        ps = np.delete(ps, k)
-        ps /= np.sum(ps)
-        L -= 1
-
+    ks = np.random.choice(np.arange(L), *args, **kwargs)
     return [xs[k] for k in ks]
 
 
-def choice_with_prob_replace(xs, ps, n=1):
-    L = len(xs)
-    ps /= np.sum(ps)
-    rv = rv_discrete(values=(np.arange(L), ps))
-    ks = rv.rvs(size=n)
-    return [xs[k] for k in ks]
-
-from toolz import unique
-def choice_with_prob_unique(xs, ps, n=1):
+def choice_unique(xs, ps, n=1):
+    """Choose xi from xs with certain probability
+    make sure xi != xj
+    
+    Args:
+        xs (List): a list of objects
+        ps (List): a list of numbers
+        n (int, optional): number of samples
+    
+    Returns:
+        List: the sampling result
+    """
     L = len(xs)
     ps /= np.sum(ps)
     rv = rv_discrete(values=(np.arange(L), ps))
@@ -115,9 +122,19 @@ def hl(x):
     return 0 if x<=0 else (1 if x>=1 else x)
 
 def metropolis_rule(D, T, epsilon=0.000001):
+    """
+    Metropolis rule
     
+    Args:
+        D (TYPE): number representing the change of the value
+        T (TYPE): A number representing temperature
+        epsilon (float, optional): The l.b. of T
+    
+    Returns:
+        TYPE: Description
+    """
     if D < 0:
-        p = exp(D/max(T, epsilon))
+        p = exp(D / max(T, epsilon))
         return random() < p
     else:
         return True

@@ -14,6 +14,14 @@ def _asarray(out):
 
 
 class ArrayChromosome(BaseChromosome, np.ndarray):
+
+    """Summary
+    
+    Attributes:
+        element_class (TYPE): the type of gene
+        gene (TYPE): gene of the chromosome
+    """
+
     element_class = BaseGene
 
     def __new__(cls, array, gene=None):

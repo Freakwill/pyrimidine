@@ -3,10 +3,10 @@
 
 
 from random import random, choice
-from pyrimidine.base import BaseFitnessModel
+from .. import FitnessModel
 
 
-class BaseTabuSearch(BaseFitnessModel):
+class BaseTabuSearch(FitnessModel):
     """Tabu Search algorithm
     """
 

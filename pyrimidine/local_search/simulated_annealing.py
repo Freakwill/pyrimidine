@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
+
+"""
+Simulated Annealing Algorithm
+"""
 
 import math
 from random import random
-from pyrimidine.base import BaseIterativeModel
-from pyrimidine.utils import metropolis_rule
+from .. import FitnessModel
+from .. import metropolis_rule
 
 
-class SimulatedAnnealing(BaseIterativeModel):
+
+class SimulatedAnnealing(FitnessModel):
     """Simulated Annealing algorithm
     """
 
@@ -30,8 +35,7 @@ class SimulatedAnnealing(BaseIterativeModel):
             if T < self.termT:
                 break
 
-    def post_process(self):
-
+    def postprocess(self):
         self.initT *= self.ext_c
         if self.fitness < self.phantom.fitness:
             self.chromosomes = self.phantom.chromosomes
