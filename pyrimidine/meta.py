@@ -7,7 +7,7 @@ from operator import attrgetter
 
 
 def get_stem(s):
-    """Get the last part in Camel expression
+    """get the last part in Camel expression
     
     Arguments:
         s {str} -- a string in Camel expression
@@ -26,7 +26,16 @@ def get_stem(s):
 
 
 def inherit(attrs, attr, bases):
-    # inherit dict-valued attribute `attr` from `bases`
+    """inherit attribute `attr` from `bases`
+    
+    Args:
+        attrs (dict): THe dictionary of attributions 
+        attr (string): An attribution
+        bases (tuple): The base classes
+    
+    Returns:
+        dict: The updated dictionary of attributions
+    """
     v = {}
     for b in bases:
         if hasattr(b, attr) and hasattr(b, attr):
@@ -61,7 +70,7 @@ class ParamType(type):
             elif key in self.alias:
                 return getattr(self, self.alias[key])
             else:
-                raise AttributeError(f'{key} is neither an attribute of {self}, nor in `param` or `alias`')
+                raise AttributeError(f'`{key}` is neither an attribute of the object, nor in `param` or `alias`')
         attrs['__getattr__'] = _getattr
 
         def _setattr(self, key, value):
@@ -140,9 +149,6 @@ class System(ParamType):
             if hasattr(self, 'after_setter'):
                 self.after_setter()
 
-        # def _after_setter(self):
-        #     pass
-
         attrs.update(
             {"elements": _elements,
             "n_elements": _n_elements,
@@ -158,6 +164,11 @@ class System(ParamType):
             return all(isinstance(elm, self.element_class) for elm in self.__elements)
         attrs['type_check'] = _type_check
 
+        """
+        Regester maps and operands
+        if f is regestered, then A has method f, automatically
+        f(A) = {f(a), a in A} where f is a method of A.
+        """
         def _regester_map(self, name, key=None, force=True):
             if key is None:
                 key = lambda e: getattr(e, name)()
@@ -168,6 +179,17 @@ class System(ParamType):
             setattr(self, name, MethodType(m, self))
 
         attrs['regester_map'] = _regester_map
+
+        def _regester_op(self, name, key=None, force=True):
+            if key is None:
+                key = lambda e, o: getattr(e, name)(o)
+            def m(obj):
+                return map(key, zip(obj.elements, other.elements))
+            if not force and hasattr(self, name):
+                raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
+            setattr(self, name, MethodType(m, self))
+
+        attrs['regester_op'] = _regester_op
         
         # def _operator_regester(self, m):
         #     if hasattr(self, m):
@@ -193,10 +215,10 @@ class System(ParamType):
     def __call__(self, *args, **kwargs):
         o = super().__call__()
 
-        if not args:
-            raise Exception('Did not provide a list of elements as the unique positional argument!')
-        else:
+        if args:
             o.__elements = args[0]
+        # else:
+        #     raise Exception('Have not provided a list of elements as the unique positional argument!')
 
         for k, v in kwargs.items():
             setattr(o, k, v)
