@@ -20,7 +20,7 @@ Welcome to pyrimidine's world of genetic algorithm
    Install
    API Reference
    Examples
-   Customize
+   Customization
    Helpers
 
 

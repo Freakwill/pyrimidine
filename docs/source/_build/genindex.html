@@ -190,9 +190,11 @@
 </li>
       <li><a href="pyrimidine.benchmarks.html#pyrimidine.benchmarks.BaseProblem">BaseProblem (class in pyrimidine.benchmarks)</a>
 </li>
+      <li><a href="pyrimidine.html#pyrimidine.base.BaseSpecies">BaseSpecies (class in pyrimidine.base)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="pyrimidine.html#pyrimidine.base.BaseSpecies">BaseSpecies (class in pyrimidine.base)</a>
+      <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.tabu_search.BaseTabuSearch">BaseTabuSearch (class in pyrimidine.local_search.tabu_search)</a>
 </li>
       <li><a href="pyrimidine.benchmarks.html#pyrimidine.benchmarks.fitting.basis">basis() (in module pyrimidine.benchmarks.fitting)</a>
 </li>
@@ -224,15 +226,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyrimidine.html#pyrimidine.chromosome.ProbabilityChromosome.check">check() (pyrimidine.chromosome.ProbabilityChromosome method)</a>
 </li>
+      <li><a href="pyrimidine.html#pyrimidine.utils.choice_objects">choice_objects() (in module pyrimidine.utils)</a>
+</li>
       <li><a href="pyrimidine.html#pyrimidine.utils.choice_uniform">choice_uniform() (in module pyrimidine.utils)</a>
 </li>
+      <li><a href="pyrimidine.html#pyrimidine.utils.choice_unique">choice_unique() (in module pyrimidine.utils)</a>
+</li>
       <li><a href="pyrimidine.html#pyrimidine.utils.choice_with_fitness">choice_with_fitness() (in module pyrimidine.utils)</a>
-</li>
-      <li><a href="pyrimidine.html#pyrimidine.utils.choice_with_prob">choice_with_prob() (in module pyrimidine.utils)</a>
-</li>
-      <li><a href="pyrimidine.html#pyrimidine.utils.choice_with_prob_replace">choice_with_prob_replace() (in module pyrimidine.utils)</a>
-</li>
-      <li><a href="pyrimidine.html#pyrimidine.utils.choice_with_prob_unique">choice_with_prob_unique() (in module pyrimidine.utils)</a>
 </li>
       <li><a href="pyrimidine.html#pyrimidine.individual.MonoIndividual.chromosome">chromosome (pyrimidine.individual.MonoIndividual property)</a>
 </li>
@@ -658,11 +658,13 @@
       </ul></li>
       <li><a href="pyrimidine.html#pyrimidine.meta.inherit">inherit() (in module pyrimidine.meta)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.init">init() (pyrimidine.base.BaseMultiPopulation method)</a>
 
       <ul>
+        <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.init">(pyrimidine.local_search.simulated_annealing.SimulatedAnnealing method)</a>
+</li>
+        <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.tabu_search.BaseTabuSearch.init">(pyrimidine.local_search.tabu_search.BaseTabuSearch method)</a>
+</li>
         <li><a href="pyrimidine.html#pyrimidine.population.HOFPopulation.init">(pyrimidine.population.HOFPopulation method)</a>
 </li>
         <li><a href="pyrimidine.html#pyrimidine.pso.BaseParticle.init">(pyrimidine.pso.BaseParticle method)</a>
@@ -836,6 +838,14 @@
 </li>
         <li><a href="pyrimidine.learn.html#module-pyrimidine.learn.regression">pyrimidine.learn.regression</a>
 </li>
+        <li><a href="pyrimidine.local_search.html#module-pyrimidine.local_search">pyrimidine.local_search</a>
+</li>
+        <li><a href="pyrimidine.local_search.html#module-pyrimidine.local_search.random_walk">pyrimidine.local_search.random_walk</a>
+</li>
+        <li><a href="pyrimidine.local_search.html#module-pyrimidine.local_search.simulated_annealing">pyrimidine.local_search.simulated_annealing</a>
+</li>
+        <li><a href="pyrimidine.local_search.html#module-pyrimidine.local_search.tabu_search">pyrimidine.local_search.tabu_search</a>
+</li>
         <li><a href="pyrimidine.html#module-pyrimidine.meta">pyrimidine.meta</a>
 </li>
         <li><a href="pyrimidine.html#module-pyrimidine.optimize">pyrimidine.optimize</a>
@@ -857,9 +867,13 @@
 </li>
       <li><a href="pyrimidine.html#pyrimidine.individual.MonoIndividual">MonoIndividual (class in pyrimidine.individual)</a>
 </li>
-      <li><a href="pyrimidine.html#pyrimidine.pso.DiscreteParticleSwarm.move">move() (pyrimidine.pso.DiscreteParticleSwarm method)</a>
+      <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.move">move() (pyrimidine.local_search.simulated_annealing.SimulatedAnnealing method)</a>
 
       <ul>
+        <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.tabu_search.BaseTabuSearch.move">(pyrimidine.local_search.tabu_search.BaseTabuSearch method)</a>
+</li>
+        <li><a href="pyrimidine.html#pyrimidine.pso.DiscreteParticleSwarm.move">(pyrimidine.pso.DiscreteParticleSwarm method)</a>
+</li>
         <li><a href="pyrimidine.html#pyrimidine.pso.Particle.move">(pyrimidine.pso.Particle method)</a>
 </li>
         <li><a href="pyrimidine.html#pyrimidine.pso.ParticleSwarm.move">(pyrimidine.pso.ParticleSwarm method)</a>
@@ -1060,6 +1074,12 @@
 </li>
         <li><a href="pyrimidine.html#pyrimidine.individual.PolyIndividual.params">(pyrimidine.individual.PolyIndividual attribute)</a>
 </li>
+        <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.random_walk.RandomWalk.params">(pyrimidine.local_search.random_walk.RandomWalk attribute)</a>
+</li>
+        <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params">(pyrimidine.local_search.simulated_annealing.SimulatedAnnealing attribute)</a>
+</li>
+        <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.tabu_search.BaseTabuSearch.params">(pyrimidine.local_search.tabu_search.BaseTabuSearch attribute)</a>
+</li>
         <li><a href="pyrimidine.html#pyrimidine.population.AgePopulation.params">(pyrimidine.population.AgePopulation attribute)</a>
 </li>
         <li><a href="pyrimidine.html#pyrimidine.population.DualPopulation.params">(pyrimidine.population.DualPopulation attribute)</a>
@@ -1105,6 +1125,8 @@
 </li>
       <li><a href="pyrimidine.html#pyrimidine.chromosome.PermutationChromosome">PermutationChromosome (class in pyrimidine.chromosome)</a>
 </li>
+      <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom">phantom (pyrimidine.local_search.simulated_annealing.SimulatedAnnealing attribute)</a>
+</li>
       <li><a href="pyrimidine.html#pyrimidine.individual.PolyIndividual">PolyIndividual (class in pyrimidine.individual)</a>
 </li>
       <li><a href="pyrimidine.html#pyrimidine.base.BasePopulation.pop">pop() (pyrimidine.base.BasePopulation method)</a>
@@ -1117,15 +1139,17 @@
         <li><a href="pyrimidine.html#pyrimidine.pso.Particle.position">(pyrimidine.pso.Particle property)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyrimidine.html#pyrimidine.chromosome.PositiveChromosome">PositiveChromosome (class in pyrimidine.chromosome)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyrimidine.html#pyrimidine.species.DualSpecies.post_process">post_process() (pyrimidine.species.DualSpecies method)</a>
 </li>
       <li><a href="pyrimidine.learn.html#pyrimidine.learn.regression.GALinearRegression.postprocess">postprocess() (pyrimidine.learn.regression.GALinearRegression method)</a>
 
       <ul>
+        <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.postprocess">(pyrimidine.local_search.simulated_annealing.SimulatedAnnealing method)</a>
+</li>
         <li><a href="pyrimidine.html#pyrimidine.population.HOFPopulation.postprocess">(pyrimidine.population.HOFPopulation method)</a>
 </li>
         <li><a href="pyrimidine.html#pyrimidine.pso.ParticleSwarm.postprocess">(pyrimidine.pso.ParticleSwarm method)</a>
@@ -1271,6 +1295,34 @@
 </li>
       </ul></li>
       <li>
+    pyrimidine.local_search
+
+      <ul>
+        <li><a href="pyrimidine.local_search.html#module-pyrimidine.local_search">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyrimidine.local_search.random_walk
+
+      <ul>
+        <li><a href="pyrimidine.local_search.html#module-pyrimidine.local_search.random_walk">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyrimidine.local_search.simulated_annealing
+
+      <ul>
+        <li><a href="pyrimidine.local_search.html#module-pyrimidine.local_search.simulated_annealing">module</a>
+</li>
+      </ul></li>
+      <li>
+    pyrimidine.local_search.tabu_search
+
+      <ul>
+        <li><a href="pyrimidine.local_search.html#module-pyrimidine.local_search.tabu_search">module</a>
+</li>
+      </ul></li>
+      <li>
     pyrimidine.meta
 
       <ul>
@@ -1337,6 +1389,10 @@
 </li>
         <li><a href="pyrimidine.learn.html#pyrimidine.learn.regression.random">(in module pyrimidine.learn.regression)</a>
 </li>
+        <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.random">(in module pyrimidine.local_search)</a>
+</li>
+        <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.tabu_search.random">(in module pyrimidine.local_search.tabu_search)</a>
+</li>
         <li><a href="pyrimidine.html#pyrimidine.population.random">(in module pyrimidine.population)</a>
 </li>
         <li><a href="pyrimidine.html#pyrimidine.pso.random">(in module pyrimidine.pso)</a>
@@ -1398,10 +1454,12 @@
         <li><a href="pyrimidine.html#pyrimidine.chromosome.ProbabilityChromosome.random_neighbour">(pyrimidine.chromosome.ProbabilityChromosome method)</a>
 </li>
       </ul></li>
-      <li><a href="pyrimidine.html#pyrimidine.base.BasePopulation.rank">rank() (pyrimidine.base.BasePopulation method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.random_walk.RandomWalk">RandomWalk (class in pyrimidine.local_search.random_walk)</a>
+</li>
+      <li><a href="pyrimidine.html#pyrimidine.base.BasePopulation.rank">rank() (pyrimidine.base.BasePopulation method)</a>
+</li>
       <li><a href="pyrimidine.benchmarks.html#pyrimidine.benchmarks.special.rastrigrin">rastrigrin() (in module pyrimidine.benchmarks.special)</a>
 </li>
       <li><a href="pyrimidine.html#pyrimidine.base.BaseIndividual.regester_map">regester_map() (pyrimidine.base.BaseIndividual method)</a>
@@ -1512,6 +1570,8 @@
 </li>
       <li><a href="pyrimidine.html#pyrimidine.species.SimpleSpecies">SimpleSpecies (class in pyrimidine.species)</a>
 </li>
+      <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing">SimulatedAnnealing (class in pyrimidine.local_search.simulated_annealing)</a>
+</li>
       <li><a href="pyrimidine.benchmarks.html#pyrimidine.benchmarks.optimization.Knapsack.sorted">sorted (pyrimidine.benchmarks.optimization.Knapsack property)</a>
 </li>
       <li><a href="pyrimidine.html#pyrimidine.population.StandardPopulation">StandardPopulation (class in pyrimidine.population)</a>
@@ -1534,6 +1594,12 @@
         <li><a href="pyrimidine.html#pyrimidine.base.BasePopulation.transit">(pyrimidine.base.BasePopulation method)</a>
 </li>
         <li><a href="pyrimidine.html#pyrimidine.ep.EPPopulation.transit">(pyrimidine.ep.EPPopulation method)</a>
+</li>
+        <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.random_walk.RandomWalk.transit">(pyrimidine.local_search.random_walk.RandomWalk method)</a>
+</li>
+        <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.transit">(pyrimidine.local_search.simulated_annealing.SimulatedAnnealing method)</a>
+</li>
+        <li><a href="pyrimidine.local_search.html#pyrimidine.local_search.tabu_search.BaseTabuSearch.transit">(pyrimidine.local_search.tabu_search.BaseTabuSearch method)</a>
 </li>
         <li><a href="pyrimidine.html#pyrimidine.population.DualPopulation.transit">(pyrimidine.population.DualPopulation method)</a>
 </li>
@@ -1706,6 +1772,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Home.html">pyrimidine: a universal framework for genetic algorithm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation and Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples and customization tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Customization.html">Customization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Helpers.html">Helpers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">pyrimidine</a></li>
 </ul>

@@ -13,7 +13,7 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Helpers" href="Helpers.html" />
+    <link rel="next" title="Customization" href="Customization.html" />
     <link rel="prev" title="Installation and Getting Started" href="Install.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -87,7 +87,7 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><img alt="_images/history.png" src="_images/history.png" /></p>
+<p><img alt="" src="_images/history.png" /></p>
 </section>
 <section id="another-problem">
 <h3>Another Problem<a class="headerlink" href="#another-problem" title="Link to this heading">¶</a></h3>
@@ -140,9 +140,10 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Generations&#39;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Fitness&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
 </pre></div>
 </div>
-<p><img alt="_images/example.png" src="_images/example.png" /></p>
+<p><img alt="" src="_images/example.png" /></p>
 </section>
 </section>
 <section id="create-new-algo">
@@ -233,9 +234,10 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">],</span> <span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Best Fitness&#39;</span><span class="p">],</span> <span class="s1">&#39;.-&#39;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="s1">&#39;Traditional mean&#39;</span><span class="p">,</span><span class="s1">&#39;Traditional best&#39;</span><span class="p">,</span> <span class="s1">&#39;New mean&#39;</span><span class="p">,</span> <span class="s1">&#39;New best&#39;</span><span class="p">))</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
 </pre></div>
 </div>
-<p><img alt="_images/comparison.png" src="_images/comparison.png" /></p>
+<p><img alt="" src="_images/comparison.png" /></p>
 <section id="customization-tricks">
 <h3>Customization Tricks<a class="headerlink" href="#customization-tricks" title="Link to this heading">¶</a></h3>
 <p>Take PSO an example. First define <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">ParticleSwarm(IterativeModel):...</span></code>, subclass of <code class="docutils literal notranslate"><span class="pre">IterativeModel</span></code>, as a mixin class where you should define method <code class="docutils literal notranslate"><span class="pre">transit</span></code> in most cases to implement the PSO algorithm.</p>
@@ -277,6 +279,7 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 <li class="toctree-l2"><a class="reference internal" href="#create-new-algo">Create new algo.</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="Customization.html">Customization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Helpers.html">Helpers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">pyrimidine</a></li>
 </ul>
@@ -286,7 +289,7 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="Install.html" title="previous chapter">Installation and Getting Started</a></li>
-      <li>Next: <a href="Helpers.html" title="next chapter">Helpers</a></li>
+      <li>Next: <a href="Customization.html" title="next chapter">Customization</a></li>
   </ul></li>
 </ul>
 </div>

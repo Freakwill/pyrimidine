@@ -18,9 +18,9 @@ Welcome to pyrimidine's world of genetic algorithm
 
    Home
    Install
-   API Reference
+   API Deisgn
    Examples
-   Customize
+   Customization
    Helpers
 
 

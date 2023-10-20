@@ -3,17 +3,23 @@
 
 """
 Simulated Annealing Algorithm
+
+*Ref*
+S. Kirkpatrick, C. D. Gelatt, Jr., M. P. Vecchi. Optimization by Simulated Annealing. 1983: 220(4598): 671-679
 """
 
-import math
-from random import random
+
 from .. import FitnessModel
 from .. import metropolis_rule
 
 
 
 class SimulatedAnnealing(FitnessModel):
-    """Simulated Annealing algorithm
+    """Class for Simulated Annealing
+    
+    Attributes:
+        params (dict): parameters in SA
+        phantom: phantom solution for exploration
     """
 
     phantom = None
@@ -21,8 +27,9 @@ class SimulatedAnnealing(FitnessModel):
     params = {'ext_c': 0.995,
         'int_c': 0.996,
         'nepoch': 200,
-        'initT': 100,
-        'termT': 0.0001}
+        'initT': 100,      # initial temperature
+        'termT': 0.0001    # terminal temperature
+        }
 
     def init(self):
         self.phantom = self.clone(fitness=None)
@@ -34,13 +41,13 @@ class SimulatedAnnealing(FitnessModel):
             T *= self.int_c
             if T < self.termT:
                 break
-
-    def postprocess(self):
-        self.initT *= self.ext_c
         if self.fitness < self.phantom.fitness:
             self.chromosomes = self.phantom.chromosomes
             self.fitness = self.phantom.fitness
-        
+
+    def postprocess(self):
+        self.initT *= self.ext_c
+
 
     def move(self, T):
         """Transition of states
