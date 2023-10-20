@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Bat Algorithm
+Differential Evolution Algorithm
 """
 
 import copy
