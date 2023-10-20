@@ -16,7 +16,7 @@ from .utils import *
 class DifferentialEvolution(PopulationModel):
 
     params ={
-    "factor" : 0.25,
+    "factor" : 0.5,
     "cross_prob": 0.75,
     }
 

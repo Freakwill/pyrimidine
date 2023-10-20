@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from . import *
 from .utils import *
-from random import random
+
 
 class BaseSelfAdaptiveIndividual(MixedIndividual):
 
@@ -43,11 +42,11 @@ class _SelfAdaptiveIndividual(BaseSelfAdaptiveIndividual):
 
     def mutate(self):
         if random() < self.mutate_prob:
-            super(SelfAdaptiveIndividual, self).mutate()
+            super().mutate()
 
     def mate(self, other, mate_prob=None):
         if random() < (mate_prob or (self.mate_prob + other.mate_prob)/2):
-            return super(SelfAdaptiveIndividual, self).mate(other)
+            return super().mate(other)
         else:
             return self
 

@@ -1,6 +1,6 @@
 # Customization
 
-In this section, We take a deeper look at customization
+In this section, we present more complicated examples.
 
 ## Simulated Annealing Algorithm
 See the following code for SA Algorithm. The standard SA is an iteration of one solution. Hence we inherit it from `FitnessModel` instead of `PopulationModel`

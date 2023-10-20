@@ -66,3 +66,7 @@ html_static_path = ['_static']
 master_doc = 'source/index'
 
 html_domain_indices = True
+
+html_use_index = True
+html_use_modindex = True
+html_use_search = True
