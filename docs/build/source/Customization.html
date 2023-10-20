@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Customization &#8212; pyrimidine 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=039e1c02" />
+    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Helpers" href="Helpers.html" />
+    <link rel="prev" title="Examples and customization tricks" href="Examples.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="customization">
+<h1>Customization<a class="headerlink" href="#customization" title="Link to this heading">¶</a></h1>
+<p>In this section, we present more complicated examples.</p>
+<section id="simulated-annealing-algorithm">
+<h2>Simulated Annealing Algorithm<a class="headerlink" href="#simulated-annealing-algorithm" title="Link to this heading">¶</a></h2>
+<p>See the following code for SA Algorithm. The standard SA is an iteration of one solution. Hence we inherit it from <code class="docutils literal notranslate"><span class="pre">FitnessModel</span></code> instead of <code class="docutils literal notranslate"><span class="pre">PopulationModel</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="k">class</span> <span class="nc">SimulatedAnnealing</span><span class="p">(</span><span class="n">FitnessModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for Simulated Annealing</span>
+<span class="sd">    </span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        params (dict): parameters in SA</span>
+<span class="sd">        phantom: phantom solution for exploration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">phantom</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ext_c&#39;</span><span class="p">:</span> <span class="mf">0.995</span><span class="p">,</span>
+        <span class="s1">&#39;int_c&#39;</span><span class="p">:</span> <span class="mf">0.996</span><span class="p">,</span>
+        <span class="s1">&#39;nepoch&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+        <span class="s1">&#39;initT&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>      <span class="c1"># initial temperature</span>
+        <span class="s1">&#39;termT&#39;</span><span class="p">:</span> <span class="mf">0.0001</span>    <span class="c1"># terminal temperature</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">fitness</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">transit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initT</span>
+        <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nepoch</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+            <span class="n">T</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_c</span>
+            <span class="k">if</span> <span class="n">T</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">termT</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span><span class="o">.</span><span class="n">fitness</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chromosomes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span><span class="o">.</span><span class="n">chromosomes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span><span class="o">.</span><span class="n">fitness</span>
+
+    <span class="k">def</span> <span class="nf">postprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initT</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ext_c</span>
+
+
+    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transition of states</span>
+<span class="sd">        </span>
+<span class="sd">        Arguments:</span>
+<span class="sd">            T {number} -- temperature</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">cpy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_neighbour</span><span class="p">()</span>
+
+        <span class="c1"># Metropolis rule</span>
+        <span class="n">flag</span> <span class="o">=</span> <span class="n">metropolis_rule</span><span class="p">(</span><span class="n">D</span><span class="o">=</span><span class="n">cpy</span><span class="o">.</span><span class="n">fitness</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chromosomes</span> <span class="o">=</span> <span class="n">cpy</span><span class="o">.</span><span class="n">chromosomes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="n">cpy</span><span class="o">.</span><span class="n">fitness</span>
+</pre></div>
+</div>
+</section>
+<section id="differential-evolution">
+<h2>Differential Evolution<a class="headerlink" href="#differential-evolution" title="Link to this heading">¶</a></h2>
+<p>The standard DE is a global searching algorithm. The class <code class="docutils literal notranslate"><span class="pre">DifferentialEvolution</span></code> for DE is inherited from <code class="docutils literal notranslate"><span class="pre">PopulationModel</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DifferentialEvolution</span><span class="p">(</span><span class="n">PopulationModel</span><span class="p">):</span>
+
+    <span class="n">params</span> <span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;factor&quot;</span> <span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span>
+    <span class="s2">&quot;cross_prob&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">test_individuals</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">individuals</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">transit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">move</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">test_individual</span><span class="p">,</span> <span class="n">individual</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">,</span> <span class="bp">self</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">test_individual</span><span class="o">.</span><span class="n">fitness</span> <span class="o">&gt;</span> <span class="n">individual</span><span class="o">.</span><span class="n">fitness</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">individuals</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_individual</span>
+
+    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">:</span>
+            <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">individuals</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="n">jrand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">)</span>
+            <span class="n">xx</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">chromosome</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span> <span class="o">*</span> <span class="p">(</span><span class="n">x1</span><span class="o">.</span><span class="n">chromosome</span> <span class="o">-</span> <span class="n">x2</span><span class="o">.</span><span class="n">chromosome</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">random</span><span class="p">()</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">cross_prob</span> <span class="ow">or</span> <span class="n">j</span> <span class="o">==</span> <span class="n">jrand</span><span class="p">:</span>
+                    <span class="n">t</span><span class="o">.</span><span class="n">chromosomes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">xx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>After running <code class="docutils literal notranslate"><span class="pre">comparison-de.py</span></code>, we get the following fitness curves.</p>
+<p><img alt="" src="../_images/comparison-de.png" /></p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pyrimidine</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Home.html">pyrimidine: a universal framework for genetic algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation and Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples and customization tricks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Customization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simulated-annealing-algorithm">Simulated Annealing Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#differential-evolution">Differential Evolution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Helpers.html">Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">pyrimidine</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Examples.html" title="previous chapter">Examples and customization tricks</a></li>
+      <li>Next: <a href="Helpers.html" title="next chapter">Helpers</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, William Song.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/source/Customization.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
