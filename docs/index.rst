@@ -6,7 +6,7 @@
 Welcome to pyrimidine's world of genetic algorithm
 ====================================================================
 
-.. image:: logo.png
+.. image:: source/logo.png
    :width: 200
    :height: 200
 
@@ -16,12 +16,12 @@ Welcome to pyrimidine's world of genetic algorithm
    :maxdepth: 2
    :caption: Contents:
 
-   Home
-   Install
-   API Deisgn
-   Examples
-   Customization
-   Helpers
+   Home <../source/Home.md>
+   Install <../source/Install.md>
+   API Deisgn <../source/API Deisgn.md>
+   Examples <../source/Examples.md>
+   Customization <../source/Customization.md>
+   Helpers <../source/Helpers.md>
 
 
    modules

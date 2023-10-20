@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
-from pyrimidine import MonoIndividual, BinaryChromosome
-from pyrimidine.population import *
+from pyrimidine import MonoIndividual, BinaryChromosome, HOFPopulation
 from pyrimidine.benchmarks.optimization import *
 
 n_bags = 50

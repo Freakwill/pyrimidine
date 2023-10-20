@@ -63,10 +63,12 @@ html_theme = 'alabaster'
 html_static_path = ['_static']
 
 # The master toctree document.
-master_doc = 'source/index'
+master_doc = 'index'
 
 html_domain_indices = True
 
 html_use_index = True
 html_use_modindex = True
 html_use_search = True
+
+html_output = '.'
