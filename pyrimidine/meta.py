@@ -156,9 +156,6 @@ class System(ParamType):
             }
         )
 
-        # attrs.update(
-        #     {"operator": _operators}
-        # )
 
         def _type_check(self):
             return all(isinstance(elm, self.element_class) for elm in self.__elements)
@@ -178,7 +175,6 @@ class System(ParamType):
                 raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
             setattr(self, name, MethodType(m, self))
 
-        attrs['regester_map'] = _regester_map
 
         def _regester_op(self, name, key=None, force=True):
             if key is None:
@@ -189,7 +185,10 @@ class System(ParamType):
                 raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
             setattr(self, name, MethodType(m, self))
 
-        attrs['regester_op'] = _regester_op
+        attrs = {
+            'regester_op': _regester_op,
+            'regester_map': _regester_map
+        }
         
         # def _operator_regester(self, m):
         #     if hasattr(self, m):
