@@ -15,7 +15,7 @@ class _Chromosome(PermutationChromosome):
     def decode(self):
         return np.hstack((self, [self[0]]))
 
-_Individual = MonoIndividual[_Chromosome].set_fitness(lambda obj: - _evaluate(obj.decode()))
+_Individual = MonoIndividual[_Chromosome].set_fitness(lambda i: - _evaluate(i.decode()))
 
 _Population = HOFPopulation[_Individual] // 100
 

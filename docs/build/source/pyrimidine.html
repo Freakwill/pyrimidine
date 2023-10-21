@@ -6,27 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>pyrimidine package &#8212; pyrimidine 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b3523f8e" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=039e1c02" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4848ba22" />
+    <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=a5b9c134" />
     <script src="../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="next" title="pyrimidine.benchmarks package" href="pyrimidine.benchmarks.html" />
+    <link rel="prev" title="pyrimidine" href="modules.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
 
   </head><body>
-  
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyrimidine.benchmarks.html" title="pyrimidine.benchmarks package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="pyrimidine"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">pyrimidine</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyrimidine package</a></li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <section id="pyrimidine-package">
@@ -483,11 +503,10 @@ Applied in dual GA</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PopulationModel</span></code></p>
 <p>Base class of BaseMultiPopulation</p>
 <dl class="simple">
-<dt>Attributes:</dt><dd><p>default_size (int): Description
+<dt>Attributes:</dt><dd><p>default_size (int): the number of populations
 element_class (TYPE): type of the populations
 elements (TYPE): populations as the elements
 fitness (TYPE): mean fitness
-params (dict): Description
 sorted (bool): Description</p>
 </dd>
 </dl>
@@ -525,6 +544,11 @@ sorted (bool): Description</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseMultiPopulation.get_all">
 <span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BaseMultiPopulation.get_all" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.base.BaseMultiPopulation.get_best_individual">
+<span class="sig-name descname"><span class="pre">get_best_individual</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BaseMultiPopulation.get_best_individual" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -766,12 +790,6 @@ individuals, <cite>n_sel</cite> times.</p>
 <dt class="sig sig-object py" id="pyrimidine.base.BaseSpecies.alias">
 <span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'n_populations':</span> <span class="pre">'n_elements',</span> <span class="pre">'populations':</span> <span class="pre">'elements'}</span></em><a class="headerlink" href="#pyrimidine.base.BaseSpecies.alias" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.base.BaseSpecies.element_class">
-<span class="sig-name descname"><span class="pre">element_class</span></span><a class="headerlink" href="#pyrimidine.base.BaseSpecies.element_class" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#pyrimidine.base.BasePopulation" title="pyrimidine.base.BasePopulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePopulation</span></code></a></p>
-</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseSpecies.elements">
@@ -1658,86 +1676,6 @@ or moving method in Simulated Annealing.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="pyrimidine.individual.BinaryIndividual">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.individual.</span></span><span class="sig-name descname"><span class="pre">BinaryIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.BinaryIndividual" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrimidine.individual.MultiIndividual" title="pyrimidine.individual.MultiIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiIndividual</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.individual.BinaryIndividual.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chromosomes':</span> <span class="pre">'elements',</span> <span class="pre">'n_chromosomes':</span> <span class="pre">'n_elements'}</span></em><a class="headerlink" href="#pyrimidine.individual.BinaryIndividual.alias" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.individual.BinaryIndividual.elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.individual.BinaryIndividual.elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.individual.BinaryIndividual.get_all">
-<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.BinaryIndividual.get_all" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.individual.BinaryIndividual.n_elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.individual.BinaryIndividual.n_elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.individual.BinaryIndividual.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'n_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.individual.BinaryIndividual.params" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.individual.BinaryIndividual.type_check">
-<span class="sig-name descname"><span class="pre">type_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.BinaryIndividual.type_check" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrimidine.individual.FloatIndividual">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.individual.</span></span><span class="sig-name descname"><span class="pre">FloatIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.FloatIndividual" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrimidine.base.BaseIndividual" title="pyrimidine.base.BaseIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseIndividual</span></code></a></p>
-<p>simple binary individual
-encoded as a sequence such as 010011</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.individual.FloatIndividual.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chromosomes':</span> <span class="pre">'elements',</span> <span class="pre">'n_chromosomes':</span> <span class="pre">'n_elements'}</span></em><a class="headerlink" href="#pyrimidine.individual.FloatIndividual.alias" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.individual.FloatIndividual.element_class">
-<span class="sig-name descname"><span class="pre">element_class</span></span><a class="headerlink" href="#pyrimidine.individual.FloatIndividual.element_class" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#pyrimidine.chromosome.FloatChromosome" title="pyrimidine.chromosome.FloatChromosome"><code class="xref py py-class docutils literal notranslate"><span class="pre">FloatChromosome</span></code></a></p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.individual.FloatIndividual.elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.individual.FloatIndividual.elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.individual.FloatIndividual.get_all">
-<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.FloatIndividual.get_all" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.individual.FloatIndividual.n_elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.individual.FloatIndividual.n_elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.individual.FloatIndividual.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'n_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.individual.FloatIndividual.params" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.individual.FloatIndividual.type_check">
-<span class="sig-name descname"><span class="pre">type_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.FloatIndividual.type_check" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.individual.GenderIndividual">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.individual.</span></span><span class="sig-name descname"><span class="pre">GenderIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.GenderIndividual" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyrimidine.individual.MixedIndividual" title="pyrimidine.individual.MixedIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">MixedIndividual</span></code></a></p>
@@ -1831,86 +1769,6 @@ encoded as a sequence such as 010011</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.individual.MixedIndividual.type_check">
 <span class="sig-name descname"><span class="pre">type_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.MixedIndividual.type_check" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoBinaryIndividual">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.individual.</span></span><span class="sig-name descname"><span class="pre">MonoBinaryIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.MonoBinaryIndividual" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrimidine.individual.MonoIndividual" title="pyrimidine.individual.MonoIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">MonoIndividual</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoBinaryIndividual.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chromosomes':</span> <span class="pre">'elements',</span> <span class="pre">'n_chromosomes':</span> <span class="pre">'n_elements'}</span></em><a class="headerlink" href="#pyrimidine.individual.MonoBinaryIndividual.alias" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoBinaryIndividual.elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.individual.MonoBinaryIndividual.elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoBinaryIndividual.get_all">
-<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.MonoBinaryIndividual.get_all" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoBinaryIndividual.n_elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.individual.MonoBinaryIndividual.n_elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoBinaryIndividual.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'n_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.individual.MonoBinaryIndividual.params" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoBinaryIndividual.type_check">
-<span class="sig-name descname"><span class="pre">type_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.MonoBinaryIndividual.type_check" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoFloatIndividual">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.individual.</span></span><span class="sig-name descname"><span class="pre">MonoFloatIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.MonoFloatIndividual" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrimidine.individual.MonoIndividual" title="pyrimidine.individual.MonoIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">MonoIndividual</span></code></a></p>
-<p>simple binary individual
-encoded as a sequence such as 010011</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoFloatIndividual.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chromosomes':</span> <span class="pre">'elements',</span> <span class="pre">'n_chromosomes':</span> <span class="pre">'n_elements'}</span></em><a class="headerlink" href="#pyrimidine.individual.MonoFloatIndividual.alias" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoFloatIndividual.element_class">
-<span class="sig-name descname"><span class="pre">element_class</span></span><a class="headerlink" href="#pyrimidine.individual.MonoFloatIndividual.element_class" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#pyrimidine.chromosome.FloatChromosome" title="pyrimidine.chromosome.FloatChromosome"><code class="xref py py-class docutils literal notranslate"><span class="pre">FloatChromosome</span></code></a></p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoFloatIndividual.elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.individual.MonoFloatIndividual.elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoFloatIndividual.get_all">
-<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.MonoFloatIndividual.get_all" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoFloatIndividual.n_elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.individual.MonoFloatIndividual.n_elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoFloatIndividual.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'n_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.individual.MonoFloatIndividual.params" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.individual.MonoFloatIndividual.type_check">
-<span class="sig-name descname"><span class="pre">type_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.MonoFloatIndividual.type_check" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2030,41 +1888,35 @@ encoded as a sequence such as 010011</p>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.individual.PolyIndividual">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.individual.</span></span><span class="sig-name descname"><span class="pre">PolyIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.PolyIndividual" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrimidine.base.BaseIndividual" title="pyrimidine.base.BaseIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseIndividual</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.individual.PolyIndividual.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chromosomes':</span> <span class="pre">'elements',</span> <span class="pre">'n_chromosomes':</span> <span class="pre">'n_elements'}</span></em><a class="headerlink" href="#pyrimidine.individual.PolyIndividual.alias" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.individual.PolyIndividual.elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.individual.PolyIndividual.elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.individual.PolyIndividual.get_all">
-<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.PolyIndividual.get_all" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.individual.PolyIndividual.n_elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.individual.PolyIndividual.n_elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.individual.PolyIndividual.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'n_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.individual.PolyIndividual.params" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.individual.PolyIndividual.type_check">
-<span class="sig-name descname"><span class="pre">type_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.PolyIndividual.type_check" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.individual.</span></span><span class="sig-name descname"><span class="pre">PolyIndividual</span></span><a class="headerlink" href="#pyrimidine.individual.PolyIndividual" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#pyrimidine.individual.MultiIndividual" title="pyrimidine.individual.MultiIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiIndividual</span></code></a></p>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.individual.binaryIndividual">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.individual.</span></span><span class="sig-name descname"><span class="pre">binaryIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.binaryIndividual" title="Link to this definition">¶</a></dt>
+<dd><p>simple binary individual
+encoded as a sequence such as 01001101</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.individual.binaryMonoIndividual">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.individual.</span></span><span class="sig-name descname"><span class="pre">binaryMonoIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.binaryMonoIndividual" title="Link to this definition">¶</a></dt>
+<dd><p>simple binary individual
+encoded as a sequence such as 01001101</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.individual.floatIndividual">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.individual.</span></span><span class="sig-name descname"><span class="pre">floatIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">MonoIndividual</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.floatIndividual" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.individual.floatMonoIndividual">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.individual.</span></span><span class="sig-name descname"><span class="pre">floatMonoIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">BaseIndividual</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.floatMonoIndividual" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </section>
 <section id="module-pyrimidine.meta">
@@ -2219,26 +2071,8 @@ bases (tuple): The base classes</p>
 </dd></dl>
 
 </section>
-<section id="module-pyrimidine.optimize">
-<span id="pyrimidine-optimize-module"></span><h2>pyrimidine.optimize module<a class="headerlink" href="#module-pyrimidine.optimize" title="Link to this heading">¶</a></h2>
-<p>Helpers for GA</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="pyrimidine.optimize.ga_min">
-<span class="sig-prename descclassname"><span class="pre">pyrimidine.optimize.</span></span><span class="sig-name descname"><span class="pre">ga_min</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*xlim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode=&lt;function</span> <span class="pre">_decode&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.optimize.ga_min" title="Link to this definition">¶</a></dt>
-<dd><p>GA for minimizing fun defined on xlim</p>
-<dl>
-<dt>Arguments:</dt><dd><p>func: objective function defined on R
-xlim: the intervals of xi
-decode: transform a binary sequence to a real number</p>
-<blockquote>
-<div><p>(‘0-1’ sequence, lower_bound, upper_bound) <a href="#id13"><span class="problematic" id="id14">|</span></a>-&gt; xi</p>
-</div></blockquote>
-</dd>
-<dt>Example:</dt><dd><p>ga_min(lambda x:x[0]**2+x[1], (-1,1), (-1,1))</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="pyrimidine-optimize-module">
+<h2>pyrimidine.optimize module<a class="headerlink" href="#pyrimidine-optimize-module" title="Link to this heading">¶</a></h2>
 </section>
 <section id="module-pyrimidine.population">
 <span id="pyrimidine-population-module"></span><h2>pyrimidine.population module<a class="headerlink" href="#module-pyrimidine.population" title="Link to this heading">¶</a></h2>
@@ -2519,9 +2353,9 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.population.HOFPopulation.postprocess">
-<span class="sig-name descname"><span class="pre">postprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.population.HOFPopulation.postprocess" title="Link to this definition">¶</a></dt>
-<dd><p>Update the hall of fame after one step of evolution</p>
+<dt class="sig sig-object py" id="pyrimidine.population.HOFPopulation.transit">
+<span class="sig-name descname"><span class="pre">transit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.population.HOFPopulation.transit" title="Link to this definition">¶</a></dt>
+<dd><p>Update the hall of fame after each step of evolution</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2704,7 +2538,7 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.pso.BaseParticle">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.pso.</span></span><span class="sig-name descname"><span class="pre">BaseParticle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.pso.BaseParticle" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrimidine.individual.PolyIndividual" title="pyrimidine.individual.PolyIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolyIndividual</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.individual.MultiIndividual" title="pyrimidine.individual.MultiIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiIndividual</span></code></a></p>
 <p>A particle in PSO</p>
 <dl class="simple">
 <dt>Extends:</dt><dd><p>PolyIndividual</p>
@@ -2712,7 +2546,7 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
 <dt>Variables:</dt><dd><p>default_size {number} – one individual represented by 2 chromosomes: position and velocity
 memory {Particle} – the best state of the particle moving in the solution space.</p>
 </dd>
-<dt>Caution:</dt><dd><p>implement the method-properties: position, velocity</p>
+<dt>Caution:</dt><dd><p>Have to implement the properties in subclasses: position, velocity</p>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -2766,6 +2600,11 @@ memory {Particle} – the best state of the particle moving in the solution spac
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.pso.BaseParticle.memory">
 <span class="sig-name descname"><span class="pre">memory</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pyrimidine.pso.BaseParticle.memory" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.pso.BaseParticle.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.pso.BaseParticle.move" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -2843,16 +2682,6 @@ memory {Particle} – the best state of the particle moving in the solution spac
 <span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.pso.Particle.get_all" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.pso.Particle.memory">
-<span class="sig-name descname"><span class="pre">memory</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pyrimidine.pso.Particle.memory" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.pso.Particle.move">
-<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.pso.Particle.move" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py property">
 <dt class="sig sig-object py" id="pyrimidine.pso.Particle.n_elements">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.pso.Particle.n_elements" title="Link to this definition">¶</a></dt>
@@ -2925,11 +2754,6 @@ memory {Particle} – the best state of the particle moving in the solution spac
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.pso.ParticleSwarm.params">
 <span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'acceleration_coefficient':</span> <span class="pre">3,</span> <span class="pre">'inertia':</span> <span class="pre">0.5,</span> <span class="pre">'learning_factor':</span> <span class="pre">2,</span> <span class="pre">'max_velocity':</span> <span class="pre">None,</span> <span class="pre">'n_best_particles':</span> <span class="pre">0.1}</span></em><a class="headerlink" href="#pyrimidine.pso.ParticleSwarm.params" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.pso.ParticleSwarm.postprocess">
-<span class="sig-name descname"><span class="pre">postprocess</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.pso.ParticleSwarm.postprocess" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3035,11 +2859,6 @@ memory {Particle} – the best state of the particle moving in the solution spac
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.species.DualSpecies.params">
 <span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'migrate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'n_elders':</span> <span class="pre">0.5,</span> <span class="pre">'n_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.species.DualSpecies.params" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.species.DualSpecies.post_process">
-<span class="sig-name descname"><span class="pre">post_process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.species.DualSpecies.post_process" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3230,38 +3049,647 @@ ub {number} – upper bound of interval (default: {9})</p>
 </section>
 
 
+            <div class="clearer"></div>
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">pyrimidine</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="Home.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Customization.html">Customization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Helpers.html">Helpers</a></li>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">pyrimidine package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyrimidine.base">pyrimidine.base module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome"><code class="docutils literal notranslate"><span class="pre">BaseChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.alias"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.cross"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.cross()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.decode"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.decode()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.default_size"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.default_size</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.encode"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.encode()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.equal"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.equal()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.merge"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.merge()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.params"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.random"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.x"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.x()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseEnvironment"><code class="docutils literal notranslate"><span class="pre">BaseEnvironment</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.base.BaseEnvironment.alias"><code class="docutils literal notranslate"><span class="pre">BaseEnvironment.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseEnvironment.evaluate"><code class="docutils literal notranslate"><span class="pre">BaseEnvironment.evaluate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseEnvironment.params"><code class="docutils literal notranslate"><span class="pre">BaseEnvironment.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseEnvironment.select"><code class="docutils literal notranslate"><span class="pre">BaseEnvironment.select()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseGene"><code class="docutils literal notranslate"><span class="pre">BaseGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.base.BaseGene.random"><code class="docutils literal notranslate"><span class="pre">BaseGene.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseGene.values"><code class="docutils literal notranslate"><span class="pre">BaseGene.values</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual"><code class="docutils literal notranslate"><span class="pre">BaseIndividual</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.alias"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.cross"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.cross()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.decode"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.decode()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.default_size"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.default_size</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.dual"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.dual()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.element_class"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.elements"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.get_all"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.get_neighbour"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.get_neighbour()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.mutate"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.n_elements"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.params"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.random"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.replicate"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.replicate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.type_check"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.type_check()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseIndividual.x"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.x()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.alias"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.best_fitness"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.best_fitness</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.default_size"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.default_size</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.element_class"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.elements"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.get_all"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.get_best_individual"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.get_best_individual()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.get_best_individuals"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.get_best_individuals()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.individuals"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.individuals</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.init"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.init()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.migrate"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.migrate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.params"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.populations"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.populations</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.random"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.transit"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.transit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation.type_check"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation"><code class="docutils literal notranslate"><span class="pre">BasePopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.add_individuals"><code class="docutils literal notranslate"><span class="pre">BasePopulation.add_individuals()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.alias"><code class="docutils literal notranslate"><span class="pre">BasePopulation.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.cross"><code class="docutils literal notranslate"><span class="pre">BasePopulation.cross()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.default_size"><code class="docutils literal notranslate"><span class="pre">BasePopulation.default_size</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.dual"><code class="docutils literal notranslate"><span class="pre">BasePopulation.dual()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.element_class"><code class="docutils literal notranslate"><span class="pre">BasePopulation.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.elements"><code class="docutils literal notranslate"><span class="pre">BasePopulation.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.flatten"><code class="docutils literal notranslate"><span class="pre">BasePopulation.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.get_all"><code class="docutils literal notranslate"><span class="pre">BasePopulation.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.get_rank"><code class="docutils literal notranslate"><span class="pre">BasePopulation.get_rank()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.hall_of_fame"><code class="docutils literal notranslate"><span class="pre">BasePopulation.hall_of_fame</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.local_search"><code class="docutils literal notranslate"><span class="pre">BasePopulation.local_search()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.mate"><code class="docutils literal notranslate"><span class="pre">BasePopulation.mate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.merge"><code class="docutils literal notranslate"><span class="pre">BasePopulation.merge()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.migrate"><code class="docutils literal notranslate"><span class="pre">BasePopulation.migrate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.mutate"><code class="docutils literal notranslate"><span class="pre">BasePopulation.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">BasePopulation.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.parallel"><code class="docutils literal notranslate"><span class="pre">BasePopulation.parallel()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.params"><code class="docutils literal notranslate"><span class="pre">BasePopulation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.pop"><code class="docutils literal notranslate"><span class="pre">BasePopulation.pop()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.random"><code class="docutils literal notranslate"><span class="pre">BasePopulation.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.rank"><code class="docutils literal notranslate"><span class="pre">BasePopulation.rank()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.remove"><code class="docutils literal notranslate"><span class="pre">BasePopulation.remove()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.select"><code class="docutils literal notranslate"><span class="pre">BasePopulation.select()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.select_aspirants"><code class="docutils literal notranslate"><span class="pre">BasePopulation.select_aspirants()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.transit"><code class="docutils literal notranslate"><span class="pre">BasePopulation.transit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BasePopulation.type_check"><code class="docutils literal notranslate"><span class="pre">BasePopulation.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseSpecies"><code class="docutils literal notranslate"><span class="pre">BaseSpecies</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.base.BaseSpecies.alias"><code class="docutils literal notranslate"><span class="pre">BaseSpecies.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseSpecies.elements"><code class="docutils literal notranslate"><span class="pre">BaseSpecies.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseSpecies.flatten"><code class="docutils literal notranslate"><span class="pre">BaseSpecies.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseSpecies.get_all"><code class="docutils literal notranslate"><span class="pre">BaseSpecies.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseSpecies.n_elements"><code class="docutils literal notranslate"><span class="pre">BaseSpecies.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseSpecies.params"><code class="docutils literal notranslate"><span class="pre">BaseSpecies.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseSpecies.type_check"><code class="docutils literal notranslate"><span class="pre">BaseSpecies.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.base.ParallelPopulation"><code class="docutils literal notranslate"><span class="pre">ParallelPopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.base.ParallelPopulation.alias"><code class="docutils literal notranslate"><span class="pre">ParallelPopulation.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.ParallelPopulation.element_class"><code class="docutils literal notranslate"><span class="pre">ParallelPopulation.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.ParallelPopulation.elements"><code class="docutils literal notranslate"><span class="pre">ParallelPopulation.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.ParallelPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">ParallelPopulation.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.ParallelPopulation.get_all"><code class="docutils literal notranslate"><span class="pre">ParallelPopulation.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.ParallelPopulation.mate"><code class="docutils literal notranslate"><span class="pre">ParallelPopulation.mate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.ParallelPopulation.mutate"><code class="docutils literal notranslate"><span class="pre">ParallelPopulation.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.ParallelPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">ParallelPopulation.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.ParallelPopulation.params"><code class="docutils literal notranslate"><span class="pre">ParallelPopulation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.ParallelPopulation.type_check"><code class="docutils literal notranslate"><span class="pre">ParallelPopulation.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.base.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.chromosome">pyrimidine.chromosome module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ArrayChromosome"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ArrayChromosome.alias"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ArrayChromosome.clone"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.clone()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ArrayChromosome.cross"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.cross()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ArrayChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ArrayChromosome.elements"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ArrayChromosome.gene"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.gene</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ArrayChromosome.merge"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.merge()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ArrayChromosome.n_genes"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.n_genes</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ArrayChromosome.params"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ArrayChromosome.random"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.BinaryChromosome"><code class="docutils literal notranslate"><span class="pre">BinaryChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.BinaryChromosome.alias"><code class="docutils literal notranslate"><span class="pre">BinaryChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.BinaryChromosome.dual"><code class="docutils literal notranslate"><span class="pre">BinaryChromosome.dual()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.BinaryChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">BinaryChromosome.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.BinaryChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">BinaryChromosome.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.BinaryChromosome.params"><code class="docutils literal notranslate"><span class="pre">BinaryChromosome.params</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.CircleChromosome"><code class="docutils literal notranslate"><span class="pre">CircleChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.CircleChromosome.alias"><code class="docutils literal notranslate"><span class="pre">CircleChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.CircleChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">CircleChromosome.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.CircleChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">CircleChromosome.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.CircleChromosome.normalize"><code class="docutils literal notranslate"><span class="pre">CircleChromosome.normalize()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.CircleChromosome.params"><code class="docutils literal notranslate"><span class="pre">CircleChromosome.params</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.FloatChromosome"><code class="docutils literal notranslate"><span class="pre">FloatChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.FloatChromosome.alias"><code class="docutils literal notranslate"><span class="pre">FloatChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.FloatChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">FloatChromosome.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.FloatChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">FloatChromosome.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.FloatChromosome.params"><code class="docutils literal notranslate"><span class="pre">FloatChromosome.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.FloatChromosome.random_neighbour"><code class="docutils literal notranslate"><span class="pre">FloatChromosome.random_neighbour()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.FloatChromosome.sigma"><code class="docutils literal notranslate"><span class="pre">FloatChromosome.sigma</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.FloatMatrixChromosome"><code class="docutils literal notranslate"><span class="pre">FloatMatrixChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.FloatMatrixChromosome.alias"><code class="docutils literal notranslate"><span class="pre">FloatMatrixChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.FloatMatrixChromosome.params"><code class="docutils literal notranslate"><span class="pre">FloatMatrixChromosome.params</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.MatrixChromosome"><code class="docutils literal notranslate"><span class="pre">MatrixChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.MatrixChromosome.alias"><code class="docutils literal notranslate"><span class="pre">MatrixChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.MatrixChromosome.cross"><code class="docutils literal notranslate"><span class="pre">MatrixChromosome.cross()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.MatrixChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">MatrixChromosome.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.MatrixChromosome.params"><code class="docutils literal notranslate"><span class="pre">MatrixChromosome.params</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.NaturalChromosome"><code class="docutils literal notranslate"><span class="pre">NaturalChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.NaturalChromosome.alias"><code class="docutils literal notranslate"><span class="pre">NaturalChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.NaturalChromosome.dual"><code class="docutils literal notranslate"><span class="pre">NaturalChromosome.dual()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.NaturalChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">NaturalChromosome.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.NaturalChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">NaturalChromosome.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.NaturalChromosome.params"><code class="docutils literal notranslate"><span class="pre">NaturalChromosome.params</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PermutationChromosome"><code class="docutils literal notranslate"><span class="pre">PermutationChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PermutationChromosome.alias"><code class="docutils literal notranslate"><span class="pre">PermutationChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PermutationChromosome.cross"><code class="docutils literal notranslate"><span class="pre">PermutationChromosome.cross()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PermutationChromosome.default_size"><code class="docutils literal notranslate"><span class="pre">PermutationChromosome.default_size</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PermutationChromosome.dual"><code class="docutils literal notranslate"><span class="pre">PermutationChromosome.dual()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PermutationChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">PermutationChromosome.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PermutationChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">PermutationChromosome.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PermutationChromosome.params"><code class="docutils literal notranslate"><span class="pre">PermutationChromosome.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PermutationChromosome.random"><code class="docutils literal notranslate"><span class="pre">PermutationChromosome.random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PositiveChromosome"><code class="docutils literal notranslate"><span class="pre">PositiveChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PositiveChromosome.alias"><code class="docutils literal notranslate"><span class="pre">PositiveChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PositiveChromosome.max0"><code class="docutils literal notranslate"><span class="pre">PositiveChromosome.max0()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.PositiveChromosome.params"><code class="docutils literal notranslate"><span class="pre">PositiveChromosome.params</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ProbabilityChromosome"><code class="docutils literal notranslate"><span class="pre">ProbabilityChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ProbabilityChromosome.alias"><code class="docutils literal notranslate"><span class="pre">ProbabilityChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ProbabilityChromosome.check"><code class="docutils literal notranslate"><span class="pre">ProbabilityChromosome.check()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ProbabilityChromosome.cross"><code class="docutils literal notranslate"><span class="pre">ProbabilityChromosome.cross()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ProbabilityChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">ProbabilityChromosome.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ProbabilityChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">ProbabilityChromosome.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ProbabilityChromosome.normalize"><code class="docutils literal notranslate"><span class="pre">ProbabilityChromosome.normalize()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ProbabilityChromosome.params"><code class="docutils literal notranslate"><span class="pre">ProbabilityChromosome.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ProbabilityChromosome.random"><code class="docutils literal notranslate"><span class="pre">ProbabilityChromosome.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.ProbabilityChromosome.random_neighbour"><code class="docutils literal notranslate"><span class="pre">ProbabilityChromosome.random_neighbour()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.QuantumChromosome"><code class="docutils literal notranslate"><span class="pre">QuantumChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.QuantumChromosome.alias"><code class="docutils literal notranslate"><span class="pre">QuantumChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.QuantumChromosome.decode"><code class="docutils literal notranslate"><span class="pre">QuantumChromosome.decode()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.QuantumChromosome.measure_result"><code class="docutils literal notranslate"><span class="pre">QuantumChromosome.measure_result</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.QuantumChromosome.params"><code class="docutils literal notranslate"><span class="pre">QuantumChromosome.params</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.UnitFloatChromosome"><code class="docutils literal notranslate"><span class="pre">UnitFloatChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.UnitFloatChromosome.alias"><code class="docutils literal notranslate"><span class="pre">UnitFloatChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.UnitFloatChromosome.dual"><code class="docutils literal notranslate"><span class="pre">UnitFloatChromosome.dual()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.UnitFloatChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">UnitFloatChromosome.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.UnitFloatChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">UnitFloatChromosome.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.UnitFloatChromosome.normalize"><code class="docutils literal notranslate"><span class="pre">UnitFloatChromosome.normalize()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.UnitFloatChromosome.params"><code class="docutils literal notranslate"><span class="pre">UnitFloatChromosome.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.UnitFloatChromosome.tobinary"><code class="docutils literal notranslate"><span class="pre">UnitFloatChromosome.tobinary()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.VectorChromosome"><code class="docutils literal notranslate"><span class="pre">VectorChromosome</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.chromosome.VectorChromosome.alias"><code class="docutils literal notranslate"><span class="pre">VectorChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.VectorChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">VectorChromosome.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.VectorChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">VectorChromosome.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.VectorChromosome.params"><code class="docutils literal notranslate"><span class="pre">VectorChromosome.params</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.chromosome.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.ep">pyrimidine.ep module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual.alias"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual.decode"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual.decode()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual.element_class"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual.elements"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual.get_all"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual.mutate"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual.n_elements"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual.params"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual.type_check"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual.type_check()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual.variance"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual.variance</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.ep.EPPopulation"><code class="docutils literal notranslate"><span class="pre">EPPopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.ep.EPPopulation.element_class"><code class="docutils literal notranslate"><span class="pre">EPPopulation.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.EPPopulation.select"><code class="docutils literal notranslate"><span class="pre">EPPopulation.select()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.EPPopulation.transit"><code class="docutils literal notranslate"><span class="pre">EPPopulation.transit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.errors">pyrimidine.errors module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.errors.UnavalibleAttributeError"><code class="docutils literal notranslate"><span class="pre">UnavalibleAttributeError</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.errors.UnknownSizeError"><code class="docutils literal notranslate"><span class="pre">UnknownSizeError</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.gene">pyrimidine.gene module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.BinaryGene"><code class="docutils literal notranslate"><span class="pre">BinaryGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.BinaryGene.random"><code class="docutils literal notranslate"><span class="pre">BinaryGene.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.BinaryGene.values"><code class="docutils literal notranslate"><span class="pre">BinaryGene.values</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.CircleGene"><code class="docutils literal notranslate"><span class="pre">CircleGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.CircleGene.lb"><code class="docutils literal notranslate"><span class="pre">CircleGene.lb</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.CircleGene.period"><code class="docutils literal notranslate"><span class="pre">CircleGene.period</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.CircleGene.ub"><code class="docutils literal notranslate"><span class="pre">CircleGene.ub</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.FloatGene"><code class="docutils literal notranslate"><span class="pre">FloatGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.FloatGene.lb"><code class="docutils literal notranslate"><span class="pre">FloatGene.lb</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.FloatGene.random"><code class="docutils literal notranslate"><span class="pre">FloatGene.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.FloatGene.ub"><code class="docutils literal notranslate"><span class="pre">FloatGene.ub</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.NaturalGene"><code class="docutils literal notranslate"><span class="pre">NaturalGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.NaturalGene.lb"><code class="docutils literal notranslate"><span class="pre">NaturalGene.lb</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.NaturalGene.random"><code class="docutils literal notranslate"><span class="pre">NaturalGene.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.NaturalGene.ub"><code class="docutils literal notranslate"><span class="pre">NaturalGene.ub</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.PeriodicGene"><code class="docutils literal notranslate"><span class="pre">PeriodicGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.PeriodicGene.period"><code class="docutils literal notranslate"><span class="pre">PeriodicGene.period</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.SemiCircleGene"><code class="docutils literal notranslate"><span class="pre">SemiCircleGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.SemiCircleGene.lb"><code class="docutils literal notranslate"><span class="pre">SemiCircleGene.lb</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.SemiCircleGene.ub"><code class="docutils literal notranslate"><span class="pre">SemiCircleGene.ub</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.UnitFloatGene"><code class="docutils literal notranslate"><span class="pre">UnitFloatGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.UnitFloatGene.lb"><code class="docutils literal notranslate"><span class="pre">UnitFloatGene.lb</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.UnitFloatGene.ub"><code class="docutils literal notranslate"><span class="pre">UnitFloatGene.ub</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine-gsa-module">pyrimidine.gsa module</a></li>
+<li><a class="reference internal" href="#module-pyrimidine.individual">pyrimidine.individual module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.individual.AgeIndividual"><code class="docutils literal notranslate"><span class="pre">AgeIndividual</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.individual.AgeIndividual.age"><code class="docutils literal notranslate"><span class="pre">AgeIndividual.age</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.AgeIndividual.alias"><code class="docutils literal notranslate"><span class="pre">AgeIndividual.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.AgeIndividual.elements"><code class="docutils literal notranslate"><span class="pre">AgeIndividual.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.AgeIndividual.get_all"><code class="docutils literal notranslate"><span class="pre">AgeIndividual.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.AgeIndividual.life_span"><code class="docutils literal notranslate"><span class="pre">AgeIndividual.life_span</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.AgeIndividual.n_elements"><code class="docutils literal notranslate"><span class="pre">AgeIndividual.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.AgeIndividual.params"><code class="docutils literal notranslate"><span class="pre">AgeIndividual.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.AgeIndividual.type_check"><code class="docutils literal notranslate"><span class="pre">AgeIndividual.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.individual.GenderIndividual"><code class="docutils literal notranslate"><span class="pre">GenderIndividual</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.individual.GenderIndividual.alias"><code class="docutils literal notranslate"><span class="pre">GenderIndividual.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.GenderIndividual.elements"><code class="docutils literal notranslate"><span class="pre">GenderIndividual.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.GenderIndividual.gender"><code class="docutils literal notranslate"><span class="pre">GenderIndividual.gender</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.GenderIndividual.get_all"><code class="docutils literal notranslate"><span class="pre">GenderIndividual.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.GenderIndividual.n_elements"><code class="docutils literal notranslate"><span class="pre">GenderIndividual.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.GenderIndividual.params"><code class="docutils literal notranslate"><span class="pre">GenderIndividual.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.GenderIndividual.type_check"><code class="docutils literal notranslate"><span class="pre">GenderIndividual.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.individual.MixedIndividual"><code class="docutils literal notranslate"><span class="pre">MixedIndividual</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.individual.MixedIndividual.alias"><code class="docutils literal notranslate"><span class="pre">MixedIndividual.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MixedIndividual.element_class"><code class="docutils literal notranslate"><span class="pre">MixedIndividual.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MixedIndividual.elements"><code class="docutils literal notranslate"><span class="pre">MixedIndividual.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MixedIndividual.get_all"><code class="docutils literal notranslate"><span class="pre">MixedIndividual.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MixedIndividual.n_elements"><code class="docutils literal notranslate"><span class="pre">MixedIndividual.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MixedIndividual.params"><code class="docutils literal notranslate"><span class="pre">MixedIndividual.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MixedIndividual.random"><code class="docutils literal notranslate"><span class="pre">MixedIndividual.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MixedIndividual.type_check"><code class="docutils literal notranslate"><span class="pre">MixedIndividual.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual"><code class="docutils literal notranslate"><span class="pre">MonoIndividual</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual.alias"><code class="docutils literal notranslate"><span class="pre">MonoIndividual.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual.chromosome"><code class="docutils literal notranslate"><span class="pre">MonoIndividual.chromosome</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual.decode"><code class="docutils literal notranslate"><span class="pre">MonoIndividual.decode()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual.elements"><code class="docutils literal notranslate"><span class="pre">MonoIndividual.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual.get_all"><code class="docutils literal notranslate"><span class="pre">MonoIndividual.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual.individuals"><code class="docutils literal notranslate"><span class="pre">MonoIndividual.individuals</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual.n_chromosomes"><code class="docutils literal notranslate"><span class="pre">MonoIndividual.n_chromosomes</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual.n_elements"><code class="docutils literal notranslate"><span class="pre">MonoIndividual.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual.params"><code class="docutils literal notranslate"><span class="pre">MonoIndividual.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual.random"><code class="docutils literal notranslate"><span class="pre">MonoIndividual.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual.set_size"><code class="docutils literal notranslate"><span class="pre">MonoIndividual.set_size()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MonoIndividual.type_check"><code class="docutils literal notranslate"><span class="pre">MonoIndividual.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.individual.MultiIndividual"><code class="docutils literal notranslate"><span class="pre">MultiIndividual</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.individual.MultiIndividual.alias"><code class="docutils literal notranslate"><span class="pre">MultiIndividual.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MultiIndividual.elements"><code class="docutils literal notranslate"><span class="pre">MultiIndividual.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MultiIndividual.get_all"><code class="docutils literal notranslate"><span class="pre">MultiIndividual.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MultiIndividual.n_elements"><code class="docutils literal notranslate"><span class="pre">MultiIndividual.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MultiIndividual.params"><code class="docutils literal notranslate"><span class="pre">MultiIndividual.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.MultiIndividual.type_check"><code class="docutils literal notranslate"><span class="pre">MultiIndividual.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.individual.PolyIndividual"><code class="docutils literal notranslate"><span class="pre">PolyIndividual</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.binaryIndividual"><code class="docutils literal notranslate"><span class="pre">binaryIndividual()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.binaryMonoIndividual"><code class="docutils literal notranslate"><span class="pre">binaryMonoIndividual()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.floatIndividual"><code class="docutils literal notranslate"><span class="pre">floatIndividual()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.individual.floatMonoIndividual"><code class="docutils literal notranslate"><span class="pre">floatMonoIndividual()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.meta">pyrimidine.meta module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaArray"><code class="docutils literal notranslate"><span class="pre">MetaArray</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaContainer"><code class="docutils literal notranslate"><span class="pre">MetaContainer</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaContainer.element_name"><code class="docutils literal notranslate"><span class="pre">MetaContainer.element_name</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaHighContainer"><code class="docutils literal notranslate"><span class="pre">MetaHighContainer</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaHighContainer.element_name"><code class="docutils literal notranslate"><span class="pre">MetaHighContainer.element_name</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaList"><code class="docutils literal notranslate"><span class="pre">MetaList</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaList.element_name"><code class="docutils literal notranslate"><span class="pre">MetaList.element_name</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaTuple"><code class="docutils literal notranslate"><span class="pre">MetaTuple</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaTuple.element_name"><code class="docutils literal notranslate"><span class="pre">MetaTuple.element_name</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.meta.ParamType"><code class="docutils literal notranslate"><span class="pre">ParamType</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.meta.ParamType.set"><code class="docutils literal notranslate"><span class="pre">ParamType.set()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.meta.ParamType.set_methods"><code class="docutils literal notranslate"><span class="pre">ParamType.set_methods()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.meta.System"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.meta.get_stem"><code class="docutils literal notranslate"><span class="pre">get_stem()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.meta.inherit"><code class="docutils literal notranslate"><span class="pre">inherit()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine-optimize-module">pyrimidine.optimize module</a></li>
+<li><a class="reference internal" href="#module-pyrimidine.population">pyrimidine.population module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.population.AgePopulation"><code class="docutils literal notranslate"><span class="pre">AgePopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.population.AgePopulation.alias"><code class="docutils literal notranslate"><span class="pre">AgePopulation.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.AgePopulation.elements"><code class="docutils literal notranslate"><span class="pre">AgePopulation.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.AgePopulation.eliminate"><code class="docutils literal notranslate"><span class="pre">AgePopulation.eliminate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.AgePopulation.flatten"><code class="docutils literal notranslate"><span class="pre">AgePopulation.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.AgePopulation.get_all"><code class="docutils literal notranslate"><span class="pre">AgePopulation.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.AgePopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">AgePopulation.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.AgePopulation.params"><code class="docutils literal notranslate"><span class="pre">AgePopulation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.AgePopulation.type_check"><code class="docutils literal notranslate"><span class="pre">AgePopulation.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.population.DualPopulation"><code class="docutils literal notranslate"><span class="pre">DualPopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.population.DualPopulation.alias"><code class="docutils literal notranslate"><span class="pre">DualPopulation.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.DualPopulation.dual"><code class="docutils literal notranslate"><span class="pre">DualPopulation.dual()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.DualPopulation.elements"><code class="docutils literal notranslate"><span class="pre">DualPopulation.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.DualPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">DualPopulation.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.DualPopulation.get_all"><code class="docutils literal notranslate"><span class="pre">DualPopulation.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.DualPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">DualPopulation.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.DualPopulation.params"><code class="docutils literal notranslate"><span class="pre">DualPopulation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.DualPopulation.transit"><code class="docutils literal notranslate"><span class="pre">DualPopulation.transit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.DualPopulation.type_check"><code class="docutils literal notranslate"><span class="pre">DualPopulation.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.population.EliminationPopulation"><code class="docutils literal notranslate"><span class="pre">EliminationPopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.population.EliminationPopulation.alias"><code class="docutils literal notranslate"><span class="pre">EliminationPopulation.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.EliminationPopulation.elements"><code class="docutils literal notranslate"><span class="pre">EliminationPopulation.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.EliminationPopulation.eliminate"><code class="docutils literal notranslate"><span class="pre">EliminationPopulation.eliminate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.EliminationPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">EliminationPopulation.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.EliminationPopulation.get_all"><code class="docutils literal notranslate"><span class="pre">EliminationPopulation.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.EliminationPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">EliminationPopulation.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.EliminationPopulation.params"><code class="docutils literal notranslate"><span class="pre">EliminationPopulation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.EliminationPopulation.transit"><code class="docutils literal notranslate"><span class="pre">EliminationPopulation.transit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.EliminationPopulation.type_check"><code class="docutils literal notranslate"><span class="pre">EliminationPopulation.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.population.GamogenesisPopulation"><code class="docutils literal notranslate"><span class="pre">GamogenesisPopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.population.GamogenesisPopulation.alias"><code class="docutils literal notranslate"><span class="pre">GamogenesisPopulation.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.GamogenesisPopulation.elements"><code class="docutils literal notranslate"><span class="pre">GamogenesisPopulation.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.GamogenesisPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">GamogenesisPopulation.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.GamogenesisPopulation.get_all"><code class="docutils literal notranslate"><span class="pre">GamogenesisPopulation.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.GamogenesisPopulation.get_homosex"><code class="docutils literal notranslate"><span class="pre">GamogenesisPopulation.get_homosex()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.GamogenesisPopulation.mate"><code class="docutils literal notranslate"><span class="pre">GamogenesisPopulation.mate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.GamogenesisPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">GamogenesisPopulation.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.GamogenesisPopulation.params"><code class="docutils literal notranslate"><span class="pre">GamogenesisPopulation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.GamogenesisPopulation.type_check"><code class="docutils literal notranslate"><span class="pre">GamogenesisPopulation.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation"><code class="docutils literal notranslate"><span class="pre">HOFPopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation.alias"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation.best_fitness"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.best_fitness</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation.elements"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation.get_all"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation.hall_of_fame"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.hall_of_fame</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation.init"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.init()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation.params"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation.transit"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.transit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation.type_check"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.type_check()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.HOFPopulation.update_hall_of_fame"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.update_hall_of_fame()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.population.LocalSearchPopulation"><code class="docutils literal notranslate"><span class="pre">LocalSearchPopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.population.LocalSearchPopulation.alias"><code class="docutils literal notranslate"><span class="pre">LocalSearchPopulation.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.LocalSearchPopulation.elements"><code class="docutils literal notranslate"><span class="pre">LocalSearchPopulation.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.LocalSearchPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">LocalSearchPopulation.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.LocalSearchPopulation.get_all"><code class="docutils literal notranslate"><span class="pre">LocalSearchPopulation.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.LocalSearchPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">LocalSearchPopulation.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.LocalSearchPopulation.params"><code class="docutils literal notranslate"><span class="pre">LocalSearchPopulation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.LocalSearchPopulation.transit"><code class="docutils literal notranslate"><span class="pre">LocalSearchPopulation.transit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.LocalSearchPopulation.type_check"><code class="docutils literal notranslate"><span class="pre">LocalSearchPopulation.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.population.ModifiedPopulation"><code class="docutils literal notranslate"><span class="pre">ModifiedPopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.population.ModifiedPopulation.alias"><code class="docutils literal notranslate"><span class="pre">ModifiedPopulation.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.ModifiedPopulation.elements"><code class="docutils literal notranslate"><span class="pre">ModifiedPopulation.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.ModifiedPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">ModifiedPopulation.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.ModifiedPopulation.get_all"><code class="docutils literal notranslate"><span class="pre">ModifiedPopulation.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.ModifiedPopulation.mutate"><code class="docutils literal notranslate"><span class="pre">ModifiedPopulation.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.ModifiedPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">ModifiedPopulation.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.ModifiedPopulation.params"><code class="docutils literal notranslate"><span class="pre">ModifiedPopulation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.ModifiedPopulation.type_check"><code class="docutils literal notranslate"><span class="pre">ModifiedPopulation.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.population.StandardPopulation"><code class="docutils literal notranslate"><span class="pre">StandardPopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.population.StandardPopulation.alias"><code class="docutils literal notranslate"><span class="pre">StandardPopulation.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.StandardPopulation.elements"><code class="docutils literal notranslate"><span class="pre">StandardPopulation.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.StandardPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">StandardPopulation.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.StandardPopulation.get_all"><code class="docutils literal notranslate"><span class="pre">StandardPopulation.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.StandardPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">StandardPopulation.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.StandardPopulation.params"><code class="docutils literal notranslate"><span class="pre">StandardPopulation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.StandardPopulation.transit"><code class="docutils literal notranslate"><span class="pre">StandardPopulation.transit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.population.StandardPopulation.type_check"><code class="docutils literal notranslate"><span class="pre">StandardPopulation.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.population.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.pso">pyrimidine.pso module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle"><code class="docutils literal notranslate"><span class="pre">BaseParticle</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.alias"><code class="docutils literal notranslate"><span class="pre">BaseParticle.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.backup"><code class="docutils literal notranslate"><span class="pre">BaseParticle.backup()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.best_position"><code class="docutils literal notranslate"><span class="pre">BaseParticle.best_position</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.decode"><code class="docutils literal notranslate"><span class="pre">BaseParticle.decode()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.default_size"><code class="docutils literal notranslate"><span class="pre">BaseParticle.default_size</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.element_class"><code class="docutils literal notranslate"><span class="pre">BaseParticle.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.elements"><code class="docutils literal notranslate"><span class="pre">BaseParticle.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.get_all"><code class="docutils literal notranslate"><span class="pre">BaseParticle.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.init"><code class="docutils literal notranslate"><span class="pre">BaseParticle.init()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.memory"><code class="docutils literal notranslate"><span class="pre">BaseParticle.memory</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.move"><code class="docutils literal notranslate"><span class="pre">BaseParticle.move()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.n_elements"><code class="docutils literal notranslate"><span class="pre">BaseParticle.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.params"><code class="docutils literal notranslate"><span class="pre">BaseParticle.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.position"><code class="docutils literal notranslate"><span class="pre">BaseParticle.position</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.type_check"><code class="docutils literal notranslate"><span class="pre">BaseParticle.type_check()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.update_vilocity"><code class="docutils literal notranslate"><span class="pre">BaseParticle.update_vilocity()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.BaseParticle.velocity"><code class="docutils literal notranslate"><span class="pre">BaseParticle.velocity</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.pso.DiscreteParticleSwarm"><code class="docutils literal notranslate"><span class="pre">DiscreteParticleSwarm</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.pso.DiscreteParticleSwarm.move"><code class="docutils literal notranslate"><span class="pre">DiscreteParticleSwarm.move()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.pso.Particle"><code class="docutils literal notranslate"><span class="pre">Particle</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.pso.Particle.alias"><code class="docutils literal notranslate"><span class="pre">Particle.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.Particle.default_size"><code class="docutils literal notranslate"><span class="pre">Particle.default_size</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.Particle.element_class"><code class="docutils literal notranslate"><span class="pre">Particle.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.Particle.elements"><code class="docutils literal notranslate"><span class="pre">Particle.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.Particle.get_all"><code class="docutils literal notranslate"><span class="pre">Particle.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.Particle.n_elements"><code class="docutils literal notranslate"><span class="pre">Particle.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.Particle.params"><code class="docutils literal notranslate"><span class="pre">Particle.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.Particle.position"><code class="docutils literal notranslate"><span class="pre">Particle.position</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.Particle.type_check"><code class="docutils literal notranslate"><span class="pre">Particle.type_check()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.Particle.update_vilocity"><code class="docutils literal notranslate"><span class="pre">Particle.update_vilocity()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.Particle.velocity"><code class="docutils literal notranslate"><span class="pre">Particle.velocity</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.pso.ParticleSwarm"><code class="docutils literal notranslate"><span class="pre">ParticleSwarm</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.pso.ParticleSwarm.best_fitness"><code class="docutils literal notranslate"><span class="pre">ParticleSwarm.best_fitness</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.ParticleSwarm.default_size"><code class="docutils literal notranslate"><span class="pre">ParticleSwarm.default_size</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.ParticleSwarm.element_class"><code class="docutils literal notranslate"><span class="pre">ParticleSwarm.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.ParticleSwarm.init"><code class="docutils literal notranslate"><span class="pre">ParticleSwarm.init()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.ParticleSwarm.move"><code class="docutils literal notranslate"><span class="pre">ParticleSwarm.move()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.ParticleSwarm.params"><code class="docutils literal notranslate"><span class="pre">ParticleSwarm.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.ParticleSwarm.transit"><code class="docutils literal notranslate"><span class="pre">ParticleSwarm.transit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.pso.ParticleSwarm.update_fame"><code class="docutils literal notranslate"><span class="pre">ParticleSwarm.update_fame()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.pso.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.species">pyrimidine.species module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies"><code class="docutils literal notranslate"><span class="pre">DualSpecies</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.alias"><code class="docutils literal notranslate"><span class="pre">DualSpecies.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.elements"><code class="docutils literal notranslate"><span class="pre">DualSpecies.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.female_fitness"><code class="docutils literal notranslate"><span class="pre">DualSpecies.female_fitness</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.female_population"><code class="docutils literal notranslate"><span class="pre">DualSpecies.female_population</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.females"><code class="docutils literal notranslate"><span class="pre">DualSpecies.females</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.flatten"><code class="docutils literal notranslate"><span class="pre">DualSpecies.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.get_all"><code class="docutils literal notranslate"><span class="pre">DualSpecies.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.male_fitness"><code class="docutils literal notranslate"><span class="pre">DualSpecies.male_fitness</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.male_population"><code class="docutils literal notranslate"><span class="pre">DualSpecies.male_population</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.males"><code class="docutils literal notranslate"><span class="pre">DualSpecies.males</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.match"><code class="docutils literal notranslate"><span class="pre">DualSpecies.match()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.mate"><code class="docutils literal notranslate"><span class="pre">DualSpecies.mate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.merge"><code class="docutils literal notranslate"><span class="pre">DualSpecies.merge()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.mutate"><code class="docutils literal notranslate"><span class="pre">DualSpecies.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.n_elements"><code class="docutils literal notranslate"><span class="pre">DualSpecies.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.params"><code class="docutils literal notranslate"><span class="pre">DualSpecies.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.select"><code class="docutils literal notranslate"><span class="pre">DualSpecies.select()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.transit"><code class="docutils literal notranslate"><span class="pre">DualSpecies.transit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.DualSpecies.type_check"><code class="docutils literal notranslate"><span class="pre">DualSpecies.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.species.SimpleSpecies"><code class="docutils literal notranslate"><span class="pre">SimpleSpecies</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.species.SimpleSpecies.alias"><code class="docutils literal notranslate"><span class="pre">SimpleSpecies.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.SimpleSpecies.elements"><code class="docutils literal notranslate"><span class="pre">SimpleSpecies.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.SimpleSpecies.flatten"><code class="docutils literal notranslate"><span class="pre">SimpleSpecies.flatten()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.SimpleSpecies.get_all"><code class="docutils literal notranslate"><span class="pre">SimpleSpecies.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.SimpleSpecies.n_elements"><code class="docutils literal notranslate"><span class="pre">SimpleSpecies.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.SimpleSpecies.params"><code class="docutils literal notranslate"><span class="pre">SimpleSpecies.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.species.SimpleSpecies.type_check"><code class="docutils literal notranslate"><span class="pre">SimpleSpecies.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.species.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine-trait-ga-module">pyrimidine.trait_ga module</a></li>
+<li><a class="reference internal" href="#module-pyrimidine.utils">pyrimidine.utils module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.utils.binary_select"><code class="docutils literal notranslate"><span class="pre">binary_select()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.utils.boltzmann_select"><code class="docutils literal notranslate"><span class="pre">boltzmann_select()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.utils.choice"><code class="docutils literal notranslate"><span class="pre">choice()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.utils.choice_uniform"><code class="docutils literal notranslate"><span class="pre">choice_uniform()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.utils.choice_unique"><code class="docutils literal notranslate"><span class="pre">choice_unique()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.utils.choice_with_fitness"><code class="docutils literal notranslate"><span class="pre">choice_with_fitness()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.utils.max_lb"><code class="docutils literal notranslate"><span class="pre">max_lb()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.utils.metropolis_rule"><code class="docutils literal notranslate"><span class="pre">metropolis_rule()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.utils.proportion"><code class="docutils literal notranslate"><span class="pre">proportion()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.utils.randint2"><code class="docutils literal notranslate"><span class="pre">randint2()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.utils.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine">Module contents</a><ul>
+<li><a class="reference internal" href="#pyrimidine.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="modules.html"
+                          title="previous chapter">pyrimidine</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="pyrimidine.benchmarks.html"
+                          title="next chapter">pyrimidine.benchmarks package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/pyrimidine.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -3272,32 +3700,33 @@ ub {number} – upper bound of interval (default: {9})</p>
     </div>
 </div>
 <script>document.getElementById('searchbox').style.display = "block"</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2023, William Song.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
-      
-      |
-      <a href="../_sources/source/pyrimidine.rst.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyrimidine.benchmarks.html" title="pyrimidine.benchmarks package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="pyrimidine"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyrimidine package</a></li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2023, William Song.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
   </body>
 </html>

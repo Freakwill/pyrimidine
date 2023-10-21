@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from pyrimidine.base import *
 from pyrimidine.pso import Particle, ParticleSwarm
@@ -30,7 +29,10 @@ print(pop.best_fitness)
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+axt = ax.twinx()
+data[['Best Fitness']].plot(ax=ax)
+data[['Mean Fitness']].plot(ax=axt, color='orange', linestyle='--')
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
+ax.set_title('Demo of PSO')
 plt.show()

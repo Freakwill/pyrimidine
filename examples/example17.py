@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-from pyrimidine import *
 import numpy as np
+
+from pyrimidine import *
 from pyrimidine.benchmarks.optimization import *
 
 
@@ -10,7 +11,7 @@ from pyrimidine.benchmarks.optimization import *
 n_bags = 100
 _evaluate = Knapsack.random(n=n_bags)
 
-class _Individual(PolyIndividual[BinaryChromosome]):
+class _Individual(PolyIndividual[BinaryChromosome.set(default_size=n_bags)]):
 
     def decode(self):
         return self[0]
@@ -19,19 +20,18 @@ class _Individual(PolyIndividual[BinaryChromosome]):
         return _evaluate(self.decode())
 
 
-class _Population(BasePopulation):
+class _Population(HOFPopulation):
     element_class = _Individual
-    default_size = 20
+    default_size = 10
 
 class MySpecies(BaseSpecies):
     element_class = _Population
+    default_size = 2
 
 
-sp = MySpecies.random(sizes=(n_bags, 10))
-
+sp = MySpecies.random()
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
-data, t = sp.perf(stat=stat, n_iter=200, n_repeats=1)
-print(t)
+data = sp.evolve(stat=stat, n_iter=50, history=True)
 
 
 import matplotlib.pyplot as plt

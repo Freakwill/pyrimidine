@@ -9,9 +9,9 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame
 
 import numpy as np
 
-from .base import BasePopulation, random
+from .base import BasePopulation
 from .utils import gauss, random, methodcaller
-from . import MetaList
+from .meta import MetaList
 
 
 class StandardPopulation(BasePopulation):
@@ -33,11 +33,6 @@ class StandardPopulation(BasePopulation):
         self.merge(elder, n_sel=self.default_size)
 
 
-# class SGAPopulation(StandardPopulation):
-#     def __init__(self, *args, **kwargs):
-#         print('Deprecated warning: Use StandardPopulation in future!')
-#         super().__init__(*args, **kwargs)
-
 
 class HOFPopulation(StandardPopulation):
     """Standard Genetic Algo II.
@@ -54,10 +49,12 @@ class HOFPopulation(StandardPopulation):
     def init(self):
         self.hall_of_fame = self.get_best_individuals(self.fame_size)
 
-    def postprocess(self, k=None, *args, **kwargs):
+    def transit(self, *args, **kwargs):
         """
-        Update the hall of fame after one step of evolution
+        Update the hall of fame after each step of evolution
         """
+
+        super().transit(*args, **kwargs)
         self.update_hall_of_fame()
         self.add_individuals(list(map(methodcaller('clone'), self.hall_of_fame)))
 

@@ -2,6 +2,25 @@
 
 In this section, we present more complicated examples.
 
+## Customization Tricks
+
+Take Partical Swarm Optimization(PSO) as an example for a quick look at the tricks of customization. First of all, define `class ParticleSwarm(PopulationModel):...`, as subclass of `PopulationModel`. `PopulationModel` is a mixin class where you have to define method `transit` to implement the PSO algorithm. Then assign `element_class` to be the type of particles, and set `default_size` as the number of the particles.
+
+Since the package has provide a practical class for PSO, you only need set the attribute `element_class` to be your own particle class in most case. See `example-pso.py` in `examples`.
+
+```python
+class _Particle(BaseParticle):
+    ...
+
+class MyParticleSwarm(ParticleSwarm, metaclass=MetaContainer):
+    element_class = _Particle
+    default_size = 20
+    ...
+```
+
+In the standard definition, as an individual, a particle has two "chromosomes", one represents the current position, the other represents the current velocity. While, you can define three or more chromosomes, to include the acceleration. It also has an important attribute, `memory` as its clone, but stores the best position that the particle passed-by.
+
+
 ## Simulated Annealing Algorithm
 See the following code for SA Algorithm. The standard SA is an iteration of one solution. Hence we inherit it from `FitnessModel` instead of `PopulationModel`
 

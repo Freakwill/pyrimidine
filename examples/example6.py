@@ -1,22 +1,18 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 
 from pyrimidine.benchmarks.special import *
-
-
 from pyrimidine import *
-from digit_converter import IntervalConverter
+from digit_converter import IntervalConverter, unitIntervalConverter
 
 import numpy as np
 
 
 evaluate = lambda x: -rosenbrock(20)(x)
 
-c = IntervalConverter(-30,30)
-
 class _Chromosome(BinaryChromosome):
     def decode(self):
-        return c(self)
+        return IntervalConverter(-30,30)(self)
 
 class uChromosome(BinaryChromosome):
     def decode(self):

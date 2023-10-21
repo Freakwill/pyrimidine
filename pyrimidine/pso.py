@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """Particle Swarm Optimization
 
@@ -16,7 +15,7 @@ from .utils import gauss, random
 import numpy as np
 
 class BaseParticle(PolyIndividual):
-    """Base class of particles in PSO
+    """A particle in PSO
     
     Extends:
         PolyIndividual
@@ -26,14 +25,17 @@ class BaseParticle(PolyIndividual):
         memory {Particle} -- the best state of the particle moving in the solution space.
 
     Caution:
-        implement the method-properties: position, velocity
+        Have to implement the properties in subclasses: position, velocity
     """
 
     element_class = FloatChromosome
     default_size = 2
-    memory = None
+    memory = None    # store the best position passed by the particle
 
-    params = {'learning_factor': 2, 'acceleration_coefficient': 3, 'inertia':0.5}
+    params = {'learning_factor': 2,
+    'acceleration_coefficient': 3,
+    'inertia':0.5
+    }
 
     def backup(self):
         if self.memory is None:
@@ -61,27 +63,23 @@ class BaseParticle(PolyIndividual):
 
     @property
     def best_position(self):
+        # alias for the position of memory
         return self.memory.position
-
-    @best_position.setter
-    def best_position(self, x):
-        self.memory.position = x
-
-    def decode(self):
-        return self.best_position
 
     def update_vilocity(self, fame=None, *args, **kwargs):
         raise NotImplementedError
 
+    def move(self):
+        self.position += self.velocity
+
+    def decode(self):
+        return self.best_position
+
 
 class Particle(BaseParticle):
-    """
-    Particle class
-    """
 
     element_class = FloatChromosome
     default_size = 2
-    memory = None
 
     @property
     def position(self):
@@ -100,9 +98,6 @@ class Particle(BaseParticle):
     def velocity(self, v):
         self.chromosomes[1] = v
 
-    def move(self):
-        self.position += self.velocity
-
     def update_vilocity(self, fame=None, *args, **kwargs):
         xi = random()
         if fame is None:
@@ -116,7 +111,7 @@ class Particle(BaseParticle):
 
 
 class ParticleSwarm(PopulationModel):
-    """Implimentation Standard PSO
+    """Standard PSO
     
     Extends:
         PopulationModel
@@ -154,9 +149,8 @@ class ParticleSwarm(PopulationModel):
         self.update_fame()
         self.move()
 
-    def postprocess(self):
+        # overwrite the memory of the particle if its current state is better its memory
         for particle in self:
-            # overwrite the memory of the particle if its current state is better its memory
             if particle.fitness > particle.memory.fitness:
                 particle.backup()
 
@@ -182,7 +176,10 @@ class ParticleSwarm(PopulationModel):
 
     @property
     def best_fitness(self):
-        return np.max([_.memory.fitness for _ in self.hall_of_fame])
+        if self.hall_of_fame:
+            return np.max([_.memory.fitness for _ in self.hall_of_fame])
+        else:
+            return super().best_fitness
 
 
 class DiscreteParticleSwarm(ParticleSwarm):

@@ -4,13 +4,12 @@
 from pyrimidine import *
 import numpy as np
 
-from digit_converter import *
+from digit_converter import IntegerConverter
 
-c = IntegerConverter()
 
 class _Chromosome(BinaryChromosome):
     def decode(self):
-        return c(self)
+        return IntegerConverter()(self)
 
 
 class MyIndividual(MultiIndividual[_Chromosome]):
@@ -22,7 +21,7 @@ class MyIndividual(MultiIndividual[_Chromosome]):
     default_size = 3
 
     def decode(self):
-        x = super(MyIndividual, self).decode()
+        x = super().decode()
         return 2*x[0]+1, x[1]+1, 2*x[2]+1
 
     def _fitness(self):

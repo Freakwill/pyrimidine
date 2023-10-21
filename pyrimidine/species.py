@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+# -*- coding: utf-8 -*-
 
 from . import BaseSpecies
 from .utils import  *
@@ -10,7 +10,6 @@ from itertools import product
 
 class SimpleSpecies(BaseSpecies):
     pass
-
 
 class DualSpecies(BaseSpecies):
     params = {'n_elders':0.5, 'mate_prob':0.75}
@@ -86,7 +85,7 @@ class DualSpecies(BaseSpecies):
         self.populations[0].merge(other.populations[0])
         self.populations[1].merge(other.populations[1])
 
-    def post_process(self):
-        super(DualSpecies, self).post_process()
+    def transit(self, *args, **kwargs):
+        super().transit(*args, **kwargs)
         self.populations[0].fitness = self.populations[1].fitness = None
 

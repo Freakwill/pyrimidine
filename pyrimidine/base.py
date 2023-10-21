@@ -465,11 +465,10 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
     """Base class of BaseMultiPopulation
     
     Attributes:
-        default_size (int): Description
+        default_size (int): the number of populations
         element_class (TYPE): type of the populations
         elements (TYPE): populations as the elements
         fitness (TYPE): mean fitness
-        params (dict): Description
         sorted (bool): Description
     """
     
@@ -481,6 +480,7 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
     def init(self):
         for p in self.populations:
             p.init()
+
 
     def __str__(self):
         return '\n'.join(map(str, self.individuals))
@@ -509,13 +509,21 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
         self.fitness = None
 
     def transit(self, *args, **kwargs):
+
         for population in self.populations:
             population.transit(*args, **kwargs)
         self.migrate()
 
+
     @property
     def best_fitness(self):
-        return np.max([pop.best_fitness for pop in self.populations])
+        return max(map(attrgetter('best_fitness'), self.populations))
+
+    def get_best_individual(self):
+        bests = [population.get_best_individual() for population in self]
+        k = np.argmax([b.fitness for b in bests])
+        return bests[k]
+
 
     def get_best_individuals(self, n=1):
         # first n best individuals
@@ -541,8 +549,9 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
 
 
 class BaseSpecies(BaseMultiPopulation):
+    def __str__(self):
+        return ' $$\n'.join(map(str, self))
 
-    element_class = BasePopulation
 
 
 class BaseEnvironment(metaclass=ParamType):

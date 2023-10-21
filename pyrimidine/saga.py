@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+Self Adaptive GA
+"""
+
 from . import *
 from .utils import *
 
@@ -27,7 +31,7 @@ class BaseSelfAdaptiveIndividual(MixedIndividual):
         raise NotImplementedError
 
 
-class _SelfAdaptiveIndividual(BaseSelfAdaptiveIndividual):
+class SelfAdaptiveIndividual(BaseSelfAdaptiveIndividual):
     """Individual for Self-adaptive GA
 
     Provide at least 2 chromosomes, one of them is coded by float numbers
@@ -71,19 +75,19 @@ class _SelfAdaptiveIndividual(BaseSelfAdaptiveIndividual):
         return self.chromosomes[-1][2]
     
 
-class SelfAdaptiveIndividual(_SelfAdaptiveIndividual):
+class RankingIndividual(SelfAdaptiveIndividual):
     ranking = None
 
     # def mate(self, other, mate_prob=None):
     #     if other.ranking:
     #         if self.threshold <= other.ranking:
-    #             return super(TraitThresholdIndividual, self).mate(other, mate_prob=1)
+    #             return super().mate(other, mate_prob=1)
     #         elif self.threshold <= 2* other.ranking:
-    #             return super(TraitThresholdIndividual, self).mate(other, mate_prob=0.8)
+    #             return super().mate(other, mate_prob=0.8)
     #         else:
-    #             return super(TraitThresholdIndividual, self).mate(other, mate_prob=0.5)
+    #             return super().mate(other, mate_prob=0.5)
     #     else:
-    #         return super(TraitThresholdIndividual, self).mate(other)
+    #         return super().mate(other)
 
     # @property
     # def threshold(self):

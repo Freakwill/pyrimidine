@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 
 from itertools import product
+import numpy as np
 
 from pyrimidine import *
-import numpy as np
 from pyrimidine.benchmarks.optimization import *
 from pyrimidine.utils import shuffle
 
 from digit_converter import unitIntervalConverter
 
-c = unitIntervalConverter
 
 # generate a knapsack problem randomly
 
@@ -26,10 +25,10 @@ class _Individual(PolyIndividual[BinaryChromosome]):
 
     @property
     def expect(self):
-        return c(self.chromosomes[1])
+        return unitIntervalConverter(self.chromosomes[1])
 
 
-class _Population(SGA2Population):
+class _Population(HOFPopulation):
     element_class = _Individual
     default_size = 20
 
@@ -73,16 +72,16 @@ class MyPopulation(_Population):
     default_size = 20
 
     # def mate(self):
-    #     super(MyPopulation, self).mate()
+    #     super().mate()
     #     shuffle(self.individuals)
-    #     super(MyPopulation, self).mate()
+    #     super().mate()
 
 
 sp = MySpecies.random(sizes=(n_bags, 4))
 
 stat={'Male Fitness':'male_fitness', 'Female Fitness':'female_fitness', 'Best Fitness': 'best_fitness', 'Mean Expect': 'expect', 'Best Expect': 'best_expect'}
 
-data = sp.evolve(stat=stat, n_iter=100, n_repeats=1, history=True)
+data = sp.evolve(stat=stat, n_iter=100, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

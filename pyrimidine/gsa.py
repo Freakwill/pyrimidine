@@ -90,9 +90,6 @@ class GravitySearch(BaseFitnessModel):
         for i, particle in enumerate(self):
             particle.accelerate = A[:, i]
 
-    def postprocess(self):
-        self.gravity_coefficient *= exp(-self.attenuation_coefficient/self.n_iter)
-
     
     def transit(self, *args, **kwargs):
         """
@@ -100,6 +97,7 @@ class GravitySearch(BaseFitnessModel):
         """
         self.compute_accelerate()
         self.move()
+        self.gravity_coefficient *= exp(-self.attenuation_coefficient/self.n_iter)
 
     def move(self):
         """Moving particles with Newton's mechanics

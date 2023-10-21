@@ -24,11 +24,11 @@ Welcome to pyrimidine's world of genetic algorithm
    Helpers <../source/Helpers.md>
 
 
-   modules
+   modules <../source/modules.md>
 
 Indices and tables
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+* :ref:`source/genindex`
+* :ref:`source/modindex`
+* :ref:`source/search`

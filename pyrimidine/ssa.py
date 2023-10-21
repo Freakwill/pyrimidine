@@ -19,6 +19,11 @@ class SSAPopulation(HOFPopulation):
         self.mate()
         self.mutate()
         self.doom()
+        
+        for individual in self.individuals:
+            individual.age += 1
+        if self.is_crowd():
+            self.select(0.3)
 
     def doom(self):
         self.individuals = [individual for individual in self.individuals if not individual.is_dead()]
@@ -40,14 +45,6 @@ class SSAPopulation(HOFPopulation):
             return random() < p
         else:
             return random() < 0.05
-
-
-    def postprocess(self):
-        for individual in self.individuals:
-            individual.age += 1
-        if self.is_crowd():
-            self.select(0.3)
-        super(SSAPopulation, self).postprocess()
 
     def is_crowd(self):
         return len(self) > 8 * self.default_size

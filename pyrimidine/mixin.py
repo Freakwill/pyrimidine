@@ -2,7 +2,7 @@
 
 
 """
-Minin classes of iterative models
+Mixin classes of iterative models
 
 IterativeModel: base class of all iterative models
 FitnessModel: IterativeModel with `fitness`
@@ -107,7 +107,6 @@ iteration & best solution & {" & ".join(res.keys())}
         # n_iter = n_iter or self.n_iter or self.default_n_iter
         for k in range(1, n_iter+1):
             self.transit(k)
-            self.postprocess()
             for c in callbacks:
                 c(self)
             res = stat.do(self) if stat else {}

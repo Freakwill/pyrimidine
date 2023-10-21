@@ -14,8 +14,7 @@ class MultiIndividual(BaseIndividual, metaclass=MetaList):
     pass
 
 
-class PolyIndividual(BaseIndividual, metaclass=MetaList):
-    pass
+PolyIndividual = MultiIndividual
 
 
 class MonoIndividual(BaseIndividual, metaclass=MetaList):
@@ -52,42 +51,26 @@ class MonoIndividual(BaseIndividual, metaclass=MetaList):
         super().individuals = x
 
 
-class MonoBinaryIndividual(MonoIndividual):
-
-    def __init__(self, size=8, *args, **kwargs):
-        """simple binary individual
-        encoded as a sequence such as 01001101
-
-        Equiv. to `MonoBinaryIndividual = MonoIndividual[BinaryChromosome]`
-        """
-        super().__init__(*args, **kwargs)
-        self.element_class = BinaryChromosome.set(default_size=size)
-
-
-class BinaryIndividual(MultiIndividual):
-
-    def __init__(self, size:tuple, *args, **kwargs):
-        """
-        size should be a tuple of sizes of chromosomes in the individual
-        """
-        super().__init__(**args, **kwargs)
-        self.element_class = tuple(BinaryChromosome.set(default_size=s) for s in size)
-
-
-class FloatIndividual(BaseIndividual):
+def binaryMonoIndividual(size=8):
     """simple binary individual
-    encoded as a sequence such as 010011
+    encoded as a sequence such as 01001101
     """
+    return MonoIndividual[BinaryChromosome.set(default_size=size)]
 
-    element_class = FloatChromosome
 
-
-class MonoFloatIndividual(MonoIndividual):
+def binaryIndividual(size=8):
     """simple binary individual
-    encoded as a sequence such as 010011
+    encoded as a sequence such as 01001101
     """
+    return MonoIndividual[tuple(BinaryChromosome.set(default_size=s) for s in size)]
 
-    element_class = FloatChromosome
+
+def floatMonoIndividual(BaseIndividual):
+    return MonoIndividual[FloatChromosome.set(default_size=size)]
+
+
+def floatIndividual(MonoIndividual):
+    return MonoIndividual[tuple(FloatChromosome.set(default_size=s) for s in size)]
 
 
 class MixedIndividual(BaseIndividual, metaclass=MetaTuple):
@@ -114,7 +97,7 @@ class MixedIndividual(BaseIndividual, metaclass=MetaTuple):
 
 class AgeIndividual(BaseIndividual):
     age = 0
-    life_span = 100  # life span
+    life_span = 100
 
 
 class GenderIndividual(MixedIndividual):

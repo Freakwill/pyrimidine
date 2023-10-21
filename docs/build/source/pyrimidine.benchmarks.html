@@ -6,27 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>pyrimidine.benchmarks package &#8212; pyrimidine 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b3523f8e" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=039e1c02" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4848ba22" />
+    <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=a5b9c134" />
     <script src="../_static/documentation_options.js?v=f2a433a1"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="next" title="pyrimidine.learn package" href="pyrimidine.learn.html" />
+    <link rel="prev" title="pyrimidine package" href="pyrimidine.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
 
   </head><body>
-  
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyrimidine.learn.html" title="pyrimidine.learn package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pyrimidine.html" title="pyrimidine package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="pyrimidine.html" accesskey="U">pyrimidine package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyrimidine.benchmarks package</a></li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <section id="pyrimidine-benchmarks-package">
@@ -338,30 +359,142 @@ make it behaving as function</p>
 </section>
 
 
+            <div class="clearer"></div>
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">pyrimidine</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  </ul></li>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">pyrimidine.benchmarks package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyrimidine.benchmarks.approximation">pyrimidine.benchmarks.approximation module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.approximation.Function1DApproximation"><code class="docutils literal notranslate"><span class="pre">Function1DApproximation</span></code></a></li>
 </ul>
-</div>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.benchmarks.cluster">pyrimidine.benchmarks.cluster module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.cluster.KMeans"><code class="docutils literal notranslate"><span class="pre">KMeans</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.cluster.KMeans.random"><code class="docutils literal notranslate"><span class="pre">KMeans.random()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.benchmarks.fitting">pyrimidine.benchmarks.fitting module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.fitting.CurveFitting"><code class="docutils literal notranslate"><span class="pre">CurveFitting</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.fitting.CurveFitting.fit"><code class="docutils literal notranslate"><span class="pre">CurveFitting.fit()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.fitting.Fitting"><code class="docutils literal notranslate"><span class="pre">Fitting</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.fitting.Fitting.fit"><code class="docutils literal notranslate"><span class="pre">Fitting.fit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.fitting.Fitting.random"><code class="docutils literal notranslate"><span class="pre">Fitting.random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.fitting.Painting"><code class="docutils literal notranslate"><span class="pre">Painting</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.fitting.Painting.fit"><code class="docutils literal notranslate"><span class="pre">Painting.fit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.fitting.Painting.toimage"><code class="docutils literal notranslate"><span class="pre">Painting.toimage()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.fitting.basis"><code class="docutils literal notranslate"><span class="pre">basis()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.fitting.relu"><code class="docutils literal notranslate"><span class="pre">relu()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.benchmarks.linear_model">pyrimidine.benchmarks.linear_model module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.linear_model.fun"><code class="docutils literal notranslate"><span class="pre">fun()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.linear_model.lsq"><code class="docutils literal notranslate"><span class="pre">lsq()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.benchmarks.matrix">pyrimidine.benchmarks.matrix module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.matrix.NMF"><code class="docutils literal notranslate"><span class="pre">NMF</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.matrix.NMF.random"><code class="docutils literal notranslate"><span class="pre">NMF.random()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.benchmarks.neural_network">pyrimidine.benchmarks.neural_network module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.neural_network.MLP"><code class="docutils literal notranslate"><span class="pre">MLP</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.neural_network.MLP.random"><code class="docutils literal notranslate"><span class="pre">MLP.random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.neural_network.RNN"><code class="docutils literal notranslate"><span class="pre">RNN</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.neural_network.RNN.random"><code class="docutils literal notranslate"><span class="pre">RNN.random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.neural_network.relu"><code class="docutils literal notranslate"><span class="pre">relu()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.benchmarks.optimization">pyrimidine.benchmarks.optimization module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.CurvePath"><code class="docutils literal notranslate"><span class="pre">CurvePath</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.FacilityLayout"><code class="docutils literal notranslate"><span class="pre">FacilityLayout</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.FacilityLayout.random"><code class="docutils literal notranslate"><span class="pre">FacilityLayout.random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.Knapsack"><code class="docutils literal notranslate"><span class="pre">Knapsack</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.Knapsack.argsort"><code class="docutils literal notranslate"><span class="pre">Knapsack.argsort()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.Knapsack.example"><code class="docutils literal notranslate"><span class="pre">Knapsack.example()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.Knapsack.random"><code class="docutils literal notranslate"><span class="pre">Knapsack.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.Knapsack.sorted"><code class="docutils literal notranslate"><span class="pre">Knapsack.sorted</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.MLE"><code class="docutils literal notranslate"><span class="pre">MLE</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.MLE.random"><code class="docutils literal notranslate"><span class="pre">MLE.random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.MinSpanningTree"><code class="docutils literal notranslate"><span class="pre">MinSpanningTree</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.MinSpanningTree.prufer_decode"><code class="docutils literal notranslate"><span class="pre">MinSpanningTree.prufer_decode()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.MixMLE"><code class="docutils literal notranslate"><span class="pre">MixMLE</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.MixMLE.logpdf"><code class="docutils literal notranslate"><span class="pre">MixMLE.logpdf()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.MixMLE.random"><code class="docutils literal notranslate"><span class="pre">MixMLE.random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.ShortestPath"><code class="docutils literal notranslate"><span class="pre">ShortestPath</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.ShortestPath.random"><code class="docutils literal notranslate"><span class="pre">ShortestPath.random()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.benchmarks.others">pyrimidine.benchmarks.others module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.others.Kantorovich"><code class="docutils literal notranslate"><span class="pre">Kantorovich</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.benchmarks.special">pyrimidine.benchmarks.special module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.special.griewangk"><code class="docutils literal notranslate"><span class="pre">griewangk()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.special.hansen"><code class="docutils literal notranslate"><span class="pre">hansen()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.special.michalewiez"><code class="docutils literal notranslate"><span class="pre">michalewiez()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.special.rastrigrin"><code class="docutils literal notranslate"><span class="pre">rastrigrin()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.special.rosenbrock"><code class="docutils literal notranslate"><span class="pre">rosenbrock()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.special.schaffer"><code class="docutils literal notranslate"><span class="pre">schaffer()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.benchmarks">Module contents</a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.BaseProblem"><code class="docutils literal notranslate"><span class="pre">BaseProblem</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="pyrimidine.html"
+                          title="previous chapter">pyrimidine package</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="pyrimidine.learn.html"
+                          title="next chapter">pyrimidine.learn package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/pyrimidine.benchmarks.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -372,32 +505,34 @@ make it behaving as function</p>
     </div>
 </div>
 <script>document.getElementById('searchbox').style.display = "block"</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2023, William Song.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
-      
-      |
-      <a href="../_sources/source/pyrimidine.benchmarks.rst.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyrimidine.learn.html" title="pyrimidine.learn package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pyrimidine.html" title="pyrimidine package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="pyrimidine.html" >pyrimidine package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyrimidine.benchmarks package</a></li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2023, William Song.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
   </body>
 </html>
