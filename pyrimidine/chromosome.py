@@ -110,22 +110,22 @@ class ArrayChromosome(BaseChromosome, np.ndarray):
     def clone(self, *args, **kwargs):
         return self.__class__(array=self.copy(), gene=self.gene)
 
-    # def mutate(self, indep_prob=0.1):
-    #     for i in range(len(self)):
-    #         if random() < indep_prob:
-    #             self[i] = self.gene.random()
+    def mutate(self, indep_prob=0.1):
+        for i in range(len(self)):
+            if random() < indep_prob:
+                self[i] = self.gene.random()
 
 
 class VectorChromosome(ArrayChromosome):
-    element_class = BaseGene
+    # element_class = BaseGene
 
-    # def __new__(cls, array, gene=None):
-    #     if gene is None:
-    #         gene = cls.element_class
-    #     obj = super(VectorChromosome, cls).__new__(cls, shape=(len(array),), dtype=gene)
-    #     obj = np.asarray(array).view(cls)
-    #     obj.__gene = gene
-    #     return obj
+    def __new__(cls, array, gene=None):
+        assert np.ndim(array) == 1
+        if gene is None:
+            gene = cls.element_class
+        obj = np.asarray(array).view(cls)
+        obj.__gene = gene
+        return obj
 
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
@@ -151,7 +151,6 @@ class MatrixChromosome(ArrayChromosome):
 
 
 class BinaryChromosome(VectorChromosome):
-    element_class = BinaryGene
 
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
@@ -251,7 +250,7 @@ class UnitFloatChromosome(PositiveChromosome):
         return self >= 0.5
 
     def mutate(self, *args, **kwargs):
-        super(UnitFloatChromosome, self).mutate(*args, **kwargs)
+        super().mutate(*args, **kwargs)
         self.normalize()
 
     def normalize(self):
@@ -320,7 +319,7 @@ class ProbabilityChromosome(PositiveChromosome):
 
 
     def mutate(self, *args, **kwargs):
-        super(ProbabilityChromosome, self).mutate(*args, **kwargs)
+        super().mutate(*args, **kwargs)
         self.normalize()
 
     def normalize(self):
@@ -337,7 +336,7 @@ class CircleChromosome(FloatChromosome):
     element_class = CircleGene
 
     def mutate(self, *args, **kwargs):
-        super(CircleChromosome, self).mutate(*args, **kwargs)
+        super().mutate(*args, **kwargs)
         self.normalize()
 
     def normalize(self):

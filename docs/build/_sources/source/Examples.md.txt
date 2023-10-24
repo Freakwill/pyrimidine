@@ -11,50 +11,65 @@ One of the famous problem is the knapsack problem. It is a good example for GA.
 ```python
 #!/usr/bin/env python3
 
-from pyrimidine import MonoBinaryIndividual, StandardPopulation
+"""
+An ordinary example of the usage of `pyrimidine`
+"""
+
+from pyrimidine import MonoIndividual, BinaryChromosome, HOFPopulation
 from pyrimidine.benchmarks.optimization import *
 
-# Generate a knapsack problem randomly
-# Users can replace it with your owen goal functions
-evaluate = Knapsack.random(n=20)
+n_bags = 50
+_evaluate = Knapsack.random(n_bags)  # : 0-1 array -> float
 
-class MyIndividual(MonoBinaryIndividual):
-    def _fitness(self):
-        return evaluate(self)
+# Define the individual class
+class MyIndividual(MonoIndividual):
+    element_class = BinaryChromosome.set(default_size=n_bags)
+    def _fitness(self) -> float:
+        # To evaluate an individual!
+        return _evaluate(self.chromosome)
 
+""" Equiv. to
+    MyIndividual = MonoIndividual[BinaryChromosome.set(default_size=n_bags)].set_fitness(lambda o: _evaluate(o.chromosome))
+"""
 
-class MyPopulation(StandardPopulation):
+# Define the population class
+class MyPopulation(HOFPopulation):
     element_class = MyIndividual
+    default_size = 10
 
-pop = MyPopulation.random(size=20)
-pop.evolve()  # or pop.ezvolve() a clean version of `evolve`
-print(pop.best_individual)
-```
+""" Equiv. to
+    MyPopulation = HOFPopulation[MyIndividual].set(default_size=10)
+"""
 
-Following is an equivalent expression without `class` keward.
-```python
-MyPopulation = StandardPopulation[MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))]
-pop = MyPopulation.random(n_individuals=20, size=n)
-pop.evolve()
+pop = MyPopulation.random()
 
-# or
-MyPopulation = StandardPopulation[MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))] // 20
-pop = MyPopulation.random(size=n)
-pop.evolve()
+# Define statistics of population
+stat = {
+    'Mean Fitness': 'fitness',
+    'Best Fitness': 'best_fitness',
+    'Standard Deviation of Fitnesses': 'std_fitness',
+    'number': lambda pop: len(pop.individuals)  # or `'n_individuals'`
+    }
+
+# Do statistical task and print the results through the evoluation
+data = pop.evolve(stat=stat, n_iter=100, history=True, verbose=True)
+
+# Print the solution(the best individual in the population)
+print(pop.best_individual) # or print(pop.solution)
 ```
 
 #### Visualization
-For visualization, just set `history=True` (return `DataFrame` object) in the evolve method.
+For visualization, just set `history=True` in the evolve method. It will return `DataFrame` object. Then draw the data by the methods of the object.
 
 ```python
-stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-data = pop.evolve(stat=stat, history=True)
-# data is an instance of DataFrame of pandas
-
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
+ax2 = ax.twinx()
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+ax.legend(loc='upper left')
+data['Standard Deviation of Fitnesses'].plot(ax=ax2, style='y-.')
+ax2.legend(loc='lower right')
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 plt.show()

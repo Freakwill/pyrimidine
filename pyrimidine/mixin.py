@@ -205,21 +205,16 @@ class FitnessModel(IterativeModel):
             self.__fitness = self._fitness()
         return self.__fitness
 
+
     @fitness.setter
     def fitness(self, f):
         self.__fitness = f
 
 
-    def get_fitness(self):
-        return self._fitness()
-
-
     def _fitness(self):
         raise NotImplementedError
 
-
-    def postprocess(self):
-        self.__fitness = None
+    get_fitness = _fitness  # get_X == _X
 
 
     @classmethod
@@ -232,6 +227,7 @@ class FitnessModel(IterativeModel):
         class C(cls):
             _fitness = f
         return C
+
 
     @property
     def solution(self):
@@ -255,8 +251,8 @@ class FitnessModel(IterativeModel):
         return super().evolve(stat=stat, *args, **kwargs)
 
     def after_setter(self):
-        # clean up the fitness after setting the chromosomes
-        self.fitness = None
+        # clean up the fitness after updating the chromosome
+        self.__fitness = None
 
 
 class PopulationModel(FitnessModel):

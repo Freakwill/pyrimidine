@@ -59,49 +59,65 @@
 <h4>Codes<a class="headerlink" href="#codes" title="Link to this heading">¶</a></h4>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
 
-<span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="n">MonoBinaryIndividual</span><span class="p">,</span> <span class="n">StandardPopulation</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">An ordinary example of the usage of `pyrimidine`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="n">MonoIndividual</span><span class="p">,</span> <span class="n">BinaryChromosome</span><span class="p">,</span> <span class="n">HOFPopulation</span>
 <span class="kn">from</span> <span class="nn">pyrimidine.benchmarks.optimization</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="c1"># Generate a knapsack problem randomly</span>
-<span class="c1"># Users can replace it with your owen goal functions</span>
-<span class="n">evaluate</span> <span class="o">=</span> <span class="n">Knapsack</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">n_bags</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">_evaluate</span> <span class="o">=</span> <span class="n">Knapsack</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n_bags</span><span class="p">)</span>  <span class="c1"># : 0-1 array -&gt; float</span>
 
-<span class="k">class</span> <span class="nc">MyIndividual</span><span class="p">(</span><span class="n">MonoBinaryIndividual</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="c1"># Define the individual class</span>
+<span class="k">class</span> <span class="nc">MyIndividual</span><span class="p">(</span><span class="n">MonoIndividual</span><span class="p">):</span>
+    <span class="n">element_class</span> <span class="o">=</span> <span class="n">BinaryChromosome</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">default_size</span><span class="o">=</span><span class="n">n_bags</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="c1"># To evaluate an individual!</span>
+        <span class="k">return</span> <span class="n">_evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span><span class="p">)</span>
 
+<span class="sd">&quot;&quot;&quot; Equiv. to</span>
+<span class="sd">    MyIndividual = MonoIndividual[BinaryChromosome.set(default_size=n_bags)].set_fitness(lambda o: _evaluate(o.chromosome))</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
-<span class="k">class</span> <span class="nc">MyPopulation</span><span class="p">(</span><span class="n">StandardPopulation</span><span class="p">):</span>
+<span class="c1"># Define the population class</span>
+<span class="k">class</span> <span class="nc">MyPopulation</span><span class="p">(</span><span class="n">HOFPopulation</span><span class="p">):</span>
     <span class="n">element_class</span> <span class="o">=</span> <span class="n">MyIndividual</span>
+    <span class="n">default_size</span> <span class="o">=</span> <span class="mi">10</span>
 
-<span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>  <span class="c1"># or pop.ezvolve() a clean version of `evolve`</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">best_individual</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Following is an equivalent expression without <code class="docutils literal notranslate"><span class="pre">class</span></code> keward.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MyPopulation</span> <span class="o">=</span> <span class="n">StandardPopulation</span><span class="p">[</span><span class="n">MonoBinaryIndividual</span><span class="o">.</span><span class="n">set_fitness</span><span class="p">(</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">_evaluate</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">chromosome</span><span class="p">))]</span>
-<span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n_individuals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
-<span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
+<span class="sd">&quot;&quot;&quot; Equiv. to</span>
+<span class="sd">    MyPopulation = HOFPopulation[MyIndividual].set(default_size=10)</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># or</span>
-<span class="n">MyPopulation</span> <span class="o">=</span> <span class="n">StandardPopulation</span><span class="p">[</span><span class="n">MonoBinaryIndividual</span><span class="o">.</span><span class="n">set_fitness</span><span class="p">(</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">_evaluate</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">chromosome</span><span class="p">))]</span> <span class="o">//</span> <span class="mi">20</span>
-<span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
-<span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+
+<span class="c1"># Define statistics of population</span>
+<span class="n">stat</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Mean Fitness&#39;</span><span class="p">:</span> <span class="s1">&#39;fitness&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Best Fitness&#39;</span><span class="p">:</span> <span class="s1">&#39;best_fitness&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Standard Deviation of Fitnesses&#39;</span><span class="p">:</span> <span class="s1">&#39;std_fitness&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;number&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">pop</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">individuals</span><span class="p">)</span>  <span class="c1"># or `&#39;n_individuals&#39;`</span>
+    <span class="p">}</span>
+
+<span class="c1"># Do statistical task and print the results through the evoluation</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Print the solution(the best individual in the population)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">best_individual</span><span class="p">)</span> <span class="c1"># or print(pop.solution)</span>
 </pre></div>
 </div>
 </section>
 <section id="visualization">
 <h4>Visualization<a class="headerlink" href="#visualization" title="Link to this heading">¶</a></h4>
-<p>For visualization, just set <code class="docutils literal notranslate"><span class="pre">history=True</span></code> (return <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> object) in the evolve method.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">:</span><span class="s1">&#39;mean_fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">:</span><span class="s1">&#39;best_fitness&#39;</span><span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="c1"># data is an instance of DataFrame of pandas</span>
-
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<p>For visualization, just set <code class="docutils literal notranslate"><span class="pre">history=True</span></code> in the evolve method. It will return <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> object. Then draw the data by the methods of the object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
 <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Standard Deviation of Fitnesses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;y-.&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Generations&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Fitness&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>

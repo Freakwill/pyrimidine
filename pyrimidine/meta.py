@@ -10,6 +10,7 @@ from collections.abc import Iterable
 from operator import attrgetter
 
 
+
 def get_stem(s):
     """get the last part in Camel expression
     
@@ -88,6 +89,9 @@ class ParamType(type):
                 object.__setattr__(self, key, value)
         attrs['__setattr__'] = _setattr
 
+        if 'check' in attrs:
+            attrs('check')(cls)
+
         return super().__new__(cls, name, bases, attrs)
 
     @classmethod
@@ -101,14 +105,16 @@ class ParamType(type):
             setattr(self, k, v)
         return self
 
-    def set_methods(self, **kwargs):
+    def set_methods(self, *args, **kwargs):
+        for k in args:
+            setattr(self, k, globals()[k])
         for k, m in kwargs.items():
             setattr(self, k, MethodType(m, self))
         return self
 
 
 class System(ParamType):
-    """metaclass of systems
+    """Metaclass of systems
 
     A system consists of a set of elements and operators acting on them
 
@@ -133,11 +139,14 @@ class System(ParamType):
         attrs.update(
             {'__getitem__': _getitem,
             '__len__': _len,
-            '__iter__': _iter}
-        )
+            '__iter__': _iter})
 
         def _get_all(self, attr_name):
             return map(attrgetter(attr_name), self.__elements)
+
+
+        def _apply(self, f, *args, **kwargs):
+            return map(lambda o: f(o, *args, **kwargs, self.__elements))
 
         @property
         def _n_elements(self):
@@ -156,38 +165,38 @@ class System(ParamType):
         attrs.update(
             {"elements": _elements,
             "n_elements": _n_elements,
-            "get_all": _get_all
-            }
-        )
-
+            "get_all": _get_all,
+            "apply": _apply
+            })
 
         def _type_check(self):
             return all(isinstance(elm, self.element_class) for elm in self.__elements)
+
         attrs['type_check'] = _type_check
 
         """
         Regester maps and operands
-        if f is regestered, then A has method f, automatically
-        f(A) = {f(a), a in A} where f is a method of A.
+        if the mapping f is regestered, then A owns method f, automatically
+        f(A) := {f(a), a in A} where f is a method of A.
         """
-        # def _regester_map(self, name, key=None, force=True):
-        #     if key is None:
-        #         key = lambda e: getattr(e, name)()
-        #     def m(obj):
-        #         return map(key, obj.elements)
-        #     if not force and hasattr(self, name):
-        #         raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
-        #     setattr(self, name, MethodType(m, self))
+        def _regester_map(self, name, key=None, force=True):
+            if key is None:
+                key = lambda e: getattr(e, name)()
+            def m(obj):
+                return map(key, obj.elements)
+            if not force and hasattr(self, name):
+                raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
+            setattr(self, name, MethodType(m, self))
 
 
-        # def _regester_op(self, name, key=None, force=True):
-        #     if key is None:
-        #         key = lambda e, o: getattr(e, name)(o)
-        #     def m(obj):
-        #         return map(key, zip(obj.elements, other.elements))
-        #     if not force and hasattr(self, name):
-        #         raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
-        #     setattr(self, name, MethodType(m, self))
+        def _regester_op(self, name, key=None, force=True):
+            if key is None:
+                key = lambda e, o: getattr(e, name)(o)
+            def m(obj):
+                return map(key, zip(obj.elements, other.elements))
+            if not force and hasattr(self, name):
+                raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
+            setattr(self, name, MethodType(m, self))
 
         # attrs = {
         #     'regester_op': _regester_op,
@@ -281,7 +290,6 @@ class MetaContainer(System):
                     element_class = base.element_class
                     break
             else:
-                print(name, cls)
                 raise Exception('Have not provided element class yet.')
         if 'element_name' in attrs:
             element_name = attrs['element_name'] + 's'

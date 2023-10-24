@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 
 class UnknownSizeError(Exception):
     def __init__(self, cls):
@@ -14,4 +14,4 @@ class UnavalibleAttributeError(Exception):
         self.attr_name = attr_name
         
     def __str__(self):
-        return f'Did not defined attribute `{self.attr_name}` for `{self.cls}`.'
+        return f'Did not define attribute `{self.attr_name}` for `{self.cls}`.'
