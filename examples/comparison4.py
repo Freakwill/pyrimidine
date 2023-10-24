@@ -28,16 +28,17 @@ pop = MyParticleSwarm.random()
 pop2 = pop.clone(type_=MyPopulation)
 
 
-stat={'Best Fitness': 'best_fitness'}
+stat={'Best Fitness(PSO)': 'best_fitness'}
 data = pop.evolve(stat=stat, n_iter=100, history=True)
 
-stat={'Best Fitness2': 'best_fitness'}
+stat={'Best Fitness(GA)': 'best_fitness'}
 data2 = pop2.evolve(stat=stat, n_iter=100, history=True)
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-data[['Best Fitness']].plot(ax=ax)
-data2[['Best Fitness2']].plot(ax=ax)
+data[['Best Fitness(PSO)']].plot(ax=ax)
+data2[['Best Fitness(GA)']].plot(ax=ax)
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
+ax.set_title('Comparison of PSO and GA')
 plt.show()

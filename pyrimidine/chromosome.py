@@ -45,7 +45,7 @@ class ArrayChromosome(BaseChromosome, np.ndarray):
 
         inputs = map(_asarray, inputs)
         if out is not None:
-            out = map(_asarray, out)
+            out = tuple(map(_asarray, out))
 
         results = super().__array_ufunc__(ufunc, method, *inputs, out=out, **kwargs)
 
@@ -53,8 +53,9 @@ class ArrayChromosome(BaseChromosome, np.ndarray):
             return NotImplemented
         elif ufunc.nout == 1:
             if out is None:
-                return self.__class__(results)
+                return self.__class__(results) if isinstance(results, np.ndarray) else results
             else:
+                out = out[0]
                 return self.__class__(out) if isinstance(out, np.ndarray) else out
         else:
             if out is None:
@@ -110,22 +111,22 @@ class ArrayChromosome(BaseChromosome, np.ndarray):
     def clone(self, *args, **kwargs):
         return self.__class__(array=self.copy(), gene=self.gene)
 
-    def mutate(self, indep_prob=0.1):
-        for i in range(len(self)):
-            if random() < indep_prob:
-                self[i] = self.gene.random()
+    # def mutate(self, indep_prob=0.1):
+    #     for i in range(len(self)):
+    #         if random() < indep_prob:
+    #             self[i] = self.gene.random()
 
 
 class VectorChromosome(ArrayChromosome):
-    # element_class = BaseGene
+    element_class = BaseGene
 
-    def __new__(cls, array, gene=None):
-        assert np.ndim(array) == 1
-        if gene is None:
-            gene = cls.element_class
-        obj = np.asarray(array).view(cls)
-        obj.__gene = gene
-        return obj
+    # def __new__(cls, array, gene=None):
+    #     if gene is None:
+    #         gene = cls.element_class
+    #     obj = super().__new__(cls, shape=(len(array),), dtype=gene)
+    #     obj = np.asarray(array).view(cls)
+    #     obj.__gene = gene
+    #     return obj
 
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
@@ -151,6 +152,7 @@ class MatrixChromosome(ArrayChromosome):
 
 
 class BinaryChromosome(VectorChromosome):
+    element_class = BinaryGene
 
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
@@ -236,7 +238,7 @@ class FloatMatrixChromosome(MatrixChromosome, FloatChromosome):
     pass
 
 class PositiveChromosome(FloatChromosome):
-    def max0(self):
+    def normalize(self):
         self[:] = max0(self)
 
 
@@ -303,7 +305,7 @@ class ProbabilityChromosome(PositiveChromosome):
 
     def cross(self, other):
         k = randint(1, len(self)-2)
-        array=np.hstack((self[:k], other[k:]))
+        array = np.hstack((self[:k], other[k:])) + 0.001
         array /= array.sum()
         return self.__class__(array=array, gene=self.gene)
 
@@ -323,8 +325,9 @@ class ProbabilityChromosome(PositiveChromosome):
         self.normalize()
 
     def normalize(self):
-        self.max0()
-        self /= self.sum()
+        super().normalize()
+        a = self + 0.001
+        self[:] = a / np.sum(a)
 
 
 class CircleChromosome(FloatChromosome):

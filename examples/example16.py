@@ -10,8 +10,7 @@ from pyrimidine.utils import shuffle
 from digit_converter import unitIntervalConverter
 
 
-# generate a knapsack problem randomly
-
+# Generate a knapsack problem randomly
 n_bags = 100
 _evaluate = Knapsack.random(n=n_bags)
 
@@ -32,8 +31,6 @@ class _Population(HOFPopulation):
     element_class = _Individual
     default_size = 20
 
-    # def select(self):
-    #     self.individuals = self.get_best_individuals(20)
 
 class MySpecies(DualSpecies):
     element_class = _Population
@@ -70,11 +67,6 @@ class YourSpecies(DualSpecies):
 
 class MyPopulation(_Population):
     default_size = 20
-
-    # def mate(self):
-    #     super().mate()
-    #     shuffle(self.individuals)
-    #     super().mate()
 
 
 sp = MySpecies.random(sizes=(n_bags, 4))

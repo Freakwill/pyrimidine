@@ -35,19 +35,20 @@ class StandardPopulation(BasePopulation):
 
 
 class HOFPopulation(StandardPopulation):
-    """Standard Genetic Algo II.
-
-    With hall of fame
+    """Standard Genetic Algo With hall of fame
     
     Extends:
         StandardPopulation
+    
+    Attributes:
+        hall_of_fame (list): the best individuals
     """
 
-    params = {'fame_size': 2}
+    params = {'hof_size': 2}
     hall_of_fame = []
 
     def init(self):
-        self.hall_of_fame = self.get_best_individuals(self.fame_size)
+        self.hall_of_fame = self.get_best_individuals(self.hof_size)
 
     def transit(self, *args, **kwargs):
         """
@@ -85,7 +86,7 @@ class HOFPopulation(StandardPopulation):
         if self.hall_of_fame:
             return max(_.fitness for _ in self.hall_of_fame)
         else:
-            return np.max([_.fitness for _ in self.individuals])
+            return super().best_fitness
 
 
 class DualPopulation(BasePopulation):

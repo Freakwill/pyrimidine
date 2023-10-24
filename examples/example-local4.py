@@ -1,82 +1,60 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 
 from pyrimidine import *
 from pyrimidine.local_search import *
-from random import randint
+from pyrimidine.utils import randint2
 
 
-from pyrimidine.benchmarks.matrix import NMF as NMF_
-
-from digit_converter import *
+from pyrimidine.benchmarks.optimization import *
 
 
-N, p = 50, 10
-c = 3
-evaluate = NMF_.random(N=N, p=p)
-
-class _PChromosome(ProbabilityChromosome):
-
-    def random_neighbour(self):
-        # select a neighour randomly
-        r = self.random(size=self.n_genes)
-        epsilon = 0.001
-        return self + epsilon * r
-
-class _Chromosome(FloatChromosome):
-
-    def random_neighbour(self):
-        # select a neighour randomly
-        r = self.random(size=self.n_genes)
-        epsilon = 0.001
-        return self + epsilon * r
+_evaluate = ShortestPath.random(30)
 
 
-class _Individual(MixedIndividual, SimulatedAnnealing):
-    """base class of individual
+class _Chromosome(PermutationChromosome):
+    default_size = 30
 
-    You should implement the methods, cross, mute
-    """
+    def decode(self):
+        return np.hstack((self, [self[0]]))
 
-    element_class = (FloatChromosome,) * N + (ProbabilityChromosome,) * p
-
-    def _fitness(self):
-        A = np.vstack(self.chromosomes[:N])
-        B = np.vstack(self.chromosomes[N:])
-        return evaluate(A, B.T)
+    def to_points(self):
+        x = self.decode()
+        return points[x, 0], points[x, 1]
 
 
-class YourIndividual(_Individual):
-    def get_neighbour(self):
-        cpy = self.clone(fitness=None)
-        cpy.mutate()
-        return cpy
+_Individual = MonoIndividual[_Chromosome].set_fitness(lambda obj: - _evaluate(obj.decode()))
 
 
-class MyIndividual(_Individual):
-    element_class = (_Chromosome,) * N + (_PChromosome,) * p
+class SAIndividual(SimulatedAnnealing, _Individual):
 
     def get_neighbour(self):
-        # select a neighour randomly
         cpy = self.clone(fitness=None)
-        cpy.chromosomes = [chromosome.random_neighbour() for chromosome in self.chromosomes]
+        cpy.chromosome.mutate()
         return cpy
 
+sa = SAIndividual.random(size=30)
 
-from sklearn.decomposition import NMF
-nmf = NMF(n_components=c)
-W = nmf.fit_transform(evaluate.M)
-H = nmf.components_
-err = -evaluate(W, H)
+from matplotlib import pyplot as plt
+from celluloid import Camera
 
-i = MyIndividual.random(sizes=(c,)* (N + p))
-j = i.clone()
-data = i.evolve(stat={'Error': lambda i: -i.fitness}, n_iter=100, history=True)
-yourdata = j.evolve(stat={'Error': lambda i: -i.fitness}, n_iter=100, history=True)
-
-import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(np.arange(101), yourdata['Error'], 'bo', np.arange(101), data['Error'], 'r+', [0, 100], [err, err], 'k--')
-ax.legend(('My Error', 'Your Error', 'EM Error'))
-plt.show()
+
+points = _evaluate.points
+
+def animate(i):
+    sa.evolve(n_iter=5, verbose=False)
+    ax.plot(*sa.chromosome.to_points(), 'k-o')
+    ax.plot(*sa.phantom.chromosome.to_points(), 'b--o')
+    ax.legend((f'Best Solution({sa.fitness:.4})', f'Generation {i*5}'))
+
+camera = Camera(fig)
+ax.plot(*sa.chromosome.to_points(), 'k-o')
+ax.legend(('Generation 0',))
+for i in range(1, 300):
+    animate(i)
+    camera.snap()
+animation = camera.animate()
+animation.save('animation-sa.mp4')
+

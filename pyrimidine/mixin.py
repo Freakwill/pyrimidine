@@ -63,7 +63,7 @@ class IterativeModel:
         self.init()
         for k in range(1, n_iter+1):
             self.transit(k, *args, **kwargs)
-            self.postprocess()
+
 
     def evolve(self, n_iter=None, period=1, verbose=False, decode=False, stat={'Fitness': 'fitness'}, history=False, callbacks=()):
         """Get the history of the whole evolution
@@ -75,7 +75,7 @@ class IterativeModel:
             decode {bool} -- decode to the real solution
             stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
                            The value could be a string that should be a method pre-defined.
-            history {bool} -- True for recording history, or a DataFrame object recording previous history.
+            history {bool|DataFrame} -- True for recording history, or a DataFrame object recording previous history.
         
         Returns:
             DataFrame | None
@@ -87,7 +87,6 @@ class IterativeModel:
         if isinstance(stat, dict): stat = Statistics(stat)
 
         res = stat.do(self) if stat else {}
-        keys = res.keys()
 
         if verbose:
             print(f"""
@@ -115,16 +114,8 @@ iteration & best solution & {" & ".join(res.keys())}
                     pd.Series(res.values(), index=res.keys()).to_frame().T],
                     ignore_index=True)
             if verbose and (period == 1 or k % period ==0):
-                print(f'{k} & {self.solution} & {" & ".join(str(res[k]) for k in keys)}')
+                print(f'{k} & {self.solution} & {" & ".join(map(str, res.values()))}')
         return history
-
-
-    def get_history(self, *args, **kwargs):
-        """Get the history of the whole evolution
-
-        Would be replaced by `evolve`
-        """
-        raise DeprecationWarning('This method is deprecated from now on!!!, use `evolve(history=True, ...)` instead.')
 
 
     def perf(self, n_repeats=10, *args, **kwargs):
@@ -150,10 +141,6 @@ iteration & best solution & {" & ".join(res.keys())}
             else:
                 data += data0
         return data / n_repeats, np.mean(times)
-
-
-    def postprocess(self):
-        pass
 
 
     def clone(self, type_=None, *args, **kwargs):
@@ -225,7 +212,8 @@ class FitnessModel(IterativeModel):
             else:
                 raise Exception('Function `_fitness` is not defined before setting fitness. You may forget to create the class in the context of environment.')
         class C(cls):
-            _fitness = f
+            def _fitness(self):
+                return f(self)
         return C
 
 

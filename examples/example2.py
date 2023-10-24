@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from pyrimidine.benchmarks.special import *
 
@@ -70,12 +69,12 @@ class MyPopulation(HOFPopulation[MyIndividual]):
 
 if __name__ == '__main__':
 
-    stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
+    stat = {'Mean Fitness':'mean_fitness',
+        'Best Fitness': 'best_fitness'}
 
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
-
     pop = MyPopulation.random(n_individuals=40, sizes=[8]*ndim+[8])
     cpy = pop.clone(HOFPopulation[ExampleIndividual])
     d = cpy.evolve(n_iter=200, stat=stat, history=True)

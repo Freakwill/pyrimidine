@@ -281,7 +281,7 @@ class MetaContainer(System):
     """
 
     def __new__(cls, name, bases, attrs):
-        # element_class = attrs['element_class']
+
         if 'element_class' in attrs:
             element_class = attrs['element_class']
         else:
@@ -292,17 +292,19 @@ class MetaContainer(System):
             else:
                 raise Exception('Have not provided element class yet.')
         if 'element_name' in attrs:
-            element_name = attrs['element_name'] + 's'
+            element_name_ = attrs['element_name'] + 's'
         else:
             if isinstance(element_class, tuple):
-                element_name = get_stem(element_class[0].__name__) + 's'
+                element_name_ = get_stem(element_class[0].__name__) + 's'
             else:
-                element_name = get_stem(element_class.__name__) + 's'
-        setattr(cls, 'element_name', element_name)
+                element_name_ = get_stem(element_class.__name__) + 's'
 
-        attrs['alias'].update({element_name:'elements',
-           'n_' +element_name:'n_elements'
-            })
+        if element_name_ not in attrs['alias']:
+            attrs['alias'].update({element_name_: 'elements'})
+
+        for k, v in attr['alias'].items():
+            if v == 'elements' and 'n_' + k not in attr['alias']:
+                attrs['alias'].update({'n_' + k: 'n_elements'})
 
         return super().__new__(cls, name, bases, attrs)
 

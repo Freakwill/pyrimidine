@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 from .base import BaseIndividual, BaseChromosome
 from .population import  HOFPopulation
 from .chromosome import FloatChromosome

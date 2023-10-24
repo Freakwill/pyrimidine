@@ -81,6 +81,7 @@ class BaseChromosome(FitnessModel, metaclass=MetaArray):
         default_size (int): the default number of genes in the chromosome
         element_class (TYPE): the type of gene
     """
+    
     element_class = BaseGene
     default_size = 8
 
@@ -399,8 +400,7 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
     def local_search(self, *args, **kwargs):
         # call local searching method
         for individual in self.individuals:
-            individual.evolve(*args, **kwargs)
-
+            individual.ezolve(*args, **kwargs)
 
     def get_rank(self, individual):
         """get rank of one individual
@@ -481,7 +481,6 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
         for p in self.populations:
             p.init()
 
-
     def __str__(self):
         return '\n'.join(map(str, self.individuals))
 
@@ -509,7 +508,6 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
         self.fitness = None
 
     def transit(self, *args, **kwargs):
-
         for population in self.populations:
             population.transit(*args, **kwargs)
         self.migrate()

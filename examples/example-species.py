@@ -7,7 +7,6 @@ from pyrimidine.benchmarks.optimization import *
 
 
 # generate a knapsack problem randomly
-
 n_bags = 100
 _evaluate = Knapsack.random(n=n_bags)
 

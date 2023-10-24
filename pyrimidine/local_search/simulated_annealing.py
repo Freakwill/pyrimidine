@@ -45,8 +45,7 @@ class SimulatedAnnealing(FitnessModel):
             self.chromosomes = self.phantom.chromosomes
             self.fitness = self.phantom.fitness
 
-    def postprocess(self):
-        self.initT *= self.ext_c
+        self.initT = T * self.ext_c
 
 
     def move(self, T):

@@ -116,19 +116,17 @@ def randint2(lb=0, ub=9, ordered=False):
             return j, i
     return i, j
 
-@np.vectorize
+
 def max0(x):
-    return 0 if x<=0 else x
+    return np.maximum(x, 0)
 
 def max_lb(lb):
-    @np.vectorize
     def m(x):
-        return lb if x<=lb else x
+        return np.maximum(x, lb)
     return m
 
-@np.vectorize
 def hl(x):
-    return 0 if x<=0 else (1 if x>=1 else x)
+    return np.clip(x, 0, 1) 
 
 def metropolis_rule(D, T, epsilon=0.000001):
     """
