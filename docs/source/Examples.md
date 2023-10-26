@@ -29,7 +29,7 @@ class MyIndividual(MonoIndividual):
         return _evaluate(self.chromosome)
 
 """ Equiv. to
-    MyIndividual = MonoIndividual[BinaryChromosome.set(default_size=n_bags)].set_fitness(lambda o: _evaluate(o.chromosome))
+    MyIndividual = MonoIndividual[BinaryChromosome.set(default_size=n_bags)].set_fitness(_evaluate)
 """
 
 # Define the population class
@@ -39,6 +39,8 @@ class MyPopulation(HOFPopulation):
 
 """ Equiv. to
     MyPopulation = HOFPopulation[MyIndividual].set(default_size=10)
+    or, as a population of chromosomes
+    MyPopulation = HOFPopulation[BinaryChromosome.set(default_size=n_bags).set_fitness(_evaluate)].set(default_size=10)
 """
 
 pop = MyPopulation.random()

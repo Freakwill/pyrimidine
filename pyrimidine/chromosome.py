@@ -126,6 +126,7 @@ class VectorChromosome(ArrayChromosome):
     #     obj = super().__new__(cls, shape=(len(array),), dtype=gene)
     #     obj = np.asarray(array).view(cls)
     #     obj.__gene = gene
+    #     assert self.ndim == 1
     #     return obj
 
     def mutate(self, indep_prob=0.1):
@@ -226,7 +227,7 @@ class FloatChromosome(VectorChromosome):
                 self[i] += gauss(mu, sigma)
         return self
 
-    def random_neighbour(self, mu=0, simga=None):
+    def random_neighbour(self, mu=0, sigma=None):
         # select a neighour randomly
         sigma = sigma or self.sigma
         cpy = self.clone()
@@ -279,8 +280,8 @@ class ProbabilityChromosome(PositiveChromosome):
         return cls(np.random.dirichlet(np.ones(size)), gene=cls.element_class)
 
 
-    def check(self):
-        raise np.sum(self) == 1
+    # def check(self):
+    #     assert np.sum(self) == 1, 'the sum of the chromosome must be 1!'
 
     # def mutate(self, indep_prob=0.1):
     #     """Mutation of ProbabilityChromosome

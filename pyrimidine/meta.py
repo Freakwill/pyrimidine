@@ -89,8 +89,8 @@ class ParamType(type):
                 object.__setattr__(self, key, value)
         attrs['__setattr__'] = _setattr
 
-        if 'check' in attrs:
-            attrs('check')(cls)
+        # if 'check' in attrs:
+        #     attrs['check'](cls)
 
         return super().__new__(cls, name, bases, attrs)
 
@@ -146,7 +146,7 @@ class System(ParamType):
 
 
         def _apply(self, f, *args, **kwargs):
-            return map(lambda o: f(o, *args, **kwargs, self.__elements))
+            return map(lambda o: f(o, *args, **kwargs), self.__elements)
 
         @property
         def _n_elements(self):
@@ -302,9 +302,8 @@ class MetaContainer(System):
         if element_name_ not in attrs['alias']:
             attrs['alias'].update({element_name_: 'elements'})
 
-        for k, v in attr['alias'].items():
-            if v == 'elements' and 'n_' + k not in attr['alias']:
-                attrs['alias'].update({'n_' + k: 'n_elements'})
+        d = {'n_' + k: 'n_elements' for k, v in attrs['alias'].items() if v == 'elements'}
+        attrs['alias'].update(d)
 
         return super().__new__(cls, name, bases, attrs)
 

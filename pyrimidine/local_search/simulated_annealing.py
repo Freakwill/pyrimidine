@@ -9,12 +9,12 @@ S. Kirkpatrick, C. D. Gelatt, Jr., M. P. Vecchi. Optimization by Simulated Annea
 """
 
 
-from .. import FitnessModel
+from .. import PhantomIndividual
 from .. import metropolis_rule
 
 
 
-class SimulatedAnnealing(FitnessModel):
+class SimulatedAnnealing(PhantomIndividual):
     """Class for Simulated Annealing
     
     Attributes:
@@ -32,6 +32,7 @@ class SimulatedAnnealing(FitnessModel):
         }
 
     def init(self):
+        # set phantom solution
         self.phantom = self.clone(fitness=None)
 
     def transit(self, *args, **kwargs):
@@ -41,10 +42,7 @@ class SimulatedAnnealing(FitnessModel):
             T *= self.int_c
             if T < self.termT:
                 break
-        if self.fitness < self.phantom.fitness:
-            self.chromosomes = self.phantom.chromosomes
-            self.fitness = self.phantom.fitness
-
+        self.backup()
         self.initT = T * self.ext_c
 
 

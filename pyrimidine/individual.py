@@ -33,6 +33,10 @@ class MonoIndividual(BaseIndividual, metaclass=MetaList):
     def chromosome(self):
         return self.chromosomes[0]
 
+    @chromosome.setter
+    def chromosome(self, v):
+        self.chromosomes[0] = v
+
     def decode(self):
         return self.chromosome.decode()
 
@@ -105,3 +109,27 @@ class GenderIndividual(MixedIndividual):
     @property
     def gender(self):
         raise NotImplementedError
+
+
+class MemoryIndividual(BaseIndividual):
+    memory = None
+
+    def init(self, fitness=True, type_=None):
+        self.memory = self.clone(fitness=fitness, type_=type_)
+
+    def backup(self, fitness=True, type_=None):
+        if self.memory.fitness < self.fitness:
+            self.memory.chromosomes = self.chromosomes
+            self.memory.fitness = self.fitness
+
+
+class PhantomIndividual(BaseIndividual):
+    phantom = None
+
+    def init(self, fitness=True, type_=None):
+        self.phantom = self.clone(fitness=fitness, type_=type_)
+
+    def backup(self):
+        if self.fitness < self.phantom.fitness:
+            self.chromosomes = self.phantom.chromosomes
+            self.fitness = self.phantom.fitness

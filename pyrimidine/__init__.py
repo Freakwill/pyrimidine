@@ -12,7 +12,10 @@ from .species import *
 from .saga import *
 from .pso import *
 from .ep import *
+from .de import *
 
+
+__version__ = "1.0"
 
 __template__ = """
 from pyrimidine import MonoBinaryIndividual

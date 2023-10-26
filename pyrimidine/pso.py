@@ -148,7 +148,9 @@ class ParticleSwarm(PopulationModel):
         """
         self.update_fame()
         self.move()
+        self.backup()
 
+    def backup(self):
         # overwrite the memory of the particle if its current state is better its memory
         for particle in self:
             if particle.fitness > particle.memory.fitness:
