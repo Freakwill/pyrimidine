@@ -6,7 +6,7 @@ Helper functions
 
 
 from operator import methodcaller, attrgetter
-from random import random, randint, gauss, shuffle
+from random import random, randint, gauss, shuffle, uniform
 from math import exp
 
 from scipy.spatial.distance import euclidean
@@ -15,7 +15,6 @@ from scipy.stats import rv_discrete
 
 import numpy as np
 from toolz import unique
-# import numba as nb
 
 
 

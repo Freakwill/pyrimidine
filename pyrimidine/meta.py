@@ -239,6 +239,13 @@ class System(ParamType):
             o.environment = globals()['_environment']
         return o
 
+    def mixin(self, bases):
+        if isinstance(bases, tuple):
+            self.__bases__ += bases
+        else:
+            self.__bases__ += (bases,)
+        return self
+
 
 class MetaContainer(System):
     """Meta class of containers

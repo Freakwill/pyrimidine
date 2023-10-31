@@ -17,20 +17,18 @@ class RandomWalk(FitnessModel):
         state
     """
 
-    params={'sigma': 1}
+    params = {'sigma': 1}
 
     def transit(self, k, *args, **kwargs):
         """Transition of states
         """
         
         sigma *= self.sigma * 0.99**k
-        n = scipy.stats.norm(0, sigma)
+        n = gauss(0, sigma)
         cpy = self.clone(fitness=None)
         cpy.chromosomes = [chromosome + n.rvs(chromosome.n_genes) for chromosome in cpy.chromosomes]
 
-        # Metropolis rule
         D = cpy.fitness - self.fitness
         if D > 0:
             self.chromosomes = cpy.chromosomes
             self.fitness = cpy.fitness
-

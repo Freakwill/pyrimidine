@@ -1,42 +1,58 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
+"""
+Tabu Search was created by Fred W. Glover in 1986 and formalized in 1989
+"""
+
+from .utils import random, choice
+from . import MemoryIndividual
 
 
-from random import random, choice
-from .. import FitnessModel
-
-
-class BaseTabuSearch(FitnessModel):
+class BaseTabuSearch(MemoryIndividual):
     """Tabu Search algorithm
     """
 
     params = {'value': 0,
         'tabu_list': [],
-        'actions': None}
+        'actions': [],
+        'tabu_size': 10
+        }
 
     def init(self):
-        self.best_fitness = self.fitness
+        self.memory = self.clone()
+        self.best_fitness = self.memory.fitness
 
     def transit(self, *args, **kwargs):
-        action = choice(self.__class__.actions)
-        cpy = self.move(action)
+        action = choice(self.actions)
+        cpy = self.get_neighbour(action)
         if action not in self.tabu_list:
-            if cpy.fitness < self.best_fitness:
-                if random() < 0.01:
-                    self.chromosomes = cpy.chromosomes
-                    self.tabu_list.append(action)
-            else:
-                if cpy.fitness > self.best_fitness:
-                    self.best_fitness = cpy.fitness
+            if cpy.fitness > self.best_fitness:
                 self.chromosomes = cpy.chromosomes
-            return
-        elif cpy.fitness > self.best_fitness:
-            self.chromosomes = cpy.chromosomes
-            self.tabu_list.remove(action)
-            self.best_fitness = cpy.fitness
-            return
+                self.best_fitness = cpy.fitness
+            else:
+                if random() < 0.02:
+                    self.backup()
+                    self.chromosomes = cpy.chromosomes
+                else:
+                    self.tabu_list.append(action)
+        else:
+            if cpy.fitness > self.best_fitness:
+                self.chromosomes = cpy.chromosomes
+                self.best_fitness = cpy.fitness
+                self.tabu_list.remove(action)
+        self.update_tabu_list()
 
-    def move(self, action):
+    def update_tabu_list(self):
+        if len(self.tabu_list) > self.tabu_size:
+            self.tabu_list.pop(0)
+
+    def get_neighbour(self, action):
         raise NotImplementedError
 
 
+class SimpleTabuSearch(BaseTableau):
+    def get_neighbour(self, action):
+        cpy = self.clone()
+        i, j = action
+        cpy.chromosomes[i][j] = cpy.gene.random()
+        return cpy

@@ -28,10 +28,9 @@ class StandardPopulation(BasePopulation):
         Transitation of the states of population by SGA
         """
 
-        elder = self.__class__(self.get_best_individuals(self.n_elders * self.default_size)).clone()
+        elder = self.get_best_individuals(self.n_elders * self.default_size, copy=True)
         super().transit(*args, **kwargs)
         self.merge(elder, n_sel=self.default_size)
-
 
 
 class HOFPopulation(StandardPopulation):
@@ -87,6 +86,13 @@ class HOFPopulation(StandardPopulation):
             return max(_.fitness for _ in self.hall_of_fame)
         else:
             return super().best_fitness
+
+    @property
+    def best_individual(self):
+        if self.hall_of_fame:
+            return self.hall_of_fame[np.argmax([_.fitness for _ in self.hall_of_fame])]
+        else:
+            return super().best_individual
 
 
 class DualPopulation(BasePopulation):
@@ -164,27 +170,22 @@ class AgePopulation(EliminationPopulation):
                 self.remove(individual)
 
 
-class LocalSearchPopulation(BasePopulation):
+class LocalSearchPopulation(StandardPopulation):
     '''LocalSearchPopulation Class
     
     Population with `local_search` method
     '''
 
-    def transit(self, mutate_prob=0.3, mate_prob=0.7):
+    def transit(self, *args, **kwargs):
         """Transitation of the states of population
 
         Calling `local_search` method
         """
-        c = self.clone()
-        c.select(k=0.7)
-        self.select()
-        self.mate()
-        self.mutate()
-        self.merge(c, select=True)
+        super().transit(*args, **kwargs)
         self.local_search()
 
 
-class ModifiedPopulation(BasePopulation):
+class ModifiedPopulation(StandardPopulation):
     params = {'mutate_prob_ub':0.5, 'mutate_prob_lb':0.1}
     def mutate(self):
         fm = self.best_individual.fitness
@@ -198,7 +199,3 @@ class ModifiedPopulation(BasePopulation):
             if random() < mutate_prob:
                 individual.mutate()
 
-
-# class SelfAdaptivePopulation(SGA2Population):
-#     """docstring for SelfAdaptivePopulation"""
-#     element_class = SelfAdaptiveIndividual

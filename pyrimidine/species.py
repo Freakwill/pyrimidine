@@ -65,9 +65,9 @@ class DualSpecies(BaseSpecies):
 
     def transit(self, *args, **kwargs):
         elder = self.__class__([
-            self.populations[0].__class__(self.populations[0].get_best_individuals(self.n_elders * self.populations[0].default_size)),
-            self.populations[1].__class__(self.populations[1].get_best_individuals(self.n_elders * self.populations[1].default_size))
-            ]).clone()
+            self.populations[0].clone_best_individuals(self.n_elders * self.populations[0].default_size),
+            self.populations[1].clone_best_individuals(self.n_elders * self.populations[1].default_size)
+            ])
         self.select()
         self.mate()
         self.mutate()
@@ -84,8 +84,4 @@ class DualSpecies(BaseSpecies):
     def merge(self, other):
         self.populations[0].merge(other.populations[0])
         self.populations[1].merge(other.populations[1])
-
-    def transit(self, *args, **kwargs):
-        super().transit(*args, **kwargs)
-        self.populations[0].fitness = self.populations[1].fitness = None
 

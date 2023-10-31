@@ -116,3 +116,140 @@ class DifferentialEvolution(PopulationModel):
 After running `comparison-de.py`, we get the following fitness curves.
 
 ![](comparison-de.png)
+
+
+## Local Search
+
+### Simulated Annealing Algorithm
+Different from GA, DE or other algorithms based on the population, simulated annealing is based on single individual. It is a sort of local search. Following is the skelton of SA.
+
+```python
+# import statsments
+
+class SimulatedAnnealing(PhantomIndividual):
+    """Class for Simulated Annealing
+    
+    Attributes:
+        params (dict): parameters in SA
+        phantom: phantom solution for exploration
+    """
+
+    phantom = None
+
+    params = {'ext_c': 0.99,  # external coef
+        'int_c': 0.99,        # internal coef
+        'n_epochs': 200,
+        'initT': 100,         # initial temperature
+        'termT': 0.0001       # terminal temperature
+        }
+
+    def init(self):
+        # initialize phantom solution
+        self.phantom = self.clone(fitness=None)
+
+
+    def transit(self, *args, **kwargs):
+        T = self.initT
+        for epoch in range(self.n_epochs):
+            self.move(T)
+            T *= self.int_c
+            if T < self.termT:
+                break
+        # set the phantom to be the true solution (if it is better then the previous record)
+        self.backup()
+        self.initT = T * self.ext_c
+
+
+    def move(self, T):
+        """Move phantom
+        
+        Arguments:
+            T {number} -- temperature
+        """
+
+        cpy = self.phantom.get_neighbour()
+
+        # Metropolis rule
+        flag = metropolis_rule(D=cpy.fitness - self.phantom.fitness, T=T)
+        if flag:
+            self.phantom.chromosomes = cpy.chromosomes
+            self.phantom.fitness = cpy.fitness
+    ```
+
+
+```python
+# import statements
+
+n = 15
+f = rosenbrock(n=n)
+
+class MyIndividual(SimulatedAnnealing, MonoIndividual):
+    element_class = FloatChromosome.set(default_size=n)
+
+    def _fitness(self):
+        return -f(self.chromosome)
+
+    def get_neighbour(self):
+        cpy = self.clone()
+        cpy.mutate()
+        # or cpy.chromosomes[0] = cpy.chromosome.random_neighbour()
+        return cpy
+
+
+ind = MyIndividual.random()
+
+stat = {'Fitness':'_fitness'}
+data = ind.evolve(stat=stat, n_iter=100, history=True)
+
+
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = fig.add_subplot(111)
+data[['Fitness']].plot(ax=ax)
+ax.set_xlabel('Generations')
+ax.set_ylabel('Fitness')
+ax.set_title('Demo of Simulated Annealing')
+plt.show()
+```
+
+![](example-sa.png)
+
+### Tabu Searching
+
+```python
+class BaseTabuSearch(BaseIndividual):
+    """Tabu Search algorithm
+    """
+
+    params = {'value': 0,
+        'tabu_list': [],
+        'actions': [],
+        'tabu_size': 10
+        }
+
+    def init(self):
+        self.best_fitness = self.fitness
+
+    def transit(self, *args, **kwargs):
+        action = choice(self.actions)
+        cpy = self.move(action)
+        if action not in self.tabu_list:
+            if cpy.fitness > self.best_fitness:
+                self.chromosomes = cpy.chromosomes
+                self.best_fitness = cpy.fitness
+        else:
+            if cpy.fitness > self.best_fitness:
+                self.chromosomes = cpy.chromosomes
+                self.best_fitness = cpy.fitness
+                self.tabu_list.remove(action)
+        self.update_tabu_list()
+
+    def update_tabu_list(self):
+        if len(self.tabu_list) > self.tabu_size:
+            self.tabu_list.pop(0)
+
+    def move(self, action):
+        raise NotImplementedError
+```
+
+## Hacking

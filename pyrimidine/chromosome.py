@@ -73,8 +73,7 @@ class ArrayChromosome(BaseChromosome, np.ndarray):
     @elements.setter
     def elements(self, x):
         self.__elements = np.asarray(x)
-        L = len(x)
-        self.__n_elements = L
+        self.__n_elements = len(x)
 
     @property
     def n_genes(self):
@@ -101,7 +100,7 @@ class ArrayChromosome(BaseChromosome, np.ndarray):
         return f'{"|".join(str(gene) for gene in self)}'
 
     def cross(self, other):
-        # note that when len(self) == 2 => k==1
+        # note that when len(self) == 2  ==>  k==1
         k = randint(1, len(self)-1)
         return self.__class__(array=np.concatenate((self[:k], other[k:]), axis=0), gene=self.gene)
 
@@ -230,7 +229,7 @@ class FloatChromosome(VectorChromosome):
     def random_neighbour(self, mu=0, sigma=None):
         # select a neighour randomly
         sigma = sigma or self.sigma
-        cpy = self.clone()
+        cpy = self.copy()
         n = scipy.stats.norm(mu, sigma)
         cpy += n.rvs(len(self))
         return cpy
@@ -312,7 +311,7 @@ class ProbabilityChromosome(PositiveChromosome):
 
     def random_neighbour(self):
         # select a neighour randomly
-        cpy = self.clone()
+        cpy = self.copy()
         i, j = randint2(0, len(cpy)-1)
         p = cpy[i] + cpy[j]
         r = np.random.uniform(0, p)

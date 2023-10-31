@@ -30,20 +30,21 @@ class BaseParticle(PolyIndividual):
 
     element_class = FloatChromosome
     default_size = 2
-    memory = None    # store the best position passed by the particle
+    memory = {'position': None,
+            'fitness': None}    # store the best position passed by the particle
 
     params = {'learning_factor': 2,
-    'acceleration_coefficient': 3,
-    'inertia':0.5
-    }
+            'acceleration_coefficient': 3,
+            'inertia': 0.5
+            }
 
-    def backup(self):
-        if self.memory is None:
-            self.memory = self.clone(fitness=None)
-        self.memory = self.clone(fitness=self.fitness)
+    def backup(self, check=False):
+        if not check or self.fitness > self.memory['fitness']:
+            self.memory = {'position': self.position,
+                'fitness': self.fitness}
 
     def init(self):
-        self.backup()
+        self.backup(check=False)
 
     @property
     def position(self):
@@ -64,7 +65,7 @@ class BaseParticle(PolyIndividual):
     @property
     def best_position(self):
         # alias for the position of memory
-        return self.memory.position
+        return self.memory['position']
 
     def update_vilocity(self, fame=None, *args, **kwargs):
         raise NotImplementedError
@@ -126,14 +127,14 @@ class ParticleSwarm(PopulationModel):
     def init(self):
         for particle in self.particles:
             particle.init()
-        self.hall_of_fame = self.get_best_individuals(self.n_best_particles)
+        self.hall_of_fame = self.get_best_individuals(self.n_best_particles, copy=True)
 
     
     def update_fame(self):
         for particle in self.particles:
             if particle not in self.hall_of_fame:
                 for k, fame in enumerate(self.hall_of_fame):
-                    if particle.memory.fitness <= fame.memory.fitness:
+                    if particle.memory['fitness'] <= fame.memory['fitness']:
                         break
                 else:
                     self.hall_of_fame.pop(0)
@@ -142,6 +143,7 @@ class ParticleSwarm(PopulationModel):
                     self.hall_of_fame.pop(0)
                     self.hall_of_fame.insert(k-1, particle)
     
+
     def transit(self, *args, **kwargs):
         """
         Transitation of the states of particles
@@ -150,11 +152,12 @@ class ParticleSwarm(PopulationModel):
         self.move()
         self.backup()
 
+
     def backup(self):
         # overwrite the memory of the particle if its current state is better its memory
         for particle in self:
-            if particle.fitness > particle.memory.fitness:
-                particle.backup()
+            particle.backup(check=True)
+
 
     def move(self):
         """moving rule of particles
@@ -176,10 +179,11 @@ class ParticleSwarm(PopulationModel):
                  + self.acceleration_coefficient * eta * (fame.best_position-particle.position))
             particle.position = particle.position + particle.velocity
 
+
     @property
     def best_fitness(self):
         if self.hall_of_fame:
-            return np.max([_.memory.fitness for _ in self.hall_of_fame])
+            return np.max([_.memory['fitness'] for _ in self.hall_of_fame])
         else:
             return super().best_fitness
 

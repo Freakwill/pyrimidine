@@ -13,9 +13,10 @@ from .saga import *
 from .pso import *
 from .ep import *
 from .de import *
+from .ba import *
 
 
-__version__ = "1.0"
+__version__ = "1.4.0"
 
 __template__ = """
 from pyrimidine import MonoBinaryIndividual

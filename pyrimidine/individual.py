@@ -55,26 +55,28 @@ class MonoIndividual(BaseIndividual, metaclass=MetaList):
         super().individuals = x
 
 
-def binaryMonoIndividual(size=8):
+def classicalIndividual(size=8):
     """simple binary individual
     encoded as a sequence such as 01001101
     """
     return MonoIndividual[BinaryChromosome.set(default_size=size)]
 
 
-def binaryIndividual(size=8):
-    """simple binary individual
-    encoded as a sequence such as 01001101
+def makeIndividual(element_class=BinaryChromosome, n_chromosomes=1, size=8):
+    """helper to make an individual
     """
-    return MonoIndividual[tuple(BinaryChromosome.set(default_size=s) for s in size)]
-
-
-def floatMonoIndividual(BaseIndividual):
-    return MonoIndividual[FloatChromosome.set(default_size=size)]
-
-
-def floatIndividual(MonoIndividual):
-    return MonoIndividual[tuple(FloatChromosome.set(default_size=s) for s in size)]
+    if n_chromosomes == 1:
+        return MonoIndividual[FloatChromosome.set(default_size=size)]
+    else:
+        if isinstance(size, tuple):
+            if len(size) == n_chromosomes:
+                return PolyIndividual[tuple(BinaryChromosome.set(default_size=s) for s in size)]
+            elif len(size) == 1:
+                return PolyIndividual[tuple(BinaryChromosome.set(default_size=size[0]) for _ in n_chromosomes)]
+            else:
+                raise ValueError('The length of size must be 1 or `n_chromosomes`.')
+        else:
+            return PolyIndividual[tuple(BinaryChromosome.set(default_size=size) for _ in np.range(n_chromosomes))]
 
 
 class MixedIndividual(BaseIndividual, metaclass=MetaTuple):
@@ -112,15 +114,24 @@ class GenderIndividual(MixedIndividual):
 
 
 class MemoryIndividual(BaseIndividual):
-    memory = None
+    memory = {"fitness": None}
 
     def init(self, fitness=True, type_=None):
-        self.memory = self.clone(fitness=fitness, type_=type_)
+        self.backup(check=False)
 
-    def backup(self, fitness=True, type_=None):
-        if self.memory.fitness < self.fitness:
-            self.memory.chromosomes = self.chromosomes
-            self.memory.fitness = self.fitness
+    def backup(self, check=False):
+        if not check or self.memory['fitness'] is None or self.fitness > self.memory['fitness']:
+            for k, v in self.memory.items():
+                if hasattr(getattr(self, k), 'copy'):
+                    self.memory[k] = getattr(self, k).copy()
+                else:
+                    self.memory[k] = getattr(self, k)
+
+    def _fitness(self):
+        if 'fitness' in memory and self.memory['fitness'] is not None:
+            return self.memory['fitness']
+        else:
+            return super()._fitness()
 
 
 class PhantomIndividual(BaseIndividual):

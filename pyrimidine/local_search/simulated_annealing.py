@@ -24,40 +24,42 @@ class SimulatedAnnealing(PhantomIndividual):
 
     phantom = None
 
-    params = {'ext_c': 0.995,
-        'int_c': 0.996,
-        'nepoch': 200,
-        'initT': 100,      # initial temperature
-        'termT': 0.0001    # terminal temperature
+    params = {'ext_c': 0.99,  # external coef
+        'int_c': 0.99,        # internal coef
+        'n_epochs': 200,
+        'initT': 100,         # initial temperature
+        'termT': 0.0001       # terminal temperature
         }
 
     def init(self):
-        # set phantom solution
+        # initialize phantom solution
         self.phantom = self.clone(fitness=None)
+
 
     def transit(self, *args, **kwargs):
         T = self.initT
-        for epoch in range(self.nepoch):
-            self.phantom.move(T)
+        for epoch in range(self.n_epochs):
+            self.move(T)
             T *= self.int_c
             if T < self.termT:
                 break
+        # set the phantom to be the true solution (if it is better then the previous record)
         self.backup()
         self.initT = T * self.ext_c
 
 
     def move(self, T):
-        """Transition of states
+        """Move phantom
         
         Arguments:
             T {number} -- temperature
         """
 
-        cpy = self.get_neighbour()
+        cpy = self.phantom.get_neighbour()
 
         # Metropolis rule
-        flag = metropolis_rule(D=cpy.fitness - self.fitness, T=T)
+        flag = metropolis_rule(D=cpy.fitness - self.phantom.fitness, T=T)
         if flag:
-            self.chromosomes = cpy.chromosomes
-            self.fitness = cpy.fitness
+            self.phantom.chromosomes = cpy.chromosomes
+            self.phantom.fitness = cpy.fitness
 

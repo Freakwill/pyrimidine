@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from .base import BaseFitnessModel
+from .base import PopulationModel
 from .chromosome import FloatChromosome
 from .individual import PolyIndividual
 from .utils import euclidean, random, exp, metropolis_rule
+from scipy.spatial.distance import pdist, squareform
 
 import numpy as np
 
@@ -53,7 +54,7 @@ class Particle(PolyIndividual):
             self.fitness = cpy.fitness
 
 
-class GravitySearch(BaseFitnessModel):
+class GravitySearch(PopulationModel):
     """Standard GSA
     
     Extends:
@@ -76,13 +77,14 @@ class GravitySearch(BaseFitnessModel):
     def compute_accelerate(self):
         # compute force
         D = np.array([[pj.position - pi.position for pi in self] for pj in self])
-        R = np.array([[euclidean(pi.position, pj.position) for pi in self] for pj in self])**3
-
+        R = squareform(pdist([pi.position for pi in self]))
+        for i in range(self.n_particles):
+            R[i, i]=1
         M = self.compute_mass()
-        MM = np.tile(M, (len(self), 1)) / R
-        for i, p in enumerate(self):
+        MM = np.tile(M, (len(self), 1)) / R**3
+        for i in range(self.n_particles):
             MM[i, i]=0
-        MM = self.gravity_coefficient * MM * np.random.random((len(self), len(self)))
+        MM *= self.gravity_coefficient * np.random.random((self.n_particles, self.n_particles))
         A = np.array([MM * D[:,:, k] for k in range(len(self.particles[0]))])
         A = A.sum(axis=1)
 

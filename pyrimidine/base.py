@@ -12,7 +12,7 @@ BasePopulation: set of individuals, represents a set of a problem
 BaseSpecies: set of population for more complicated optimalization
 
 
-Subclass the classes and override some main method esp. _fitness.
+Subclass the classes and override some main method esp. `_fitness`.
 
 Example:
     select ti, ni from arraies t, n
@@ -449,6 +449,7 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
         return self.__class__([c.dual() for c in self.chromosomes])
 
 
+
 class ParallelPopulation(BasePopulation):
     element_class = BaseIndividual
 
@@ -522,21 +523,13 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
         k = np.argmax([b.fitness for b in bests])
         return bests[k]
 
-
-    def get_best_individuals(self, n=1):
-        # first n best individuals
-        if n < 1:
-            n = int(self.n_individuals * n)
-        elif not isinstance(n, int):
-            n = int(n)
-        return self.sorted_individuals[-n:]
-
     @property
     def individuals(self):
-        return list(concat([pop.individuals for pop in self.populations]))
+        return list(concat(map(attrgetter('individuals'), self.populations)))
 
     def __getstate__(self):
-        return {'element_class':self.element_class, 'default_size':self.default_size, 'populations':self.populations, 'params':self.params}
+        return {'element_class':self.element_class, 'default_size':self.default_size,
+        'populations':self.populations, 'params':self.params}
 
 
     def __setstate__(self, state):

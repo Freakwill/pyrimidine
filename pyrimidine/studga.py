@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from .population import SGA2Population
 from .utils import random, choice
 

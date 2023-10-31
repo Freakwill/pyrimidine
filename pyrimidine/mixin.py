@@ -201,7 +201,9 @@ class FitnessModel(IterativeModel):
     def _fitness(self):
         raise NotImplementedError
 
-    get_fitness = _fitness  # get_X == _X
+    def get_fitness(self):
+        # the alias of the fitness
+        return self._fitness()
 
 
     @classmethod
@@ -215,11 +217,6 @@ class FitnessModel(IterativeModel):
             def _fitness(self):
                 return f(self)
         return C
-
-
-    @property
-    def solution(self):
-        return self
 
 
     def clone(self, type_=None, fitness=None):
@@ -243,7 +240,16 @@ class FitnessModel(IterativeModel):
         self.__fitness = None
 
 
-class PopulationModel(FitnessModel):
+class _PopulationModel(IterativeModel):
+    def __len__(self):
+        return self.__n_elements
+
+    @property
+    def n_individuals(self):
+        return self.__n_elements
+
+
+class PopulationModel(FitnessModel, _PopulationModel):
     """mixin class for Population
 
     It is consisted of a set of solutions.
@@ -265,14 +271,6 @@ class PopulationModel(FitnessModel):
         self.fitness = None
 
 
-    def __len__(self):
-        return self.__n_elements
-
-    @property
-    def n_individuals(self):
-        return self.__n_elements
-
-
     def _fitness(self):
         """Calculate the fitness of the whole population
 
@@ -281,54 +279,63 @@ class PopulationModel(FitnessModel):
         return self.best_fitness
 
 
-    def _fitnesses(self):
+    def get_fitnesses(self):
         return list(map(attrgetter('fitness'), self.individuals))
 
 
     @property
     def mean_fitness(self):
-        return np.mean(self._fitnesses())
+        return np.mean(self.get_fitnesses())
 
 
     @property
     def std_fitness(self):
-        return np.std(self._fitnesses())
+        return np.std(self.get_fitnesses())
 
 
     @property
     def best_fitness(self):
-        return np.max(self._fitnesses())
+        return np.max(self.get_fitnesses())
 
 
     @property
     def fitnesses(self):
-        return np.array(self._fitnesses())
+        return np.array(self.get_fitnesses())
 
 
-    def get_best(self, key='fitness'):
+    def get_best_individual(self, key='fitness', copy=False):
         # Get best individual under `key`
         k = np.argmax(tuple(map(attrgetter(key), self.individuals)))
-        return self.individuals[k]
+        if copy:
+            return self.individuals[k].clone()
+        else:
+            return self.individuals[k]
 
 
-    def get_best_individuals(self, n=1):
+    def get_best_individuals(self, n=1, copy=False):
         # first n best individuals
         if n < 1:
             n = int(self.n_individuals * n)
         elif not isinstance(n, int):
             n = int(n)
-        return self.sorted_individuals[-n:]
+        if copy:
+            return [a.clone() for a in self.sorted_individuals[-n:]]
+        else:
+            return self.sorted_individuals[-n:]
 
 
-    def get_worst(self, key='fitness'):
+    def get_worst(self, key='fitness', copy=False):
         k = np.argmin(tuple(map(attrgetter(key), self.individuals)))
-        return self.individuals[k]
+        if copy:
+            return self.individuals[k].clone()
+        else:
+            return self.individuals[k]
 
 
     # Following is some useful aliases
     @property
     def worst_individual(self):
-        k = np.argmin(self._fitnesses())
+        k = np.argmin(self.get_fitnesses())
         return self.individuals[k]
 
 
@@ -339,7 +346,7 @@ class PopulationModel(FitnessModel):
 
     @property
     def best_individual(self):
-        k = np.argmax(self._fitnesses())
+        k = np.argmax(self.get_fitnesses())
         return self.individuals[k]
 
 
@@ -351,7 +358,7 @@ class PopulationModel(FitnessModel):
     @property
     def sorted_individuals(self):
         if self.__sorted_individuals == []:
-            ks = np.argsort(self._fitnesses())
+            ks = np.argsort(self.get_fitnesses())
             self.__sorted_individuals = [self.individuals[k] for k in ks]
         return self.__sorted_individuals
 
@@ -368,7 +375,7 @@ class PopulationModel(FitnessModel):
 
 
     def argsort(self):
-        return np.argsort(self._fitnesses())
+        return np.argsort(self.get_fitnesses())
 
 
     def drop(self, n=1):
