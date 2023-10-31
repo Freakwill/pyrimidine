@@ -8,6 +8,7 @@ from .base import BaseIndividual
 from .chromosome import BinaryChromosome, BaseChromosome, FloatChromosome
 from .meta import MetaTuple, MetaList
 from .utils import randint
+import copy
 
 
 class MultiIndividual(BaseIndividual, metaclass=MetaList):
@@ -114,24 +115,39 @@ class GenderIndividual(MixedIndividual):
 
 
 class MemoryIndividual(BaseIndividual):
-    memory = {"fitness": None}
+    _memory = {"fitness": None}
+
+    @property
+    def memory(self):
+        return self._memory
 
     def init(self, fitness=True, type_=None):
         self.backup(check=False)
 
     def backup(self, check=False):
-        if not check or self.memory['fitness'] is None or self.fitness > self.memory['fitness']:
-            for k, v in self.memory.items():
-                if hasattr(getattr(self, k), 'copy'):
-                    self.memory[k] = getattr(self, k).copy()
+        if not check or self.memory['fitness'] is None or self._fitness() > self.memory['fitness']:
+            def _map(k):
+                if k == 'fitness':
+                    return self._fitness()
+                elif hasattr(getattr(self, k), 'copy'):
+                    return getattr(self, k).copy()
+                elif hasattr(getattr(self, k), 'clone'):
+                    return getattr(self, k).clone()
                 else:
-                    self.memory[k] = getattr(self, k)
+                    return getattr(self, k)
+            self._memory = {k: _map(k) for k in self.memory.keys()}
 
-    def _fitness(self):
-        if 'fitness' in memory and self.memory['fitness'] is not None:
+    @property
+    def fitness(self):
+        if 'fitness' in self.memory and self.memory['fitness'] is not None:
             return self.memory['fitness']
         else:
-            return super()._fitness()
+            return super().fitness
+
+    def clone(self, *args, **kwargs):
+        cpy = super().clone(*args, **kwargs)
+        cpy._memory = self.memory
+        return cpy
 
 
 class PhantomIndividual(BaseIndividual):

@@ -80,7 +80,7 @@ class IterativeModel:
         Returns:
             DataFrame | None
         """
-
+ 
         n_iter = n_iter or self.n_iter
         self.init()
 
@@ -193,11 +193,6 @@ class FitnessModel(IterativeModel):
         return self.__fitness
 
 
-    @fitness.setter
-    def fitness(self, f):
-        self.__fitness = f
-
-
     def _fitness(self):
         raise NotImplementedError
 
@@ -224,7 +219,12 @@ class FitnessModel(IterativeModel):
             type_ = self.__class__
         if fitness is True:
             fitness = self.fitness
-        return type_(list(map(methodcaller('clone', type_=type_.element_class, fitness=None), self)), fitness=fitness)
+        cpy = type_(list(map(methodcaller('clone', type_=type_.element_class, fitness=None), self)))
+        if fitness is True:
+            cpy.__fitness = self.fitness
+        else:
+            cpy.__fitness = fitness
+        return cpy
 
 
     def evolve(self, stat=None, *args, **kwargs):
@@ -232,7 +232,7 @@ class FitnessModel(IterativeModel):
         """
         if stat is None:
             stat = {'Fitness':'fitness'}
- 
+
         return super().evolve(stat=stat, *args, **kwargs)
 
     def after_setter(self):
@@ -267,8 +267,9 @@ class PopulationModel(FitnessModel, _PopulationModel):
 
 
     def after_setter(self):
-        self.sorted = False
-        self.fitness = None
+        # self.sorted = False
+        self.__sorted_individuals = []
+        self.__fitness = None
 
 
     def _fitness(self):
@@ -305,19 +306,20 @@ class PopulationModel(FitnessModel, _PopulationModel):
 
     def get_best_individual(self, key='fitness', copy=False):
         # Get best individual under `key`
-        k = np.argmax(tuple(map(attrgetter(key), self.individuals)))
+        k = np.argmax(tuple(map(attrgetter(key), self)))
         if copy:
-            return self.individuals[k].clone()
+            return self[k].clone()
         else:
-            return self.individuals[k]
+            return self[k]
 
 
     def get_best_individuals(self, n=1, copy=False):
-        # first n best individuals
+        # Get first n best individuals
         if n < 1:
             n = int(self.n_individuals * n)
         elif not isinstance(n, int):
             n = int(n)
+
         if copy:
             return [a.clone() for a in self.sorted_individuals[-n:]]
         else:
@@ -325,18 +327,18 @@ class PopulationModel(FitnessModel, _PopulationModel):
 
 
     def get_worst(self, key='fitness', copy=False):
-        k = np.argmin(tuple(map(attrgetter(key), self.individuals)))
+        k = np.argmin(tuple(map(attrgetter(key), self)))
         if copy:
-            return self.individuals[k].clone()
+            return self[k].clone()
         else:
-            return self.individuals[k]
+            return self[k]
 
 
     # Following is some useful aliases
     @property
     def worst_individual(self):
         k = np.argmin(self.get_fitnesses())
-        return self.individuals[k]
+        return self[k]
 
 
     @property
@@ -358,8 +360,8 @@ class PopulationModel(FitnessModel, _PopulationModel):
     @property
     def sorted_individuals(self):
         if self.__sorted_individuals == []:
-            ks = np.argsort(self.get_fitnesses())
-            self.__sorted_individuals = [self.individuals[k] for k in ks]
+            ks = self.argsort()
+            self.__sorted_individuals = [self[k] for k in ks]
         return self.__sorted_individuals
 
 

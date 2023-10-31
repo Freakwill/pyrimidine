@@ -194,11 +194,10 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
         # Cross operation of two individual
         return self.__class__([chromosome.cross(other_c) for chromosome, other_c in zip(self.chromosomes, other.chromosomes)])
 
-    x = cross # alias for cross
 
     def mutate(self, copy=False):
         # Mutating operation of an individual
-        self.fitness = None
+        self.__fitness = None
         for chromosome in self.chromosomes:
             chromosome.mutate()
         return self
@@ -233,7 +232,7 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
         return self.chromosomes, self.fitness
 
     def __setstate__(self, state):
-        self.chromosomes, self.fitness = state
+        self.chromosomes, self.__fitness = state
 
     def __eq__(self, other):
         return np.all([c.equal(oc) for c, oc in zip(self.chromosomes, other.chromosomes)])
@@ -338,13 +337,13 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
                 aspirants = rest
             else:
                 aspirants = np.random.choice(rest, size, replace=False)
-            _winner = np.argmax([self.individuals[k].fitness for k in aspirants])
+            _winner = np.argmax([self[k].fitness for k in aspirants])
             winner = aspirants[_winner]
             winners.append(winner)
             np.delete(rest, winner)
             n_rest -= 1
         if winners:
-            self.individuals = [self.individuals[k] for k in aspirants]
+            self.individuals = [self[k] for k in aspirants]
         else:
             raise Exception('No winners in the selection!')
 
@@ -420,7 +419,7 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
         """Rank all individuals
         by fitness increasingly
         """
-        sorted_individuals = [self.individuals[k] for k in self.argsort()]
+        sorted_individuals = [self[k] for k in self.argsort()]
         if tied:
             k = 0
             while k < self.n_individuals:
@@ -469,7 +468,7 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
         default_size (int): the number of populations
         element_class (TYPE): type of the populations
         elements (TYPE): populations as the elements
-        fitness (TYPE): mean fitness
+        fitness (TYPE): best fitness
         sorted (bool): Description
     """
     
@@ -542,7 +541,6 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
 class BaseSpecies(BaseMultiPopulation):
     def __str__(self):
         return ' $$\n'.join(map(str, self))
-
 
 
 class BaseEnvironment(metaclass=ParamType):

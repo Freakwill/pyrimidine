@@ -7,9 +7,9 @@ from pyrimidine import *
 from digit_converter import *
 
 
-ndim = 12
+ndim = 8
 def evaluate(x):
-    return -rosenbrock(ndim)(x)
+    return -rosenbrock(x)
 
 
 class _Chromosome(BinaryChromosome):

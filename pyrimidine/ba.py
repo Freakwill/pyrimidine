@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
 """
-Bat Algorithm
+The Bat Algorithm is a nature-inspired optimization algorithm developed by Xin-She Yang in 2010.
+It is based on the echolocation behavior of bats.
+Bats emit ultrasonic pulses and listen to the echoes to determine the distance to obstacles and the location of prey.
+This behavior forms the basis of the algorithm where solutions are represented as virtual bats,
+and their positions in the search space are adjusted iteratively to find the optimal solution. 
 """
 
 from . import *
@@ -10,12 +14,15 @@ from .utils import *
 class Bat(MemoryIndividual):
     element_class = FloatChromosome
     default_size = 5
-    memory ={'position':None,
-    'fitness':None}
+
+    _memory = {'position':None,
+        'fitness':None
+        }
 
     params = {'frequency': 0.5,
         'pulse_rate': 0,
-        'loudness': 0
+        'loudness': 0,
+        'scale': 0.2
         }
 
 
@@ -26,7 +33,7 @@ class Bat(MemoryIndividual):
     @position.setter
     def position(self, x):
         self.chromosomes[0] = x
-        self.fitness = None
+        self.__fitness = None
 
     @property
     def velocity(self):
@@ -36,17 +43,8 @@ class Bat(MemoryIndividual):
     def velocity(self, v):
         self.chromosomes[-1] = v
 
-    @property
-    def best_position(self):
-        return self.chromosomes[0]
-
-    @best_position.setter
-    def best_position(self, x):
-        self.chromosomes[0] = x
-        self.fitness = None
-
     def move(self):
-        self.position += self.velocity
+        self.position += self.velocity * self.scale
 
 
 class Bats(HOFPopulation):
@@ -58,24 +56,30 @@ class Bats(HOFPopulation):
         'alpha': 0.95,
         'pulse_rate': 0.9
         }
-
+ 
+    def init(self):
+        for bat in self:
+            bat.backup(check=False)
+        super().init()
 
     def transit(self, k):
         
         for bat in self:
-            bat.velocity += (self.best_individual.position - bat.position) * bat.frequency
+            bat.frequency = uniform(0, .1)
+            bat.velocity += (self.best_individual.memory['position'] - bat.position) * bat.frequency
             bat.move()
 
             # local search
-            for i in range(len(bat.position)):
-                if random() < self.pulse_rate:
-                    bat.position[i] += bat.loudness * uniform(-1, 1)
+            for i, pi in enumerate(bat.position):
+                if random() < bat.pulse_rate:
+                    bat.position[i] = pi + bat.loudness * uniform(-1, 1)
 
             # update the params
-            bat.frequency = uniform(0, .2)
             bat.pulse_rate = self.pulse_rate * (1 - exp(-self.gamma * k))
             bat.loudness *= self.alpha
-            if random() < bat.loudness:
+            if random() > bat.pulse_rate:
                 bat.backup()
+            if random() < 0.1:
+                self.update_hall_of_fame()
         self.update_hall_of_fame()
 

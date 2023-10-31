@@ -9,12 +9,13 @@ Each individual is represented position and velocity.
 
 from .base import PopulationModel
 from .chromosome import FloatChromosome
-from .individual import PolyIndividual
+from .individual import MemoryIndividual
 from .utils import gauss, random
+from .utils import methodcaller, attrgetter
 
 import numpy as np
 
-class BaseParticle(PolyIndividual):
+class BaseParticle:
     """A particle in PSO
     
     Extends:
@@ -30,7 +31,8 @@ class BaseParticle(PolyIndividual):
 
     element_class = FloatChromosome
     default_size = 2
-    memory = {'position': None,
+
+    _memory = {'position': None,
             'fitness': None}    # store the best position passed by the particle
 
     params = {'learning_factor': 2,
@@ -38,13 +40,6 @@ class BaseParticle(PolyIndividual):
             'inertia': 0.5
             }
 
-    def backup(self, check=False):
-        if not check or self.fitness > self.memory['fitness']:
-            self.memory = {'position': self.position,
-                'fitness': self.fitness}
-
-    def init(self):
-        self.backup(check=False)
 
     @property
     def position(self):
@@ -77,7 +72,7 @@ class BaseParticle(PolyIndividual):
         return self.best_position
 
 
-class Particle(BaseParticle):
+class Particle(BaseParticle, MemoryIndividual):
 
     element_class = FloatChromosome
     default_size = 2
@@ -89,7 +84,7 @@ class Particle(BaseParticle):
     @position.setter
     def position(self, x):
         self.chromosomes[0] = x
-        self.fitness = None
+        self.__fitness = None
 
     @property
     def velocity(self):
@@ -122,35 +117,40 @@ class ParticleSwarm(PopulationModel):
     default_size = 20
 
     params = {'learning_factor': 2, 'acceleration_coefficient': 3,
-    'inertia':0.5, 'n_best_particles':0.1, 'max_velocity':None}
+    'inertia':0.5, 'n_best_particles':0.2, 'max_velocity':None}
 
     def init(self):
-        for particle in self.particles:
+        for particle in self:
             particle.init()
+
         self.hall_of_fame = self.get_best_individuals(self.n_best_particles, copy=True)
 
     
-    def update_fame(self):
-        for particle in self.particles:
-            if particle not in self.hall_of_fame:
-                for k, fame in enumerate(self.hall_of_fame):
-                    if particle.memory['fitness'] <= fame.memory['fitness']:
-                        break
-                else:
+    def update_hall_of_fame(self):
+        hof_size = len(self.hall_of_fame)
+        for ind in self:
+            for k in range(hof_size):
+                if self.hall_of_fame[-k-1].fitness < ind.fitness:
+                    self.hall_of_fame.insert(hof_size-k, ind.clone())
                     self.hall_of_fame.pop(0)
-                    self.hall_of_fame.insert(-1, particle)
-                if k > 0:
-                    self.hall_of_fame.pop(0)
-                    self.hall_of_fame.insert(k-1, particle)
+                    break
+
+
+    @property
+    def best_fitness(self):
+        if self.hall_of_fame:
+            return np.max(list(map(attrgetter('fitness'), self.hall_of_fame)))
+        else:
+            return super().best_fitness
     
 
     def transit(self, *args, **kwargs):
         """
         Transitation of the states of particles
         """
-        self.update_fame()
         self.move()
         self.backup()
+        self.update_hall_of_fame()
 
 
     def backup(self):
@@ -179,13 +179,6 @@ class ParticleSwarm(PopulationModel):
                  + self.acceleration_coefficient * eta * (fame.best_position-particle.position))
             particle.position = particle.position + particle.velocity
 
-
-    @property
-    def best_fitness(self):
-        if self.hall_of_fame:
-            return np.max([_.memory['fitness'] for _ in self.hall_of_fame])
-        else:
-            return super().best_fitness
 
 
 class DiscreteParticleSwarm(ParticleSwarm):

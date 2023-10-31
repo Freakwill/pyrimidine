@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """Variants of Population classes
 
@@ -60,12 +59,13 @@ class HOFPopulation(StandardPopulation):
 
 
     def update_hall_of_fame(self):
-        b = self.best_individual
-        for k, i in enumerate(self.hall_of_fame[::-1]):
-            if i.fitness < b.fitness:
-                self.hall_of_fame.pop(-k-1)
-                self.hall_of_fame.insert(-k-1, b.clone())
-                break
+        hof_size = len(self.hall_of_fame)
+        for ind in self:
+            for k in range(hof_size):
+                if self.hall_of_fame[-k-1].fitness < ind.fitness:
+                    self.hall_of_fame.insert(hof_size-k, ind.clone())
+                    self.hall_of_fame.pop(0)
+                    break
 
     # def update_hall_of_fame(self, n=2):
     #     bs = self.get_best_individuals(n)

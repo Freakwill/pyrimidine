@@ -28,7 +28,7 @@ class MyIndividual(BinaryChromosome.set(default_size=50)):
     def _fitness(self):
         return _evaluate(self.decode())
 
-MyPopulation = StandardPopulation[MyIndividual] // 5
+MyPopulation = HOFPopulation[MyIndividual] // 5
 
 pop = MyPopulation.random()
 stat = {'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}

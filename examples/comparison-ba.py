@@ -32,20 +32,21 @@ class MyIndividual(_Individual, MixedIndividual):
 MyPopulation = HOFPopulation[MyIndividual] // 50
 YourPopulation = Bats[_Bat] // 50
 
-pop = MyPopulation.random(sizes=(30, 30))
-pop2 = pop.clone(type_=YourPopulation)
+pop1 = MyPopulation.random(sizes=(30, 30))
+pop2 = pop1.clone(type_=YourPopulation)
 
-pop.ezolve(n_iter=500)
-ind1 = pop.best_individual
+pop1.ezolve(n_iter=100)
+ind1 = pop1.best_individual
 y1 = evaluate.fit(*ind1.decode())
 
-pop2.ezolve(n_iter=500)
+pop2.ezolve(n_iter=100)
 ind2 = pop2.best_individual
 y2 = evaluate.fit(*ind2.decode())
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(X, y, X, y1, X, y2)
+ax.plot(X, y, 'k', marker='o')
+ax.plot(X, y1, 'r', X, y2, 'b')
 ax.legend(('Original Function', f'With GA (Error: {-ind1.fitness})', f'With BA (Error: {-ind2.fitness})'))
 plt.show()

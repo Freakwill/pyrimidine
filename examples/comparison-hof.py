@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 
-from pyrimidine import MonoBinaryIndividual
+from pyrimidine import classicalIndividual
 from pyrimidine.population import *
 
 from pyrimidine.benchmarks.optimization import *
@@ -10,13 +9,10 @@ from pyrimidine.benchmarks.optimization import *
 n_bags = 50
 _evaluate = Knapsack.random(n_bags)
 
-class MyIndividual(MonoBinaryIndividual):
+class MyIndividual(classicalIndividual(n_bags)):
     def _fitness(self):
         return _evaluate(self.chromosome)
 
-    def dual(self):
-        return self.__class__([c.dual() for c in self.chromosomes])
-    
 
 class _Population1(StandardPopulation):
     element_class = MyIndividual

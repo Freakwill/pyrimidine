@@ -4,7 +4,7 @@
 An ordinary example of the usage of `pyrimidine`
 """
 
-from pyrimidine import MonoIndividual, BinaryChromosome, HOFPopulation
+from pyrimidine import MonoIndividual, BinaryChromosome, StandardPopulation
 from pyrimidine.benchmarks.optimization import *
 
 n_bags = 50
@@ -22,14 +22,14 @@ class MyIndividual(MonoIndividual):
 """
 
 # Define the population class
-class MyPopulation(HOFPopulation):
+class MyPopulation(StandardPopulation):
     element_class = MyIndividual
-    default_size = 10
+    default_size = 8
 
 """ Equiv. to
-    MyPopulation = HOFPopulation[MyIndividual].set(default_size=10)
+    MyPopulation = StandardPopulation[MyIndividual].set(default_size=8)
     or, as a population of chromosomes
-    MyPopulation = HOFPopulation[BinaryChromosome.set(default_size=n_bags).set_fitness(_evaluate)].set(default_size=10)
+    MyPopulation = StandardPopulation[BinaryChromosome.set(default_size=n_bags).set_fitness(_evaluate)].set(default_size=8)
 """
 
 pop = MyPopulation.random()
@@ -43,7 +43,7 @@ stat = {
     }
 
 # Do statistical task and print the results through the evoluation
-data = pop.evolve(stat=stat, n_iter=100, history=True, verbose=False)
+data = pop.evolve(stat=stat, n_iter=200, history=True, verbose=False)
 
 # Visualize the data
 import matplotlib.pyplot as plt
