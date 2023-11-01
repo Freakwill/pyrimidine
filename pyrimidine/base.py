@@ -327,9 +327,10 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
         elif 0 < n_sel < 1:
             n_sel = int(self.n_individuals * n_sel)
         winners = []
-        rest = np.arange(self.n_individuals)
+        rest = list(range(self.n_individuals))
         size = tournsize or self.tournsize
         n_rest = self.n_individuals
+
         for i in range(n_sel):
             if n_rest == 0:
                 break
@@ -340,10 +341,10 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
             _winner = np.argmax([self[k].fitness for k in aspirants])
             winner = aspirants[_winner]
             winners.append(winner)
-            np.delete(rest, winner)
+            rest.remove(winner)
             n_rest -= 1
         if winners:
-            self.individuals = [self[k] for k in aspirants]
+            self.individuals = [self[k] for k in winners]
         else:
             raise Exception('No winners in the selection!')
 
@@ -389,6 +390,7 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
         if random() < mate_prob]
         self.individuals.extend(offspring)
         self.offspring = self.__class__(offspring)
+
 
     def remove(self, individual):
         self.individuals.remove(individual)

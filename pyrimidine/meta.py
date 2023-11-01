@@ -132,8 +132,8 @@ class System(ParamType):
             return self.__elements[k]
 
         def _len(self):
-            if hasattr(self, '__n_elements'):
-                return getattr(self, '__n_elements')
+            # if hasattr(self, '__n_elements'):
+            #     return getattr(self, '__n_elements')
             return len(self.__elements)
 
         attrs.update(

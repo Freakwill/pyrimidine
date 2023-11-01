@@ -151,3 +151,8 @@ def proportion(n, N):
     elif 0 < n < 1:
         n = int(N * n)
     return n
+
+
+def pattern(chromosomes):
+    return ''.join([str(a[0]) if len(np.unique(a))==1 else '*' for a in zip(*chromosomes)])
+

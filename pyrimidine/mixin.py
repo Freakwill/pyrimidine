@@ -241,12 +241,7 @@ class FitnessModel(IterativeModel):
 
 
 class _PopulationModel(IterativeModel):
-    def __len__(self):
-        return self.__n_elements
-
-    @property
-    def n_individuals(self):
-        return self.__n_elements
+    pass
 
 
 class PopulationModel(FitnessModel, _PopulationModel):
@@ -316,7 +311,7 @@ class PopulationModel(FitnessModel, _PopulationModel):
     def get_best_individuals(self, n=1, copy=False):
         # Get first n best individuals
         if n < 1:
-            n = int(self.n_individuals * n)
+            n = int(self.n_elements * n)
         elif not isinstance(n, int):
             n = int(n)
 
