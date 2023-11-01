@@ -43,7 +43,7 @@ stat = {
     }
 
 # Do statistical task and print the results through the evoluation
-data = pop.evolve(stat=stat, n_iter=200, history=True, verbose=False)
+data = pop.evolve(stat=stat, n_iter=500, history=True, verbose=False)
 
 # Visualize the data
 import matplotlib.pyplot as plt

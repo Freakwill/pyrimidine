@@ -96,8 +96,37 @@ class MyChromosome(BaseChromosome):
 ### Main methods
 If you want to redesign the crossover and mutation in the algorithms, you can override the `mutate` and `cross` methods of the individual class. You can also override the methods of the chromosome class, since the operations of the individual class simply invoke the methods of the chromosome class.
 
+### Mixin classes
 These classes also inherit from  the mixin class `BaseIterativeModel`, that is responsible for the iteration, including exporting data for visualization. When developing a new algorithm, the key is to override the `transit` method, which is repeatedly called for all iterative algorithms. For genetic algorithms, `transit` mainly is composed of `mutate` and `cross`.
 
+As the subclass of `BaseIterativeModel`,`FitnessModel` is cretated for executing the iterative algorithm to maximize the fitness.
+
+### Mathematical expression
+The auther use the following expression to represent a container $s$ of type $S$, with some $a$s of type $A$ as its elements:
+$$
+s=\{a:A\}:S
+$$
+where $\{\cdot\}$ represets a set, or a sequence to emphasis the order of the elements.
+
+The lifting of a method $f$ of $a:A$ is defined as
+$$
+f(s):=\{f(a)\}
+$$
+unless it is redefined explictedly. For example, the mutation of a population is the mutation of all indiviudals in it, but sometimes it may be defined as the mutation of one individual selected randomly.
+
+Some methods would be lifted in other manners, such as
+$$
+f(s):=\max_t\{f(t)\}
+$$
+The main example is `fitness` to compute the fitness of the element.
+
+As mensioned above, the `transit` transform is the most important method of $s$, denoted as
+$$
+T(s):S\to S
+$$
+Then an iteration is represented as $T^n(s)$.
+
+<!-- Currently, there is no point from $t$ to $s$, meaning that we can not access the attributions of $s$ by operating $t$ directly.  -->
 
 ## An Example to start
 
@@ -187,13 +216,15 @@ Developing new algorithms with `pyrimidine` is remarkably simple.
 ### Create your own individual and GA
 In classical GAs, the mutation rate and crossover rate are invariant and uniform across the entire population through the evolution. However, `pyrimidine` easily allows these rates to be encoded in each individual, making them adaptive during iterations.
 
+We define a `MixedIndividual` with two chromosomes, one represents the solutions and the other represents the probability of mutation and the probability of crossover.
+
 ```python
-class NewIndividual(MixIndividual):
+class NewIndividual(MixedIndividual):
     element_class = (BinaryChromosome, FloatChromosome)
     def mutate(self):
-        # Mutation based on self[1][0]
+        # Mutation based on the second chromosome
     def cross(self, other):
-        # Crossover based on self[1][1]
+        # Crossover based on the second chromosome
     def _fitness(self):
         # Fitness only depends on the first chromosome
         f(self[0])

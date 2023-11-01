@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
+"""
+Not a good problem!
+"""
 
 from pyrimidine import *
 import numpy as np
@@ -25,10 +28,6 @@ class MyIndividual(MultiIndividual[_Chromosome]):
         return 2*x[0]+1, x[1]+1, 2*x[2]+1
 
     def _fitness(self):
-        """
-        select ni from n
-        sum of ni ~ 10, while ti dose not repeat
-        """
         x = self.decode()
         return -abs(x[0]**3+x[1]**3-x[2]**3) + 10*3 * min(abs(x[1]/x[2]-1), abs(x[0]/x[2]-1))
 
@@ -39,9 +38,9 @@ class MyIndividual(MultiIndividual[_Chromosome]):
 
 
 if __name__ == '__main__':
-    StandardPopulation.element_class = MyIndividual
+    HOFPopulation.element_class = MyIndividual
 
-    pop = StandardPopulation.random(n_individuals=30, size=15)
+    pop = HOFPopulation.random(n_individuals=10, size=15)
     data = pop.evolve(n_iter=100, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}, history=True)
     import matplotlib.pyplot as plt
     fig = plt.figure()
