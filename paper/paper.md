@@ -1,5 +1,5 @@
 ---
-title: 'Pyrimidine: Algebraic OOP framework for genetic algorithms'
+title: 'Pyrimidine: Algebra-inspired Programming framework for genetic algorithms
 tags:
   - Python
   - astronomy
@@ -22,25 +22,25 @@ date: 13 August 2017
 bibliography: paper.bib
 ---
 
-# Pyrimidine: Algebraic OOP framework for genetic algorithms
+# Pyrimidine: Algebra-inspired Programming framework for genetic algorithms
 
-**Abstract** Pyrimidine is a general framework for genetic algorithms. It is extremely extensible and can implement any iterative model, such as simulated annealing and particle swarm optimization. Its design is based on object-oriented programming and fully utilizes the metaprogramming capabilities of Python. We propose a container metaclass to construct different structures of individual and population classes. These classes are understood as algebraic systems, where elements can perform various operations, such as mutation and crossover of individuals in a population. These classes may also be the elements of higher-order classes, allowing for automatic implementation of class-level operations such as population migration in genetic algorithms. We refer to this design as "algebraic OOP".
+**Abstract** Pyrimidine is a general framework for genetic algorithms. It is extremely extensible and can implement any iterative model, such as simulated annealing and particle swarm optimization. Its design is based on object-oriented programming and fully utilizes the metaprogramming capabilities of Python. We propose a container metaclass to construct different structures of individual and population classes. These classes are understood as algebraic systems, where elements can perform various operations, such as mutation and crossover of individuals in a population. These classes may also be the elements of higher-order classes, allowing for automatic implementation of class-level operations such as population migration in genetic algorithms. We call such design style "the algebra-inspired Progamming".
 
 
-**Keywords** Pyrimidine, Genetic Algorithms, Algebraic OOP, Python, meta-programming
+**Keywords** Pyrimidine, Genetic Algorithms, Algebra-inspired Programming, Python, meta-programming
 
 ## Introduction
 Genetic algorithm (GA) is a general optimization method that mimics natural selection in evolutionary biology to solve optimization problems. It is the earliest developed intelligent algorithm [1-4], which has been widely used in multiple fields and has been modified and combined with new algorithms [5-6]. This article does not review its principles. Please refer to reference [4] and the literature cited therein for more information.
 
 Currently, lots of programming languages provide libraries that implement GA frameworks. Python may provides most GA frameworks, including well-known libraries such as deap [7], gaft and tpot as the parameter optimizor[8-9] for machine learning, as well as scikit-opt and gplearn as the extensions of scikit-learn [10], etc. This article introduces pyrimidine, which is a general algorithm framework designed by the author. It strictly follows object-oriented programming(OOP) principles compared to other libraries and utilizes Python's metaprogramming capabilities.
 
-## Algebraic OOP
+## Algebra-inspired Programming
 
 GA consists of two main components: individuals(choromosomes) and populations.
 
-A oridinary idea of implementation in Python, populations are desienged as the lists of individuals, individuals( chromosomes) are the lists of genes. You can create an individual using the standard library `array` or the well-known third-party numerical computing library `numpy`[11]. The latter is convenient for various numerical computations but can be slower for cross operations.
+A oridinary idea of implementation in Python, populations are desienged as the lists of individuals, individuals( chromosomes) are the lists of genes. You can create an individual using the standard library `array` or the well-known third-party numerical computing library `numpy`[11]. The latter is convenient for various numerical computations but may be slower for cross operations.
 
-Our design concept is beyond the oridinary idea and more extensible. We call it "algebraic OOP".
+Our design concept is beyond the oridinary idea and more extensible. We call it "algebra-inspired Programming".
 
 
 ### Metaclasses
@@ -101,18 +101,20 @@ These classes also inherit from  the mixin class `BaseIterativeModel`, that is r
 
 As the subclass of `BaseIterativeModel`,`FitnessModel` is cretated for executing the iterative algorithm to maximize the fitness.
 
-### Mathematical expression
-The auther use the following expression to represent a container $s$ of type $S$, with some $a$s of type $A$ as its elements:
+### Mathematical representation
+The auther use the following expression to represent a container $s$ of type $S$, with the elements of type $A$:
 $$
 s=\{a:A\}:S
 $$
 where $\{\cdot\}$ represets a set, or a sequence to emphasis the order of the elements.
 
-The lifting of a method $f$ of $a:A$ is defined as
+As you saw, the population is a container of individuals. It is difficult to generalize the concept to multi-population, which is the container of populations. It is not difficult to define more high-level containers.
+
+The lifting of a method $f$ of $a$ is defined as
 $$
 f(s):=\{f(a)\}
 $$
-unless it is redefined explictedly. For example, the mutation of a population is the mutation of all indiviudals in it, but sometimes it may be defined as the mutation of one individual selected randomly.
+unless it is redefined explictly. For example, the mutation of a population is the mutation of all indiviudals in it, but sometimes it may be defined as the mutation of one individual selected randomly.
 
 Some methods would be lifted in other manners, such as
 $$
@@ -126,7 +128,8 @@ T(s):S\to S
 $$
 Then an iteration is represented as $T^n(s)$.
 
-<!-- Currently, there is no point from $t$ to $s$, meaning that we can not access the attributions of $s$ by operating $t$ directly.  -->
+With the help of the above concepts, we can impliment any iterative algorithm for socalled swarm intelligence.
+
 
 ## An Example to start
 
@@ -272,12 +275,14 @@ def cross(self, other):
 
 I have conducted extensive experiments and improvements, demonstrating that pyrimidine is a versatile framework suitable for implementing various genetic algorithms. Its design offers strong extensibility, allowing the implementation of any iterative model, such as simulated annealing or particle swarm optimization. For users developing new algorithms, pyrimidine is a promising choice.
 
-Currently, pyrimidine is still in development, but most of its API has been stabilized, so users need not worry about frequent changes. Pyrimidine requires fitness values to be numbers, so it cannot handle multi-objective problems directly, unless they are reduced to single-objective problems. Pyrimidine uses numpy's numerical classes, making crossover operations slower than deap's, but alternative implementations can be used. Of course, there are other areas for improvement. Additionally, pyrimidine's documentation is still under development.
+Pyrimidine requires fitness values to be numbers, so it cannot handle multi-objective problems directly, unless they are reduced to single-objective problems. Pyrimidine uses numpy's arrays, making crossover operations slower than deap's, but alternative implementations can be used. Of course, there are other areas for improvement. Additionally, pyrimidine's documentation is still under development.
 
 The complete source code has been uploaded to GitHub, including numerous examples (see the "examples" folder).https://github.com/Freakwill/pyrimidine。
 
+<!-- Currently, operating the individual could not access. -->
 
 
+---
 <center>References</center>
 [1] Holland, J. Adaptation in Natural and Artificial Systems[M]. The Univ. of Michigan, 1975.
 [3] D. Simon. 进化优化算法——基于仿生和种群的计算机智能方法[M]. 北京: 清华大学出版社, 2018.

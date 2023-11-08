@@ -431,7 +431,6 @@ if __name__ == '__main__':
     c = C([UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
     C.set_methods(n_elems=lambda c: 1)
     print(c.element_class)
-    print(C.element_name)
     print(c.strings)
     print(c.lasting)
     print(c.elements, 'one of them is', c.elements[0])

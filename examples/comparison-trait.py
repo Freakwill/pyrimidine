@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 
 from pyrimidine import *
@@ -15,14 +14,14 @@ evaluate = MLP.random(N=N, p=p)
 
 h = 20
 
-c = IntervalConverter(-5,5)
-
 
 class _Chromosome(BinaryChromosome):
-    def decode(self):
-        return c(self)
 
-class ExampleIndividual(MixIndividual):
+    def decode(self):
+        # 0101... --> 0.123
+        return IntervalConverter(-5,5)(self)
+
+class ExampleIndividual(MixedIndividual):
     """base class of individual
 
     You should implement the methods, cross, mute
@@ -46,9 +45,8 @@ if __name__ == '__main__':
 
     MyPopulation = SGA2Population[ExampleIndividual2]
     pop = MyPopulation.random(n_individuals=100, sizes=[h*p, h, h, 8, 4])
-    pop1 = pop.clone(type_=SGA2Population)
+    pop1 = pop.clone(type_=HOFPopulation)
     pop2 = pop.clone()
-    # pop2 = pop.clone(type_=SGA2Population)
 
     pop.mate_prob = pop.mutate_prob = 1
 
