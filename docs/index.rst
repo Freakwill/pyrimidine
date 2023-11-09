@@ -18,10 +18,11 @@ Welcome to pyrimidine's world of genetic algorithm
 
    Home <../source/Home.md>
    Install <../source/Install.md>
-   API Deisgn <../source/API Deisgn.md>
+   API Design <../source/API Design.md>
    Examples <../source/Examples.md>
    Customization <../source/Customization.md>
    Helpers <../source/Helpers.md>
+   Misc <../source/Misc.md>
 
 
    modules <../source/modules.md>

@@ -293,7 +293,7 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
     def add_individuals(self, inds:list):
         self.individuals += inds
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         """Transitation of the states of population
 
         It is considered to be the standard flow of the Genetic Algorithm

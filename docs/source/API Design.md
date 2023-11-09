@@ -9,10 +9,10 @@ Following is the core code of the class.
 ```python
 def evolve(self):
     looping:
-        self.transit()
+        self.transition()
 ```
 
-Users could override `transit` to implement any other iteration form.
+Users could override `transition` to implement any other iteration form.
 
 
 

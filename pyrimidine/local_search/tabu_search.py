@@ -4,8 +4,8 @@
 Tabu Search was created by Fred W. Glover in 1986 and formalized in 1989
 """
 
-from .utils import random, choice
-from . import MemoryIndividual
+from ..utils import random, choice
+from pyrimidine.individual import MemoryIndividual
 
 
 class BaseTabuSearch(MemoryIndividual):
@@ -50,7 +50,7 @@ class BaseTabuSearch(MemoryIndividual):
         raise NotImplementedError
 
 
-class SimpleTabuSearch(BaseTableau):
+class SimpleTabuSearch(BaseTabuSearch):
     def get_neighbour(self, action):
         cpy = self.clone()
         i, j = action

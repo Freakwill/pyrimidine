@@ -57,13 +57,6 @@ class HOFPopulation(StandardPopulation):
         super().transition(*args, **kwargs)
         self.update_hall_of_fame()
         self.add_individuals(list(map(methodcaller('clone'), self.hall_of_fame)))
-        for i in self.hall_of_fame:
-            print(i, i.fitness)
-        print('---')
-        for i in self:
-            print(i, i.fitness)
-        raise
-
 
     def update_hall_of_fame(self):
         hof_size = len(self.hall_of_fame)
