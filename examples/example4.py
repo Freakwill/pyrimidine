@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from pyrimidine import *
 from pyrimidine.local_search import *
@@ -14,15 +13,14 @@ import numpy as np
 
 c=IntervalConverter(-30,30)
 
-evaluate = lambda x: - rosenbrock(10)(x)
+evaluate = lambda x: - rosenbrock(x)
 
 class _Chromosome(BinaryChromosome):
     def decode(self):
         return c(self)
 
-class ExampleIndividual(BaseIndividual):
-    """base class of individual
-
+class ExampleIndividual(PolyIndividual):
+    """
     You should implement the methods, cross, mute
     """
     element_class = _Chromosome
@@ -45,9 +43,9 @@ class MyIndividual(ExampleIndividual, SimulatedAnnealing):
 if __name__ == '__main__':
     stat={'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
     
-    SGAPopulation.element_class = ExampleIndividual
+    StandardPopulation.element_class = ExampleIndividual
 
-    ga = SGAPopulation.random(n_individuals=20, n_chromosomes=10, size=10)
+    ga = StandardPopulation.random(n_individuals=20, size=10)
     ga.mate_prob = 0.9
 
     data= ga.evolve(n_iter=10, stat=stat, history=True)

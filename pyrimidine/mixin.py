@@ -107,7 +107,7 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
             raise TypeError('Argument `history` should be an instance of pandas.DataFrame or boolean.')
         # n_iter = n_iter or self.n_iter
         for k in range(1, n_iter+1):
-            self.transit(k)
+            self.transition(k)
             if history_flag and (period == 1 or k % period ==0):
                 res = stat(self) if stat else {}
                 history = pd.concat([history,

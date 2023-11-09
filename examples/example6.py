@@ -8,7 +8,7 @@ from digit_converter import IntervalConverter, unitIntervalConverter
 import numpy as np
 
 
-evaluate = lambda x: -rosenbrock(20)(x)
+evaluate = lambda x: -rosenbrock(x)
 
 class _Chromosome(BinaryChromosome):
     def decode(self):

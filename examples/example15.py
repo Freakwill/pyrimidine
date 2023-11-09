@@ -9,7 +9,7 @@ from digit_converter import colorConverter
 
 from PIL import Image
 
-evaluate = Painting(image=Image.open('logo.png'), size=(100,100))
+evaluate = Painting(image=Image.open('painting.jpg'), size=(100,100))
 
 
 class _Gene(NaturalGene):
@@ -39,30 +39,15 @@ class MyIndividual(MixedIndividual):
         return evaluate(*params)
 
 
-class MyPopulation(StandardPopulation):
+class MyPopulation(HOFPopulation):
     element_class = MyIndividual
+
 
 pop = MyPopulation.random(n_individuals=20)
 
-
-pop.ezolve(n_iter=50)
+pop.ezolve(n_iter=100)
 params = pop.best_individual.decode()
-print(params)
 im = evaluate.toimage(*params)
 print(im)
 im.show()
 
-# from celluloid import Camera
-# def animate(i):
-#     pop.evolve(n_iter=2, verbose=False)
-#     params = pop.best_individual.decode()
-#     print(pop.best_fitness)
-#     im = evaluate.toimage(*params)
-#     plt.imshow(im)
-
-# camera = Camera(fig)
-# for i in range(50):
-#     animate(i)
-#     camera.snap()
-# animation = camera.animate()
-# animation.save('animation.mp4')
