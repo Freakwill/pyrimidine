@@ -47,7 +47,7 @@ class SimulatedAnnealing(FitnessModel):
     def init(self):
         self.phantom = self.clone(fitness=None)
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         T = self.initT
         for epoch in range(self.nepoch):
             self.phantom.move(T)

@@ -219,9 +219,9 @@ class MyIndividual(MixIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fitne
 
 class MyPopulation(StandardPopulation[MyIndividual]):
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         self.sort()
-        super().transit(*args, **kwargs)
+        super().transition(*args, **kwargs)
 
 ```
 
