@@ -1,21 +1,29 @@
 #!/usr/bin/env python
 
-from .population import SGA2Population
+"""The Stud GA
+
+References:
+Khatib, Wael and Peter John Fleming. “The Stud GA: A Mini Revolution?” Parallel Problem Solving from Nature (1998).
+"""
+
+from .population import HOFPopulation
 from .utils import random, choice
 
-class StudPopulation(SGA2Population):
+class StudPopulation(HOFPopulation):
+
     params = {'fame_size': 2}
     
     def mate(self, mate_prob=None):
         """Mating in studGA
 
-        individuals only mate with
+        individuals only mate with individuals in the hall of fame
         """
 
         mate_prob = mate_prob or self.mate_prob
         offspring = []
         for individual in self.individuals:
-            if individual in self.halloffame: continue
+            if individual in self.halloffame:
+                continue
             if random() < (mate_prob or self.mate_prob):
                 other = choice(self.halloffame)
                 offspring.append(individual.cross(other))

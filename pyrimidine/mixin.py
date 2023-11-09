@@ -15,7 +15,7 @@ import pandas as pd
 
 from ezstat import Statistics
 
-from .utils import methodcaller, attrgetter
+from operator import methodcaller, attrgetter
 from .errors import *
 
 
@@ -39,7 +39,7 @@ class IterativeModel:
         pass
 
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         """
         The core method of the object.
 
@@ -47,7 +47,7 @@ class IterativeModel:
         according to some rules, such as crossing and mutating for individuals in GA,
         or moving method in Simulated Annealing.
         """
-        raise NotImplementedError('`transit`, the core of the algorithm, is not defined yet!')
+        raise NotImplementedError('`transition`, the core of the algorithm, is not defined yet!')
 
 
     def local_search(self, *args, **kwargs):
@@ -62,10 +62,10 @@ class IterativeModel:
         n_iter = n_iter or self.n_iter
         self.init()
         for k in range(1, n_iter+1):
-            self.transit(k, *args, **kwargs)
+            self.transition(k, *args, **kwargs)
 
 
-    def evolve(self, n_iter=None, period=1, verbose=False, decode=False, stat={'Fitness': 'fitness'}, history=False, callbacks=()):
+    def evolve(self, n_iter:int=100, period:int=1, verbose:bool=False, decode=False, history=False, stat=None, attrs=('state',), control=None):
         """Get the history of the whole evolution
 
         Keyword Arguments:
@@ -80,21 +80,23 @@ class IterativeModel:
         Returns:
             DataFrame | None
         """
+        assert control is None or callable(control)
  
         n_iter = n_iter or self.n_iter
-        self.init()
 
         if isinstance(stat, dict): stat = Statistics(stat)
 
-        res = stat.do(self) if stat else {}
+        self.init()
 
         if verbose:
+            res = stat(self) if stat else {}
             print(f"""
-iteration & best solution & {" & ".join(res.keys())}
+iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
 -------------------------------------------------------------
-0 & {self.solution} & {" & ".join(map(str, res.values()))}""")
+[0] & {" & ".join(str(getattr(self, attr)) for attr in attrs)} & {" & ".join(map(str, res.values()))}""")
 
         if history is True:
+            res = stat(self) if stat else {}
             history = pd.DataFrame(data={k:[v] for k, v in res.items()})
             history_flag = True
         elif history is False:
@@ -102,19 +104,21 @@ iteration & best solution & {" & ".join(res.keys())}
         elif isinstance(history, pd.DataFrame):
             history_flag = True
         else:
-            raise TypeError('Argument `history` should be an instance of pandas.DataFrame or bool.')
-        # n_iter = n_iter or self.n_iter or self.default_n_iter
+            raise TypeError('Argument `history` should be an instance of pandas.DataFrame or boolean.')
+        # n_iter = n_iter or self.n_iter
         for k in range(1, n_iter+1):
             self.transit(k)
-            for c in callbacks:
-                c(self)
-            res = stat.do(self) if stat else {}
             if history_flag and (period == 1 or k % period ==0):
+                res = stat(self) if stat else {}
                 history = pd.concat([history,
                     pd.Series(res.values(), index=res.keys()).to_frame().T],
                     ignore_index=True)
             if verbose and (period == 1 or k % period ==0):
-                print(f'{k} & {self.solution} & {" & ".join(map(str, res.values()))}')
+                print(f'[{k}] & {" & ".join(str(getattr(self, attr)) for attr in attrs)} & {" & ".join(map(str, res.values()))}')
+            
+            if control:
+                if control(self):
+                    break
         return history
 
 
@@ -227,13 +231,13 @@ class FitnessModel(IterativeModel):
         return cpy
 
 
-    def evolve(self, stat=None, *args, **kwargs):
+    def evolve(self, stat=None, attrs=('solution',), *args, **kwargs):
         """Get the history of the whole evolution
         """
         if stat is None:
             stat = {'Fitness':'fitness'}
 
-        return super().evolve(stat=stat, *args, **kwargs)
+        return super().evolve(stat=stat, attrs=attrs, *args, **kwargs)
 
     def after_setter(self):
         # clean up the fitness after updating the chromosome

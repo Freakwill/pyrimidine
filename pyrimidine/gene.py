@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 import numpy as np
 from . import BaseGene
@@ -11,14 +10,14 @@ class NaturalGene(np.int_, BaseGene):
 
     @classmethod
     def random(cls, *args, **kwargs):
-        return np.random.randint(cls.ub, *args, **kwargs).astype(cls, copy=False)
+        return np.random.randint(cls.ub, dtype=cls, *args, **kwargs)
 
 class BinaryGene(np.int_, BaseGene):
     values = (0, 1)
 
     @classmethod
     def random(cls, *args, **kwargs):
-        return np.random.randint(2, *args, **kwargs).astype(cls, copy=False)
+        return np.random.randint(2, dtype=cls, *args, **kwargs)
 
 
 class FloatGene(np.float_, BaseGene):
@@ -26,7 +25,10 @@ class FloatGene(np.float_, BaseGene):
 
     @classmethod
     def random(cls, *args, **kwargs):
-        return np.random.uniform(cls.lb, cls.ub, *args, **kwargs).astype(cls, copy=False)
+        if 'size' in kwargs:
+            return np.random.uniform(cls.lb, cls.ub, *args, **kwargs).astype(cls, copy=False)
+        else:
+            return np.random.uniform(cls.lb, cls.ub, *args, **kwargs)
 
 
 class UnitFloatGene(FloatGene):

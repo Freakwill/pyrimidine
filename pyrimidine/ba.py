@@ -62,7 +62,7 @@ class Bats(HOFPopulation):
             bat.backup(check=False)
         super().init()
 
-    def transit(self, k):
+    def transition(self, k):
         
         for bat in self:
             bat.frequency = uniform(0, .1)

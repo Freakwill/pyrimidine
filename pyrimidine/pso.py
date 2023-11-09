@@ -11,7 +11,7 @@ from .base import PopulationModel
 from .chromosome import FloatChromosome
 from .individual import MemoryIndividual
 from .utils import gauss, random
-from .utils import methodcaller, attrgetter
+from operator import attrgetter
 
 import numpy as np
 
@@ -144,7 +144,7 @@ class ParticleSwarm(PopulationModel):
             return super().best_fitness
     
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         """
         Transitation of the states of particles
         """

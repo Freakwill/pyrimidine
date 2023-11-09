@@ -5,7 +5,6 @@ Helper functions
 """
 
 
-from operator import methodcaller, attrgetter
 from random import random, randint, gauss, shuffle, uniform
 from math import exp
 

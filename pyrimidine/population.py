@@ -6,10 +6,11 @@ StandardPopulation: Standard Genetic Algorithm
 HOFPopulation: Standard Genetic Algorithm with hall of fame
 """
 
+from operator import methodcaller
 import numpy as np
 
 from .base import BasePopulation
-from .utils import gauss, random, methodcaller
+from .utils import gauss, random
 from .meta import MetaList
 
 
@@ -22,13 +23,13 @@ class StandardPopulation(BasePopulation):
 
     params = {'n_elders': 0.5}
     
-    def transit(self, k=None, *args, **kwargs):
+    def transition(self, k=None, *args, **kwargs):
         """
         Transitation of the states of population by SGA
         """
 
         elder = self.get_best_individuals(self.n_elders * self.default_size, copy=True)
-        super().transit(*args, **kwargs)
+        super().transition(*args, **kwargs)
         self.merge(elder, n_sel=self.default_size)
 
 
@@ -48,12 +49,12 @@ class HOFPopulation(StandardPopulation):
     def init(self):
         self.hall_of_fame = self.get_best_individuals(self.hof_size)
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         """
         Update the hall of fame after each step of evolution
         """
 
-        super().transit(*args, **kwargs)
+        super().transition(*args, **kwargs)
         self.update_hall_of_fame()
         self.add_individuals(list(map(methodcaller('clone'), self.hall_of_fame)))
 
@@ -111,14 +112,14 @@ class DualPopulation(BasePopulation):
                 if d.fitness > ind.fitness:
                     self.individuals[k] = d
     
-    def transit(self, k=None, *args, **kwargs):
+    def transition(self, k=None, *args, **kwargs):
         """
         Transitation of the states of population by SGA
         """
         self.dual()
         elder = self.clone()
         elder.get_best_individuals(self.n_elders)
-        super().transit(*args, **kwargs)
+        super().transition(*args, **kwargs)
         self.merge(elder)
 
 
@@ -148,10 +149,10 @@ class GamogenesisPopulation(HOFPopulation):
 
 
 class EliminationPopulation(BasePopulation):
-    def transit(self, k=None, *args, **kwargs):
+    def transition(self, k=None, *args, **kwargs):
         elder = self.clone()
         elder.select(k)
-        super().transit(*args, **kwargs)
+        super().transition(*args, **kwargs)
         self.eliminate()
         self.merge(elder)
 
@@ -176,12 +177,12 @@ class LocalSearchPopulation(StandardPopulation):
     Population with `local_search` method
     '''
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         """Transitation of the states of population
 
         Calling `local_search` method
         """
-        super().transit(*args, **kwargs)
+        super().transition(*args, **kwargs)
         self.local_search()
 
 

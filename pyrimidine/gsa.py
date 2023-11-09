@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from .base import PopulationModel
 from .chromosome import FloatChromosome
@@ -93,7 +92,7 @@ class GravitySearch(PopulationModel):
             particle.accelerate = A[:, i]
 
     
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         """
         Transitation of the states of particles
         """

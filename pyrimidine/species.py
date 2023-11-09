@@ -8,7 +8,9 @@ import threading
 from itertools import product
 
 class SimpleSpecies(BaseSpecies):
-    pass
+    def transition(self, *args, **kwargs):
+        for pop in self:
+            pop.transition(*args, **kwargs)
 
 class DualSpecies(BaseSpecies):
     params = {'n_elders':0.5, 'mate_prob':0.75}
@@ -62,7 +64,7 @@ class DualSpecies(BaseSpecies):
         return True
 
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         elder = self.__class__([
             self.populations[0].clone_best_individuals(self.n_elders * self.populations[0].default_size),
             self.populations[1].clone_best_individuals(self.n_elders * self.populations[1].default_size)

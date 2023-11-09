@@ -120,7 +120,7 @@ Some methods would be lifted in other manners, such as
 $$
 f(s):=\max_t\{f(t)\}
 $$
-The main example is `fitness` to compute the fitness of the element.
+The main example is `fitness` to compute the fitness of the whole population.
 
 As mensioned above, the `transit` transform is the most important method of $s$, denoted as
 $$

@@ -51,11 +51,12 @@ pop.evolve()
 print(pop.best_individual)
 """
 
+from operator import attrgetter
 import types
 import numpy as np
 from toolz import concat
 
-from .utils import choice_uniform, randint, attrgetter, random
+from .utils import choice_uniform, randint, random
 from .errors import *
 from .meta import *
 from .mixin import *

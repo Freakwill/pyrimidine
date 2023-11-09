@@ -7,7 +7,7 @@ Metaclasses
 
 from types import MethodType
 from collections.abc import Iterable
-from operator import attrgetter
+from operator import attrgetter, methodcaller
 
 
 
@@ -75,7 +75,7 @@ class ParamType(type):
             elif key in self.alias:
                 return getattr(self, self.alias[key])
             else:
-                raise AttributeError(f'`{key}` is neither an attribute of the object, nor in `param` or `alias`')
+                raise AttributeError(f'`{key}` is neither an attribute of the object of `{self.__class__}`, nor in `param` or `alias`')
         attrs['__getattr__'] = _getattr
 
         def _setattr(self, key, value):
@@ -181,7 +181,7 @@ class System(ParamType):
         """
         def _regester_map(self, name, key=None, force=True):
             if key is None:
-                key = lambda e: getattr(e, name)()
+                key = methodcaller(name)
             def m(obj):
                 return map(key, obj.elements)
             if not force and hasattr(self, name):
@@ -198,17 +198,10 @@ class System(ParamType):
                 raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
             setattr(self, name, MethodType(m, self))
 
-        # attrs = {
-        #     'regester_op': _regester_op,
-        #     'regester_map': _regester_map
-        # }
-        
-        # def _operator_regester(self, m):
-        #     if hasattr(self, m):
-        #         raise AttributeError(f'`{m}` is an attribute of {self.__class__.__name__}, would not be regestered.')
-        #     def _m(obj, *args, **kwargs):
-        #         return [getattr(a, m)(*args, **kwargs) for a in obj]
-        #     setattr(self, m, MethodType(_m, self))
+        attrs.update({
+            'regester_op': _regester_op,
+            'regester_map': _regester_map
+        })
 
         # def _element_regester(self, e):
         #     if hasattr(self, e):
@@ -218,8 +211,6 @@ class System(ParamType):
         #         return [getattr(a, e) for a in obj]
         #     setattr(self, e, _p)
 
-        # attrs.update({'operator_regester': _operator_regester,
-        # 'element_regester': _element_regester})
 
         return super().__new__(cls, name, bases, attrs)
 
@@ -321,7 +312,6 @@ class MetaContainer(System):
     def __floordiv__(self, n):
         return self.set(default_size=n)
 
-
 class MetaList(MetaContainer):
     # a list is a container of elements with the same type
     def __new__(cls, name, bases, attrs):
@@ -409,44 +399,6 @@ class MetaArray(ParamType):
 
         return super().__new__(cls, name, bases, attrs)
 
-
-
-if __name__ == '__main__':
-    from collections import UserString
-
-    class C(metaclass=MetaContainer):
-        element_class = UserString
-        # alias = {'n_strings': 'n_elements'}
-        # element_name = 'string'
-
-        def foo(self):
-            pass
-
-        def after_setter(self):
-            self.fitness = 2
-
-    class D(C):
-        pass
-
-    c = C([UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
-    C.set_methods(n_elems=lambda c: 1)
-    print(c.element_class)
-    print(c.strings)
-    print(c.lasting)
-    print(c.elements, 'one of them is', c.elements[0])
-    print(c.n_elements == c.n_strings)
-
-    c.regester_map('upper')
-    print(list(c.upper()))
-    def n_vowels(s):
-        return len([o for o in s if str(o) in 'ieaouIEAOU'])
-    c.regester_map('length', n_vowels)
-    print(list(c.length()))
-    print(c.n_elems())
-
-    c = D([UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
-    c.fitness = 1
-    c.strings += [UserString('wow')]
-    print(c.elements)
-    print(c.fitness)
+    def __floordiv__(self, n):
+        return self.set(default_size=n)
 

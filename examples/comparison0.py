@@ -7,7 +7,7 @@
 Your first example of pyrimidine
 """
 
-from pyrimidine import MonoBinaryIndividual, BaseEnvironment
+from pyrimidine import BinaryChromosome, MonoIndividual, BaseEnvironment
 from pyrimidine.population import StandardPopulation, HOFPopulation
 
 from pyrimidine.benchmarks.optimization import Knapsack
@@ -17,7 +17,7 @@ class Env(BaseEnvironment):
     _evaluate = Knapsack.random(n_bags)
 
 with Env() as env:
-    _Individual = MonoBinaryIndividual.set_fitness(lambda o: env._evaluate(o.chromosome))
+    _Individual = MonoIndividual[BinaryChromosome].set_fitness(lambda o: env._evaluate(o.chromosome))
 
 
     class _Population1(StandardPopulation):

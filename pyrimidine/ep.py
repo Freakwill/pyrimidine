@@ -84,7 +84,7 @@ class EPPopulation(PopulationModel):
         self.individuals = inds
 
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         cpy = self.clone()
         self.mutate()
         self.merge(cpy)

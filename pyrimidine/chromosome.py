@@ -18,28 +18,27 @@ class ArrayChromosome(BaseChromosome, np.ndarray):
     
     Attributes:
         element_class (TYPE): the type of gene
-        gene (TYPE): gene of the chromosome
     """
 
     element_class = BaseGene
 
-    def __new__(cls, array, gene=None):
-        if gene is None:
-            gene = cls.element_class
+    def __new__(cls, array=None, element_class=None):
+        if element_class is None:
+            element_class = cls.element_class
+        if array is None:
+            array = []
 
-        obj = np.asarray(array, dtype=gene).view(cls)
-        return obj
+        return np.asarray(array, dtype=element_class).view(cls)
+
 
     def __array_finalize__(self, obj):
         if obj is None:
             return
-        elif isinstance(obj, (tuple, list)):
-            self.__array_finalize__(np.asarray(obj)) 
-            return
-        elif isinstance(obj, BaseChromosome):
-            self.gene = getattr(obj, 'gene', None)
-        elif isinstance(obj, np.ndarray):
-            self.gene = obj.dtype
+        if isinstance(obj, (tuple, list)):
+            obj = self.__class__(obj)
+        if isinstance(obj, BaseChromosome):
+            self.element_class = getattr(obj, 'element_class', None)
+ 
 
     def __array_ufunc__(self, ufunc, method, *inputs, out=None, **kwargs):
 
@@ -73,19 +72,6 @@ class ArrayChromosome(BaseChromosome, np.ndarray):
     @elements.setter
     def elements(self, x):
         self.__elements = np.asarray(x)
-        self.__n_elements = len(x)
-
-    @property
-    def n_genes(self):
-        return len(self)
-    
-    @property
-    def gene(self):
-        return self.element_class
-
-    @gene.setter
-    def gene(self, ec):
-        self.element_class = ec
 
     @classmethod
     def random(cls, *args, **kwargs):
@@ -97,41 +83,27 @@ class ArrayChromosome(BaseChromosome, np.ndarray):
         return cls(array=cls.element_class.random(*args, **kwargs))
 
     def __str__(self):
-        return f'{"|".join(str(gene) for gene in self)}'
+        return f'{"|".join(map(str, self))}'
 
     def cross(self, other):
         # note that when len(self) == 2  ==>  k==1
         k = randint(1, len(self)-1)
-        return self.__class__(array=np.concatenate((self[:k], other[k:]), axis=0), gene=self.gene)
+        return self.__class__(np.concatenate((self[:k], other[k:]), axis=0), element_class=self.element_class)
 
     def merge(self, *other):
         return self
 
     def clone(self, *args, **kwargs):
-        return self.__class__(array=self.copy(), gene=self.gene)
-
-    # def mutate(self, indep_prob=0.1):
-    #     for i in range(len(self)):
-    #         if random() < indep_prob:
-    #             self[i] = self.gene.random()
-
-
-class VectorChromosome(ArrayChromosome):
-    element_class = BaseGene
-
-    # def __new__(cls, array, gene=None):
-    #     if gene is None:
-    #         gene = cls.element_class
-    #     obj = super().__new__(cls, shape=(len(array),), dtype=gene)
-    #     obj = np.asarray(array).view(cls)
-    #     obj.__gene = gene
-    #     assert self.ndim == 1
-    #     return obj
+        return self.__class__(self.copy(), element_class=self.element_class)
 
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
             if random() < indep_prob:
-                self[i] = self.gene.random()
+                self[i] = self.element_class.random()
+
+
+class VectorChromosome(ArrayChromosome):
+    element_class = BaseGene
 
 
 class MatrixChromosome(ArrayChromosome):
@@ -148,7 +120,7 @@ class MatrixChromosome(ArrayChromosome):
         k, l = randint(1, r-1), randint(1, c-1)
         A = np.vstack((self[:k, :l], other[k:, :l]))
         B = np.vstack((other[:k, l:], self[k:, l:]))
-        return self.__class__(array=np.hstack((A, B)), gene=self.gene)
+        return self.__class__(np.hstack((A, B)), element_class=self.element_class)
 
 
 class BinaryChromosome(VectorChromosome):
@@ -160,7 +132,7 @@ class BinaryChromosome(VectorChromosome):
                 self[i] ^= 1
 
     def __str__(self):
-        return f'{"".join(str(gene) for gene in self)}'
+        return f'{"".join(map(str, self))}'
 
     def dual(self):
         return BinaryChromosome(1 ^ self)
@@ -175,7 +147,7 @@ class NaturalChromosome(VectorChromosome):
                 self[i] = NaturalGene.random()
 
     def __str__(self):
-        return "".join(str(gene) for gene in self)
+        return "".join(map(str, self))
 
     def dual(self):
         return NaturalChromosome(self.element_class.ub - self)
@@ -204,12 +176,12 @@ class PermutationChromosome(NaturalChromosome):
 
     def cross(self, other):
         k = randint(1, len(self)-2)
-        return self.__class__(array=np.hstack((self[:k], [g for g in other if g not in self[:k]])), gene=self.gene)
+        return self.__class__(np.hstack((self[:k], [g for g in other if g not in self[:k]])), element_class=self.element_class)
 
     def __str__(self):
         if len(self)>10:
-            return "|".join(str(gene) for gene in self)
-        return "".join(str(gene) for gene in self)
+            return "|".join(map(str, self))
+        return "".join(map(str, self))
 
     def dual(self):
         return NaturalChromosome(self.element_class.ub - self)
@@ -276,7 +248,7 @@ class ProbabilityChromosome(PositiveChromosome):
                 size = cls.default_size
             else:
                 raise UnknownSizeError(cls)
-        return cls(np.random.dirichlet(np.ones(size)), gene=cls.element_class)
+        return cls(np.random.dirichlet(np.ones(size)), dtype=cls.element_class)
 
 
     # def check(self):
@@ -307,7 +279,7 @@ class ProbabilityChromosome(PositiveChromosome):
         k = randint(1, len(self)-2)
         array = np.hstack((self[:k], other[k:])) + 0.001
         array /= array.sum()
-        return self.__class__(array=array, gene=self.gene)
+        return self.__class__(array, element_class=self.element_class)
 
     def random_neighbour(self):
         # select a neighour randomly
