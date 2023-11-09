@@ -23,7 +23,8 @@ class _Population2(HOFPopulation):
     default_size = n_bags
 
 pop1 = _Population1.random(size=n_bags)
-pop2 = pop1.clone(type_=_Population2) # population 2 with the same initial values to population 1
+# build population 2 with the same initial values to population 1, by `clone` method
+pop2 = pop1.clone(type_=_Population2)
 
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
 data1 = pop1.evolve(stat=stat, n_iter=300, history=True)
