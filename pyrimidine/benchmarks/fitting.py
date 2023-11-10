@@ -37,7 +37,7 @@ class CurveFitting(Fitting):
             np.sum([c*relu(b * self.X - a) for a, b, c in zip(*params[3:])], axis=0)))
 
 
-_indicator = lambda x, y: (x+y <= 10) & (x*y>=0)
+_indicator = lambda x, y: (x <= 5) & (y <= 5) & (x*y>=0)
 
 from math import cos, sin
 def basis(a, b, c, t):
