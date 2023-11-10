@@ -66,8 +66,8 @@ MyPopulation = HOFPopulation[MyIndividual].set(default_size=15)
 
 pop = MyPopulation.random()
 pop2 = pop.clone(type_=YourPopulation)
-data = pop.evolve(stat={'Error': lambda pop: -pop.fitness}, n_iter=500, history=True, period=5)
-yourdata = pop2.evolve(stat={'Error': lambda pop: -pop.fitness}, n_iter=500, history=True, period=5)
+data = pop.evolve(stat={'Error': lambda pop: -pop.fitness}, n_iter=250, history=True, period=5)
+yourdata = pop2.evolve(stat={'Error': lambda pop: -pop.fitness}, n_iter=250, history=True, period=5)
 
 
 from sklearn.decomposition import NMF

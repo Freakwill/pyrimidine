@@ -24,7 +24,7 @@ class YourPopulation(StandardPopulation):
 pop = YourPopulation.random(size=20)
 
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-data, _ = pop.perf(stat=stat)
+data, _ = pop.perf(stat=stat, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
@@ -32,11 +32,11 @@ ax = fig.add_subplot(111)
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 
 pop = MyPopulation.random(size=20)
-
-data, _ = pop.perf(stat=stat)
+data, _ = pop.perf(stat=stat, history=True)
 
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.legend(('Mean Fitness', 'Best Fitness', 'My Fitness', 'My Best Fitness'))
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
+ax.set_title('Knapsack Problem solved by GA')
 plt.show()

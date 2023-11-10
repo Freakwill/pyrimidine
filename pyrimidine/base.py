@@ -285,7 +285,7 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
     def add_individuals(self, inds:list):
         self.individuals += inds
 
-    def transition(self, k=0):
+    def transition(self, *args, **kwargs):
         """Transitation of the states of population
 
         It is considered to be the standard flow of the Genetic Algorithm
@@ -471,10 +471,12 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
     default_size = 2
 
     params = {'migrate_prob': 0.2}
+    alias = {'positions': 'elements',
+    'n_populations': 'n_elements'}
 
 
     def init(self):
-        for p in self.populations:
+        for p in self:
             p.init()
 
     def __str__(self):
@@ -503,8 +505,8 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
         self.sorted = False
         self.fitness = None
 
-    def transition(self, k=0):
-        super().transition(k)
+    def transition(self, *args, **kwargs):
+        super().transition(*args, **kwargs)
         self.migrate()
 
 
@@ -517,7 +519,7 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
         return np.mean(tuple(map(attrgetter('mean_fitness'), self)))
 
     def get_best_individual(self):
-        bests = [population.get_best_individual() for population in self]
+        bests = list(methodcaller('get_best_individual'), self)
         k = np.argmax([b.fitness for b in bests])
         return bests[k]
 

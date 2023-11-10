@@ -20,7 +20,7 @@ class uChromosome(BinaryChromosome):
 
 class _Mixin:
     def _fitness(self):
-        x = [self.chromosomes[i].decode() for i in range(20)]
+        x = [i.decode() for i in self]
         return evaluate(x)
 
 class ExampleIndividual(_Mixin, MixedIndividual):

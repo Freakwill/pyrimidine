@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
-from pyrimidine import *
+from pyrimidine import BinaryChromosome, HOFPopulation, MonoIndividual, classicalIndividual
 
 from pyrimidine.benchmarks.optimization import *
 
@@ -9,7 +8,7 @@ from pyrimidine.benchmarks.optimization import *
 evaluate = Knapsack.random(n=100)
 
 
-class _Chromosome(BinaryChromosome):
+class _Chromosome(BinaryChromosome // 100):
     params = {'n_mutations':2}
 
     def mutate(self, indep_prob=0.1):

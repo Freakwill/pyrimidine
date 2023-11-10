@@ -73,6 +73,11 @@ class BaseParticle:
 
 
 class Particle(BaseParticle, MemoryIndividual):
+    """
+    Standard Particle
+
+    chromosomes = (position, velocity)
+    """
 
     element_class = FloatChromosome
     default_size = 2
@@ -94,16 +99,18 @@ class Particle(BaseParticle, MemoryIndividual):
     def velocity(self, v):
         self.chromosomes[1] = v
 
-    def update_vilocity(self, fame=None, *args, **kwargs):
-        xi = random()
-        if fame is None:
-            particle.velocity = (self.inertia * particle.velocity
-                + self.learning_factor * xi * (particle.best_position-particle.position))
-        else:
-            eta = random()
-            particle.velocity = (self.inertia * particle.velocity
-                 + self.learning_factor * xi * (particle.best_position-particle.position)
-                 + self.acceleration_coefficient * eta * (fame.best_position-particle.position))
+    @property
+    def direction(self):
+        return self.best_position - self.position
+
+    def update_vilocity(self, scale, inertia, learning_factor):      
+        self.velocity = (inertia * self.velocity
+                        + learning_factor * scale * self.direction)
+    
+    def update_vilocity_by_fame(self, fame, scale, scale_fame, inertia, learning_factor, acceleration_coefficient):
+        self.velocity = (inertia * self.velocity
+                        + learning_factor * scale * self.direction
+                        + acceleration_coefficient * scale_fame * (fame.best_position - self.position))
 
 
 class ParticleSwarm(PopulationModel):
@@ -117,7 +124,7 @@ class ParticleSwarm(PopulationModel):
     default_size = 20
 
     params = {'learning_factor': 2, 'acceleration_coefficient': 3,
-    'inertia':0.5, 'n_best_particles':0.2, 'max_velocity':None}
+    'inertia':0.75, 'n_best_particles':0.2, 'max_velocity':None}
 
     def init(self):
         for particle in self:
@@ -139,7 +146,7 @@ class ParticleSwarm(PopulationModel):
     @property
     def best_fitness(self):
         if self.hall_of_fame:
-            return np.max(list(map(attrgetter('fitness'), self.hall_of_fame)))
+            return max(map(attrgetter('fitness'), self.hall_of_fame))
         else:
             return super().best_fitness
     
@@ -164,38 +171,38 @@ class ParticleSwarm(PopulationModel):
 
         Particles move according to the hall of fame and the best record
         """
-        xi = random()
+        scale = random()
         eta = random()
         for particle in self:
             if particle in self.hall_of_fame:
-                particle.velocity = (self.inertia * particle.velocity
-             + self.learning_factor * xi * (particle.best_position-particle.position))
+                particle.update_vilocity(scale, self.inertia, self.learning_factor)
             else:
                 for fame in self.hall_of_fame:
                     if particle.fitness < fame.fitness:
                         break
-                particle.velocity = (self.inertia * particle.velocity
-                 + self.learning_factor * xi * (particle.best_position-particle.position)
-                 + self.acceleration_coefficient * eta * (fame.best_position-particle.position))
+                particle.update_vilocity_by_fame(fame, scale, scale_fame, self.inertia, self.learning_factor,
+                    self.acceleration_coefficient)
             particle.position = particle.position + particle.velocity
 
 
 
 class DiscreteParticleSwarm(ParticleSwarm):
+
     def move(self):
         """moving rule of particles
 
         Particles move according to the hall of fame and the best record
         """
-        v1 = self.inertia
-        v2 = self.learning_factor
-        v3 = self.acceleration_coefficient
+
+        v1, v2, v3 = (self.inertia,
+            self.learning_factor,
+            self.acceleration_coefficient)
         for particle in self:
             if particle in self.hall_of_fame:
-                particle.velocity = def_velocity1(particle, v1, v2)
+                particle.velocity = _velocity1(particle, v1, v2)
             else:
                 for fame in self.hall_of_fame:
                     if particle.fitness < fame.fitness:
                         break
-                particle.velocity = def_velocity2(particle, fame, v1, v2, v3)
+                particle.velocity = _velocity2(particle, fame, v1, v2, v3)
             particle.move()

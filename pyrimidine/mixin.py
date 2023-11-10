@@ -253,6 +253,10 @@ class FitnessModel(IterativeModel):
 
 
 class ContainerModel(IterativeModel):
+    def init(self, *args, **kwargs):
+        for element in self:
+            element.init(*args, **kwargs)
+
     def transition(self, *args, **kwargs):
         for element in self:
             element.transition(*args, **kwargs)
@@ -289,7 +293,7 @@ class PopulationModel(FitnessModel, ContainerModel):
 
 
     def get_fitnesses(self):
-        return list(map(attrgetter('fitness'), self))
+        return list(map(attrgetter('fitness'), self.elements))
 
 
     @property

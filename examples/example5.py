@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-function optimization by GA
+function approximation by GA
 """
 
 from pyrimidine import *

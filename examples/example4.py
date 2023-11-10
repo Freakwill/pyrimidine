@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 
+from random import randint
+import numpy as np
+
 from pyrimidine import *
 from pyrimidine.local_search import *
-from random import randint
-
-
 from pyrimidine.benchmarks.special import *
 
 from digit_converter import *
 
-import numpy as np
 
 c=IntervalConverter(-30,30)
 
 evaluate = lambda x: - rosenbrock(x)
+
 
 class _Chromosome(BinaryChromosome):
     def decode(self):

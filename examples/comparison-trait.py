@@ -43,7 +43,7 @@ class ExampleIndividual2(ExampleIndividual, TraitThresholdIndividual):
 
 if __name__ == '__main__':
 
-    MyPopulation = SGA2Population[ExampleIndividual2]
+    MyPopulation = StandardPopulation[ExampleIndividual2]
     pop = MyPopulation.random(n_individuals=100, sizes=[h*p, h, h, 8, 4])
     pop1 = pop.clone(type_=HOFPopulation)
     pop2 = pop.clone()

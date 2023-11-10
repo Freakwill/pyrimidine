@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 import numpy as np
+from .benchmarks import Problem
 
-class Knapsack:
+
+
+class Knapsack(BaseProblem):
     """Knapsack Problem
 
-    max sum_i ci
-    s.t. sum_i wi <= W
-    where ci, wi selected from c, w
+    max sum_i ci xi
+    s.t. sum_i wi xi <= W
+    xi = 0 / 1 (choice variable)
+    where ci is in c, wi is the coresponding weight of ci
     """
     def __init__(self, w, c, W=0.7, M=100):
         """
@@ -29,7 +32,6 @@ class Knapsack:
         self.c = c
         self.W = W
         self.M = M
-        self.n_bags = len(c)
         self.__sorted = None
 
     @staticmethod
@@ -55,9 +57,69 @@ class Knapsack:
         return self.__sorted
 
     def __call__(self, x):
+        # x is a binary array
         c, w, W, M = self.c, self.w, self.W, self.M
         v = np.sum([ci for i, ci in zip(x, c) if i==1])
         w = np.sum([wi for i, wi in zip(x, w) if i==1])
+        if  w <= W:
+            return v
+        else:
+            return - 1/(1 + np.exp(-v)) * M
+
+
+class MultiKnapsack(Problem):
+    """Multi Choice Knapsack Problem
+
+    max sum_ij cij xij
+    s.t. sum_ij wij xij <= W
+    {xij} is 
+    where xij is the choice variable, that is sum_j xij=1
+    """
+    def __init__(self, ws, cs, W=0.7, M=100):
+        """
+        
+        Arguments:
+            ws {tuple of arrays} -- weight array of goods
+            cs {tuple of arrays} -- value array of goods
+            W {number} -- upper bound (proportion) of total weight
+        
+        Keyword Arguments:
+            M {number} -- penalty (default: {100})
+        """
+
+        if W < 1:
+            W = sum(map(np.sum, ws)) * W
+
+        self.ws = ws
+        self.cs = cs
+        self.W = W
+        self.M = M
+        self.__sorted = None
+        self.size = tuple(map(c, cs))
+
+    @staticmethod
+    def random(ns=(4,5,2,6,5,7,8,3), W=0.7):
+        ws = tuple(np.random.randint(1, 21, n) for n in ns)
+        cs = tuple(np.random.randint(1, 21, n) for n in ns)
+        return MultiKnapsack(ws, cs, W=W)
+
+    def argsort(self):
+        c = min(self.cs)
+        w = min(self.ws)
+        return np.argsort(c / w)
+
+    @property
+    def sorted(self):
+        if self.__sorted is None:
+            self.__sorted =self.argsort()
+
+        return self.__sorted
+
+    def __call__(self, x):
+        # x is an integer array
+        c, w, W, M = self.c, self.w, self.W, self.M
+        v = np.sum([ci[xi] for xi, ci in zip(x, c) if 0<=xi < self.size[i]])
+        w = np.sum([wi[xi] for xi, wi in zip(x, w) if 0<=xi < self.size[i]])
         if  w <= W:
             return v
         else:
@@ -122,6 +184,7 @@ class ShortestPath:
     def __call__(self, x):
         return np.sum([self._dm[i,j] if i<j else self._dm[j, i] for i, j in zip(x[:-1], x[1:])])
 
+
 class CurvePath(ShortestPath):
     def __init__(self, x, y):
         _points = np.column_stack([x,y])
@@ -131,7 +194,7 @@ class CurvePath(ShortestPath):
 def _heart(t, a=1):
     x = np.cos(t)
     y = np.sin(t) + np.power(x**2, 1/3)
-    return a* x, a* y
+    return a * x, a * y
 
 t = np.linspace(0, 2*np.pi, 50)
 x1, y1 = _heart(t)

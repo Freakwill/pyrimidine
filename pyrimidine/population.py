@@ -6,7 +6,7 @@ StandardPopulation: Standard Genetic Algorithm
 HOFPopulation: Standard Genetic Algorithm with hall of fame
 """
 
-from operator import methodcaller
+from operator import methodcaller, attrgetter
 import numpy as np
 
 from .base import BasePopulation
@@ -23,7 +23,7 @@ class StandardPopulation(BasePopulation):
 
     params = {'n_elders': 0.5}
     
-    def transition(self, k=None, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         """
         Transitation of the states of population by SGA
         """
@@ -56,7 +56,7 @@ class HOFPopulation(StandardPopulation):
 
         super().transition(*args, **kwargs)
         self.update_hall_of_fame()
-        self.add_individuals(list(map(methodcaller('clone'), self.hall_of_fame)))
+        self.add_individuals(map(methodcaller('clone'), self.hall_of_fame))
 
     def update_hall_of_fame(self):
         hof_size = len(self.hall_of_fame)
@@ -83,7 +83,7 @@ class HOFPopulation(StandardPopulation):
     @property
     def best_fitness(self):
         if self.hall_of_fame:
-            return max(_.fitness for _ in self.hall_of_fame)
+            return max(map(attrgetter('fitness'), self.hall_of_fame))
         else:
             return super().best_fitness
 
@@ -111,7 +111,7 @@ class DualPopulation(BasePopulation):
                 if d.fitness > ind.fitness:
                     self.individuals[k] = d
     
-    def transition(self, k=None, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         """
         Transitation of the states of population by SGA
         """

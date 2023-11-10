@@ -9,6 +9,7 @@ class NMF:
     # M ~ A diag(C) B'
     def __init__(self, M):
         self.M = M
+        self.norm = LA.norm(M)
 
 
     @staticmethod
@@ -28,5 +29,5 @@ class NMF:
         c = A.shape[1]
         if C is not None:
             for i in range(c):
-                A[:,i] *= C[i]
-        return - LA.norm(self.M - A @ B.T)
+                A[:,i] = A[:,i] * C[i]
+        return - LA.norm(self.M - np.dot(A, B)) / self.norm

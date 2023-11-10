@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 
 from pyrimidine import *
 from pyrimidine.local_search import *
@@ -55,4 +55,4 @@ for i in range(1, 101):
     camera.snap()
 
 animation = camera.animate()
-animation.save('animation.mp4')
+animation.save('anim-ga-tsp.mp4')

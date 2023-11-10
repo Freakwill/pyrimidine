@@ -3,6 +3,7 @@
 from pyrimidine import BinaryChromosome, BaseIndividual, AgePopulation, AgeIndividual, StandardPopulation
 
 from pyrimidine.benchmarks.optimization import *
+
 from digit_converter import *
 
 
