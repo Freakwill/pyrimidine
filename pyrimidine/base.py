@@ -267,22 +267,14 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
     hall_of_fame = []
 
     params = {'mate_prob':0.75, 'mutate_prob':0.2, 'tournsize':5}
-    alias = {'individuals': 'elements', 'n_individuals': 'n_elements'}
+
+    alias = {"individuals": "elements",
+        "n_individuals": "n_elements",
+        "best_individuals": "best_elements",
+    }
 
     def __str__(self):
-        return '\n'.join(map(str, self.individuals))
-
-
-    def __getstate__(self):
-        return {'element_class':self.element_class, 'default_size':self.default_size, 'individuals':self.individuals, 'params':self.params}
-
-
-    def __setstate__(self, state):
-        self.element_class = state.get('element_class', self.__class__.element_class)
-        self.default_size = state.get('default_size', self.__class__.default_size)
-        self.individuals = state.get('individuals', [])
-        self.params = state.get('params', {})
-
+        return '&\n'.join(map(str, self))
 
     @classmethod
     def random(cls, n_individuals=None, *args, **kwargs):
@@ -293,7 +285,7 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
     def add_individuals(self, inds:list):
         self.individuals += inds
 
-    def transition(self, *args, **kwargs):
+    def transition(self, k=0):
         """Transitation of the states of population
 
         It is considered to be the standard flow of the Genetic Algorithm
@@ -410,7 +402,7 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
         Use `rank` if you call it frequently.
         """
         r = 0
-        for ind in self.sorted_individuals:
+        for ind in self.sorted_:
             if ind.fitness <= individual.fitness:
                 r += 1
             else:
@@ -422,22 +414,22 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
         """Rank all individuals
         by fitness increasingly
         """
-        sorted_individuals = [self[k] for k in self.argsort()]
+        sorted_ = [self[k] for k in self.argsort()]
         if tied:
             k = 0
             while k < self.n_individuals:
                 r = 0
-                individual = sorted_individuals[k]
-                for i in sorted_individuals[k+1:]:
+                individual = sorted_[k]
+                for i in sorted_[k+1:]:
                     if i.fitness == individual.fitness:
                         r += 1
                     else:
                         break
-                for i in sorted_individuals[k:k+r+1]:
+                for i in sorted_[k:k+r+1]:
                     i.ranking = (r + k) / self.n_individuals
                 k += r + 1
         else:
-            for k, i in enumerate(sorted_individuals):
+            for k, i in enumerate(sorted_):
                 i.ranking = k / self.n_individuals
 
     def cross(self, other):
@@ -480,12 +472,13 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
 
     params = {'migrate_prob': 0.2}
 
+
     def init(self):
         for p in self.populations:
             p.init()
 
     def __str__(self):
-        return '\n'.join(map(str, self.individuals))
+        return '\n\n'.join(map(str, self))
 
     @classmethod
     def random(cls, n_populations=None, *args, **kwargs):
@@ -510,15 +503,18 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
         self.sorted = False
         self.fitness = None
 
-    def transit(self, *args, **kwargs):
-        for population in self.populations:
-            population.transit(*args, **kwargs)
+    def transition(self, k=0):
+        super().transition(k)
         self.migrate()
 
 
     @property
     def best_fitness(self):
-        return max(map(attrgetter('best_fitness'), self.populations))
+        return max(map(attrgetter('best_fitness'), self))
+
+    @property
+    def mean_fitness(self):
+        return np.mean(tuple(map(attrgetter('mean_fitness'), self)))
 
     def get_best_individual(self):
         bests = [population.get_best_individual() for population in self]
@@ -527,35 +523,26 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
 
     @property
     def individuals(self):
-        return list(concat(map(attrgetter('individuals'), self.populations)))
-
-    def __getstate__(self):
-        return {'element_class':self.element_class, 'default_size':self.default_size,
-        'populations':self.populations, 'params':self.params}
+        return list(concat(map(attrgetter('individuals'), self)))
 
 
-    def __setstate__(self, state):
-        self.element_class = state.get('element_class', self.__class__.element_class)
-        self.default_size = state.get('default_size', self.__class__.default_size)
-        self.populations = state.get('populations', [])
-        self.params = state.get('params', {})
 
-
-class BaseSpecies(BaseMultiPopulation):
+class BaseCommunity(BaseMultiPopulation):
     def __str__(self):
-        return ' $$\n'.join(map(str, self))
+        return ' @\n\n'.join(map(str, self))
 
 
-class BaseEnvironment(metaclass=ParamType):
+class BaseEnvironment(ContainerModel, metaclass=System):
     """Base Class of environments
 
     The main method is `evaluate`, computing the fitness of an individual or a population
     """
 
-    _evaluate = None
-
     def evaluate(self, *args, **kwargs):
-        return self._evaluate(*args, **kwargs)
+        raise NotImplementedError
+
+    def __call__(self, *args, **kwargs):
+        return evaluate(self, *args, **kwargs)
 
     def select(self, pop, n_sel):
         raise NotImplementedError
@@ -570,3 +557,4 @@ class BaseEnvironment(metaclass=ParamType):
             del globals()['_fitness']
         if '_environment' in globals():
             del globals()['_environment']
+

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
-from pyrimidine import BinaryChromosome, BaseIndividual, AgePopulation, AgeIndividual, SGAPopulation
+from pyrimidine import BinaryChromosome, BaseIndividual, AgePopulation, AgeIndividual, StandardPopulation
 
 from pyrimidine.benchmarks.optimization import *
 from digit_converter import *
@@ -24,7 +23,7 @@ def example1():
             return evaluate(self.decode())
 
 
-    class YourPopulation(SGAPopulation):
+    class YourPopulation(StandardPopulation):
         element_class = YourIndividual
 
     pop = YourPopulation.random(n_individuals=50, n_chromosomes=2, size=32)
@@ -47,7 +46,7 @@ def example2():
             return evaluate(*(self.decode()))
 
 
-    class YourPopulation(SGAPopulation):
+    class YourPopulation(StandardPopulation):
         element_class = YourIndividual
 
     pop = YourPopulation.random(n_individuals=50, n_chromosomes=3, size=16)

@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from pyrimidine import *
+from pyrimidine import MultiPopulation, HOFPopulation, PolyIndividual, BinaryChromosome
 from pyrimidine.benchmarks.optimization import *
 
 
@@ -23,14 +23,14 @@ class _Population(HOFPopulation):
     element_class = _Individual
     default_size = 10
 
-class MySpecies(BaseSpecies):
+class _MultiPopulation(MultiPopulation):
     element_class = _Population
     default_size = 2
 
 
-sp = MySpecies.random()
+sp = _MultiPopulation.random()
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
-data = sp.evolve(stat=stat, n_iter=50, history=True)
+data = sp.evolve(stat=stat, n_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt

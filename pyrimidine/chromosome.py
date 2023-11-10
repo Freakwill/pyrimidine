@@ -248,7 +248,7 @@ class ProbabilityChromosome(PositiveChromosome):
                 size = cls.default_size
             else:
                 raise UnknownSizeError(cls)
-        return cls(np.random.dirichlet(np.ones(size)), dtype=cls.element_class)
+        return cls(np.random.dirichlet(np.ones(size)), element_class=cls.element_class)
 
 
     # def check(self):

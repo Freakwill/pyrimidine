@@ -93,13 +93,13 @@ class MyChromosome(BaseChromosome):
 ```
 
 
-### Main methods
-If you want to redesign the crossover and mutation in the algorithms, you can override the `mutate` and `cross` methods of the individual class. You can also override the methods of the chromosome class, since the operations of the individual class simply invoke the methods of the chromosome class.
+<!-- ### Main methods
+If you want to redesign the crossover and mutation in the algorithms, you can override the `mutate` and `cross` methods of the individual class. You can also override the methods of the chromosome class, since the operations of the individual class simply invoke the methods of the chromosome class. -->
 
 ### Mixin classes
-These classes also inherit from  the mixin class `BaseIterativeModel`, that is responsible for the iteration, including exporting data for visualization. When developing a new algorithm, the key is to override the `transit` method, which is repeatedly called for all iterative algorithms. For genetic algorithms, `transit` mainly is composed of `mutate` and `cross`.
+These classes also inherit from  the mixin class `IterativeModel`, that is responsible for the iteration, including exporting data for visualization. When developing a new algorithm, the key point is to override the `transition` method, which is called in all iterative algorithms. For genetic algorithms, `transition` is mainly composed of `mutate` and `cross`, the crossover and the mutation methods.
 
-As the subclass of `BaseIterativeModel`,`FitnessModel` is cretated for executing the iterative algorithm to maximize the fitness.
+As the subclass of `IterativeModel`, `FitnessModel` is cretated for executing the iterative algorithm to maximize the fitness.
 
 ### Mathematical representation
 The auther use the following expression to represent a container $s$ of type $S$, with the elements of type $A$:
@@ -108,7 +108,7 @@ s=\{a:A\}:S
 $$
 where $\{\cdot\}$ represets a set, or a sequence to emphasis the order of the elements.
 
-As you saw, the population is a container of individuals. It is difficult to generalize the concept to multi-population, which is the container of populations. It is not difficult to define more high-level containers.
+As you saw, the population is a container of individuals. It is not difficult to generalize the concept to multi-population, which is the container of populations, and called the high-level container.
 
 The lifting of a method $f$ of $a$ is defined as
 $$
@@ -122,7 +122,7 @@ f(s):=\max_t\{f(t)\}
 $$
 The main example is `fitness` to compute the fitness of the whole population.
 
-As mensioned above, the `transit` transform is the most important method of $s$, denoted as
+As mensioned above, the `transition` transform is the most important method of $s$, denoted as
 $$
 T(s):S\to S
 $$

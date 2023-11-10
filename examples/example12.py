@@ -4,7 +4,7 @@
 Test for Probabilitical GA
 """
 
-from pyrimidine import *
+from pyrimidine import MultiIndividual, StandardPopulation, ProbabilityChromosome
 import numpy as np
 
 from pyrimidine.benchmarks.matrix import *

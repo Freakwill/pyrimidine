@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
 
-from . import BaseSpecies
+from . import BaseMultiPopulation
 from .utils import  *
 import threading
 
 
 from itertools import product
 
-class SimpleSpecies(BaseSpecies):
-    def transition(self, *args, **kwargs):
-        for pop in self:
-            pop.transition(*args, **kwargs)
+class MultiPopulation(BaseMultiPopulation):
+    pass
 
-class DualSpecies(BaseSpecies):
+class DualPopulation(BaseMultiPopulation):
     params = {'n_elders':0.5, 'mate_prob':0.75}
 
     @property

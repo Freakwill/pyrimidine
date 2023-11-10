@@ -8,7 +8,7 @@ from .gene import *
 from .chromosome import *
 from .individual import *
 from .population import *
-from .species import *
+from .multipopulation import *
 from .saga import *
 from .pso import *
 from .ep import *

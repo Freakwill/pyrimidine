@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pyrimidine.local_search package &#8212; pyrimidine 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4848ba22" />
+    <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=a5b9c134" />
+    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="pyrimidine.learn package" href="pyrimidine.learn.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyrimidine.learn.html" title="pyrimidine.learn package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="pyrimidine.html" accesskey="U">pyrimidine package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyrimidine.local_search package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="pyrimidine-local-search-package">
+<h1>pyrimidine.local_search package<a class="headerlink" href="#pyrimidine-local-search-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-pyrimidine.local_search.random_walk">
+<span id="pyrimidine-local-search-random-walk-module"></span><h2>pyrimidine.local_search.random_walk module<a class="headerlink" href="#module-pyrimidine.local_search.random_walk" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.local_search.random_walk.RandomWalk">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.local_search.random_walk.</span></span><span class="sig-name descname"><span class="pre">RandomWalk</span></span><a class="headerlink" href="#pyrimidine.local_search.random_walk.RandomWalk" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FitnessModel</span></code></p>
+<p>Random Walk</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><p>state {Individual} – state of the physical body in annealing
+initT {number} – initial temperature</p>
+</dd>
+<dt>Returns:</dt><dd><p>state</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.local_search.random_walk.RandomWalk.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'sigma':</span> <span class="pre">1}</span></em><a class="headerlink" href="#pyrimidine.local_search.random_walk.RandomWalk.params" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.random_walk.RandomWalk.transit">
+<span class="sig-name descname"><span class="pre">transit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.random_walk.RandomWalk.transit" title="Link to this definition">¶</a></dt>
+<dd><p>Transition of states</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrimidine.local_search.simulated_annealing">
+<span id="pyrimidine-local-search-simulated-annealing-module"></span><h2>pyrimidine.local_search.simulated_annealing module<a class="headerlink" href="#module-pyrimidine.local_search.simulated_annealing" title="Link to this heading">¶</a></h2>
+<p>Simulated Annealing Algorithm</p>
+<p><em>Ref</em>
+S. Kirkpatrick, C. D. Gelatt, Jr., M. P. Vecchi. Optimization by Simulated Annealing. 1983: 220(4598): 671-679</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.local_search.simulated_annealing.</span></span><span class="sig-name descname"><span class="pre">SimulatedAnnealing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyrimidine.html#pyrimidine.individual.PhantomIndividual" title="pyrimidine.individual.PhantomIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhantomIndividual</span></code></a></p>
+<p>Class for Simulated Annealing</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>params (dict): parameters in SA
+phantom: phantom solution for exploration</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.alias">
+<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chromosomes':</span> <span class="pre">'elements',</span> <span class="pre">'n_chromosomes':</span> <span class="pre">'n_elements'}</span></em><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.alias" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.apply" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.elements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.get_all">
+<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.get_all" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.init">
+<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.init" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.move" title="Link to this definition">¶</a></dt>
+<dd><p>Move phantom</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><p>T {number} – temperature</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.n_elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.n_elements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'ext_c':</span> <span class="pre">0.99,</span> <span class="pre">'initT':</span> <span class="pre">100,</span> <span class="pre">'int_c':</span> <span class="pre">0.99,</span> <span class="pre">'n_epochs':</span> <span class="pre">200,</span> <span class="pre">'n_iter':</span> <span class="pre">100,</span> <span class="pre">'termT':</span> <span class="pre">0.0001}</span></em><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom">
+<span class="sig-name descname"><span class="pre">phantom</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester_map">
+<span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester_map" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester_op">
+<span class="sig-name descname"><span class="pre">regester_op</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester_op" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.transit">
+<span class="sig-name descname"><span class="pre">transit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.transit" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.type_check">
+<span class="sig-name descname"><span class="pre">type_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.type_check" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrimidine.local_search.tabu_search">
+<span id="pyrimidine-local-search-tabu-search-module"></span><h2>pyrimidine.local_search.tabu_search module<a class="headerlink" href="#module-pyrimidine.local_search.tabu_search" title="Link to this heading">¶</a></h2>
+<p>Tabu Search was created by Fred W. Glover in 1986 and formalized in 1989</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.local_search.tabu_search.</span></span><span class="sig-name descname"><span class="pre">BaseTabuSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pyrimidine.html#pyrimidine.individual.MemoryIndividual" title="pyrimidine.individual.MemoryIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">MemoryIndividual</span></code></a></p>
+<p>Tabu Search algorithm</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.alias">
+<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chromosomes':</span> <span class="pre">'elements',</span> <span class="pre">'n_chromosomes':</span> <span class="pre">'n_elements'}</span></em><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.alias" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.apply" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.elements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.get_all">
+<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.get_all" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.get_neighbour">
+<span class="sig-name descname"><span class="pre">get_neighbour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.get_neighbour" title="Link to this definition">¶</a></dt>
+<dd><p>to get a neighbour of an individual</p>
+<p>e.g. mutate only one gene</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.init">
+<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.init" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.n_elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.n_elements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'actions':</span> <span class="pre">[],</span> <span class="pre">'n_iter':</span> <span class="pre">100,</span> <span class="pre">'tabu_list':</span> <span class="pre">[],</span> <span class="pre">'tabu_size':</span> <span class="pre">10,</span> <span class="pre">'value':</span> <span class="pre">0}</span></em><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.params" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.regester_map">
+<span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.regester_map" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.regester_op">
+<span class="sig-name descname"><span class="pre">regester_op</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.regester_op" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.transit">
+<span class="sig-name descname"><span class="pre">transit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.transit" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.type_check">
+<span class="sig-name descname"><span class="pre">type_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.type_check" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.update_tabu_list">
+<span class="sig-name descname"><span class="pre">update_tabu_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.update_tabu_list" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.local_search.tabu_search.</span></span><span class="sig-name descname"><span class="pre">SimpleTabuSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch" title="pyrimidine.local_search.tabu_search.BaseTabuSearch"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTabuSearch</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.alias">
+<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chromosomes':</span> <span class="pre">'elements',</span> <span class="pre">'n_chromosomes':</span> <span class="pre">'n_elements'}</span></em><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.alias" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.apply" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.elements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.get_all">
+<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.get_all" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.get_neighbour">
+<span class="sig-name descname"><span class="pre">get_neighbour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.get_neighbour" title="Link to this definition">¶</a></dt>
+<dd><p>to get a neighbour of an individual</p>
+<p>e.g. mutate only one gene</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.n_elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.n_elements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'actions':</span> <span class="pre">[],</span> <span class="pre">'n_iter':</span> <span class="pre">100,</span> <span class="pre">'tabu_list':</span> <span class="pre">[],</span> <span class="pre">'tabu_size':</span> <span class="pre">10,</span> <span class="pre">'value':</span> <span class="pre">0}</span></em><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.params" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester_map">
+<span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester_map" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester_op">
+<span class="sig-name descname"><span class="pre">regester_op</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester_op" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.type_check">
+<span class="sig-name descname"><span class="pre">type_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.type_check" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.random">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.local_search.tabu_search.</span></span><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">x</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">interval</span> <span class="pre">[0,</span> <span class="pre">1).</span></span></span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.random" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyrimidine.local_search">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyrimidine.local_search" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.local_search.random">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.local_search.</span></span><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">x</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">interval</span> <span class="pre">[0,</span> <span class="pre">1).</span></span></span><a class="headerlink" href="#pyrimidine.local_search.random" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">pyrimidine.local_search package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyrimidine.local_search.random_walk">pyrimidine.local_search.random_walk module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.local_search.random_walk.RandomWalk"><code class="docutils literal notranslate"><span class="pre">RandomWalk</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.local_search.random_walk.RandomWalk.params"><code class="docutils literal notranslate"><span class="pre">RandomWalk.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.random_walk.RandomWalk.transit"><code class="docutils literal notranslate"><span class="pre">RandomWalk.transit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.local_search.simulated_annealing">pyrimidine.local_search.simulated_annealing module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.alias"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.apply"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.apply()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.elements"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.get_all"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.init"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.init()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.move"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.move()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.n_elements"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.phantom</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester_map"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.regester_map()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester_op"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.regester_op()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.transit"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.transit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.type_check"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.type_check()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.local_search.tabu_search">pyrimidine.local_search.tabu_search module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.alias"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.apply"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.apply()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.elements"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.get_all"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.get_neighbour"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.get_neighbour()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.init"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.init()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.n_elements"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.params"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.regester_map"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.regester_map()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.regester_op"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.regester_op()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.transit"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.transit()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.type_check"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.type_check()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.update_tabu_list"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.update_tabu_list()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.alias"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.apply"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.apply()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.elements"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.get_all"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.get_all()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.get_neighbour"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.get_neighbour()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.n_elements"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.params"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester_map"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.regester_map()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester_op"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.regester_op()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.type_check"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.type_check()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.local_search">Module contents</a><ul>
+<li><a class="reference internal" href="#pyrimidine.local_search.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="pyrimidine.learn.html"
+                          title="previous chapter">pyrimidine.learn package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/pyrimidine.local_search.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyrimidine.learn.html" title="pyrimidine.learn package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="pyrimidine.html" >pyrimidine package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyrimidine.local_search package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2023, William Song.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

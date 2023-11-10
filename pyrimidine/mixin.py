@@ -6,7 +6,15 @@ Mixin classes of iterative models
 
 IterativeModel: base class of all iterative models
 FitnessModel: IterativeModel with `fitness`
+ContainerModel: base class of all iterative models with multi-objects
 PopulationModel: subclass of FitnessModel, population-like iterative models
+
+Relation of the classes:
+IterativeModel  --->  ContainerModel
+    |                      |
+    |                      |
+    v                      v
+FitnessModel  --->  PopulationModel
 """
 
 
@@ -57,12 +65,12 @@ class IterativeModel:
         raise NotImplementedError('If you apply local search, then you have to define `local_search` method')
 
 
-    def ezolve(self, n_iter=None, *args, **kwargs):
+    def ezolve(self, n_iter=None):
         # Extreamly eazy evolution method for lazybones
         n_iter = n_iter or self.n_iter
         self.init()
         for k in range(1, n_iter+1):
-            self.transition(k, *args, **kwargs)
+            self.transition(k)
 
 
     def evolve(self, n_iter:int=100, period:int=1, verbose:bool=False, decode=False, history=False, stat=None, attrs=('state',), control=None):
@@ -244,18 +252,19 @@ class FitnessModel(IterativeModel):
         self.__fitness = None
 
 
-class _PopulationModel(IterativeModel):
-    pass
+class ContainerModel(IterativeModel):
+    def transition(self, *args, **kwargs):
+        for element in self:
+            element.transition(*args, **kwargs)
 
 
-class PopulationModel(FitnessModel, _PopulationModel):
-    """mixin class for Population
+class PopulationModel(FitnessModel, ContainerModel):
+    """mixin class for population-based heuristic algorithm
 
     It is consisted of a set of solutions.
     """
 
-    __sorted_individuals = []
-    alias = {"individuals": "elements"}
+    __sorted_ = []
 
     def evolve(self, stat=None, *args, **kwargs):
         """Get the history of the whole evolution
@@ -267,7 +276,7 @@ class PopulationModel(FitnessModel, _PopulationModel):
 
     def after_setter(self):
         # self.sorted = False
-        self.__sorted_individuals = []
+        self.__sorted_ = []
         self.__fitness = None
 
 
@@ -280,7 +289,7 @@ class PopulationModel(FitnessModel, _PopulationModel):
 
 
     def get_fitnesses(self):
-        return list(map(attrgetter('fitness'), self.individuals))
+        return list(map(attrgetter('fitness'), self))
 
 
     @property
@@ -320,9 +329,9 @@ class PopulationModel(FitnessModel, _PopulationModel):
             n = int(n)
 
         if copy:
-            return [a.clone() for a in self.sorted_individuals[-n:]]
+            return [a.clone() for a in self.sorted_[-n:]]
         else:
-            return self.sorted_individuals[-n:]
+            return self.sorted_[-n:]
 
 
     def get_worst(self, key='fitness', copy=False):
@@ -357,22 +366,22 @@ class PopulationModel(FitnessModel, _PopulationModel):
 
 
     @property
-    def sorted_individuals(self):
-        if self.__sorted_individuals == []:
+    def sorted_(self):
+        if self.__sorted_ == []:
             ks = self.argsort()
-            self.__sorted_individuals = [self[k] for k in ks]
-        return self.__sorted_individuals
+            self.__sorted_ = [self[k] for k in ks]
+        return self.__sorted_
 
 
-    @sorted_individuals.setter
-    def sorted_individuals(self, s):
-        self.__sorted_individuals = s
+    @sorted_.setter
+    def sorted_(self, s):
+        self.__sorted_ = s
 
 
     def sort(self):
         # sort the whole population
         ks = self.argsort()
-        self.individuals = [self.individuals[k] for k in ks]
+        self.elements = [self[k] for k in ks]
 
 
     def argsort(self):
@@ -381,8 +390,8 @@ class PopulationModel(FitnessModel, _PopulationModel):
 
     def drop(self, n=1):
         if n < 1:
-            n = int(self.n_individuals * n)
+            n = int(self.n_elements * n)
         elif not isinstance(n, int):
             n = int(n)
         ks = self.argsort()
-        self.individuals = [self.individuals[k] for k in ks[n:]]
+        self.elements = [self[k] for k in ks[n:]]

@@ -26,7 +26,7 @@ class NMF:
         B: K * p
         """
         c = A.shape[1]
-        if C:
+        if C is not None:
             for i in range(c):
                 A[:,i] *= C[i]
-        return - LA.norm(self.M - A @ B)
+        return - LA.norm(self.M - A @ B.T)

@@ -26,7 +26,7 @@ class DifferentialEvolution(PopulationModel):
         self.dimension = len(self.individuals[0][0])
         self.test = self.clone()
 
-    def transition(self, *args, **kwargs):
+    def transition(self):
         self.move()
         for k, (test_individual, individual) in enumerate(zip(self.test, self)):
             if test_individual.fitness > individual.fitness:

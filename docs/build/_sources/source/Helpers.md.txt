@@ -1,0 +1,22 @@
+# Helpers
+
+To introduce useful helpers
+
+## Optimization
+
+An example of function optimization:
+$$
+\min_{x_1,x_2}x_1^2+x_2\\
+x_1, x_2\in [-1,1]
+$$
+
+`ga_min` encapsulates the GA algorithm. You need not use the classes of containers.
+
+```python
+from pyrimidine import optimize
+
+solution = optimize.ga_min(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+print(solution)
+```
+
+OUTPUT: `[-0.0078125 -1.       ]`

@@ -174,6 +174,23 @@ class System(ParamType):
 
         attrs['type_check'] = _type_check
 
+
+        def _getstate(self):
+            return {'element_class':self.element_class, 'default_size':self.default_size,
+            'elements':self.elements, 'params':self.params}
+
+
+        def _setstate(self, state):
+            self.element_class = state.get('element_class', self.__class__.element_class)
+            self.default_size = state.get('default_size', self.__class__.default_size)
+            self.elements = state.get('elements', [])
+            self.params = state.get('params', {})
+
+        attrs.update(
+            {'__getstate__': _getstate,
+            '__setstate__': _setstate
+            })
+
         """
         Regester maps and operands
         if the mapping f is regestered, then A owns method f, automatically
@@ -183,7 +200,7 @@ class System(ParamType):
             if key is None:
                 key = methodcaller(name)
             def m(obj):
-                return map(key, obj.elements)
+                return map(key, obj)
             if not force and hasattr(self, name):
                 raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
             setattr(self, name, MethodType(m, self))
@@ -193,7 +210,7 @@ class System(ParamType):
             if key is None:
                 key = lambda e, o: getattr(e, name)(o)
             def m(obj):
-                return map(key, zip(obj.elements, other.elements))
+                return map(key, zip(obj, other))
             if not force and hasattr(self, name):
                 raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
             setattr(self, name, MethodType(m, self))
@@ -226,8 +243,8 @@ class System(ParamType):
         for k, v in kwargs.items():
             setattr(o, k, v)
 
-        if '_environment' in globals():
-            o.environment = globals()['_environment']
+        # if '_environment' in globals():
+        #     o.environment = globals()['_environment']
         return o
 
     def mixin(self, bases):
