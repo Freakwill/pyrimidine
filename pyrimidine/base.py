@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-The main module of pyrimidine. The base classes are defined here.
+This is the core module of pyrimidine. The base classes are defined here.
 
 main classes:
 BaseGene: the gene of chromosome
@@ -471,8 +471,10 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
     default_size = 2
 
     params = {'migrate_prob': 0.2}
+
     alias = {'positions': 'elements',
-    'n_populations': 'n_elements'}
+    'n_populations': 'n_elements',
+    'best_population': 'best_element'}
 
     def __str__(self):
         return '\n\n'.join(map(str, self))
@@ -489,16 +491,6 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
                 other.individuals.append(population.best_individual.clone())
                 population.individuals.append(other.best_individual.clone())
 
-    @property
-    def populations(self):
-        return self.__elements
-
-    @populations.setter
-    def populations(self, x):
-        # Set the fitness to be None, when setting populations of the object
-        self.elements = x
-        self.sorted = False
-        self.fitness = None
 
     def transition(self, *args, **kwargs):
         super().transition(*args, **kwargs)

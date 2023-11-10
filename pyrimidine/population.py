@@ -32,6 +32,8 @@ class StandardPopulation(BasePopulation):
         super().transition(*args, **kwargs)
         self.merge(elder, n_sel=self.default_size)
 
+Population = StandardPopulation
+
 
 class HOFPopulation(StandardPopulation):
     """Standard Genetic Algo With hall of fame
@@ -95,7 +97,7 @@ class HOFPopulation(StandardPopulation):
             return super().best_individual
 
 
-class DualPopulation(BasePopulation):
+class DualPopulation(StandardPopulation):
     """Dual Genetic Algo.
     
     Extends:

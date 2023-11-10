@@ -26,11 +26,11 @@ Container class has an attribute `element_class`, telling itself the class of th
 
 Following is the part of the source code of `BaseIndividual` and `BasePopulation`.
 ```python
-class BaseIndividual(BaseFitnessModel, metaclass=MetaContainer):
+class BaseIndividual(FitnessModel, metaclass=MetaContainer):
     element_class = BaseChromosome
     default_size = 1
-    
-class BasePopulation(BaseFitnessModel, metaclass=MetaHighContainer):
+
+class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
     element_class = BaseIndividual
     default_size = 20
 ```

@@ -159,4 +159,4 @@ class PhantomIndividual(BaseIndividual):
     def backup(self):
         if self.fitness < self.phantom.fitness:
             self.chromosomes = self.phantom.chromosomes
-            self.fitness = self.phantom.fitness
+            self.__fitness = self.phantom.fitness

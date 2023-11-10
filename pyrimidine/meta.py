@@ -112,6 +112,10 @@ class ParamType(type):
             setattr(self, k, MethodType(m, self))
         return self
 
+    def set_params(self, **kwargs):
+        self.params.update(kwargs)
+        return self
+
 
 class System(ParamType):
     """Metaclass of systems

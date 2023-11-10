@@ -32,7 +32,7 @@ class Particle(PolyIndividual):
     @position.setter
     def position(self, x):
         self.chromosomes[0] = x
-        self.fitness = None
+        self.__fitness = None
 
     @property
     def velocity(self):
@@ -46,11 +46,12 @@ class Particle(PolyIndividual):
         r = random()
         cpy = self.clone(fitness=None)
         cpy.velocity = r * cpy.velocity + cpy.accelerate
-        cpy.position += cpy.velocity
-        flag = metropolis_rule(D=cpy.fitness - self.fitness, T=abs(self.fitness))
+        cpy.position = cpy.position + cpy.velocity
+        flag = metropolis_rule(D=cpy.fitness - self.fitness, T=10)
+        D = cpy.fitness - self.fitness
         if flag:
             self.chromosomes = cpy.chromosomes
-            self.fitness = cpy.fitness
+            self.__fitness = cpy.fitness
 
 
 class GravitySearch(PopulationModel):
@@ -63,14 +64,15 @@ class GravitySearch(PopulationModel):
     element_class = Particle
     default_size = 20
 
-    params = {'gravity_coefficient': 100, 'attenuation_coefficient': 20}
+    params = {'gravity_coefficient': 100, 'attenuation_coefficient': 10}
 
     def compute_mass(self):
-        worst_fitness = np.min([particle.fitness for particle in self])
-        best_fitness = np.min([particle.fitness for particle in self])
-        epsilon = 0.00001
-        q = (np.array([particle.fitness for particle in self]) - worst_fitness + epsilon) / (best_fitness - worst_fitness + epsilon)
-        return q / q.sum()
+        fitnesses = np.asarray([particle.fitness for particle in self])
+        worst_fitness = np.min(fitnesses)
+        best_fitness = np.max(fitnesses)
+        epsilon = 0.0001
+        m = (fitnesses - worst_fitness + epsilon) / (best_fitness - worst_fitness + epsilon)
+        return m / m.sum()
 
 
     def compute_accelerate(self):
@@ -79,26 +81,27 @@ class GravitySearch(PopulationModel):
         R = squareform(pdist([pi.position for pi in self]))
         for i in range(self.n_particles):
             R[i, i]=1
-        M = self.compute_mass()
-        MM = np.tile(M, (len(self), 1)) / R**3
+        m = self.compute_mass()
+        M = np.tile(m, (self.n_particles, 1))
         for i in range(self.n_particles):
-            MM[i, i]=0
-        MM *= self.gravity_coefficient * np.random.random((self.n_particles, self.n_particles))
-        A = np.array([MM * D[:,:, k] for k in range(len(self.particles[0]))])
-        A = A.sum(axis=1)
+            M[i, i]=0
+        M /= R**3
+        M *= self.gravity_coefficient * np.random.random((self.n_particles, self.n_particles))
+        A = M[:,:,None] * D
+        A = A.sum(axis=0)
 
-        # compute accelerate
+        # set accelerate
         for i, particle in enumerate(self):
-            particle.accelerate = A[:, i]
+            particle.accelerate = A[i,:]
 
     
-    def transition(self, *args, **kwargs):
+    def transition(self, k):
         """
         Transitation of the states of particles
         """
         self.compute_accelerate()
         self.move()
-        self.gravity_coefficient *= exp(-self.attenuation_coefficient/self.n_iter)
+        self.gravity_coefficient = exp(-self.attenuation_coefficient*k/self.n_iter)
 
     def move(self):
         """Moving particles with Newton's mechanics
