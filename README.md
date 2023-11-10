@@ -87,10 +87,10 @@ class MyIndividual(MonoIndividual):
         ...
 ```
 
-Since class `MonoBinaryIndividual` is defined to be such individual, it is equivalent to
+Since `classicalIndividual(size=8)` could create such individual, it is equivalent to
 
 ```python
-class MyIndividual(MonoBinaryIndividual):
+class MyIndividual(classicalIndividual()):
     # only need define the fitness
     def _fitness(self):
         ...
@@ -124,7 +124,7 @@ class ExampleIndividual(BaseIndividual):
 If the chromosomes in an individual are different with each other, then subclass `MixIndividual`, meanwhile, the property `element_class` should be assigned with a tuple of classes for each chromosome.
 
 ```python
-class MyIndividual(MixIndividual):
+class MyIndividual(MixedIndividual):
     """
     Inherit the fitness from ExampleIndividual directly.
     It has 6 chromosomes, 5 are instances of _Chromosome, 1 is instance of FloatChromosome
@@ -175,7 +175,7 @@ Initialize a population with `random` method, then call `evolve` method.
 ```python
 pop = MyPopulation.random(n_individuals=50, size=100)
 pop.evolve()
-print(pop.best_individual)
+print(pop.solution)
 ```
 
 set `verbose=True` to display the data for each generation.
@@ -187,17 +187,16 @@ set `verbose=True` to display the data for each generation.
 Get the history of the evolution.
 
 ```python
-stat={'Fitness':'fitness', 'Best Fitness': lambda pop: pop.best_individual.fitness}
+stat={'Mean Fitness':'mean_fitness', 'Best Fitness': lambda pop: pop.best_individual.fitness}
 data = pop.history(stat=stat)  # use history instead of evolve
 ```
-`stat` is a dict mapping keys to function, where string 'fitness' means function `lambda pop:pop.fitness` which gets the mean fitness of pop. Since we have defined pop.best_individual.fitness as a property, `stat` could be redefine as `{'Fitness':'fitness', 'Best Fitness': 'best_fitness'}`.
+`stat` is a dict mapping keys to function, where string 'mean_fitness' means function `lambda pop:pop.mean_fitness` which gets the mean fitness of the individuals in `pop`. Since we have defined pop.best_individual.fitness as a property, `stat` could be redefined as `{'Fitness':'fitness', 'Best Fitness': 'best_fitness'}`.
 
 
 
 #### performance
 
-Use `pop.perf()` to check the performance.
-
+Use `pop.perf()` to check the performance, which calls `evolve` several times.
 
 
 ## Example
@@ -271,29 +270,29 @@ see `# examples/example0`
 
 ```python
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
-from pyrimidine import MonoBinaryIndividual, StandardPopulation
+from pyrimidine import classicalIndividual, StandardPopulation
 
 from pyrimidine.benchmarks.optimization import *
 
 # generate a knapsack problem randomly
 evaluate = Knapsack.random(n=20)
 
-class MyIndividual(MonoBinaryIndividual):
+class MyIndividual(classicalIndividual(size=20)):
     def _fitness(self):
         return evaluate(self)
 
 
 class MyPopulation(StandardPopulation):
     element_class = MyIndividual
+    default_size = 10
 
-pop = MyPopulation.random(size=20)
+pop = MyPopulation.random()
 
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-data = pop.evolve(stat=stat, history=True)
-# data is an instance of DataFrame of pandas
+data = pop.evolve(stat=stat, history=True) # an instance of `pandas.DataFrame`
 
+# Visualization
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -312,14 +311,16 @@ plt.show()
 
 `pyrimidine` is extremely extendable. It is easy to implement other iterative models or algorithms, such as simulation annealing(SA) and particle swarm optimization(PSO).
 
-Currently, it is recommended to define subclasses based on `BaseIterativeModel` as a mixin.
+Currently, it is recommended to define subclasses based on `IterativeModel` as a mixin.
 
-In PSO, we regard a particle as an individual, and `ParticleSwarm` as a population. But in the following, we subclass it from `BaseIterativeModel`
+In PSO, we regard a particle as an individual, and `ParticleSwarm` as a population. But in the following, we subclass it from `IterativeModel`
 
 ```python
 # pso.py
-class Particle(PolyIndividual):
+class Particle(MemoryIndividual):
     """A particle in PSO
+
+    Extends MemoryIndividual
 
     Variables:
         default_size {number} -- one individual represented by 2 chromosomes: position and velocity
@@ -330,17 +331,13 @@ class Particle(PolyIndividual):
     default_size = 2
     phantom = None
 
-    def backup(self):
-        self.chromosomes[0] = self.position
-        self.fitness = self.phantom.fitness
-
     def init(self):
         self.phantom = self.clone(fitness=self.fitness)
 
     # other methods
 
 
-class ParticleSwarm(BaseIterativeModel):
+class ParticleSwarm(IterativeModel):
     element_class = Particle
     default_size = 20
     params = {'learning_factor': 2, 'acceleration_coefficient': 3, 'inertia':0.5, 'n_best_particles':0.1, 'max_velocity':None}
