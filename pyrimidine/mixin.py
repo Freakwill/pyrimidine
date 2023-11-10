@@ -145,7 +145,7 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         for _ in range(n_repeats):
             cpy = self.clone(fitness=None)
             time1 = time.perf_counter()
-            data0 = cpy.evolve(history=True, *args, **kwargs)
+            data0 = cpy.evolve(verbose=False, *args, **kwargs)
             time2 = time.perf_counter()
             times.append(time2 - time1)
             if data is None:
@@ -293,7 +293,7 @@ class PopulationModel(FitnessModel, ContainerModel):
 
 
     def get_fitnesses(self):
-        return list(map(attrgetter('fitness'), self.elements))
+        return list(map(attrgetter('fitness'), self))
 
 
     @property

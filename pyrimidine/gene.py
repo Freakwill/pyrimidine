@@ -12,6 +12,13 @@ class NaturalGene(np.int_, BaseGene):
     def random(cls, *args, **kwargs):
         return np.random.randint(cls.ub, dtype=cls, *args, **kwargs)
 
+class IntegerGene(np.int_, BaseGene):
+    lb, ub = -10, 10
+
+    @classmethod
+    def random(cls, *args, **kwargs):
+        return np.random.randint(cls.ub-cls.lb, dtype=cls, *args, **kwargs) + cls.lb
+
 class BinaryGene(np.int_, BaseGene):
     values = (0, 1)
 

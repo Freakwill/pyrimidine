@@ -44,9 +44,9 @@ class MyPopulation(HOFPopulation):
     element_class = MyIndividual
 
 
-pop = MyPopulation.random(n_individuals=20)
+pop = MyPopulation.random(n_individuals=25)
 
-pop.ezolve(n_iter=200)
+pop.ezolve(n_iter=300)
 params = pop.best_individual.decode()
 im = evaluate.toimage(*params)
 print(im)

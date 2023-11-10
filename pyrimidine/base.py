@@ -474,11 +474,6 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
     alias = {'positions': 'elements',
     'n_populations': 'n_elements'}
 
-
-    def init(self):
-        for p in self:
-            p.init()
-
     def __str__(self):
         return '\n\n'.join(map(str, self))
 
