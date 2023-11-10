@@ -9,15 +9,15 @@ from digit_converter import colorConverter
 
 from PIL import Image
 
-image=Image.open('painting.jpg')
+image = Image.open('painting.jpg')
 evaluate = Painting(image=image, size=(100,100))
 
 
 class _Gene(NaturalGene):
-    lb, ub = 0, 256
+    lb, ub = 0, 100
 
 class _Chromosome(VectorChromosome):
-    element_class = _Gene
+    element_class = NaturalGene
     default_size = 10
 
 
@@ -25,15 +25,15 @@ n_basis = 20
 
 class MyIndividual(MixedIndividual):
 
-    element_class = UnitFloatChromosome // (n_basis * 2), _Chromosome // (n_basis*2), BinaryChromosome // (8*n_basis)
+    element_class = UnitFloatChromosome // (n_basis * 3), _Chromosome // (n_basis*2), BinaryChromosome // (8*n_basis)
 
     def decode(self):
         c = self.chromosomes[2]
         c = c.reshape((n_basis, 8))
         d = np.asarray([colorConverter(c[i,:]) for i in range(c.shape[0])])
-        a, b = self.chromosomes[0][:n_basis], self.chromosomes[0][n_basis:]
+        a, b, c = self.chromosomes[0][:n_basis], self.chromosomes[0][n_basis:2*n_basis], self.chromosomes[0][2*n_basis:]
         t = self.chromosomes[1].reshape((n_basis, 2))
-        return a, b, t, d
+        return a, b, c, t, d
 
     def _fitness(self):
         params = self.decode()
