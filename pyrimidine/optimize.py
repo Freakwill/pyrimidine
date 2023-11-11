@@ -11,13 +11,31 @@ from .population import HOFPopulation
 
 
 def _decode(c, a, b):
-    from digit_converter import IntervalConverter
+    """Decode a binary sequence to a real number in [a,b]
+    
+    Args:
+        c (binary seqence): Description
+        a (number): lower bound
+        b (number): upper bound
+    
+    Returns:
+        number: a number in [a, b], represented by binary sequence,
+        that 00...0 corresponds a, and 11...1 corresponds b
+    
+    Raises:
+        e: fail to import a 3rd-part lib
+    """
+    try:
+        from digit_converter import IntervalConverter
+    except ImportError as e:
+        print('The default decoder requires the 3rd-part lib `digit_converter`')
+        raise e
     return IntervalConverter(a, b)(c)
 
 
 def ga_min(func, *xlim, decode=_decode):
     """
-    GA for minimizing fun defined on xlim
+    GA(with hof) for minimizing fun defined on xlim
 
     Arguments:
         func: objective function defined on R
