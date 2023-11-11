@@ -243,7 +243,7 @@ class MyPopulation(StandardPopulation):
 
 pop = MyPopulation.random(n_individuals=50, size=100)
 pop.evolve()
-print(pop.best_individual)
+print(pop.best_individual)  # or pop.solution
 ```
 
 Note that there is only one chromosome in `MonoIndividual`, which could be got by `self.chromosome`. In fact, the population could be the container of chromosomes. Therefore, we can rewrite the classes as follows.
@@ -300,11 +300,9 @@ data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 plt.show()
-
 ```
 
 ![plot-history](/Users/william/Programming/myGithub/pyrimidine/plot-history.png)
-
 
 
 ## Extension

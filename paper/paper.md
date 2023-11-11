@@ -140,15 +140,15 @@ $$
 \sum_i w_ix_i \leq W, \quad x_i=0,1
 $$
 
-This problem can be naturally encoded in binary format without the need for decoding, making it ideal for test GAs. Of course, users can replace it with their own optimization problems.
+The solution of the problem can be naturally encoded in binary format without further decoding.
 
 ### Algorithm Construction
 
 Using the classes provided by `pyrimidine`, it is straightforward to construct a population with 20 individuals, each containing a 50-dimensional chromosome. The population will iterate 100 times, and the fittest individual in the last generation will represent the solution to the optimization problem.
 
 ```python
-from pyrimidine import MonoBinaryIndividual, SGAPopulation
-from pyrimidine.benchmarks.optimization import *
+from pyrimidine import MonoBinaryIndividual, StandardPopulation
+from pyrimidine.benchmarks.optimization import Knapsack
 # The problem is defined in the submodule `pyrimidine.benchmarks.optimization`, so we import it directly, but user can redefine it manually.
 
 n = 50
