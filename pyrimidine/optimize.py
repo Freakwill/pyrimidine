@@ -54,10 +54,10 @@ def ga_min(func, *xlim, decode=_decode):
             return - func(self.decode())
 
         def dual(self):
-            return MyIndividual([c.dual() for c in self.chromosomes])
+            return _Individual([c.dual() for c in self])
 
         def decode(self):
-            return np.array([decode(c, a, b) for c, (a, b) in zip(self.chromosomes, xlim)])
+            return np.array([decode(c, a, b) for c, (a, b) in zip(self, xlim)])
 
     class _Population(HOFPopulation):
         element_class = _Individual

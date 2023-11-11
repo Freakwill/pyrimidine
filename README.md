@@ -42,7 +42,7 @@ There is mainly tow kinds of containers: list and tuple as in programming langua
 # individual with chromosomes of type _Chromosome
 _Individual1 = BaseIndividual[_Choromosome]
 # individual with 2 chromosomes of type _Chromosome1 and _Chromosome2 respectively
-_Individual2 = MixIndividual[_Chromosome1, _Chromosome2]
+_Individual2 = MixedIndividual[_Chromosome1, _Chromosome2]
 ```
 
 ### Math expression
@@ -53,7 +53,7 @@ $$
 
 We define a population as a container of individuals or chromosomes, and an individual is a container of chromosomes.
 
-The methods are the functions or operators defined on $s$
+The methods are the functions or operators defined on $s$.
 
 ## Use
 
@@ -126,7 +126,7 @@ class ExampleIndividual(BaseIndividual):
 ```
 
 
-If the chromosomes in an individual are different with each other, then subclass `MixIndividual`, meanwhile, the property `element_class` should be assigned with a tuple of classes for each chromosome.
+If the chromosomes in an individual are different with each other, then subclass `MixedIndividual`, meanwhile, the property `element_class` should be assigned with a tuple of classes for each chromosome.
 
 ```python
 class MyIndividual(MixedIndividual):
@@ -137,7 +137,7 @@ class MyIndividual(MixedIndividual):
     element_class = (_Chromosome,)*5 + (FloatChromosome,)
 ```
 
-It equivalent to `MyIndividual=MixIndividual[(_Chromosome,)*5 + (FloatChromosome,)]`
+It equivalent to `MyIndividual=MixedIndividual[(_Chromosome,)*5 + (FloatChromosome,)]`
 
 #### Population
 
@@ -162,7 +162,7 @@ When each individual contains 5 chromosomes.
 
 `pop = MyPopulation.random(n_individuals=10, n_chromosomes=5, size=10)`
 
-For `MixIndividual`, we recommand to use, for example
+For `MixedIndividual`, we recommand to use, for example
 
 `pop = MyPopulation.random(n_individuals=10, sizes=(10,8,8,3))`
 
