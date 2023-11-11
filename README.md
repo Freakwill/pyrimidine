@@ -45,10 +45,15 @@ _Individual1 = BaseIndividual[_Choromosome]
 _Individual2 = MixIndividual[_Chromosome1, _Chromosome2]
 ```
 
+### Math expression
+$s$ of type $S$ is a container of $a:A$,
+$$
+s=\{a:A\}:S
+$$
 
-## New features
+We define a population as a container of individuals or chromosomes, and an individual is a container of chromosomes.
 
-propose a mature concept/metaclass `System`, consisting of a set of elements and operators on it as an implementing of algebraic system.
+The methods are the functions or operators defined on $s$
 
 ## Use
 
