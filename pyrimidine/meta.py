@@ -59,6 +59,7 @@ class ParamType(type):
     then key-value pairs in `params` could be inherited from super classes, like attributes.
     It make users set and manage parameters of classes or instances more easily.
     """
+
     def __new__(cls, name, bases=(), attrs={}):
         # inherit alias instead of overwriting it, when setting `alias` for a subclass
         # alias is not recommended to use!
@@ -94,9 +95,11 @@ class ParamType(type):
 
         return super().__new__(cls, name, bases, attrs)
 
+
     @classmethod
     def __prepare__(cls, name, bases):
         return {"alias":{}, "params":{}}
+
 
     def set(self, *args, **kwargs):
         for k in args:
@@ -105,12 +108,14 @@ class ParamType(type):
             setattr(self, k, v)
         return self
 
+
     def set_methods(self, *args, **kwargs):
         for k in args:
             setattr(self, k, globals()[k])
         for k, m in kwargs.items():
             setattr(self, k, MethodType(m, self))
         return self
+
 
     def set_params(self, **kwargs):
         self.params.update(kwargs)
@@ -148,9 +153,11 @@ class System(ParamType):
         def _get_all(self, attr_name):
             return map(attrgetter(attr_name), self.__elements)
 
-
         def _apply(self, f, *args, **kwargs):
             return map(lambda o: f(o, *args, **kwargs), self.__elements)
+
+        def _map(self, f):
+            return map(f, self.__elements)
 
         @property
         def _n_elements(self):
@@ -170,7 +177,8 @@ class System(ParamType):
             {"elements": _elements,
             "n_elements": _n_elements,
             "get_all": _get_all,
-            "apply": _apply
+            "apply": _apply,
+            "map": _map
             })
 
         def _type_check(self):
@@ -178,11 +186,9 @@ class System(ParamType):
 
         attrs['type_check'] = _type_check
 
-
         def _getstate(self):
             return {'element_class':self.element_class, 'default_size':self.default_size,
             'elements':self.elements, 'params':self.params}
-
 
         def _setstate(self, state):
             self.element_class = state.get('element_class', self.__class__.element_class)
@@ -210,17 +216,17 @@ class System(ParamType):
             setattr(self, name, MethodType(m, self))
 
 
-        def _regester_op(self, name, key=None, force=True):
-            if key is None:
-                key = lambda e, o: getattr(e, name)(o)
-            def m(obj):
-                return map(key, zip(obj, other))
-            if not force and hasattr(self, name):
-                raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
-            setattr(self, name, MethodType(m, self))
+        # def _regester_op(self, name, key=None, force=True):
+        #     if key is None:
+        #         key = lambda e, o: getattr(e, name)(o)
+        #     def m(obj):
+        #         return map(key, zip(obj, other))
+        #     if not force and hasattr(self, name):
+        #         raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
+        #     setattr(self, name, MethodType(m, self))
 
         attrs.update({
-            'regester_op': _regester_op,
+            # 'regester_op': _regester_op,
             'regester_map': _regester_map
         })
 
@@ -231,7 +237,6 @@ class System(ParamType):
         #     def _p(obj):
         #         return [getattr(a, e) for a in obj]
         #     setattr(self, e, _p)
-
 
         return super().__new__(cls, name, bases, attrs)
 
@@ -333,6 +338,7 @@ class MetaContainer(System):
     def __floordiv__(self, n):
         return self.set(default_size=n)
 
+
 class MetaList(MetaContainer):
     # a list is a container of elements with the same type
     def __new__(cls, name, bases, attrs):
@@ -383,6 +389,16 @@ class MetaHighContainer(MetaContainer):
         attrs['flatten'] = _flatten
 
         return super().__new__(cls, name, bases, attrs)
+
+
+class MetaSingle(MetaContainer):
+    def __new__(cls, name, bases, attrs):
+        if 'n_elements' in attrs and attrs['n_elements'] !=1:
+            raise ValueError('n_elements should be 1!')
+        else:
+            attrs['n_elements'] = 1
+        return super().__new__(cls, name, bases, attrs)
+
 
 
 import numpy as np

@@ -107,11 +107,11 @@ class DualPopulation(StandardPopulation):
     params ={'dual_prob': 0.2, 'n_elders': 0.3}
 
     def dual(self):
-        for k, ind in enumerate(self.individuals):
+        for k, ind in enumerate(self):
             if random() < self.dual_prob:
                 d = ind.dual()
                 if d.fitness > ind.fitness:
-                    self.individuals[k] = d
+                    self[k] = d
     
     def transition(self, *args, **kwargs):
         """
@@ -146,7 +146,7 @@ class GamogenesisPopulation(HOFPopulation):
         self.offspring = self.__class__(offspring)
 
     def get_homosex(self, x=0):
-        return [i for i in self.individuals if i.gender==x]
+        return [i for i in self if i.gender==x]
 
 
 class EliminationPopulation(BasePopulation):
@@ -158,7 +158,7 @@ class EliminationPopulation(BasePopulation):
         self.merge(elder)
 
     def eliminate(self):
-        for individual in self.individuals:
+        for individual in self:
             if random() < individual.eliminate_prob():
                 self.remove(individual)
 
@@ -190,7 +190,7 @@ class LocalSearchPopulation(StandardPopulation):
 class ModifiedPopulation(StandardPopulation):
     params = {'mutate_prob_ub':0.5, 'mutate_prob_lb':0.1}
     def mutate(self):
-        fm = self.best_individual.fitness
+        fm = self.best_fitness
         fa = self.mean_fitness
         for individual in self.individuals:
             f = individual.fitness

@@ -6,7 +6,7 @@ Individual classes
 
 from .base import BaseIndividual
 from .chromosome import BinaryChromosome, BaseChromosome, FloatChromosome
-from .meta import MetaTuple, MetaList
+from .meta import MetaTuple, MetaList, MetaSingle
 from .utils import randint
 import copy
 
@@ -18,13 +18,11 @@ class MultiIndividual(BaseIndividual, metaclass=MetaList):
 PolyIndividual = MultiIndividual
 
 
-class MonoIndividual(BaseIndividual, metaclass=MetaList):
+class MonoIndividual(BaseIndividual, metaclass=MetaSingle):
     """Base class of individual with one choromosome
 
     You should implement the methods, cross, mute
     """
-
-    n_chromosomes = 1
 
     @classmethod
     def random(cls, *args, **kwargs):
@@ -56,7 +54,7 @@ class MonoIndividual(BaseIndividual, metaclass=MetaList):
         super().individuals = x
 
 
-def classicalIndividual(size=8):
+def binaryIndividual(size=8):
     """simple binary individual
     encoded as a sequence such as 01001101
     """

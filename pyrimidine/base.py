@@ -73,7 +73,7 @@ class BaseGene:
         return cls(np.random.choice(cls.values, *args, **kwargs))
 
 
-class BaseChromosome(FitnessModel, metaclass=MetaArray):
+class BaseChromosome(FitnessMixin, metaclass=MetaArray):
     """Base class of chromosomes
 
     Chromosome is an array of genes. It is the unit of the GA.
@@ -123,7 +123,7 @@ class BaseChromosome(FitnessModel, metaclass=MetaArray):
         return np.array_equal(self, other)
 
 
-class BaseIndividual(FitnessModel, metaclass=MetaContainer):
+class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
     """Base class of individual
 
     a sequence of chromosomes that may vary in sizes.
@@ -253,13 +253,13 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
         return C([self.clone() for _ in range(n)])
 
 
-class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
+class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
     """The base class of population in GA
     
     Represents a state of a stachostic process (Markov process)
     
     Extends:
-        PopulationModel
+        PopulationMixin
     """
 
     element_class = BaseIndividual
@@ -341,8 +341,6 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
         else:
             raise Exception('No winners in the selection!')
 
-    def parallel(self, func):
-        return parallel(func, self.individuals)
 
     def merge(self, other, n_sel=None):
         """Merge two population.
@@ -456,7 +454,7 @@ class ParallelPopulation(BasePopulation):
         self.individuals.extend(offspring)
 
 
-class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
+class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
     """Base class of BaseMultiPopulation
     
     Attributes:
@@ -501,14 +499,17 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
     def best_fitness(self):
         return max(map(attrgetter('best_fitness'), self))
 
+
     @property
     def mean_fitness(self):
         return np.mean(tuple(map(attrgetter('mean_fitness'), self)))
+
 
     def get_best_individual(self):
         bests = list(methodcaller('get_best_individual'), self)
         k = np.argmax([b.fitness for b in bests])
         return bests[k]
+
 
     @property
     def individuals(self):
@@ -517,11 +518,12 @@ class BaseMultiPopulation(PopulationModel, metaclass=MetaHighContainer):
 
 
 class BaseCommunity(BaseMultiPopulation):
+
     def __str__(self):
         return ' @\n\n'.join(map(str, self))
 
 
-class BaseEnvironment(ContainerModel, metaclass=System):
+class BaseEnvironment(ContainerMixin, metaclass=System):
     """Base Class of environments
 
     The main method is `evaluate`, computing the fitness of an individual or a population

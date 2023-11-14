@@ -7,13 +7,13 @@ Differential Evolution Algorithm
 import copy
 
 import numpy as np
-from .mixin import *
-from . import MonoIndividual
+from .mixin import PopulationMixin
+from .individual import MonoIndividual
 
 from .utils import *
 
 
-class DifferentialEvolution(PopulationModel):
+class DifferentialEvolution(PopulationMixin):
 
     params ={
     "factor" : 0.5,
@@ -36,8 +36,8 @@ class DifferentialEvolution(PopulationModel):
         for t in self.test:
             x0, x1, x2 = choice(self.individuals, size=3, replace=False)
 
-            jrand = np.random.randint(0, self.dimension)
+            jrand = np.random.randint(self.dimension)
             xx = x0.chromosome + self.factor * (x1.chromosome - x2.chromosome)
             for j in range(self.dimension):
-                if random()<self.cross_prob or j == jrand:
+                if random() < self.cross_prob or j == jrand:
                     t.chromosomes[0][j] = xx[j]

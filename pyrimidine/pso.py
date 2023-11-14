@@ -7,7 +7,7 @@ Developed by J. Kennedy and R. Eberhart[Kennedy and Eberhart 2001]
 Each individual is represented position and velocity.
 """
 
-from .base import PopulationModel
+from .base import PopulationMixin
 from .chromosome import FloatChromosome
 from .individual import MemoryIndividual
 from .utils import gauss, random
@@ -113,11 +113,11 @@ class Particle(BaseParticle, MemoryIndividual):
                         + acceleration_coefficient * scale_fame * (fame.best_position - self.position))
 
 
-class ParticleSwarm(PopulationModel):
+class ParticleSwarm(PopulationMixin):
     """Standard PSO
     
     Extends:
-        PopulationModel
+        PopulationMixin
     """
     
     element_class = Particle

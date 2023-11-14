@@ -2,19 +2,19 @@
 
 
 """
-Mixin classes of iterative models
+Mixin classes for iterative algorithms or models
 
-IterativeModel: base class of all iterative models
-FitnessModel: IterativeModel with `fitness`
-ContainerModel: base class of all iterative models with multi-objects
-PopulationModel: subclass of FitnessModel, population-like iterative models
+IterativeMixin: base class for all iterative algorithms
+FitnessMixin: IterativeMixin with `fitness`
+CollectiveMixin: base class for all iterative algorithms with multi-objects
+PopulationMixin: subclass of FitnessMixin, population-like iterative algorithms
 
 Relation of the classes:
-IterativeModel  --->  ContainerModel
+IterativeMixin  --->  ContainerMixin
     |                      |
     |                      |
     v                      v
-FitnessModel  --->  PopulationModel
+FitnessMixin  --->  PopulationMixin
 """
 
 
@@ -27,7 +27,7 @@ from operator import methodcaller, attrgetter
 from .errors import *
 
 
-class IterativeModel:
+class IterativeMixin:
     # Mixin class for iterative algrithms
     params = {'n_iter': 100}
 
@@ -172,6 +172,7 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         with open(pklPath, 'wb') as fo:
             pickle.dump(self, fo)
 
+
     @staticmethod
     def load(filename='population.pkl'):
         import pickle
@@ -184,13 +185,13 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
             raise IOError(f'Could not find {filename}!')
 
 
-class FitnessModel(IterativeModel):
-    """Iterative models with fitness
+class FitnessMixin(IterativeMixin):
+    """Iterative models drived by the fitness/objective function
 
     The fitness should be stored until the the state of the model is changed.
     
     Extends:
-        BaseIterativeModel
+        BaseIterativeMixin
     
     Variables:
         __fitness {[type]} -- The value of a solution
@@ -205,12 +206,13 @@ class FitnessModel(IterativeModel):
         return self.__fitness
 
 
-    def _fitness(self):
+    def get_fitness(self):
         raise NotImplementedError
 
-    def get_fitness(self):
+
+    def _fitness(self):
         # the alias of the fitness
-        return self._fitness()
+        return self.get_fitness()
 
 
     @classmethod
@@ -252,17 +254,19 @@ class FitnessModel(IterativeModel):
         self.__fitness = None
 
 
-class ContainerModel(IterativeModel):
+class ContainerMixin(IterativeMixin):
+
     def init(self, *args, **kwargs):
         for element in self:
             element.init(*args, **kwargs)
+
 
     def transition(self, *args, **kwargs):
         for element in self:
             element.transition(*args, **kwargs)
 
 
-class PopulationModel(FitnessModel, ContainerModel):
+class PopulationMixin(FitnessMixin, ContainerMixin):
     """mixin class for population-based heuristic algorithm
 
     It is consisted of a set of solutions.
@@ -284,6 +288,11 @@ class PopulationModel(FitnessModel, ContainerModel):
         self.__fitness = None
 
 
+    @property
+    def fitness(self):
+        return self._fitness()
+
+
     def _fitness(self):
         """Calculate the fitness of the whole population
 
@@ -293,7 +302,7 @@ class PopulationModel(FitnessModel, ContainerModel):
 
 
     def get_fitnesses(self):
-        return list(map(attrgetter('fitness'), self))
+        return list(self.map(attrgetter('fitness')))
 
 
     @property
@@ -339,7 +348,7 @@ class PopulationModel(FitnessModel, ContainerModel):
 
 
     def get_worst(self, key='fitness', copy=False):
-        k = np.argmin(tuple(map(attrgetter(key), self)))
+        k = np.argmin(tuple(self.map(attrgetter(key), self)))
         if copy:
             return self[k].clone()
         else:

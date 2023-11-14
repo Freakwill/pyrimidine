@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 
 
-from pyrimidine import *
+import numpy as np
+
+from pyrimidine import ProbabilityChromosome, FloatChromosome, MixedIndividual, HOFPopulation
 
 from pyrimidine.benchmarks.matrix import NMF as NMF_
 
 
-
 N, p = 50, 10
 c = 3
-evaluate = NMF_.random(N=N, p=p) # (A, B) --> |C-AB|
+evaluate = NMF_.random(N=N, p=p) # (A, B) --> |C-AB|/|C|
 
 class _PChromosome(ProbabilityChromosome):
     default_size = c
@@ -40,7 +41,8 @@ class _Individual(MixedIndividual):
     def _fitness(self):
         A = np.vstack(self.chromosomes[:N])
         B = np.vstack(self.chromosomes[N:])
-        return evaluate(A, B.T)
+        f = evaluate(A, B.T)
+        return f
 
 
 class YourIndividual(_Individual):
@@ -66,15 +68,19 @@ MyPopulation = HOFPopulation[MyIndividual].set(default_size=15)
 
 pop = MyPopulation.random()
 pop2 = pop.clone(type_=YourPopulation)
-data = pop.evolve(stat={'Error': lambda pop: -pop.fitness}, n_iter=250, history=True, period=5)
-yourdata = pop2.evolve(stat={'Error': lambda pop: -pop.fitness}, n_iter=250, history=True, period=5)
+# print(pop.best_fitness)
+# pop.ezolve(n_iter=5)
+# print(pop.best_fitness)
+# raise
+data = pop.evolve(stat={'Error': lambda pop: - pop.best_fitness}, n_iter=250, history=True, period=5)
+yourdata = pop2.evolve(stat={'Error': lambda pop: - pop.best_fitness}, n_iter=250, history=True, period=5)
 
 
 from sklearn.decomposition import NMF
 nmf = NMF(n_components=c)
 W = nmf.fit_transform(evaluate.M)
 H = nmf.components_
-err = -evaluate(W, H)
+err = - evaluate(W, H)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

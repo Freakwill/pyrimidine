@@ -2,8 +2,8 @@
 
 from pyrimidine.benchmarks.special import *
 
-
 from pyrimidine import *
+
 from digit_converter import *
 
 
