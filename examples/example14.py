@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from pyrimidine import *
 from pyrimidine.benchmarks.fitting import *
@@ -28,7 +27,7 @@ class Chromosome2(FloatChromosome):
 class Chromosome3(FloatChromosome):
     element_class = Gene3
 
-class MyIndividual(MixIndividual):
+class MyIndividual(MixedIndividual):
     element_class = Chromosome1, Chromosome2, Chromosome3, Chromosome1, Chromosome2, Chromosome3
 
 

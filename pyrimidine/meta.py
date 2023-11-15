@@ -11,23 +11,23 @@ from operator import attrgetter, methodcaller
 
 
 
-def get_stem(s):
-    """get the last part in Camel expression
+# def get_stem(s):
+#     """get the last part in Camel expression
     
-    Arguments:
-        s {str} -- a string in Camel expression
+#     Arguments:
+#         s {str} -- a string in Camel expression
     
-    Returns:
-        str -- last part of s in lower form
+#     Returns:
+#         str -- last part of s in lower form
 
-    Example:
-        >>> get_stem('ILoveYou')
-        >>> you
-    """
+#     Example:
+#         >>> get_stem('ILoveYou')
+#         >>> you
+#     """
 
-    for k, a in enumerate(s[::-1]):
-        if a.isupper(): break
-    return s[-k-1:].lower()
+#     for k, a in enumerate(s[::-1]):
+#         if a.isupper(): break
+#     return s[-k-1:].lower()
 
 
 def inherit(attrs, attr, bases):
@@ -154,10 +154,7 @@ class System(ParamType):
             return map(attrgetter(attr_name), self.__elements)
 
         def _apply(self, f, *args, **kwargs):
-            return map(lambda o: f(o, *args, **kwargs), self.__elements)
-
-        def _map(self, f):
-            return map(f, self.__elements)
+            return self.map(lambda o: f(o, *args, **kwargs), self.__elements)
 
         @property
         def _n_elements(self):
@@ -177,8 +174,7 @@ class System(ParamType):
             {"elements": _elements,
             "n_elements": _n_elements,
             "get_all": _get_all,
-            "apply": _apply,
-            "map": _map
+            "apply": _apply
             })
 
         def _type_check(self):
@@ -209,34 +205,33 @@ class System(ParamType):
         def _regester_map(self, name, key=None, force=True):
             if key is None:
                 key = methodcaller(name)
-            def m(obj):
-                return map(key, obj)
+            def m(obj, *args, **kwargs):
+                return obj.map(key, obj.__elements, *args, **kwargs)
             if not force and hasattr(self, name):
                 raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
             setattr(self, name, MethodType(m, self))
 
-
-        # def _regester_op(self, name, key=None, force=True):
-        #     if key is None:
-        #         key = lambda e, o: getattr(e, name)(o)
-        #     def m(obj):
-        #         return map(key, zip(obj, other))
-        #     if not force and hasattr(self, name):
-        #         raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
-        #     setattr(self, name, MethodType(m, self))
-
         attrs.update({
-            # 'regester_op': _regester_op,
             'regester_map': _regester_map
         })
 
-        # def _element_regester(self, e):
+        # def _regester_operator(self, name, key=None):
+        #     if hasattr(self, name):
+        #         raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
+        #     self.__operators.append(key)
+        #     setattr(self, name, MethodType(key, self))
+
+        # def _element_regester(self, name, e):
         #     if hasattr(self, e):
         #         raise AttributeError(f'`{e}` is an attribute of {self.__class__.__name__}, would not be regestered.')
-        #     @property
-        #     def _p(obj):
-        #         return [getattr(a, e) for a in obj]
-        #     setattr(self, e, _p)
+        #     self.__elements.append(e)
+        #     setattr(self, name, e)
+
+        # attrs.update({
+        #     '__operators': []
+        #     'regester_operator': _regester_operator,
+        #     'regester_element': _regester_element
+        # })
 
         return super().__new__(cls, name, bases, attrs)
 
@@ -246,6 +241,8 @@ class System(ParamType):
 
         if args:
             o.__elements = args[0]
+            # for e in o.__elements:  # consider in future
+            #     e.__system = o
         # else:
         #     raise Exception('Have not provided a list of elements as the unique positional argument!')
 
@@ -276,11 +273,10 @@ class MetaContainer(System):
         class C(metaclass=MetaContainer):
             # container of strings
             element_class = UserString
-            # element_name = string
+            alias = {'strings': 'elements'}
 
         c = C(strings=[UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
         print(c.element_class)
-        print(C.element_name)
         print(c.strings)
         print(c.lasting)
         print(c.n_strings)
@@ -315,19 +311,19 @@ class MetaContainer(System):
                     break
             else:
                 raise Exception('Have not provided element class yet.')
-        if 'element_name' in attrs:
-            element_name_ = attrs['element_name'] + 's'
-        else:
-            if isinstance(element_class, tuple):
-                element_name_ = get_stem(element_class[0].__name__) + 's'
-            else:
-                element_name_ = get_stem(element_class.__name__) + 's'
+        # if 'element_name' in attrs:
+        #     element_name_ = attrs['element_name'] + 's'
+        # else:
+        #     if isinstance(element_class, tuple):
+        #         element_name_ = get_stem(element_class[0].__name__) + 's'
+        #     else:
+        #         element_name_ = get_stem(element_class.__name__) + 's'
 
-        if element_name_ not in attrs['alias']:
-            attrs['alias'].update({element_name_: 'elements'})
+        # if element_name_ not in attrs['alias']:
+        #     attrs['alias'].update({element_name_: 'elements'})
 
-        d = {'n_' + k: 'n_elements' for k, v in attrs['alias'].items() if v == 'elements'}
-        attrs['alias'].update(d)
+        # d = {'n_' + k: 'n_elements' for k, v in attrs['alias'].items() if v == 'elements'}
+        # attrs['alias'].update(d)
 
         return super().__new__(cls, name, bases, attrs)
 

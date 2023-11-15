@@ -40,23 +40,7 @@ def vadd(a, v):
 
 
 class _ParticleSwarm(ParticleSwarm, HOFPopulation):
-    def move(self):
-        """moving rule of particles
-
-        Particles move according to the hall of fame and the best record
-        """
-        v1 = self.inertia
-        v2 = self.learning_factor
-        v3 = self.acceleration_coefficient
-        for particle in self:
-            if particle in self.hall_of_fame:
-                particle.velocity = def_velocity1(particle, v1, v2)
-            else:
-                for fame in self.hall_of_fame:
-                    if particle.fitness < fame.fitness:
-                        break
-                particle.velocity = def_velocity2(particle, fame, v1, v2, v3)
-            particle.move()
+    pass
 
 _Particle = _Individual[_Chromosome].set_fitness(lambda obj: 1 / _evaluate(obj.decode()))
 

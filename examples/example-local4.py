@@ -52,7 +52,7 @@ def animate(i):
 camera = Camera(fig)
 ax.plot(*sa.chromosome.to_points(), 'k-o')
 ax.legend(('Generation 0',))
-for i in range(1, 300):
+for i in range(1, 350):
     animate(i)
     camera.snap()
 animation = camera.animate()

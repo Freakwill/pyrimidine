@@ -3,10 +3,10 @@
 
 import scipy.stats
 
-from .. import FitnessModel
+from ..mixin import FitnessMixin
 
 
-class RandomWalk(FitnessModel):
+class RandomWalk(FitnessMixin):
     """Random Walk
         
     Arguments:

@@ -256,6 +256,8 @@ class FitnessMixin(IterativeMixin):
 
 class ContainerMixin(IterativeMixin):
 
+    map = map
+
     def init(self, *args, **kwargs):
         for element in self:
             element.init(*args, **kwargs)
@@ -283,7 +285,6 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
 
 
     def after_setter(self):
-        # self.sorted = False
         self.__sorted_ = []
         self.__fitness = None
 
@@ -301,28 +302,28 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         return self.best_fitness
 
 
-    def get_fitnesses(self):
-        return list(self.map(attrgetter('fitness')))
+    def get_all_fitness(self):
+        return list(self.apply(attrgetter('fitness')))
 
 
     @property
     def mean_fitness(self):
-        return np.mean(self.get_fitnesses())
+        return np.mean(self.get_all_fitness())
 
 
     @property
     def std_fitness(self):
-        return np.std(self.get_fitnesses())
+        return np.std(self.get_all_fitness())
 
 
     @property
     def best_fitness(self):
-        return np.max(self.get_fitnesses())
+        return np.max(self.get_all_fitness())
 
 
     @property
     def fitnesses(self):
-        return np.array(self.get_fitnesses())
+        return np.array(self.get_all_fitness())
 
 
     def get_best_individual(self, key='fitness', copy=False):
@@ -348,7 +349,7 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
 
 
     def get_worst(self, key='fitness', copy=False):
-        k = np.argmin(tuple(self.map(attrgetter(key), self)))
+        k = np.argmin(tuple(self.apply(attrgetter(key), self)))
         if copy:
             return self[k].clone()
         else:
@@ -358,7 +359,7 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
     # Following is some useful aliases
     @property
     def worst_individual(self):
-        k = np.argmin(self.get_fitnesses())
+        k = np.argmin(self.get_all_fitness())
         return self[k]
 
 
@@ -369,7 +370,7 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
 
     @property
     def best_individual(self):
-        k = np.argmax(self.get_fitnesses())
+        k = np.argmax(self.get_all_fitness())
         return self.individuals[k]
 
 
@@ -394,11 +395,11 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
     def sort(self):
         # sort the whole population
         ks = self.argsort()
-        self.elements = [self[k] for k in ks]
+        self.__elements = [self[k] for k in ks]
 
 
     def argsort(self):
-        return np.argsort(self.get_fitnesses())
+        return np.argsort(self.get_all_fitness())
 
 
     def drop(self, n=1):

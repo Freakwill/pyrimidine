@@ -128,7 +128,7 @@ class BinaryChromosome(VectorChromosome):
 
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
-            if random()< indep_prob:
+            if random() < indep_prob:
                 self[i] ^= 1
 
     def __str__(self):
@@ -206,8 +206,10 @@ class FloatChromosome(VectorChromosome):
         cpy += n.rvs(len(self))
         return cpy
 
+
 class FloatMatrixChromosome(MatrixChromosome, FloatChromosome):
     pass
+
 
 class PositiveChromosome(FloatChromosome):
     def normalize(self):

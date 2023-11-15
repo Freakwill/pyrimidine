@@ -6,7 +6,7 @@ from collections import UserString
 
 class C(metaclass=MetaContainer):
     element_class = UserString
-    # alias = {'strings': 'elements'}
+    alias = {'strings': 'elements'}
 
     def foo(self):
         pass

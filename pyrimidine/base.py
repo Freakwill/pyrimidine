@@ -276,14 +276,17 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
     def __str__(self):
         return '&\n'.join(map(str, self))
 
+
     @classmethod
     def random(cls, n_individuals=None, *args, **kwargs):
         if n_individuals is None:
             n_individuals = cls.default_size
         return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
 
+
     def add_individuals(self, inds:list):
         self.individuals += inds
+
 
     def transition(self, *args, **kwargs):
         """Transitation of the states of population
@@ -355,6 +358,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         if n_sel:
             self.select(n_sel)
 
+
     def mutate(self, mutate_prob=None):
         """Mutate the whole population.
 
@@ -366,6 +370,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         for individual in self.individuals:
             if random() < (mutate_prob or self.mutate_prob):
                 individual.mutate()
+
 
     def mate(self, mate_prob=None):
         """Mate the whole population.
@@ -386,13 +391,16 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
     def remove(self, individual):
         self.individuals.remove(individual)
 
+
     def pop(self, k=-1):
         self.individuals.pop(k)
+
 
     def local_search(self, *args, **kwargs):
         # call local searching method
         for individual in self.individuals:
             individual.ezolve(*args, **kwargs)
+
 
     def get_rank(self, individual):
         """get rank of one individual
@@ -407,6 +415,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
                 break
         individual.ranking = r / self.n_individuals
         return individual.ranking
+
 
     def rank(self, tied=False):
         """Rank all individuals
@@ -430,6 +439,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
             for k, i in enumerate(sorted_):
                 i.ranking = k / self.n_individuals
 
+
     def cross(self, other):
         # cross two populations as two individuals
         k = randint(1, self.n_individuals-2)
@@ -440,18 +450,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
     def dual(self):
         return self.__class__([c.dual() for c in self.chromosomes])
 
-
-
-class ParallelPopulation(BasePopulation):
-    element_class = BaseIndividual
-
-    def mutate(self):
-        self.parallel('mutate')
-
-    def mate(self, mate_prob):
-        offspring = parallel(lambda x: x[0].mate(x[1]), [(a, b) for a, b in zip(self.individuals[::2], self.individuals[1::2])
-            if random() < (mate_prob or self.mate_prob)])
-        self.individuals.extend(offspring)
 
 
 class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
@@ -477,11 +475,13 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
     def __str__(self):
         return '\n\n'.join(map(str, self))
 
+
     @classmethod
     def random(cls, n_populations=None, *args, **kwargs):
         if n_populations is None:
             n_populations = cls.default_size
         return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_populations)])
+
 
     def migrate(self, migrate_prob=None):
         for population, other in zip(self.populations[:-1], self.populations[1:]):
@@ -495,18 +495,12 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
         self.migrate()
 
 
-    @property
     def best_fitness(self):
         return max(map(attrgetter('best_fitness'), self))
 
 
-    @property
-    def mean_fitness(self):
-        return np.mean(tuple(map(attrgetter('mean_fitness'), self)))
-
-
     def get_best_individual(self):
-        bests = list(methodcaller('get_best_individual'), self)
+        bests = map(methodcaller('get_best_individual'), self)
         k = np.argmax([b.fitness for b in bests])
         return bests[k]
 
@@ -518,9 +512,10 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
 
 
 class BaseCommunity(BaseMultiPopulation):
-
+    # As an alias of `MultiPopulation`
     def __str__(self):
         return ' @\n\n'.join(map(str, self))
+
 
 
 class BaseEnvironment(ContainerMixin, metaclass=System):

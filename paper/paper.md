@@ -262,13 +262,13 @@ Various genetic algorithm frameworks have been designed, with deap and gaft bein
 | pyrimidine| Object-Oriented, Metaprogramming, Algebraic-insprited | Universal | Extensible | export the data in `DataFrame` |
 | deap      | Functional, Metaprogramming        | Universal | Limited       | export the data in `LogBook`  |
 | gaft      | Object-Oriented, decoration partton   | Universal | Extensible    | Easy to Implement       |
-| tpot      | scikit-learn Style | Hyperparameter Optimization | Limited | None                   |
+| tpot(gama)     | scikit-learn Style | Hyperparameter Optimization | Limited | None                   |
 | gplearn   | scikit-learn Style | Symbolic Regression | Limited | None                   |
 | scikit-opt| scikit-learn Style | Numerical Optimization | Limited | Easy to Implement      |
 
 tpot, gplearn, and scikit-opt follow the scikit-learn style, providing fixed APIs with limited extensibility. However, they are mature and user-friendly, serving their respective fields effectively.
 
-deap is feature-rich and mature. However, it primarily adopts a functional programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. gaft is highly object-oriented with good extensibility. The design approach in pyrimidine is slightly different from gaft. In pyrimidine, various operations on chromosomes are treated as chromosome methods, rather than independent functions. This design choice might not necessarily increase program coupling. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods. For example, the crossover operation for the ProbabilityChromosome class can be redefined as follows, suitable for optimization algorithms where variables follow a probability distribution:
+deap is feature-rich and mature. However, it primarily adopts a functional programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. gaft is highly object-oriented with good extensibility, but not active. The design approach in pyrimidine is slightly different from gaft. In pyrimidine, various operations on chromosomes are treated as chromosome methods, rather than independent functions. This design choice might not necessarily increase program coupling. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods. For example, the crossover operation for the ProbabilityChromosome class can be redefined as follows, suitable for optimization algorithms where variables follow a probability distribution:
 
 ```python
 def cross(self, other):

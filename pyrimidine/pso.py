@@ -113,6 +113,7 @@ class Particle(BaseParticle, MemoryIndividual):
                         + acceleration_coefficient * scale_fame * (fame.best_position - self.position))
 
 
+
 class ParticleSwarm(PopulationMixin):
     """Standard PSO
     
@@ -174,14 +175,14 @@ class ParticleSwarm(PopulationMixin):
         scale = random()
         eta = random()
         for particle in self:
-            if particle in self.hall_of_fame:
-                particle.update_vilocity(scale, self.inertia, self.learning_factor)
-            else:
-                for fame in self.hall_of_fame:
-                    if particle.fitness < fame.fitness:
-                        break
-                particle.update_vilocity_by_fame(fame, scale, scale_fame, self.inertia, self.learning_factor,
-                    self.acceleration_coefficient)
+            for fame in self.hall_of_fame:
+                if particle.fitness < fame.fitness:
+                    particle.update_vilocity_by_fame(fame, scale, scale_fame, self.inertia, self.learning_factor,
+                        self.acceleration_coefficient)
+                    particle.position = particle.position + particle.velocity
+                    break
+        for particle in self.hall_of_fame:
+            particle.update_vilocity(scale, self.inertia, self.learning_factor)
             particle.position = particle.position + particle.velocity
 
 

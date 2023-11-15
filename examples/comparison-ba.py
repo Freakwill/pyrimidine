@@ -11,19 +11,19 @@ y = np.arctan(X)
 evaluate = Fitting(X, y)
 
 
-
 class _Individual:
     element_class = FloatChromosome, FloatChromosome
 
     def decode(self):
         return self.chromosomes[0][:10], self.chromosomes[0][10:20], self.chromosomes[0][20:30]
 
-
     def _fitness(self):
         return evaluate(*self.decode())
 
+
 class _Bat(_Individual, Bat):
     pass
+
 
 class MyIndividual(_Individual, MixedIndividual):
     pass
