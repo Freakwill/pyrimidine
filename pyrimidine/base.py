@@ -55,6 +55,7 @@ from operator import attrgetter
 import types
 import numpy as np
 from toolz import concat
+import typing
 
 from .utils import choice_uniform, randint, random
 from .errors import *
@@ -285,7 +286,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
 
 
     def add_individuals(self, inds:list):
-        self.individuals += inds
+        self.individuals.extend(inds)
 
 
     def transition(self, *args, **kwargs):
@@ -346,14 +347,19 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
 
 
     def merge(self, other, n_sel=None):
-        """Merge two population.
+        """Merge two populations.
 
         Applied in the case when merging the offspring to the original population.
+
+        `other` should be a population or a list/tuple of individuals
         """
-        if isinstance(other, (list, tuple)):
-            self.individuals += other
-        else:
+
+        if isinstance(other, BasePopulation):
             self.individuals += other.individuals
+        elif isinstance(other, typing.Iterable):
+            self.individuals.extend(other)
+        else:
+            raise TypeError("`other` should be a population or a list/tuple of individuals")
 
         if n_sel:
             self.select(n_sel)
@@ -386,14 +392,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         if random() < mate_prob]
         self.individuals.extend(offspring)
         self.offspring = self.__class__(offspring)
-
-
-    def remove(self, individual):
-        self.individuals.remove(individual)
-
-
-    def pop(self, k=-1):
-        self.individuals.pop(k)
 
 
     def local_search(self, *args, **kwargs):

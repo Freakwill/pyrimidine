@@ -28,7 +28,7 @@ class StandardPopulation(BasePopulation):
         Transitation of the states of population by SGA
         """
 
-        elder = self.get_best_individuals(self.n_elders * self.default_size, copy=True)
+        elder = self.get_best_individuals(self.n_elders, copy=True)
         super().transition(*args, **kwargs)
         self.merge(elder, n_sel=self.default_size)
 
@@ -114,14 +114,8 @@ class DualPopulation(StandardPopulation):
                     self[k] = d
     
     def transition(self, *args, **kwargs):
-        """
-        Transitation of the states of population by SGA
-        """
         self.dual()
-        elder = self.clone()
-        elder.get_best_individuals(self.n_elders)
         super().transition(*args, **kwargs)
-        self.merge(elder)
 
 
 class GamogenesisPopulation(HOFPopulation):
@@ -164,6 +158,7 @@ class EliminationPopulation(BasePopulation):
 
 
 class AgePopulation(EliminationPopulation):
+
     def eliminate(self):
         for individual in self.individuals:
             individual.age += 1

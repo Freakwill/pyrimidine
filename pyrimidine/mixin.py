@@ -112,7 +112,7 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         elif isinstance(history, pd.DataFrame):
             history_flag = True
         else:
-            raise TypeError('Argument `history` should be an instance of pandas.DataFrame or boolean.')
+            raise TypeError('Argument `history` should be an instance of `pandas.DataFrame` or `bool`.')
         # n_iter = n_iter or self.n_iter
         for k in range(1, n_iter+1):
             self.transition(k)
@@ -266,6 +266,14 @@ class ContainerMixin(IterativeMixin):
     def transition(self, *args, **kwargs):
         for element in self:
             element.transition(*args, **kwargs)
+
+
+    def remove(self, individual):
+        self.elements.remove(individual)
+
+
+    def pop(self, k=-1):
+        self.elements.pop(k)
 
 
 class PopulationMixin(FitnessMixin, ContainerMixin):

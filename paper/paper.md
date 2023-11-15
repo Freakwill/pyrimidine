@@ -141,12 +141,12 @@ f(s) := \max_t\{f(t)\}
 $$
 A notable example is `fitness`, used to compute the fitness of the entire population.
 
-As mentioned earlier, the `transition` transform is the primary method of $s$, denoted as:
+As mentioned earlier, the `transition` transform is the primary method in the iterative algorithms, denoted as:
 $$
 T(s):S\to S
 $$
 Consequently, the iteration can be represented as $T^n(s)$.
-
+And if $s$ is a container, then $T(s)=\{T(a)\}$ by default where $T(a)$ is pre-defined.
 
 ## An Example to start
 

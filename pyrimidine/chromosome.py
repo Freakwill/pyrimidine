@@ -123,20 +123,6 @@ class MatrixChromosome(ArrayChromosome):
         return self.__class__(np.hstack((A, B)), element_class=self.element_class)
 
 
-class BinaryChromosome(VectorChromosome):
-    element_class = BinaryGene
-
-    def mutate(self, indep_prob=0.1):
-        for i in range(len(self)):
-            if random() < indep_prob:
-                self[i] ^= 1
-
-    def __str__(self):
-        return f'{"".join(map(str, self))}'
-
-    def dual(self):
-        return BinaryChromosome(1 ^ self)
-
 
 class NaturalChromosome(VectorChromosome):
     element_class = NaturalGene
@@ -151,6 +137,20 @@ class NaturalChromosome(VectorChromosome):
 
     def dual(self):
         return NaturalChromosome(self.element_class.ub - self)
+
+
+
+class BinaryChromosome(NaturalChromosome):
+    element_class = BinaryGene
+
+    def mutate(self, indep_prob=0.1):
+        for i in range(len(self)):
+            if random() < indep_prob:
+                self[i] ^= 1
+
+    def dual(self):
+        return BinaryChromosome(1 ^ self)
+
 
 
 class PermutationChromosome(NaturalChromosome):
@@ -169,6 +169,9 @@ class PermutationChromosome(NaturalChromosome):
     #     else:
     #         j = i+1
     #     t = self[i]; self[i] = self[j]; self[j] = t
+
+    def __sub__(self, other):
+        pass
 
     def mutate(self):
         i, j = randint2(0, self.default_size-1)

@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 
 from pyrimidine.benchmarks.special import *
-
 from pyrimidine import *
 
 from digit_converter import *
 
 
-ndim = 8
+ndim = 12
 def evaluate(x):
     return -rosenbrock(x)
 
 
 class _Chromosome(BinaryChromosome):
     def decode(self):
-        return IntervalConverter(-1,1)(self)
+        return IntervalConverter(-1, 1)(self)
 
 
 class uChromosome(BinaryChromosome):
@@ -22,9 +21,8 @@ class uChromosome(BinaryChromosome):
         return unitIntervalConverter(self)
 
 
-
-def _fitness(self):
-    return evaluate(self.decode())
+def _fitness(obj):
+    return evaluate(obj.decode())
 
 ExampleIndividual = MultiIndividual[_Chromosome].set_fitness(_fitness)
 
@@ -34,7 +32,7 @@ class MyIndividual(MixedIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fit
     Method `mate` is overriden.
     """
     ranking = None
-    threshold = 0.3
+
 
     @property
     def threshold(self):
@@ -46,19 +44,19 @@ class MyIndividual(MixedIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fit
         if other.ranking and self.ranking:
             if self.threshold <= other.ranking:
                 if other.threshold <= self.ranking:
-                    return super().mate(other, mate_prob=0.95)
+                    return super().mate(other, mate_prob=0.99)
                 else:
-                    mate_prob = 1-other.threshold
+                    mate_prob = 1 - other.threshold
                     return super().mate(other, mate_prob)
             else:
                 if other.threshold <= self.ranking:
-                    mate_prob = 1-self.threshold
+                    mate_prob = 1 - self.threshold
                     return super().mate(other, mate_prob=0.95)
                 else:
-                    mate_prob = 1-(self.threshold+other.threshold)/2
+                    mate_prob = 1 - (self.threshold+other.threshold)/2
                     return super().mate(other, mate_prob)
         else:
-            return super(MyIndividual, self).mate(other)
+            return super().mate(other)
 
 class MyPopulation(HOFPopulation[MyIndividual]):
 
@@ -82,5 +80,6 @@ if __name__ == '__main__':
     d = pop.evolve(n_iter=200, stat=stat, history=True)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
     ax.legend(('Traditional mean', f'Traditional best({cpy.best_fitness})', 'New mean', f'New best({pop.best_fitness})'))
+    ax.set_title('Comparison of two GAs')
     plt.show()
 
