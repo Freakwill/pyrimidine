@@ -202,7 +202,7 @@ The equivalent approach no longer explicitly depends on class inheritance and `c
 
 ## Visualization
 
-To assess the performance, it is customary to visualize fitness curves or other metrics against the iteration number. This can be accomplished by enabling the `history=True` parameter in the `evolve` method. Subsequently, this method yields a `pandas.DataFrame` object that encapsulates statistical results for each generation. Users can harness this object to create customizable performance curves. Generally, users are required to furnish a "statistic dictionary," where keys are the names of the statistics, and values are functions mapping the population to numerical values (strings are confined to pre-defined population methods or attributes of return values).
+Instead of implementing visualization methods, `pyrimidine` yields a `pandas.DataFrame` object that encapsulates statistical results for each generation by setting `history=True` in `evolve` method. Users can harness this object to create customizable performance curves. Generally, users are required to furnish a "statistic dictionary" whose keys are the names of the statistics, and values are functions mapping the population to numerical values (strings are confined to pre-defined methods or attributes of the population).
 
 ```python
 # statistic dictionary, computing the mean fitness and best fitness of each generation

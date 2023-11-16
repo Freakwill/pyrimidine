@@ -276,6 +276,10 @@ class ContainerMixin(IterativeMixin):
         self.elements.pop(k)
 
 
+    def extend(self, inds:list):
+        self.elements.extend(inds)
+
+
 class PopulationMixin(FitnessMixin, ContainerMixin):
     """mixin class for population-based heuristic algorithm
 

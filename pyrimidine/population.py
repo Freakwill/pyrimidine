@@ -15,50 +15,54 @@ from .meta import MetaList
 
 
 class StandardPopulation(BasePopulation):
-    """Standard Genetic Algo I.
+    """Standard GA
     
     Extends:
         BasePopulation
+
+    Params:
+        n_elders: the number (or rate) of the last generation
     """
 
     params = {'n_elders': 0.5}
     
     def transition(self, *args, **kwargs):
         """
-        Transitation of the states of population by SGA
+        Transitation in Standard GA
         """
 
         elder = self.get_best_individuals(self.n_elders, copy=True)
         super().transition(*args, **kwargs)
         self.merge(elder, n_sel=self.default_size)
 
+
 Population = StandardPopulation
 
 
 class HOFPopulation(StandardPopulation):
-    """Standard Genetic Algo With hall of fame
+    """Standard GA with hall of fame
     
     Extends:
         StandardPopulation
     
     Attributes:
-        hall_of_fame (list): the best individuals
+        hall_of_fame (list): the copy of the best individuals
     """
 
     params = {'hof_size': 2}
     hall_of_fame = []
 
     def init(self):
-        self.hall_of_fame = self.get_best_individuals(self.hof_size)
+        self.hall_of_fame = self.get_best_individuals(self.hof_size, copy=True)
 
     def transition(self, *args, **kwargs):
         """
-        Update the hall of fame after each step of evolution
+        Update the `hall_of_fame` after each step of evolution
         """
 
         super().transition(*args, **kwargs)
         self.update_hall_of_fame()
-        self.add_individuals(map(methodcaller('clone'), self.hall_of_fame))
+        self.add_individuals(self.hall_of_fame)
 
     def update_hall_of_fame(self):
         hof_size = len(self.hall_of_fame)

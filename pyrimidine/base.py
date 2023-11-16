@@ -64,6 +64,13 @@ from .mixin import *
 
 
 class BaseGene:
+
+    """Base class of genes
+    
+    Attributes:
+        values (tuple of numbers): the values that a gene takes
+    """
+    
     values = ()
 
     def __repr__(self):
@@ -88,10 +95,10 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
     default_size = 8
 
     def __repr__(self):
-        return f'{self.__class__.__name__}: {"/".join(map(repr, self))}'
+        return f'{self.__class__.__name__}: {":".join(map(repr, self))}'
 
     def __str__(self):
-        return "/".join(map(str, self))
+        return ":".join(map(str, self))
 
     @classmethod
     def random(cls, size=None):
@@ -125,11 +132,11 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
 
 
 class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
-    """Base class of individual
+    """Base class of individuals
 
-    a sequence of chromosomes that may vary in sizes.
+    It is essentially a sequence of chromosomes that may vary in sizes.
 
-    You should implement the methods, cross, mute
+    You should implement the methods: cross, mute ...
     """
 
     element_class = BaseChromosome
@@ -176,7 +183,7 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
 
         if isinstance(cls, MetaTuple):
             return cls([C.random(*args, **kwargs) for C in cls.element_class])
-        elif isinstance(cls, (MetaList, MetaContainer)):
+        elif isinstance(cls, MetaList):
             if 'sizes' in kwargs:
                 return cls([cls.element_class.random(size=size) for size in kwargs['sizes']])
             else:
@@ -297,6 +304,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         self.select()
         self.mate()
         self.mutate()
+
 
     def migrate(self, other):
         """Migration from one population to another
@@ -446,7 +454,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
 
 
     def dual(self):
-        return self.__class__([c.dual() for c in self.chromosomes])
+        return self.__class__([c.dual() for c in self])
 
 
 
@@ -516,7 +524,8 @@ class BaseCommunity(BaseMultiPopulation):
 
 
 
-class BaseEnvironment(ContainerMixin, metaclass=System):
+class BaseEnvironment(ContainerMixin):
+
     """Base Class of environments
 
     The main method is `evaluate`, computing the fitness of an individual or a population

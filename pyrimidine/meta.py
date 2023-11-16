@@ -10,26 +10,6 @@ from collections.abc import Iterable
 from operator import attrgetter, methodcaller
 
 
-
-# def get_stem(s):
-#     """get the last part in Camel expression
-    
-#     Arguments:
-#         s {str} -- a string in Camel expression
-    
-#     Returns:
-#         str -- last part of s in lower form
-
-#     Example:
-#         >>> get_stem('ILoveYou')
-#         >>> you
-#     """
-
-#     for k, a in enumerate(s[::-1]):
-#         if a.isupper(): break
-#     return s[-k-1:].lower()
-
-
 def inherit(attrs, attr, bases):
     """inherit attribute `attr` from `bases`
     
@@ -55,9 +35,8 @@ def inherit(attrs, attr, bases):
 class ParamType(type):
     """just a wrapper of `type`
 
-    Define `params` in classes whose metaclass of ParamType,
     then key-value pairs in `params` could be inherited from super classes, like attributes.
-    It make users set and manage parameters of classes or instances more easily.
+    It make users set and manage parameters of classes or instances more conveniently.
     """
 
     def __new__(cls, name, bases=(), attrs={}):
@@ -111,7 +90,7 @@ class ParamType(type):
 
     def set_methods(self, *args, **kwargs):
         for k in args:
-            setattr(self, k, globals()[k])
+            setattr(self, k, MethodType(globals()[k], self))
         for k, m in kwargs.items():
             setattr(self, k, MethodType(m, self))
         return self
@@ -122,16 +101,66 @@ class ParamType(type):
         return self
 
 
-class System(ParamType):
-    """Metaclass of systems
+    def mixin(self, bases):
+        if isinstance(bases, tuple):
+            self.__bases__ += bases
+        else:
+            self.__bases__ += (bases,)
+        return self
 
-    A system consists of a set of elements and operators acting on them
 
-    It is refered to an algebraic system.
+class MetaContainer(ParamType):
+    """Meta class of containers
+
+    A container is a algebric system with elements of some type
+    and operators acting on the elements
+
+    Example:
+        ```
+        from collections import UserString
+        class C(metaclass=MetaContainer):
+            # container of strings
+            element_class = UserString
+            alias = {'strings': 'elements'}
+
+        c = C(strings=[UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
+        print(c.element_class)
+        print(c.strings)
+        print(c.lasting)
+        print(c.n_strings)
+        print(c[1])
+        for a in c:
+            print(a)
+
+        c.regester('upper')
+        print(c.upper())
+
+        # <class 'collections.UserString'>
+        # <property object at 0x1065715e0>
+        # ['I', 'love', 'you']
+        # for ever
+        # 3
+        # love
+        # I
+        # love
+        # you
+        # ['I', 'LOVE', 'YOU']
+        ```
     """
-    
-    def __new__(cls, name, bases=(), attrs={}):
-        # Create with regesters
+
+    def __new__(cls, name, bases, attrs):
+        """
+        Users have to define `element_class` in the class.
+        """
+        if 'element_class' in attrs:
+            element_class = attrs['element_class']
+        else:
+            for base in bases:
+                if hasattr(base, 'element_class'):
+                    element_class = base.element_class
+                    break
+            else:
+                raise Exception('Have not provided element class yet.')
         
         def _iter(self):
             return iter(self.__elements)
@@ -215,6 +244,51 @@ class System(ParamType):
             'regester_map': _regester_map
         })
 
+        return super().__new__(cls, name, bases, attrs)
+
+
+    def __call__(self, *args, **kwargs):
+        o = super().__call__()
+
+        if args:
+            o.__elements = args[0]
+            # for e in o.__elements:  # consider in future
+            #     e.__system = o
+        # else:
+        #     raise Exception('Have not provided a list of elements as the unique positional argument!')
+
+        for k, v in kwargs.items():
+            setattr(o, k, v)
+
+        # if '_environment' in globals():
+        #     o.environment = globals()['_environment']
+        return o
+
+
+    def __getitem__(self, class_):
+        return self.set(element_class=class_)
+
+
+    def __floordiv__(self, n):
+        return self.set(default_size=n)
+
+
+
+class System(MetaContainer):
+    """Metaclass of systems, considered in future!
+
+    A system is a type of container, that consists of a set of elements and operators acting on them
+
+    It is also refered to an algebraic system.
+    """
+    
+    def __new__(cls, name, bases=(), attrs={}): 
+        """
+        Regester maps and operands
+        if the mapping f is regestered, then A owns method f, automatically
+        f(A) := {f(a), a in A} where f is a method of A.
+        """
+
         # def _regester_operator(self, name, key=None):
         #     if hasattr(self, name):
         #         raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
@@ -237,102 +311,15 @@ class System(ParamType):
 
 
     def __call__(self, *args, **kwargs):
-        o = super().__call__()
+        o = super().__call__(*args, **kwargs)
 
-        if args:
-            o.__elements = args[0]
-            # for e in o.__elements:  # consider in future
-            #     e.__system = o
+        for e in o.__elements:  # consider in future
+            e.__system = o
         # else:
         #     raise Exception('Have not provided a list of elements as the unique positional argument!')
 
-        for k, v in kwargs.items():
-            setattr(o, k, v)
-
-        # if '_environment' in globals():
-        #     o.environment = globals()['_environment']
         return o
 
-    def mixin(self, bases):
-        if isinstance(bases, tuple):
-            self.__bases__ += bases
-        else:
-            self.__bases__ += (bases,)
-        return self
-
-
-class MetaContainer(System):
-    """Meta class of containers
-
-    A container is a algebric system with elements of some type
-    and operators acting on the elements
-
-    Example:
-        ```
-        from collections import UserString
-        class C(metaclass=MetaContainer):
-            # container of strings
-            element_class = UserString
-            alias = {'strings': 'elements'}
-
-        c = C(strings=[UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
-        print(c.element_class)
-        print(c.strings)
-        print(c.lasting)
-        print(c.n_strings)
-        print(c[1])
-        for a in c:
-            print(a)
-
-        c.regester('upper')
-        print(c.upper())
-
-        # <class 'collections.UserString'>
-        # <property object at 0x1065715e0>
-        # ['I', 'love', 'you']
-        # for ever
-        # 3
-        # love
-        # I
-        # love
-        # you
-        # ['I', 'LOVE', 'YOU']
-        ```
-    """
-
-    def __new__(cls, name, bases, attrs):
-
-        if 'element_class' in attrs:
-            element_class = attrs['element_class']
-        else:
-            for base in bases:
-                if hasattr(base, 'element_class'):
-                    element_class = base.element_class
-                    break
-            else:
-                raise Exception('Have not provided element class yet.')
-        # if 'element_name' in attrs:
-        #     element_name_ = attrs['element_name'] + 's'
-        # else:
-        #     if isinstance(element_class, tuple):
-        #         element_name_ = get_stem(element_class[0].__name__) + 's'
-        #     else:
-        #         element_name_ = get_stem(element_class.__name__) + 's'
-
-        # if element_name_ not in attrs['alias']:
-        #     attrs['alias'].update({element_name_: 'elements'})
-
-        # d = {'n_' + k: 'n_elements' for k, v in attrs['alias'].items() if v == 'elements'}
-        # attrs['alias'].update(d)
-
-        return super().__new__(cls, name, bases, attrs)
-
-
-    def __getitem__(self, class_):
-        return self.set(element_class=class_)
-
-    def __floordiv__(self, n):
-        return self.set(default_size=n)
 
 
 class MetaList(MetaContainer):
@@ -361,8 +348,9 @@ class MetaTuple(MetaContainer):
                 raise TypeError('`element_class` should be a tuple!')
         return super().__new__(cls, name, bases, attrs)
 
+
     def __floordiv__(self, n):
-        raise DeprecationWarning('It is meaningless to do floordiv on the class by a number')
+        raise DeprecationWarning('It is meaningless to do `//` on the class with a number.')
 
 
 class MetaHighContainer(MetaContainer):
@@ -374,7 +362,7 @@ class MetaHighContainer(MetaContainer):
             if (not isinstance(element_class, MetaContainer)
                 and isinstance(element_class, tuple) and not isinstance(element_class[0], MetaContainer)
                 and not isinstance(element_class, ParamType)):
-                raise TypeError('`element_class` should be an instance of MetaContainer, or a list of such instances')
+                raise TypeError('`element_class` should be an instance of MetaContainer, or a list of such instances.')
 
         def _flatten(self, type_):
             elms = []
