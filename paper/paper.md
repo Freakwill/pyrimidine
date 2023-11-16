@@ -121,15 +121,21 @@ FitnessMixin  --->  PopulationMixin
 ```
 
 ### Mathematical representation
-We use the following expression to represent a container $s$ of type $S$, with elements of type $A$:
+
+We employ the following expression to denote a **container** $s$ of type $S$, with elements of type $A$:
 $$
 s = \{a:A\}:S
 $$
-where $\{\cdot\}$ represents a set or a sequence to emphasize the order of the elements.
+Here, $\{\cdot\}$ signifies either a set or a sequence(to emphasize the order of the elements).
 
-As observed, the population is a container of individuals. Generalizing this concept to multi-population is straightforward, where it becomes the container of populations and is referred to as the high-level container.
+Let us define a population as a container of individuals, could expressed as
+`pop = {ind:Individual}:Population`. Building upon this concept, it is straightforward to introduce the notion of a multi-population as a container of populations, referred to as the high-level container.
 
-The lifting of a method $f$ of $a$ is defined as:
+A container that defines operators of its elements is termed a **system**, exemplified by `S.cross(a, b)` to implement the crossover operation of two individuals in a population. It shares similarities with algebraic systems. However, the current version does not incorporate this concept, operations are currently defined as methods on elements, `a.cross(b)`. The contemplation of incorporating this concept is deferred to future versions, and this prospective change will not impact the design of APIs.
+
+An individual may be viewed as a container of chromosomes, but it will not to be a system. A chromosome can be perceived as a container of genes, while in practice, we implement chromosomes directly using `numpy.array` or the standard library's `array.array`.
+
+The lifting of a function/method $f$ is defined as:
 $$
 f(s) := \{f(a)\}
 $$
@@ -141,12 +147,13 @@ f(s) := \max_t\{f(t)\}
 $$
 A notable example is `fitness`, used to compute the fitness of the entire population.
 
-As mentioned earlier, the `transition` transform is the primary method in the iterative algorithms, denoted as:
+As mentioned earlier, `transition` is the primary method in the iterative algorithms, denoted as a transform:
 $$
 T(s):S\to S
 $$
 Consequently, the iteration can be represented as $T^n(s)$.
 And if $s$ is a container, then $T(s)=\{T(a)\}$ by default where $T(a)$ is pre-defined.
+
 
 ## An Example to start
 
@@ -169,13 +176,14 @@ n = 50
 _evaluate = Knapsack.random(n)  # Function mapping n-dimensional binary encoding to the objective function value
 
 class MyIndividual(MonoIndividual):
+    default_size = n
     def _fitness(self):
         # The return value must be a number
         return _evaluate(self.chromosome)
 
 """
 equivalent to:
-MyIndividual = MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))
+MyIndividual = MonoIndividual.set_fitness(lambda o: _evaluate(o.chromosome)) // n
 """
 
 class MyPopulation(StandardPopulation):
@@ -257,18 +265,18 @@ pop = NewPopulation.random()
 
 Various genetic algorithm frameworks have been designed, with deap and gaft being among the most popular ones. Pyrimidine's design is heavily influenced by these two frameworks, even borrowing class names directly from gaft. The following table compares pyrimidine with several popular and mature frameworks:
 
-| Library   | Design Style      | Generality | Extensibility | Visualization           |
+| Library   | Design Style      | Versatility | Extensibility | Visualization           |
 | --------- | ------------------ | ---------- | ------------- | ---------------------- |
 | pyrimidine| Object-Oriented, Metaprogramming, Algebraic-insprited | Universal | Extensible | export the data in `DataFrame` |
 | deap      | Functional, Metaprogramming        | Universal | Limited       | export the data in `LogBook`  |
 | gaft      | Object-Oriented, decoration partton   | Universal | Extensible    | Easy to Implement       |
 | tpot(gama)     | scikit-learn Style | Hyperparameter Optimization | Limited | None                   |
 | gplearn   | scikit-learn Style | Symbolic Regression | Limited | None                   |
-| scikit-opt| scikit-learn Style | Numerical Optimization | Limited | Easy to Implement      |
+| scikit-opt| scikit-learn Style | Numerical Optimization | Limited | Encapsulated as a data frame      |
 
-tpot, gplearn, and scikit-opt follow the scikit-learn style, providing fixed APIs with limited extensibility. However, they are mature and user-friendly, serving their respective fields effectively.
+`tpot`, `gplearn`, and `scikit-opt` follow the `scikit-learn` style, providing fixed APIs with limited extensibility. However, they are mature and user-friendly, serving their respective fields effectively.
 
-deap is feature-rich and mature. However, it primarily adopts a functional programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. gaft is highly object-oriented with good extensibility, but not active. The design approach in pyrimidine is slightly different from gaft. In pyrimidine, various operations on chromosomes are treated as chromosome methods, rather than independent functions. This design choice might not necessarily increase program coupling. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods. For example, the crossover operation for the ProbabilityChromosome class can be redefined as follows, suitable for optimization algorithms where variables follow a probability distribution:
+`deap` is feature-rich and mature. However, it primarily adopts a functional programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `gaft` is highly object-oriented with good extensibility, but not active. The design approach in `pyrimidine` is slightly different from `gaft`. In `pyrimidine`, various operations on chromosomes are treated as chromosome methods, rather than independent functions. This design choice might not necessarily increase program coupling. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods. For example, the crossover operation for the `ProbabilityChromosome` class can be redefined as follows, suitable for optimization algorithms where variables follow a probability distribution:
 
 ```python
 def cross(self, other):
@@ -284,12 +292,11 @@ I have conducted extensive experiments and improvements, demonstrating that pyri
 
 Pyrimidine requires fitness values to be numbers, so it cannot handle multi-objective problems directly, unless they are reduced to single-objective problems. Pyrimidine uses numpy's arrays, making crossover operations slower than deap's, but alternative implementations can be used. Of course, there are other areas for improvement. Additionally, pyrimidine's documentation is still under development.
 
-The complete source code has been uploaded to GitHub, including numerous examples (see the "examples" folder).https://github.com/Freakwill/pyrimidine。
-
-<!-- Currently, operating the individual could not access. -->
+The complete source code has been uploaded to GitHub, including numerous examples (see the "examples" folder).https://github.com/Freakwill/pyrimidine.
 
 
 ---
+
 <center>References</center>
 [1] Holland, J. Adaptation in Natural and Artificial Systems[M]. The Univ. of Michigan, 1975.
 [3] D. Simon. 进化优化算法——基于仿生和种群的计算机智能方法[M]. 北京: 清华大学出版社, 2018.
