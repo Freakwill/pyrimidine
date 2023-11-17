@@ -40,26 +40,23 @@ Presently, a variety of programming languages feature libraries that implement G
 
 As known, GA consists of two main components: individuals( or choromosomes) and populations.
 
-A oridinary idea of implementation in Python, populations are desienged as the lists of individuals, individuals( chromosomes) are the lists of genes. You can create an individual using the standard library `array` or the well-known third-party numerical computing library `numpy`[11]. The latter is convenient for various numerical computations but may be slower for cross operations.
+A oridinary idea of implementation in Python, populations are desienged as the lists of individuals, individuals( chromosomes) are the lists of genes. You can create an individual using the standard library `array` or the well-known third-party numerical computing library `numpy`[11].
 
-Our design concept is beyond the oridinary idea and more extensible. We call it "algebra-inspired Programming".
-
+Our design concept is beyond the oridinary idea and more extensible. We would like to call it "algebra-inspired Programming".
 
 ### Metaclasses
-The metaclass `System` simulates abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operations and functions on them.
+We define the metaclass `System` to simulate abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operators and functions on them.
 
-`Container` is a sub-metaclass of `System`, where the elements has a certain type. The instance of `Container` is seen to be as subset of an algebraic system.
+`Container` is a super-metaclass of `System`, where no certain operators are defined yet.
 
 There are mainly two types of containers: list-like and tuple-like, where lists imply that all elements in the container are of the same type, while tuples have no such restriction.
 
 
 ### Fundamental Classes
 
-The base classes mentioned in the paper are all constructed by the metaclasses. 
+There are three fundamental classes in `pyrimidine`,`BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively. They are constructed by the metaclasses.
 
-There are three fundamental classes in `pyrimidine`,`BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively. 
-
-an individual is a container of multiple chromosomes, that is different from normal designs of GA, representing a single solution of some problem. a population is a container of individuals. In fact, a chromosome is designed as a container of genes, that is not so significant.
+An individual is a container of multiple chromosomes, that is different from normal designs of GA, representing a single solution of some problem. a population is a container of individuals. In fact, a chromosome is designed as a container of genes, that is not so significant.
 
 Constructing an individual, `SomeIndividual`, consisting of several `SomeChromosome`, is as simple as defining `SomeIndividual = BaseIndividual[SomeChromosome]`, where `BaseIndividual` is the base class for all individual classes. The expression is borrowed from variable typing, such as `List[String]`. Similarly, a population of `SomeIndividual` could be `BasePopulation[SomeIndividual]`.
 
@@ -147,11 +144,11 @@ f(s) := \max_t\{f(t)\}
 $$
 A notable example is `fitness`, used to compute the fitness of the entire population.
 
-As mentioned earlier, `transition` is the primary method in the iterative algorithms, denoted as a transform:
+`transition` is the primary method in the iterative algorithms, denoted as a transform:
 $$
 T(s):S\to S
 $$
-Consequently, the iteration can be represented as $T^n(s)$.
+The iterative algorithms can be represented as $T^n(s)$.
 And if $s$ is a container, then $T(s)=\{T(a)\}$ by default where $T(a)$ is pre-defined.
 
 

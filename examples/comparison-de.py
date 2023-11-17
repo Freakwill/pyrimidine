@@ -11,7 +11,7 @@ from pyrimidine.benchmarks.optimization import *
 from pyrimidine.benchmarks.special import *
 
 n = 10
-f = rosenbrock(n=n)
+f = rosenbrock
 
 class MyIndividual(MonoIndividual):
     element_class = FloatChromosome.set(default_size=n)
@@ -24,9 +24,11 @@ class _Population1(DifferentialEvolution, BasePopulation):
     element_class = MyIndividual
     default_size = 10
 
+
 class _Population2(HOFPopulation):
     element_class = MyIndividual
     default_size = 10
+
 
 pop1 = _Population1.random()
 pop2 = pop1.clone(type_=_Population2) # population 2 with the same initial values to population 1

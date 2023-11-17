@@ -278,7 +278,11 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
 
     alias = {"individuals": "elements",
         "n_individuals": "n_elements",
+        "best_individual": "best_element",
+        "worst_individual": "worst_element",
         "best_individuals": "best_elements",
+        "get_best_individual": "get_best_element",
+        "get_best_individuals": "get_best_elements"
     }
 
     def __str__(self):
@@ -427,7 +431,8 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         """Rank all individuals
         by fitness increasingly
         """
-        sorted_ = [self[k] for k in self.argsort()]
+        # sorted_ = [self[k] for k in self.argsort()]
+        sorted_ = self.sorted_
         if tied:
             k = 0
             while k < self.n_individuals:
@@ -476,7 +481,10 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
 
     alias = {'positions': 'elements',
     'n_populations': 'n_elements',
-    'best_population': 'best_element'}
+    'best_population': 'best_element',
+    'worst_population': 'worst_element',
+    "get_best_population": "get_best_element",
+    "get_best_populations": "get_best_elements"}
 
     def __str__(self):
         return '\n\n'.join(map(str, self))
@@ -524,7 +532,8 @@ class BaseCommunity(BaseMultiPopulation):
 
 
 
-class BaseEnvironment(ContainerMixin):
+class BaseEnvironment(ContainerMixin, metaclass=MetaContainer):
+    element_class = None
 
     """Base Class of environments
 

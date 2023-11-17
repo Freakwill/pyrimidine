@@ -6,7 +6,8 @@ Helpers for GA
 
 import numpy as np
 
-from .individual import BinaryIndividual
+from .chromosome import BinaryChromosome
+from .individual import binaryIndividual
 from .population import HOFPopulation
 
 
@@ -33,37 +34,70 @@ def _decode(c, a, b):
     return IntervalConverter(a, b)(c)
 
 
-def ga_min(func, *xlim, decode=_decode):
+def ga_minimize(func, *xlim, decode=_decode, population_size=20, size=8):
     """
-    GA(with hof) for minimizing fun defined on xlim
+    GA(with hall of fame) for minimizing the function `func` defined on `xlim`
 
     Arguments:
-        func: objective function defined on R
+        func: objective function defined on R^n
         xlim: the intervals of xi
         decode: transform a binary sequence to a real number
             ('0-1' sequence, lower_bound, upper_bound) |-> xi
+        population_size: size of population
+        size: the length of the encoding of xi
 
     Example:
-        ga_min(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+        ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
     """
 
-    class _Individual(BinaryIndividual):
+    class _Individual(binaryIndividual(size)):
         default_size = len(xlim)
 
         def _fitness(self):
             return - func(self.decode())
 
-        def dual(self):
-            return _Individual([c.dual() for c in self])
-
         def decode(self):
-            return np.array([decode(c, a, b) for c, (a, b) in zip(self, xlim)])
+            return np.asarray([decode(c, a, b) for c, (a, b) in zip(self, xlim)])
 
     class _Population(HOFPopulation):
         element_class = _Individual
-        default_size = 20
+        default_size = population_size
 
     pop = _Population.random()
     pop.ezolve()
 
-    return pop.best_individual.decode()
+    return pop.solution.decode()
+
+
+def ga_minimize_1D(func, xlim, decode=_decode, population_size=20, size=8):
+    """
+    GA(with hall of fame) for minimizing 1D function `func` defined on the interval `xlim`
+
+    Arguments:
+        func: objective function defined on R
+        xlim: the interval of x
+        decode: transform a binary sequence to a real number
+            ('0-1' sequence, lower_bound, upper_bound) |-> xi
+        population_size: size of population
+        size: the length of the encoding of x
+
+    Example:
+        ga_minimize_1D(lambda x:x**2, (-1,1))
+    """
+
+    class _Chromosome(BinaryChromosome):
+
+        def _fitness(self):
+            return - func(self.decode())
+
+        def decode(self):
+            return decode(self, *xlim)
+
+    class _Population(HOFPopulation):
+        element_class = _Individual
+        default_size = population_size
+
+    pop = _Population.random()
+    pop.ezolve()
+
+    return pop.solution.decode()

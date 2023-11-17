@@ -276,7 +276,11 @@ class ContainerMixin(IterativeMixin):
         self.elements.pop(k)
 
 
-    def extend(self, inds:list):
+    def extend(self, inds):
+        self.elements.extend(inds)
+
+
+    def add_individuals(self, inds):
         self.elements.extend(inds)
 
 
@@ -338,17 +342,25 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         return np.array(self.get_all_fitness())
 
 
-    def get_best_individual(self, key='fitness', copy=False):
-        # Get best individual under `key`
-        k = np.argmax(tuple(map(attrgetter(key), self)))
+    def get_best_element(self, copy=False):
+        """Get best element
+        
+        Args:
+            copy (bool, optional): copy the element if `copy=True`
+        
+        Returns:
+            An element
+        """
+
+        k = np.argmax(self.get_all_fitness())
         if copy:
             return self[k].clone()
         else:
             return self[k]
 
 
-    def get_best_individuals(self, n=1, copy=False):
-        # Get first n best individuals
+    def get_best_elements(self, n=1, copy=False):
+        # Get first n best elements
         if n < 1:
             n = int(self.n_elements * n)
         elif not isinstance(n, int):
@@ -360,8 +372,8 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
             return self.sorted_[-n:]
 
 
-    def get_worst(self, key='fitness', copy=False):
-        k = np.argmin(tuple(self.apply(attrgetter(key), self)))
+    def get_worst_individual(self, copy=False):
+        k = np.argmin(self.get_all_fitness())
         if copy:
             return self[k].clone()
         else:
@@ -370,25 +382,20 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
 
     # Following is some useful aliases
     @property
-    def worst_individual(self):
+    def worst_element(self):
         k = np.argmin(self.get_all_fitness())
         return self[k]
 
 
     @property
-    def best_(self):
-        return self.best_individual
-
-
-    @property
-    def best_individual(self):
+    def best_element(self):
         k = np.argmax(self.get_all_fitness())
-        return self.individuals[k]
+        return self[k]
 
 
     @property
     def solution(self):
-        return self.best_individual
+        return self.best_element
 
 
     @property

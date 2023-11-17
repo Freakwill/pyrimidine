@@ -55,7 +55,7 @@ class ParamType(type):
             elif key in self.alias:
                 return getattr(self, self.alias[key])
             else:
-                raise AttributeError(f'`{key}` is neither an attribute of the object of `{self.__class__}`, nor in `param` or `alias`')
+                raise AttributeError(f'`{key}` is neither an attribute of the object of `{self.__class__}`, nor in `params` or `alias`')
         attrs['__getattr__'] = _getattr
 
         def _setattr(self, key, value):
@@ -88,7 +88,7 @@ class ParamType(type):
         return self
 
 
-    def set_methods(self, *args, **kwargs):
+    def set_method(self, *args, **kwargs):
         for k in args:
             setattr(self, k, MethodType(globals()[k], self))
         for k, m in kwargs.items():
@@ -103,10 +103,16 @@ class ParamType(type):
 
     def mixin(self, bases):
         if isinstance(bases, tuple):
-            self.__bases__ += bases
+            self.__bases__ = bases + self.__bases__
         else:
-            self.__bases__ += (bases,)
+            self.__bases__ = (bases,) + self.__bases__
         return self
+
+
+    def __and__(self, other):
+        class cls(self, other):
+            pass
+        return cls
 
 
 class MetaContainer(ParamType):
@@ -274,51 +280,49 @@ class MetaContainer(ParamType):
 
 
 
-class System(MetaContainer):
-    """Metaclass of systems, considered in future!
+# class System(MetaContainer):
+#     """Metaclass of systems, considered in future!
 
-    A system is a type of container, that consists of a set of elements and operators acting on them
-
-    It is also refered to an algebraic system.
-    """
+#     A system is a type of container, that defines operators on them.
+#     """
     
-    def __new__(cls, name, bases=(), attrs={}): 
-        """
-        Regester maps and operands
-        if the mapping f is regestered, then A owns method f, automatically
-        f(A) := {f(a), a in A} where f is a method of A.
-        """
+#     def __new__(cls, name, bases=(), attrs={}): 
+#         """
+#         Regester maps and operands
+#         if the mapping f is regestered, then A owns method f, automatically
+#         f(A) := {f(a), a in A} where f is a method of A.
+#         """
 
-        # def _regester_operator(self, name, key=None):
-        #     if hasattr(self, name):
-        #         raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
-        #     self.__operators.append(key)
-        #     setattr(self, name, MethodType(key, self))
+#         def _regester_operator(self, name, key=None):
+#             if hasattr(self, name):
+#                 raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
+#             self.__operators.append(key)
+#             setattr(self, name, MethodType(key, self))
 
-        # def _element_regester(self, name, e):
-        #     if hasattr(self, e):
-        #         raise AttributeError(f'`{e}` is an attribute of {self.__class__.__name__}, would not be regestered.')
-        #     self.__elements.append(e)
-        #     setattr(self, name, e)
+#         def _element_regester(self, name, e):
+#             if hasattr(self, e):
+#                 raise AttributeError(f'`{e}` is an attribute of {self.__class__.__name__}, would not be regestered.')
+#             self.__elements.append(e)
+#             setattr(self, name, e)
 
-        # attrs.update({
-        #     '__operators': []
-        #     'regester_operator': _regester_operator,
-        #     'regester_element': _regester_element
-        # })
+#         attrs.update({
+#             '__operators': []
+#             'regester_operator': _regester_operator,
+#             'regester_element': _regester_element
+#         })
 
-        return super().__new__(cls, name, bases, attrs)
+#         return super().__new__(cls, name, bases, attrs)
 
 
-    def __call__(self, *args, **kwargs):
-        o = super().__call__(*args, **kwargs)
+#     def __call__(self, *args, **kwargs):
+#         o = super().__call__(*args, **kwargs)
 
-        for e in o.__elements:  # consider in future
-            e.__system = o
-        # else:
-        #     raise Exception('Have not provided a list of elements as the unique positional argument!')
+#         for e in o.__elements:  # consider in future
+#             e.__system = o
+#         # else:
+#         #     raise Exception('Have not provided a list of elements as the unique positional argument!')
 
-        return o
+#         return o
 
 
 

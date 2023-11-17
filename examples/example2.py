@@ -58,6 +58,7 @@ class MyIndividual(MixedIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fit
         else:
             return super().mate(other)
 
+
 class MyPopulation(HOFPopulation[MyIndividual]):
 
     def transit(self, *args, **kwargs):
