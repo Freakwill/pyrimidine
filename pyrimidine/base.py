@@ -260,6 +260,12 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         C = StandardPopulation[self.__class__]
         return C([self.clone() for _ in range(n)])
 
+    def __add__(self, other):
+        return self.__class__([this + that for this, that in zip(self.chromosomes, other.chromosomes)])
+
+    def __rmul__(self, other):
+        return self.__class__([other * this for this in self.chromosomes])
+
 
 class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
     """The base class of population in GA

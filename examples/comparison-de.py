@@ -10,7 +10,7 @@ from pyrimidine.benchmarks.optimization import *
 
 from pyrimidine.benchmarks.special import *
 
-n = 10
+n = 20
 f = rosenbrock
 
 class MyIndividual(MonoIndividual):

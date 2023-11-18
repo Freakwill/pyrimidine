@@ -328,6 +328,10 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         return list(self.apply(attrgetter('fitness')))
 
 
+    def get_all(self, key='fitness'):
+        return list(self.apply(attrgetter(key)))
+
+
     @property
     def mean_fitness(self):
         return np.mean(self.get_all_fitness())
@@ -378,7 +382,7 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
             return self.sorted_[-n:]
 
 
-    def get_worst_individual(self, copy=False):
+    def get_worst_element(self, copy=False):
         k = np.argmin(self.get_all_fitness())
         if copy:
             return self[k].clone()
