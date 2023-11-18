@@ -305,6 +305,12 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         self.__fitness = None
 
 
+    @classmethod
+    def set_fitness(cls, *args, **kwargs):
+        cls.element_class.set_fitness(*args, **kwargs)
+        return cls
+
+
     @property
     def fitness(self):
         return self._fitness()

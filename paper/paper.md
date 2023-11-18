@@ -44,23 +44,53 @@ A oridinary idea of implementation in Python, populations are desienged as the l
 
 Our design concept is beyond the oridinary idea and more extensible. We would like to call it "algebra-inspired Programming".
 
+### Mathematical representation
+
+We introduce the concept **container**, as a abstract algebraic system, where no certain operators are defined yet.
+
+We employ the following expression to denote a **container** $s$ of type $S$, with elements of type $A$:
+$$
+s = \{a:A\}:S
+$$
+Here, $\{\cdot\}$ signifies either a set or a sequence(to emphasize the order of the elements).
+
+Building upon this concept, we define a population as a container of individuals. And it is straightforward to introduce the notion of a multi-population as a container of populations, referred to as the high-level container.
+
+A container that defines operators of its elements is termed a **system**, exemplified by `S.cross(a, b)` to implement the crossover operation of two individuals in a population. It shares similarities with algebraic systems. However, the current version does not incorporate this concept, operations are currently defined as methods on elements, `a.cross(b)`. The contemplation of incorporating this concept is deferred to future versions, and this prospective change will not impact the design of APIs.
+
+An individual may be viewed as a container of chromosomes, but it will not to be a system. A chromosome can be perceived as a container of genes, while in practice, we implement chromosomes directly using `numpy.array` or the standard library's `array.array`.
+
+The lifting of a function/method $f$ is defined as:
+$$
+f(s) := \{f(a)\}
+$$
+unless explicitly redefined. For instance, the mutation of a population entails the mutation of all individuals in it, but at times, it may be defined as the mutation of one individual selected randomly.
+
+Some methods may be lifted differently, such as:
+$$
+f(s) := \max_t\{f(t)\}
+$$
+A notable example is `fitness`, used to compute the fitness of the entire population.
+
+`transition` is the primary method in the iterative algorithms, denoted as a transform:
+$$
+T(s):S\to S
+$$
+The iterative algorithms can be represented as $T^n(s)$.
+And if $s$ is a container, then $T(s)=\{T(a)\}$ by default where $T(a)$ is pre-defined.
+
 ### Metaclasses
 We define the metaclass `System` to simulate abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operators and functions on them.
 
-`Container` is a super-metaclass of `System`, where no certain operators are defined yet.
+`Container` is a super-metaclass of `System` for creating containers.
 
 There are mainly two types of containers: list-like and tuple-like, where lists imply that all elements in the container are of the same type, while tuples have no such restriction.
 
-
 ### Fundamental Classes
 
-There are three fundamental classes in `pyrimidine`,`BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively. They are constructed by the metaclasses.
+There are three fundamental classes in `pyrimidine` constructed by the metaclasses: `BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively.
 
-An individual is a container of multiple chromosomes, that is different from normal designs of GA, representing a single solution of some problem. a population is a container of individuals. In fact, a chromosome is designed as a container of genes, that is not so significant.
-
-Constructing an individual, `SomeIndividual`, consisting of several `SomeChromosome`, is as simple as defining `SomeIndividual = BaseIndividual[SomeChromosome]`, where `BaseIndividual` is the base class for all individual classes. The expression is borrowed from variable typing, such as `List[String]`. Similarly, a population of `SomeIndividual` could be `BasePopulation[SomeIndividual]`.
-
-A population is a container of individuals. It is called the high-order container.
+Constructing an individual, `SomeIndividual`, consisting of several `SomeChromosome`, is as simple as defining `SomeIndividual = BaseIndividual[SomeChromosome]`, where `BaseIndividual` is the base class for all individual classes. Similarly, a population of `SomeIndividual` could be `BasePopulation[SomeIndividual]`.
 
 For convenience, `pyrimidine` provides some commonly used subclasses, so users do not have to redefine these settings. By inheriting these classes, users gain access to the methods such as, cross and mutation. Genetic algorithms generally use binary encoding. `pyrimidine` offers `BinaryChromosome` for the binary settings. By inheriting from this class, users have binary encoding and algorithm components for two-point cross and independent gene mutation.
 
@@ -117,40 +147,6 @@ IterativeMixin  --->  ContainerMixin
 FitnessMixin  --->  PopulationMixin
 ```
 
-### Mathematical representation
-
-We employ the following expression to denote a **container** $s$ of type $S$, with elements of type $A$:
-$$
-s = \{a:A\}:S
-$$
-Here, $\{\cdot\}$ signifies either a set or a sequence(to emphasize the order of the elements).
-
-Let us define a population as a container of individuals, could expressed as
-`pop = {ind:Individual}:Population`. Building upon this concept, it is straightforward to introduce the notion of a multi-population as a container of populations, referred to as the high-level container.
-
-A container that defines operators of its elements is termed a **system**, exemplified by `S.cross(a, b)` to implement the crossover operation of two individuals in a population. It shares similarities with algebraic systems. However, the current version does not incorporate this concept, operations are currently defined as methods on elements, `a.cross(b)`. The contemplation of incorporating this concept is deferred to future versions, and this prospective change will not impact the design of APIs.
-
-An individual may be viewed as a container of chromosomes, but it will not to be a system. A chromosome can be perceived as a container of genes, while in practice, we implement chromosomes directly using `numpy.array` or the standard library's `array.array`.
-
-The lifting of a function/method $f$ is defined as:
-$$
-f(s) := \{f(a)\}
-$$
-unless explicitly redefined. For instance, the mutation of a population entails the mutation of all individuals in it, but at times, it may be defined as the mutation of one individual selected randomly.
-
-Some methods may be lifted differently, such as:
-$$
-f(s) := \max_t\{f(t)\}
-$$
-A notable example is `fitness`, used to compute the fitness of the entire population.
-
-`transition` is the primary method in the iterative algorithms, denoted as a transform:
-$$
-T(s):S\to S
-$$
-The iterative algorithms can be represented as $T^n(s)$.
-And if $s$ is a container, then $T(s)=\{T(a)\}$ by default where $T(a)$ is pre-defined.
-
 
 ## An Example to start
 
@@ -196,10 +192,10 @@ pop = MyPopulation.random()
 pop.evolve(n_iter=100) # Setting `verbose=True` will print the iteration process.
 ```
 
-Finally, the optimal individual can be obtained with `pop.best_individual` or `pop.solution` as the solution of the problem. The equivalent code below achieves the same result.
+Finally, the optimal individual can be obtained with `pop.best_individual` or `pop.solution`, as the solution of the problem. The equivalent code below achieves the same result.
 
 ```python
-pop = (StandardPopulation[MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))] // 20).random()
+pop = (StandardPopulation[MonoIndividual.set_fitness(lambda o: _evaluate(o.chromosome))] // 20).random()
 pop.evolve()
 ```
 

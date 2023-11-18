@@ -296,10 +296,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
 
 
-    def add_individuals(self, inds:list):
-        self.individuals.extend(inds)
-
-
     def transition(self, *args, **kwargs):
         """Transitation of the states of population
 
