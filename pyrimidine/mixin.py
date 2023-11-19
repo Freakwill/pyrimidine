@@ -296,7 +296,8 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         """Get the history of the whole evolution
         """
         if stat is None:
-            stat = {'Best Fitness':'best_fitness', 'Mean Fitness':'mean_fitness', 'STD Fitness':'std_fitness', 'Population': 'n_elements'}
+            stat = {'Best Fitness': 'best_fitness', 'Mean Fitness': 'mean_fitness',
+            'STD Fitness': 'std_fitness', 'Population': 'n_elements'}
         return super().evolve(stat=stat, *args, **kwargs)
 
 
@@ -307,19 +308,21 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
 
     @classmethod
     def set_fitness(cls, *args, **kwargs):
+        # set fitness for the element_class.
         cls.element_class.set_fitness(*args, **kwargs)
         return cls
 
 
     @property
     def fitness(self):
-        return self._fitness()
+        return self.best_fitness
 
 
     def _fitness(self):
         """Calculate the fitness of the whole population
 
         Fitness of a population is the best fitness by default.
+        (not recommended to be overridden)
         """
         return self.best_fitness
 
@@ -345,11 +348,6 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
     @property
     def best_fitness(self):
         return np.max(self.get_all_fitness())
-
-
-    @property
-    def fitnesses(self):
-        return np.array(self.get_all_fitness())
 
 
     def get_best_element(self, copy=False):
