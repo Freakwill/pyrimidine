@@ -7,7 +7,6 @@ from pyrimidine.chromosome import FloatChromosome
 from pyrimidine.de import *
 
 from pyrimidine.benchmarks.optimization import *
-
 from pyrimidine.benchmarks.special import *
 
 n = 20
