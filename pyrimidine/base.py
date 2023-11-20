@@ -263,6 +263,9 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
     def __add__(self, other):
         return self.__class__([this + that for this, that in zip(self.chromosomes, other.chromosomes)])
 
+    def __sub__(self, other):
+        return self.__class__([this - that for this, that in zip(self.chromosomes, other.chromosomes)])
+
     def __rmul__(self, other):
         return self.__class__([other * this for this in self.chromosomes])
 

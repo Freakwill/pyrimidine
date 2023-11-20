@@ -175,6 +175,10 @@ class MetaContainer(ParamType):
             # print(DeprecationWarning('get item directly is not recommended now.'))
             return self.__elements[k]
 
+        def _setitem(self, k, v):
+            # print(DeprecationWarning('get item directly is not recommended now.'))
+            self.__elements[k] =v
+
         def _len(self):
             # if hasattr(self, '__n_elements'):
             #     return getattr(self, '__n_elements')
@@ -182,6 +186,7 @@ class MetaContainer(ParamType):
 
         attrs.update(
             {'__getitem__': _getitem,
+            '__setitem__': _setitem,
             '__len__': _len,
             '__iter__': _iter})
 
@@ -260,8 +265,8 @@ class MetaContainer(ParamType):
             o.__elements = args[0]
             # for e in o.__elements:  # consider in future
             #     e.__system = o
-        # else:
-        #     raise Exception('Have not provided a list of elements as the unique positional argument!')
+        else:
+            raise TypeError('missing a list/tuple of elements as the unique positional argument!')
 
         for k, v in kwargs.items():
             setattr(o, k, v)
@@ -277,7 +282,6 @@ class MetaContainer(ParamType):
 
     def __floordiv__(self, n):
         return self.set(default_size=n)
-
 
 
 # class System(MetaContainer):
@@ -319,9 +323,6 @@ class MetaContainer(ParamType):
 
 #         for e in o.__elements:  # consider in future
 #             e.__system = o
-#         # else:
-#         #     raise Exception('Have not provided a list of elements as the unique positional argument!')
-
 #         return o
 
 
