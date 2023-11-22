@@ -150,7 +150,7 @@ FitnessMixin  --->  PopulationMixin
 
 ## An Example to start
 
-In this section, we demonstrate the fundamental usage of `pyrimidine` through a simple illustration: the classic 0-1 knapsack problem with $n=50$ dimensions. (See more examples on GitHub)
+In this section, we demonstrate the basic usage of `pyrimidine` with a simple example: the classic 0-1 knapsack problem with $n=50$ dimensions. (See more examples on GitHub)
 
 $$
 \max \sum_i c_ix_i \\
@@ -161,7 +161,7 @@ The problem solution can be naturally encoded in binary format without requiring
 
 
 ```python
-from pyrimidine import MonoIndividual, StandardPopulation
+from pyrimidine import MonoIndividual, StandardPopulation, BinaryChromosome
 from pyrimidine.benchmarks.optimization import Knapsack
 # The problem is defined in the submodule `pyrimidine.benchmarks.optimization`, so we import it directly, but user can redefine it manually.
 
@@ -169,6 +169,7 @@ n = 50
 _evaluate = Knapsack.random(n)  # Function mapping n-dimensional binary encoding to the objective function value
 
 class MyIndividual(MonoIndividual):
+    element_class = BinaryChromosome
     default_size = n
     def _fitness(self):
         # The return value must be a number
@@ -176,7 +177,9 @@ class MyIndividual(MonoIndividual):
 
 """
 equivalent to:
-MyIndividual = MonoIndividual.set_fitness(lambda o: _evaluate(o.chromosome)) // n
+MyIndividual = MonoIndividual[BinaryChromosome].set_fitness(lambda o: _evaluate(o.chromosome)) // n
+
+or with the helper `binaryIndividual`: MyIndividual = binaryIndividual(size=n).set_fitness(lambda o: _evaluate(o.chromosome))
 """
 
 class MyPopulation(StandardPopulation):
@@ -192,14 +195,9 @@ pop = MyPopulation.random()
 pop.evolve(n_iter=100) # Setting `verbose=True` will print the iteration process.
 ```
 
-Finally, the optimal individual can be obtained with `pop.best_individual` or `pop.solution`, as the solution of the problem. The equivalent code below achieves the same result.
+Finally, the optimal individual can be obtained with `pop.best_individual` or `pop.solution`, as the solution of the problem.
 
-```python
-pop = (StandardPopulation[MonoIndividual.set_fitness(lambda o: _evaluate(o.chromosome))] // 20).random()
-pop.evolve()
-```
-
-The equivalent approach no longer explicitly depends on class inheritance and `class` syntax, making the code more concise and similar to algebraic style.
+The equivalent expressions no longer explicitly depends on class inheritance, making the code more concise and similar to algebraic style.
 
 ## Visualization
 
@@ -228,9 +226,9 @@ Here, `mean_fitness` and `best_fitness` denote the average fitness value of the 
 
 
 ## Create your own classes and algorithms
-In classical GAs, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GA, these rates can be dynamically encoded within each individual, allowing for adaptability during iterations. It is remarkably simple to implement self-adaptive GA by `pyrimidine`. 
+In standard GAs, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs, these rates can be dynamically encoded in each individual, allowing for adaptability during iterations. It is remarkably simple to implement self-adaptability by `pyrimidine`. 
 
-We introduce a `MixedIndividual` comprising two chromosomes—one representing the solutions and the other encapsulating the probabilities of mutation and crossover.
+We introduce an "mixed-individual" comprising two chromosomes of different types: one representing the solution and the other encapsulating the probabilities of mutation and crossover.
 
 ```python
 class NewIndividual(MixedIndividual):
@@ -241,7 +239,7 @@ class NewIndividual(MixedIndividual):
         # Crossover based on the second chromosome
     def _fitness(self):
         # Get fitness only depends on the first chromosome
-        f(self[0])
+        return f(self[0])
     
 class NewPopulation(StandardPopulation):
     element_class = NewIndividual
@@ -251,7 +249,6 @@ pop = NewPopulation.random()
 ```
 
 `FloatChromosome` comes pre-equipped with genetic operations tailored for floating-point numbers, obviating the necessity for user-defined specifications. This configuration facilitates the creation of GAs where mutation and crossover rates dynamically evolve.
-
 
 
 ## Comparison with other frameworks
@@ -278,6 +275,7 @@ def cross(self, other):
     array /= array.sum()
     return self.__class__(array=array, gene=self.gene)
 ```
+
 
 ## Conclusion
 

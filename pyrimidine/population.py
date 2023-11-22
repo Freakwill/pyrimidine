@@ -7,10 +7,13 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame
 """
 
 from operator import methodcaller, attrgetter
+from random import gauss, random
+
 import numpy as np
 
 from .base import BasePopulation, BaseIndividual
-from .utils import gauss, random
+from .individual import binaryIndividual
+from .chromosome import BinaryChromosome
 from .meta import MetaList
 
 
@@ -148,6 +151,7 @@ class GamogenesisPopulation(HOFPopulation):
 
 
 class EliminationPopulation(BasePopulation):
+
     def transition(self, *args, **kwargs):
         elder = self.clone()
         elder.select(k)
@@ -190,7 +194,9 @@ class LocalSearchPopulation(StandardPopulation):
 
 
 class ModifiedPopulation(StandardPopulation):
+
     params = {'mutate_prob_ub':0.5, 'mutate_prob_lb':0.1}
+
     def mutate(self):
         fm = self.best_fitness
         fa = self.mean_fitness
@@ -203,3 +209,12 @@ class ModifiedPopulation(StandardPopulation):
             if random() < mutate_prob:
                 individual.mutate()
 
+
+def makeBinaryPopulation(cls=None, n_populations=20, size=8, as_chromosome=True):
+    # make a binary population
+
+    cls = cls or HOFPopulation
+    if as_chromosome:
+        return cls[BinaryChromosome // size] // n_populations
+    else:
+        return cls[binaryIndividual(size)] // n_populations
