@@ -22,41 +22,42 @@ date: 13 August 2017
 bibliography: paper.bib
 ---
 
-# Pyrimidine: Algebra-inspired Programming framework for evolution algorithms
+# Pyrimidine: Algebra-inspired Programming framework for genetic algorithms
 
-**Abstract** Pyrimidine is a general framework for evolution algorithms. It is extremely extensible and can implement any iterative model, such as simulated annealing and particle swarm optimization. Its design is based on object-oriented programming and fully utilizes the metaprogramming capabilities of Python. We propose a container metaclass to construct different structures of individual and population classes. These classes are understood as algebraic systems, where elements can perform various operations, such as mutation and crossover of individuals in a population. These classes may also be the elements of higher-order classes, allowing for automatic implementation of class-level operations such as population migration in evolution algorithms. We call such design style "the algebra-inspired Progamming".
+**Abstract** Pyrimidine is a general framework for genetic algorithms. It is extremely extensible and can implement any iterative model, such as simulated annealing and particle swarm optimization. Its design is based on object-oriented programming and fully utilizes the metaprogramming capabilities of Python. We propose a container metaclass to construct different structures of individual and population classes. These classes are understood as algebraic systems, where elements can perform various operations, such as mutation and crossover of individuals in a population. These classes may also be the elements of higher-order classes, allowing for automatic implementation of class-level operations such as population migration in genetic algorithms. We call such design style "the algebra-inspired Progamming".
 
 
-**Keywords** Pyrimidine, Evolution Algorithms, Algebra-inspired Programming, Python, meta-programming
+**Keywords** Pyrimidine, Genetic Algorithms, Algebra-inspired Programming, Python, meta-programming
 
 ## Introduction
-Initially developed as a general algorithm(GA), Pyrimidine has evolved to accommodate various types of evolutionary algorithms.
 
-As one of the earliest developed intelligent algorithms [1-4], GA has found extensive application across various domains and has undergone modifications and integrations with new algorithms [5-6]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [4] and the associated literature.
+As one of the earliest developed intelligent algorithms [1-4], GA has found extensive application across various domains and has undergone modifications and integrations with new algorithms [5-6]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [4] and the associated literatures.
 
-Presently, a variety of programming languages feature libraries that implement Genetic Algorithm (GA) frameworks. Python stands out for its extensive collection of GA frameworks, including notable ones like deap [7] for general purposes, gaft for optimization, and tpot for super-parameter tuning [8-9], along with scikit-learn, such as scikit-opt and gplearn [10]. This article introduces pyrimidine, a general algorithm framework for GA and other EA. Adhering rigorously to object-oriented programming (OOP) principles, pyrimidine distinguishes itself from other libraries, making effective use of Python's metaprogramming capabilities.
+Presently, a variety of programming languages feature libraries that implement GA frameworks. Python stands out for its extensive collection of GA frameworks, including notable ones like deap [7] for general purposes, gaft for optimization, and tpot for super-parameter tuning [8-9], along with scikit-learn, such as scikit-opt and gplearn [10]. 
+
+This article introduces `pyrimidine`, a general algorithm framework for GA and any other evoluationary algorithm. Adhering rigorously to object-oriented programming (OOP) principles, `pyrimidine` distinguishes itself from other libraries, making effective use of Python's metaprogramming capabilities.
 
 ## Algebra-inspired Programming
 
-As known, GA consists of two main components: individuals( or choromosomes) and populations.
+As known, GA consists of two main components: individuals( or chromosomes) and populations.
 
-A oridinary idea of implementation in Python, populations are desienged as the lists of individuals, individuals( chromosomes) are the lists of genes. You can create an individual using the standard library `array` or the well-known third-party numerical computing library `numpy`[11].
+In a typical Python implementation, populations are initially conceptualized as lists of individuals, with each individual representing a chromosome composed of a list of genes. Subsequently, creating an individual can be achieved using either the standard library's `array` or the widely-used third-party library `numpy`[11]. Finally, the evolutionary operators are defined and applied to these structures.
 
-Our design concept is beyond the oridinary idea and more extensible. We would like to call it "algebra-inspired Programming".
+Our design concept is beyond the oridinary idea and more extensible. We would like to call it "algebra-inspired Programming". It should not be confused with algebraic programming, but we can draw inspiration from its ideas.
 
 ### Mathematical representation
 
-We introduce the concept **container**, as a abstract algebraic system, where no certain operators are defined yet.
+We introduce the concept of a **container**, simulating an abstract algebraic system where specific operators are not yet defined.
 
-We employ the following expression to denote a **container** $s$ of type $S$, with elements of type $A$:
+We represent a **container** $s$ of type $S$, with elements of type $A$, using the following expression:
 $$
 s = \{a:A\}:S
 $$
-Here, $\{\cdot\}$ signifies either a set or a sequence(to emphasize the order of the elements).
+In this context, $\{\cdot\}$ denotes either a set or a sequence (emphasizing the order of the elements).
 
 Building upon this concept, we define a population as a container of individuals. And it is straightforward to introduce the notion of a multi-population as a container of populations, referred to as the high-level container.
 
-A container that defines operators of its elements is termed a **system**, exemplified by `S.cross(a, b)` to implement the crossover operation of two individuals in a population. It shares similarities with algebraic systems. However, the current version does not incorporate this concept, operations are currently defined as methods on elements, `a.cross(b)`. The contemplation of incorporating this concept is deferred to future versions, and this prospective change will not impact the design of APIs.
+A container that defines operators of its elements is termed a **system**. For example, we define the operation `S.cross(a, b)` on the elements $a,b$ in the system $S$ to implement the crossover operation of two individuals in a population. It shares similarities with algebraic systems. However, the current version does not incorporate this concept, operations are directly defined as methods of the elements, such as `a.cross(b)`. The contemplation of incorporating this concept is deferred to future versions, and this prospective change will not impact the design of APIs.
 
 An individual may be viewed as a container of chromosomes, but it will not to be a system. A chromosome can be perceived as a container of genes, while in practice, we implement chromosomes directly using `numpy.array` or the standard library's `array.array`.
 
