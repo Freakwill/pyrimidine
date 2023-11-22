@@ -97,6 +97,7 @@ def lim(r, e):
     e -= 0.0001
     return 0 if r <= e else (r - e)**2 / (1 - e)
 
+
 class SSAPopulation(HOFPopulation):
 
     def transit(self, *args, **kwargs):

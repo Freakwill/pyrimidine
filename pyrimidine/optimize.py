@@ -9,6 +9,7 @@ import numpy as np
 from .chromosome import BinaryChromosome
 from .individual import binaryIndividual
 from .population import HOFPopulation
+from .de import DifferentialEvolution
 
 
 def _decode(c, a, b):
@@ -60,6 +61,41 @@ def ga_minimize(func, *xlim, decode=_decode, population_size=20, size=8):
             return np.asarray([decode(c, a, b) for c, (a, b) in zip(self, xlim)])
 
     class _Population(HOFPopulation):
+        element_class = _Individual
+        default_size = population_size
+
+    pop = _Population.random()
+    pop.ezolve()
+
+    return pop.solution.decode()
+
+
+def de_minimize(func, *xlim, decode=_decode, population_size=20, size=8):
+    """
+    DE for minimizing the function `func` defined on `xlim`
+
+    Arguments:
+        func: objective function defined on R^n
+        xlim: the intervals of xi
+        decode: transform a binary sequence to a real number
+            ('0-1' sequence, lower_bound, upper_bound) |-> xi
+        population_size: size of population
+        size: the length of the encoding of xi
+
+    Example:
+        ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+    """
+
+    class _Individual(binaryIndividual(size)):
+        default_size = len(xlim)
+
+        def _fitness(self):
+            return - func(self.decode())
+
+        def decode(self):
+            return np.asarray([decode(c, a, b) for c, (a, b) in zip(self, xlim)])
+
+    class _Population(DifferentialEvolution):
         element_class = _Individual
         default_size = population_size
 

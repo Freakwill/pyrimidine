@@ -132,7 +132,6 @@ class ParticleSwarm(PopulationMixin):
             particle.init()
 
         self.hall_of_fame = self.get_best_individuals(self.n_best_particles, copy=True)
-
     
     def update_hall_of_fame(self):
         hof_size = len(self.hall_of_fame)
@@ -143,14 +142,12 @@ class ParticleSwarm(PopulationMixin):
                     self.hall_of_fame.pop(0)
                     break
 
-
     @property
     def best_fitness(self):
         if self.hall_of_fame:
             return max(map(attrgetter('fitness'), self.hall_of_fame))
         else:
             return super().best_fitness
-    
 
     def transition(self, *args, **kwargs):
         """
@@ -160,12 +157,10 @@ class ParticleSwarm(PopulationMixin):
         self.backup()
         self.update_hall_of_fame()
 
-
     def backup(self):
         # overwrite the memory of the particle if its current state is better its memory
         for particle in self:
             particle.backup(check=True)
-
 
     def move(self):
         """moving rule of particles
@@ -184,7 +179,6 @@ class ParticleSwarm(PopulationMixin):
         for particle in self.hall_of_fame:
             particle.update_vilocity(scale, self.inertia, self.learning_factor)
             particle.position = particle.position + particle.velocity
-
 
 
 class DiscreteParticleSwarm(ParticleSwarm):

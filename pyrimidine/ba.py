@@ -25,7 +25,6 @@ class Bat(MemoryIndividual):
         'scale': 0.2
         }
 
-
     @property
     def position(self):
         return self.chromosomes[0]

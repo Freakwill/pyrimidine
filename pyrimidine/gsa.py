@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from .base import PopulationModel
+from .base import PopulationMixin
 from .chromosome import FloatChromosome
 from .individual import PolyIndividual
 from .utils import euclidean, random, exp, metropolis_rule
@@ -54,11 +54,11 @@ class Particle(PolyIndividual):
             self.__fitness = cpy.fitness
 
 
-class GravitySearch(PopulationModel):
+class GravitySearch(PopulationMixin):
     """Standard GSA
     
     Extends:
-        BaseFitnessModel
+        BaseFitnessMixin
     """
 
     element_class = Particle
@@ -78,7 +78,7 @@ class GravitySearch(PopulationModel):
     def compute_accelerate(self):
         # compute force
         D = np.array([[pj.position - pi.position for pi in self] for pj in self])
-        R = squareform(pdist([pi.position for pi in self]))
+        R = squareform(pdist([p.position for p in self]))
         for i in range(self.n_particles):
             R[i, i]=1
         m = self.compute_mass()

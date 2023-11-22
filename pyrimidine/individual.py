@@ -19,9 +19,10 @@ PolyIndividual = MultiIndividual
 
 
 class MonoIndividual(BaseIndividual, metaclass=MetaSingle):
-    """Base class of individual with one choromosome
+    """Base class of individual with only one chromosome;
+    It is equavalent to a chromosome.
 
-    You should implement the methods, cross, mute
+    You should implement the methods, cross, mute.
     """
 
     @classmethod
@@ -42,40 +43,6 @@ class MonoIndividual(BaseIndividual, metaclass=MetaSingle):
     @classmethod
     def set_size(cls, sz):
         raise DeprecationWarning("Never set the size of this class!")
-
-    @property
-    def individuals(self):
-        return self.__elements
-
-    @individuals.setter
-    def individuals(self, x):
-        if len(x)>=2:
-            raise ValueError('A monoIndividual has only one chromosome! But you give more than one.')
-        super().individuals = x
-
-
-def binaryIndividual(size=8):
-    """simple binary individual
-    encoded as a sequence such as 01001101
-    """
-    return MonoIndividual[BinaryChromosome.set(default_size=size)]
-
-
-def makeIndividual(element_class=BinaryChromosome, n_chromosomes=1, size=8):
-    """helper to make an individual
-    """
-    if n_chromosomes == 1:
-        return MonoIndividual[FloatChromosome.set(default_size=size)]
-    else:
-        if isinstance(size, tuple):
-            if len(size) == n_chromosomes:
-                return PolyIndividual[tuple(BinaryChromosome.set(default_size=s) for s in size)]
-            elif len(size) == 1:
-                return PolyIndividual[tuple(BinaryChromosome.set(default_size=size[0]) for _ in n_chromosomes)]
-            else:
-                raise ValueError('The length of size must be 1 or `n_chromosomes`.')
-        else:
-            return PolyIndividual[tuple(BinaryChromosome.set(default_size=size) for _ in np.range(n_chromosomes))]
 
 
 class MixedIndividual(BaseIndividual, metaclass=MetaTuple):
@@ -101,8 +68,10 @@ class MixedIndividual(BaseIndividual, metaclass=MetaTuple):
 
 
 class AgeIndividual(BaseIndividual):
-    age = 0
-    life_span = 100
+    params = {
+    "age": 0
+    "life_span": 100
+    }
 
 
 class GenderIndividual(MixedIndividual):
@@ -158,3 +127,53 @@ class PhantomIndividual(BaseIndividual):
         if self.fitness < self.phantom.fitness:
             self.chromosomes = self.phantom.chromosomes
             self.__fitness = self.phantom.fitness
+
+
+# Following are functions to create individuals
+def binaryIndividual(size=8):
+    """simple binary individual
+    encoded as a sequence such as 01001101
+
+    == makeIndividual(size=size)
+    """
+    return MonoIndividual[BinaryChromosome.set(default_size=size)]
+
+
+def makeIndividual(cls=None, element_class=BinaryChromosome, n_chromosomes=1, size=8):
+    """helper to make an individual
+    
+    Example:
+        make an indiviudal with 2 binary chromosomes, each chromosome has 8 genes,
+        makeIndividual(element_class=BinaryChromosome, n_chromosomes=2, size=8)
+    
+    Args:
+        element_class (BaseChromosome, tuple, optional): class of chromosomes
+        n_chromosomes (int, optional): number of chromosomes
+        size (int, tuple, optional): the sizes of chromosomes
+    
+    Returns:
+        BaseIndividual
+    """
+    if n_chromosomes == 1:
+        assert isinstance(size, int)
+        cls = cls or MonoIndividual
+        return cls[element_class.set(default_size=size)]
+    else:
+        if isinstance(size, tuple):
+            if len(size) == n_chromosomes:
+                if isinstance(element_class, tuple):
+                    cls = cls or MixedIndividual
+                    return cls[tuple(e_c.set(default_size=s) for e_c, s in zip(element_class, size))]
+                else:
+                    cls = cls or MixedIndividual
+                    return cls[tuple(element_class.set(default_size=s) for s in size)]
+            elif len(size) == 1:
+                cls = cls or PolyIndividual
+                return PolyIndividual[tuple(element_class.set(default_size=size[0]) for _ in n_chromosomes)]
+            else:
+                raise ValueError('the length of `size` must be 1 or `n_chromosomes`.')
+        elif isinstance(size, int)
+            cls = cls or PolyIndividual
+            return cls[tuple(element_class.set(default_size=size) for _ in np.range(n_chromosomes))]
+        else:
+            raise ValueError('the length of `size` must be a number or a tuple of numbers.')

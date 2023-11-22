@@ -9,7 +9,7 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame
 from operator import methodcaller, attrgetter
 import numpy as np
 
-from .base import BasePopulation
+from .base import BasePopulation, BaseIndividual
 from .utils import gauss, random
 from .meta import MetaList
 
@@ -148,7 +148,7 @@ class GamogenesisPopulation(HOFPopulation):
 
 
 class EliminationPopulation(BasePopulation):
-    def transition(self, k=None, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         elder = self.clone()
         elder.select(k)
         super().transition(*args, **kwargs)
@@ -163,11 +163,14 @@ class EliminationPopulation(BasePopulation):
 
 class AgePopulation(EliminationPopulation):
 
-    def eliminate(self):
-        for individual in self.individuals:
+    def transition(self, *args, **kwargs):
+        for individual in self:
             individual.age += 1
-            x = individual.age / individual.life_span
-            if random() < x:
+        super().transition(*args, **kwargs)
+
+    def eliminate(self):
+        for individual in self:
+            if random() * individual.life_span < individual.age:
                 self.remove(individual)
 
 
@@ -191,7 +194,7 @@ class ModifiedPopulation(StandardPopulation):
     def mutate(self):
         fm = self.best_fitness
         fa = self.mean_fitness
-        for individual in self.individuals:
+        for individual in self:
             f = individual.fitness
             if f > fa:
                 mutate_prob = self.mutate_prob_ub - (self.mutate_prob_ub-self.mutate_prob_lb) * (f-fa) / (fm-fa)

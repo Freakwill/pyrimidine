@@ -4,7 +4,6 @@
 Helper functions
 """
 
-
 from random import random, randint, gauss, shuffle, uniform
 from math import exp
 
@@ -14,7 +13,6 @@ from scipy.stats import rv_discrete
 
 import numpy as np
 from toolz import unique
-
 
 
 def binary_select(a, b, p=0.5):
@@ -118,31 +116,35 @@ def randint2(lb=0, ub=9, ordered=False):
 def max0(x):
     return np.maximum(x, 0)
 
+
 def max_lb(lb):
     def m(x):
         return np.maximum(x, lb)
     return m
 
+
 def hl(x):
     return np.clip(x, 0, 1) 
+
 
 def metropolis_rule(D, T, epsilon=0.000001):
     """
     Metropolis rule
     
     Args:
-        D (TYPE): number representing the change of the value
-        T (TYPE): A number representing temperature
+        D (float): number representing the change of the value
+        T (float): A number representing temperature
         epsilon (float, optional): The l.b. of T
     
     Returns:
-        TYPE: Description
+        bool: change the state or not
     """
     if D < 0:
         p = exp(D / max(T, epsilon))
         return random() < p
     else:
         return True
+
 
 def proportion(n, N):
     if n is None:
@@ -153,5 +155,36 @@ def proportion(n, N):
 
 
 def pattern(chromosomes):
+    # chromosomes should be a set of binary chromosomes
     return ''.join([str(a[0]) if len(np.unique(a))==1 else '*' for a in zip(*chromosomes)])
+
+
+def rotation(x, y):
+    l = []
+    for i, xi in enumerate(x):
+        yi = y[i]
+        if xi != yi:
+            for i, t in enumerate(l):
+                if x[t[-1]] == xi:
+                    if x[t[0]] == yi:
+                        break
+                    else:
+                        l[i] = (*t, x.index(yi))
+                        break
+                else:
+                    if x[t[0]] == yi:
+                        l[i] = (i, *t)
+                        break
+            else:
+                l.append((i, x.index(yi)))
+    return l
+
+
+import copy
+def permutate(x, rotation):
+    xx = copy.copy(x)
+    for t in rotation:
+        for a, b in zip(t,t[1:]+[t[0]]):
+            xx[a] = x[b]
+    return x
 

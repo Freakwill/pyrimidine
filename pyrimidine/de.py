@@ -7,6 +7,7 @@ Differential Evolution Algorithm
 import copy
 
 import numpy as np
+
 from .mixin import PopulationMixin
 from .individual import MonoIndividual
 
@@ -16,20 +17,18 @@ from .utils import *
 class DifferentialEvolution(PopulationMixin):
 
     params ={
-    "factor" : 0.1,
+    "factor" : 0.05,
     "cross_prob": 0.75,
     }
 
     def init(self):
         self.ndims = tuple(map(len, self[0]))
 
-
     def transition(self, *args, **kwargs):
         self.move()
         for k, (test_individual, individual) in enumerate(zip(self.test, self)):
             if test_individual.fitness > individual.fitness:
-                self[k] = test_individual.clone()
-
+                self[k] = test_individual
 
     def move(self):
         self.test = self.clone()
@@ -43,8 +42,7 @@ class DifferentialEvolution(PopulationMixin):
                 chromosome[r] = xc[r]
 
 
-
-class DifferentialEvolutionC(PopulationMixin):
+class DifferentialEvolutionC(DifferentialEvolution):
     # For the population of chromosomes
 
     params ={
@@ -54,10 +52,9 @@ class DifferentialEvolutionC(PopulationMixin):
 
     def init(self):
         self.ndim = len(self[0])
-        self.test = self.clone()
-
 
     def move(self):
+        self.test = self.clone()
         for t in self.test:
             x0, x1, x2 = choice(self, size=3, replace=False)
             xx = x0 + self.factor * (x1 - x2)

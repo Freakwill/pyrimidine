@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 
-from . import BaseMultiPopulation
-from .utils import  *
-import threading
-
 
 from itertools import product
+import threading
+
+from . import BaseMultiPopulation
+from .utils import  *
+
 
 class MultiPopulation(BaseMultiPopulation):
     pass
+
 
 class DualPopulation(BaseMultiPopulation):
     params = {'n_elders':0.5, 'mate_prob':0.75}

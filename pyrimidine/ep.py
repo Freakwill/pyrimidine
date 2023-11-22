@@ -21,15 +21,16 @@ The mutation:
 Caution: No cross operation in EP
 """
 
-from .base import PopulationMixin, BaseChromosome
-from .chromosome import FloatChromosome
-from .individual import MixedIndividual
-from .utils import max_lb
 from random import choice
 from toolz.itertoolz import groupby
 from operator import attrgetter
 
 import numpy as np
+
+from .base import PopulationMixin, BaseChromosome
+from .chromosome import FloatChromosome
+from .individual import MixedIndividual
+from .utils import max_lb
 
 
 class BaseEPIndividual(MixedIndividual):
@@ -53,7 +54,6 @@ class BaseEPIndividual(MixedIndividual):
     def variance(self, v):
         self.chromosomes[1] = v
     
-
     def mutate(self):
         rx = np.random.randn(*self.chromosomes[0].shape)
         self.chromosomes[0] += rx * np.sqrt(self.variance)
@@ -82,7 +82,6 @@ class EPPopulation(PopulationMixin):
                     inds.append(a)
                     d[k].remove(a)
         self.individuals = inds
-
 
     def transition(self, *args, **kwargs):
         cpy = self.clone()

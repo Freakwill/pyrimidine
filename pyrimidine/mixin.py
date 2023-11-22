@@ -31,32 +31,26 @@ class IterativeMixin:
     # Mixin class for iterative algrithms
     params = {'n_iter': 100}
 
-
     @property
     def solution(self):
         raise NotImplementedError('Have not defined `solution` for the model yet!')   
 
-
-    @property
+   @property
     def _row(self):
         best = self.solution
         return f'{best} & {best.fitness}'
 
-
     def init(self):
         pass
-
 
     def transition(self, *args, **kwargs):
         """
         The core method of the object.
-
-        The method transitating one state of the object to another state,
+               The method transitating one state of the object to another state,
         according to some rules, such as crossing and mutating for individuals in GA,
         or moving method in Simulated Annealing.
         """
         raise NotImplementedError('`transition`, the core of the algorithm, is not defined yet!')
-
 
     def local_search(self, *args, **kwargs):
         """
@@ -64,16 +58,14 @@ class IterativeMixin:
         """
         raise NotImplementedError('If you apply local search, then you have to define `local_search` method')
 
-
-    def ezolve(self, n_iter=None):
+   def ezolve(self, n_iter=None):
         # Extreamly eazy evolution method for lazybones
         n_iter = n_iter or self.n_iter
         self.init()
         for k in range(1, n_iter+1):
             self.transition(k)
 
-
-    def evolve(self, n_iter:int=100, period:int=1, verbose:bool=False, decode=False, history=False, stat=None, attrs=('state',), control=None):
+   def evolve(self, n_iter:int=100, period:int=1, verbose:bool=False, decode=False, history=False, stat=None, attrs=('state',), control=None):
         """Get the history of the whole evolution
 
         Keyword Arguments:
@@ -129,7 +121,6 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
                     break
         return history
 
-
     def perf(self, n_repeats=10, *args, **kwargs):
         """Get performance of Algo.
 
@@ -154,15 +145,12 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
                 data += data0
         return data / n_repeats, np.mean(times)
 
-
     def clone(self, type_=None, *args, **kwargs):
         raise NotImplementedError
-
 
     def encode(self):
         return self
  
-
     def save(self, filename='population.pkl'):
         import pickle
         if isinstance(filename, str):
@@ -172,8 +160,7 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         with open(pklPath, 'wb') as fo:
             pickle.dump(self, fo)
 
-
-    @staticmethod
+   @staticmethod
     def load(filename='population.pkl'):
         import pickle
         if isinstance(filename, str):
@@ -205,15 +192,12 @@ class FitnessMixin(IterativeMixin):
             self.__fitness = self._fitness()
         return self.__fitness
 
-
     def get_fitness(self):
         raise NotImplementedError
-
 
     def _fitness(self):
         # the alias of the fitness
         return self.get_fitness()
-
 
     @classmethod
     def set_fitness(cls, f=None):
@@ -227,7 +211,6 @@ class FitnessMixin(IterativeMixin):
                 return f(self)
         return C
 
-
     def clone(self, type_=None, fitness=None):
         if type_ is None:
             type_ = self.__class__
@@ -239,7 +222,6 @@ class FitnessMixin(IterativeMixin):
         else:
             cpy.__fitness = fitness
         return cpy
-
 
     def evolve(self, stat=None, attrs=('solution',), *args, **kwargs):
         """Get the history of the whole evolution
@@ -262,23 +244,18 @@ class ContainerMixin(IterativeMixin):
         for element in self:
             element.init(*args, **kwargs)
 
-
     def transition(self, *args, **kwargs):
         for element in self:
             element.transition(*args, **kwargs)
 
-
     def remove(self, individual):
         self.elements.remove(individual)
-
 
     def pop(self, k=-1):
         self.elements.pop(k)
 
-
     def extend(self, inds):
         self.elements.extend(inds)
-
 
     def add_individuals(self, inds):
         self.elements.extend(inds)
@@ -300,11 +277,9 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
             'STD Fitness': 'std_fitness', 'Population': 'n_elements'}
         return super().evolve(stat=stat, *args, **kwargs)
 
-
     def after_setter(self):
         self.__sorted_ = []
         self.__fitness = None
-
 
     @classmethod
     def set_fitness(cls, *args, **kwargs):
@@ -312,11 +287,9 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         cls.element_class.set_fitness(*args, **kwargs)
         return cls
 
-
     @property
     def fitness(self):
         return self.best_fitness
-
 
     def _fitness(self):
         """Calculate the fitness of the whole population
@@ -326,29 +299,23 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         """
         return self.best_fitness
 
-
     def get_all_fitness(self):
         return list(self.apply(attrgetter('fitness')))
 
-
     def get_all(self, key='fitness'):
         return list(self.apply(attrgetter(key)))
-
 
     @property
     def mean_fitness(self):
         return np.mean(self.get_all_fitness())
 
-
     @property
     def std_fitness(self):
         return np.std(self.get_all_fitness())
 
-
     @property
     def best_fitness(self):
         return np.max(self.get_all_fitness())
-
 
     def get_best_element(self, copy=False):
         """Get best element
@@ -366,7 +333,6 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         else:
             return self[k]
 
-
     def get_best_elements(self, n=1, copy=False):
         # Get first n best elements
         if n < 1:
@@ -379,7 +345,6 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         else:
             return self.sorted_[-n:]
 
-
     def get_worst_element(self, copy=False):
         k = np.argmin(self.get_all_fitness())
         if copy:
@@ -387,24 +352,20 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         else:
             return self[k]
 
-
     # Following is some useful aliases
     @property
     def worst_element(self):
         k = np.argmin(self.get_all_fitness())
         return self[k]
 
-
     @property
     def best_element(self):
         k = np.argmax(self.get_all_fitness())
         return self[k]
 
-
     @property
     def solution(self):
         return self.best_element
-
 
     @property
     def sorted_(self):
@@ -413,21 +374,17 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
             self.__sorted_ = [self[k] for k in ks]
         return self.__sorted_
 
-
     @sorted_.setter
     def sorted_(self, s):
         self.__sorted_ = s
-
 
     def sort(self):
         # sort the whole population
         ks = self.argsort()
         self.__elements = [self[k] for k in ks]
 
-
     def argsort(self):
         return np.argsort(self.get_all_fitness())
-
 
     def drop(self, n=1):
         if n < 1:

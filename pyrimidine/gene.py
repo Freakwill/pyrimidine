@@ -50,6 +50,7 @@ class PeriodicGene(FloatGene):
             self.__period = self.ub - self.lb
         return self.__period
 
+
 class CircleGene(FloatGene):
     lb, ub = -np.pi, np.pi
     __period = 2 * np.pi

@@ -94,6 +94,11 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
     element_class = BaseGene
     default_size = 8
 
+    alias = {
+    "chromosomes": "elements",
+    "n_chromosomes": "n_elements"
+    }
+
     def __repr__(self):
         return f'{self.__class__.__name__}: {":".join(map(repr, self))}'
 
@@ -191,18 +196,15 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
                     n_chromosomes = cls.default_size
                 return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_chromosomes)])
 
-
     def _fitness(self):
         if hasattr(self, 'environment'):
             return self.environment.evaluate(self)
         else:
             raise NotImplementedError
 
-
     def cross(self, other, k=None):
         # Cross operation of two individual
         return self.__class__([chromosome.cross(other_c) for chromosome, other_c in zip(self.chromosomes, other.chromosomes)])
-
 
     def mutate(self, copy=False):
         # Mutating operation of an individual
@@ -297,13 +299,11 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
     def __str__(self):
         return '&\n'.join(map(str, self))
 
-
     @classmethod
     def random(cls, n_individuals=None, *args, **kwargs):
         if n_individuals is None:
             n_individuals = cls.default_size
         return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
-
 
     def transition(self, *args, **kwargs):
         """Transitation of the states of population
@@ -314,7 +314,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         self.mate()
         self.mutate()
 
-
     def migrate(self, other):
         """Migration from one population to another
 
@@ -323,11 +322,9 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         """
         raise NotImplementedError
 
-
     def select_aspirants(self, individuals, size):
         # select `size` individuals from the list `individuals` in one tournament.
         return choice(individuals, size=size, replace=False)
-
 
     def select(self, n_sel=None, tournsize=None):
         """The standard method of selecting operation in GA
@@ -362,7 +359,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         else:
             raise Exception('No winners in the selection!')
 
-
     def merge(self, other, n_sel=None):
         """Merge two populations.
 
@@ -381,7 +377,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         if n_sel:
             self.select(n_sel)
 
-
     def mutate(self, mutate_prob=None):
         """Mutate the whole population.
 
@@ -393,7 +388,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         for individual in self.individuals:
             if random() < (mutate_prob or self.mutate_prob):
                 individual.mutate()
-
 
     def mate(self, mate_prob=None):
         """Mate the whole population.
@@ -410,12 +404,10 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         self.individuals.extend(offspring)
         self.offspring = self.__class__(offspring)
 
-
     def local_search(self, *args, **kwargs):
         # call local searching method
         for individual in self.individuals:
             individual.ezolve(*args, **kwargs)
-
 
     def get_rank(self, individual):
         """get rank of one individual
@@ -430,7 +422,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
                 break
         individual.ranking = r / self.n_individuals
         return individual.ranking
-
 
     def rank(self, tied=False):
         """Rank all individuals
@@ -455,17 +446,14 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
             for k, i in enumerate(sorted_):
                 i.ranking = k / self.n_individuals
 
-
     def cross(self, other):
         # cross two populations as two individuals
         k = randint(1, self.n_individuals-2)
         self.individuals = self.individuals[k:] + other.individuals[:k]
         other.individuals = other.individuals[k:] + self.individuals[:k]
 
-
     def dual(self):
         return self.__class__([c.dual() for c in self])
-
 
 
 class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
@@ -494,13 +482,11 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
     def __str__(self):
         return '\n\n'.join(map(str, self))
 
-
     @classmethod
     def random(cls, n_populations=None, *args, **kwargs):
         if n_populations is None:
             n_populations = cls.default_size
         return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_populations)])
-
 
     def migrate(self, migrate_prob=None):
         for population, other in zip(self.populations[:-1], self.populations[1:]):
@@ -508,33 +494,27 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
                 other.individuals.append(population.best_individual.clone())
                 population.individuals.append(other.best_individual.clone())
 
-
-    def transition(self, *args, **kwargs):
+   def transition(self, *args, **kwargs):
         super().transition(*args, **kwargs)
         self.migrate()
 
-
-    def best_fitness(self):
+   def best_fitness(self):
         return max(map(attrgetter('best_fitness'), self))
 
-
-    def get_best_individual(self):
+   def get_best_individual(self):
         bests = map(methodcaller('get_best_individual'), self)
         k = np.argmax([b.fitness for b in bests])
         return bests[k]
 
-
-    @property
+   @property
     def individuals(self):
         return list(concat(map(attrgetter('individuals'), self)))
-
 
 
 class BaseCommunity(BaseMultiPopulation):
     # As an alias of `MultiPopulation`
     def __str__(self):
         return ' @\n\n'.join(map(str, self))
-
 
 
 class BaseEnvironment(ContainerMixin, metaclass=MetaContainer):
@@ -544,6 +524,10 @@ class BaseEnvironment(ContainerMixin, metaclass=MetaContainer):
 
     The main method is `evaluate`, computing the fitness of an individual or a population
     """
+
+    def __init__(self, elements):
+        for e in elements:
+            e.environment = self
 
     def evaluate(self, *args, **kwargs):
         raise NotImplementedError

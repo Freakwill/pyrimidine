@@ -168,9 +168,6 @@ class MetaContainer(ParamType):
             else:
                 raise Exception('Have not provided element class yet.')
         
-        def _iter(self):
-            return iter(self.__elements)
-
         def _getitem(self, k):
             # print(DeprecationWarning('get item directly is not recommended now.'))
             return self.__elements[k]
@@ -179,16 +176,25 @@ class MetaContainer(ParamType):
             # print(DeprecationWarning('get item directly is not recommended now.'))
             self.__elements[k] =v
 
+        def _iter(self):
+            return iter(self.__elements)
+
         def _len(self):
             # if hasattr(self, '__n_elements'):
             #     return getattr(self, '__n_elements')
             return len(self.__elements)
 
+        def _contains(self, e):
+            # if hasattr(self, '__n_elements'):
+            #     return getattr(self, '__n_elements')
+            return e in self.__elements
+
         attrs.update(
             {'__getitem__': _getitem,
             '__setitem__': _setitem,
+            '__iter__': _iter,
             '__len__': _len,
-            '__iter__': _iter})
+            '__contains__': _contains})
 
         def _get_all(self, attr_name):
             return map(attrgetter(attr_name), self.__elements)
@@ -388,6 +394,12 @@ class MetaSingle(MetaContainer):
             attrs['n_elements'] = 1
         return super().__new__(cls, name, bases, attrs)
 
+    def __call__(self, *args, **kwargs):
+        o = super().__call__(*args, **kwargs)
+
+        if o.n_elements != 1:
+            raise ValueError('There should be only 1 element!')
+        return o
 
 
 import numpy as np
