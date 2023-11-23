@@ -4,9 +4,8 @@
 from pyrimidine.individual import MonoIndividual
 from pyrimidine.population import HOFPopulation, BasePopulation
 from pyrimidine.chromosome import FloatChromosome
-from pyrimidine.de import *
+from pyrimidine.de import DifferentialEvolution
 
-from pyrimidine.benchmarks.optimization import *
 from pyrimidine.benchmarks.special import *
 
 n = 20

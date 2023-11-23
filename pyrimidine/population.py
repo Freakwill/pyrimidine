@@ -53,6 +53,8 @@ class HOFPopulation(StandardPopulation):
     """
 
     params = {'hof_size': 2}
+    alias ={'hof': 'hall_of_fame'}
+    
     hall_of_fame = []
 
     def init(self):
@@ -68,9 +70,8 @@ class HOFPopulation(StandardPopulation):
         self.add_individuals(self.hall_of_fame)
 
     def update_hall_of_fame(self):
-        hof_size = len(self.hall_of_fame)
         for ind in self:
-            for k in range(hof_size):
+            for k in range(self.hof_size):
                 if self.hall_of_fame[-k-1].fitness < ind.fitness:
                     self.hall_of_fame.insert(hof_size-k, ind.clone())
                     self.hall_of_fame.pop(0)

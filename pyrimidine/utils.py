@@ -15,13 +15,6 @@ import numpy as np
 from toolz import unique
 
 
-def binary_select(a, b, p=0.5):
-    if random() < p:
-        return a
-    else:
-        return b
-
-
 def boltzmann_select(xs, fs, T=1):
     ps = softmax(np.array(fs) /T)
     rv = rv_discrete(values=(np.arange(len(xs)), ps))
@@ -61,29 +54,10 @@ def choice_uniform(xs, *args, **kwargs):
     return [xs[k] for k in ks]
 
 
-def choice_unique(xs, ps, n=1):
-    """Choose xi from xs with certain probability
-    make sure xi != xj
-    
-    Args:
-        xs (List): a list of objects
-        ps (List): a list of numbers
-        n (int, optional): number of samples
-    
-    Returns:
-        List: the sampling result
-    """
-
-    ps /= np.sum(ps)
-    rv = rv_discrete(values=(np.arange(len(xs)), ps))
-    ks = unique(rv.rvs(size=n))
-    return [xs[k] for k in ks]
-
-
 def choice_with_fitness(xs, fs=None, n=1, T=1):
     if fs is None:
         fs = [x.fitness for x in xs]
-    ps = softmax(np.array(fs) / T)
+    ps = softmax(np.asarray(fs) / T)
     return choice(xs, p=ps, size=n)
 
 
@@ -159,13 +133,13 @@ def pattern(chromosomes):
 
 
 def rotation(x, y):
-    """The rotation transforming x to y
+    """The rotations transforming x to y
     
     Args:
         x, y (array-like): a permutation of objects
     
     Returns:
-        list of tuple: the rotation (based on indexes)
+        list of tuple: each tuple represent a rotation (based on indexes)
 
     Example:
         >> rotation([5,2,3,1,4], [2,5,3,4,1])
@@ -192,19 +166,22 @@ def rotation(x, y):
 
 
 import copy
+
 def permutate(x, rotation):
-    """Permutate x by the rotation `rotation`
+    """Permutate x by the list of rotations `rotation`
     
     Args:
         x (array-like): a permutation
-        rotation (list of tuples): a rotation
+        rotation (list of tuples): a list of rotations
     
     Returns:
         array-like:
     """
 
-    xx = copy.copy(x)
-    for t in rotation:
-        for a, b in zip(t,t[1:]+(t[0],)):
-            xx[a] = x[b]
-    return xx
+    for r in rotation:
+        t = x[r[0]]
+        for a, b in zip(r[:-1],r[1:]):
+            x[a] = x[b]
+        x[r[-1]] = t
+    return x
+

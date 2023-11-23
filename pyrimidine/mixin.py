@@ -35,7 +35,7 @@ class IterativeMixin:
     def solution(self):
         raise NotImplementedError('Have not defined `solution` for the model yet!')   
 
-   @property
+    @property
     def _row(self):
         best = self.solution
         return f'{best} & {best.fitness}'
@@ -58,14 +58,14 @@ class IterativeMixin:
         """
         raise NotImplementedError('If you apply local search, then you have to define `local_search` method')
 
-   def ezolve(self, n_iter=None):
+    def ezolve(self, n_iter=None):
         # Extreamly eazy evolution method for lazybones
         n_iter = n_iter or self.n_iter
         self.init()
         for k in range(1, n_iter+1):
             self.transition(k)
 
-   def evolve(self, n_iter:int=100, period:int=1, verbose:bool=False, decode=False, history=False, stat=None, attrs=('state',), control=None):
+    def evolve(self, n_iter:int=100, period:int=1, verbose:bool=False, decode=False, history=False, stat=None, attrs=('state',), control=None):
         """Get the history of the whole evolution
 
         Keyword Arguments:
@@ -160,7 +160,7 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         with open(pklPath, 'wb') as fo:
             pickle.dump(self, fo)
 
-   @staticmethod
+    @staticmethod
     def load(filename='population.pkl'):
         import pickle
         if isinstance(filename, str):
