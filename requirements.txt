@@ -1,5 +1,7 @@
 numpy
 scipy
 matplotlib
+toolz
 pandas
-numba
+ezstat
+digit_converter
