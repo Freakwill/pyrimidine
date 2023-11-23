@@ -284,19 +284,5 @@ I have conducted extensive experiments and improvements, demonstrating that `pyr
 
 `Pyrimidine` requires fitness values to be numbers, so it cannot handle multi-objective problems directly, unless they are reduced to single-objective problems. `Pyrimidine` uses numpy's arrays, making crossover operations slower than deap's, but alternative implementations can be used. Of course, there are other areas for improvement. Additionally, `pyrimidine`'s documentation is still under development.
 
-The complete source code has been uploaded to GitHub, including numerous examples (see the "examples" folder).https://github.com/Freakwill/pyrimidine.
-
-
----
-
-<center>References</center>
-[1] Holland, J. Adaptation in Natural and Artificial Systems[M]. The Univ. of Michigan, 1975.
-[3] D. Simon. 进化优化算法——基于仿生和种群的计算机智能方法[M]. 北京: 清华大学出版社, 2018.
-[4] 玄光男， 程润伟. 遗传算法与工程优化[M]. 北京: 清华大学出版社, 2004.
-[7]Félix-Antoine Fortin, François-Michel De Rainville, Marc-André Gardner, Marc Parizeau and Christian Gagné, DEAP: Evolutionary Algorithms Made Easy[J]. Journal of Machine Learning Research, 2012, 13: 2171-2175.
-[8] Randal S. Olson, Ryan J. Urbanowicz, Peter C. Andrews, Nicole A. Lavender, La Creis Kidd, and Jason H. Moore. Automating biomedical data science through tree-based pipeline optimization[J]. Applications of Evolutionary Computation, 2016: 123-137.
-[9] Trang T. Le, Weixuan Fu and Jason H. Moore. Scaling tree-based automated machine learning to biomedical big data with a feature set selector. Bioinformatics[J], 2020, 36(1): 250-256.
-[10] Scikit-learn https://scikit-learn.org/[OL].
-[11]Numpy. https://numpy.org/[OL].
-[13] typing — Support for type hints. https://docs.python.org/3.8/library/typing.html?highlight=typing#module-typing[OL]
+The complete source code has been uploaded to GitHub, including numerous examples.https://github.com/Freakwill/pyrimidine.
 

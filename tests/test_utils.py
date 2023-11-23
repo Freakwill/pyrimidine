@@ -3,6 +3,7 @@
 
 from pyrimidine.utils import *
 
+
 class TestUtils(unittest.TestCase):
 
     def test_pattern(self):
@@ -16,4 +17,8 @@ class TestUtils(unittest.TestCase):
         assert res == [(0, 1), (3, 4)]
 
         assert [2,5,3,4,1] == permutate([5,2,3,1,4], res)
+
+    def test_rand(self):
+        i, j = randint2()
+        assert i < j
 
