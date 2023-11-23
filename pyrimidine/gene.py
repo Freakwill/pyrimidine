@@ -2,7 +2,6 @@
 
 import numpy as np
 from . import BaseGene
-from .utils import randint
 
 
 class NaturalGene(np.int_, BaseGene):
@@ -46,20 +45,12 @@ class PeriodicGene(FloatGene):
 
     @property
     def period(self):
-        if self.__period is None:
-            self.__period = self.ub - self.lb
-        return self.__period
+        return ub - lb
 
 
-class CircleGene(FloatGene):
+class CircleGene(PeriodicGene):
     lb, ub = -np.pi, np.pi
-    __period = 2 * np.pi
-
-    @property
-    def period(self):
-        return self.__period
 
     
 class SemiCircleGene(CircleGene):
     lb, ub = 0, np.pi
-    __period = np.pi

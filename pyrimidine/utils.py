@@ -23,9 +23,8 @@ def binary_select(a, b, p=0.5):
 
 
 def boltzmann_select(xs, fs, T=1):
-    L = len(xs)
     ps = softmax(np.array(fs) /T)
-    rv = rv_discrete(values=(np.arange(L), ps))
+    rv = rv_discrete(values=(np.arange(len(xs)), ps))
     k = rv.rvs()
     return xs[k]
 
@@ -74,9 +73,9 @@ def choice_unique(xs, ps, n=1):
     Returns:
         List: the sampling result
     """
-    L = len(xs)
+
     ps /= np.sum(ps)
-    rv = rv_discrete(values=(np.arange(L), ps))
+    rv = rv_discrete(values=(np.arange(len(xs)), ps))
     ks = unique(rv.rvs(size=n))
     return [xs[k] for k in ks]
 
@@ -146,12 +145,12 @@ def metropolis_rule(D, T, epsilon=0.000001):
         return True
 
 
-def proportion(n, N):
-    if n is None:
-        n = N
-    elif 0 < n < 1:
-        n = int(N * n)
-    return n
+# def proportion(n, N):
+#     if n is None:
+#         n = N
+#     elif 0 < n < 1:
+#         n = int(N * n)
+#     return n
 
 
 def pattern(chromosomes):
@@ -160,20 +159,32 @@ def pattern(chromosomes):
 
 
 def rotation(x, y):
+    """The rotation transforming x to y
+    
+    Args:
+        x, y (array-like): a permutation of objects
+    
+    Returns:
+        list of tuple: the rotation (based on indexes)
+
+    Example:
+        >> rotation([5,2,3,1,4], [2,5,3,4,1])
+        >> [(0, 1), (3, 4)]
+    """
     l = []
     for i, xi in enumerate(x):
         yi = y[i]
         if xi != yi:
-            for i, t in enumerate(l):
+            for j, t in enumerate(l):
                 if x[t[-1]] == xi:
                     if x[t[0]] == yi:
                         break
                     else:
-                        l[i] = (*t, x.index(yi))
+                        l[j] = (*t, x.index(yi))
                         break
                 else:
                     if x[t[0]] == yi:
-                        l[i] = (i, *t)
+                        l[j] = (j, *t)
                         break
             else:
                 l.append((i, x.index(yi)))
@@ -182,9 +193,18 @@ def rotation(x, y):
 
 import copy
 def permutate(x, rotation):
+    """Permutate x by the rotation `rotation`
+    
+    Args:
+        x (array-like): a permutation
+        rotation (list of tuples): a rotation
+    
+    Returns:
+        array-like:
+    """
+
     xx = copy.copy(x)
     for t in rotation:
-        for a, b in zip(t,t[1:]+[t[0]]):
+        for a, b in zip(t,t[1:]+(t[0],)):
             xx[a] = x[b]
-    return x
-
+    return xx

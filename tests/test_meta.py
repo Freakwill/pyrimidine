@@ -1,31 +1,39 @@
 #!/usr/bin/env python3
 
-from .meta import *
+
 from collections import UserString
+import unittest
+
+from .meta import *
 
 
-class C(metaclass=MetaContainer):
-    element_class = UserString
-    alias = {'strings': 'elements'}
+class TestMeta(unittest.TestCase):
+    def setUp(self):
+        class C(metaclass=MetaContainer):
+            element_class = UserString
+            alias = {'strings': 'elements'}
 
-    def foo(self):
-        pass
+            def foo(self):
+                pass
 
-    def after_setter(self):
-        self.fitness = None
-
-
-def TestMeta():
-
-    def test_attr(self):
+            def after_setter(self):
+                self.fitness = None
+                
+        C = self.mc
         c = C([UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
         C.set_methods(n_elems=lambda c: 1)
+        self.C = C
+        self.c = c
+
+    def test_attr(self):
+        c = self.c
         assert (c.elements == c.strings == ['I', 'love', 'you'] and
                 c.lasting == 'for ever' and
                 c.n_elements == c.n_strings and
                 c.n_elems() == 1)
 
     def test_method(self):
+        c = self.c
         c.regester_map('upper')
         assert list(c.upper())==['I', 'LOVE', 'YOU']
 
@@ -36,6 +44,7 @@ def TestMeta():
 
 
     def test_subclass(self):
+        C = self.C
         class D(C):
             fitness = 1
 

@@ -85,7 +85,7 @@ We define the metaclass `System` to simulate abstract algebraic systems, which a
 
 `Container` is a super-metaclass of `System` for creating containers.
 
-There are mainly two types of containers: list-like and tuple-like, where lists imply that all elements in the container are of the same type, while tuples have no such restriction.
+There are mainly two types of containers: list-like and tuple-like, where the former implies that all elements in the container are of the same type, while the later has no such restriction.
 
 ### Fundamental Classes
 
@@ -254,12 +254,12 @@ pop = NewPopulation.random()
 
 ## Comparison with other frameworks
 
-Various genetic algorithm frameworks have been designed, with deap and gaft being among the most popular ones. Pyrimidine's design is heavily influenced by these two frameworks, even borrowing class names directly from gaft. The following table compares pyrimidine with several popular and mature frameworks:
+Various genetic algorithm frameworks have been designed, such as deap and gaft. `Pyrimidine`'s design is heavily influenced by these frameworks. The following table compares `pyrimidine` with several popular and mature frameworks:
 
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
 | --------- | ------------------ | ---------- | ------------- | ---------------------- |
 | pyrimidine| Object-Oriented, Metaprogramming, Algebraic-insprited | Universal | Extensible | export the data in `DataFrame` |
-| deap      | Functional, Metaprogramming        | Universal | Limited       | export the data in `LogBook`  |
+| deap      | Object-Oriented, Functional, Metaprogramming        | Universal | Extensible      | export the data in `LogBook`  |
 | gaft      | Object-Oriented, decoration partton   | Universal | Extensible    | Easy to Implement       |
 | tpot(gama)     | scikit-learn Style | Hyperparameter Optimization | Limited | None                   |
 | gplearn   | scikit-learn Style | Symbolic Regression | Limited | None                   |
@@ -267,22 +267,22 @@ Various genetic algorithm frameworks have been designed, with deap and gaft bein
 
 `tpot`, `gplearn`, and `scikit-opt` follow the `scikit-learn` style, providing fixed APIs with limited extensibility. However, they are mature and user-friendly, serving their respective fields effectively.
 
-`deap` is feature-rich and mature. However, it primarily adopts a functional programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `gaft` is highly object-oriented with good extensibility, but not active. The design approach in `pyrimidine` is slightly different from `gaft`. In `pyrimidine`, various operations on chromosomes are treated as chromosome methods, rather than independent functions. This design choice might not necessarily increase program coupling. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods. For example, the crossover operation for the `ProbabilityChromosome` class can be redefined as follows, suitable for optimization algorithms where variables follow a probability distribution:
+`deap` is feature-rich and mature. However, it primarily adopts a functional programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `gaft` is highly object-oriented with good extensibility, but not active. In `pyrimidine`, various operations on chromosomes are treated as chromosome methods, rather than top-level functions. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods. For example, the crossover operation for the `ProbabilityChromosome` class can be redefined as follows, suitable for optimization algorithms where variables follow a probability distribution:
 
 ```python
 def cross(self, other):
     k = randint(1, len(self)-2)
     array = np.hstack((self[:k], other[k:]))
     array /= array.sum()
-    return self.__class__(array=array, gene=self.gene)
+    return self.__class__(array)
 ```
 
 
 ## Conclusion
 
-I have conducted extensive experiments and improvements, demonstrating that pyrimidine is a versatile framework suitable for implementing various evolution algorithms. Its design offers strong extensibility, allowing the implementation of any iterative model, such as simulated annealing or particle swarm optimization. For users developing new algorithms, pyrimidine is a promising choice.
+I have conducted extensive experiments and improvements, demonstrating that `pyrimidine` is a versatile framework suitable for implementing various evolution algorithms. Its design offers strong extensibility, allowing the implementation of any iterative model, such as simulated annealing or particle swarm optimization. For users developing new algorithms, `pyrimidine` is a promising choice.
 
-Pyrimidine requires fitness values to be numbers, so it cannot handle multi-objective problems directly, unless they are reduced to single-objective problems. Pyrimidine uses numpy's arrays, making crossover operations slower than deap's, but alternative implementations can be used. Of course, there are other areas for improvement. Additionally, pyrimidine's documentation is still under development.
+`Pyrimidine` requires fitness values to be numbers, so it cannot handle multi-objective problems directly, unless they are reduced to single-objective problems. `Pyrimidine` uses numpy's arrays, making crossover operations slower than deap's, but alternative implementations can be used. Of course, there are other areas for improvement. Additionally, `pyrimidine`'s documentation is still under development.
 
 The complete source code has been uploaded to GitHub, including numerous examples (see the "examples" folder).https://github.com/Freakwill/pyrimidine.
 

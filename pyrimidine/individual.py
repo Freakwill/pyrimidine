@@ -69,7 +69,7 @@ class MixedIndividual(BaseIndividual, metaclass=MetaTuple):
 
 class AgeIndividual(BaseIndividual):
     params = {
-    "age": 0
+    "age": 0,
     "life_span": 100
     }
 
@@ -82,6 +82,8 @@ class GenderIndividual(MixedIndividual):
 
 
 class MemoryIndividual(BaseIndividual):
+    # Individual with memory, used in PSO
+
     _memory = {"fitness": None}
 
     @property
@@ -92,7 +94,12 @@ class MemoryIndividual(BaseIndividual):
         self.backup(check=False)
 
     def backup(self, check=False):
-        if not check or self.memory['fitness'] is None or self._fitness() > self.memory['fitness']:
+        """Backup the fitness and other information
+        
+        Args:
+            check (bool, optional): check whether the fitness increases.
+        """
+        if not check or (self.memory['fitness'] is None or self._fitness() > self.memory['fitness']):
             def _map(k):
                 if k == 'fitness':
                     return self._fitness()
@@ -118,6 +125,8 @@ class MemoryIndividual(BaseIndividual):
 
 
 class PhantomIndividual(BaseIndividual):
+    # Another implementation of the individual class with memory
+
     phantom = None
 
     def init(self, fitness=True, type_=None):
@@ -134,17 +143,22 @@ def binaryIndividual(size=8):
     """simple binary individual
     encoded as a sequence such as 01001101
 
-    == makeIndividual(size=size)
+    Equiv. to `makeIndividual(size=size)`
     """
     return MonoIndividual[BinaryChromosome.set(default_size=size)]
+
+
+makeBinaryIndividual = binaryIndividual
 
 
 def makeIndividual(cls=None, element_class=BinaryChromosome, n_chromosomes=1, size=8):
     """helper to make an individual
     
     Example:
-        make an indiviudal with 2 binary chromosomes, each chromosome has 8 genes,
+        # make an indiviudal with 2 binary chromosomes, each chromosome has 8 genes,
         makeIndividual(element_class=BinaryChromosome, n_chromosomes=2, size=8)
+        # make mixed indiviudal with 2 type of chromosomes, one has 8 genes and the other has 2,
+        makeIndividual(element_class=(BinaryChromosome, FloatChromosome), size=(8,2))
     
     Args:
         element_class (BaseChromosome, tuple, optional): class of chromosomes
@@ -154,6 +168,7 @@ def makeIndividual(cls=None, element_class=BinaryChromosome, n_chromosomes=1, si
     Returns:
         BaseIndividual
     """
+
     if n_chromosomes == 1:
         assert isinstance(size, int)
         cls = cls or MonoIndividual
@@ -172,7 +187,7 @@ def makeIndividual(cls=None, element_class=BinaryChromosome, n_chromosomes=1, si
                 return PolyIndividual[tuple(element_class.set(default_size=size[0]) for _ in n_chromosomes)]
             else:
                 raise ValueError('the length of `size` must be 1 or `n_chromosomes`.')
-        elif isinstance(size, int)
+        elif isinstance(size, int):
             cls = cls or PolyIndividual
             return cls[tuple(element_class.set(default_size=size) for _ in np.range(n_chromosomes))]
         else:

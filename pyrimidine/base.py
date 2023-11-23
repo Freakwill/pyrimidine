@@ -64,14 +64,13 @@ from .mixin import *
 
 
 class BaseGene:
-
     """Base class of genes
     
     Attributes:
         values (tuple of numbers): the values that a gene takes
     """
     
-    values = ()
+    values = (0, 1)
 
     def __repr__(self):
         return self.__class__.__name__ + f': {self}'
@@ -494,30 +493,32 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
                 other.individuals.append(population.best_individual.clone())
                 population.individuals.append(other.best_individual.clone())
 
-   def transition(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         super().transition(*args, **kwargs)
         self.migrate()
 
-   def best_fitness(self):
+    def best_fitness(self):
         return max(map(attrgetter('best_fitness'), self))
 
-   def get_best_individual(self):
+    def get_best_individual(self):
         bests = map(methodcaller('get_best_individual'), self)
         k = np.argmax([b.fitness for b in bests])
         return bests[k]
 
-   @property
+    @property
     def individuals(self):
         return list(concat(map(attrgetter('individuals'), self)))
 
 
 class BaseCommunity(BaseMultiPopulation):
     # As an alias of `MultiPopulation`
+
     def __str__(self):
         return ' @\n\n'.join(map(str, self))
 
 
 class BaseEnvironment(ContainerMixin, metaclass=MetaContainer):
+
     element_class = None
 
     """Base Class of environments

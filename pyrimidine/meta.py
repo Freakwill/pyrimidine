@@ -74,11 +74,9 @@ class ParamType(type):
 
         return super().__new__(cls, name, bases, attrs)
 
-
     @classmethod
     def __prepare__(cls, name, bases):
         return {"alias":{}, "params":{}}
-
 
     def set(self, *args, **kwargs):
         for k in args:
@@ -87,7 +85,6 @@ class ParamType(type):
             setattr(self, k, v)
         return self
 
-
     def set_method(self, *args, **kwargs):
         for k in args:
             setattr(self, k, MethodType(globals()[k], self))
@@ -95,11 +92,9 @@ class ParamType(type):
             setattr(self, k, MethodType(m, self))
         return self
 
-
     def set_params(self, **kwargs):
         self.params.update(kwargs)
         return self
-
 
     def mixin(self, bases):
         if isinstance(bases, tuple):
@@ -107,7 +102,6 @@ class ParamType(type):
         else:
             self.__bases__ = (bases,) + self.__bases__
         return self
-
 
     def __and__(self, other):
         class cls(self, other):
@@ -263,7 +257,6 @@ class MetaContainer(ParamType):
 
         return super().__new__(cls, name, bases, attrs)
 
-
     def __call__(self, *args, **kwargs):
         o = super().__call__()
 
@@ -281,10 +274,8 @@ class MetaContainer(ParamType):
         #     o.environment = globals()['_environment']
         return o
 
-
     def __getitem__(self, class_):
         return self.set(element_class=class_)
-
 
     def __floordiv__(self, n):
         return self.set(default_size=n)
@@ -332,7 +323,6 @@ class MetaContainer(ParamType):
 #         return o
 
 
-
 class MetaList(MetaContainer):
     # a list is a container of elements with the same type
     def __new__(cls, name, bases, attrs):
@@ -358,7 +348,6 @@ class MetaTuple(MetaContainer):
             if not isinstance(element_class, tuple):
                 raise TypeError('`element_class` should be a tuple!')
         return super().__new__(cls, name, bases, attrs)
-
 
     def __floordiv__(self, n):
         raise DeprecationWarning('It is meaningless to do `//` on the class with a number.')
@@ -429,8 +418,8 @@ class MetaArray(ParamType):
                     break
             else:
                 raise Exception('Have not provided element class yet.')
-        if not element_class.__name__.startswith('Base') and not issubclass(element_class, (int, float, np.int_, np.float_, np.bool_)):
-            raise TypeError('The types of elements should be numbers, i.e. subclass of int or float')
+        # if not issubclass(element_class, (int, float, np.int_, np.float_, np.bool_)) or isinstance(element_class, str):
+        #     raise TypeError('The types of elements should be a subclass of int or float, or a string representing a type')
 
         # if not name.startswith('Base') and array_check(bases):
         #     raise Exception(f'The class `{name}` should be a subclass of numpy.ndarray or array.array!')

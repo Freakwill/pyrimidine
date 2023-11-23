@@ -111,7 +111,9 @@ class DualPopulation(StandardPopulation):
         BasePopulation
     """
 
-    params ={'dual_prob': 0.2, 'n_elders': 0.3}
+    params ={
+    'dual_prob': 0.2,
+    'n_elders': 0.3}
 
     def dual(self):
         for k, ind in enumerate(self):
@@ -160,6 +162,7 @@ class EliminationPopulation(BasePopulation):
         self.merge(elder)
 
     def eliminate(self):
+        # remove some individuals randomly from the population
         for individual in self:
             if random() < individual.eliminate_prob():
                 self.remove(individual)
@@ -173,6 +176,7 @@ class AgePopulation(EliminationPopulation):
         super().transition(*args, **kwargs)
 
     def eliminate(self):
+        # remove some old individuals
         for individual in self:
             if random() * individual.life_span < individual.age:
                 self.remove(individual)
