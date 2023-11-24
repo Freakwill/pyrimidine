@@ -182,6 +182,7 @@ class ParticleSwarm(PopulationMixin):
 
 
 class DiscreteParticleSwarm(ParticleSwarm):
+    # PSO with discrete particles
 
     def move(self):
         """moving rule of particles

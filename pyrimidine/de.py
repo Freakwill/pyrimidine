@@ -15,10 +15,11 @@ from .utils import *
 
 
 class DifferentialEvolution(PopulationMixin):
+    # Differential Evolution Algo.
 
     params ={
-    "factor" : 0.05,
-    "cross_prob": 0.75,
+        "factor" : 0.05,
+        "cross_prob": 0.75,
     }
 
     def init(self):
@@ -45,9 +46,9 @@ class DifferentialEvolution(PopulationMixin):
 class DifferentialEvolutionC(DifferentialEvolution):
     # For the population of chromosomes
 
-    params ={
-    "factor": 0.5,
-    "cross_prob": 0.75,
+    params = {
+        "factor": 0.5,
+        "cross_prob": 0.75,
     }
 
     def init(self):

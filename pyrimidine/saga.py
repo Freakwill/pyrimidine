@@ -105,6 +105,7 @@ class SSAPopulation(HOFPopulation):
 
         It is considered to be the standard flow of the Genetic Algorithm
         """
+        
         self.mate()
         self.mutate()
         self.doom()

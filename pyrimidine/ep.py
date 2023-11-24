@@ -69,6 +69,7 @@ class EPPopulation(PopulationMixin):
     Extends:
         PopulationMixin
     """
+    
     element_class = BaseEPIndividual
 
     def select(self):

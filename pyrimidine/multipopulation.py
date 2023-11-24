@@ -13,7 +13,10 @@ class MultiPopulation(BaseMultiPopulation):
 
 
 class DualPopulation(BaseMultiPopulation):
+
     params = {'n_elders':0.5, 'mate_prob':0.75}
+
+    default_size = 2
 
     @property
     def male_population(self):
@@ -59,10 +62,8 @@ class DualPopulation(BaseMultiPopulation):
         self.populations[0].add_individuals(children[::2])
         self.populations[1].add_individuals(children[1::2])
 
-
     def match(self, male, female):
         return True
-
 
     def transition(self, *args, **kwargs):
         elder = self.__class__([

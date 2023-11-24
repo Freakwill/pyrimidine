@@ -66,12 +66,11 @@ class BaseFirefly(BaseIndividual):
 
 
 def attractiveness(distance, gamma=1.0):
-    # 计算亮度，根据距离
     return np.exp(-gamma * distance**2)
 
 
-
 class StandardFireflies:
+    
     element_class = BaseFirefly
 
     params = {

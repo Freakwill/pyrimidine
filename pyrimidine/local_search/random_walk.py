@@ -1,34 +1,27 @@
 #!/usr/bin/env python3
 
 
-import scipy.stats
+from scipy.stats import norm
 
 from ..mixin import FitnessMixin
 
 
 class RandomWalk(FitnessMixin):
-    """Random Walk
-        
-    Arguments:
-        state {Individual} -- state of the physical body in annealing
-        initT {number} -- initial temperature
-    
-    Returns:
-        state
+    """Random Walk Algo.
     """
 
     params = {'sigma': 1}
 
     def transit(self, k, *args, **kwargs):
-        """Transition of states
-        """
-        
         sigma *= self.sigma * 0.99**k
-        n = gauss(0, sigma)
         cpy = self.clone(fitness=None)
-        cpy.chromosomes = [chromosome + n.rvs(chromosome.n_genes) for chromosome in cpy.chromosomes]
+        cpy.mutate(sigma)
 
         D = cpy.fitness - self.fitness
         if D > 0:
             self.chromosomes = cpy.chromosomes
             self.fitness = cpy.fitness
+
+    def mutate(self, sigma):
+        n = norm(0, sigma)
+        self.chromosomes = [chromosome + n.rvs(chromosome.n_genes) for chromosome in cpy.chromosomes]

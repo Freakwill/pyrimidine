@@ -13,8 +13,7 @@ def _asarray(out):
 
 
 class NumpyArrayChromosome(BaseChromosome, np.ndarray):
-
-    """Summary
+    """Chromosome implemented by `np.array`
     
     Attributes:
         element_class (TYPE): the type of gene

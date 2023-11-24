@@ -3,16 +3,18 @@
 """
 This is the core module of pyrimidine. The base classes are defined here.
 
-main classes:
+Main classes:
 BaseGene: the gene of chromosome
 BaseChromosome: sequence of genes, represents part of a solution
 BaseIndividual: sequence of chromosomes, represents a solution of a problem
 BasePopulation: set of individuals, represents a set of a problem
                 also the state of a stachostic process
-BaseSpecies: set of population for more complicated optimalization
+BaseMultiPopulation/BaseCommunity: set of populations for more complicated optimalization
+BaseEnviorenment:
 
-
-Subclass the classes and override some main method esp. `_fitness`.
+Remark:
+1. Subclass the classes and override some main method esp. `_fitness`.
+2. `BaseGene` is not important
 
 Example:
     select ti, ni from arraies t, n
@@ -52,12 +54,12 @@ print(pop.best_individual)
 """
 
 from operator import attrgetter
-import types
-import numpy as np
-from toolz import concat
 import typing
+from random import randint, random
 
-from .utils import choice_uniform, randint, random
+from toolz import concat
+import numpy as np
+
 from .errors import *
 from .meta import *
 from .mixin import *
@@ -384,6 +386,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         Keyword Arguments:
             mutate_prob {number} -- the proba. of mutation of one individual (default: {None})
         """
+
         for individual in self.individuals:
             if random() < (mutate_prob or self.mutate_prob):
                 individual.mutate()
@@ -413,6 +416,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
 
         Use `rank` if you call it frequently.
         """
+
         r = 0
         for ind in self.sorted_:
             if ind.fitness <= individual.fitness:
@@ -426,6 +430,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         """Rank all individuals
         by fitness increasingly
         """
+        
         # sorted_ = [self[k] for k in self.argsort()]
         sorted_ = self.sorted_
         if tied:

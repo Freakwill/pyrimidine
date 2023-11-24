@@ -13,7 +13,6 @@ from .. import PhantomIndividual
 from .. import metropolis_rule
 
 
-
 class SimulatedAnnealing(PhantomIndividual):
     """Class for Simulated Annealing
     
@@ -35,8 +34,7 @@ class SimulatedAnnealing(PhantomIndividual):
         # initialize phantom solution
         self.phantom = self.clone(fitness=None)
 
-
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         T = self.initT
         for epoch in range(self.n_epochs):
             self.move(T)
@@ -46,7 +44,6 @@ class SimulatedAnnealing(PhantomIndividual):
         # set the phantom to be the true solution (if it is better then the previous record)
         self.backup()
         self.initT = T * self.ext_c
-
 
     def move(self, T):
         """Move phantom
@@ -61,5 +58,4 @@ class SimulatedAnnealing(PhantomIndividual):
         flag = metropolis_rule(D=cpy.fitness - self.phantom.fitness, T=T)
         if flag:
             self.phantom.chromosomes = cpy.chromosomes
-            self.phantom.fitness = cpy.fitness
 
