@@ -44,19 +44,19 @@ class IterativeMixin:
         pass
 
     def transition(self, *args, **kwargs):
+        """The core method of the object.
+
+        This method transitions one state of the object to another state
+        based on certain rules, such as crossing and mutating for individuals in GA,
+        or the moving method in Simulated Annealing.
         """
-        The core method of the object.
-               The method transitating one state of the object to another state,
-        according to some rules, such as crossing and mutating for individuals in GA,
-        or moving method in Simulated Annealing.
-        """
-        raise NotImplementedError('`transition`, the core of the algorithm, is not defined yet!')
+        raise NotImplementedError('`transition` (the core of the algorithm) is not defined yet!')
 
     def local_search(self, *args, **kwargs):
         """
-        The local search method for global search algorithm.
+        The local search method for a global search algorithm.
         """
-        raise NotImplementedError('If you apply local search, then you have to define `local_search` method')
+        raise NotImplementedError('If you apply a local search algorithm, you must define the `local_search` method.')
 
     def ezolve(self, n_iter=None):
         # Extreamly eazy evolution method for lazybones
@@ -104,7 +104,7 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         elif isinstance(history, pd.DataFrame):
             history_flag = True
         else:
-            raise TypeError('Argument `history` should be an instance of `pandas.DataFrame` or `bool`.')
+            raise TypeError('The argument `history` should be an instance of `pandas.DataFrame` or `bool`.')
         # n_iter = n_iter or self.n_iter
         for k in range(1, n_iter+1):
             self.transition(k)
@@ -264,7 +264,7 @@ class ContainerMixin(IterativeMixin):
 class PopulationMixin(FitnessMixin, ContainerMixin):
     """mixin class for population-based heuristic algorithm
 
-    It is consisted of a set of solutions.
+    It is consisted of a collection of solutions.
     """
 
     __sorted_ = []
@@ -321,7 +321,7 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         """Get best element
         
         Args:
-            copy (bool, optional): copy the element if `copy=True`
+            copy (bool, optional): return the copy of the selected element, if `copy=True`
         
         Returns:
             An element
@@ -334,7 +334,16 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
             return self[k]
 
     def get_best_elements(self, n=1, copy=False):
-        # Get first n best elements
+        """Get first n best elements
+        
+        Args:
+            n (int, optional): the number of elements selected
+            copy (bool, optional): if copy=True, then it returns the copies of elements
+        
+        Returns:
+            n elements
+        """
+
         if n < 1:
             n = int(self.n_elements * n)
         elif not isinstance(n, int):
@@ -345,6 +354,23 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         else:
             return self.sorted_[-n:]
 
+    @property
+    def best_element(self):
+        """Get the best element
+
+        The difference between `best_element` and `get_best_element` is that
+        `best_element` only returns the reference of the selected element.
+        
+        Returns:
+            The best element
+        """
+        k = np.argmax(self.get_all_fitness())
+        return self[k]
+
+    @property
+    def solution(self):
+        return self.best_element
+
     def get_worst_element(self, copy=False):
         k = np.argmin(self.get_all_fitness())
         if copy:
@@ -352,20 +378,10 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         else:
             return self[k]
 
-    # Following is some useful aliases
     @property
     def worst_element(self):
         k = np.argmin(self.get_all_fitness())
         return self[k]
-
-    @property
-    def best_element(self):
-        k = np.argmax(self.get_all_fitness())
-        return self[k]
-
-    @property
-    def solution(self):
-        return self.best_element
 
     @property
     def sorted_(self):

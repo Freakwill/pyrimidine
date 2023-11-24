@@ -7,22 +7,23 @@ Developed by J. Kennedy and R. Eberhart[Kennedy and Eberhart 2001]
 Each individual is represented position and velocity.
 """
 
-from .base import PopulationMixin
-from .chromosome import FloatChromosome
-from .individual import MemoryIndividual
-from .utils import gauss, random
+from random import random
 from operator import attrgetter
 
 import numpy as np
 
+from .base import PopulationMixin
+from .chromosome import FloatChromosome
+from .individual import MemoryIndividual
+
+
 class BaseParticle:
     """A particle in PSO
-    
-    Extends:
-        PolyIndividual
+
+    An individual represented by 2 chromosomes: position and velocity
     
     Variables:
-        default_size {number} -- one individual represented by 2 chromosomes: position and velocity
+        default_size {number} -- 2 by default
         memory {Particle} -- the best state of the particle moving in the solution space.
 
     Caution:
@@ -39,7 +40,6 @@ class BaseParticle:
             'acceleration_coefficient': 3,
             'inertia': 0.5
             }
-
 
     @property
     def position(self):
@@ -113,7 +113,6 @@ class Particle(BaseParticle, MemoryIndividual):
                         + acceleration_coefficient * scale_fame * (fame.best_position-self.position))
 
 
-
 class ParticleSwarm(PopulationMixin):
     """Standard PSO
     
@@ -163,10 +162,11 @@ class ParticleSwarm(PopulationMixin):
             particle.backup(check=True)
 
     def move(self):
-        """moving rule of particles
+        """Move the particles
 
-        Particles move according to the hall of fame and the best record
+        Define the moving rule of particles, according to the hall of fame and the best record
         """
+
         scale = random()
         eta = random()
         for particle in self:
@@ -185,9 +185,8 @@ class DiscreteParticleSwarm(ParticleSwarm):
     # PSO with discrete particles
 
     def move(self):
-        """moving rule of particles
-
-        Particles move according to the hall of fame and the best record
+        """
+        Move the discrete particles
         """
 
         v1, v2, v3 = (self.inertia,
