@@ -1,7 +1,13 @@
+# Required
 numpy
 scipy
-matplotlib
-toolz
 pandas
+toolz
+
+# Visualization
 ezstat
+matplotlib
+
+# Examples
 digit_converter
+scikit-learn

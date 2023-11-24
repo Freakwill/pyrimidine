@@ -110,7 +110,7 @@ class Particle(BaseParticle, MemoryIndividual):
     def update_vilocity_by_fame(self, fame, scale, scale_fame, inertia, learning_factor, acceleration_coefficient):
         self.velocity = (inertia * self.velocity
                         + learning_factor * scale * self.direction
-                        + acceleration_coefficient * scale_fame * (fame.best_position - self.position))
+                        + acceleration_coefficient * scale_fame * (fame.best_position-self.position))
 
 
 
@@ -172,8 +172,8 @@ class ParticleSwarm(PopulationMixin):
         for particle in self:
             for fame in self.hall_of_fame:
                 if particle.fitness < fame.fitness:
-                    particle.update_vilocity_by_fame(fame, scale, scale_fame, self.inertia, self.learning_factor,
-                        self.acceleration_coefficient)
+                    particle.update_vilocity_by_fame(fame, scale, scale_fame, 
+                        self.inertia, self.learning_factor, self.acceleration_coefficient)
                     particle.position = particle.position + particle.velocity
                     break
         for particle in self.hall_of_fame:

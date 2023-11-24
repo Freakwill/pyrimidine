@@ -4,11 +4,13 @@
 Individual classes
 """
 
+import copy
+
 from .base import BaseIndividual
 from .chromosome import BinaryChromosome, BaseChromosome, FloatChromosome
 from .meta import MetaTuple, MetaList, MetaSingle
 from .utils import randint
-import copy
+
 
 
 class MultiIndividual(BaseIndividual, metaclass=MetaList):
@@ -52,18 +54,19 @@ class MixedIndividual(BaseIndividual, metaclass=MetaTuple):
     """
     element_class = BaseChromosome, BaseChromosome
 
+    @property
+    def default_size(self):
+        return len(self.element_class)
+
     @classmethod
-    def random(cls, sizes=None, n_chromosomes=None, size=None, *args, **kwargs):
-        if sizes is None:
-            if isinstance(size, int):
-                sizes = (size,) * n_chromosomes
-            elif size is None:
-                return cls([C.random(*args, **kwargs) for C in cls.element_class])
-            else:
-                raise TypeError('Argument `size` should be an integer or None(by default)!')
-        else:
-            if len(sizes) != len(cls.element_class):
-                print(Warning('the length of sizes is not equal to the number of elements'))
+    def random(cls, size=None, n_chromosomes=None, *args, **kwargs):
+        if size is None:
+            return cls([C.random(*args, **kwargs) for C in cls.element_class])
+        elif isinstance(size, int):
+            size = (size,) * n_chromosomes
+        else: #if isinstance(size, tuple):
+            if len(size) != len(cls.element_class):
+                raise ValueError('the length of `size` is not equal to the number of elements (`n_chromosomes`)')
         return cls([C.random(size=l, *args, **kwargs) for C, l in zip(cls.element_class, sizes)])
 
 

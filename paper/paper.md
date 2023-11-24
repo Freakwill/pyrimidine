@@ -55,9 +55,11 @@ s = \{a:A\}:S
 $$
 In this context, $\{\cdot\}$ denotes either a set or a sequence (emphasizing the order of the elements).
 
-Building upon this concept, we define a population as a container of individuals. And it is straightforward to introduce the notion of a multi-population as a container of populations, referred to as the high-level container.
+Building upon this concept, we define a population as a container of individuals. And it is straightforward to introduce the notion of a multi-population as a container of populations, referred to as the high-level container. Obviously, we can define containers in higher level, for instance, a container of multi-populations, maybe mixed with normal populations.
 
 A container that defines operators of its elements is termed a **system**. For example, we define the operation `S.cross(a, b)` on the elements $a,b$ in the system $S$ to implement the crossover operation of two individuals in a population. It shares similarities with algebraic systems. However, the current version does not incorporate this concept, operations are directly defined as methods of the elements, such as `a.cross(b)`. The contemplation of incorporating this concept is deferred to future versions, and this prospective change will not impact the design of APIs.
+
+We are considering constructing an `Environment` class as a container for all types of populations, and registering genetic algorithm operators on it.
 
 An individual may be viewed as a container of chromosomes, but it will not to be a system. A chromosome can be perceived as a container of genes, while in practice, we implement chromosomes directly using `numpy.array` or the standard library's `array.array`.
 
@@ -81,9 +83,9 @@ The iterative algorithms can be represented as $T^n(s)$.
 And if $s$ is a container, then $T(s)=\{T(a)\}$ by default where $T(a)$ is pre-defined.
 
 ### Metaclasses
-We define the metaclass `System` to simulate abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operators and functions on them.
+The metaclass `System` is defined to simulate abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operators and functions on them.
 
-`Container` is a super-metaclass of `System` for creating containers.
+`Container` is the super-metaclass of `System` for creating containers.
 
 There are mainly two types of containers: list-like and tuple-like, where the former implies that all elements in the container are of the same type, while the later has no such restriction.
 
@@ -91,11 +93,11 @@ There are mainly two types of containers: list-like and tuple-like, where the fo
 
 There are three fundamental classes in `pyrimidine` constructed by the metaclasses: `BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively.
 
-Constructing an individual, `SomeIndividual`, consisting of several `SomeChromosome`, is as simple as defining `SomeIndividual = BaseIndividual[SomeChromosome]`, where `BaseIndividual` is the base class for all individual classes. Similarly, a population of `SomeIndividual` could be `BasePopulation[SomeIndividual]`.
+Constructing an individual, `SomeIndividual`, consisting of several `SomeChromosome`, is as simple as defining `SomeIndividual = BaseIndividual[SomeChromosome]`, where `BaseIndividual` is the base class for all individual classes. Similarly, a population of `SomeIndividual` could be `BasePopulation[SomeIndividual]`. The expression is borrowed from the module `typing`[].
 
-For convenience, `pyrimidine` provides some commonly used subclasses, so users do not have to redefine these settings. By inheriting these classes, users gain access to the methods such as, cross and mutation. Genetic algorithms generally use binary encoding. `pyrimidine` offers `BinaryChromosome` for the binary settings. By inheriting from this class, users have binary encoding and algorithm components for two-point cross and independent gene mutation.
+For convenience, `pyrimidine` provides some commonly used subclasses, so users do not have to redefine these settings. By inheriting these classes, users gain access to the methods such as, crossover and mutation. `pyrimidine` offers `BinaryChromosome` for the binary encoding as used in classical GA.
 
-Generally, users start the algorithm design as follows, where `MonoIndividual` enforces that individuals can only have one chromosome.
+Generally, the algorithm design starts as follows, where `MonoIndividual`, as an individual class, just enforces that the individuals can only have one chromosome.
 
 ```python
 class MyIndividual(MonoIndividual):
@@ -107,17 +109,9 @@ class MyPopulation(StandardPopulation):
     element_class = MyIndividual
 ```
 
-`MyIndividual` is a class (an concrete container) with `BinaryChromosome` as its chromosome type. As you saw, it is equivalent to `MyIndividual=MonoIndividual[BinaryChromosome]`. Since `binaryIndividual(size=8)` creates such a class, an equivalent way to write this is,
+In the codes, `MyIndividual` is an individual class with `BinaryChromosome` as its chromosome type. It is equivalent to set `MyIndividual=MonoIndividual[BinaryChromosome]`. One can also use the helper `makeBinaryIndividual(size=8)` to create the same class.Then the class `MyPopulation` is defined to create a population of the individuals. The method of executing standard GA has been implemented in the class.
 
-```python
-class MyIndividual(binaryIndividual()):
-    def _fitness(self):
-        # Compute the fitness
-```
-
-By using a standard GA as the iteration method, you can directly set `MyPopulation = StandardPopulation[MyIndividual]`. It's implemented through metaprogramming and signifies that `MyPopulation` is a list-type container of `MyIndividual` objects.
-
-Algebraically, there is no different between `MonoIndividual` and a single `Chromosome`. And the population also can be a container of chromosomes.
+Algebraically, there is no different between `MonoIndividual` and a single `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes.
 
 ```python
 class MyChromosome(BaseChromosome):
@@ -129,14 +123,13 @@ class MyPopulation(StandardPopulation):
 ```
 
 
-
 ### Mixin classes
 
 These classes also inherit from the mixin class `IterativeMixin`, responsible for the iteration, including data export for visualization. When developing a new algorithm, the crucial step is to override the `transition` method, which is invoked in all iterative algorithms. In the context of genetic algorithms, the `transition` method primarily comprises `mutate` and `cross`, representing the crossover and mutation methods.
 
-As subclasses of `IterativeMixin`, `FitnessMixin` is created to execute the iterative algorithm aiming to maximize fitness, while `ContainerMixin` and `PopulationMixin` represent their "swarm" forms.
+As subclasses of `IterativeMixin`, `FitnessMixin` is created to execute the iterative algorithm aiming to maximize fitness, while `ContainerMixin` and `PopulationMixin` represent their "collective" forms.
 
-Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. When designing a new algorithm that may differ from GA, it is recommended to inherit from the mixin classes initially.
+Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. When designing a new algorithm that may much differ from GA, it is recommended to inherit from the mixin classes initially, though it is not coercive.
 
 Four mixin classes are presented below, along with the corresponding inheritance arrows.
 
@@ -149,9 +142,9 @@ FitnessMixin  --->  PopulationMixin
 ```
 
 
-## An Example to start
+## An example to begin
 
-In this section, we demonstrate the basic usage of `pyrimidine` with a simple example: the classic 0-1 knapsack problem with $n=50$ dimensions. (See more examples on GitHub)
+In this section, we demonstrate the basic usage of `pyrimidine` with a simple example: the classic 0-1 knapsack problem with $n=50$ dimensions. (Refer to more examples in the repository.)
 
 $$
 \max \sum_i c_ix_i \\
@@ -169,7 +162,7 @@ from pyrimidine.benchmarks.optimization import Knapsack
 n = 50
 _evaluate = Knapsack.random(n)  # Function mapping n-dimensional binary encoding to the objective function value
 
-class MyIndividual(MonoIndividual):
+class UserIndividual(MonoIndividual):
     element_class = BinaryChromosome
     default_size = n
     def _fitness(self):
@@ -178,18 +171,18 @@ class MyIndividual(MonoIndividual):
 
 """
 equivalent to:
-MyIndividual = MonoIndividual[BinaryChromosome].set_fitness(lambda o: _evaluate(o.chromosome)) // n
+UserIndividual = MonoIndividual[BinaryChromosome].set_fitness(lambda o: _evaluate(o.chromosome)) // n
 
-or with the helper `binaryIndividual`: MyIndividual = binaryIndividual(size=n).set_fitness(lambda o: _evaluate(o.chromosome))
+or with the helper: UserIndividual = makeBinaryIndividualIndividual(size=n).set_fitness(lambda o: _evaluate(o.chromosome))
 """
 
 class MyPopulation(StandardPopulation):
-    element_class = MyIndividual
+    element_class = UserIndividual
     default_size = 20
 
 """
 equivalent to:
-MyPopulation = StandardPopulation[MyIndividual] // 20
+MyPopulation = StandardPopulation[UserIndividual] // 20
 """
 
 pop = MyPopulation.random()
@@ -198,7 +191,7 @@ pop.evolve(n_iter=100) # Setting `verbose=True` will print the iteration process
 
 Finally, the optimal individual can be obtained with `pop.best_individual` or `pop.solution`, as the solution of the problem.
 
-The equivalent expressions no longer explicitly depends on class inheritance, making the code more concise and similar to algebraic style.
+You also see that the equivalent expressions no longer explicitly depends on class inheritance, making the code more concise and similar to algebraic style.
 
 ## Visualization
 
@@ -206,7 +199,8 @@ Instead of implementing visualization methods, `pyrimidine` yields a `pandas.Dat
 
 ```python
 # statistic dictionary, computing the mean fitness and best fitness of each generation
-stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
+stat = {'Mean Fitness': 'mean_fitness',
+'Best Fitness': 'best_fitness'}
 
 # obtain the history data, i.e. the statistical results, through the evolution.
 data = pop.evolve(stat=stat, n_iter=100, history=True)

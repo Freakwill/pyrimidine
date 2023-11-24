@@ -18,12 +18,12 @@ FitnessMixin  --->  PopulationMixin
 """
 
 
+from operator import methodcaller, attrgetter
+
 import numpy as np
 import pandas as pd
 
 from ezstat import Statistics
-
-from operator import methodcaller, attrgetter
 from .errors import *
 
 
@@ -149,19 +149,19 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         raise NotImplementedError
 
     def encode(self):
-        return self
+        raise NotImplementedError
  
-    def save(self, filename='population.pkl'):
+    def save(self, filename='model.pkl', check=False):
         import pickle
         if isinstance(filename, str):
             pklPath = pathlib.Path(filename)
-        if pklPath.exists():
-            print(Warning(f'There exists {filename}, It has been over written'))
+        if check and pklPath.exists():
+            raise FileExistsError(f'File {filename} has exist!')
         with open(pklPath, 'wb') as fo:
             pickle.dump(self, fo)
 
     @staticmethod
-    def load(filename='population.pkl'):
+    def load(filename='model.pkl'):
         import pickle
         if isinstance(filename, str):
             pklPath = pathlib.Path('filename.pkl')
@@ -169,7 +169,7 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
             with open(pklPath, 'rb') as fo:
                 return pickle.load(pklPath)
         else:
-            raise IOError(f'Could not find {filename}!')
+            raise FileNotFoundError(f'Could not find the file {filename}!')
 
 
 class FitnessMixin(IterativeMixin):
