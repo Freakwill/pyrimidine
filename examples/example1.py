@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from pyrimidine import *
 import numpy as np
+from pyrimidine import *
 
 
 t = np.random.randint(1, 5, 100)
@@ -11,19 +11,21 @@ import collections
 def max_repeat(x):
     # maximum repetition
     c = collections.Counter(x)
-    return np.max([b for a, b in c.items()])
+    return np.max(list(c.values()))
 
 
 def _evaluate(x):
     """
-    select ti, ni from t, n resp.
-    the sum of ni ~ 10, while ti is repeated rarely
+    select t_i, n_i from t, n resp.
+    the sum of n_i is approx. to a given number,
+    and t_i are repeated rarely
     """
+
     N = abs(np.sum([ni for ni, c in zip(n, x) if c==1])-30)
     T = max_repeat(ti for ti, c in zip(t, x) if c==1)
     return - (N + T /2)
 
-class MyIndividual(BinaryChromosome.set(default_size=50)):
+class MyIndividual(BinaryChromosome // 50):
 
     def _fitness(self):
         return _evaluate(self.decode())
@@ -42,4 +44,5 @@ if __name__ == '__main__':
     data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
     ax.set_xlabel('Generations')
     ax.set_ylabel('Fitness')
+    ax.set_title('Demo of GA')
     plt.show()

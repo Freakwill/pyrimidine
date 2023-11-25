@@ -130,6 +130,7 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         Returns:
             history, running time
         """
+
         import time
         times = []
         data = None
@@ -224,8 +225,9 @@ class FitnessMixin(IterativeMixin):
         return cpy
 
     def evolve(self, stat=None, attrs=('solution',), *args, **kwargs):
-        """Get the history of the whole evolution
+        """Get the history of solution and its fitness by default.
         """
+
         if stat is None:
             stat = {'Fitness':'fitness'}
 
@@ -364,6 +366,7 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         Returns:
             The best element
         """
+
         k = np.argmax(self.get_all_fitness())
         return self[k]
 

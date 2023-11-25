@@ -10,7 +10,7 @@ class UnknownSizeError(Exception):
         return f'The size of `{self.cls}` is unkown, the object could not be generated.'
 
 
-class UnavalibleAttributeError(Exception):
+class UnavalibleAttributeError(AttributeError):
     
     def __init__(self, cls, attr_name):
         self.cls = cls

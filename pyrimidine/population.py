@@ -73,7 +73,7 @@ class HOFPopulation(StandardPopulation):
         for ind in self:
             for k in range(self.hof_size):
                 if self.hall_of_fame[-k-1].fitness < ind.fitness:
-                    self.hall_of_fame.insert(hof_size-k, ind.clone())
+                    self.hall_of_fame.insert(self.hof_size-k, ind.clone())
                     self.hall_of_fame.pop(0)
                     break
 

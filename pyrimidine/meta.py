@@ -391,16 +391,15 @@ class MetaSingle(MetaContainer):
         return o
 
 
-import numpy as np
-
 # import array
+# import numpy as np
 
 # def array_check(bases):
 #     if array.array in bases or np.ndarray in bases:
 #         return True
 #     else:
 #         for base in bases:
-#             if isinstance(base, (array.array, np.ndarray)):
+#             if issubclass(base, (array.array, np.ndarray)):
 #                 return True
 #         else:
 #             return False
@@ -421,7 +420,7 @@ class MetaArray(ParamType):
         # if not issubclass(element_class, (int, float, np.int_, np.float_, np.bool_)) or isinstance(element_class, str):
         #     raise TypeError('The types of elements should be a subclass of int or float, or a string representing a type')
 
-        # if not name.startswith('Base') and array_check(bases):
+        # if not array_check(bases):
         #     raise Exception(f'The class `{name}` should be a subclass of numpy.ndarray or array.array!')
 
         return super().__new__(cls, name, bases, attrs)

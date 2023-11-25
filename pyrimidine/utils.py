@@ -4,15 +4,14 @@
 Helper functions
 """
 
-from random import random, randint, gauss, shuffle, uniform
+from random import random, randint
 from math import exp
 
+from toolz import unique
+import numpy as np
 from scipy.spatial.distance import euclidean
 from scipy.special import softmax
 from scipy.stats import rv_discrete
-
-import numpy as np
-from toolz import unique
 
 
 def boltzmann_select(xs, fs, T=1):
@@ -128,11 +127,23 @@ def metropolis_rule(D, T, epsilon=0.000001):
 
 
 def pattern(chromosomes):
-    # chromosomes should be a set of binary chromosomes
-    return ''.join([str(a[0]) if len(np.unique(a))==1 else '*' for a in zip(*chromosomes)])
+    """Get the pattern of the chromosomes
+    
+    Args:
+        chromosomes (TYPE): A set of binary chromosomes
+    
+    Returns:
+        str: the pattern of the chromosomes
+
+    Example:
+        >> pattern([[0,1,0], [1,0,0]])
+        >> **0
+    """
+
+    return ''.join([str(a[0]) if all_equal(a) else '*' for a in zip(*chromosomes)])
 
 
-def rotation(x, y):
+def rotations(x, y):
     """The rotations transforming x to y
     
     Args:
@@ -145,6 +156,7 @@ def rotation(x, y):
         >> rotation([5,2,3,1,4], [2,5,3,4,1])
         >> [(0, 1), (3, 4)]
     """
+    
     l = []
     for i, xi in enumerate(x):
         yi = y[i]
@@ -167,7 +179,7 @@ def rotation(x, y):
 
 import copy
 
-def permutate(x, rotation):
+def rotate(x, rotations):
     """Permutate x by the list of rotations `rotation`
     
     Args:
@@ -177,11 +189,14 @@ def permutate(x, rotation):
     Returns:
         array-like:
     """
-
-    for r in rotation:
+    
+    if isinstance(rotations, tuple):
+        r = rotations
         t = x[r[0]]
         for a, b in zip(r[:-1],r[1:]):
             x[a] = x[b]
         x[r[-1]] = t
+    else:
+        for r in rotations:
+            x = rotate(x, r)
     return x
-

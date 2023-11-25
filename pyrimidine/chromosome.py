@@ -7,6 +7,8 @@ import scipy.stats
 from .base import BaseChromosome, BaseGene
 from .gene import *
 
+from random import choice, randint
+
 
 def _asarray(out):
     return np.asarray(out) if isinstance(out, np.ndarray) else out
@@ -145,6 +147,7 @@ class BinaryChromosome(NaturalChromosome):
 
 
 class PermutationChromosome(NaturalChromosome):
+    # A chromosome representing a permutation
 
     element_class = NaturalGene
     default_size = 10
@@ -154,16 +157,12 @@ class PermutationChromosome(NaturalChromosome):
         size = size or cls.default_size
         return cls(np.random.permutation(cls.default_size))
 
-    # def mutate(self):
-    #     i = randint(0, self.default_size-1)
-    #     if i == self.default_size-1:
-    #         j = 0
-    #     else:
-    #         j = i+1
-    #     t = self[i]; self[i] = self[j]; self[j] = t
+    # def __sub__(self, other):
+    #     return rotations(self, other)
 
-    def __sub__(self, other):
-        pass
+    def move_toward(self, other):
+        r = choice(rotations(self, other))
+        rotate(self, r)
 
     def mutate(self):
         i, j = randint2(0, self.default_size-1)
@@ -179,7 +178,7 @@ class PermutationChromosome(NaturalChromosome):
         return "".join(map(str, self))
 
     def dual(self):
-        return NaturalChromosome(self.element_class.ub - self)
+        return self[::-1]
 
 
 class FloatChromosome(VectorChromosome):
@@ -329,44 +328,44 @@ class QuantumChromosome(CircleChromosome):
 
 # Implement Chromosome class by array.array
 
-# import copy
-# import array
+import copy
+import array
 
-# class ArrayChromosome(BaseChromosome, array.array):
-#     """Chromosome class implemented by array.array
+class ArrayChromosome(BaseChromosome, array.array):
+    """Chromosome class implemented by array.array
     
-#     Attributes:
-#         element_class (TYPE): the type of gene
-#     """
+    Attributes:
+        element_class (TYPE): the type of gene
+    """
 
-#     element_class = 'd'
+    element_class = 'd'
 
-#     def __new__(cls, array=None, element_class=None):
-#         if element_class is None:
-#             element_class = cls.element_class
-#         if array is None:
-#             array = []
+    def __new__(cls, array=None, element_class=None):
+        if element_class is None:
+            element_class = cls.element_class
+        if array is None:
+            array = []
 
-#         return array.array(element_class, array)
+        return array.array(element_class, array)
 
-#     @classmethod
-#     def random(cls, *args, **kwargs):
-#         raise NotImplementedError
+    @classmethod
+    def random(cls, *args, **kwargs):
+        raise NotImplementedError
 
-#     def __str__(self):
-#         return f'{"|".join(map(str, self))}'
+    def __str__(self):
+        return f'{"|".join(map(str, self))}'
 
-#     def cross(self, other):
-#         # note that when len(self) == 2  ==>  k==1
-#         k = randint(1, len(self)-1)
-#         return self[:k] + other[k:]
+    def cross(self, other):
+        # note that when len(self) == 2  ==>  k==1
+        k = randint(1, len(self)-1)
+        return self[:k] + other[k:]
 
-#     def clone(self, *args, **kwargs):
-#         return copy.copy(self)
+    def clone(self, *args, **kwargs):
+        return copy.copy(self)
 
-#     def mutate(self, indep_prob=0.1):
-#         a = self.random()
-#         for k in range(len(self)):
-#             if random() < indep_prob:
-#                 self[k] = a[k]
+    def mutate(self, indep_prob=0.1):
+        a = self.random()
+        for k in range(len(self)):
+            if random() < indep_prob:
+                self[k] = a[k]
 
