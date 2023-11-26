@@ -103,11 +103,12 @@ class MemoryIndividual(BaseIndividual):
         Args:
             check (bool, optional): check whether the fitness increases.
         """
-        
-        if not check or (self.memory['fitness'] is None or self._fitness() > self.memory['fitness']):
+
+        f = self._fitness()
+        if not check or (self.memory['fitness'] is None or f > self.memory['fitness']):
             def _map(k):
                 if k == 'fitness':
-                    return self._fitness()
+                    return f
                 elif hasattr(getattr(self, k), 'copy'):
                     return getattr(self, k).copy()
                 elif hasattr(getattr(self, k), 'clone'):

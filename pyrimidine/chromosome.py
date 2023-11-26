@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
-from random import random
+from random import choice, randint, gauss, random
+
 import numpy as np
 import scipy.stats
 
 from .base import BaseChromosome, BaseGene
 from .gene import *
-
-from random import choice, randint, gauss
 
 
 def _asarray(out):
@@ -181,7 +180,7 @@ class PermutationChromosome(NaturalChromosome):
         return self[::-1]
 
 
-class FloatChromosome(VectorChromosome):
+class FloatChromosome(NumpyArrayChromosome):
 
     element_class = FloatGene
     sigma = 0.05
@@ -313,17 +312,20 @@ class CircleChromosome(FloatChromosome):
         self.normalize()
 
     def normalize(self):
-        self %= self.element_class.period
+        self[:] = self % self.element_class.period
 
 
 class QuantumChromosome(CircleChromosome):
-
     measure_result = None
 
     def decode(self):
+        self.measure()
+        return self.measure_result
+
+    def measure(self):
         rs = np.random.random(size=(len(self),))
-        self.measure_result = self.decode()
-        return np.cos(self) ** 2 < rs
+        self.measure_result = np.cos(self) ** 2 > rs
+        self.measure_result.astype(np.int_)
 
 
 # Implement Chromosome class by array.array

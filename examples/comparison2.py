@@ -8,7 +8,7 @@ from pyrimidine.benchmarks.optimization import *
 evaluate = Knapsack.random(n=100)
 
 
-class YourIndividual(classicalIndividual(size=100)):
+class YourIndividual(binaryIndividual(size=100)):
 
     def _fitness(self):
         return evaluate(self.chromosome)
