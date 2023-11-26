@@ -5,6 +5,7 @@
 Metaclasses
 """
 
+import copy
 from types import MethodType
 from collections.abc import Iterable
 from operator import attrgetter, methodcaller
@@ -259,6 +260,7 @@ class MetaContainer(ParamType):
 
     def __call__(self, *args, **kwargs):
         o = super().__call__()
+        o.params = copy.deepcopy(self.params)
 
         if args:
             o.__elements = args[0]
@@ -325,6 +327,7 @@ class MetaContainer(ParamType):
 
 class MetaList(MetaContainer):
     # a list is a container of elements with the same type
+
     def __new__(cls, name, bases, attrs):
         if 'element_class' in attrs:
             element_class = attrs['element_class']
@@ -341,6 +344,7 @@ class MetaList(MetaContainer):
 
 class MetaTuple(MetaContainer):
     # a tuple is a container of elements with different types
+
     def __new__(cls, name, bases, attrs):
         # constructor of MetaMultiContainer
         if 'element_class' in attrs:
@@ -355,6 +359,7 @@ class MetaTuple(MetaContainer):
 
 class MetaHighContainer(MetaContainer):
     # High order container is a container of containers.
+
     def __new__(cls, name, bases, attrs):
         # constructor of MetaHighContainer
         if 'element_class' in attrs:
@@ -376,6 +381,8 @@ class MetaHighContainer(MetaContainer):
 
 
 class MetaSingle(MetaContainer):
+    # metaclass for the containers that have only one element
+
     def __new__(cls, name, bases, attrs):
         if 'n_elements' in attrs and attrs['n_elements'] !=1:
             raise ValueError('n_elements should be 1!')
@@ -407,6 +414,12 @@ class MetaSingle(MetaContainer):
 
 class MetaArray(ParamType):
 
+    """Metaclass for chromosomes
+
+    Chromosomes could be seen as a container of genes. But we implement them
+    by the arrays for convenience.
+    """
+    
     def __new__(cls, name, bases, attrs):
         if 'element_class' in attrs:
             element_class = attrs['element_class']

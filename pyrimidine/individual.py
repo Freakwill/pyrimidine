@@ -141,7 +141,7 @@ class PhantomIndividual(BaseIndividual):
     def backup(self):
         if self.fitness < self.phantom.fitness:
             self.chromosomes = self.phantom.chromosomes
-            self.__fitness = self.phantom.fitness
+            self.fitness_cache(self.phantom.fitness)
 
 
 # Following are functions to create individuals

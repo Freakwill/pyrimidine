@@ -32,6 +32,17 @@ class IterativeMixin:
     params = {'n_iter': 100}
 
     @property
+    def cache(self):
+        return self._cache
+
+    def clear(self, k=None):
+        if k is None: self._cache = {}
+        self._cache[k] = None
+
+    def set_cache(self, **d):
+        self._cache.update(d)
+
+    @property
     def solution(self):
         raise NotImplementedError('Have not defined `solution` for the model yet!')   
 
@@ -80,6 +91,7 @@ class IterativeMixin:
         Returns:
             DataFrame | None
         """
+
         assert control is None or callable(control)
  
         n_iter = n_iter or self.n_iter
@@ -180,18 +192,24 @@ class FitnessMixin(IterativeMixin):
     
     Extends:
         BaseIterativeMixin
-    
-    Variables:
-        __fitness {[type]} -- The value of a solution
     """
 
-    __fitness = None
+    # _cache = {'fitness': None}
+    fitness_cache = None
+
+    # def fitness_cache(self, v):
+    #     # self.set_cache(fitness=v)
+    #     self.fitness_cache = v
+
+    def clear_fitness(self):
+        self.fitness_cache = None
 
     @property
     def fitness(self):
-        if self.__fitness is None:
-            self.__fitness = self._fitness()
-        return self.__fitness
+        if self.fitness_cache is None:
+            f = self._fitness()
+            self.fitness_cache = f
+        return self.fitness_cache
 
     def get_fitness(self):
         raise NotImplementedError
@@ -219,9 +237,9 @@ class FitnessMixin(IterativeMixin):
             fitness = self.fitness
         cpy = type_(list(map(methodcaller('clone', type_=type_.element_class, fitness=None), self)))
         if fitness is True:
-            cpy.__fitness = self.fitness
+            cpy.fitness_cache = self.fitness
         else:
-            cpy.__fitness = fitness
+            cpy.fitness_cache = fitness
         return cpy
 
     def evolve(self, stat=None, attrs=('solution',), *args, **kwargs):
@@ -230,12 +248,11 @@ class FitnessMixin(IterativeMixin):
 
         if stat is None:
             stat = {'Fitness':'fitness'}
-
         return super().evolve(stat=stat, attrs=attrs, *args, **kwargs)
 
     def after_setter(self):
         # clean up the fitness after updating the chromosome
-        self.__fitness = None
+        self.clear_fitness()
 
 
 class ContainerMixin(IterativeMixin):
@@ -281,7 +298,7 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
 
     def after_setter(self):
         self.__sorted_ = []
-        self.__fitness = None
+        self.clear_fitness()
 
     @classmethod
     def set_fitness(cls, *args, **kwargs):

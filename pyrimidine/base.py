@@ -209,7 +209,7 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
 
     def mutate(self, copy=False):
         # Mutating operation of an individual
-        self.__fitness = None
+        self.clear_fitness()
         for chromosome in self.chromosomes:
             chromosome.mutate()
         return self
@@ -239,12 +239,6 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         Applied in dual GA
         """
         raise NotImplementedError
-
-    def __getstate__(self):
-        return self.chromosomes, self.fitness
-
-    def __setstate__(self, state):
-        self.chromosomes, self.__fitness = state
 
     def __eq__(self, other):
         return np.all([c.equal(oc) for c, oc in zip(self.chromosomes, other.chromosomes)])
@@ -314,6 +308,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         self.select()
         self.mate()
         self.mutate()
+        self.clear_fitness()
 
     def migrate(self, other):
         """Migration from one population to another
