@@ -7,7 +7,7 @@ import scipy.stats
 from .base import BaseChromosome, BaseGene
 from .gene import *
 
-from random import choice, randint
+from random import choice, randint, gauss
 
 
 def _asarray(out):

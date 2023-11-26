@@ -8,21 +8,26 @@ This behavior forms the basis of the algorithm where solutions are represented a
 and their positions in the search space are adjusted iteratively to find the optimal solution. 
 """
 
-from . import *
-from .utils import *
+
+from math import exp
+from random import random
+
+from . import MemoryIndividual, HOFPopulation, FloatChromosome
+
 
 class Bat(MemoryIndividual):
+
     element_class = FloatChromosome
     default_size = 5
 
-    _memory = {'position':None,
-        'fitness':None
+    _memory = {'position': None,
+        'fitness': None
         }
 
     params = {'frequency': 0.5,
         'pulse_rate': 0,
         'loudness': 0,
-        'scale': 0.2
+        'scale': .1
         }
 
     @property
@@ -62,16 +67,16 @@ class Bats(HOFPopulation):
         super().init()
 
     def transition(self, k):
-        
         for bat in self:
-            bat.frequency = uniform(0, .1)
+            bat.frequency = random() * .1
             bat.velocity += (self.best_individual.memory['position'] - bat.position) * bat.frequency
             bat.move()
 
             # local search
             for i, pi in enumerate(bat.position):
                 if random() < bat.pulse_rate:
-                    bat.position[i] = pi + bat.loudness * uniform(-1, 1)
+                    r = random()*2 - 1
+                    bat.position[i] = pi + bat.loudness * r
 
             # update the params
             bat.pulse_rate = self.pulse_rate * (1 - exp(-self.gamma * k))

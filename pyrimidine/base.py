@@ -407,12 +407,16 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         self.offspring = self.__class__(offspring)
 
     def local_search(self, *args, **kwargs):
-        # call local searching method
+        """Call local searching method
+        
+        By default, it calls the `ezolve` methods of individuals, iteratively
+        """
+
         for individual in self.individuals:
             individual.ezolve(*args, **kwargs)
 
     def get_rank(self, individual):
-        """get rank of one individual
+        """Get rank of one individual
 
         Use `rank` if you call it frequently.
         """
@@ -427,8 +431,10 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         return individual.ranking
 
     def rank(self, tied=False):
-        """Rank all individuals
-        by fitness increasingly
+        """To rank all individuals by the fitness increasingly
+        
+        Args:
+            tied (bool, optional): for tied ranking
         """
         
         # sorted_ = [self[k] for k in self.argsort()]
@@ -451,7 +457,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
                 i.ranking = k / self.n_individuals
 
     def cross(self, other):
-        # cross two populations as two individuals
+        # Cross two populations as two individuals
         k = randint(1, self.n_individuals-2)
         self.individuals = self.individuals[k:] + other.individuals[:k]
         other.individuals = other.individuals[k:] + self.individuals[:k]
@@ -468,7 +474,6 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
         element_class (TYPE): type of the populations
         elements (TYPE): populations as the elements
         fitness (TYPE): best fitness
-        sorted (bool): Description
     """
     
     element_class = BasePopulation

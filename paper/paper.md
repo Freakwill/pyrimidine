@@ -253,11 +253,15 @@ Various genetic algorithm frameworks have been designed, such as deap and gaft. 
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
 | --------- | ------------------ | ---------- | ------------- | ---------------------- |
 | pyrimidine| Object-Oriented, Metaprogramming, Algebraic-insprited | Universal | Extensible | export the data in `DataFrame` |
-| deap      | Object-Oriented, Functional, Metaprogramming        | Universal | Extensible      | export the data in `LogBook`  |
+| deap      | Object-Oriented, Functional, Metaprogramming        | Universal | Extensible*   | export the data in `LogBook`  |
 | gaft      | Object-Oriented, decoration partton   | Universal | Extensible    | Easy to Implement       |
+|geppy | based on deap | Symbolic Regression | Limited | - |
 | tpot(gama)     | scikit-learn Style | Hyperparameter Optimization | Limited | None                   |
 | gplearn   | scikit-learn Style | Symbolic Regression | Limited | None                   |
-| scikit-opt| scikit-learn Style | Numerical Optimization | Limited | Encapsulated as a data frame      |
+| scikit-opt| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
+|scikit-optimize|scikit-learn Style  | Numerical Optimization | Limited | provide some plotting function |
+
+* DEAP’s design philosophy: make algorithms explicit and data structures transparent.
 
 `tpot`, `gplearn`, and `scikit-opt` follow the `scikit-learn` style, providing fixed APIs with limited extensibility. However, they are mature and user-friendly, serving their respective fields effectively.
 

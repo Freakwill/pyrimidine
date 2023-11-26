@@ -109,7 +109,7 @@ class DualPopulation(StandardPopulation):
     """Dual Genetic Algo.
     
     Extends:
-        BasePopulation
+        StandardPopulation
     """
 
     params ={
@@ -143,6 +143,7 @@ class GamogenesisPopulation(HOFPopulation):
         Keyword Arguments:
             mate_prob {number} -- the proba. of mating of two individuals (default: {None})
         """
+
         mate_prob = mate_prob or self.mate_prob
         offspring = [individual.cross(other) for individual, other in zip(self.males, self.females)
         if random() < mate_prob]
@@ -184,10 +185,8 @@ class AgePopulation(EliminationPopulation):
 
 
 class LocalSearchPopulation(StandardPopulation):
-    '''LocalSearchPopulation Class
-    
-    Population with `local_search` method
-    '''
+    """Population with `local_search` method
+    """
 
     def transition(self, *args, **kwargs):
         """Transitation of the states of population

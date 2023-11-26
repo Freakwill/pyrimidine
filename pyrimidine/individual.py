@@ -12,7 +12,6 @@ from .meta import MetaTuple, MetaList, MetaSingle
 from .utils import randint
 
 
-
 class MultiIndividual(BaseIndividual, metaclass=MetaList):
     pass
 
@@ -24,7 +23,7 @@ class MonoIndividual(BaseIndividual, metaclass=MetaSingle):
     """Base class of individual with only one chromosome;
     It is equavalent to a chromosome.
 
-    You should implement the methods, cross, mute.
+    You should implement the genetic operations: cross, mutate.
     """
 
     @classmethod
@@ -50,8 +49,9 @@ class MonoIndividual(BaseIndividual, metaclass=MetaSingle):
 class MixedIndividual(BaseIndividual, metaclass=MetaTuple):
     """base class of individual
 
-    You should implement the methods, cross, mute
+    You should implement the enetic operations: cross, mutate
     """
+
     element_class = BaseChromosome, BaseChromosome
 
     @property
@@ -67,10 +67,11 @@ class MixedIndividual(BaseIndividual, metaclass=MetaTuple):
         else: #if isinstance(size, tuple):
             if len(size) != len(cls.element_class):
                 raise ValueError('the length of `size` is not equal to the number of elements (`n_chromosomes`)')
-        return cls([C.random(size=l, *args, **kwargs) for C, l in zip(cls.element_class, sizes)])
+        return cls([C.random(size=l, *args, **kwargs) for C, l in zip(cls.element_class, size)])
 
 
 class AgeIndividual(BaseIndividual):
+
     params = {
     "age": 0,
     "life_span": 100
@@ -102,6 +103,7 @@ class MemoryIndividual(BaseIndividual):
         Args:
             check (bool, optional): check whether the fitness increases.
         """
+        
         if not check or (self.memory['fitness'] is None or self._fitness() > self.memory['fitness']):
             def _map(k):
                 if k == 'fitness':
@@ -142,12 +144,14 @@ class PhantomIndividual(BaseIndividual):
 
 
 # Following are functions to create individuals
+
 def binaryIndividual(size=8):
     """simple binary individual
     encoded as a sequence such as 01001101
 
     Equiv. to `makeIndividual(size=size)`
     """
+
     return MonoIndividual[BinaryChromosome.set(default_size=size)]
 
 
