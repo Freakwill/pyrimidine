@@ -261,6 +261,8 @@ class MetaContainer(ParamType):
     def __call__(self, *args, **kwargs):
         o = super().__call__()
         o.params = copy.deepcopy(self.params)
+        if hasattr(self, '_cache'):
+            o._cache = copy.deepcopy(self._cache)
 
         if args:
             o.__elements = args[0]

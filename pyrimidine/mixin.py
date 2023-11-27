@@ -29,7 +29,9 @@ from .errors import *
 
 class IterativeMixin:
     # Mixin class for iterative algrithms
+
     params = {'n_iter': 100}
+    _cache = {}
 
     @property
     def cache(self):
