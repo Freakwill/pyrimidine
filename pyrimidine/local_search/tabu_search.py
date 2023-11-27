@@ -22,7 +22,7 @@ class BaseTabuSearch(MemoryIndividual):
         self.memory = self.clone()
         self.best_fitness = self.memory.fitness
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         action = choice(self.actions)
         cpy = self.get_neighbour(action)
         if action not in self.tabu_list:

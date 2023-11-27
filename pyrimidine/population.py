@@ -16,6 +16,8 @@ from .individual import binaryIndividual
 from .chromosome import BinaryChromosome
 from .meta import MetaList
 
+from .deco import clear_cache
+
 
 class StandardPopulation(BasePopulation):
     """Standard GA
@@ -132,7 +134,7 @@ class GamogenesisPopulation(HOFPopulation):
     """Gamogenesis Genetic Algo.
     
     Extends:
-        BasePopulation
+        HOFPopulation
     """
 
     def mate(self, mate_prob=None):
@@ -163,6 +165,7 @@ class EliminationPopulation(BasePopulation):
         self.eliminate()
         self.merge(elder)
 
+    @clear_cache
     def eliminate(self):
         # remove some individuals randomly from the population
         for individual in self:
@@ -177,6 +180,7 @@ class AgePopulation(EliminationPopulation):
             individual.age += 1
         super().transition(*args, **kwargs)
 
+    @clear_cache
     def eliminate(self):
         # remove some old individuals
         for individual in self:
@@ -201,6 +205,7 @@ class ModifiedPopulation(StandardPopulation):
 
     params = {'mutate_prob_ub':0.5, 'mutate_prob_lb':0.1}
 
+    @clear_cache
     def mutate(self):
         fm = self.best_fitness
         fa = self.mean_fitness

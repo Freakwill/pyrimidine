@@ -95,6 +95,7 @@ class MemoryIndividual(BaseIndividual):
         return self._memory
 
     def init(self, fitness=True, type_=None):
+        self._memory = {k: None for k in self.__class__.memory.keys()}
         self.backup(check=False)
 
     def backup(self, check=False):
@@ -141,7 +142,7 @@ class PhantomIndividual(BaseIndividual):
     def backup(self):
         if self.fitness < self.phantom.fitness:
             self.chromosomes = self.phantom.chromosomes
-            self.fitness_cache(self.phantom.fitness)
+            self.cache_fitness(self.phantom.fitness)
 
 
 # Following are functions to create individuals
@@ -159,7 +160,7 @@ def binaryIndividual(size=8):
 makeBinaryIndividual = binaryIndividual
 
 
-def makeIndividual(cls=None, element_class=BinaryChromosome, n_chromosomes=1, size=8):
+def makeIndividual(element_class=BinaryChromosome, n_chromosomes=1, size=8, cls=None):
     """helper to make an individual
     
     Example:
@@ -172,9 +173,10 @@ def makeIndividual(cls=None, element_class=BinaryChromosome, n_chromosomes=1, si
         element_class (BaseChromosome, tuple, optional): class of chromosomes
         n_chromosomes (int, optional): number of chromosomes
         size (int, tuple, optional): the sizes of chromosomes
+        cls: the class of the return individual
     
     Returns:
-        BaseIndividual
+        cls or other individual classes
     """
 
     if n_chromosomes == 1:

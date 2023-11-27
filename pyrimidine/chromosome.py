@@ -7,6 +7,7 @@ import scipy.stats
 
 from .base import BaseChromosome, BaseGene
 from .gene import *
+from .deco import clear_cache
 
 
 def _asarray(out):
@@ -28,7 +29,8 @@ class NumpyArrayChromosome(BaseChromosome, np.ndarray):
         if array is None:
             array = []
 
-        return np.asarray(array, dtype=element_class).view(cls)
+        o = np.asarray(array, dtype=element_class).view(cls)
+        return o
 
     def __array_finalize__(self, obj):
         if obj is None:
@@ -75,7 +77,7 @@ class NumpyArrayChromosome(BaseChromosome, np.ndarray):
                 kwargs['size'] = cls.default_size
             else:
                 raise UnknownSizeError(cls)
-        return cls(array=cls.element_class.random(*args, **kwargs))
+        return cls(cls.element_class.random(*args, **kwargs))
 
     def __str__(self):
         return f'{"|".join(map(str, self))}'
@@ -86,8 +88,11 @@ class NumpyArrayChromosome(BaseChromosome, np.ndarray):
         return self.__class__(np.concatenate((self[:k], other[k:]), axis=0))
 
     def clone(self, *args, **kwargs):
-        return self.__class__(self.copy())
+        o = self.copy()
+        o.set_cache(**self._cache)
+        return o
 
+    @clear_cache
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
             if random() < indep_prob:
@@ -101,6 +106,7 @@ class VectorChromosome(NumpyArrayChromosome):
 
 class MatrixChromosome(NumpyArrayChromosome):
     
+    @clear_cache
     def mutate(self, indep_prob=0.1):
         r, c = self.shape
         for i in range(r):
@@ -120,6 +126,7 @@ class NaturalChromosome(VectorChromosome):
 
     element_class = NaturalGene
 
+    @clear_cache
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
             if random()< indep_prob:
@@ -129,20 +136,21 @@ class NaturalChromosome(VectorChromosome):
         return "".join(map(str, self))
 
     def dual(self):
-        return NaturalChromosome(self.element_class.ub - self)
+        return self.__class__(self.element_class.ub - self)
 
 
 class BinaryChromosome(NaturalChromosome):
 
     element_class = BinaryGene
 
-    def mutate(self, indep_prob=0.1):
+    @clear_cache
+    def mutate(self, indep_prob=0.5):
         for i in range(len(self)):
             if random() < indep_prob:
                 self[i] ^= 1
 
     def dual(self):
-        return BinaryChromosome(1 ^ self)
+        return self.__class__(1 ^ self)
 
 
 class PermutationChromosome(NaturalChromosome):
@@ -163,6 +171,7 @@ class PermutationChromosome(NaturalChromosome):
         r = choice(rotations(self, other))
         rotate(self, r)
 
+    @clear_cache
     def mutate(self):
         i, j = randint2(0, self.default_size-1)
         self[[i,j]] = self[[j,i]]
@@ -185,12 +194,12 @@ class FloatChromosome(NumpyArrayChromosome):
     element_class = FloatGene
     sigma = 0.05
 
+    @clear_cache
     def mutate(self, indep_prob=0.1, mu=0, sigma=None):
         sigma = sigma or self.sigma
         for i in range(len(self)):
             if random() < indep_prob:
                 self[i] += gauss(mu, sigma)
-        return self
 
     def random_neighbour(self, mu=0, sigma=None):
         # select a neighour randomly
@@ -285,7 +294,7 @@ class ProbabilityChromosome(PositiveChromosome):
         p = cpy[i] + cpy[j]
         r = np.random.uniform(0, p)
         cpy[i] = r
-        cpy[j] = p-r
+        cpy[j] = p - r
         return cpy
 
     def mutate(self, *args, **kwargs):
@@ -316,6 +325,7 @@ class CircleChromosome(FloatChromosome):
 
 
 class QuantumChromosome(CircleChromosome):
+    
     measure_result = None
 
     def decode(self):
@@ -365,6 +375,7 @@ class ArrayChromosome(BaseChromosome, array.array):
     def clone(self, *args, **kwargs):
         return copy.copy(self)
 
+    @clear_cache
     def mutate(self, indep_prob=0.1):
         a = self.random()
         for k in range(len(self)):

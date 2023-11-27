@@ -74,7 +74,7 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    pop = MyPopulation.random(n_individuals=40, sizes=[8]*ndim+[8])
+    pop = MyPopulation.random(n_individuals=40, size=[8]*ndim+[8])
     cpy = pop.clone(HOFPopulation[ExampleIndividual])
     d = cpy.evolve(n_iter=200, stat=stat, history=True)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')

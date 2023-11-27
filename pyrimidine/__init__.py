@@ -16,7 +16,7 @@ from .de import *
 from .ba import *
 
 
-__version__ = "1.4.1"
+__version__ = "1.4.2"
 
 __template__ = """
 from pyrimidine import MonoBinaryIndividual

@@ -64,6 +64,8 @@ from .errors import *
 from .meta import *
 from .mixin import *
 
+from .deco import clear_cache
+
 
 class BaseGene:
     """Base class of genes
@@ -207,9 +209,10 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         # Cross operation of two individual
         return self.__class__([chromosome.cross(other_c) for chromosome, other_c in zip(self.chromosomes, other.chromosomes)])
 
+    @clear_cache
     def mutate(self, copy=False):
         # Mutating operation of an individual
-        self.clear_fitness()
+        self.clear_cache()
         for chromosome in self.chromosomes:
             chromosome.mutate()
         return self
@@ -296,8 +299,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
 
     @classmethod
     def random(cls, n_individuals=None, *args, **kwargs):
-        if n_individuals is None:
-            n_individuals = cls.default_size
+        n_individuals = n_individuals or cls.default_size
         return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
 
     def transition(self, *args, **kwargs):
@@ -308,7 +310,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         self.select()
         self.mate()
         self.mutate()
-        self.clear_fitness()
 
     def migrate(self, other):
         """Migration from one population to another
@@ -355,6 +356,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         else:
             raise Exception('No winners in the selection!')
 
+    @clear_cache
     def merge(self, other, n_sel=None):
         """Merge two populations.
 
@@ -373,6 +375,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         if n_sel:
             self.select(n_sel)
 
+    @clear_cache
     def mutate(self, mutate_prob=None):
         """Mutate the whole population.
 
@@ -386,6 +389,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
             if random() < (mutate_prob or self.mutate_prob):
                 individual.mutate()
 
+    @clear_cache
     def mate(self, mate_prob=None):
         """Mate the whole population.
 
@@ -417,7 +421,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         """
 
         r = 0
-        for ind in self.sorted_:
+        for ind in self.sorted_():
             if ind.fitness <= individual.fitness:
                 r += 1
             else:
@@ -432,30 +436,30 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
             tied (bool, optional): for tied ranking
         """
         
-        # sorted_ = [self[k] for k in self.argsort()]
-        sorted_ = self.sorted_
+        sorted_list = self.sorted_()
         if tied:
             k = 0
             while k < self.n_individuals:
                 r = 0
-                individual = sorted_[k]
-                for i in sorted_[k+1:]:
+                individual = sorted_list[k]
+                for i in sorted_list[k+1:]:
                     if i.fitness == individual.fitness:
                         r += 1
                     else:
                         break
-                for i in sorted_[k:k+r+1]:
+                for i in sorted_list[k:k+r+1]:
                     i.ranking = (r + k) / self.n_individuals
                 k += r + 1
         else:
-            for k, i in enumerate(sorted_):
+            for k, i in enumerate(sorted_list):
                 i.ranking = k / self.n_individuals
 
+    @clear_cache
     def cross(self, other):
         # Cross two populations as two individuals
         k = randint(1, self.n_individuals-2)
-        self.individuals = self.individuals[k:] + other.individuals[:k]
-        other.individuals = other.individuals[k:] + self.individuals[:k]
+        self.individuals = self[k:] + other[:k]
+        other.individuals = other[k:] + self[:k]
 
     def dual(self):
         return self.__class__([c.dual() for c in self])
@@ -493,7 +497,7 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
         return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_populations)])
 
     def migrate(self, migrate_prob=None):
-        for population, other in zip(self.populations[:-1], self.populations[1:]):
+        for population, other in zip(self[:-1], self[1:]):
             if random() < (migrate_prob or self.migrate_prob):
                 other.individuals.append(population.best_individual.clone())
                 population.individuals.append(other.best_individual.clone())

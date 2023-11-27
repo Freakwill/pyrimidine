@@ -56,7 +56,8 @@ class ParamType(type):
             elif key in self.alias:
                 return getattr(self, self.alias[key])
             else:
-                raise AttributeError(f'`{key}` is neither an attribute of the object of `{self.__class__}`, nor in `params` or `alias`')
+                raise AttributeError(f"""`{key}` is neither an attribute of the object of `{self.__class__}`, nor in `params` or `alias`;
+                    If you are sure that `{key}` has been defined as an attribute, then you should check the definition statement""")
         attrs['__getattr__'] = _getattr
 
         def _setattr(self, key, value):
@@ -175,13 +176,9 @@ class MetaContainer(ParamType):
             return iter(self.__elements)
 
         def _len(self):
-            # if hasattr(self, '__n_elements'):
-            #     return getattr(self, '__n_elements')
             return len(self.__elements)
 
         def _contains(self, e):
-            # if hasattr(self, '__n_elements'):
-            #     return getattr(self, '__n_elements')
             return e in self.__elements
 
         attrs.update(
@@ -262,7 +259,7 @@ class MetaContainer(ParamType):
         o = super().__call__()
         o.params = copy.deepcopy(self.params)
         if hasattr(self, '_cache'):
-            o._cache = copy.deepcopy(self._cache)
+            o._cache = copy.copy(self._cache)
 
         if args:
             o.__elements = args[0]
@@ -318,10 +315,8 @@ class MetaContainer(ParamType):
 
 #         return super().__new__(cls, name, bases, attrs)
 
-
 #     def __call__(self, *args, **kwargs):
 #         o = super().__call__(*args, **kwargs)
-
 #         for e in o.__elements:  # consider in future
 #             e.__system = o
 #         return o
@@ -343,6 +338,13 @@ class MetaList(MetaContainer):
             raise TypeError('`element_class` should not be a tuple!')
         return self
 
+    def __call__(self, *args, **kwargs):
+        o = super().__call__(*args, **kwargs)
+        for e in o.__elements:  # consider in future
+            if not isinstance(e, self.element_class):
+                raise TypeError(f'"{e}" is not an instance of type "{self.element_class}"')
+        return o
+
 
 class MetaTuple(MetaContainer):
     # a tuple is a container of elements with different types
@@ -358,12 +360,18 @@ class MetaTuple(MetaContainer):
     def __floordiv__(self, n):
         raise DeprecationWarning('It is meaningless to do `//` on the class with a number.')
 
+    def __call__(self, *args, **kwargs):
+        o = super().__call__(*args, **kwargs)
+        for e, t in (o.__elements, self.element_class):  # consider in future
+            if not isinstance(e, t):
+                raise TypeError(f'"{e}" is not an instance of type "{t}"')
+        return o
+
 
 class MetaHighContainer(MetaContainer):
     # High order container is a container of containers.
 
     def __new__(cls, name, bases, attrs):
-        # constructor of MetaHighContainer
         if 'element_class' in attrs:
             element_class = attrs['element_class']
             if (not isinstance(element_class, MetaContainer)
@@ -442,4 +450,11 @@ class MetaArray(ParamType):
 
     def __floordiv__(self, n):
         return self.set(default_size=n)
+
+    def __call__(self, *args, **kwargs):
+        o = super().__call__(*args, **kwargs)
+        o.params = copy.deepcopy(self.params)
+        if hasattr(self, '_cache'):
+            o._cache = copy.copy(self._cache)
+        return o
 

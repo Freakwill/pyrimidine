@@ -26,6 +26,8 @@ import pandas as pd
 from ezstat import Statistics
 from .errors import *
 
+from .deco import clear_cache
+
 
 class IterativeMixin:
     # Mixin class for iterative algrithms
@@ -37,9 +39,11 @@ class IterativeMixin:
     def cache(self):
         return self._cache
 
-    def clear(self, k=None):
-        if k is None: self._cache = {}
-        self._cache[k] = None
+    def clear_cache(self, k=None):
+        if k is None:
+            self._cache = {k: None for k in self._cache.keys()}
+        elif k in self._cache:
+            self._cache[k] = None
 
     def set_cache(self, **d):
         self._cache.update(d)
@@ -48,10 +52,10 @@ class IterativeMixin:
     def solution(self):
         raise NotImplementedError('Have not defined `solution` for the model yet!')   
 
-    @property
-    def _row(self):
-        best = self.solution
-        return f'{best} & {best.fitness}'
+    # @property
+    # def _row(self):
+    #     best = self.solution
+    #     return f'{best} & {best.fitness}'
 
     def init(self):
         pass
@@ -196,22 +200,17 @@ class FitnessMixin(IterativeMixin):
         BaseIterativeMixin
     """
 
-    # _cache = {'fitness': None}
-    fitness_cache = None
+    _cache = {'fitness': None}
 
-    # def fitness_cache(self, v):
-    #     # self.set_cache(fitness=v)
-    #     self.fitness_cache = v
-
-    def clear_fitness(self):
-        self.fitness_cache = None
+    def cache_fitness(self, v):
+        self._cache['fitness'] = v
 
     @property
     def fitness(self):
-        if self.fitness_cache is None:
+        if self._cache['fitness'] is None:
             f = self._fitness()
-            self.fitness_cache = f
-        return self.fitness_cache
+            self.cache_fitness(f)
+        return self._cache['fitness']
 
     def get_fitness(self):
         raise NotImplementedError
@@ -232,16 +231,16 @@ class FitnessMixin(IterativeMixin):
                 return f(self)
         return C
 
-    def clone(self, type_=None, fitness=None):
+    def clone(self, type_=None, fitness=True):
         if type_ is None:
             type_ = self.__class__
         if fitness is True:
             fitness = self.fitness
-        cpy = type_(list(map(methodcaller('clone', type_=type_.element_class, fitness=None), self)))
+        cpy = type_(list(map(methodcaller('clone', type_=type_.element_class, fitness=True), self)))
         if fitness is True:
-            cpy.fitness_cache = self.fitness
+            cpy.cache_fitness(self.fitness)
         else:
-            cpy.fitness_cache = fitness
+            cpy.cache_fitness(fitness)
         return cpy
 
     def evolve(self, stat=None, attrs=('solution',), *args, **kwargs):
@@ -254,7 +253,7 @@ class FitnessMixin(IterativeMixin):
 
     def after_setter(self):
         # clean up the fitness after updating the chromosome
-        self.clear_fitness()
+        self.clear_cache()
 
 
 class ContainerMixin(IterativeMixin):
@@ -265,19 +264,24 @@ class ContainerMixin(IterativeMixin):
         for element in self:
             element.init(*args, **kwargs)
 
+    @clear_cache
     def transition(self, *args, **kwargs):
         for element in self:
             element.transition(*args, **kwargs)
 
+    @clear_cache
     def remove(self, individual):
         self.elements.remove(individual)
 
+    @clear_cache
     def pop(self, k=-1):
         self.elements.pop(k)
 
+    @clear_cache
     def extend(self, inds):
         self.elements.extend(inds)
 
+    @clear_cache
     def add_individuals(self, inds):
         self.elements.extend(inds)
 
@@ -288,19 +292,17 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
     It is consisted of a collection of solutions.
     """
 
-    __sorted_ = []
-
     def evolve(self, stat=None, *args, **kwargs):
         """Get the history of the whole evolution
         """
+
         if stat is None:
             stat = {'Best Fitness': 'best_fitness', 'Mean Fitness': 'mean_fitness',
             'STD Fitness': 'std_fitness', 'Population': 'n_elements'}
         return super().evolve(stat=stat, *args, **kwargs)
 
     def after_setter(self):
-        self.__sorted_ = []
-        self.clear_fitness()
+        self.clear_cache()
 
     @classmethod
     def set_fitness(cls, *args, **kwargs):
@@ -371,9 +373,9 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
             n = int(n)
 
         if copy:
-            return [a.clone() for a in self.sorted_[-n:]]
+            return [self[k].clone() for k in self.argsort()[-n:]]
         else:
-            return self.sorted_[-n:]
+            return [self[k] for k in self.argsort()[-n:]]
 
     @property
     def best_element(self):
@@ -405,16 +407,9 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         k = np.argmin(self.get_all_fitness())
         return self[k]
 
-    @property
     def sorted_(self):
-        if self.__sorted_ == []:
-            ks = self.argsort()
-            self.__sorted_ = [self[k] for k in ks]
-        return self.__sorted_
-
-    @sorted_.setter
-    def sorted_(self, s):
-        self.__sorted_ = s
+        # return a list of sorted individuals
+        return [self[k] for k in self.argsort()]
 
     def sort(self):
         # sort the whole population

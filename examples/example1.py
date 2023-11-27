@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from pyrimidine import *
+from pyrimidine.chromosome import BinaryChromosome
+from pyrimidine.population import HOFPopulation
+from pyrimidine.mixin import FitnessMixin
 
 
 t = np.random.randint(1, 5, 100)
@@ -21,16 +23,17 @@ def _evaluate(x):
     and t_i are repeated rarely
     """
 
-    N = abs(np.sum([ni for ni, c in zip(n, x) if c==1])-30)
+    N = abs(np.sum([ni for ni, c in zip(n, x) if c==1]) - 30)
     T = max_repeat(ti for ti, c in zip(t, x) if c==1)
     return - (N + T /2)
 
-class MyIndividual(BinaryChromosome // 50):
+class MyIndividual(BinaryChromosome // 10):
 
     def _fitness(self):
         return _evaluate(self.decode())
 
-MyPopulation = HOFPopulation[MyIndividual] // 8
+
+MyPopulation = HOFPopulation[MyIndividual] // 12
 
 pop = MyPopulation.random()
 stat = {'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
