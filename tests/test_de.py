@@ -11,7 +11,7 @@ from pyrimidine.benchmarks.special import rosenbrock
 import pytest
 
 @pytest.fixture(scope="class")
-def pop():
+def example2():
     n = 20
     f = rosenbrock
 
@@ -25,33 +25,26 @@ def pop():
         element_class = MyIndividual
         default_size = 10
 
-    class _Population2(HOFPopulation):
-        element_class = MyIndividual
-        default_size = 10
-
-    # _Population2 = HOFPopulation[MyIndividual] // 10
+    _Population2 = HOFPopulation[MyIndividual] // 10
 
     return _Population1, _Population2
 
 
 class TestDE:
-
-    @classmethod
-    def setup_class(cls):
-        cls.Populations = cls.request.getfixturevalue("pop")
     
-    def test_clone(self):
-        P1, P2 = cls.Populations
+    def test_clone(self, example2):
+        P1, P2 = example2
         p2 = P1.random().clone(type_=P2)
         assert isinstance(p2, P2)
 
-    def test_evolve(self):
-        P1, P2 = cls.Populations
+    def test_evolve(self, example2):
+        P1, P2 = example2
         self.population1 = P1.random()
         self.population2 = P2.random()
-        stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-        data1 = self.population1.evolve(stat=stat, n_iter=5, history=True)
-        data2 = self.population2.evolve(stat=stat, n_iter=5, history=True)
+        stat = {'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
+        data1 = self.population1.evolve(stat=stat, n_iter=3, history=True)
+        data2 = self.population2.evolve(stat=stat, n_iter=3, history=True)
         assert ('Mean Fitness' in data1.columns and 'Best Fitness' in data1.columns and
             'Mean Fitness' in data2.columns and 'Best Fitness' in data2.columns)
+        assert len(data1) == len(data2) == 4
 

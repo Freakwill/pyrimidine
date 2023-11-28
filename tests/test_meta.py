@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 
-
 from collections import UserString
-import unittest
 
-from .meta import *
+from .meta import MetaContainer
 
 
-class TestMeta(unittest.TestCase):
-    def setUp(self):
+class TestMeta:
+
+    def setup_method(self):
         class C(metaclass=MetaContainer):
             element_class = UserString
             alias = {'strings': 'elements'}

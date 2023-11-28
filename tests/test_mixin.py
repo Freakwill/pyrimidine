@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 
-import unittest
-
 from pyrimidine import IterativeModel
 
 
-class TestMeta(unittest.TestCase):
+class TestMeta:
     
     def test_iteration(self):
         class TuringModel(IterativeModel):

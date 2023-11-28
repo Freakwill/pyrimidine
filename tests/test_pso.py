@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import unittest
 
 from pyrimidine.utils import FloatChromosome, BasePopulation
 from pyrimidine.pso import Particle, ParticleSwarm
@@ -11,7 +10,7 @@ def evaluate(x):
     return - rosenbrock(x)
 
 
-class TestPSO():
+class TestPSO:
 
     def test_pso(self):
         # generate a knapsack problem randomly
@@ -31,5 +30,6 @@ class TestPSO():
 
         pop = ParticleSwarm.random()
         pop.transition()
+        
         assert isinstance(pop, ParticleSwarm)
 
