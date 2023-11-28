@@ -59,16 +59,16 @@ class DualPopulation(BaseMultiPopulation):
         for p in ps:
             p.join()
 
-        self.populations[0].add_individuals(children[::2])
-        self.populations[1].add_individuals(children[1::2])
+        self.populations[0].extend(children[::2])
+        self.populations[1].extend(children[1::2])
 
     def match(self, male, female):
         return True
 
     def transition(self, *args, **kwargs):
         elder = self.__class__([
-            self.populations[0].clone_best_individuals(self.n_elders * self.populations[0].default_size),
-            self.populations[1].clone_best_individuals(self.n_elders * self.populations[1].default_size)
+            self.populations[0].get_best_individuals(self.n_elders * self.populations[0].default_size, copy=True),
+            self.populations[1].get_best_individuals(self.n_elders * self.populations[1].default_size, copy=True)
             ])
         self.select()
         self.mate()

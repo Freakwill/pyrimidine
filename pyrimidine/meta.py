@@ -49,9 +49,7 @@ class ParamType(type):
         attrs = inherit(attrs, 'params', bases)
 
         def _getattr(self, key):
-            if key in self.__dict__:
-                return self.__dict__[key]
-            elif key in self.params:
+            if key in self.params:
                 return self.params[key]
             elif key in self.alias:
                 return getattr(self, self.alias[key])
@@ -109,6 +107,11 @@ class ParamType(type):
         class cls(self, other):
             pass
         return cls
+
+    def __call__(self, *args, **kwargs):
+        obj = super().__call__(*args, **kwargs)
+        obj.params = copy.deepcopy(self.params)
+        return obj
 
 
 class MetaContainer(ParamType):
@@ -171,6 +174,7 @@ class MetaContainer(ParamType):
         def _setitem(self, k, v):
             # print(DeprecationWarning('get item directly is not recommended now.'))
             self.__elements[k] =v
+            self.after_setter()
 
         def _iter(self):
             return iter(self.__elements)
@@ -340,7 +344,7 @@ class MetaList(MetaContainer):
 
     def __call__(self, *args, **kwargs):
         o = super().__call__(*args, **kwargs)
-        for e in o.__elements:  # consider in future
+        for e in o:  # consider in future
             if not isinstance(e, self.element_class):
                 raise TypeError(f'"{e}" is not an instance of type "{self.element_class}"')
         return o
@@ -362,7 +366,7 @@ class MetaTuple(MetaContainer):
 
     def __call__(self, *args, **kwargs):
         o = super().__call__(*args, **kwargs)
-        for e, t in (o.__elements, self.element_class):  # consider in future
+        for e, t in zip(o, self.element_class):  # consider in future
             if not isinstance(e, t):
                 raise TypeError(f'"{e}" is not an instance of type "{t}"')
         return o
@@ -452,9 +456,8 @@ class MetaArray(ParamType):
         return self.set(default_size=n)
 
     def __call__(self, *args, **kwargs):
-        o = super().__call__(*args, **kwargs)
-        o.params = copy.deepcopy(self.params)
+        obj = super().__call__(*args, **kwargs)
         if hasattr(self, '_cache'):
-            o._cache = copy.copy(self._cache)
-        return o
+            obj._cache = copy.copy(self._cache)
+        return obj
 

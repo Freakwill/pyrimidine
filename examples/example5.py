@@ -11,6 +11,9 @@ import numpy as np
 evaluate = Function1DApproximation(function=lambda x:10*np.arctan(x), lb=-2, ub=2, basis=_my_basis)
 n_basis = len(evaluate.basis)
 
+from pyrimidine.deco import fitness_cache
+
+@fitness_cache
 class MyIndividual(makeIndividual(FloatChromosome, n_chromosomes=1, size=n_basis)):
     def _fitness(self):
         return evaluate(self.chromosome)
@@ -19,10 +22,10 @@ class MyIndividual(makeIndividual(FloatChromosome, n_chromosomes=1, size=n_basis
 class MyPopulation(HOFPopulation):
     element_class = MyIndividual
 
-pop = MyPopulation.random(n_individuals=200)
+pop = MyPopulation.random(n_individuals=100)
 
 stat = {'Best Fitness': 'best_fitness', 'Mean Fitness': 'mean_fitness'}
-data = pop.evolve(n_iter=500, stat=stat, history=True)
+data = pop.evolve(n_iter=200, stat=stat, history=True)
 
 
 import matplotlib.pyplot as plt

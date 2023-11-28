@@ -33,7 +33,7 @@ class MyIndividual(BinaryChromosome // 10):
         return _evaluate(self.decode())
 
 
-MyPopulation = HOFPopulation[MyIndividual] // 12
+MyPopulation = HOFPopulation[MyIndividual] // 16
 
 pop = MyPopulation.random()
 stat = {'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
@@ -47,5 +47,5 @@ if __name__ == '__main__':
     data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
     ax.set_xlabel('Generations')
     ax.set_ylabel('Fitness')
-    ax.set_title('Demo of GA')
+    ax.set_title('Demo for GA')
     plt.show()

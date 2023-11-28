@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+Gene classes
+"""
+
 import numpy as np
 from . import BaseGene
 
@@ -10,6 +14,9 @@ class NaturalGene(np.int_, BaseGene):
     @classmethod
     def random(cls, *args, **kwargs):
         return np.random.randint(cls.ub, dtype=cls, *args, **kwargs)
+
+class DigitGene(NaturalGene):
+    pass
 
 class IntegerGene(np.int_, BaseGene):
     lb, ub = -10, 10
@@ -49,7 +56,8 @@ class PeriodicGene(FloatGene):
 
 
 class CircleGene(PeriodicGene):
-    lb, ub = -np.pi, np.pi
+    lb, ub = 0, 2*np.pi
+    period = 2*np.pi
 
     
 class SemiCircleGene(CircleGene):

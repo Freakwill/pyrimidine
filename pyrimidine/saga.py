@@ -126,7 +126,7 @@ class SSAPopulation(HOFPopulation):
             if random() < min(individual.cross_prob, other.cross_prob):
                 if self.match(individual, other):
                     children.append(individual.cross(other))
-        self.add_individuals(children)
+        self.extend(children)
 
     @classmethod
     def match(cls, individual, other):

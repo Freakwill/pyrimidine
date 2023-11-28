@@ -24,7 +24,6 @@ class Particle(PolyIndividual):
     default_size = 2
     accelerate = 0
 
-
     @property
     def position(self):
         return self.chromosomes[0]
@@ -32,7 +31,7 @@ class Particle(PolyIndividual):
     @position.setter
     def position(self, x):
         self.chromosomes[0] = x
-        self.__fitness = None
+        self._cache['fitness'] = None
 
     @property
     def velocity(self):
@@ -51,14 +50,14 @@ class Particle(PolyIndividual):
         D = cpy.fitness - self.fitness
         if flag:
             self.chromosomes = cpy.chromosomes
-            self.__fitness = cpy.fitness
+            self._cache['fitness'] = cpy.fitness
 
 
 class GravitySearch(PopulationMixin):
     """Standard GSA
     
     Extends:
-        BaseFitnessMixin
+        PopulationMixin
     """
 
     element_class = Particle
@@ -73,7 +72,6 @@ class GravitySearch(PopulationMixin):
         epsilon = 0.0001
         m = (fitnesses - worst_fitness + epsilon) / (best_fitness - worst_fitness + epsilon)
         return m / m.sum()
-
 
     def compute_accelerate(self):
         # compute force
@@ -92,9 +90,8 @@ class GravitySearch(PopulationMixin):
 
         # set accelerate
         for i, particle in enumerate(self):
-            particle.accelerate = A[i,:]
+            particle.accelerate = A[i, :]
 
-    
     def transition(self, k):
         """
         Transitation of the states of particles

@@ -64,7 +64,7 @@ from .errors import *
 from .meta import *
 from .mixin import *
 
-from .deco import clear_cache
+from .deco import side_effect
 
 
 class BaseGene:
@@ -133,10 +133,20 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
 
     @classmethod
     def encode(cls, x):
+        # encode x to a chromosome
         raise NotImplementedError
 
     def equal(self, other):
         return np.array_equal(self, other)
+
+    def clone(self, *args, **kwargs):
+        raise NotImplementedError
+
+    def replicate(self):
+        # Replication operation of a chromosome
+        ind = self.clone()
+        ind.mutate()
+        return ind
 
 
 class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
@@ -149,7 +159,8 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
 
     element_class = BaseChromosome
     default_size = 2
-    alias = {"chromosomes": "elements"}
+    alias = {"chromosomes": "elements",
+    "n_chromosomes": "n_elements"}
 
     def __repr__(self):
         # seperate the chromosomes with $ 
@@ -205,19 +216,23 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         else:
             raise NotImplementedError
 
-    def cross(self, other, k=None):
+    def clone(self, type_=None):
+        if type_ is None:
+            type_ = self.__class__
+        return type_([c.clone(type_=type_.element_class) for c in self])
+
+    def cross(self, other):
         # Cross operation of two individual
         return self.__class__([chromosome.cross(other_c) for chromosome, other_c in zip(self.chromosomes, other.chromosomes)])
 
-    @clear_cache
+    @side_effect
     def mutate(self, copy=False):
         # Mutating operation of an individual
-        self.clear_cache()
         for chromosome in self.chromosomes:
             chromosome.mutate()
         return self
 
-    def replicate(self, k=2):
+    def replicate(self):
         # Replication operation of an individual
         ind = self.clone()
         ind.mutate()
@@ -256,7 +271,6 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
             TYPE: BasePopulation
         """
         assert isinstance(n, np.int_) and n>0, 'n must be a positive integer'
-        from .population import StandardPopulation
         C = StandardPopulation[self.__class__]
         return C([self.clone() for _ in range(n)])
 
@@ -270,7 +284,7 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         return self.__class__([other * this for this in self.chromosomes])
 
 
-class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
+class BasePopulation(PopulationMixin, metaclass=MetaContainer):
     """The base class of population in GA
     
     Represents a state of a stachostic process (Markov process)
@@ -356,7 +370,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         else:
             raise Exception('No winners in the selection!')
 
-    @clear_cache
     def merge(self, other, n_sel=None):
         """Merge two populations.
 
@@ -366,16 +379,16 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         """
 
         if isinstance(other, BasePopulation):
-            self.individuals += other.individuals
+            self.extend(other.individuals)
         elif isinstance(other, typing.Iterable):
-            self.individuals.extend(other)
+            self.extend(other)
         else:
             raise TypeError("`other` should be a population or a list/tuple of individuals")
 
         if n_sel:
             self.select(n_sel)
 
-    @clear_cache
+    @side_effect
     def mutate(self, mutate_prob=None):
         """Mutate the whole population.
 
@@ -389,7 +402,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
             if random() < (mutate_prob or self.mutate_prob):
                 individual.mutate()
 
-    @clear_cache
     def mate(self, mate_prob=None):
         """Mate the whole population.
 
@@ -402,9 +414,10 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
         mate_prob = mate_prob or self.mate_prob
         offspring = [individual.cross(other) for individual, other in zip(self.individuals[::2], self.individuals[1::2])
         if random() < mate_prob]
-        self.individuals.extend(offspring)
+        self.extend(offspring)
         self.offspring = self.__class__(offspring)
 
+    @side_effect
     def local_search(self, *args, **kwargs):
         """Call local searching method
         
@@ -454,9 +467,13 @@ class BasePopulation(PopulationMixin, metaclass=MetaHighContainer):
             for k, i in enumerate(sorted_list):
                 i.ranking = k / self.n_individuals
 
-    @clear_cache
     def cross(self, other):
         # Cross two populations as two individuals
+        k = randint(1, self.n_individuals-2)
+        return self.__class__(self[k:] + other[:k])
+
+    def migrate(self, other):
+        # migrate between two populations
         k = randint(1, self.n_individuals-2)
         self.individuals = self[k:] + other[:k]
         other.individuals = other[k:] + self[:k]
@@ -470,7 +487,7 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
     
     Attributes:
         default_size (int): the number of populations
-        element_class (TYPE): type of the populations
+        element_class (TYPE): the type of the populations
         elements (TYPE): populations as the elements
         fitness (TYPE): best fitness
     """
@@ -499,8 +516,8 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
     def migrate(self, migrate_prob=None):
         for population, other in zip(self[:-1], self[1:]):
             if random() < (migrate_prob or self.migrate_prob):
-                other.individuals.append(population.best_individual.clone())
-                population.individuals.append(other.best_individual.clone())
+                other.append(population.get_best_individual(copy=True))
+                population.append(other.get_best_individual(copy=True))
 
     def transition(self, *args, **kwargs):
         super().transition(*args, **kwargs)
@@ -509,10 +526,13 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
     def best_fitness(self):
         return max(map(attrgetter('best_fitness'), self))
 
-    def get_best_individual(self):
+    def get_best_individual(self, copy=True):
         bests = map(methodcaller('get_best_individual'), self)
         k = np.argmax([b.fitness for b in bests])
-        return bests[k]
+        if copy:
+            return bests[k].clone()
+        else:
+            return bests[k]
 
     @property
     def individuals(self):

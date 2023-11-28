@@ -4,7 +4,7 @@
 from pyrimidine.utils import *
 
 
-class TestUtils(unittest.TestCase):
+class TestUtils:
 
     def test_pattern(self):
         assert pattern([[0,1,1],[1,1,0]]) == '*1*'

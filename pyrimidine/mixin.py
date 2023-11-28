@@ -26,27 +26,13 @@ import pandas as pd
 from ezstat import Statistics
 from .errors import *
 
-from .deco import clear_cache
+from .deco import side_effect
 
 
 class IterativeMixin:
     # Mixin class for iterative algrithms
 
     params = {'n_iter': 100}
-    _cache = {}
-
-    @property
-    def cache(self):
-        return self._cache
-
-    def clear_cache(self, k=None):
-        if k is None:
-            self._cache = {k: None for k in self._cache.keys()}
-        elif k in self._cache:
-            self._cache[k] = None
-
-    def set_cache(self, **d):
-        self._cache.update(d)
 
     @property
     def solution(self):
@@ -167,6 +153,9 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
     def clone(self, type_=None, *args, **kwargs):
         raise NotImplementedError
 
+    def copy(self):
+        raise NotImplementedError
+
     def encode(self):
         raise NotImplementedError
  
@@ -190,6 +179,10 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         else:
             raise FileNotFoundError(f'Could not find the file {filename}!')
 
+    def after_setter(self):
+        if hasattr(self, '_cache'):
+            self.clear_cache()
+
 
 class FitnessMixin(IterativeMixin):
     """Iterative models drived by the fitness/objective function
@@ -197,20 +190,8 @@ class FitnessMixin(IterativeMixin):
     The fitness should be stored until the the state of the model is changed.
     
     Extends:
-        BaseIterativeMixin
+        IterativeMixin
     """
-
-    _cache = {'fitness': None}
-
-    def cache_fitness(self, v):
-        self._cache['fitness'] = v
-
-    @property
-    def fitness(self):
-        if self._cache['fitness'] is None:
-            f = self._fitness()
-            self.cache_fitness(f)
-        return self._cache['fitness']
 
     def get_fitness(self):
         raise NotImplementedError
@@ -219,6 +200,10 @@ class FitnessMixin(IterativeMixin):
         # the alias of the fitness
         return self.get_fitness()
 
+    @property
+    def fitness(self):
+        return self._fitness()
+
     @classmethod
     def set_fitness(cls, f=None):
         if f is None:
@@ -226,22 +211,8 @@ class FitnessMixin(IterativeMixin):
                 f = globals()['_fitness']
             else:
                 raise Exception('Function `_fitness` is not defined before setting fitness. You may forget to create the class in the context of environment.')
-        class C(cls):
-            def _fitness(self):
-                return f(self)
-        return C
-
-    def clone(self, type_=None, fitness=True):
-        if type_ is None:
-            type_ = self.__class__
-        if fitness is True:
-            fitness = self.fitness
-        cpy = type_(list(map(methodcaller('clone', type_=type_.element_class, fitness=True), self)))
-        if fitness is True:
-            cpy.cache_fitness(self.fitness)
-        else:
-            cpy.cache_fitness(fitness)
-        return cpy
+        cls._fitness = f
+        return cls
 
     def evolve(self, stat=None, attrs=('solution',), *args, **kwargs):
         """Get the history of solution and its fitness by default.
@@ -251,9 +222,9 @@ class FitnessMixin(IterativeMixin):
             stat = {'Fitness':'fitness'}
         return super().evolve(stat=stat, attrs=attrs, *args, **kwargs)
 
-    def after_setter(self):
-        # clean up the fitness after updating the chromosome
-        self.clear_cache()
+    @property
+    def solution(self):
+        return self
 
 
 class ContainerMixin(IterativeMixin):
@@ -264,26 +235,25 @@ class ContainerMixin(IterativeMixin):
         for element in self:
             element.init(*args, **kwargs)
 
-    @clear_cache
     def transition(self, *args, **kwargs):
         for element in self:
             element.transition(*args, **kwargs)
 
-    @clear_cache
+    @side_effect
     def remove(self, individual):
         self.elements.remove(individual)
 
-    @clear_cache
+    @side_effect
     def pop(self, k=-1):
         self.elements.pop(k)
 
-    @clear_cache
+    @side_effect
     def extend(self, inds):
         self.elements.extend(inds)
 
-    @clear_cache
-    def add_individuals(self, inds):
-        self.elements.extend(inds)
+    @side_effect
+    def append(self, ind):
+        self.elements.append(ind)
 
 
 class PopulationMixin(FitnessMixin, ContainerMixin):
@@ -300,9 +270,6 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
             stat = {'Best Fitness': 'best_fitness', 'Mean Fitness': 'mean_fitness',
             'STD Fitness': 'std_fitness', 'Population': 'n_elements'}
         return super().evolve(stat=stat, *args, **kwargs)
-
-    def after_setter(self):
-        self.clear_cache()
 
     @classmethod
     def set_fitness(cls, *args, **kwargs):
@@ -426,3 +393,13 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
             n = int(n)
         ks = self.argsort()
         self.elements = [self[k] for k in ks[n:]]
+
+    def clone(self, type_=None, fitness=True):
+        if type_ is None:
+            type_ = self.__class__
+        cpy = type_(list(map(methodcaller('clone', type_=type_.element_class, fitness=True), self)))
+        if fitness is True:
+            cpy.cache_fitness(self.fitness)
+        else:
+            cpy.cache_fitness(fitness)
+        return cpy

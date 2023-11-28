@@ -85,17 +85,14 @@ class GenderIndividual(MixedIndividual):
         raise NotImplementedError
 
 
+from .deco import add_memory, add_cache
+
+@add_memory(memory={"fitness": None})
 class MemoryIndividual(BaseIndividual):
     # Individual with memory, used in PSO
 
-    _memory = {"fitness": None}
-
-    @property
-    def memory(self):
-        return self._memory
-
     def init(self, fitness=True, type_=None):
-        self._memory = {k: None for k in self.__class__.memory.keys()}
+        self._memory = {k: None for k in self.__class__._memory.keys()}
         self.backup(check=False)
 
     def backup(self, check=False):
@@ -105,7 +102,7 @@ class MemoryIndividual(BaseIndividual):
             check (bool, optional): check whether the fitness increases.
         """
 
-        f = self._fitness()
+        f = super().fitness
         if not check or (self.memory['fitness'] is None or f > self.memory['fitness']):
             def _map(k):
                 if k == 'fitness':
@@ -118,31 +115,22 @@ class MemoryIndividual(BaseIndividual):
                     return getattr(self, k)
             self._memory = {k: _map(k) for k in self.memory.keys()}
 
-    @property
-    def fitness(self):
-        if 'fitness' in self.memory and self.memory['fitness'] is not None:
-            return self.memory['fitness']
-        else:
-            return super().fitness
 
-    def clone(self, *args, **kwargs):
-        cpy = super().clone(*args, **kwargs)
-        cpy._memory = self.memory
-        return cpy
-
-
+@add_cache(('fitness',))
 class PhantomIndividual(BaseIndividual):
     # Another implementation of the individual class with memory
 
+    _cache = {'fitness': None}
+
     phantom = None
 
-    def init(self, fitness=True, type_=None):
-        self.phantom = self.clone(fitness=fitness, type_=type_)
+    def init(self):
+        self.phantom = self.clone()
 
     def backup(self):
         if self.fitness < self.phantom.fitness:
             self.chromosomes = self.phantom.chromosomes
-            self.cache_fitness(self.phantom.fitness)
+            self.set_cache(fitness=self.phantom.fitness)
 
 
 # Following are functions to create individuals

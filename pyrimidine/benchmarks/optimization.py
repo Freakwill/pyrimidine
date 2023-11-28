@@ -4,7 +4,6 @@ import numpy as np
 from .benchmarks import Problem
 
 
-
 class Knapsack(BaseProblem):
     """Knapsack Problem
 
@@ -67,7 +66,7 @@ class Knapsack(BaseProblem):
             return - 1/(1 + np.exp(-v)) * M
 
 
-class MultiKnapsack(Problem):
+class MultiKnapsack(BaseProblem):
     """Multi Choice Knapsack Problem
 
     max sum_ij cij xij
@@ -126,7 +125,7 @@ class MultiKnapsack(Problem):
             return - 1/(1 + np.exp(-v)) * M
 
 
-class MLE:
+class MLE(BaseProblem):
     # max likelihood estimate
     def __init__(self, pdf, x):
         self.pdf = logpdf
@@ -142,7 +141,7 @@ class MLE:
         return np.sum([self.logpdf(xi, *t) for xi in self.x])
 
 
-class MixMLE:
+class MixMLE(MLE):
     # mix version of max likelihood estimate
     # x|k ~ pk
     def __init__(self, pdfs, x):
@@ -167,7 +166,7 @@ class MixMLE:
 
 from scipy.spatial.distance import pdist, squareform
 
-class ShortestPath:
+class ShortestPath(BaseProblem):
     def __init__(self, points):
         """TSP
         
@@ -204,7 +203,7 @@ y = np.hstack((y1, y2))
 heart_path = CurvePath(x, y)
 
 
-class MinSpanningTree:
+class MinSpanningTree(BaseProblem):
     def __init__(self, nodes, edges=[]):
         self.nodes = nodes
         self.edges = edges
@@ -224,7 +223,8 @@ class MinSpanningTree:
         edges.append(tuple(Q))
         return edges
 
-class FacilityLayout(object):
+
+class FacilityLayout(BaseProblem):
     '''
     F: F
     D: D

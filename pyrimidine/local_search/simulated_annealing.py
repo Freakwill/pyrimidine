@@ -32,7 +32,7 @@ class SimulatedAnnealing(PhantomIndividual):
 
     def init(self):
         # initialize phantom solution
-        self.phantom = self.clone(fitness=None)
+        self.phantom = self.clone()
 
     def transition(self, *args, **kwargs):
         T = self.initT

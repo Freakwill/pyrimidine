@@ -10,6 +10,7 @@ class KMeans:
     ERM:
     min J(c,mu) = sum_c sum_{x:c} ||x-mu_c||
     """
+
     def __init__(self, X, n_components=2):
         self.X = X
         self.n_components = n_components
@@ -20,7 +21,6 @@ class KMeans:
         X2 = np.random.normal(2, 1, (N, p))
         X = np.vstack((X1, X2))
         return KMeans(X, n_components=2)
-
 
     def __call__(self, x):
         # xi = k  iff  Xi in k-class

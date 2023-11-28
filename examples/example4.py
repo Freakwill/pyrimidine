@@ -19,10 +19,14 @@ class _Chromosome(BinaryChromosome):
     def decode(self):
         return c(self)
 
+from pyrimidine.deco import fitness_cache
+
+@fitness_cache
 class ExampleIndividual(PolyIndividual):
     """
     You should implement the methods, cross, mute
     """
+
     element_class = _Chromosome
     default_size = 10
 
@@ -30,13 +34,13 @@ class ExampleIndividual(PolyIndividual):
         x = self.decode()
         return evaluate(x)
 
-
+@fitness_cache
 class MyIndividual(ExampleIndividual, SimulatedAnnealing):
 
     def get_neighbour(self):
         cpy = self.clone()
         r = randint(0, self.n_chromosomes-1)
-        cpy.chromosomes[r].mutate()
+        cpy[r].mutate()
         return cpy
 
 
@@ -57,6 +61,7 @@ if __name__ == '__main__':
     LocalSearchPopulation.element_class = MyIndividual
 
     lga = LocalSearchPopulation.random(n_individuals=20, n_chromosomes=10, size=10)
+
     lga.mate_prob = 0.9
     d= lga.evolve(n_iter=10, stat=stat, history=True)
     d[['Mean Fitness', 'Best Fitness']].plot(ax=ax, style='.-')

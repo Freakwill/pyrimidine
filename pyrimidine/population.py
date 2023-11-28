@@ -16,7 +16,7 @@ from .individual import binaryIndividual
 from .chromosome import BinaryChromosome
 from .meta import MetaList
 
-from .deco import clear_cache
+from .deco import side_effect
 
 
 class StandardPopulation(BasePopulation):
@@ -69,7 +69,7 @@ class HOFPopulation(StandardPopulation):
 
         super().transition(*args, **kwargs)
         self.update_hall_of_fame()
-        self.add_individuals(self.hall_of_fame)
+        self.extend(self.hall_of_fame)
 
     def update_hall_of_fame(self):
         for ind in self:
@@ -165,7 +165,6 @@ class EliminationPopulation(BasePopulation):
         self.eliminate()
         self.merge(elder)
 
-    @clear_cache
     def eliminate(self):
         # remove some individuals randomly from the population
         for individual in self:
@@ -180,7 +179,6 @@ class AgePopulation(EliminationPopulation):
             individual.age += 1
         super().transition(*args, **kwargs)
 
-    @clear_cache
     def eliminate(self):
         # remove some old individuals
         for individual in self:
@@ -191,6 +189,12 @@ class AgePopulation(EliminationPopulation):
 class LocalSearchPopulation(StandardPopulation):
     """Population with `local_search` method
     """
+
+    params = {'n_local_iter': 10}
+
+    def init(self):
+        for i in self:
+            i.n_iter = self.n_local_iter
 
     def transition(self, *args, **kwargs):
         """Transitation of the states of population
@@ -205,7 +209,6 @@ class ModifiedPopulation(StandardPopulation):
 
     params = {'mutate_prob_ub':0.5, 'mutate_prob_lb':0.1}
 
-    @clear_cache
     def mutate(self):
         fm = self.best_fitness
         fa = self.mean_fitness
@@ -219,11 +222,21 @@ class ModifiedPopulation(StandardPopulation):
                 individual.mutate()
 
 
-def makeBinaryPopulation(cls=None, n_populations=20, size=8, as_chromosome=True):
-    # make a binary population
+def makeBinaryPopulation(n_individuals=20, size=8, as_chromosome=True, cls=None):
+    """Make a binary population
+    
+    Args:
+        n_individuals (int, optional): the number of the individuals in the population
+        size (int, optional): the size of an individual or a chromosome
+        as_chromosome (bool, optional): take chromosomes as the individuals of the population
+        cls (None, optional): the type of the population (HOFPopulation by default)
+    
+    Returns:
+        subclass of BasePopulation
+    """
 
     cls = cls or HOFPopulation
     if as_chromosome:
-        return cls[BinaryChromosome // size] // n_populations
+        return cls[BinaryChromosome // size] // n_individuals
     else:
-        return cls[binaryIndividual(size)] // n_populations
+        return cls[binaryIndividual(size)] // n_individuals

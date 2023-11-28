@@ -6,12 +6,14 @@ from pyrimidine.utils import FloatChromosome, BasePopulation
 from pyrimidine.pso import Particle, ParticleSwarm
 from pyrimidine.benchmarks.special import rosenbrock
 
+
 def evaluate(x):
     return - rosenbrock(x)
 
-class TestPSO(unittest.TestCase):
 
-    def setUp(self):
+class TestPSO():
+
+    def test_pso(self):
         # generate a knapsack problem randomly
 
         class _Particle(Particle):
@@ -25,8 +27,9 @@ class TestPSO(unittest.TestCase):
             element_class = _Particle
             default_size = 10
 
-        self.ParticleSwarm = MyParticleSwarm
+        ParticleSwarm = MyParticleSwarm
 
-    def test_pso(self):
-        pop = self.ParticleSwarm.random()
-        data = pop.transition()
+        pop = ParticleSwarm.random()
+        pop.transition()
+        assert isinstance(pop, ParticleSwarm)
+
