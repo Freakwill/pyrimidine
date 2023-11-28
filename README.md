@@ -25,6 +25,7 @@ The container could be a list or an array.
 Container class has an attribute `element_class`, telling itself the class of the elements in it.
 
 Following is the part of the source code of `BaseIndividual` and `BasePopulation`.
+
 ```python
 class BaseIndividual(FitnessModel, metaclass=MetaContainer):
     element_class = BaseChromosome
@@ -34,7 +35,6 @@ class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
     element_class = BaseIndividual
     default_size = 20
 ```
-
 
 There is mainly tow kinds of containers: list and tuple as in programming language `Haskell`. See following examples.
 
@@ -52,6 +52,8 @@ s=\{a:A\}:S
 $$
 
 We define a population as a container of individuals or chromosomes, and an individual is a container of chromosomes.
+
+An indivdiual has only one chromosome is equivalent to a chromosome mathematically.
 
 The methods are the functions or operators defined on $s$.
 
@@ -92,17 +94,17 @@ class MyIndividual(MonoIndividual):
         ...
 ```
 
-Since `classicalIndividual(size=8)` could create such individual, it is equivalent to
+Since `binaryIndividual(size=8)` could create such individual, it is equivalent to
 
 ```python
-class MyIndividual(classicalIndividual()):
+class MyIndividual(binaryIndividual()):
     # only need define the fitness
     def _fitness(self):
         ...
 ```
 
 
-If an individual contains several chromosomes, then subclass `MultiIndividual`. It could be applied in multi-real-variable optimization problems.
+If an individual contains several chromosomes, then subclass `MultiIndividual` or `PolyIndividual`. It could be applied in multi-real-variable optimization problems where each variable has a separative binary encoding.
 
 
 In most cases, we have to decode chromosomes to real numbers.
@@ -152,6 +154,8 @@ class MyPopulation(StandardPopulation):
 
 ### Initialize randomly
 
+`random` is a factory method!
+
 #### Initialize a population
 
 Generate a population, with 50 individuals and each individual has 100 genes
@@ -171,7 +175,6 @@ For `MixedIndividual`, we recommand to use, for example
 In fact, `random` method of `Population` will call random method of `Individual`. If you want to generate an individual, then just execute `MyIndividual.random(n_chromosomes=5, size=10)`, for simple individuals, just execute `SimpleIndividual.random(size=10)` since its `n_chromosomes` equals to 1.
 
 
-
 ### Evolution
 
 #### `evolve` method
@@ -185,7 +188,9 @@ print(pop.solution)
 
 set `verbose=True` to display the data for each generation.
 
-
+`evolve` method mainly excute two methods: 
+- `init`: initial configuration of the algo.
+- `transition`: do each step of the iteration.
 
 #### History
 
@@ -197,7 +202,7 @@ data = pop.history(stat=stat)  # use history instead of evolve
 ```
 `stat` is a dict mapping keys to function, where string 'mean_fitness' means function `lambda pop:pop.mean_fitness` which gets the mean fitness of the individuals in `pop`. Since we have defined pop.best_individual.fitness as a property, `stat` could be redefined as `{'Fitness':'fitness', 'Best Fitness': 'best_fitness'}`.
 
-
+It requires `ezstat`, a easy statistical tool devoloped by the author.
 
 #### performance
 
@@ -236,7 +241,7 @@ def max_repeat(x):
     c = collections.Counter(x)
     return np.max([b for a, b in c.items()])
 
-class MyIndividual(BinaryIndividual):
+class MyIndividual(makeBinaryIndividual()):
 
     def _fitness(self):
         x = abs(np.dot(n, self.chromosome)-10)
@@ -262,7 +267,18 @@ class MyChromosome(BinaryChromosome):
         return - x - y
 
 class MyPopulation(StandardPopulation):
-    element_class = Chromosome
+    element_class = MyChromosome
+```
+
+Equiv. to
+```python
+def _fitness(self):
+    x = abs(np.dot(n, self)-10)
+    y = max_repeat(ti for ti, c in zip(t, self) if c==1)
+    return - x - y
+
+MyChromosome = BinaryChromosome.set_fitness()  # need not to set fitness explicitly
+MyPopulation = StandardPopulation[MyChromosome]
 ```
 
 ### Example2: Knapsack Problem
