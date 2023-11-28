@@ -120,8 +120,6 @@ class MemoryIndividual(BaseIndividual):
 class PhantomIndividual(BaseIndividual):
     # Another implementation of the individual class with memory
 
-    _cache = {'fitness': None}
-
     phantom = None
 
     def init(self):

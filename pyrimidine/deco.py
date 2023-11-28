@@ -98,12 +98,18 @@ class add_cache:
         methods (tuple[str]): a tuple of method names
     """
 
-    def __init__(self, attrs, methods=()):
+    def __init__(self, attrs, methods=(), scope=None):
         self.methods = methods
         self.attrs = attrs
+        self.scope = scope
 
     def __call__(self, cls):
-        cls._cache = {a: None for a in self.attrs}
+
+        # add `_cache` to the class
+        if hasattr(cls, '_cache'):
+            cls._cache.update({a: None for a in self.attrs})
+        else:
+            cls._cache = {a: None for a in self.attrs}
 
         @property
         def cache(obj):
@@ -139,13 +145,14 @@ class add_cache:
         cls.clone = _clone
 
         for a in self.attrs:
-            def f(obj):
-                if obj._cache[a] is None:
-                    f = getattr(obj, '_'+a)()
-                    obj._cache[a] = f
-                    return f
-                else:
-                    return obj._cache[a]
+            if hasattr(cls, '_'+a):
+                def f(obj):
+                    if obj._cache[a] is None:
+                        f = getattr(obj, '_'+a)()
+                        obj._cache[a] = f
+                        return f
+                    else:
+                        return obj._cache[a]
             setattr(cls, a, property(f))
 
         def _after_setter(obj):

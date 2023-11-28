@@ -239,6 +239,11 @@ class MetaContainer(ParamType):
             '__setstate__': _setstate
             })
 
+        def _isa(self, cls):
+            return isinstance(self, cls) and self.element_class == cls.element_class
+
+        attrs.update({'isa': _isa})
+
         """
         Regester maps and operands
         if the mapping f is regestered, then A owns method f, automatically

@@ -30,10 +30,6 @@ class SimulatedAnnealing(PhantomIndividual):
         'termT': 0.0001       # terminal temperature
         }
 
-    def init(self):
-        # initialize phantom solution
-        self.phantom = self.clone()
-
     def transition(self, *args, **kwargs):
         T = self.initT
         for epoch in range(self.n_epochs):
