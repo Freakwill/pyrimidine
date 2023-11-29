@@ -1,6 +1,6 @@
 # pyrimidine
 
-OO implement of genetic algorithm by python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details.
+An extensible framework of genetic algorithm by python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details.
 
 ![LOGO](logo.png)
 

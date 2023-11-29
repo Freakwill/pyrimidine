@@ -20,6 +20,7 @@ affiliations:
    index: 3
 date: 13 August 2017
 bibliography: paper.bib
+
 ---
 
 # Pyrimidine: Algebra-inspired Programming framework for genetic algorithms

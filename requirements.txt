@@ -4,8 +4,10 @@ scipy
 pandas
 toolz
 
-# Visualization
+# Statistics
 ezstat
+
+# Visualization
 matplotlib
 
 # Examples

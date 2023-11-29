@@ -17,6 +17,7 @@ def example_problem():
 
 @pytest.fixture(scope='class')
 def example(example_problem):
+    
     _evaluate = example_problem
 
     class ExampleIndividual(MonoIndividual):

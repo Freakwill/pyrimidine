@@ -86,7 +86,7 @@ class add_memory:
         return cls
 
 
-usual_side_effect = ['mutate', 'extend', 'pop', 'remove']
+usual_side_effect = ['mutate', 'extend', 'pop', 'remove', '__setitem__', '__setattr__', '__setstate__']
 
 
 class add_cache:
@@ -147,6 +147,7 @@ class add_cache:
         for a in self.attrs:
             if hasattr(cls, '_'+a):
                 def f(obj):
+                    # get the attribute from cache, otherwise compute it again
                     if obj._cache[a] is None:
                         f = getattr(obj, '_'+a)()
                         obj._cache[a] = f
