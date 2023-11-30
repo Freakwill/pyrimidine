@@ -1,5 +1,5 @@
 ---
-title: 'Pyrimidine: Algebra-inspired Programming framework for evolution algorithms
+title: 'Pyrimidine: Algebra-inspired Programming framework for evolution algorithms'
 tags:
   - Python
   - astronomy
@@ -32,7 +32,7 @@ bibliography: paper.bib
 
 ## Introduction
 
-As one of the earliest developed intelligent algorithms [1-4], GA has found extensive application across various domains and has undergone modifications and integrations with new algorithms [5-6]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [4] and the associated literatures.
+As one of the earliest developed intelligent algorithms [holland, katoch], GA has found extensive application across various domains and has undergone modifications and integrations with new algorithms [5-6]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [4] and the associated literatures.
 
 Presently, a variety of programming languages feature libraries that implement GA frameworks. Python stands out for its extensive collection of GA frameworks, including notable ones like deap [7] for general purposes, gaft for optimization, and tpot for super-parameter tuning [8-9], along with scikit-learn, such as scikit-opt and gplearn [10]. 
 
@@ -263,7 +263,7 @@ Various genetic algorithm frameworks have been designed, such as `deap` and `gaf
 | scikit-opt| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
 |scikit-optimize|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
 
-`tpot`, `gplearn`, and `scikit-opt` follow the `scikit-learn` style, providing fixed APIs with limited extensibility. However, they are mature and user-friendly, serving their respective fields effectively.
+`tpot`, `gplearn`, and `scikit-opt` follow the `scikit-learn` style [sklearn_api], providing fixed APIs with limited extensibility. However, they are mature and user-friendly, serving their respective fields effectively.
 
 `deap` is feature-rich and mature. However, it primarily adopts a functional programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `gaft` is highly object-oriented with good extensibility, but not active. In `pyrimidine`, various operations on chromosomes are treated as chromosome methods, rather than top-level functions. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods.
 
