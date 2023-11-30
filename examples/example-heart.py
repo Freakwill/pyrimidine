@@ -32,12 +32,12 @@ points = _evaluate.points
 
 def animate(i, step=5, start=0):
     pop.ezolve(n_iter=step)
-    x = pop.best_individual.decode()
+    x = pop.solution
     ax.plot(points[x, 0], points[x, 1], 'r-o')
     ax.legend((f'Generation {start+i*step}({-pop.best_fitness:.4})',))
 
 camera = Camera(fig)
-x = pop.best_individual.decode()
+x = pop.solution
 ax.set_title('GA (with hall of fame) for TSP')
 ax.plot(points[x, 0], points[x,1], 'r-o')
 ax.legend((f'Generation 0({-pop.best_fitness:.4})',))

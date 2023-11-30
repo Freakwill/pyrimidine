@@ -27,9 +27,7 @@ class _Individual(PolyIndividual[BinaryChromosome]):
         return unitIntervalConverter(self.chromosomes[1])
 
 
-class _Population(HOFPopulation):
-    element_class = _Individual
-    default_size = 20
+_Population = HOFPopulation[_Individual] // 20
 
 
 class MySpecies(DualSpecies):

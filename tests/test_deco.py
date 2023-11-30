@@ -37,3 +37,17 @@ class TestDeco:
 
         c = C()
         assert c._fitness() == 3
+
+    def test_map(self):
+
+        @regester_map('upper')
+        class C:
+            elms = ['a', 'b']
+
+            def __iter__(self):
+                return iter(self.elms)
+
+        c = C()
+
+        assert list(c.upper()) == ['A', 'B']
+

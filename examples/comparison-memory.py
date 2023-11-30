@@ -4,7 +4,7 @@
 from pyrimidine import *
 from pyrimidine.benchmarks.optimization import *
 
-from pyrimidine.deco import add_memory, fitness_cache
+from pyrimidine.deco import basic_memory, fitness_cache
 
 # generate a knapsack problem randomly
 n_bags = 50
@@ -20,7 +20,7 @@ class YourIndividual(BinaryChromosome // n_bags):
 YourPopulation = HOFPopulation[YourIndividual] // 20
 
 
-@add_memory({'solution': None, 'fitness': None})
+@basic_memory
 class MyIndividual(YourIndividual):
 
     def backup(self, check=False):
@@ -30,13 +30,6 @@ class MyIndividual(YourIndividual):
             'solution': self.clone(),
             'fitness': f
             }
-
-    @property
-    def solution(self):
-        if self._memory['solution'] is not None:
-            return self._memory['solution']
-        else:
-            return self.solution
 
 
 class MyPopulation(HOFPopulation):
@@ -56,6 +49,7 @@ class MyPopulation(HOFPopulation):
         """
         Update the `hall_of_fame` after each step of evolution
         """
+        
         self.backup()
         super().transition(*args, **kwargs)
 

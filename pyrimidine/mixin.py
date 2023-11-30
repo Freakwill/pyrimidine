@@ -302,6 +302,14 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
     def best_fitness(self):
         return np.max(self.get_all_fitness())
 
+    @property
+    def stat_fitness(self, s=np.max):
+        f = self.get_all_fitness()
+        if isinstance(s, tuple):
+            return tuple(si(f) for si in  s)
+        else:
+            return s(f)
+
     def get_best_element(self, copy=False):
         """Get best element
         

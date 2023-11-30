@@ -7,6 +7,7 @@ import scipy.stats
 
 from .base import BaseChromosome, BaseGene
 from .gene import *
+from .utils import *
 
 
 def _asarray(out):

@@ -23,6 +23,9 @@ class _Chromosome(VectorChromosome):
 
 n_basis = 20
 
+from pyrimidine.deco import fitness_cache
+
+@fitness_cache
 class MyIndividual(MixedIndividual):
 
     element_class = UnitFloatChromosome // (n_basis * 3), _Chromosome // (n_basis*2), BinaryChromosome // (8*n_basis)
@@ -40,14 +43,13 @@ class MyIndividual(MixedIndividual):
         return evaluate(*params)
 
 
-class MyPopulation(HOFPopulation):
-    element_class = MyIndividual
+MyPopulation = HOFPopulation[MyIndividual] // 50
 
 
-pop = MyPopulation.random(n_individuals=25)
+pop = MyPopulation.random(n_individuals=50)
 
 pop.ezolve(n_iter=300)
-params = pop.best_individual.decode()
+params = pop.solution
 im = evaluate.toimage(*params)
 print(im)
 im.show()

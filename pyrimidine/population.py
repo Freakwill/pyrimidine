@@ -160,7 +160,7 @@ class EliminationPopulation(BasePopulation):
 
     def transition(self, *args, **kwargs):
         elder = self.clone()
-        elder.select(k)
+        elder.select()
         super().transition(*args, **kwargs)
         self.eliminate()
         self.merge(elder)

@@ -1,23 +1,21 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from pyrimidine import *
 from pyrimidine.local_search import *
 from random import random
-
 
 from pyrimidine.benchmarks.special import *
 
 from digit_converter import *
 
 
-c=IntervalConverter(-10,10)
+c = IntervalConverter(-10,10)
 
-evaluate = rosenbrock(8)
+evaluate = rosenbrock
+
 
 class _Chromosome(BinaryChromosome):
-    def decode(self):
-        return c(self)
+    decode = c
 
 class _Individual(PolyIndividual):
     """base class of individual

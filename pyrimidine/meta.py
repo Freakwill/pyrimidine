@@ -200,9 +200,6 @@ class MetaContainer(ParamType):
             '__len__': _len,
             '__contains__': _contains})
 
-        def _get_all(self, attr_name):
-            return map(attrgetter(attr_name), self.__elements)
-
         def _apply(self, f, *args, **kwargs):
             return self.map(lambda o: f(o, *args, **kwargs), self.__elements)
 
@@ -223,7 +220,6 @@ class MetaContainer(ParamType):
         attrs.update(
             {"elements": _elements,
             "n_elements": _n_elements,
-            "get_all": _get_all,
             "apply": _apply
             })
 

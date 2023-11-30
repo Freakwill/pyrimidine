@@ -221,7 +221,10 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
     def clone(self, type_=None):
         if type_ is None:
             type_ = self.__class__
-        return type_([c.clone(type_=type_.element_class) for c in self])
+        if isinstance(type_.element_class, tuple):
+            return type_([c.clone(type_=t) for c, t in zip(self, type_.element_class)])
+        else:
+            return type_([c.clone(type_=type_.element_class) for c in self])
 
     def cross(self, other):
         # Cross operation of two individual

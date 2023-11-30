@@ -5,7 +5,7 @@ Decorators
 """
 
 from types import MethodType
-
+from operator import methodcaller
 import copy
 
 
@@ -128,6 +128,8 @@ class add_cache:
         cls.clone = _clone
 
         for a in self.attrs:
+            if not hasattr(cls, a) and not hasattr(cls, '_'+a):
+                raise AttributeError(f'"{a}" should be used in the algorithm!')
             def f(obj):
                 """get the attribute from cache, 
                 otherwise compute it again by the default method
@@ -214,6 +216,18 @@ class add_memory:
             else:
                 return obj.memory['fitness']
 
+        for a in cls._memory:
+            def f(obj):
+                """get the attribute from memory, 
+                where the best solution is stored
+                """
+                if obj._cache[a] is None:      
+                    v = getattr(super(cls, obj), a)
+                    return v
+                else:
+                    return obj._cache[a]
+            setattr(cls, a, property(f))
+
         cls.fitness = property(fitness)
 
         cls_clone = cls.clone
@@ -260,6 +274,43 @@ def method_cache(func, a):
         else:
             return obj._cache[a]
     return mthd
+
+
+class regester_map:
+
+    def __init__(self, maps, map_=map):
+        """
+        Args:
+            maps (str, tuple of str): a mapping or mappings
+            map_ (None, optional): Description
+        
+        Raises:
+            Exception: Description
+        """
+
+        if maps:
+            self.maps = maps
+        else:
+            raise Exception('Have not provided any mapping')
+        self.map = map_
+
+    def __call__(self, cls, map_=None):
+        _map = map_ or self.map or cls.map
+
+        if isinstance(self.maps, str):
+            m = self.maps
+            def _m(obj, *args, **kwargs):
+                return _map(methodcaller(m, *args, **kwargs), obj)
+            setattr(cls, m, _m)
+        elif isinstance(self.maps, tuple):
+            for m in self.maps:
+                def _m(obj, *args, **kwargs):
+                    return _map(methodcaller(m, *args, **kwargs), obj)
+                setattr(cls, m, _m)
+        else:
+            raise TypeError('`maps` has to be an instance of str or a tuple of strings')
+
+        return cls
 
 
 class Regester:
