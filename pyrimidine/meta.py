@@ -108,10 +108,18 @@ class ParamType(type):
             pass
         return cls
 
+    def __rand__(self, other):
+        class cls(other, self):
+            pass
+        return cls
+
     def __call__(self, *args, **kwargs):
         obj = super().__call__(*args, **kwargs)
         obj.params = copy.deepcopy(self.params)
         return obj
+
+    def __matmul__(self, deco):
+        return deco(self)
 
 
 class MetaContainer(ParamType):

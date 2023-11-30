@@ -1,42 +1,16 @@
-# Helpers
-
-To introduce useful helpers
-
-## Optimization
-
-An example of function optimization:
-$$
-\min_{x_1,x_2}x_1^2+x_2\\
-x_1, x_2\in [-1,1]
-$$
-
-`ga_min` encapsulates the GA algorithm. You need not use the classes of containers.
-
-```python
-from pyrimidine import optimize
-
-solution = optimize.ga_min(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
-print(solution)
-```
-
-OUTPUT: `[-0.0078125 -1.       ]`
-
-## Decorators
-
-
-### Memory
-```python
 #!/usr/bin/env python3
+
 
 from pyrimidine import *
 from pyrimidine.benchmarks.optimization import *
 
-from pyrimidine.deco import add_memory
+from pyrimidine.deco import add_memory, fitness_cache
 
 # generate a knapsack problem randomly
 n_bags = 50
 evaluate = Knapsack.random(n=n_bags)
 
+@fitness_cache
 class YourIndividual(BinaryChromosome // n_bags):
 
     def _fitness(self):
@@ -48,7 +22,6 @@ YourPopulation = HOFPopulation[YourIndividual] // 20
 
 @add_memory({'solution': None, 'fitness': None})
 class MyIndividual(YourIndividual):
-    # Individual with a memory, recording a best solution
 
     def backup(self, check=False):
         f = self._fitness()
@@ -104,13 +77,3 @@ ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 ax.set_title(f'Demo of GA: {n_bags}-Knapsack Problem')
 plt.show()
-
-```
-
-### Cache
-Cache the fitness, if the indiviudal dose not change, the fitness will be read from cache by default.
-
-```python
-@fitness_cache
-class MyIndividual...
-```

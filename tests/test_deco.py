@@ -26,3 +26,14 @@ class TestDeco:
         assert c._f() == 2
         c.bar()
         assert c.f == 2
+
+    def test_set_fitness(self):
+
+        _fitness = lambda x: x.v+1
+
+        @set_fitness()
+        class C:
+            v = 2
+
+        c = C()
+        assert c._fitness() == 3

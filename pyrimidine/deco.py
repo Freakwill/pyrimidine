@@ -32,6 +32,7 @@ def side_effect(func):
 
     def mthd(obj, *args, **kwargs):
         result = func(obj, *args, **kwargs)
+        # clear the cache after calling the method
         if hasattr(obj, '_cache'):
             obj.clear_cache()
         return result
@@ -46,47 +47,29 @@ def clear_fitness(func):
     return mthd
 
 
-class add_memory:
-
-    def __init__(self, memory={}):
-        self._memory = memory
-
-    def __call__(self, cls):
-
-        cls._memory = self._memory
-
-        def memory(obj):
-            return obj._memory
-
-        cls.memory = property(memory)
-
-        def fitness(obj):
-            if obj.memory['fitness'] is not None:
-                return obj.memory['fitness']
-            else:
-                return obj._fitness()
-
-        cls.fitness = property(fitness)
-
-        cls_clone = cls.clone
-        def _clone(obj, *args, **kwargs):
-            cpy = cls_clone(obj, *args, **kwargs)
-            cpy._memory = obj._memory
-            return cpy
-        cls.clone = _clone
-
-        cls_new = cls.__new__
-        def _new(cls, *args, **kwargs):
-            obj = cls_new(cls, *args, **kwargs)
-            obj._memory = copy.copy(cls._memory)
-            return obj
-
-        cls.__new__ = _new
-
-        return cls
-
-
 usual_side_effect = ['mutate', 'extend', 'pop', 'remove', '__setitem__', '__setattr__', '__setstate__']
+
+def method_cache(func, a):
+    """cache for methods
+
+    Pre-define `_cache` as an attribute of the obj.
+    
+    Args:
+        func (TYPE): the original method
+        a (TYPE): an attribute (or any value) computed by the method
+    
+    Returns:
+        MethodType
+    """
+    def mthd(obj):
+        # get the attribute from cache, otherwise compute it again
+        if obj._cache[a] is None:
+            f = obj.func()
+            obj._cache[a] = f
+            return f
+        else:
+            return obj._cache[a]
+    return mthd
 
 
 class add_cache:
@@ -145,15 +128,19 @@ class add_cache:
         cls.clone = _clone
 
         for a in self.attrs:
-            if hasattr(cls, '_'+a):
-                def f(obj):
-                    # get the attribute from cache, otherwise compute it again
-                    if obj._cache[a] is None:
-                        f = getattr(obj, '_'+a)()
-                        obj._cache[a] = f
-                        return f
+            def f(obj):
+                """get the attribute from cache, 
+                otherwise compute it again by the default method
+                """
+                if obj._cache[a] is None:      
+                    if hasattr(cls, '_'+a):
+                        v = getattr(obj, '_'+a)()
                     else:
-                        return obj._cache[a]
+                        v = getattr(super(cls, obj), a)
+                    obj._cache[a] = v
+                    return v
+                else:
+                    return obj._cache[a]
             setattr(cls, a, property(f))
 
         def _after_setter(obj):
@@ -179,6 +166,102 @@ class add_cache:
 fitness_cache = add_cache(('fitness',))
 
 
+class set_fitness:
+
+    def __init__(self, f=None):
+        self.f = f
+
+    def __call__(self, cls):
+        if self.f is None:
+            if '_fitness' in globals():
+                self.f = globals()['_fitness']
+            else:
+                raise Exception('Function `_fitness` is not defined before setting fitness. You may forget to create the class in the context of environment.')
+        cls._fitness = self.f
+        return cls
+
+
+class add_memory:
+
+    """
+    add the `_memory` dict to the cls/obj
+
+    The memory dict stores the best solution,
+    unlike the `_cache` dict which only records the last computing result.
+    """
+
+    def __init__(self, memory={}):
+        self._memory = memory
+
+    def __call__(self, cls):
+
+        cls._memory = self._memory
+
+        def memory(obj):
+            return obj._memory
+
+        cls.memory = property(memory)
+
+        def _set_memory(obj, **d):
+            obj._cache.update(d)
+
+        cls.set_memory = _set_memory
+
+        def fitness(obj):
+            # get fitness from memory by default
+            if obj.memory['fitness'] is None:
+                return obj._fitness()
+            else:
+                return obj.memory['fitness']
+
+        cls.fitness = property(fitness)
+
+        cls_clone = cls.clone
+        def _clone(obj, *args, **kwargs):
+            cpy = cls_clone(obj, *args, **kwargs)
+            cpy._memory = copy.deepcopy(obj._memory)
+            return cpy
+        cls.clone = _clone
+
+        cls_new = cls.__new__
+        def _new(cls, *args, **kwargs):
+            obj = cls_new(cls, *args, **kwargs)
+            obj._memory = copy.deepcopy(cls._memory)
+            return obj
+
+        cls.__new__ = _new
+
+        return cls
+
+
+basic_memory = add_memory({'fitness':None, 'solution': None})
+
+
+usual_side_effect = ['mutate', 'extend', 'pop', 'remove', '__setitem__', '__setattr__', '__setstate__']
+
+def method_cache(func, a):
+    """cache for methods
+
+    Pre-define `_cache` as an attribute of the obj.
+    
+    Args:
+        func (TYPE): the original method
+        a (TYPE): an attribute (or any value) computed by the method
+    
+    Returns:
+        MethodType
+    """
+    def mthd(obj):
+        # get the attribute from cache, otherwise compute it again
+        if obj._cache[a] is None:
+            f = obj.func()
+            obj._cache[a] = f
+            return f
+        else:
+            return obj._cache[a]
+    return mthd
+
+
 class Regester:
     # regerster operators, used in the future version
 
@@ -186,7 +269,7 @@ class Regester:
         self.name = name
         self.key = key
 
-    def __call__(cls):
+    def __call__(self, cls):
 
         def _regester_operator(self, name, key=None):
             if hasattr(self, name):

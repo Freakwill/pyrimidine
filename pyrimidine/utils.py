@@ -177,8 +177,6 @@ def rotations(x, y):
     return l
 
 
-import copy
-
 def rotate(x, rotations):
     """Permutate x by the list of rotations `rotation`
     
@@ -200,3 +198,36 @@ def rotate(x, rotations):
         for r in rotations:
             x = rotate(x, r)
     return x
+
+
+def prufer_decode(x, nodes=None):
+    """Prufer code to tree
+    
+    Args:
+        x (TYPE): Prufer code
+        nodes (None, optional): all nodes of the tree
+    
+    Returns:
+        list of pair, representing a tree
+
+    Example:
+        >> x = [2,5,6,8,2,5]
+        >> print(prufer_decode(x))
+        [(1, 2), (3, 5), (4, 6), (6, 8), (7, 2), (2, 5), (5, 8)]
+    """
+    if nodes is None:
+        nodes = np.arange(1, len(x)+3)
+
+    S = set(nodes) - set(x)
+    edges = []
+    while x:
+        i = min(S)
+        j = x[0]
+        edges.append((i, j))
+        S.remove(i)
+        x.pop(0)
+        if j not in x:
+            S.add(j)
+        print(x,S)
+    edges.append(tuple(S))
+    return edges

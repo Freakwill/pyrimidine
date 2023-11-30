@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 """
-This is the core module of pyrimidine. The base classes are defined here.
+The base classes are defined here, mainly to implement GAs.
+
+This is the core module of pyrimidine. 
 
 Main classes:
 BaseGene: the gene of chromosome
@@ -540,20 +542,20 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
 
 
 class BaseCommunity(BaseMultiPopulation):
-    # As an alias of `MultiPopulation`
+    # An alias of `MultiPopulation`
 
     def __str__(self):
         return ' @\n\n'.join(map(str, self))
 
 
-class BaseEnvironment(ContainerMixin, metaclass=MetaContainer):
-
-    element_class = None
+class BaseEnvironment(CollectiveMixin, metaclass=MetaContainer):
 
     """Base Class of environments
 
     The main method is `evaluate`, computing the fitness of an individual or a population
     """
+
+    element_class = None
 
     def __init__(self, elements):
         for e in elements:

@@ -1,11 +1,11 @@
-# Examples and Comparison of Algorithm
+# Examples and Comparison of Algorithms
 [TOC]
 
-## Examples
+## Example 1
 
 ### A simple example --- Knapsack problem
 
-One of the famous problem is the knapsack problem. It is a good example for GA.
+One of the well-known problem is the knapsack problem. It is a good example for GA.
 
 #### Codes
 
@@ -30,7 +30,7 @@ class MyIndividual(MonoIndividual):
         return _evaluate(self.chromosome)
 
 """ Equiv. to
-    MyIndividual = MonoIndividual[BinaryChromosome.set(default_size=n_bags)].set_fitness(_evaluate)
+    MyIndividual = MonoIndividual[BinaryChromosome//n_bags].set_fitness(_evaluate)
 """
 
 # Define the population class
@@ -153,9 +153,9 @@ iteration & solution & Mean Fitness & Best Fitness & Standard Deviation of Fitne
 ```
 
 
-## Create new algo.
+## Example 2
 
-In the following example, the binary chromosomes should be decoded to floats. We recommend `digit_converter`, created by the author for such purpose, to handle with it.
+In the following example, the binary chromosomes should be decoded to floats. We recommend `digit_converter` to handle with it, created by the author for such purpose.
 
 ```python
 #!/usr/bin/env python3
@@ -168,7 +168,7 @@ from digit_converter import *
 
 ndim = 10
 def evaluate(x):
-    return -rosenbrock(ndim)(x)
+    return -rosenbrock(x)
 
 
 class _Chromosome(BinaryChromosome):
@@ -184,12 +184,12 @@ class uChromosome(BinaryChromosome):
 def _fitness(i):
     return evaluate(i.decode())
 
-ExampleIndividual = MultiIndividual[_Chromosome].set_fitness(_fitness)
+ExampleIndividual = MultiIndividual[_Chromosome].set_fitness(_fitness) // ndim
 
-class MyIndividual(MixIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fitness(_fitness)):
-    """my own individual class
+class MyIndividual(MixedIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fitness(_fitness)):
+    """My own individual class
     
-    Method `mate` is overriden.
+    The method `mate` is overriden.
     """
     ranking = None
     threshold = 0.25
@@ -217,12 +217,7 @@ class MyIndividual(MixIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fitne
         else:
             return super().mate(other)
 
-class MyPopulation(StandardPopulation[MyIndividual]):
-
-    def transition(self, *args, **kwargs):
-        self.sort()
-        super().transition(*args, **kwargs)
-
+MyPopulation = StandardPopulation[MyIndividual]
 ```
 
 
@@ -248,3 +243,108 @@ plt.show()
 ```
 
 ![](comparison.png)
+
+
+## Example 3
+
+### Quantum GA
+
+It is based on quantum chromosomes. Let use have a look at the source code.
+
+```python
+class QuantumChromosome(CircleChromosome):
+
+    measure_result = None
+
+    def decode(self):
+        self.measure()
+        return self.measure_result
+
+    def measure(self):
+        # measure a QuantumChromosome to get a binary sequence
+        rs = np.random.random(size=(len(self),))
+        self.measure_result = np.cos(self) ** 2 > rs
+        self.measure_result.astype(np.int_)
+```
+
+```python
+#!/usr/bin/env python3
+
+from pyrimidine import *
+from pyrimidine.benchmarks.optimization import *
+
+from pyrimidine.deco import add_memory, fitness_cache
+
+# generate a knapsack problem randomly
+n_bags = 50
+evaluate = Knapsack.random(n=n_bags)
+
+@fitness_cache
+class YourIndividual(BinaryChromosome // n_bags):
+
+    def _fitness(self):
+        return evaluate(self.decode())
+
+
+YourPopulation = HOFPopulation[YourIndividual] // 20
+
+@fitness_cache
+@add_memory({'measure_result': None, 'fitness': None})
+class MyIndividual(QuantumChromosome // n_bags):
+
+    def _fitness(self):
+        return evaluate(self.decode())
+
+    def backup(self, check=False):
+        f = self._fitness()
+        if not check or (self.memory['fitness'] is None or f > self.memory['fitness']):
+            self._memory = {
+            'measure_result': self.measure_result,
+            'fitness': f
+            }
+
+class MyPopulation(HOFPopulation):
+
+    element_class = MyIndividual
+    default_size = 20
+
+    def init(self):
+        self.backup()
+        super().init()
+
+    def backup(self, check=True):
+        for i in self:
+            i.backup(check=check)
+
+    def update_hall_of_fame(self, *args, **kwargs):
+        """
+        Update the `hall_of_fame` after each step of evolution
+        """
+        self.backup()
+        super().update_hall_of_fame(*args, **kwargs)
+
+```
+
+### Visualization and comparison
+```python
+stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'best_fitness'}
+mypop = MyPopulation.random()
+
+yourpop = YourPopulation([YourIndividual(i.decode()) for i in mypop])
+mydata = mypop.evolve(n_iter=100, stat=stat, history=True)
+yourdata = yourpop.evolve(n_iter=100, stat=stat, history=True)
+
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = fig.add_subplot(111)
+yourdata[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+mydata[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+ax.legend(('Mean Fitness', 'Best Fitness', 'Mean Fitness(Quantum)', 'Best Fitness(Quantum)'))
+ax.set_xlabel('Generations')
+ax.set_ylabel('Fitness')
+ax.set_title(f'Demo of (Quantum)GA: {n_bags}-Knapsack Problem')
+plt.show()
+
+```
+
+![](QGA.png)

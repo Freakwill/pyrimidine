@@ -58,9 +58,7 @@ In this context, $\{\cdot\}$ denotes either a set or a sequence (emphasizing the
 
 Building upon this concept, we define a population as a container of individuals. And it is straightforward to introduce the notion of a multi-population as a container of populations, referred to as the high-level container. Obviously, we can define containers in higher level, for instance, a container of multi-populations, maybe mixed with normal populations.
 
-A container that defines operators of its elements is termed a **system**. For example, we define the operation `S.cross(a, b)` on the elements $a,b$ in the system $S$ to implement the crossover operation of two individuals in a population. It shares similarities with algebraic systems. However, the current version does not incorporate this concept, operations are directly defined as methods of the elements, such as `a.cross(b)`. The contemplation of incorporating this concept is deferred to future versions, and this prospective change will not impact the design of APIs.
-
-We are considering constructing an `Environment` class as a container for all types of populations, and registering genetic algorithm operators on it.
+A container that defines operators of its elements is termed a **system**. For example, we define `s.cross(a, b)` to implement the crossover operation of two individuals $a,b$ in the population system $s$. It shares similarities with algebraic systems. However, the current version does not employ this concept, and operators are directly defined as methods of the elements, such as `a.cross(b)`. The contemplation of the concept is deferred to future versions, and this prospective change will not impact the design of APIs.
 
 An individual may be viewed as a container of chromosomes, but it will not to be a system. A chromosome can be perceived as a container of genes, while in practice, we implement chromosomes directly using `numpy.array` or the standard library's `array.array`.
 
@@ -70,12 +68,6 @@ f(s) := \{f(a)\}
 $$
 unless explicitly redefined. For instance, the mutation of a population entails the mutation of all individuals in it, but at times, it may be defined as the mutation of one individual selected randomly.
 
-Some methods may be lifted differently, such as:
-$$
-f(s) := \max_t\{f(t)\}
-$$
-A notable example is `fitness`, used to compute the fitness of the entire population.
-
 `transition` is the primary method in the iterative algorithms, denoted as a transform:
 $$
 T(s):S\to S
@@ -83,44 +75,52 @@ $$
 The iterative algorithms can be represented as $T^n(s)$.
 And if $s$ is a container, then $T(s)=\{T(a)\}$ by default where $T(a)$ is pre-defined.
 
+New features will be incorporated based on the structure.
+
 ### Metaclasses
 The metaclass `System` is defined to simulate abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operators and functions on them.
 
 `Container` is the super-metaclass of `System` for creating containers.
 
-There are mainly two types of containers: list-like and tuple-like, where the former implies that all elements in the container are of the same type, while the later has no such restriction.
-
 ### Fundamental Classes
 
 There are three fundamental classes in `pyrimidine` constructed by the metaclasses: `BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively.
-
-Constructing an individual, `SomeIndividual`, consisting of several `SomeChromosome`, is as simple as defining `SomeIndividual = BaseIndividual[SomeChromosome]`, where `BaseIndividual` is the base class for all individual classes. Similarly, a population of `SomeIndividual` could be `BasePopulation[SomeIndividual]`. The expression is borrowed from the module `typing`[].
 
 For convenience, `pyrimidine` provides some commonly used subclasses, so users do not have to redefine these settings. By inheriting these classes, users gain access to the methods such as, crossover and mutation. `pyrimidine` offers `BinaryChromosome` for the binary encoding as used in classical GA.
 
 Generally, the algorithm design starts as follows, where `MonoIndividual`, as an individual class, just enforces that the individuals can only have one chromosome.
 
 ```python
-class MyIndividual(MonoIndividual):
-    element_class = BinaryChromosome # default size of the chromosome is 8
+class UserIndividual(MonoIndividual):
+    element_class = BinaryChromosome
+    default_size = 8
+
     def _fitness(self):
         # Compute the fitness
 
-class MyPopulation(StandardPopulation):
-    element_class = MyIndividual
+class UserPopulation(StandardPopulation):
+    element_class = UserIndividual
+    default_size = 10
 ```
 
-In the codes, `MyIndividual` is an individual class with `BinaryChromosome` as its chromosome type. It is equivalent to set `MyIndividual=MonoIndividual[BinaryChromosome]`. One can also use the helper `makeBinaryIndividual(size=8)` to create the same class.Then the class `MyPopulation` is defined to create a population of the individuals. The method of executing standard GA has been implemented in the class.
-
-Algebraically, there is no different between `MonoIndividual` and a single `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes.
+In the codes, `UserIndividual` is an individual class with `BinaryChromosome` as its chromosome type. It is equivalent to set 
 
 ```python
-class MyChromosome(BaseChromosome):
+UserIndividual = MonoIndividual[BinaryChromosome]
+```
+
+The expression is borrowed from the module [typing](). One can also use the helper `binaryIndividual(size=8)` to create the same class. 
+
+The class `UserPopulation` is defined to create a population of the individuals. The method of executing standard genetic operations has been implemented in the class.
+
+Algebraically, there is no different between `MonoIndividual` and a single `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes where use need not create an individual class.
+
+```python
+class UserChromosome(BaseChromosome):
     def _fitness(self):
         # Compute the fitness
 
-class MyPopulation(StandardPopulation):
-    element_class = MyChromosome
+UserPopulation = StandardPopulation[UserChromosome]
 ```
 
 
@@ -128,20 +128,17 @@ class MyPopulation(StandardPopulation):
 
 These classes also inherit from the mixin class `IterativeMixin`, responsible for the iteration, including data export for visualization. When developing a new algorithm, the crucial step is to override the `transition` method, which is invoked in all iterative algorithms. In the context of genetic algorithms, the `transition` method primarily comprises `mutate` and `cross`, representing the crossover and mutation methods.
 
-As subclasses of `IterativeMixin`, `FitnessMixin` is created to execute the iterative algorithm aiming to maximize fitness, while `ContainerMixin` and `PopulationMixin` represent their "collective" forms.
-
-Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. When designing a new algorithm that may much differ from GA, it is recommended to inherit from the mixin classes initially, though it is not coercive.
-
-Four mixin classes are presented below, along with the corresponding inheritance arrows.
+As subclasses of `IterativeMixin`, `FitnessMixin` is created to execute the iterative algorithm aiming to maximize fitness, while `CollectiveMixin` and `PopulationMixin` represent their "collective" forms.
 
 ```
-IterativeMixin  --->  ContainerMixin
+IterativeMixin  --->  CollectiveMixin
     |                      |
     |                      |
     v                      v
 FitnessMixin  --->  PopulationMixin
 ```
 
+Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. When designing a new algorithm that may much differ from GA, it is recommended to inherit from the mixin classes initially, though it is not coercive.
 
 ## An example to begin
 
@@ -158,41 +155,45 @@ The problem solution can be naturally encoded in binary format without requiring
 ```python
 from pyrimidine import MonoIndividual, StandardPopulation, BinaryChromosome
 from pyrimidine.benchmarks.optimization import Knapsack
-# The problem is defined in the submodule `pyrimidine.benchmarks.optimization`, so we import it directly, but user can redefine it manually.
 
 n = 50
-_evaluate = Knapsack.random(n)  # Function mapping n-dimensional binary encoding to the objective function value
+_evaluate = Knapsack.random(n)  # A function mapping n-dimensional binary encoding to the objective function value
 
 class UserIndividual(MonoIndividual):
-    element_class = BinaryChromosome
-    default_size = n
+    element_class = BinaryChromosome // n
     def _fitness(self):
         # The return value must be a number
         return _evaluate(self.chromosome)
 
 """
 equivalent to:
-UserIndividual = MonoIndividual[BinaryChromosome].set_fitness(lambda o: _evaluate(o.chromosome)) // n
+UserIndividual = MonoIndividual[BinaryChromosome // n].set_fitness(lambda o: _evaluate(o.chromosome))
 
-or with the helper: UserIndividual = makeBinaryIndividualIndividual(size=n).set_fitness(lambda o: _evaluate(o.chromosome))
+or with the helper:
+UserIndividual = makeIndividual(n_chromosomes=1, size=n).set_fitness(lambda o: _evaluate(o.chromosome))
+
+or let the individual to be a chromosome:
+UserIndividual = (BinaryChromosome // n).set_fitness(lambda o: _evaluate(o.chromosome))
 """
 
-class MyPopulation(StandardPopulation):
-    element_class = UserIndividual
-    default_size = 20
+UserPopulation = StandardPopulation[UserIndividual] // 20
 
 """
-equivalent to:
-MyPopulation = StandardPopulation[UserIndividual] // 20
-"""
-
-pop = MyPopulation.random()
-pop.evolve(n_iter=100) # Setting `verbose=True` will print the iteration process.
 ```
 
-Finally, the optimal individual can be obtained with `pop.best_individual` or `pop.solution`, as the solution of the problem.
+Collecting the whole algrithm to one line:
+```UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(lambda o: _evaluate(o.chromosome))```
+
+
+Finally, the optimal individual can be obtained with `pop.best_individual`, and `pop.solution` decodes it to the solution of the problem.
+
+```python
+pop = UserPopulation.random()
+pop.evolve(n_iter=100)
+```
 
 You also see that the equivalent expressions no longer explicitly depends on class inheritance, making the code more concise and similar to algebraic style.
+
 
 ## Visualization
 
@@ -224,7 +225,7 @@ Here, `mean_fitness` and `best_fitness` denote the average fitness value of the 
 ## Create your own classes and algorithms
 In standard GAs, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs, these rates can be dynamically encoded in each individual, allowing for adaptability during iterations. It is remarkably simple to implement self-adaptability by `pyrimidine`. 
 
-We introduce an "mixed-individual" comprising two chromosomes of different types: one representing the solution and the other encapsulating the probabilities of mutation and crossover.
+We introduce an "mixed-individual", comprising two chromosomes of different types: one representing the solution and the other encapsulating the probabilities of mutation and crossover.
 
 ```python
 class NewIndividual(MixedIndividual):
@@ -249,32 +250,22 @@ pop = NewPopulation.random()
 
 ## Comparison with other frameworks
 
-Various genetic algorithm frameworks have been designed, such as deap and gaft. `Pyrimidine`'s design is heavily influenced by these frameworks. The following table compares `pyrimidine` with several popular and mature frameworks:
+Various genetic algorithm frameworks have been designed, such as `deap` and `gaft`. `Pyrimidine`'s design is heavily influenced by these frameworks. The following table compares `pyrimidine` with several popular and mature frameworks:
 
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
 | --------- | ------------------ | ---------- | ------------- | ---------------------- |
 | pyrimidine| Object-Oriented, Metaprogramming, Algebraic-insprited | Universal | Extensible | export the data in `DataFrame` |
-| deap      | Object-Oriented, Functional, Metaprogramming        | Universal | Extensible*   | export the data in `LogBook`  |
+| deap      | Object-Oriented, Functional, Metaprogramming        | Universal | Limited by its philosophy   | export the data in `LogBook`  |
 | gaft      | Object-Oriented, decoration partton   | Universal | Extensible    | Easy to Implement       |
 |geppy | based on deap | Symbolic Regression | Limited | - |
 | tpot(gama)     | scikit-learn Style | Hyperparameter Optimization | Limited | None                   |
 | gplearn   | scikit-learn Style | Symbolic Regression | Limited | None                   |
 | scikit-opt| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
-|scikit-optimize|scikit-learn Style  | Numerical Optimization | Limited | provide some plotting function |
-
-* DEAP’s design philosophy: make algorithms explicit and data structures transparent.
+|scikit-optimize|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
 
 `tpot`, `gplearn`, and `scikit-opt` follow the `scikit-learn` style, providing fixed APIs with limited extensibility. However, they are mature and user-friendly, serving their respective fields effectively.
 
-`deap` is feature-rich and mature. However, it primarily adopts a functional programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `gaft` is highly object-oriented with good extensibility, but not active. In `pyrimidine`, various operations on chromosomes are treated as chromosome methods, rather than top-level functions. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods. For example, the crossover operation for the `ProbabilityChromosome` class can be redefined as follows, suitable for optimization algorithms where variables follow a probability distribution:
-
-```python
-def cross(self, other):
-    k = randint(1, len(self)-2)
-    array = np.hstack((self[:k], other[k:]))
-    array /= array.sum()
-    return self.__class__(array)
-```
+`deap` is feature-rich and mature. However, it primarily adopts a functional programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `gaft` is highly object-oriented with good extensibility, but not active. In `pyrimidine`, various operations on chromosomes are treated as chromosome methods, rather than top-level functions. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods.
 
 
 ## Conclusion

@@ -1,28 +1,26 @@
 #!/usr/bin/env python3
 
-import copy
 
 from pyrimidine import *
 from pyrimidine.benchmarks.optimization import *
+
+from pyrimidine.deco import add_memory, fitness_cache
 
 # generate a knapsack problem randomly
 n_bags = 50
 evaluate = Knapsack.random(n=n_bags)
 
-
+@fitness_cache
 class YourIndividual(BinaryChromosome // n_bags):
 
     def _fitness(self):
         return evaluate(self.decode())
 
 
-class YourPopulation(HOFPopulation):
-    element_class = YourIndividual
-    default_size = 20
+YourPopulation = HOFPopulation[YourIndividual] // 20
 
 
-from pyrimidine.deco import add_memory
-
+@fitness_cache
 @add_memory({'measure_result': None, 'fitness': None})
 class MyIndividual(QuantumChromosome // n_bags):
 
@@ -30,12 +28,19 @@ class MyIndividual(QuantumChromosome // n_bags):
         return evaluate(self.decode())
 
     def backup(self, check=False):
-        f = super().fitness
+        f = self._fitness()
         if not check or (self.memory['fitness'] is None or f > self.memory['fitness']):
             self._memory = {
             'measure_result': self.measure_result,
             'fitness': f
             }
+
+    @property
+    def solution(self):
+        if self._memory['measure_result'] is not None:
+            return self._memory['measure_result']
+        else:
+            return self.decode()
 
 
 class MyPopulation(HOFPopulation):
@@ -44,20 +49,19 @@ class MyPopulation(HOFPopulation):
     default_size = 20
 
     def init(self):
-        for i in self:
-            i.backup()
+        self.backup()
         super().init()
 
     def backup(self, check=True):
         for i in self:
             i.backup(check=check)
 
-    def transition(self, *args, **kwargs):
+    def update_hall_of_fame(self, *args, **kwargs):
         """
         Update the `hall_of_fame` after each step of evolution
         """
-        super().transition(*args, **kwargs)
         self.backup()
+        super().update_hall_of_fame(*args, **kwargs)
 
 
 stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'best_fitness'}

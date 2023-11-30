@@ -10,7 +10,7 @@ CollectiveMixin: base class for all iterative algorithms with multi-objects
 PopulationMixin: subclass of FitnessMixin, population-like iterative algorithms
 
 Relation of the classes:
-IterativeMixin  --->  ContainerMixin
+IterativeMixin  --->  CollectiveMixin
     |                      |
     |                      |
     v                      v
@@ -33,10 +33,6 @@ class IterativeMixin:
     # Mixin class for iterative algrithms
 
     params = {'n_iter': 100}
-
-    @property
-    def solution(self):
-        raise NotImplementedError('Have not defined `solution` for the model yet!')   
 
     # @property
     # def _row(self):
@@ -68,7 +64,7 @@ class IterativeMixin:
         for k in range(1, n_iter+1):
             self.transition(k)
 
-    def evolve(self, n_iter:int=100, period:int=1, verbose:bool=False, decode=False, history=False, stat=None, attrs=('state',), control=None):
+    def evolve(self, n_iter:int=100, period:int=1, verbose:bool=False, decode=False, history=False, stat=None, attrs=('solution',), control=None):
         """Get the history of the whole evolution
 
         Keyword Arguments:
@@ -156,8 +152,12 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
     def copy(self):
         raise NotImplementedError
 
-    def encode(self):
-        raise NotImplementedError
+    def decode(self):
+        return self
+
+    @property
+    def solution(self):
+        return self.decode()
  
     def save(self, filename='model.pkl', check=False):
         import pickle
@@ -197,8 +197,7 @@ class FitnessMixin(IterativeMixin):
         raise NotImplementedError
 
     def _fitness(self):
-        # the alias of the fitness
-        return self.get_fitness()
+        raise NotImplementedError
 
     @property
     def fitness(self):
@@ -219,15 +218,11 @@ class FitnessMixin(IterativeMixin):
         """
 
         if stat is None:
-            stat = {'Fitness':'fitness'}
+            stat = {'Fitness': 'fitness'}
         return super().evolve(stat=stat, attrs=attrs, *args, **kwargs)
 
-    @property
-    def solution(self):
-        return self
 
-
-class ContainerMixin(IterativeMixin):
+class CollectiveMixin(IterativeMixin):
 
     map = map
 
@@ -256,7 +251,7 @@ class ContainerMixin(IterativeMixin):
         self.elements.append(ind)
 
 
-class PopulationMixin(FitnessMixin, ContainerMixin):
+class PopulationMixin(FitnessMixin, CollectiveMixin):
     """mixin class for population-based heuristic algorithm
 
     It is consisted of a collection of solutions.
@@ -360,7 +355,7 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
 
     @property
     def solution(self):
-        return self.best_element
+        return self.best_element.decode()
 
     def get_worst_element(self, copy=False):
         k = np.argmin(self.get_all_fitness())
@@ -394,12 +389,8 @@ class PopulationMixin(FitnessMixin, ContainerMixin):
         ks = self.argsort()
         self.elements = [self[k] for k in ks[n:]]
 
-    def clone(self, type_=None, fitness=True):
+    def clone(self, type_=None, element_class=None):
         if type_ is None:
             type_ = self.__class__
-        cpy = type_(list(map(methodcaller('clone', type_=type_.element_class, fitness=True), self)))
-        if fitness is True:
-            cpy.cache_fitness(self.fitness)
-        else:
-            cpy.cache_fitness(fitness)
+        cpy = type_(list(map(methodcaller('clone', type_=element_class or type_.element_class), self)))
         return cpy

@@ -87,12 +87,11 @@ class GenderIndividual(MixedIndividual):
 
 from .deco import add_memory, add_cache
 
-@add_memory(memory={"fitness": None})
+@add_memory(memory={"fitness": None, "solution": None})
 class MemoryIndividual(BaseIndividual):
     # Individual with memory, used in PSO
 
-    def init(self, fitness=True, type_=None):
-        self._memory = {k: None for k in self.__class__._memory.keys()}
+    def init(self):
         self.backup(check=False)
 
     def backup(self, check=False):

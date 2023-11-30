@@ -85,11 +85,13 @@ class NumpyArrayChromosome(BaseChromosome, np.ndarray):
         k = randint(1, len(self)-1)
         return self.__class__(np.concatenate((self[:k], other[k:]), axis=0))
 
-    def clone(self, type_=None):
+    def clone(self, type_=None, *args, **kwargs):
         if type_ is None:
-            return self.__class__(np.copy(self))
+            obj = self.__class__(np.copy(self))
         else:
-            return type_(np.copy(self))
+            obj = type_(np.copy(self))
+        return obj
+
 
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
@@ -333,6 +335,7 @@ class QuantumChromosome(CircleChromosome):
         return self.measure_result
 
     def measure(self):
+        # measure a quantum chromosome to get a binary sequence
         rs = np.random.random(size=(len(self),))
         self.measure_result = np.cos(self) ** 2 > rs
         self.measure_result.astype(np.int_)

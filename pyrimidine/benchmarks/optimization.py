@@ -69,14 +69,11 @@ class Knapsack(BaseProblem):
 class MultiKnapsack(BaseProblem):
     """Multi Choice Knapsack Problem
 
-    max sum_ij cij xij
-    s.t. sum_ij wij xij <= W
-    {xij} is 
-    where xij is the choice variable, that is sum_j xij=1
+    see https://www.econstor.eu/bitstream/10419/147679/1/manuskript_626.pdf
     """
-    def __init__(self, ws, cs, W=0.7, M=100):
+
+    def __init__(self, ws, cs, W=0.7, M=100, size=None):
         """
-        
         Arguments:
             ws {tuple of arrays} -- weight array of goods
             cs {tuple of arrays} -- value array of goods
@@ -94,31 +91,32 @@ class MultiKnapsack(BaseProblem):
         self.W = W
         self.M = M
         self.__sorted = None
-        self.size = tuple(map(c, cs))
+        self.size = size
 
     @staticmethod
     def random(ns=(4,5,2,6,5,7,8,3), W=0.7):
         ws = tuple(np.random.randint(1, 21, n) for n in ns)
         cs = tuple(np.random.randint(1, 21, n) for n in ns)
-        return MultiKnapsack(ws, cs, W=W)
+        return MultiKnapsack(ws, cs, W=W, size=ns)
 
     def argsort(self):
-        c = min(self.cs)
-        w = min(self.ws)
-        return np.argsort(c / w)
+        c = list(map(np.mean, self.cs))
+        w = list(map(np.mean, self.ws))
+        return np.argsort(np.divide(c, w))
 
     @property
     def sorted(self):
         if self.__sorted is None:
             self.__sorted =self.argsort()
-
         return self.__sorted
 
     def __call__(self, x):
         # x is an integer array
-        c, w, W, M = self.c, self.w, self.W, self.M
-        v = np.sum([ci[xi] for xi, ci in zip(x, c) if 0<=xi < self.size[i]])
-        w = np.sum([wi[xi] for xi, wi in zip(x, w) if 0<=xi < self.size[i]])
+        # assert all(0<= xi < si for xi, si in zip(x, self.size))
+        
+        cs, ws, W, M = self.cs, self.ws, self.W, self.M
+        v = np.sum([ci[xi] for xi, ci in zip(x, cs)])
+        w = np.sum([wi[xi] for xi, wi in zip(x, ws)])
         if  w <= W:
             return v
         else:
@@ -127,6 +125,7 @@ class MultiKnapsack(BaseProblem):
 
 class MLE(BaseProblem):
     # max likelihood estimate
+
     def __init__(self, pdf, x):
         self.pdf = logpdf
         self.x = x

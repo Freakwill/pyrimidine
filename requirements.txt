@@ -13,3 +13,9 @@ matplotlib
 # Examples
 digit_converter
 scikit-learn
+
+# Test
+pytest
+
+# Others
+setuptools

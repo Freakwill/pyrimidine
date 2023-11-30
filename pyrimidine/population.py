@@ -57,7 +57,7 @@ class HOFPopulation(StandardPopulation):
     params = {'hof_size': 2}
     alias ={'hof': 'hall_of_fame'}
     
-    hall_of_fame = []
+    # hall_of_fame = []
 
     def init(self):
         self.hall_of_fame = self.get_best_individuals(self.hof_size, copy=True)
@@ -67,9 +67,9 @@ class HOFPopulation(StandardPopulation):
         Update the `hall_of_fame` after each step of evolution
         """
 
+        self.extend(self.hall_of_fame)
         super().transition(*args, **kwargs)
         self.update_hall_of_fame()
-        self.extend(self.hall_of_fame)
 
     def update_hall_of_fame(self):
         for ind in self:

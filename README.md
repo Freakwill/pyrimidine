@@ -46,10 +46,11 @@ _Individual2 = MixedIndividual[_Chromosome1, _Chromosome2]
 ```
 
 ### Math expression
-$s$ of type $S$ is a container of $a:A$,
-$$
-s=\{a:A\}:S
-$$
+$s$ of type $S$ is a container of $a:A$, represented as follows:
+
+```
+s={a:A}:S
+```
 
 We define a population as a container of individuals or chromosomes, and an individual is a container of chromosomes.
 
