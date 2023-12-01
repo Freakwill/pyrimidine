@@ -9,22 +9,23 @@ import numpy as np
 # generate a knapsack problem randomly
 n = 12
 def evaluate(x):
-    return -rosenbrock(n)(x)
+    return -rosenbrock(x)
 
-class _Particle(Particle):
-    default_size = n
-    def _fitness(self):
-        return evaluate(self.position)
+
+_Particle = (Particle // 2).set_fitness(lambda o: evaluate(o.position))
 
 
 class MyParticleSwarm(ParticleSwarm, BasePopulation):
+
     element_class = _Particle
     default_size = 20
 
-MyPopulation = HOFPopulation[MonoIndividual[FloatChromosome].set_fitness(lambda o: evaluate(o.chromosome)) // n] // 20
+
+MyPopulation = StandardPopulation[(FloatChromosome // n).set_fitness(lambda o: evaluate(o))] // 20
 
 pop = MyParticleSwarm.random()
-pop2 = pop.clone(type_=MyPopulation)
+pop2 = MyPopulation([i[0].clone() for i in pop])
+
 
 stat={'Best Fitness(PSO)': 'best_fitness'}
 data = pop.evolve(stat=stat, n_iter=100, history=True)

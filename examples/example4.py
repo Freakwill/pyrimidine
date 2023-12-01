@@ -52,7 +52,7 @@ if __name__ == '__main__':
     ga = StandardPopulation.random(n_individuals=20, size=10)
     ga.mate_prob = 0.9
 
-    data= ga.evolve(n_iter=10, stat=stat, history=True)
+    data= ga.evolve(n_iter=10, stat=stat, history=True, verbose=True)
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)

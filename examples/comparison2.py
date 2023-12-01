@@ -5,7 +5,7 @@ from pyrimidine import *
 from pyrimidine.benchmarks.optimization import *
 
 # generate a knapsack problem randomly
-evaluate = Knapsack.random(n=100)
+evaluate = Knapsack.random(n_bags=100)
 
 
 class YourIndividual(binaryIndividual(size=100)):

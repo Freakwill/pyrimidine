@@ -135,7 +135,7 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         times = []
         data = None
         for _ in range(n_repeats):
-            cpy = self.clone(fitness=None)
+            cpy = self.clone(cache=False)
             time1 = time.perf_counter()
             data0 = cpy.evolve(verbose=False, *args, **kwargs)
             time2 = time.perf_counter()
@@ -285,10 +285,10 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         return self.best_fitness
 
     def get_all_fitness(self):
-        return list(self.apply(attrgetter('fitness')))
+        return list(self.map(attrgetter('fitness'), self))
 
     def get_all(self, key='fitness'):
-        return list(self.apply(attrgetter(key)))
+        return list(self.map(attrgetter(key)), self)
 
     @property
     def mean_fitness(self):
@@ -397,7 +397,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         ks = self.argsort()
         self.elements = [self[k] for k in ks[n:]]
 
-    def clone(self, type_=None, element_class=None):
+    def clone(self, type_=None, element_class=None, *args, **kwargs):
         if type_ is None:
             type_ = self.__class__
         cpy = type_(list(map(methodcaller('clone', type_=element_class or type_.element_class), self)))

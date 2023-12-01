@@ -55,7 +55,8 @@ class ParamType(type):
                 return getattr(self, self.alias[key])
             else:
                 raise AttributeError(f"""`{key}` is neither an attribute of the object of `{self.__class__}`, nor in `params` or `alias`;
-                    If you are sure that `{key}` has been defined as an attribute, then you should check the definition statement""")
+                    If you are sure that `{key}` has been defined as an attribute, then you should check the definition statement.
+                    If there is no syntax problem, then it may be about the type error in the statement.""")
         attrs['__getattr__'] = _getattr
 
         def _setattr(self, key, value):
@@ -271,8 +272,6 @@ class MetaContainer(ParamType):
     def __call__(self, *args, **kwargs):
         o = super().__call__()
         o.params = copy.deepcopy(self.params)
-        if hasattr(self, '_cache'):
-            o._cache = copy.copy(self._cache)
 
         if args:
             o.__elements = args[0]
@@ -463,10 +462,4 @@ class MetaArray(ParamType):
 
     def __floordiv__(self, n):
         return self.set(default_size=n)
-
-    def __call__(self, *args, **kwargs):
-        obj = super().__call__(*args, **kwargs)
-        if hasattr(self, '_cache'):
-            obj._cache = copy.copy(self._cache)
-        return obj
 

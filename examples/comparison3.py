@@ -5,7 +5,7 @@ from pyrimidine import BinaryChromosome, HOFPopulation, MonoIndividual, classica
 from pyrimidine.benchmarks.optimization import *
 
 # generate a knapsack problem randomly
-evaluate = Knapsack.random(n=100)
+evaluate = Knapsack.random(n_bags=100)
 
 
 class _Chromosome(BinaryChromosome // 100):

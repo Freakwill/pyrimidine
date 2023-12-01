@@ -93,7 +93,6 @@ class NumpyArrayChromosome(BaseChromosome, np.ndarray):
             obj = type_(np.copy(self))
         return obj
 
-
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
             if random() < indep_prob:
@@ -328,18 +327,22 @@ class CircleChromosome(FloatChromosome):
 
 
 class QuantumChromosome(CircleChromosome):
+ 
+    _measure_result = None
 
-    measure_result = None
-
-    def decode(self):
-        self.measure()
-        return self.measure_result
+    @property
+    def measure_result(self):
+        if self._measure_result is None:
+            self.measure()
+        return self._measure_result
 
     def measure(self):
         # measure a quantum chromosome to get a binary sequence
         rs = np.random.random(size=(len(self),))
-        self.measure_result = np.cos(self) ** 2 > rs
-        self.measure_result.astype(np.int_)
+        self._measure_result = np.asarray(np.cos(self) ** 2 > rs, dtype=np.int_)
+
+    def decode(self):
+        return self.measure_result
 
 
 # Implement Chromosome class by array.array

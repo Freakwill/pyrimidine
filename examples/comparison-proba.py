@@ -4,72 +4,72 @@
 from pyrimidine import *
 from pyrimidine.benchmarks.optimization import *
 
-from pyrimidine.deco import add_memory, fitness_cache
+from pyrimidine.deco import add_memory, fitness_cache, regester_map
 
 # generate a knapsack problem randomly
-n_bags = 50
-evaluate = Knapsack.random(n=n_bags)
 
-@fitness_cache
-class YourIndividual(BinaryChromosome // n_bags):
+evaluate = Knapsack.example()
+n_bags = evaluate.n_bags
 
+
+class _IndMixin:
     def _fitness(self):
         return evaluate(self.decode())
 
-
-YourPopulation = HOFPopulation[YourIndividual] // 20
-
-
-@fitness_cache
-@add_memory({'measure_result': None, 'fitness': None})
-class MyIndividual(QuantumChromosome // n_bags):
-
-    def _fitness(self):
-        return evaluate(self.decode())
-
-    def backup(self, check=False):
+    def backup(self, check=True):
         f = self._fitness()
         if not check or (self.memory['fitness'] is None or f > self.memory['fitness']):
             self._memory = {
-            'measure_result': self.measure_result,
+            'solution': self.solution,
             'fitness': f
             }
 
-    @property
-    def solution(self):
-        if self._memory['measure_result'] is not None:
-            return self._memory['measure_result']
-        else:
-            return self.decode()
+@add_memory({'fitness':None, 'solution':None})
+class YourIndividual(_IndMixin, BinaryChromosome // n_bags):
+    pass
 
 
-class MyPopulation(HOFPopulation):
+@add_memory({'fitness':None, 'solution':None})
+class MyIndividual(_IndMixin, QuantumChromosome // n_bags):
 
-    element_class = MyIndividual
-    default_size = 20
+    def mutate(self):
+        pass
 
+    def cross(self, other):
+        return self.__class__((self + other) /2)
+
+
+class _Mixin:
     def init(self):
-        self.backup()
+        for i in self: i.backup()
         super().init()
-
-    def backup(self, check=True):
-        for i in self:
-            i.backup(check=check)
 
     def update_hall_of_fame(self, *args, **kwargs):
         """
         Update the `hall_of_fame` after each step of evolution
         """
-        self.backup()
+        for i in self: i.backup()
         super().update_hall_of_fame(*args, **kwargs)
+
+
+class MyPopulation(_Mixin, HOFPopulation):
+
+    element_class = MyIndividual
+    default_size = 20
+
+
+class YourPopulation(_Mixin, HOFPopulation):
+
+    element_class = YourIndividual
+    default_size = 20
 
 
 stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'best_fitness'}
 mypop = MyPopulation.random()
-
-yourpop = YourPopulation([YourIndividual(i.decode()) for i in mypop])
-mydata = mypop.evolve(n_iter=100, stat=stat, history=True)
-yourdata = yourpop.evolve(n_iter=100, stat=stat, history=True)
+for i in mypop: i.measure()
+yourpop = MyPopulation([YourIndividual(i.measure_result) for i in mypop])
+mydata = mypop.evolve(n_iter=50, stat=stat, history=True)
+yourdata = yourpop.evolve(n_iter=50, stat=stat, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

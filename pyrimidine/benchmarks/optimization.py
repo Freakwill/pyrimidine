@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from .benchmarks import Problem
+
+from ..utils import prufer_decode
+from ..benchmarks import BaseProblem
 
 
 class Knapsack(BaseProblem):
@@ -33,10 +35,14 @@ class Knapsack(BaseProblem):
         self.M = M
         self.__sorted = None
 
+    @property
+    def n_bags(self):
+        return len(self.c)
+
     @staticmethod
-    def random(n=50, W=0.7):
-        w = np.random.randint(1, 21, n)
-        c = np.random.randint(1, 21, n)
+    def random(n_bags=50, W=0.7):
+        w = np.random.randint(1, 21, n_bags)
+        c = np.random.randint(1, 21, n_bags)
         return Knapsack(w, c, W=W)
 
     @staticmethod
@@ -69,10 +75,13 @@ class Knapsack(BaseProblem):
 class MultiKnapsack(BaseProblem):
     """Multi Choice Knapsack Problem
 
-    see https://www.econstor.eu/bitstream/10419/147679/1/manuskript_626.pdf
+    max sum_ij cij xij
+    s.t. sum_ij wij xij <= W
+    {xij} is 
+    where xij is the choice variable, that is sum_j xij=1
     """
 
-    def __init__(self, ws, cs, W=0.7, M=100, size=None):
+    def __init__(self, ws, cs, W=0.7, M=100):
         """
         Arguments:
             ws {tuple of arrays} -- weight array of goods
@@ -91,32 +100,25 @@ class MultiKnapsack(BaseProblem):
         self.W = W
         self.M = M
         self.__sorted = None
-        self.size = size
+        self.size = tuple(map(len, cs))
 
     @staticmethod
-    def random(ns=(4,5,2,6,5,7,8,3), W=0.7):
-        ws = tuple(np.random.randint(1, 21, n) for n in ns)
-        cs = tuple(np.random.randint(1, 21, n) for n in ns)
-        return MultiKnapsack(ws, cs, W=W, size=ns)
+    def random(size=(4,5,2,6,5,7,8,3), W=0.7):
+        ws = tuple(np.random.randint(1, 51, n) for n in size)
+        cs = tuple(np.random.randint(1, 21, n) for n in size)
+        return MultiKnapsack(ws, cs, W=W)
 
     def argsort(self):
-        c = list(map(np.mean, self.cs))
-        w = list(map(np.mean, self.ws))
-        return np.argsort(np.divide(c, w))
-
-    @property
-    def sorted(self):
-        if self.__sorted is None:
-            self.__sorted =self.argsort()
-        return self.__sorted
+        c = min(self.cs)
+        w = min(self.ws)
+        return np.argsort(c / w)
 
     def __call__(self, x):
         # x is an integer array
-        # assert all(0<= xi < si for xi, si in zip(x, self.size))
-        
-        cs, ws, W, M = self.cs, self.ws, self.W, self.M
-        v = np.sum([ci[xi] for xi, ci in zip(x, cs)])
-        w = np.sum([wi[xi] for xi, wi in zip(x, ws)])
+        assert all(0<=xi < s for xi, s in zip(x, self.size))
+        c, w, W, M = self.c, self.w, self.W, self.M
+        v = np.sum([ci[xi] for xi, ci in zip(x, c)])
+        w = np.sum([wi[xi] for xi, wi in zip(x, w)])
         if  w <= W:
             return v
         else:
@@ -140,7 +142,7 @@ class MLE(BaseProblem):
         return np.sum([self.logpdf(xi, *t) for xi in self.x])
 
 
-class MixMLE(MLE):
+class MixMLE(BaseProblem):
     # mix version of max likelihood estimate
     # x|k ~ pk
     def __init__(self, pdfs, x):
@@ -203,31 +205,21 @@ heart_path = CurvePath(x, y)
 
 
 class MinSpanningTree(BaseProblem):
-    def __init__(self, nodes, edges=[]):
+    def __init__(self, nodes, edges=[], weights=None):
         self.nodes = nodes
         self.edges = edges
+        self.weights = weights
 
-    def prufer_decode(self, x):
-        P = x
-        Q = set(self.nodes) - set(P)
-        edges = []
-        while P:
-            i = min(Q)
-            j = P[0]
-            edges.append((i, j))
-            Q.remove(i)
-            P.pop(0)
-            if j not in P:
-                Q.add(j)
-        edges.append(tuple(Q))
-        return edges
+    def __call__(self, x):
+        edges = prufer_decode(x, self.nodes)
+        return sum(self.weights[edge] for edge in edges)
 
 
 class FacilityLayout(BaseProblem):
-    '''
+    """
     F: F
     D: D
-    '''
+    """
     
     def __init__(self, F, D):
         self.F = F

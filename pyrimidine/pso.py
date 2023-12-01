@@ -169,6 +169,7 @@ class ParticleSwarm(PopulationMixin):
 
         scale = random()
         eta = random()
+        scale_fame = random()
         for particle in self:
             for fame in self.hall_of_fame:
                 if particle.fitness < fame.fitness:

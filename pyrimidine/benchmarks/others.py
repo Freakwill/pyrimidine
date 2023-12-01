@@ -2,7 +2,10 @@
 
 import numpy as np
 
-class Kantorovich(object):
+from ..benchmarks import Problem
+
+
+class Kantorovich(Problem):
     '''
     a: a
     b: b

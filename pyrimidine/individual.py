@@ -85,16 +85,16 @@ class GenderIndividual(MixedIndividual):
         raise NotImplementedError
 
 
-from .deco import add_memory, add_cache
+from .deco import basic_memory, fitness_cache
 
-@add_memory(memory={"fitness": None, "solution": None})
+# @basic_memory
 class MemoryIndividual(BaseIndividual):
     # Individual with memory, used in PSO
 
     def init(self):
         self.backup(check=False)
 
-    def backup(self, check=False):
+    def backup(self, check=True):
         """Backup the fitness and other information
         
         Args:
@@ -106,16 +106,16 @@ class MemoryIndividual(BaseIndividual):
             def _map(k):
                 if k == 'fitness':
                     return f
-                elif hasattr(getattr(self, k), 'copy'):
-                    return getattr(self, k).copy()
                 elif hasattr(getattr(self, k), 'clone'):
                     return getattr(self, k).clone()
+                elif hasattr(getattr(self, k), 'copy'):
+                    return getattr(self, k).copy()
                 else:
                     return getattr(self, k)
             self._memory = {k: _map(k) for k in self.memory.keys()}
 
 
-@add_cache(('fitness',))
+@fitness_cache
 class PhantomIndividual(BaseIndividual):
     # Another implementation of the individual class with memory
 

@@ -35,7 +35,7 @@ from pyrimidine.deco import add_memory
 
 # generate a knapsack problem randomly
 n_bags = 50
-evaluate = Knapsack.random(n=n_bags)
+evaluate = Knapsack.random(n_bags)
 
 class YourIndividual(BinaryChromosome // n_bags):
 

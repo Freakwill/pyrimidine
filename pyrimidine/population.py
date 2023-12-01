@@ -38,7 +38,7 @@ class StandardPopulation(BasePopulation):
 
         elder = self.get_best_individuals(self.n_elders, copy=True)
         super().transition(*args, **kwargs)
-        self.merge(elder, n_sel=self.default_size)
+        self.merge(elder)
 
 
 Population = StandardPopulation

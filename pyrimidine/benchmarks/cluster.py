@@ -4,13 +4,14 @@
 import numpy as np
 import numpy.linalg as LA
 
-class KMeans:
+
+
+class KMeans(BaseProblem):
     """KMeans clustering Problem
 
     ERM:
     min J(c,mu) = sum_c sum_{x:c} ||x-mu_c||
     """
-
     def __init__(self, X, n_components=2):
         self.X = X
         self.n_components = n_components
@@ -31,7 +32,7 @@ class KMeans:
 
 # from scipy.stats import norm
 
-# class MixGaussian:
+# class MixGaussian(BaseProblem):
 #     """Mix Gaussian clustering Problem
 #     X ~ sum a_i p(x|mu_i, S_i)
 
@@ -47,7 +48,6 @@ class KMeans:
 #         X2 = norm.rvs(loc=2, size=(N, p))
 #         X = np.vstack((X1, X2))
 #         return MixGaussian(X, n_components=2)
-
 
 #     def __call__(self, t):
 #         cs = set(t)

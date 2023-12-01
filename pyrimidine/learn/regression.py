@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from pyrimidine import *
 from digit_converter import IntervalConverter
+
 c = IntervalConverter(lb=-60, ub=60)
 class _BinaryChromosome(BinaryChromosome):
     def decode(self):
@@ -27,8 +27,8 @@ class GALinearRegression(BaseEstimator, LinearRegression):
     alpha = 0.05 # Regularization strength
 
     def postprocess(self):
-        self.coef_ = self.best.chromosomes[0]
-        self.intercept_ = self.best.chromosomes[1].decode()
+        self.coef_ = self.solution.chromosomes[0]
+        self.intercept_ = self.solution.chromosomes[1].decode()
 
     def config(self, X, y):
         class MyIndividual(SelfAdaptiveIndividual):
@@ -51,7 +51,7 @@ class GALinearRegression(BaseEstimator, LinearRegression):
                 intercept = self.chromosomes[1].decode()
                 return - LA.norm(X @ coef +intercept - y) - GALinearRegression.alpha * LA.norm(coef, 1)
 
-        class MyPopulation(SGA2Population):
+        class MyPopulation(HOFPopulation):
             element_class = MyIndividual
 
         pop = MyPopulation.random(n_individuals=100, sizes=(11, 12, 10, 2))

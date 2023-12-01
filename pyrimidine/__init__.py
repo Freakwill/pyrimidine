@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 
 
-"""An extensible framework of genetic algorithm by python.
-"""
-
 from .base import *
 from .mixin import *
 from .errors import *
@@ -19,10 +16,10 @@ from .de import *
 from .ba import *
 
 
-__version__ = "1.5.1"
+__version__ = "1.4.1"
 
 __template__ = """
-from pyrimidine import binaryIndividual
+from pyrimidine import MonoBinaryIndividual
 from pyrimidine.population import HOFPopulation
 
 from pyrimidine.benchmarks.optimization import *
@@ -32,7 +29,7 @@ _evaluate = Knapsack.random(n)
 
 
 # Define individual
-class MyIndividual(binaryIndividual(n)):
+class MyIndividual(MonoBinaryIndividual):
     def _fitness(self) -> float:
         # To evaluate an individual!
         return _evaluate(self.chromosome)

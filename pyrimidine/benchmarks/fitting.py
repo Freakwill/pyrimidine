@@ -4,6 +4,7 @@
 import numpy as np
 import numpy.linalg as LA
 
+from ..benchmarks import BaseProblem
 
 _basis = [lambda x: np.ones(len(x)), lambda x: x, lambda x: x**2, lambda x: x**3, lambda x: x**4, 
 np.sin, np.cos, np.tan, np.abs, lambda x:x>0, lambda x:x<0,
@@ -12,7 +13,7 @@ np.exp, lambda x: np.log(np.abs(x)+0.1)]
 n_basis_ = len(_basis)
 
 
-class Fitting:
+class Fitting(BaseProblem):
     def __init__(self, X, y):
         self.X = X
         self.y = y
@@ -23,7 +24,6 @@ class Fitting:
 
     def fit(self, *params):
         return np.sum([c*np.tanh(b * self.X - a) for a, b, c in zip(*params)], axis=0)
-
 
     def __call__(self, *params):
         yy = self.fit(*params)
@@ -37,7 +37,7 @@ class CurveFitting(Fitting):
             np.sum([c*relu(b * self.X - a) for a, b, c in zip(*params[3:])], axis=0)))
 
 
-_indicator = lambda x, y: (x <= 5) & (y <= 5) & (x*y>=0)
+_indicator = lambda x, y: (0<= x <= 5) & (0<= y <= 5)
 
 from math import cos, sin
 def basis(a, b, c, t):
@@ -51,6 +51,7 @@ def basis(a, b, c, t):
 
 
 from PIL import Image
+
 class Painting(Fitting):
     def __init__(self, image, size=None, mode=None, channel=0):
 

@@ -202,15 +202,12 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
             BaseIndividual -- an object of Individual
         """
 
-        if isinstance(cls, MetaTuple):
+        if isinstance(cls, MetaTuple) or isinstance(cls.element_class, tuple):
             return cls([C.random(*args, **kwargs) for C in cls.element_class])
-        elif isinstance(cls, MetaList):
-            if 'sizes' in kwargs:
-                return cls([cls.element_class.random(size=size) for size in kwargs['sizes']])
-            else:
-                if n_chromosomes is None:
-                    n_chromosomes = cls.default_size
-                return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_chromosomes)])
+        else: #if isinstance(cls, MetaList):
+            if n_chromosomes is None:
+                n_chromosomes = cls.default_size
+            return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_chromosomes)])
 
     def _fitness(self):
         if hasattr(self, 'environment'):
@@ -218,7 +215,7 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         else:
             raise NotImplementedError
 
-    def clone(self, type_=None):
+    def clone(self, type_=None, *args, **kwargs):
         if type_ is None:
             type_ = self.__class__
         if isinstance(type_.element_class, tuple):
@@ -300,7 +297,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
 
     element_class = BaseIndividual
     default_size = 20
-    hall_of_fame = []
+    # hall_of_fame = []
 
     params = {'mate_prob':0.75, 'mutate_prob':0.2, 'tournsize':5}
 

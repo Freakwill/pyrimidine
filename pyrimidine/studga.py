@@ -6,8 +6,10 @@ References:
 Khatib, Wael and Peter John Fleming. “The Stud GA: A Mini Revolution?” Parallel Problem Solving from Nature (1998).
 """
 
+from random import random
 from .population import HOFPopulation
-from .utils import random, choice
+from .utils import choice
+
 
 class StudPopulation(HOFPopulation):
 
@@ -21,11 +23,11 @@ class StudPopulation(HOFPopulation):
 
         mate_prob = mate_prob or self.mate_prob
         offspring = []
-        for individual in self.individuals:
+        for individual in self:
             if individual in self.halloffame:
                 continue
             if random() < (mate_prob or self.mate_prob):
                 other = choice(self.halloffame)
                 offspring.append(individual.cross(other))
-        self.individuals.extend(offspring)
+        self.extend(offspring)
         self.offspring = self.__class__(offspring)

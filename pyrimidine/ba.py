@@ -12,7 +12,9 @@ and their positions in the search space are adjusted iteratively to find the opt
 from math import exp
 from random import random
 
-from . import MemoryIndividual, HOFPopulation, FloatChromosome
+import numpy as np
+
+from . import MemoryIndividual, BasePopulation, FloatChromosome
 
 
 class Bat(MemoryIndividual):
@@ -37,7 +39,7 @@ class Bat(MemoryIndividual):
     @position.setter
     def position(self, x):
         self.chromosomes[0] = x
-        self.__fitness = None
+        self.clear_cache()
 
     @property
     def velocity(self):
@@ -51,39 +53,42 @@ class Bat(MemoryIndividual):
         self.position += self.velocity * self.scale
 
 
-class Bats(HOFPopulation):
+class Bats(BasePopulation):
 
-    alias = {'bats': 'elements'}
+    alias = {'bats': 'elements', 'n_bats': 'n_elements'}
 
     params = {
         'gamma': 0.5,
         'alpha': 0.95,
-        'pulse_rate': 0.9
+        'pulse_rate': 0.9,
+        'scaling': 0.2
         }
  
     def init(self):
         for bat in self:
             bat.backup(check=False)
+            bat.frequency = random()
+            bat.init_pulse_rate = random()*0.5 + 0.5
         super().init()
 
     def transition(self, k):
+        max_frequency = max(self.get_all('frequency'))
+        min_frequency = min(self.get_all('frequency'))
+        mean_loudness = np.mean(list(self.get_all('loudness')))
         for bat in self:
-            bat.frequency = random() * .1
+            bat.frequency = random() * (max_frequency-min_frequency) + min_frequency
             bat.velocity += (self.best_individual.memory['position'] - bat.position) * bat.frequency
             bat.move()
 
             # local search
             for i, pi in enumerate(bat.position):
-                if random() < bat.pulse_rate:
+                if random() > bat.pulse_rate:
                     r = random()*2 - 1
-                    bat.position[i] = pi + bat.loudness * r
+                    bat.position[i] = self.best_individual.memory['position'][i] + mean_loudness * r * self.scaling
 
             # update the params
-            bat.pulse_rate = self.pulse_rate * (1 - exp(-self.gamma * k))
+            bat.pulse_rate = bat.init_pulse_rate * (1 - exp(-self.gamma * (k+1)))
             bat.loudness *= self.alpha
-            if random() > bat.pulse_rate:
+            if random() < bat.loudness:
                 bat.backup()
-            if random() < 0.1:
-                self.update_hall_of_fame()
-        self.update_hall_of_fame()
 

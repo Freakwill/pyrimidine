@@ -190,6 +190,7 @@ class add_memory:
 
     The memory dict stores the best solution,
     unlike the `_cache` dict which only records the last computing result.
+    And it is not affected by the genetic operations.
     """
 
     def __init__(self, memory={}):
@@ -205,7 +206,7 @@ class add_memory:
         cls.memory = property(memory)
 
         def _set_memory(obj, **d):
-            obj._cache.update(d)
+            obj._memory.update(d)
 
         cls.set_memory = _set_memory
 
@@ -216,24 +217,25 @@ class add_memory:
             else:
                 return obj.memory['fitness']
 
+        cls.fitness = property(fitness)
+
         for a in cls._memory:
+            if a == 'fitness': continue
             def f(obj):
                 """get the attribute from memory, 
                 where the best solution is stored
                 """
-                if obj._cache[a] is None:      
+                if obj._memory[a] is None:      
                     v = getattr(super(cls, obj), a)
                     return v
                 else:
-                    return obj._cache[a]
+                    return obj._memory[a]
             setattr(cls, a, property(f))
-
-        cls.fitness = property(fitness)
 
         cls_clone = cls.clone
         def _clone(obj, *args, **kwargs):
             cpy = cls_clone(obj, *args, **kwargs)
-            cpy._memory = copy.deepcopy(obj._memory)
+            cpy._memory = copy.copy(obj._memory)
             return cpy
         cls.clone = _clone
 

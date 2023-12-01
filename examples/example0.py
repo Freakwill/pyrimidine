@@ -7,10 +7,10 @@ Test for methods/operators: A[B], set, set_fitness, //
 from pyrimidine import *
 from pyrimidine.benchmarks.optimization import *
 
-n = 50
-_evaluate = Knapsack.random(n)
-MonoBinaryIndividual = MonoIndividual[BinaryChromosome.set(default_size=n)].set_fitness(lambda o: _evaluate(o.chromosome))
-MyPopulation = StandardPopulation[MonoBinaryIndividual] // 10
+n_bags = 100
+_evaluate = Knapsack.random(n_bags)
+_Individual = MonoIndividual[BinaryChromosome // n_bags].set_fitness(lambda o: _evaluate(o.chromosome))
+MyPopulation = StandardPopulation[_Individual] // 5
 
 pop = MyPopulation.random()
 
