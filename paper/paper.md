@@ -269,9 +269,8 @@ Various genetic algorithm frameworks have been designed, such as `deap` and `gaf
 
 ## Conclusion
 
-I have conducted extensive experiments and improvements, demonstrating that `pyrimidine` is a versatile framework suitable for implementing various evolution algorithms. Its design offers strong extensibility, allowing the implementation of any iterative model, such as simulated annealing or particle swarm optimization. For users developing new algorithms, `pyrimidine` is a promising choice.
+I have conducted extensive experiments and improvements, showcasing that `pyrimidine` is a versatile framework suitable for implementing various evolution algorithms. Its design offers strong extensibility, allowing the implementation of any iterative model, such as simulated annealing or particle swarm optimization. For users developing new algorithms, `pyrimidine` is a promising choice.
 
-`Pyrimidine` requires fitness values to be numbers, so it cannot handle multi-objective problems directly, unless they could be reduced to single-objective problems. `Pyrimidine` uses numpy's arrays, making crossover operations slower than deap's, but alternative implementations can be used. Of course, there are other areas for improvement. Additionally, `pyrimidine`'s documentation is still under development.
+Additionally, it uses numpy's arrays, which may result in slower crossover operations compared to deap's; however, alternative implementations can be employed. Naturally, there are other areas for improvement.
 
-The complete source code has been uploaded to GitHub, including numerous examples.https://github.com/Freakwill/pyrimidine.
-
+The entire source code has been uploaded to [GitHub](https://github.com/Freakwill/pyrimidine), including numerous examples. Moreover, it's worth mentioning that the documentation for `pyrimidine` is still under development.
