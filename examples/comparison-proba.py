@@ -8,8 +8,8 @@ from pyrimidine.deco import add_memory, fitness_cache, regester_map
 
 # generate a knapsack problem randomly
 
-evaluate = Knapsack.example()
-n_bags = evaluate.n_bags
+n_bags = 100
+evaluate = Knapsack.random(n_bags)
 
 
 class _IndMixin:

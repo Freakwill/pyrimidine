@@ -25,7 +25,8 @@ bibliography: paper.bib
 
 # Pyrimidine: Algebra-inspired Programming framework for genetic algorithms
 
-**Abstract** Pyrimidine is a general framework for genetic algorithms. It is extremely extensible and can implement any iterative model, such as simulated annealing and particle swarm optimization. Its design is based on object-oriented programming and fully utilizes the metaprogramming capabilities of Python. We propose a container metaclass to construct different structures of individual and population classes. These classes are understood as algebraic systems, where elements can perform various operations, such as mutation and crossover of individuals in a population. These classes may also be the elements of higher-order classes, allowing for automatic implementation of class-level operations such as population migration in genetic algorithms. We call such design style "the algebra-inspired Progamming".
+**Abstract** 
+Pyrimidine stands as a versatile framework designed for genetic algorithms, offering exceptional extensibility to accommodate a wide array of iterative models, including simulated annealing and particle swarm optimization. Leveraging the principles of object-oriented programming and harnessing the metaprogramming capabilities inherent in Python, we introduce a novel container metaclass. This metaclass facilitates the construction of diverse structures for individual and population classes, conceptualized as algebraic systems. Within these systems, elements exhibit the capability to execute diverse operations, ranging from the mutation to the crossover of individuals in a population. Furthermore, these classes can seamlessly function as elements of higher-order classes, enabling the automatic implementation of sophisticated population-level operations, such as population migration. This distinctive design paradigm is coined as "algebra-inspired Programming," signifying the fusion of algebraic methodologies with the software architecture.
 
 
 **Keywords** Pyrimidine, Genetic Algorithms, Algebra-inspired Programming, Python, meta-programming
@@ -40,11 +41,11 @@ This article introduces `pyrimidine`, a general algorithm framework for GA and a
 
 ## Algebra-inspired Programming
 
-As known, GA consists of two main components: individuals( or chromosomes) and populations.
+As is well-known, ther are wo fundamental concepts in GAs: individuals( or chromosomes) and populations.
 
-In a typical Python implementation, populations are initially conceptualized as lists of individuals, with each individual representing a chromosome composed of a list of genes. Subsequently, creating an individual can be achieved using either the standard library's `array` or the widely-used third-party library `numpy`[11]. Finally, the evolutionary operators are defined and applied to these structures.
+In a typical Python implementation, populations are initially defined as lists of individuals, with each individual representing a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library `numpy`[11]. Following this, evolutionary operators are defined and applied to these structures.
 
-Our design concept is beyond the oridinary idea and more extensible. We would like to call it "algebra-inspired Programming". It should not be confused with algebraic programming, but we can draw inspiration from its ideas.
+Our design concept transcends the ordinary and embraces a higher level of extensibility. We term this innovative approach "algebra-inspired Programming." It should not be confused with so-called algebraic programming, but it draws inspiration from its underlying principles.
 
 ### Mathematical representation
 
@@ -54,15 +55,15 @@ We represent a **container** $s$ of type $S$, with elements of type $A$, using t
 $$
 s = \{a:A\}:S
 $$
-In this context, $\{\cdot\}$ denotes either a set or a sequence (emphasizing the order of the elements).
+Here, the symbol $\{\cdot\}$ signifies either a set or a sequence, emphasizing the order of the elements.
 
-Building upon this concept, we define a population as a container of individuals. And it is straightforward to introduce the notion of a multi-population as a container of populations, referred to as the high-level container. Obviously, we can define containers in higher level, for instance, a container of multi-populations, maybe mixed with normal populations.
+Expanding on this conceptual foundation, we articulate the definition of a population as a container of individuals. The introduction of multi-population extends this idea, representing a container of populations, commonly denoted as "the high-level container." What sets `pyrimidine` apart is its innate capability to seamlessly implement multi-population genetic algorithms. Notably, it allows the definition of containers at higher levels, such as a container of multi-populations, potentially intertwined with conventional populations.
 
-A container that defines operators of its elements is termed a **system**. For example, we define `s.cross(a, b)` to implement the crossover operation of two individuals $a,b$ in the population system $s$. It shares similarities with algebraic systems. However, the current version does not employ this concept, and operators are directly defined as methods of the elements, such as `a.cross(b)`. The contemplation of the concept is deferred to future versions, and this prospective change will not impact the design of APIs.
+In our framework, a container that defines operators for its elements is referred to as a **system**. For instance, the crossover operation of two individuals, denoted as $a$ and $b$ within the population system $s$, can be implemented as `s.cross(a, b)`. This system concept aligns with algebraic systems, although the current version of our framework diverges from this notion. In the present implementation, operators are directly defined as methods of the elements, such as `a.cross(b)`. While the relavant consideration is postponed to future releases, the potential change will not disrupt the design of APIs.
 
-An individual may be viewed as a container of chromosomes, but it will not to be a system. A chromosome can be perceived as a container of genes, while in practice, we implement chromosomes directly using `numpy.array` or the standard library's `array.array`.
+An individual could be conceptualized as a container of chromosomes, but it will not to be a system. And A chromosome might be viewed as a container of genes. In practice, we choose to implement chromosomes directly using `numpy.array` or the standard library's `array.array`.
 
-The lifting of a function/method $f$ is defined as:
+The lifting of a function/method $f$ is formally defined as follows:
 $$
 f(s) := \{f(a)\}
 $$
@@ -72,8 +73,7 @@ unless explicitly redefined. For instance, the mutation of a population entails 
 $$
 T(s):S\to S
 $$
-The iterative algorithms can be represented as $T^n(s)$.
-And if $s$ is a container, then $T(s)=\{T(a)\}$ by default where $T(a)$ is pre-defined.
+The iterative algorithms can be represented as $T^n(s)$. It is also possible to lift method `transition` to higher containers.
 
 New features will be incorporated based on the structure.
 
@@ -219,33 +219,32 @@ plt.show()
 
 Here, `mean_fitness` and `best_fitness` denote the average fitness value of the population and the optimal individual fitness value, respectively. Notably, they inherently encapsulate functions to perform statistical operations, for instance, `best_fitness` corresponds to the mapping `pop->pop.best_individual.fitness`.
 
-![](/Users/william/Programming/myGithub/pyrimidine/plot-history.png)
+![](plot-history.png)
 
 
 ## Create your own classes and algorithms
-In standard GAs, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs, these rates can be dynamically encoded in each individual, allowing for adaptability during iterations. It is remarkably simple to implement self-adaptability by `pyrimidine`. 
+In the standard GA, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs, these rates can be dynamically encoded in each individual, allowing for adaptability during iterations. It is remarkably simple to implement self-adaptability by `pyrimidine`. 
 
-We introduce an "mixed-individual", comprising two chromosomes of different types: one representing the solution and the other encapsulating the probabilities of mutation and crossover.
+We introduce a "mixed-individual," consisting of two chromosomes of different types: `BinaryChromosome`, representing the solution, and `FloatChromosome`, encapsulating the probabilities of mutation and crossover.
 
 ```python
 class NewIndividual(MixedIndividual):
     element_class = (BinaryChromosome // 8, FloatChromosome // 2)
+
     def mutate(self):
         # Mutation based on the second chromosome
     def cross(self, other):
         # Crossover based on the second chromosome
     def _fitness(self):
-        # Get fitness only depends on the first chromosome
-        return f(self[0])
-    
+        # Get fitness only depended on the first chromosome
+
+
 class NewPopulation(StandardPopulation):
     element_class = NewIndividual
     default_size = 20
-
-pop = NewPopulation.random()
 ```
 
-`FloatChromosome` comes pre-equipped with genetic operations tailored for floating-point numbers, obviating the necessity for user-defined specifications. This configuration facilitates the creation of GAs where mutation and crossover rates dynamically evolve.
+Here, `FloatChromosome` comes pre-equipped with genetic operations tailored for floating-point numbers, obviating the necessity for user-defined specifications.
 
 
 ## Comparison with other frameworks
@@ -263,16 +262,16 @@ Various genetic algorithm frameworks have been designed, such as `deap` and `gaf
 | scikit-opt| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
 |scikit-optimize|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
 
-`tpot`, `gplearn`, and `scikit-opt` follow the `scikit-learn` style [sklearn_api], providing fixed APIs with limited extensibility. However, they are mature and user-friendly, serving their respective fields effectively.
+`tpot/gama`, `gplearn`, and `scikit-opt` follow the `scikit-learn` style [sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively.
 
-`deap` is feature-rich and mature. However, it primarily adopts a functional programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `gaft` is highly object-oriented with good extensibility, but not active. In `pyrimidine`, various operations on chromosomes are treated as chromosome methods, rather than top-level functions. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods.
+`deap` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `gaft` is highly object-oriented with good extensibility, but not active. In `pyrimidine`, various operations on chromosomes are treated as chromosome methods, rather than top-level functions. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods.
 
 
 ## Conclusion
 
 I have conducted extensive experiments and improvements, demonstrating that `pyrimidine` is a versatile framework suitable for implementing various evolution algorithms. Its design offers strong extensibility, allowing the implementation of any iterative model, such as simulated annealing or particle swarm optimization. For users developing new algorithms, `pyrimidine` is a promising choice.
 
-`Pyrimidine` requires fitness values to be numbers, so it cannot handle multi-objective problems directly, unless they are reduced to single-objective problems. `Pyrimidine` uses numpy's arrays, making crossover operations slower than deap's, but alternative implementations can be used. Of course, there are other areas for improvement. Additionally, `pyrimidine`'s documentation is still under development.
+`Pyrimidine` requires fitness values to be numbers, so it cannot handle multi-objective problems directly, unless they could be reduced to single-objective problems. `Pyrimidine` uses numpy's arrays, making crossover operations slower than deap's, but alternative implementations can be used. Of course, there are other areas for improvement. Additionally, `pyrimidine`'s documentation is still under development.
 
 The complete source code has been uploaded to GitHub, including numerous examples.https://github.com/Freakwill/pyrimidine.
 

@@ -136,15 +136,12 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         data = None
         for _ in range(n_repeats):
             cpy = self.clone(cache=False)
-            time1 = time.perf_counter()
             data0 = cpy.evolve(verbose=False, *args, **kwargs)
-            time2 = time.perf_counter()
-            times.append(time2 - time1)
             if data is None:
                 data = data0
             else:
                 data += data0
-        return data / n_repeats, np.mean(times)
+        return data / n_repeats
 
     def clone(self, type_=None, *args, **kwargs):
         raise NotImplementedError

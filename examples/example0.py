@@ -14,6 +14,9 @@ MyPopulation = StandardPopulation[_Individual] // 5
 
 pop = MyPopulation.random()
 
+# import concurrent.futures
+# MyPopulation.map = concurrent.futures.ProcessPoolExecutor().map
+
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
 data = pop.evolve(stat=stat, n_iter=100, history=True)
 
