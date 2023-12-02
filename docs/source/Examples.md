@@ -24,7 +24,7 @@ _evaluate = Knapsack.random(n_bags)  # : 0-1 array -> float
 
 # Define the individual class
 class MyIndividual(MonoIndividual):
-    element_class = BinaryChromosome.set(default_size=n_bags)
+    element_class = BinaryChromosome // n_bags
     def _fitness(self) -> float:
         # To evaluate an individual!
         return _evaluate(self.chromosome)
@@ -39,9 +39,9 @@ class MyPopulation(HOFPopulation):
     default_size = 10
 
 """ Equiv. to
-    MyPopulation = HOFPopulation[MyIndividual].set(default_size=10)
+    MyPopulation = HOFPopulation[MyIndividual] //10
     or, as a population of chromosomes
-    MyPopulation = HOFPopulation[BinaryChromosome.set(default_size=n_bags).set_fitness(_evaluate)].set(default_size=10)
+    MyPopulation = HOFPopulation[(BinaryChromosome//n_bags).set_fitness(_evaluate)] //10
 """
 
 pop = MyPopulation.random()
