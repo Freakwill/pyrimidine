@@ -26,16 +26,14 @@ bibliography: paper.bib
 # Pyrimidine: Algebra-inspired Programming framework for genetic algorithms
 
 **Abstract** 
-Pyrimidine stands as a versatile framework designed for genetic algorithms, offering exceptional extensibility to accommodate a wide array of iterative models, including simulated annealing and particle swarm optimization. Leveraging the principles of object-oriented programming and harnessing the metaprogramming capabilities inherent in Python, we introduce a novel container metaclass. This metaclass facilitates the construction of diverse structures for individual and population classes, conceptualized as algebraic systems. Within these systems, elements exhibit the capability to execute diverse operations, ranging from the mutation to the crossover of individuals in a population. Furthermore, these classes can seamlessly function as elements of higher-order classes, enabling the automatic implementation of sophisticated population-level operations, such as population migration. This distinctive design paradigm is coined as "algebra-inspired Programming," signifying the fusion of algebraic methodologies with the software architecture.
+`Pyrimidine` stands as a versatile framework designed for genetic algorithms, offering exceptional extensibility to accommodate a wide array of iterative models, including simulated annealing and particle swarm optimization. Leveraging the principles of object-oriented programming and the metaprogramming, we introduce a novel container metaclass. This metaclass facilitates the construction of diverse structures for individual and population classes, conceptualized as algebraic systems. Within these systems, elements exhibit the capability to execute diverse operations, ranging from the mutation to the crossover of individuals in a population. Furthermore, these classes can seamlessly function as elements of higher-order classes, enabling the automatic implementation of sophisticated population-level operations, such as population migration. This distinctive design paradigm is coined as "algebra-inspired Programming," signifying the fusion of algebraic methodologies with the software architecture.
 
 
-**Keywords** Pyrimidine, Genetic Algorithms, Algebra-inspired Programming, Python, meta-programming
+**Keywords** `Pyrimidine`, Genetic Algorithms, Algebra-inspired Programming, Python, meta-programming
 
 ## Introduction
 
 As one of the earliest developed intelligent algorithms [holland, katoch], the genetic algorithm(GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [cheng]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [holland] and the associated literatures.
-
-<!-- Presently, a variety of programming languages feature libraries that implement GA frameworks. Python stands out for its extensive collection of GA frameworks, including notable ones like deap [7] for general purposes, gaft for optimization, and tpot for super-parameter tuning [8-9], along with scikit-learn, such as scikit-opt and gplearn [10].  -->
 
 This article introduces `pyrimidine`, a general algorithm framework for GA and any other evoluationary algorithm. Adhering rigorously to object-oriented programming (OOP) principles, `pyrimidine` distinguishes itself from other libraries, making effective use of Python's metaprogramming capabilities.
 

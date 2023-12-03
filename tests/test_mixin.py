@@ -19,4 +19,16 @@ class TestMeta:
         dtm = DoubleTuringMachine()
         assert True
 
+    # def test_game(self):
+    #     class palyer:
+    #         strategy = 0
+
+    #     class Game(CollectiveMixin):
+
+    #         elements = []
+
+    #         def transition(self):
+
+
+
     
