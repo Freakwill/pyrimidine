@@ -47,8 +47,8 @@ class Knapsack(BaseProblem):
 
     @staticmethod
     def example(W=0.7):
-        w = [71, 34, 82, 23, 1, 88, 12, 57, 10, 68, 5, 33, 37, 69, 98, 24, 26, 83, 16, 26, 8]
-        c = [26, 59, 30, 19, 66, 85, 94, 8, 3, 44, 5, 1, 41, 82, 76, 1, 12, 81, 73, 32, 3]
+        w = np.array([71, 34, 82, 23, 1, 88, 12, 57, 10, 68, 5, 33, 37, 69, 98, 24, 26, 83, 16, 26, 8])
+        c = np.array([26, 59, 30, 19, 66, 85, 94, 8, 3, 44, 5, 1, 41, 82, 76, 1, 12, 81, 73, 32, 3])
         return Knapsack(w, c, W=W)
 
     def argsort(self):
@@ -63,13 +63,12 @@ class Knapsack(BaseProblem):
 
     def __call__(self, x):
         # x is a binary array
-        c, w, W, M = self.c, self.w, self.W, self.M
-        v = np.sum([ci for i, ci in zip(x, c) if i==1])
-        w = np.sum([wi for i, wi in zip(x, w) if i==1])
-        if  w <= W:
+        v = np.sum(self.c[x==1])
+        w = np.sum(self.w[x==1])
+        if  w <= self.W:
             return v
         else:
-            return - 1/(1 + np.exp(-v)) * M
+            return - 1/(1 + np.exp(-v)) * self.M
 
 
 class MultiKnapsack(BaseProblem):
