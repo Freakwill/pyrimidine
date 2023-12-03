@@ -33,9 +33,9 @@ Pyrimidine stands as a versatile framework designed for genetic algorithms, offe
 
 ## Introduction
 
-As one of the earliest developed intelligent algorithms [holland, katoch], GA has found extensive application across various domains and has undergone modifications and integrations with new algorithms [5-6]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [4] and the associated literatures.
+As one of the earliest developed intelligent algorithms [holland, katoch], the genetic algorithm(GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [cheng]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [holland] and the associated literatures.
 
-Presently, a variety of programming languages feature libraries that implement GA frameworks. Python stands out for its extensive collection of GA frameworks, including notable ones like deap [7] for general purposes, gaft for optimization, and tpot for super-parameter tuning [8-9], along with scikit-learn, such as scikit-opt and gplearn [10]. 
+<!-- Presently, a variety of programming languages feature libraries that implement GA frameworks. Python stands out for its extensive collection of GA frameworks, including notable ones like deap [7] for general purposes, gaft for optimization, and tpot for super-parameter tuning [8-9], along with scikit-learn, such as scikit-opt and gplearn [10].  -->
 
 This article introduces `pyrimidine`, a general algorithm framework for GA and any other evoluationary algorithm. Adhering rigorously to object-oriented programming (OOP) principles, `pyrimidine` distinguishes itself from other libraries, making effective use of Python's metaprogramming capabilities.
 
@@ -82,6 +82,22 @@ The metaclass `System` is defined to simulate abstract algebraic systems, which 
 
 `Container` is the super-metaclass of `System` for creating containers.
 
+### Mixin classes
+
+Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. 
+
+The mixin class `FitnessMixin` is responsible for the iteration aiming to maximize the fitness, and its subclass `PopulationMixin` represents the "collective" form.
+
+When designing a new algorithm that may much differ from GA, it is recommended to inherit from the mixin classes initially, especially overriding the `transition` method, though it is not coercive.
+
+<!--
+IterativeMixin  - - ->  CollectiveMixin
+    |                      |
+    |                      |
+    v                      v
+FitnessMixin  - - ->  PopulationMixin
+-->
+
 ### Fundamental Classes
 
 There are three fundamental classes in `pyrimidine` constructed by the metaclasses: `BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively.
@@ -123,23 +139,6 @@ class UserChromosome(BaseChromosome):
 UserPopulation = StandardPopulation[UserChromosome]
 ```
 
-
-### Mixin classes
-
-These classes also inherit from the mixin class `IterativeMixin`, responsible for the iteration, including data export for visualization. When developing a new algorithm, the crucial step is to override the `transition` method, which is invoked in all iterative algorithms. In the context of genetic algorithms, the `transition` method primarily comprises `mutate` and `cross`, representing the crossover and mutation methods.
-
-As subclasses of `IterativeMixin`, `FitnessMixin` is created to execute the iterative algorithm aiming to maximize fitness, while `CollectiveMixin` and `PopulationMixin` represent their "collective" forms.
-
-```
-IterativeMixin  --->  CollectiveMixin
-    |                      |
-    |                      |
-    v                      v
-FitnessMixin  --->  PopulationMixin
-```
-
-Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. When designing a new algorithm that may much differ from GA, it is recommended to inherit from the mixin classes initially, though it is not coercive.
-
 ## An example to begin
 
 In this section, we demonstrate the basic usage of `pyrimidine` with a simple example: the classic 0-1 knapsack problem with $n=50$ dimensions. (Refer to more examples in the repository.)
@@ -172,16 +171,15 @@ UserIndividual = MonoIndividual[BinaryChromosome // n].set_fitness(lambda o: _ev
 or with the helper:
 UserIndividual = makeIndividual(n_chromosomes=1, size=n).set_fitness(lambda o: _evaluate(o.chromosome))
 
-or let the individual to be a chromosome:
+or let the individual be a chromosome:
 UserIndividual = (BinaryChromosome // n).set_fitness(lambda o: _evaluate(o.chromosome))
 """
 
 UserPopulation = StandardPopulation[UserIndividual] // 20
-
 """
 ```
 
-Collecting the whole algrithm to one line:
+Collecting all the codes to one line:
 ```UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(lambda o: _evaluate(o.chromosome))```
 
 
@@ -192,12 +190,12 @@ pop = UserPopulation.random()
 pop.evolve(n_iter=100)
 ```
 
-You also see that the equivalent expressions no longer explicitly depends on class inheritance, making the code more concise and similar to algebraic style.
+You also see that the equivalent expressions no longer explicitly depends on class inheritance, making the code more concise and similar to algebraic operation.
 
 
 ## Visualization
 
-Instead of implementing visualization methods, `pyrimidine` yields a `pandas.DataFrame` object that encapsulates statistical results for each generation by setting `history=True` in `evolve` method. Users can harness this object to create customizable performance curves. Generally, users are required to furnish a "statistic dictionary" whose keys are the names of the statistics, and values are functions mapping the population to numerical values (strings are confined to pre-defined methods or attributes of the population).
+Instead of implementing visualization methods, `pyrimidine` yields a `pandas.DataFrame` object that encapsulates statistical results for each generation by setting `history=True` in `evolve` method. Users can harness this object to plot the performance curves. Generally, users are required to furnish a "statistic dictionary" whose keys are the names of the statistics, and values are functions mapping the population to numerical values (strings are confined to pre-defined methods or attributes of the population).
 
 ```python
 # statistic dictionary, computing the mean fitness and best fitness of each generation
@@ -249,22 +247,26 @@ Here, `FloatChromosome` comes pre-equipped with genetic operations tailored for 
 
 ## Comparison with other frameworks
 
-Various genetic algorithm frameworks have been designed, such as `deap` and `gaft`. `Pyrimidine`'s design is heavily influenced by these frameworks. The following table compares `pyrimidine` with several popular and mature frameworks:
+Various GA frameworks have been designed, such as `deap` and `gaft`. `Pyrimidine`'s design is heavily influenced by these frameworks. The following table compares `pyrimidine` with several popular and mature frameworks:
 
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
 | --------- | ------------------ | ---------- | ------------- | ---------------------- |
 | pyrimidine| Object-Oriented, Metaprogramming, Algebraic-insprited | Universal | Extensible | export the data in `DataFrame` |
-| deap      | Object-Oriented, Functional, Metaprogramming        | Universal | Limited by its philosophy   | export the data in `LogBook`  |
+| deap [fortin]     | Object-Oriented, Functional, Metaprogramming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
 | gaft      | Object-Oriented, decoration partton   | Universal | Extensible    | Easy to Implement       |
 |geppy | based on deap | Symbolic Regression | Limited | - |
-| tpot(gama)     | scikit-learn Style | Hyperparameter Optimization | Limited | None                   |
-| gplearn   | scikit-learn Style | Symbolic Regression | Limited | None                   |
+| tpot[olson]/gama[pieter]     | scikit-learn Style | Hyperparameter Optimization | Limited | None                   |
+| gplearn/pysr   | scikit-learn Style | Symbolic Regression | Limited | None                   |
 | scikit-opt| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
 |scikit-optimize|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
 
-`tpot/gama`, `gplearn`, and `scikit-opt` follow the `scikit-learn` style [sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively.
+`tpot/gama`, `gplearn/pysr`, and `scikit-opt` follow the `scikit-learn` style [sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively.
 
-`deap` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `gaft` is highly object-oriented with good extensibility, but not active. In `pyrimidine`, various operations on chromosomes are treated as chromosome methods, rather than top-level functions. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods.
+`deap` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `gaft` is a highly object-oriented software with excellent scalability, but it is currently inactive.
+
+In `pyrimidine`, various operations on chromosomes are treated as chromosome methods, rather than top-level functions. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods.
+
+It has implemented a variety of intelligent algorithms, including adaptive genetic algorithms[hinterding], quantum genetic algorithms[supasil], differential evolution, evolutionary programming, particle swarm optimization[wang], bat algorithm, gravity search algorithm, as well as some local search algorithms.
 
 
 ## Conclusion

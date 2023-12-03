@@ -24,10 +24,10 @@ class StudPopulation(HOFPopulation):
         mate_prob = mate_prob or self.mate_prob
         offspring = []
         for individual in self:
-            if individual in self.halloffame:
+            if individual in self.hall_of_fame:
                 continue
             if random() < (mate_prob or self.mate_prob):
-                other = choice(self.halloffame)
+                other = choice(self.hall_of_fame)
                 offspring.append(individual.cross(other))
         self.extend(offspring)
         self.offspring = self.__class__(offspring)
