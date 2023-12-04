@@ -100,12 +100,13 @@ class IterativeMixin:
             raise TypeError('The argument `history` should be an instance of `pandas.DataFrame` or `bool`.')
         # n_iter = n_iter or self.n_iter
         if verbose:
+            from toolz.itertoolz import concat
             if not history_flag:
                 res = stat(self) if stat else {}
             print(f"""
-iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
+{" & ".join(concat((("iteration",), attrs, res.keys())))}
 -------------------------------------------------------------
-[0] & {" & ".join(str(getattr(self, attr)) for attr in attrs)} & {" & ".join(map(str, res.values()))}""")
+{" & ".join(map(str, concat((("[0]",), attrgetter(*attrs)(self), map(str, res.values())))))}""")
 
         for k in range(1, n_iter+1):
             self.transition(k)
@@ -115,7 +116,7 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
                     pd.Series(res.values(), index=res.keys()).to_frame().T],
                     ignore_index=True)
             if verbose and (period == 1 or k % period ==0):
-                print(f'[{k}] & {" & ".join(str(getattr(self, attr)) for attr in attrs)} & {" & ".join(map(str, res.values()))}')
+                print(f'{" & ".join(map(str, concat((("[%d]"%k,), attrgetter(*attrs)(self), map(str, res.values())))))}')
             
             if control:
                 if control(self):

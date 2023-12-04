@@ -8,12 +8,12 @@ Following is the core code of the class.
 
 ```python
 def evolve(self):
+    self.init()
     looping:
         self.transition()
 ```
 
 Users could override `transition` to implement any other iteration form.
-
 
 
 ### Fitness Models
@@ -47,7 +47,7 @@ The population classes are inherited from `BasePopulation`. `StandardPopulation`
 A population is a container of individuals, in original meaning. But It is possible to be a container of chromosomes in the view of algebra.
 
 
-## Species
+## Multi-populations
 
 It is useful for multi-populations GA. It is regarded as a container of populations.
 

@@ -214,6 +214,9 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         else:
             raise NotImplementedError
 
+    def init(self):
+        pass
+
     def copy(self, type_=None, *args, **kwargs):
         type_ = type_ or self.__class__
         if isinstance(cls, MetaTuple) or isinstance(type_.element_class, tuple):
