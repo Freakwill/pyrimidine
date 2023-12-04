@@ -1,6 +1,13 @@
-# More Algorithms
+# Misc
 
+## Pictures
+Generated Picture
+![](taichi.png)
 
+Original Picture
+![](https://img.sj33.cn/uploads/allimg/201404/7-1404160TQ63V.png)
+
+## Videos
 <video
 src="tsp.mp4" controls=""
 height=350 

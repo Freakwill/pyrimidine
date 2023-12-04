@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Helpers" href="Helpers.html" />
-    <link rel="prev" title="Examples and Comparison of Algorithm" href="Examples.html" />
+    <link rel="prev" title="Examples and Comparison of Algorithms" href="Examples.html" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <!--[if lte IE 6]>
@@ -36,7 +36,7 @@
           <a href="Helpers.html" title="Helpers"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="Examples.html" title="Examples and Comparison of Algorithm"
+          <a href="Examples.html" title="Examples and Comparison of Algorithms"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Customization</a></li> 
@@ -59,12 +59,13 @@
     <span class="o">...</span>
 
 <span class="k">class</span> <span class="nc">MyParticleSwarm</span><span class="p">(</span><span class="n">ParticleSwarm</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaContainer</span><span class="p">):</span>
+
     <span class="n">element_class</span> <span class="o">=</span> <span class="n">_Particle</span>
     <span class="n">default_size</span> <span class="o">=</span> <span class="mi">20</span>
     <span class="o">...</span>
 </pre></div>
 </div>
-<p>In the standard definition, as an individual, a particle has two “chromosomes”, one represents the current position, the other represents the current velocity. While, you can define three or more chromosomes, to include the acceleration. It also has an important attribute, <code class="docutils literal notranslate"><span class="pre">memory</span></code> as its clone, but stores the best position that the particle passed-by.</p>
+<p>In the standard definition, as an individual, a particle has two “chromosomes”, one represents the current position, the other represents the current velocity. While, you can define three or more chromosomes, to include the acceleration. It also has an important attribute, <code class="docutils literal notranslate"><span class="pre">memory</span></code> storing the best position that the particle passed-by.</p>
 </section>
 <section id="simulated-annealing-algorithm">
 <h2>Simulated Annealing Algorithm<a class="headerlink" href="#simulated-annealing-algorithm" title="Link to this heading">¶</a></h2>
@@ -89,7 +90,7 @@
         <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">fitness</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fitness</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">transition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">T</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initT</span>
@@ -185,7 +186,7 @@
 
     <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># initialize phantom solution</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">fitness</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fitness</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
 
     <span class="k">def</span> <span class="nf">transit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -326,7 +327,7 @@
   <div>
     <h4>Previous topic</h4>
     <p class="topless"><a href="Examples.html"
-                          title="previous chapter">Examples and Comparison of Algorithm</a></p>
+                          title="previous chapter">Examples and Comparison of Algorithms</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
@@ -367,7 +368,7 @@
           <a href="Helpers.html" title="Helpers"
              >next</a> |</li>
         <li class="right" >
-          <a href="Examples.html" title="Examples and Comparison of Algorithm"
+          <a href="Examples.html" title="Examples and Comparison of Algorithms"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Customization</a></li> 

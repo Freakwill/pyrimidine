@@ -13,12 +13,13 @@ class _Particle(BaseParticle):
     ...
 
 class MyParticleSwarm(ParticleSwarm, metaclass=MetaContainer):
+
     element_class = _Particle
     default_size = 20
     ...
 ```
 
-In the standard definition, as an individual, a particle has two "chromosomes", one represents the current position, the other represents the current velocity. While, you can define three or more chromosomes, to include the acceleration. It also has an important attribute, `memory` as its clone, but stores the best position that the particle passed-by.
+In the standard definition, as an individual, a particle has two "chromosomes", one represents the current position, the other represents the current velocity. While, you can define three or more chromosomes, to include the acceleration. It also has an important attribute, `memory` storing the best position that the particle passed-by.
 
 
 ## Simulated Annealing Algorithm
@@ -45,7 +46,7 @@ class SimulatedAnnealing(FitnessModel):
         }
 
     def init(self):
-        self.phantom = self.clone(fitness=None)
+        self.phantom = self.copy(fitness=None)
 
     def transition(self, *args, **kwargs):
         T = self.initT
@@ -145,7 +146,7 @@ class SimulatedAnnealing(PhantomIndividual):
 
     def init(self):
         # initialize phantom solution
-        self.phantom = self.clone(fitness=None)
+        self.phantom = self.copy(fitness=None)
 
 
     def transit(self, *args, **kwargs):

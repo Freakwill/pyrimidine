@@ -5,7 +5,7 @@ from itertools import product
 import threading
 
 from . import BaseMultiPopulation
-from .utils import  *
+from .utils import *
 
 
 class MultiPopulation(BaseMultiPopulation):

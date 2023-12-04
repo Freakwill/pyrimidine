@@ -9,8 +9,11 @@ from pyrimidine import BasePopulation
 
 
 class Player:
+    """
+    'scissors', 'paper', 'stone' = 0, 1, 2
+    """
 
-    params = {'mutate_prob': 0.02}
+    params = {'mutate_prob': 0.1}
 
     def __init__(self, strategy=0, score=0):
         self.strategy = strategy # 1,2
@@ -26,13 +29,23 @@ class Player:
     def mutate(self):
         self.strategy = randint(0, 2)
 
+    def init(self):
+        pass
+
+    def __lt__(self, other):
+        return ((self.strategy, other.strategy) == (0, 1)
+            or (self.strategy, other.strategy) == (1, 2)
+            or (self.strategy, other.strategy) == (2, 0))
+
 
 class Game(BasePopulation):
 
-    element_class = Player
-    default_size = 50
+    params = {'compete_prob': 0.5}
 
-    def transition(self):
+    element_class = Player
+    default_size = 100
+
+    def transition(self, *args, **kwargs):
         self.compete()
         self.duplicate()
         self.mutate()
@@ -42,25 +55,13 @@ class Game(BasePopulation):
         winner = []
         for i, p in enumerate(self[:-1]):
             for j, q in enumerate(self[:i]):
-                if random() < 0.5:
-                    if (p.strategy, q.strategy) == (0, 1):
-                        p.score -= 1
-                        q.score += 1      
-                    elif (p.strategy, q.strategy) == (0, 2):
+                if random() < self.compete_prob:
+                    if p < q:
                         p.score += 1
-                        q.score -= 1
-                    elif (p.strategy, q.strategy) == (1, 2):
+                        q.score -= 1      
+                    elif q < p:
                         p.score -= 1
                         q.score += 1
-                    elif (p.strategy, q.strategy) == (1, 0):
-                        p.score += 1
-                        q.score -= 1
-                    elif (p.strategy, q.strategy) == (2, 0):
-                        p.score -= 1
-                        q.score += 1
-                    elif (p.strategy, q.strategy) == (2, 1):
-                        p.score += 1
-                        q.score -= 1
         winners = np.argsort([p.score for p in self])[-k:]
         self.elements = [self.elements[k] for k in winners]
 
@@ -68,11 +69,16 @@ class Game(BasePopulation):
         self.extend(self.clone())
 
 
-pop = Game.random()
-import collections
-c = collections.Counter([i.strategy for i in pop])
-print(c)
-for _ in range(10):
-    pop.transition()
-    c = collections.Counter([i.strategy for i in pop])
-    print(c)
+game = Game.random()
+stat = {'scissors': lambda game: sum(p.strategy==0 for p in game),
+'paper': lambda game: sum(p.strategy==1 for p in game),
+'stone': lambda game: sum(p.strategy==2 for p in game)
+}
+data = game.evolve(stat=stat, history=True)
+
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = fig.add_subplot(111)
+data[['scissors', 'paper', 'stone']].plot(ax=ax)
+ax.set_title("Have a zero-sum game")
+plt.show()

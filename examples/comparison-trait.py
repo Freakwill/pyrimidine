@@ -21,11 +21,13 @@ class _Chromosome(BinaryChromosome):
         # 0101... --> 0.123
         return IntervalConverter(-5,5)(self)
 
+
 class ExampleIndividual(MixedIndividual):
     """base class of individual
 
     You should implement the methods, cross, mute
     """
+
     element_class = FloatChromosome, FloatChromosome, FloatChromosome, _Chromosome
 
     def decode(self):
@@ -34,18 +36,21 @@ class ExampleIndividual(MixedIndividual):
     def _fitness(self):
         return evaluate(self.decode())
 
-class ExampleIndividual2(ExampleIndividual, TraitThresholdIndividual):
+
+class ExampleIndividual2(ExampleIndividual, SelfAdaptiveIndividual):
     """base class of individual
 
     You should implement the methods, cross, mute
     """
+
     element_class = FloatChromosome, FloatChromosome, FloatChromosome, _Chromosome, FloatChromosome
+
 
 if __name__ == '__main__':
 
     MyPopulation = StandardPopulation[ExampleIndividual2]
     pop = MyPopulation.random(n_individuals=100, sizes=[h*p, h, h, 8, 4])
-    pop1 = pop.copy(type_=HOFPopulation)
+    pop1 = pop.copy(type_=StandardPopulationPopulation)
     pop2 = pop.copy()
 
     pop.mate_prob = pop.mutate_prob = 1
@@ -91,5 +96,4 @@ if __name__ == '__main__':
 
     ax2 = fig.add_subplot(122)
     data[['best mate_prob', 'best mutate_prob', 'best desire', 'worst mate_prob', 'worst mutate_prob', 'worst desire']].plot(ax=ax2)
-    plt.show()
     plt.show()

@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
 
-from pyrimidine import *
-from pyrimidine.benchmarks.fitting import *
 
 import numpy as np
 
+from pyrimidine import *
+from pyrimidine.benchmarks.fitting import *
 from digit_converter import colorConverter
 
 from PIL import Image
 
-image = Image.open('painting.jpg')
+image = Image.open('taichi.jpeg')
 evaluate = Painting(image=image, size=(100,100))
 
 
 class _Gene(NaturalGene):
-    lb, ub = 0, 100
+    lb, ub = 0, 90
 
 class _Chromosome(VectorChromosome):
-    element_class = NaturalGene
+
+    element_class = _Gene
     default_size = 10
 
 
@@ -33,10 +34,10 @@ class MyIndividual(MixedIndividual):
     def decode(self):
         c = self.chromosomes[2]
         c = c.reshape((n_basis, 8))
-        d = np.asarray([colorConverter(c[i,:]) for i in range(c.shape[0])])
-        a, b, c = self.chromosomes[0][:n_basis], self.chromosomes[0][n_basis:2*n_basis], self.chromosomes[0][2*n_basis:]
+        c = np.asarray([colorConverter(ci) for ci in c])
+        a, d1, d2 = self.chromosomes[0][:n_basis], self.chromosomes[0][n_basis:2*n_basis], self.chromosomes[0][2*n_basis:]
         t = self.chromosomes[1].reshape((n_basis, 2))
-        return a, b, c, t, d
+        return a, d1, d2, t, c
 
     def _fitness(self):
         params = self.decode()
@@ -45,12 +46,10 @@ class MyIndividual(MixedIndividual):
 
 MyPopulation = HOFPopulation[MyIndividual] // 50
 
+pop = MyPopulation.random()
 
-pop = MyPopulation.random(n_individuals=50)
-
-pop.ezolve(n_iter=300)
+pop.ezolve(n_iter=250)
 params = pop.solution
 im = evaluate.toimage(*params)
-print(im)
 im.show()
 

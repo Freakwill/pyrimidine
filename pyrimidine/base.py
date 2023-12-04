@@ -47,7 +47,7 @@ class MyIndividual(MonoIndividual):
     def evaluate(self):
         return np.dot(n, self.chromosomes[0]), max_repeat(ti for ti, c in zip(t, self.chromosomes[0]) if c==1)
 
-class MyPopulation(SGAPopulation):
+class MyPopulation(StandardPopulation):
     element_class = MyIndividual
 
 pop = MyPopulation.random(n_individuals=50, size=100)
