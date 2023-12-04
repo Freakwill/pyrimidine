@@ -157,23 +157,27 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
     def solution(self):
         return self.decode()
  
-    def save(self, filename='model.pkl', check=False):
-        import pickle
+    def save(self, filename=None, check=False):
+        import pickle, pathlib
+        if filename is None:
+            filename = f'{self.__class__.__name__}-{self.__name__}'
         if isinstance(filename, str):
-            pklPath = pathlib.Path(filename)
+            pklPath = pathlib.Path(filename).with_suffix('.pkl')
         if check and pklPath.exists():
             raise FileExistsError(f'File {filename} has exist!')
         with open(pklPath, 'wb') as fo:
             pickle.dump(self, fo)
 
-    @staticmethod
-    def load(filename='model.pkl'):
-        import pickle
+    @classmethod
+    def load(cls, filename):
+        import pickle, pathlib
+        if filename is None:
+            filename = f'{cls.__name__}-{pop}'
         if isinstance(filename, str):
-            pklPath = pathlib.Path('filename.pkl')
+            pklPath = pathlib.Path(filename).with_suffix('.pkl')
         if pklPath.exists():
             with open(pklPath, 'rb') as fo:
-                return pickle.load(pklPath)
+                return pickle.load(fo)
         else:
             raise FileNotFoundError(f'Could not find the file {filename}!')
 
@@ -247,6 +251,11 @@ class CollectiveMixin(IterativeMixin):
     @side_effect
     def append(self, ind):
         self.elements.append(ind)
+
+    @classmethod
+    def random(cls, n_individuals=None, *args, **kwargs):
+        n_individuals = n_individuals or cls.default_size
+        return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
 
 
 class PopulationMixin(FitnessMixin, CollectiveMixin):
@@ -396,8 +405,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         self.elements = [self[k] for k in ks[n:]]
 
     def copy(self, type_=None, element_class=None, *args, **kwargs):
-        if type_ is None:
-            type_ = self.__class__
+        type_ = type_ or self.__class__
         cpy = type_(list(map(methodcaller('copy', type_=element_class or type_.element_class), self)))
         return cpy
 

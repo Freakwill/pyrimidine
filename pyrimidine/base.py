@@ -205,8 +205,7 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         if isinstance(cls, MetaTuple) or isinstance(cls.element_class, tuple):
             return cls([C.random(*args, **kwargs) for C in cls.element_class])
         else: #if isinstance(cls, MetaList):
-            if n_chromosomes is None:
-                n_chromosomes = cls.default_size
+            n_chromosomes = n_chromosomes or cls.default_size
             return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_chromosomes)])
 
     def _fitness(self):
@@ -216,9 +215,8 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
             raise NotImplementedError
 
     def copy(self, type_=None, *args, **kwargs):
-        if type_ is None:
-            type_ = self.__class__
-        if isinstance(type_.element_class, tuple):
+        type_ = type_ or self.__class__
+        if isinstance(cls, MetaTuple) or isinstance(type_.element_class, tuple):
             return type_([c.copy(type_=t) for c, t in zip(self, type_.element_class)])
         else:
             return type_([c.copy(type_=type_.element_class) for c in self])
@@ -313,11 +311,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
 
     def __str__(self):
         return '&\n'.join(map(str, self))
-
-    @classmethod
-    def random(cls, n_individuals=None, *args, **kwargs):
-        n_individuals = n_individuals or cls.default_size
-        return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
 
     def transition(self, *args, **kwargs):
         """Transitation of the states of population

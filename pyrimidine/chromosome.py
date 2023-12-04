@@ -93,6 +93,9 @@ class NumpyArrayChromosome(BaseChromosome, np.ndarray):
             obj = type_(np.copy(self))
         return obj
 
+    def clone(self):
+        return self.__class__(np.copy(self))
+
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
             if random() < indep_prob:
@@ -132,6 +135,7 @@ class NaturalChromosome(VectorChromosome):
 
     def dual(self):
         return self.__class__(self.element_class.ub - self)
+
 
 class DigitChromosome(NaturalChromosome):
 

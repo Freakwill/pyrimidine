@@ -85,7 +85,7 @@ class GenderIndividual(MixedIndividual):
 
 from .deco import basic_memory, fitness_cache
 
-# @basic_memory
+@basic_memory
 class MemoryIndividual(BaseIndividual):
     # Individual with memory, used in PSO
 

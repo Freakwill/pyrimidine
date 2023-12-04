@@ -4,8 +4,10 @@
 Self Adaptive GA
 """
 
+
+from random import random
 from . import *
-from .utils import *
+
 
 
 class BaseSelfAdaptiveIndividual(MixedIndividual):
@@ -55,24 +57,28 @@ class SelfAdaptiveIndividual(BaseSelfAdaptiveIndividual):
             return self
 
     @property
+    def trait(self):
+        return self.chromosomes[-1]
+
+    @property
     def mutate_prob(self):
-        return self.chromosomes[-1][0]
+        return self.trait[0]
 
     @mutate_prob.setter
     def mutate_prob(self, v):
-        self.chromosomes[-1][0] = v
+        self.trait[0] = v
 
     @property
     def mate_prob(self):
-        return self.chromosomes[-1][1]
+        return self.trait[1]
 
     @mate_prob.setter
     def mate_prob(self, v):
-        self.chromosomes[-1][1] = v
+        self.trait[1] = v
 
     @property
     def desire(self):
-        return self.chromosomes[-1][2]
+        return self.trait[2]
     
 
 class RankingIndividual(SelfAdaptiveIndividual):
@@ -91,38 +97,34 @@ class RankingIndividual(SelfAdaptiveIndividual):
 
     # @property
     # def threshold(self):
-    #     return self.chromosomes[-1][-1]
+    #     return self.trait[-1]
 
 def lim(r, e):
     e -= 0.0001
     return 0 if r <= e else (r - e)**2 / (1 - e)
 
 
-class SSAPopulation(HOFPopulation):
+class SSAPopulation(StandardPopulation):
 
     def transit(self, *args, **kwargs):
-        """Transitation of the states of population
 
-        It is considered to be the standard flow of the Genetic Algorithm
-        """
-        
         self.mate()
         self.mutate()
         self.doom()
         
-        for individual in self.individuals:
+        for individual in self:
             individual.age += 1
         if self.is_crowd():
             self.select(0.3)
 
     def doom(self):
         # Remove the dead individuals
-        self.individuals = [individual for individual in self.individuals if not individual.is_dead()]
+        self.individuals = [individual for individual in self if not individual.is_dead()]
 
     def mate(self):
         self.rank()
         children = []
-        for individual, other in zip(self.individuals[:-1], self.individuals[1:]):
+        for individual, other in zip(self[:-1], self[1:]):
             if random() < min(individual.cross_prob, other.cross_prob):
                 if self.match(individual, other):
                     children.append(individual.cross(other))
