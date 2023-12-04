@@ -43,7 +43,7 @@ class Particle(PolyIndividual):
 
     def move(self): 
         r = random()
-        cpy = self.clone(fitness=None)
+        cpy = self.copy(fitness=None)
         cpy.velocity = r * cpy.velocity + cpy.accelerate
         cpy.position = cpy.position + cpy.velocity
         flag = metropolis_rule(D=cpy.fitness - self.fitness, T=10)
@@ -98,7 +98,7 @@ class GravitySearch(PopulationMixin):
         """
         self.compute_accelerate()
         self.move()
-        self.gravity_coefficient = exp(-self.attenuation_coefficient*k/self.n_iter)
+        self.gravity_coefficient = exp(-self.attenuation_coefficient*k / self.n_iter)
 
     def move(self):
         """Moving particles with Newton's mechanics

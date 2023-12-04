@@ -34,7 +34,7 @@ MyPopulation = HOFPopulation[MyIndividual] // 50
 YourPopulation = Bats[_Bat] // 50
 
 pop1 = MyPopulation.random(size=(30, 30))
-pop2 = pop1.clone(type_=YourPopulation)
+pop2 = pop1.copy(type_=YourPopulation)
 
 pop1.ezolve(n_iter=50)
 ind1 = pop1.best_individual

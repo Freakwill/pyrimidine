@@ -47,31 +47,18 @@ class _Individual(MixedIndividual):
 
 class YourIndividual(_Individual):
     pass
-    # def get_neighbour(self):
-    #     cpy = self.clone(fitness=None)
-    #     cpy.mutate()
-    #     return cpy
 
 
 class MyIndividual(_Individual):
     element_class = (_Chromosome,) * N + (_PChromosome,) * p
 
-    # def get_neighbour(self):
-    #     # select a neighour randomly
-    #     cpy = self.clone(fitness=None)
-    #     cpy.chromosomes = [chromosome.random_neighbour() for chromosome in self.chromosomes]
-    #     return cpy
 
 YourPopulation = HOFPopulation[YourIndividual].set(default_size=15)
 MyPopulation = HOFPopulation[MyIndividual].set(default_size=15)
 
 
 pop = MyPopulation.random()
-pop2 = pop.clone(type_=YourPopulation)
-# print(pop.best_fitness)
-# pop.ezolve(n_iter=5)
-# print(pop.best_fitness)
-# raise
+pop2 = pop.copy(type_=YourPopulation)
 data = pop.evolve(stat={'Error': lambda pop: - pop.best_fitness}, n_iter=250, history=True, period=5)
 yourdata = pop2.evolve(stat={'Error': lambda pop: - pop.best_fitness}, n_iter=250, history=True, period=5)
 

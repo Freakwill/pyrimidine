@@ -27,11 +27,11 @@ class MyPopulation(HOFPopulation):
 
 
 class YourPopulation(HOFPopulation):
-    element_class = classicalIndividual(size=100).set_fitness(lambda o:evaluate(o.chromosome))
+    element_class = binaryIndividual(size=100).set_fitness(lambda o:evaluate(o.chromosome))
 
 
 pop = YourPopulation.random()
-cpy = pop.clone(type_=YourPopulation)
+cpy = pop.copy(type_=YourPopulation)
 
 stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
 

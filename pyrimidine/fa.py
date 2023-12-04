@@ -22,8 +22,8 @@ class BaseFirefly(BaseIndividual):
 
     def backup(self):
         if self.memory is None:
-            self.memory = self.clone(fitness=None)
-        self.memory = self.clone(fitness=self.fitness)
+            self.memory = self.copy(fitness=None)
+        self.memory = self.copy(fitness=self.fitness)
 
     def init(self):
         self.backup()

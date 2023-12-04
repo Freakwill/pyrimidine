@@ -33,7 +33,6 @@ class GAANN(BaseEstimator, Sequential):
         model = cls.create_model(X, Y)
         
         class MyIndividual(MixedIndividual):
-
             element_class = FloatMatrixChromosome, FloatChromosome, FloatChromosome, FloatChromosome
 
             def _fitness(self):
@@ -47,14 +46,13 @@ class GAANN(BaseEstimator, Sequential):
                     layer.set_weights(weights)
                 return model
 
-        class MyPopulation(HOFPopulation):
+        class MyPopulation(SGAPopulation):
             element_class = MyIndividual
 
         pop = MyPopulation.random(n_individuals=40, sizes=((2,4),4,(4,2),2))
         return pop
 
-    def fit(self, X, Y):
-        pop = cls.config(X, Y)
-        model = solution.decode()
+    def postprocess(self):
+        model = self.best.decode()
         self.set_weights(model.get_weights())
 

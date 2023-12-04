@@ -86,7 +86,7 @@ class NumpyArrayChromosome(BaseChromosome, np.ndarray):
         k = randint(1, len(self)-1)
         return self.__class__(np.concatenate((self[:k], other[k:]), axis=0))
 
-    def clone(self, type_=None, *args, **kwargs):
+    def copy(self, type_=None, *args, **kwargs):
         if type_ is None:
             obj = self.__class__(np.copy(self))
         else:
@@ -379,7 +379,7 @@ class ArrayChromosome(BaseChromosome, array.array):
         k = randint(1, len(self)-1)
         return self[:k] + other[k:]
 
-    def clone(self, type_=None):
+    def copy(self, type_=None):
         return copy.copy(self)
 
     def mutate(self, indep_prob=0.1):

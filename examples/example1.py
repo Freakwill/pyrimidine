@@ -3,13 +3,13 @@
 import numpy as np
 from pyrimidine.chromosome import BinaryChromosome
 from pyrimidine.population import HOFPopulation
-from pyrimidine.mixin import FitnessMixin
 
 
 t = np.random.randint(1, 5, 100)
 n = np.random.randint(1, 4, 100)
 
 import collections
+
 def max_repeat(x):
     # maximum repetition
     c = collections.Counter(x)
@@ -26,6 +26,7 @@ def _evaluate(x):
     N = abs(np.sum([ni for ni, c in zip(n, x) if c==1]) - 30)
     T = max_repeat(ti for ti, c in zip(t, x) if c==1)
     return - (N + T /2)
+
 
 class MyIndividual(BinaryChromosome // 10):
 

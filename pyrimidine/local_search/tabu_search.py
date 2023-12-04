@@ -19,7 +19,7 @@ class BaseTabuSearch(MemoryIndividual):
         }
 
     def init(self):
-        self.memory = self.clone()
+        self.memory = self.copy()
         self.best_fitness = self.memory.fitness
 
     def transition(self, *args, **kwargs):
@@ -52,7 +52,7 @@ class BaseTabuSearch(MemoryIndividual):
 
 class SimpleTabuSearch(BaseTabuSearch):
     def get_neighbour(self, action):
-        cpy = self.clone()
+        cpy = self.copy()
         i, j = action
         cpy.chromosomes[i][j] = cpy.gene.random()
         return cpy

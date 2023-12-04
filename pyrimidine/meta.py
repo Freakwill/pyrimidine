@@ -41,6 +41,7 @@ class ParamType(type):
     """
 
     def __new__(cls, name, bases=(), attrs={}):
+
         # inherit alias instead of overwriting it, when setting `alias` for a subclass
         # alias is not recommended to use!
         attrs = inherit(attrs, 'alias', bases)
@@ -56,7 +57,7 @@ class ParamType(type):
             else:
                 raise AttributeError(f"""`{key}` is neither an attribute of the object of `{self.__class__}`, nor in `params` or `alias`;
                     If you are sure that `{key}` has been defined as an attribute, then you should check the definition statement.
-                    If there is no syntax problem, then it may be about the type error in the statement.""")
+                    If there is no syntax problem, then it is probably about the type error in the statement.""")
         attrs['__getattr__'] = _getattr
 
         def _setattr(self, key, value):

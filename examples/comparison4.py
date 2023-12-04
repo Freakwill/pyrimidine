@@ -24,7 +24,7 @@ class MyParticleSwarm(ParticleSwarm, BasePopulation):
 MyPopulation = StandardPopulation[(FloatChromosome // n).set_fitness(lambda o: evaluate(o))] // 20
 
 pop = MyParticleSwarm.random()
-pop2 = MyPopulation([i[0].clone() for i in pop])
+pop2 = MyPopulation([i[0].copy() for i in pop])
 
 
 stat={'Best Fitness(PSO)': 'best_fitness'}

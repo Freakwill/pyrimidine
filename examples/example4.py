@@ -10,12 +10,13 @@ from pyrimidine.benchmarks.special import *
 from digit_converter import *
 
 
-c=IntervalConverter(-30,30)
+c = IntervalConverter(-30,30)
 
 evaluate = lambda x: - rosenbrock(x)
 
 
 class _Chromosome(BinaryChromosome):
+
     def decode(self):
         return c(self)
 
@@ -33,6 +34,7 @@ class ExampleIndividual(PolyIndividual):
     def _fitness(self):
         x = self.decode()
         return evaluate(x)
+
 
 @fitness_cache
 class MyIndividual(ExampleIndividual, SimulatedAnnealing):

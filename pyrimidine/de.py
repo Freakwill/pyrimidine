@@ -32,7 +32,7 @@ class DifferentialEvolution(PopulationMixin):
                 self[k] = test_individual
 
     def move(self):
-        self.test = self.clone()
+        self.test = self.copy()
         for t in self.test:
             x0, x1, x2 = choice(self, size=3, replace=False)
             jrand = map(np.random.randint, self.ndims)
@@ -55,7 +55,7 @@ class DifferentialEvolutionC(DifferentialEvolution):
         self.ndim = len(self[0])
 
     def move(self):
-        self.test = self.clone()
+        self.test = self.copy()
         for t in self.test:
             x0, x1, x2 = choice(self, size=3, replace=False)
             xx = x0 + self.factor * (x1 - x2)

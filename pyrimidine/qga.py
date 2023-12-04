@@ -18,10 +18,7 @@ class _Individual(QuantumChromosome):
     def backup(self, check=True):
         f = self._fitness()
         if not check or (self.memory['fitness'] is None or f > self.memory['fitness']):
-            self._memory = {
-            'solution': self.solution,
-            'fitness': f
-            }
+            self.set_memory(solution=self.solution, fitness=f)
 
 
 class QuantumPopulation(HOFPopulation):

@@ -88,13 +88,6 @@ class IterativeMixin:
 
         self.init()
 
-        if verbose:
-            res = stat(self) if stat else {}
-            print(f"""
-iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
--------------------------------------------------------------
-[0] & {" & ".join(str(getattr(self, attr)) for attr in attrs)} & {" & ".join(map(str, res.values()))}""")
-
         if history is True:
             res = stat(self) if stat else {}
             history = pd.DataFrame(data={k:[v] for k, v in res.items()})
@@ -106,6 +99,14 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         else:
             raise TypeError('The argument `history` should be an instance of `pandas.DataFrame` or `bool`.')
         # n_iter = n_iter or self.n_iter
+        if verbose:
+            if not history_flag:
+                res = stat(self) if stat else {}
+            print(f"""
+iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
+-------------------------------------------------------------
+[0] & {" & ".join(str(getattr(self, attr)) for attr in attrs)} & {" & ".join(map(str, res.values()))}""")
+
         for k in range(1, n_iter+1):
             self.transition(k)
             if history_flag and (period == 1 or k % period ==0):
@@ -135,7 +136,7 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
         times = []
         data = None
         for _ in range(n_repeats):
-            cpy = self.clone(cache=False)
+            cpy = self.copy(cache=False)
             data0 = cpy.evolve(verbose=False, *args, **kwargs)
             if data is None:
                 data = data0
@@ -143,11 +144,11 @@ iteration & {" & ".join(attrs)} & {" & ".join(res.keys())}
                 data += data0
         return data / n_repeats
 
-    def clone(self, type_=None, *args, **kwargs):
+    def copy(self, *args, **kwargs):
         raise NotImplementedError
 
-    def copy(self):
-        raise NotImplementedError
+    def clone(self):
+        return self.copy()
 
     def decode(self):
         return self
@@ -319,7 +320,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
 
         k = np.argmax(self.get_all_fitness())
         if copy:
-            return self[k].clone()
+            return self[k].copy()
         else:
             return self[k]
 
@@ -340,7 +341,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
             n = int(n)
 
         if copy:
-            return [self[k].clone() for k in self.argsort()[-n:]]
+            return [self[k].copy() for k in self.argsort()[-n:]]
         else:
             return [self[k] for k in self.argsort()[-n:]]
 
@@ -365,7 +366,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
     def get_worst_element(self, copy=False):
         k = np.argmin(self.get_all_fitness())
         if copy:
-            return self[k].clone()
+            return self[k].copy()
         else:
             return self[k]
 
@@ -394,8 +395,11 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         ks = self.argsort()
         self.elements = [self[k] for k in ks[n:]]
 
-    def clone(self, type_=None, element_class=None, *args, **kwargs):
+    def copy(self, type_=None, element_class=None, *args, **kwargs):
         if type_ is None:
             type_ = self.__class__
-        cpy = type_(list(map(methodcaller('clone', type_=element_class or type_.element_class), self)))
+        cpy = type_(list(map(methodcaller('copy', type_=element_class or type_.element_class), self)))
         return cpy
+
+    def clone(self):
+        return self.__class__(list(map(methodcaller('clone'), self)))

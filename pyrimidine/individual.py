@@ -4,8 +4,6 @@
 Individual classes
 """
 
-import copy
-
 from .base import BaseIndividual
 from .chromosome import BinaryChromosome, BaseChromosome, FloatChromosome
 from .meta import MetaTuple, MetaList, MetaSingle
@@ -106,10 +104,10 @@ class MemoryIndividual(BaseIndividual):
             def _map(k):
                 if k == 'fitness':
                     return f
-                elif hasattr(getattr(self, k), 'clone'):
-                    return getattr(self, k).clone()
                 elif hasattr(getattr(self, k), 'copy'):
                     return getattr(self, k).copy()
+                elif hasattr(getattr(self, k), 'clone'):
+                    return getattr(self, k).clone()
                 else:
                     return getattr(self, k)
             self._memory = {k: _map(k) for k in self.memory.keys()}
@@ -122,7 +120,7 @@ class PhantomIndividual(BaseIndividual):
     phantom = None
 
     def init(self):
-        self.phantom = self.clone()
+        self.phantom = self.copy()
 
     def backup(self):
         if self.fitness < self.phantom.fitness:

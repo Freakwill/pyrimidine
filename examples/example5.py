@@ -4,14 +4,17 @@
 function approximation by GA
 """
 
-from pyrimidine import *
-from pyrimidine.benchmarks.approximation import Function1DApproximation, lin_comb, _my_basis, _tri_basis
 import numpy as np
 
-evaluate = Function1DApproximation(function=lambda x:10*np.arctan(x), lb=-2, ub=2, basis=_my_basis)
-n_basis = len(evaluate.basis)
+from pyrimidine import makeIndividual, HOFPopulation, FloatChromosome
+from pyrimidine.benchmarks.approximation import Function1DApproximation, _basis, lin_comb
 
 from pyrimidine.deco import fitness_cache
+
+
+evaluate = Function1DApproximation(function=lambda x:10*np.arctan(x), lb=-2, ub=2, basis=_basis)
+n_basis = len(evaluate.basis)
+
 
 @fitness_cache
 class MyIndividual(makeIndividual(FloatChromosome, n_chromosomes=1, size=n_basis)):
@@ -19,8 +22,7 @@ class MyIndividual(makeIndividual(FloatChromosome, n_chromosomes=1, size=n_basis
         return evaluate(self.chromosome)
 
 
-class MyPopulation(HOFPopulation):
-    element_class = MyIndividual
+MyPopulation = HOFPopulation[MyIndividual]
 
 pop = MyPopulation.random(n_individuals=100)
 

@@ -40,6 +40,7 @@ _Population = HOFPopulation[_Individual] // 50
 
 
 class MySpecies(DualSpecies):
+
     element_class = _Population
     params = {'mate_prob': 0.2}
 
@@ -50,9 +51,9 @@ class MySpecies(DualSpecies):
     def transit(self, k=None, *args, **kwargs):
         super().transit(*args, **kwargs)
         self.populations[0].update_halloffame()
-        self.populations[0].add_individuals([i.clone() for i in self.populations[0].halloffame])
+        self.populations[0].add_individuals([i.copy() for i in self.populations[0].halloffame])
         self.populations[1].update_halloffame()
-        self.populations[1].add_individuals([i.clone() for i in self.populations[1].halloffame])
+        self.populations[1].add_individuals([i.copy() for i in self.populations[1].halloffame])
 
 
     def match(self, male, female):
@@ -81,7 +82,7 @@ class MyPopulation(_Population):
 
 
 sp = MySpecies.random(sizes=(n_bags, 3))
-pop = MyPopulation(individuals=sp.clone().individuals)
+pop = MyPopulation(individuals=sp.copy().individuals)
 
 stat={'Male Fitness':'male_fitness', 'Female Fitness':'female_fitness', 'Best Fitness': 'best_fitness', 'Mean Fitness': 'mean_fitness'}
 

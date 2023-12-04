@@ -141,12 +141,12 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
     def equal(self, other):
         return np.array_equal(self, other)
 
-    def clone(self, *args, **kwargs):
+    def copy(self, *args, **kwargs):
         raise NotImplementedError
 
     def replicate(self):
         # Replication operation of a chromosome
-        ind = self.clone()
+        ind = self.copy()
         ind.mutate()
         return ind
 
@@ -215,28 +215,28 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         else:
             raise NotImplementedError
 
-    def clone(self, type_=None, *args, **kwargs):
+    def copy(self, type_=None, *args, **kwargs):
         if type_ is None:
             type_ = self.__class__
         if isinstance(type_.element_class, tuple):
-            return type_([c.clone(type_=t) for c, t in zip(self, type_.element_class)])
+            return type_([c.copy(type_=t) for c, t in zip(self, type_.element_class)])
         else:
-            return type_([c.clone(type_=type_.element_class) for c in self])
+            return type_([c.copy(type_=type_.element_class) for c in self])
 
     def cross(self, other):
         # Cross operation of two individual
-        return self.__class__([chromosome.cross(other_c) for chromosome, other_c in zip(self.chromosomes, other.chromosomes)])
+        return self.__class__([chromosome.cross(other_c) for chromosome, other_c in zip(self, other)])
 
     @side_effect
     def mutate(self, copy=False):
         # Mutating operation of an individual
-        for chromosome in self.chromosomes:
+        for chromosome in self:
             chromosome.mutate()
         return self
 
     def replicate(self):
         # Replication operation of an individual
-        ind = self.clone()
+        ind = self.copy()
         ind.mutate()
         return ind
 
@@ -272,9 +272,10 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         Returns:
             TYPE: BasePopulation
         """
+        
         assert isinstance(n, np.int_) and n>0, 'n must be a positive integer'
         C = StandardPopulation[self.__class__]
-        return C([self.clone() for _ in range(n)])
+        return C([self.copy() for _ in range(n)])
 
     def __add__(self, other):
         return self.__class__([this + that for this, that in zip(self.chromosomes, other.chromosomes)])
@@ -323,6 +324,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
 
         It is considered to be the standard flow of the Genetic Algorithm
         """
+
         self.select()
         self.mate()
         self.mutate()
@@ -400,7 +402,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
             mutate_prob {number} -- the proba. of mutation of one individual (default: {None})
         """
 
-        for individual in self.individuals:
+        for individual in self:
             if random() < (mutate_prob or self.mutate_prob):
                 individual.mutate()
 
@@ -426,7 +428,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         By default, it calls the `ezolve` methods of individuals, iteratively
         """
 
-        for individual in self.individuals:
+        for individual in self:
             individual.ezolve(*args, **kwargs)
 
     def get_rank(self, individual):
@@ -532,7 +534,7 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
         bests = map(methodcaller('get_best_individual'), self)
         k = np.argmax([b.fitness for b in bests])
         if copy:
-            return bests[k].clone()
+            return bests[k].copy()
         else:
             return bests[k]
 
@@ -557,7 +559,7 @@ class BaseEnvironment(CollectiveMixin, metaclass=MetaContainer):
 
     element_class = None
 
-    def __init__(self, elements):
+    def __init__(self, elements=[]):
         for e in elements:
             e.environment = self
 

@@ -115,9 +115,9 @@ class add_cache:
         def _set_cache(obj, **d):
             obj._cache.update(d)
 
-        cls_clone = cls.clone
-        def _clone(obj, cache=True, *args, **kwargs):
-            cpy = cls_clone(obj, *args, **kwargs)
+        cls_copy = cls.copy
+        def _copy(obj, cache=True, *args, **kwargs):
+            cpy = cls_copy(obj, *args, **kwargs)
             if cache:
                 cpy.set_cache(**obj._cache)
             return cpy
@@ -125,7 +125,7 @@ class add_cache:
         cls.cleared = _cleared
         cls.clear_cache = _clear_cache
         cls.set_cache = _set_cache
-        cls.clone = _clone
+        cls.copy = _copy
 
         for a in self.attrs:
             if not hasattr(cls, a) and not hasattr(cls, '_'+a):
@@ -232,12 +232,13 @@ class add_memory:
                     return obj._memory[a]
             setattr(cls, a, property(f))
 
-        cls_clone = cls.clone
-        def _clone(obj, *args, **kwargs):
-            cpy = cls_clone(obj, *args, **kwargs)
-            cpy._memory = copy.copy(obj._memory)
-            return cpy
-        cls.clone = _clone
+        if hasattr(cls, 'copy'):
+            cls_copy = cls.copy
+            def _copy(obj, *args, **kwargs):
+                cpy = cls_copy(obj, *args, **kwargs)
+                cpy._memory = copy.copy(obj._memory)
+                return cpy
+            cls.copy = _copy
 
         cls_new = cls.__new__
         def _new(cls, *args, **kwargs):

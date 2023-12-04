@@ -35,7 +35,6 @@ class StandardPopulation(BasePopulation):
         """
         Transitation in Standard GA
         """
-
         elder = self.get_best_individuals(self.n_elders, copy=True)
         super().transition(*args, **kwargs)
         self.merge(elder)
@@ -75,7 +74,7 @@ class HOFPopulation(StandardPopulation):
         for ind in self:
             for k in range(self.hof_size):
                 if self.hall_of_fame[-k-1].fitness < ind.fitness:
-                    self.hall_of_fame.insert(self.hof_size-k, ind.clone())
+                    self.hall_of_fame.insert(self.hof_size-k, ind.copy())
                     self.hall_of_fame.pop(0)
                     break
 
@@ -89,7 +88,7 @@ class HOFPopulation(StandardPopulation):
     #             i = self.hall_of_fame[k]
     #             if i.fitness < b.fitness:
     #                 self.hall_of_fame.pop(k)
-    #                 self.hall_of_fame.insert(k, b.clone())
+    #                 self.hall_of_fame.insert(k, b.copy())
     #                 break
 
     @property

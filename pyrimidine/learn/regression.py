@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 from pyrimidine import *
 from digit_converter import IntervalConverter
 
@@ -27,8 +28,8 @@ class GALinearRegression(BaseEstimator, LinearRegression):
     alpha = 0.05 # Regularization strength
 
     def postprocess(self):
-        self.coef_ = self.solution.chromosomes[0]
-        self.intercept_ = self.solution.chromosomes[1].decode()
+        self.coef_ = self.best.chromosomes[0]
+        self.intercept_ = self.best.chromosomes[1].decode()
 
     def config(self, X, y):
         class MyIndividual(SelfAdaptiveIndividual):
@@ -51,7 +52,7 @@ class GALinearRegression(BaseEstimator, LinearRegression):
                 intercept = self.chromosomes[1].decode()
                 return - LA.norm(X @ coef +intercept - y) - GALinearRegression.alpha * LA.norm(coef, 1)
 
-        class MyPopulation(HOFPopulation):
+        class MyPopulation(SGA2Population):
             element_class = MyIndividual
 
         pop = MyPopulation.random(n_individuals=100, sizes=(11, 12, 10, 2))

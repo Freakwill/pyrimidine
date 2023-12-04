@@ -14,7 +14,7 @@ class RandomWalk(FitnessMixin):
 
     def transit(self, k, *args, **kwargs):
         sigma *= self.sigma * 0.99**k
-        cpy = self.clone(fitness=None)
+        cpy = self.copy(fitness=None)
         cpy.mutate(sigma)
 
         D = cpy.fitness - self.fitness
@@ -24,4 +24,4 @@ class RandomWalk(FitnessMixin):
 
     def mutate(self, sigma):
         n = norm(0, sigma)
-        self.chromosomes = [chromosome + n.rvs(chromosome.n_genes) for chromosome in cpy.chromosomes]
+        self.chromosomes = [chromosome + n.rvs(chromosome.n_genes) for chromosome in cpy]

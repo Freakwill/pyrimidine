@@ -45,8 +45,8 @@ if __name__ == '__main__':
 
     MyPopulation = StandardPopulation[ExampleIndividual2]
     pop = MyPopulation.random(n_individuals=100, sizes=[h*p, h, h, 8, 4])
-    pop1 = pop.clone(type_=HOFPopulation)
-    pop2 = pop.clone()
+    pop1 = pop.copy(type_=HOFPopulation)
+    pop2 = pop.copy()
 
     pop.mate_prob = pop.mutate_prob = 1
 

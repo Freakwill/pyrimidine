@@ -29,7 +29,7 @@ with Env() as env:
         default_size = n_bags
 
     pop1 = _Population1.random(size=n_bags)
-    pop2 = pop1.clone(type_=_Population2)
+    pop2 = pop1.copy(type_=_Population2)
 
     stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
     data1 = pop1.evolve(stat=stat, n_iter=100, history=True)

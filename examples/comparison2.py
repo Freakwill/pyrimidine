@@ -28,7 +28,7 @@ class MyPopulation(AgePopulation):
 
 
 pop = YourPopulation.random()
-cpy = pop.clone(type_=MyPopulation)
+cpy = pop.copy(type_=MyPopulation)
 
 stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
 

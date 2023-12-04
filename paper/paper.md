@@ -65,7 +65,7 @@ The lifting of a function/method $f$ is formally defined as follows:
 $$
 f(s) := \{f(a)\}
 $$
-unless explicitly redefined. For instance, the mutation of a population entails the mutation of all individuals in it, but at times, it may be defined as the mutation of one individual selected randomly.
+unless explicitly redefined. For instance, the mutation of a population entails the mutation of all individuals in it, but at times, it may be defined as the mutation of one individual selected randomly. Another example is that the fitness of a population is the maximum of the fitnesses of the individuals in the population.
 
 `transition` is the primary method in the iterative algorithms, denoted as a transform:
 $$
@@ -249,16 +249,17 @@ Various GA frameworks have been designed, such as `deap` and `gaft`. `Pyrimidine
 
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
 | --------- | ------------------ | ---------- | ------------- | ---------------------- |
-| pyrimidine| Object-Oriented, Metaprogramming, Algebraic-insprited | Universal | Extensible | export the data in `DataFrame` |
-| deap [fortin]     | Object-Oriented, Functional, Metaprogramming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
-| gaft      | Object-Oriented, decoration partton   | Universal | Extensible    | Easy to Implement       |
-|geppy | based on deap | Symbolic Regression | Limited | - |
-| tpot[olson]/gama[pieter]     | scikit-learn Style | Hyperparameter Optimization | Limited | None                   |
-| gplearn/pysr   | scikit-learn Style | Symbolic Regression | Limited | None                   |
-| scikit-opt| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
-|scikit-optimize|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
+| `pyrimidine`| Object-Oriented, Metaprogramming, Algebraic-insprited | Universal | Extensible | export the data in `DataFrame` |
+| `deap` [fortin]     | Object-Oriented, Functional, Metaprogramming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
+| `gaft`      | Object-Oriented, decoration partton   | Universal | Extensible    | Easy to Implement       |
+|`geppy` | based on `deap` | Symbolic Regression | Limited | - |
+| `tpot`[olson]/`gama`[pieter]     | `scikit-learn` Style | Hyperparameter Optimization | Limited | None                   |
+| `gplearn`/`pysr`   | `scikit-learn` Style | Symbolic Regression | Limited | None                   |
+| `scikit-opt`| `scikit-learn` Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
+|`scikit-optimize`|`scikit-learn` Style  | Numerical Optimization | Very Limited | provide some plotting function |
+|`NEAT`| Object-Oriented  | Neuroevolution | Limited | use the visualization tool `visualize` |
 
-`tpot/gama`, `gplearn/pysr`, and `scikit-opt` follow the `scikit-learn` style [sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively.
+`tpot/gama`, `gplearn/pysr`, and `scikit-opt` follow the `scikit-learn` style [sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`).
 
 `deap` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `gaft` is a highly object-oriented software with excellent scalability, but it is currently inactive.
 

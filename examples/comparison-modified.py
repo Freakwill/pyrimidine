@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from pyrimidine import *
 from pyrimidine.studga import *
@@ -35,7 +34,7 @@ class YourPopulation(HOFPopulation):
     default_size = 40
 
 pop = MyPopulation.random(sizes=(n, 2))
-pop2 = pop.clone(type_=YourPopulation)
+pop2 = pop.copy(type_=YourPopulation)
 
 stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness', 'Standard Deviation of Fitnesses': 'std_fitness'}
 data = pop.evolve(stat=stat, n_iter=300, history=True)
