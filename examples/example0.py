@@ -9,7 +9,9 @@ from pyrimidine.benchmarks.optimization import *
 
 n_bags = 100
 _evaluate = Knapsack.random(n_bags)
-_Individual = MonoIndividual[BinaryChromosome // n_bags].set_fitness(lambda o: _evaluate(o.chromosome))
+def _fitness(o):
+    return _evaluate(o)
+_Individual = (BinaryChromosome // n_bags).set_fitness(_fitness)
 MyPopulation = StandardPopulation[_Individual] // 5
 
 pop = MyPopulation.random()

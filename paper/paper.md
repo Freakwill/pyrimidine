@@ -145,7 +145,8 @@ In this section, we demonstrate the basic usage of `pyrimidine` with a simple ex
 
 $$
 \max \sum_i c_ix_i \\
-\sum_i w_ix_i \leq W, \quad x_i=0,1
+\sum_i w_ix_i \leq W, \\
+\quad x_i=0,1,i=1,\cdots,n
 $$
 
 The problem solution can be naturally encoded in binary format without requiring additional decoding.
@@ -179,8 +180,8 @@ UserPopulation = StandardPopulation[UserIndividual] // 20
 """
 ```
 
-Collecting all the codes to one line:
-```UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(lambda o: _evaluate(o.chromosome))```
+We can collect all the codes to one line:
+```UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate)```
 
 
 Finally, the optimal individual can be obtained with `pop.best_individual`, and `pop.solution` decodes it to the solution of the problem.
@@ -251,7 +252,7 @@ Various GA frameworks have been designed, such as `DEAP` and `gaft`. `Pyrimidine
 
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
 | --------- | ------------------ | ---------- | ------------- | ---------------------- |
-| `pyrimidine`| OOP, Meta-programming, Algebraic-insprited | Universal | Extensible | export the data in `DataFrame` |
+| `pyrimidine`| OOP, Meta-programming, Algebra-insprited | Universal | Extensible | export the data in `DataFrame` |
 | `DEAP` [@fortin]     | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
 | `gaft`      | OOP, decoration partton   | Universal | Extensible    | Easy to Implement       |
 |`geppy` | based on `DEAP` | Symbolic Regression | Limited | - |
