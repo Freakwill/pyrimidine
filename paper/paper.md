@@ -26,7 +26,7 @@ bibliography: paper.bib
 # Pyrimidine: Algebra-inspired Programming framework for genetic algorithms
 
 **Abstract** 
-`Pyrimidine` stands as a versatile framework designed for genetic algorithms, offering exceptional extensibility to accommodate a wide array of iterative models, including simulated annealing and particle swarm optimization. Leveraging the principles of object-oriented programming and the metaprogramming, we introduce a novel container metaclass. This metaclass facilitates the construction of diverse structures for individual and population classes, conceptualized as algebraic systems. Within these systems, elements exhibit the capability to execute diverse operations, ranging from the mutation to the crossover of individuals in a population. Furthermore, these classes can seamlessly function as elements of higher-order classes, enabling the automatic implementation of sophisticated population-level operations, such as population migration. This distinctive design paradigm is coined as "algebra-inspired Programming," signifying the fusion of algebraic methodologies with the software architecture.
+`Pyrimidine` stands as a versatile framework designed for genetic algorithms, offering exceptional extensibility to accommodate a wide array of iterative models, including simulated annealing and particle swarm optimization. Leveraging the principles of object-oriented programming and the meta-programming, we introduce a novel container metaclass. This metaclass facilitates the construction of diverse structures for individual and population classes, conceptualized as algebraic systems. Within these systems, elements exhibit the capability to execute diverse operations, ranging from the mutation to the crossover of individuals in a population. Furthermore, these classes can seamlessly function as elements of higher-order classes, enabling the automatic implementation of sophisticated population-level operations, such as population migration. This distinctive design paradigm is coined as "algebra-inspired Programming," signifying the fusion of algebraic methodologies with the software architecture.
 
 
 **Keywords** `Pyrimidine`, Genetic Algorithms, Algebra-inspired Programming, Python, meta-programming
@@ -35,7 +35,7 @@ bibliography: paper.bib
 
 As one of the earliest developed intelligent algorithms [holland, katoch], the genetic algorithm(GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam, @cheng,@katoch]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [@holland, @simon] and the associated literatures.
 
-This article introduces `pyrimidine`, a general algorithm framework for GA and any other evoluationary algorithm. Adhering rigorously to object-oriented programming (OOP) principles, `pyrimidine` distinguishes itself from other libraries, making effective use of Python's metaprogramming capabilities.
+This article introduces `pyrimidine`, a general algorithm framework for GA and any other evoluationary algorithm. Adhering rigorously to object-oriented programming (OOP) principles, `pyrimidine` distinguishes itself from other libraries, making effective use of Python's meta-programming capabilities.
 
 ## Algebra-inspired Programming
 
@@ -251,15 +251,15 @@ Various GA frameworks have been designed, such as `DEAP` and `gaft`. `Pyrimidine
 
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
 | --------- | ------------------ | ---------- | ------------- | ---------------------- |
-| `pyrimidine`| Object-Oriented, Metaprogramming, Algebraic-insprited | Universal | Extensible | export the data in `DataFrame` |
-| `DEAP` [@fortin]     | Object-Oriented, Functional, Metaprogramming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
-| `gaft`      | Object-Oriented, decoration partton   | Universal | Extensible    | Easy to Implement       |
+| `pyrimidine`| OOP, Meta-programming, Algebraic-insprited | Universal | Extensible | export the data in `DataFrame` |
+| `DEAP` [@fortin]     | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
+| `gaft`      | OOP, decoration partton   | Universal | Extensible    | Easy to Implement       |
 |`geppy` | based on `DEAP` | Symbolic Regression | Limited | - |
 | `tpot`[@olson]/`gama`[@pieter]     | `scikit-learn` Style | Hyperparameter Optimization | Limited | None                   |
 | `gplearn`/`pysr`   | `scikit-learn` Style | Symbolic Regression | Limited | None                   |
 | `scikit-opt`| `scikit-learn` Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
 |`scikit-optimize`|`scikit-learn` Style  | Numerical Optimization | Very Limited | provide some plotting function |
-|`NEAT`| Object-Oriented  | Neuroevolution | Limited | use the visualization tool `visualize` |
+|`NEAT`| OOP  | Neuroevolution | Limited | use the visualization tool `visualize` |
 
 `tpot/gama`, `gplearn/pysr`, and `scikit-opt` follow the `scikit-learn` style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`).
 

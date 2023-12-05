@@ -4,13 +4,13 @@
 
 An iterative model is a class implementing iterative algorithms, repeating to call $x'=Tx$.
 
-Following is the core code of the class.
+Following is the core (pseudo-)code of the class.
 
 ```python
 def evolve(self):
     self.init()
-    looping:
-        self.transition()
+    looping by k:
+        self.transition(k)
 ```
 
 Users could override `transition` to implement any other iteration form.
@@ -103,4 +103,17 @@ Here `side-effect` means the method will change the fitness of the individual or
 ### Others
 
 - `set_*`/`get_*`: set/get methods, for instance, `get_all` the attributes of all individuals in a population.
+- `set`: set attributes/methods for a class
 - `save/load`: serialization/deserialization for populations/individuals
+
+## Arguments/Parameters/Attributions
+
+- `n_*`: number of ..., such as `n_chromosomes` represents the number of the chromosomes in an individual.
+- `*_prob`: probability
+- `*_rate`: e.g. `learning_rate`
+
+## params/alias
+
+`params` is a dictionary of parameters for the algorithm, it could be inherited from super class by meta-programming.
+
+`alias` is a dictionary for alias to attributes.

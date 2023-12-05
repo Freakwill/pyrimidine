@@ -82,16 +82,12 @@ class ParamType(type):
 
     def set(self, *args, **kwargs):
         for k in args:
-            setattr(self, k, globals()[k])
+            if k in globals():
+                setattr(self, k, globals()[k])
+            else:
+                raise NameError(f"name '{k}' is not defined.")
         for k, v in kwargs.items():
             setattr(self, k, v)
-        return self
-
-    def set_method(self, *args, **kwargs):
-        for k in args:
-            setattr(self, k, MethodType(globals()[k], self))
-        for k, m in kwargs.items():
-            setattr(self, k, MethodType(m, self))
         return self
 
     def set_params(self, **kwargs):
