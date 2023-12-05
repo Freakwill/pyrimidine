@@ -74,7 +74,7 @@ class IterativeMixin:
             stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
                            The value could be a string that should be a method pre-defined.
             history {bool|DataFrame} -- True for recording history, or a DataFrame object recording previous history.
-            attrs {bool} -- attributes of the object
+            attrs {tuple[str]} -- attributes of the object
         
         Returns:
             DataFrame | None
@@ -123,27 +123,36 @@ class IterativeMixin:
                     break
         return history
 
-    def perf(self, n_repeats=10, *args, **kwargs):
+    def perf(self, n_repeats=10, timing=True, *args, **kwargs):
         """Get performance of Algo.
 
         Keyword Arguments:
             n_repeats {number} -- number of repeats to running algo. (default: {10})
+            timing {bool} -- measure execution the time
         
         Returns:
-            history, running time
+            history, time
         """
 
-        import time
+        from time import process_time
+
         times = []
         data = None
         for _ in range(n_repeats):
             cpy = self.copy(cache=False)
             data0 = cpy.evolve(verbose=False, *args, **kwargs)
+            if timing:
+                start = process_time()
+                data0 = cpy.evolve(verbose=False, *args, **kwargs)
+                end = process_time()
+                delta = end - start
+            times.append(delta)
             if data is None:
                 data = data0
             else:
                 data += data0
-        return data / n_repeats
+
+        return data / n_repeats, np.mean(delta)
 
     def copy(self, *args, **kwargs):
         raise NotImplementedError
