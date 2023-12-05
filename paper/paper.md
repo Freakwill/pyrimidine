@@ -33,7 +33,7 @@ bibliography: paper.bib
 
 ## Introduction
 
-As one of the earliest developed intelligent algorithms [holland, katoch], the genetic algorithm(GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@cheng]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [@holland] and the associated literatures.
+As one of the earliest developed intelligent algorithms [holland, katoch], the genetic algorithm(GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam, @cheng,@katoch]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [@holland, @simon] and the associated literatures.
 
 This article introduces `pyrimidine`, a general algorithm framework for GA and any other evoluationary algorithm. Adhering rigorously to object-oriented programming (OOP) principles, `pyrimidine` distinguishes itself from other libraries, making effective use of Python's metaprogramming capabilities.
 

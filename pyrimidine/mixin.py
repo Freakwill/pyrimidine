@@ -64,17 +64,17 @@ class IterativeMixin:
         for k in range(1, n_iter+1):
             self.transition(k)
 
-    def evolve(self, n_iter:int=100, period:int=1, verbose:bool=False, decode=False, history=False, stat=None, attrs=('solution',), control=None):
+    def evolve(self, n_iter:int=100, period:int=1, verbose:bool=False, history=False, stat=None, attrs=('solution',), control=None):
         """Get the history of the whole evolution
 
         Keyword Arguments:
             n_iter {number} -- number of iterations (default: {None})
             period {integer} -- the peroid of stat
             verbose {bool} -- to print the iteration process
-            decode {bool} -- decode to the real solution
             stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
                            The value could be a string that should be a method pre-defined.
             history {bool|DataFrame} -- True for recording history, or a DataFrame object recording previous history.
+            attrs {bool} -- attributes of the object
         
         Returns:
             DataFrame | None
@@ -271,7 +271,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
 
         if stat is None:
             stat = {'Best Fitness': 'best_fitness', 'Mean Fitness': 'mean_fitness',
-            'STD Fitness': 'std_fitness', 'Population': 'n_elements'}
+            'STD Fitness': 'std_fitness'}
         return super().evolve(stat=stat, *args, **kwargs)
 
     @classmethod
@@ -308,6 +308,11 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
 
     @property
     def best_fitness(self):
+        print('`best_fitness` is depricated and please use `max_fitness`')
+        return np.max(self.get_all_fitness())
+
+    @property
+    def max_fitness(self):
         return np.max(self.get_all_fitness())
 
     @property

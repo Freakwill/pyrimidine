@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
+
 from pyrimidine.chromosome import BinaryChromosome
 from pyrimidine.population import HOFPopulation
 

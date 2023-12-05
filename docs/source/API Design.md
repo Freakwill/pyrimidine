@@ -93,6 +93,14 @@ Calculating the fintess is the most frequent task in the algorithms.
 
 Some operators defined in solution-level, i.e. only valid for individuals/populations (or chromosomes as the individuals), such as `_fitness`, some could be defined under solution-level, i.e. valid for chromosomes in an individual, such as `dual`, `cross`, `mutate`.
 
+### List-like operation
+`append, extend, pop, remove` to operate the list of the elements
+
+### Side-effect and pure
+
+Here `side-effect` means the method will change the fitness of the individual or the population. It could be ignored if you do not use the cache (to get the fitness).
+
 ### Others
 
-`set_*`/`get_*`: set/get methods, for instance, `get_all` the attributes of all individuals in a population.
+- `set_*`/`get_*`: set/get methods, for instance, `get_all` the attributes of all individuals in a population.
+- `save/load`: serialization/deserialization for populations/individuals
