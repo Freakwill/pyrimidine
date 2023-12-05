@@ -257,11 +257,20 @@ class MetaContainer(ParamType):
             def m(obj, *args, **kwargs):
                 return obj.map(key, obj.__elements, *args, **kwargs)
             if not force and hasattr(self, name):
-                raise AttributeError(f'`{name}` is an attribute of {self.__class__.__name__}, and would not be regestered.')
+                raise RegesterError(self.__class__, name)
             setattr(self, name, MethodType(m, self))
 
         attrs.update({
             'regester_map': _regester_map
+        })
+
+        def _regester(self, name, key, force=True):
+            if not force and hasattr(self, name):
+                raise RegesterError(self.__class__, name)
+            setattr(self, name, MethodType(key, self))
+
+        attrs.update({
+            'regester': _regester
         })
 
         return super().__new__(cls, name, bases, attrs)

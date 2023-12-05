@@ -20,7 +20,7 @@ class TestMeta:
                 
         C = self.mc
         c = C([UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
-        C.set_methods(n_elems=lambda c: 1)
+        C.set(n_elems=lambda c: 1)
         self.C = C
         self.c = c
 
@@ -40,7 +40,6 @@ class TestMeta:
             return len([o for o in s if str(o) in 'ieaouIEAOU'])
         c.regester_map('length', n_vowels)
         assert list(c.length()) == [1, 2, 2]
-
 
     def test_subclass(self):
         C = self.C
