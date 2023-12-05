@@ -229,7 +229,7 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         return self.__class__([chromosome.cross(other_c) for chromosome, other_c in zip(self, other)])
 
     @side_effect
-    def mutate(self, copy=False):
+    def mutate(self):
         # Mutating operation of an individual
         for chromosome in self:
             chromosome.mutate()
@@ -348,6 +348,8 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
             n_sel = self.default_size
         elif 0 < n_sel < 1:
             n_sel = int(self.n_individuals * n_sel)
+        if n_sel >= self.n_individuals:
+            return
         winners = []
         rest = list(range(self.n_individuals))
         size = tournsize or self.tournsize

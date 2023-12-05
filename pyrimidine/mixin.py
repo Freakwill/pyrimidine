@@ -106,7 +106,7 @@ class IterativeMixin:
             print(f"""
 {" & ".join(concat((("iteration",), attrs, res.keys())))}
 -------------------------------------------------------------
-{" & ".join(map(str, concat((("[0]",), attrgetter(*attrs)(self), map(str, res.values())))))}""")
+{" & ".join(map(str, concat((("[0]",), (getattr(self, attr) for attr in attrs), map(str, res.values())))))}""")
 
         for k in range(1, n_iter+1):
             self.transition(k)
@@ -116,7 +116,7 @@ class IterativeMixin:
                     pd.Series(res.values(), index=res.keys()).to_frame().T],
                     ignore_index=True)
             if verbose and (period == 1 or k % period ==0):
-                print(f'{" & ".join(map(str, concat((("[%d]"%k,), attrgetter(*attrs)(self), map(str, res.values())))))}')
+                print(f'{" & ".join(map(str, concat((("[%d]"%k,), (getattr(self, attr) for attr in attrs), map(str, res.values())))))}')
             
             if control:
                 if control(self):
