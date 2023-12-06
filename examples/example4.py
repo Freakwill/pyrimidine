@@ -47,7 +47,7 @@ class MyIndividual(ExampleIndividual, SimulatedAnnealing):
 
 
 if __name__ == '__main__':
-    stat={'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
+    stat={'Mean Fitness':'mean_fitness', 'Max Fitness': 'max_fitness'}
     
     StandardPopulation.element_class = ExampleIndividual
 
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+    data[['Mean Fitness', 'Max Fitness']].plot(ax=ax)
 
     LocalSearchPopulation.element_class = MyIndividual
 
@@ -66,6 +66,6 @@ if __name__ == '__main__':
 
     lga.mate_prob = 0.9
     d= lga.evolve(n_iter=10, stat=stat, history=True)
-    d[['Mean Fitness', 'Best Fitness']].plot(ax=ax, style='.-')
+    d[['Mean Fitness', 'Max Fitness']].plot(ax=ax, style='.-')
     ax.legend(('Traditional','Traditional best', 'SA', 'SA best'))
     plt.show()

@@ -53,7 +53,7 @@ if __name__ == '__main__':
 #     # Define statistics of population
     stat = {
         'Mean Fitness': 'mean_fitness',
-        'Best Fitness': 'best_fitness',
+        'Best Fitness': 'max_fitness',
         'Standard Deviation of Fitnesses': 'std_fitness',
         'number': lambda pop: len(pop.individuals)  # or `'n_individuals'`
         }
