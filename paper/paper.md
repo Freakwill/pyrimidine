@@ -57,15 +57,15 @@ Here, the symbol $\{\cdot\}$ signifies either a set or a sequence, emphasizing t
 
 Expanding on this conceptual foundation, we articulate the definition of a population as a container of individuals. The introduction of multi-population extends this idea, representing a container of populations, commonly denoted as "the high-level container." What sets `pyrimidine` apart is its innate capability to seamlessly implement multi-population genetic algorithms. The populations in a multi-population behaves like the individuals in a population. Notably, it allows the definition of containers at higher levels, such as a container of multi-populations, potentially intertwined with conventional populations.
 
-In our framework, a container that defines operators for its elements is referred to as a **system**. For instance, the crossover operation of two individuals, denoted as $a$ and $b$ within the population system $s$, can be implemented as `s.cross(a, b)`. This system concept aligns with algebraic systems, although the current version of our framework diverges from this notion. In the present implementation, operators are directly defined as methods of the elements, such as `a.cross(b)`. While the relavant consideration is postponed to future releases, the potential change will not disrupt the design of APIs.
+While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered a system. Similarly, a chromosome might be viewed as a container of genes. In practice, we choose to implement chromosomes directly using `numpy.array` or `array.array`.
 
-An individual could be conceptualized as a container of chromosomes, but it will not to be a system. And A chromosome might be viewed as a container of genes. In practice, we choose to implement chromosomes directly using `numpy.array` or the standard library's `array.array`.
+In our framework, a container that defines operators for its elements is referred to as a **system**. For instance,in the population system $s$, the crossover operation of two individuals, denoted as $a \times_s b$ mathematically, can be implemented as `s.cross(a, b)`. Although this system concept aligns with algebraic systems, the current version of our framework diverges from this notion, as operators are directly defined as methods of the elements, such as `a.cross(b)`. While the relevant consideration is postponed to future releases, this potential change will not disrupt the design of APIs.
 
-The lifting of a function/method $f$ is formally defined as follows:
+The lifting of a function/method $f$ is a common approach to defining the function for the entire system:
 $$
 f(s) := \{f(a)\}
 $$
-unless explicitly redefined. For instance, the mutation of a population entails the mutation of all individuals in it, but at times, it may be defined as the mutation of one individual selected randomly. Another example is that the fitness of a population is the maximum of the fitnesses of the individuals in the population.
+unless explicitly redefined. For example, the mutation of a population typically involves the mutation of all individuals in it, but there are cases where it may be defined as the mutation of a randomly selected individual. Another example is that the fitness of a population is determined as the maximum of the fitness values among the individuals in the population.
 
 `transition` is the primary method in the iterative algorithms, denoted as a transform:
 $$
