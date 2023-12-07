@@ -16,10 +16,11 @@ from .de import *
 from .ba import *
 
 
-__version__ = "1.5.1"
+__version__ = "1.5.2"
 
 __template__ = """
-from pyrimidine import MonoBinaryIndividual
+from pyrimidine.chromosome import BinaryChromosome
+from pyrimidine.individual import MonoIndividual, binaryIndividual
 from pyrimidine.population import HOFPopulation
 
 from pyrimidine.benchmarks.optimization import *
@@ -29,12 +30,12 @@ _evaluate = Knapsack.random(n)
 
 
 # Define individual
-class MyIndividual(MonoBinaryIndividual):
+class MyIndividual(MonoIndividual[BinaryChromosome//n]):
     def _fitness(self) -> float:
         # To evaluate an individual!
         return _evaluate(self.chromosome)
     
-# MyIndividual = MonoBinaryIndividual.set_fitness(lambda o: _evaluate(o.chromosome))
+# MyIndividual = binaryIndividual(n).set_fitness(lambda o: _evaluate(o.chromosome))
 
 # Define Population
 class MyPopulation(HOFPopulation):
@@ -45,7 +46,8 @@ class MyPopulation(HOFPopulation):
 
 pop = MyPopulation.random(size=n)
 
-stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness', 'Standard Deviation of Fitnesses': 'std_fitness'}
+stat={'Mean Fitness': 'fitness', 'Best Fitness': 'max_fitness',
+  'Standard Deviation of Fitnesses': 'std_fitness'}
 data = pop.evolve(stat=stat, n_iter=200, history=True)
 
 
