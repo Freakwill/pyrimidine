@@ -31,7 +31,7 @@ pop1 = _Population1.random(size=n_bags)
 # build population 2 with the same initial values to population 1, by `copy` method
 # pop2 = pop1.copy(type_=_Population2)
 
-stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
+stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness'}
 data1 = pop1.evolve(stat=stat, n_iter=50, history=True)
 # data2 = pop2.evolve(stat=stat, n_iter=100, history=True)
 

@@ -30,16 +30,13 @@ class Chromosome3(FloatChromosome):
 class MyIndividual(MixedIndividual):
     element_class = Chromosome1, Chromosome2, Chromosome3, Chromosome1, Chromosome2, Chromosome3
 
-
     def _fitness(self):
         return evaluate(*self.chromosomes)
 
 
-class MyPopulation(SGAPopulation):
-    element_class = MyIndividual
-    default_size = 40
+MyPopulation = HOFPopulation[MyIndividual] // 40
 
-class MySpecies(DualSpecies):
+class MySpecies(DualPopulation):
     element_class = MyPopulation
 
     def mate(self):
@@ -54,8 +51,8 @@ class MySpecies(DualSpecies):
             male_offspring.extend(children[::2])
             female_offspring.extend(children[1::2])
 
-        self.populations[0].individuals += male_offspring
-        self.populations[1].individuals += female_offspring
+        self.populations[0].extend(male_offspring)
+        self.populations[1].extend(female_offspring)
 
 pop = MySpecies.random(sizes=(20, 20, 20, 20, 20, 20))
 

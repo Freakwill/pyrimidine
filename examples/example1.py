@@ -41,7 +41,7 @@ class MyIndividual(BinaryChromosome // 10):
 MyPopulation = HOFPopulation[MyIndividual] // 16
 
 pop = MyPopulation.random()
-stat = {'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
+stat = {'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness'}
 data = pop.evolve(stat=stat, n_iter=50, history=True, verbose=True)
 
 if __name__ == '__main__':

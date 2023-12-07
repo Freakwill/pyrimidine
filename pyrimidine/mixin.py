@@ -152,7 +152,7 @@ class IterativeMixin:
             else:
                 data += data0
 
-        return data / n_repeats, np.mean(delta)
+        return data / n_repeats, np.mean(times)
 
     def copy(self, *args, **kwargs):
         raise NotImplementedError
@@ -240,7 +240,8 @@ class CollectiveMixin(IterativeMixin):
 
     def init(self, *args, **kwargs):
         for element in self:
-            element.init(*args, **kwargs)
+            if hasattr(element, 'init'):
+                element.init(*args, **kwargs)
 
     def transition(self, *args, **kwargs):
         for element in self:
@@ -263,9 +264,12 @@ class CollectiveMixin(IterativeMixin):
         self.elements.append(ind)
 
     @classmethod
-    def random(cls, n_individuals=None, *args, **kwargs):
-        n_individuals = n_individuals or cls.default_size
-        return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_individuals)])
+    def random(cls, n_elements=None, *args, **kwargs):
+        if isinstance(cls.element_class, tuple):
+            return cls([C.random(*args, **kwargs) for C in cls.element_class])
+        else:
+            n_elements = n_elements or cls.default_size
+            return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_elements)])
 
 
 class PopulationMixin(FitnessMixin, CollectiveMixin):
@@ -279,7 +283,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         """
 
         if stat is None:
-            stat = {'Best Fitness': 'best_fitness', 'Mean Fitness': 'mean_fitness',
+            stat = {'Best Fitness': 'max_fitness', 'Mean Fitness': 'mean_fitness',
             'STD Fitness': 'std_fitness'}
         return super().evolve(stat=stat, *args, **kwargs)
 
@@ -291,7 +295,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
 
     @property
     def fitness(self):
-        return self.best_fitness
+        return self.max_fitness
 
     def _fitness(self):
         """Calculate the fitness of the whole population
@@ -299,7 +303,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         Fitness of a population is the best fitness by default.
         (not recommended to be overridden)
         """
-        return self.best_fitness
+        return self.max_fitness
 
     def get_all_fitness(self):
         return list(self.map(attrgetter('fitness'), self))

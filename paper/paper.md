@@ -201,7 +201,7 @@ Instead of implementing visualization methods, `pyrimidine` yields a `pandas.Dat
 ```python
 # statistic dictionary, computing the mean fitness and best fitness of each generation
 stat = {'Mean Fitness': 'mean_fitness',
-'Best Fitness': 'best_fitness'}
+'Best Fitness': 'max_fitness'}
 
 # obtain the history data, i.e. the statistical results, through the evolution.
 data = pop.evolve(stat=stat, n_iter=100, history=True)
@@ -216,7 +216,7 @@ ax.set_ylabel('Fitness')
 plt.show()
 ```
 
-Here, `mean_fitness` and `best_fitness` denote the average fitness value of the population and the optimal individual fitness value, respectively. Notably, they inherently encapsulate functions to perform statistical operations, for instance, `best_fitness` corresponds to the mapping `pop->pop.best_individual.fitness`.
+Here, `mean_fitness` and `max_fitness` denote the average fitness value of the population and the optimal individual fitness value, respectively. Notably, they inherently encapsulate functions (could be wrapped by `property` decorator) to perform statistical operations, for instance, `mean_fitness` corresponds to the mapping `pop->np.mean(pop.get_all_fitness())`.
 
 ![](plot-history.png)
 
@@ -260,7 +260,7 @@ Various GA frameworks have been designed, such as `DEAP` and `gaft`. `Pyrimidine
 | `gplearn`/`pysr`   | `scikit-learn` Style | Symbolic Regression | Limited | None                   |
 | `scikit-opt`| `scikit-learn` Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
 |`scikit-optimize`|`scikit-learn` Style  | Numerical Optimization | Very Limited | provide some plotting function |
-|`NEAT`| OOP  | Neuroevolution | Limited | use the visualization tool `visualize` |
+|`NEAT`[@neat-python]| OOP  | Neuroevolution | Limited | use the visualization tool `visualize` |
 
 `tpot/gama`, `gplearn/pysr`, and `scikit-opt` follow the `scikit-learn` style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`).
 

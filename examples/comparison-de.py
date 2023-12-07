@@ -23,18 +23,14 @@ class _Population1(DifferentialEvolution, BasePopulation):
     default_size = 10
 
 
-class _Population2(HOFPopulation):
-    element_class = MyIndividual
-    default_size = 10
-
-# _Population2 = HOFPopulation[MyIndividual] // 10
+_Population2 = HOFPopulation[MyIndividual] // 10
 
 pop1 = _Population1.random()
-pop2 = pop1.clone(type_=_Population2) # population 2 with the same initial values to population 1
+pop2 = pop1.copy(type_=_Population2) # population 2 with the same initial values to population 1
 
-stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-data1 = pop1.evolve(stat=stat, n_iter=100, history=True)
-data2 = pop2.evolve(stat=stat, n_iter=100, history=True)
+# stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness'}
+data1 = pop1.evolve(n_iter=100, history=True)
+data2 = pop2.evolve(n_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt

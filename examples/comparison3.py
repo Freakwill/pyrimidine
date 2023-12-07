@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-from pyrimidine import BinaryChromosome, HOFPopulation, MonoIndividual, classicalIndividual
+from pyrimidine import BinaryChromosome, HOFPopulation, MonoIndividual, binaryIndividual
 
 from pyrimidine.benchmarks.optimization import *
+
 
 # generate a knapsack problem randomly
 evaluate = Knapsack.random(n_bags=100)
@@ -16,7 +17,7 @@ class _Chromosome(BinaryChromosome // 100):
         for i in range(len(self)):
             if random() < indep_prob:
                 self[i] ^= 1
-            k += 1
+                k += 1
             if k >= self.n_mutations:
                 break
 
@@ -31,21 +32,17 @@ class YourPopulation(HOFPopulation):
 
 
 pop = YourPopulation.random()
-cpy = pop.copy(type_=YourPopulation)
-
-stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
-
-data2, t2 = pop.perf(n_iter=200, stat=stat, history=True)
+data = pop.evolve(n_iter=100, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-data2[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 
 
-pop = MyPopulation(cpy.individuals)
-data1, t1 = pop.perf(n_iter=200, stat=stat, history=True)
-data1[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+pop = pop.copy(type_=MyPopulation)
+data = pop.evolve(n_iter=100, history=True)
+data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.legend(('My Fitness', 'My Best Fitness', 'Your Fitness', 'Your Best Fitness'))
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')

@@ -34,9 +34,7 @@ class _Population(EPPopulation, BasePopulation):
 
 pop = _Population.random(sizes=(n_bags, n_bags))
 
-stat={'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
-
-data = pop.evolve(stat=stat, n_iter=100, period=10, history=True)
+data = pop.evolve(n_iter=100, period=10, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

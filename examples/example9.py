@@ -23,7 +23,7 @@ class YourPopulation(StandardPopulation):
 
 pop = YourPopulation.random(size=20)
 
-stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
+stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness'}
 data, _ = pop.perf(stat=stat, history=True)
 
 import matplotlib.pyplot as plt
