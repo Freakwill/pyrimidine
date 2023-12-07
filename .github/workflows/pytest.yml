@@ -1,10 +1,9 @@
-name: Pytest
-
 on: [push]
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    name: Run Pytest
 
     steps:
     - name: Checkout code
