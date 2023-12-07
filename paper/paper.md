@@ -2,10 +2,10 @@
 title: 'Pyrimidine: Algebra-inspired Programming framework for evolution algorithms'
 tags:
   - Python
-  - astronomy
-  - dynamics
-  - galactic dynamics
-  - milky way
+  - genetic algorithms
+  - evolutionary algorithms
+  - intelligent algorithms
+  - meta-programming
 authors:
   - name: Congwei Song
     orcid: 0000-0002-4409-7276
@@ -65,7 +65,7 @@ The lifting of a function/method $f$ is a common approach to defining the functi
 $$
 f(s) := \{f(a)\}
 $$
-unless explicitly redefined. For example, the mutation of a population typically involves the mutation of all individuals in it, but there are cases where it may be defined as the mutation of a randomly selected individual. Another example is that the fitness of a population is determined as the maximum of the fitness values among the individuals in the population.
+unless explicitly redefined. For example, the mutation of a population typically involves the mutation of all individuals in it, but there are cases where it may be defined as the mutation of a randomly selected individual. Another type of lifting is that the fitness of a population is determined as the maximum of the fitness values among the individuals in the population.
 
 `transition` is the primary method in the iterative algorithms, denoted as a transform:
 $$
