@@ -263,14 +263,6 @@ class CollectiveMixin(IterativeMixin):
     def append(self, ind):
         self.elements.append(ind)
 
-    @classmethod
-    def random(cls, n_elements=None, *args, **kwargs):
-        if isinstance(cls.element_class, tuple):
-            return cls([C.random(*args, **kwargs) for C in cls.element_class])
-        else:
-            n_elements = n_elements or cls.default_size
-            return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_elements)])
-
 
 class PopulationMixin(FitnessMixin, CollectiveMixin):
     """mixin class for population-based heuristic algorithm

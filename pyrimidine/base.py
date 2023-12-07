@@ -161,6 +161,7 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
 
     element_class = BaseChromosome
     default_size = 2
+
     alias = {"chromosomes": "elements",
     "n_chromosomes": "n_elements"}
 
@@ -188,38 +189,15 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         else:
             return str(self)
 
-    @classmethod
-    def random(cls, n_chromosomes=None, *args, **kwargs):
-        """Generate an object of Individual randomly
-        
-        Arguments:
-            **kwargs -- set sizes for the sizes of chromosomes
-        
-        Keyword Arguments:
-            n_chromosomes {number} -- the number of chromosomes (default: {None})
-        
-        Returns:
-            BaseIndividual -- an object of Individual
-        """
-
-        if isinstance(cls, MetaTuple) or isinstance(cls.element_class, tuple):
-            return cls([C.random(*args, **kwargs) for C in cls.element_class])
-        else: #if isinstance(cls, MetaList):
-            n_chromosomes = n_chromosomes or cls.default_size
-            return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_chromosomes)])
-
     def _fitness(self):
         if hasattr(self, 'environment'):
             return self.environment.evaluate(self)
         else:
             raise NotImplementedError
 
-    def init(self):
-        pass
-
     def copy(self, type_=None, *args, **kwargs):
         type_ = type_ or self.__class__
-        if isinstance(cls, MetaTuple) or isinstance(type_.element_class, tuple):
+        if isinstance(type_.element_class, tuple):
             return type_([c.copy(type_=t) for c, t in zip(self, type_.element_class)])
         else:
             return type_([c.copy(type_=type_.element_class) for c in self])
@@ -253,16 +231,10 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
 
         For example, transform a 0-1 sequence to a real number.
         """
-        return [chromosome.decode() for chromosome in self.chromosomes]
-
-    def dual(self):
-        """Get the dual individual
-        Applied in dual GA
-        """
-        raise NotImplementedError
+        return [chromosome.decode() for chromosome in self]
 
     def __eq__(self, other):
-        return np.all([c.equal(oc) for c, oc in zip(self.chromosomes, other.chromosomes)])
+        return np.all([c.equal(oc) for c, oc in zip(self, other)])
 
     def __mul__(self, n):
         """population = individual * n
@@ -299,9 +271,8 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
 
     element_class = BaseIndividual
     default_size = 20
-    # hall_of_fame = []
 
-    params = {'mate_prob':0.75, 'mutate_prob':0.2, 'tournsize':5}
+    params = {'mate_prob':0.75, 'mutate_prob':0.2, 'tourn_size':5}
 
     alias = {"individuals": "elements",
         "n_individuals": "n_elements",
@@ -337,10 +308,10 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         # select `size` individuals from the list `individuals` in one tournament.
         return choice(individuals, size=size, replace=False)
 
-    def select(self, n_sel=None, tournsize=None):
+    def select(self, n_sel=None, tourn_size=None):
         """The standard method of selecting operation in GA
         
-        Select the best individual among `tournsize` randomly chosen
+        Select the best individual among `tourn_size` randomly chosen
         individuals, `n_sel` times.
         """
 
@@ -352,7 +323,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
             return
         winners = []
         rest = list(range(self.n_individuals))
-        size = tournsize or self.tournsize
+        size = tourn_size or self.tourn_size
         n_rest = self.n_individuals
 
         for i in range(n_sel):
@@ -414,7 +385,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         """
         
         mate_prob = mate_prob or self.mate_prob
-        offspring = [individual.cross(other) for individual, other in zip(self.individuals[::2], self.individuals[1::2])
+        offspring = [individual.cross(other) for individual, other in zip(self[::2], self[1::2])
         if random() < mate_prob]
         self.extend(offspring)
         self.offspring = self.__class__(offspring)
@@ -509,12 +480,6 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
     def __str__(self):
         return '\n\n'.join(map(str, self))
 
-    @classmethod
-    def random(cls, n_populations=None, *args, **kwargs):
-        if n_populations is None:
-            n_populations = cls.default_size
-        return cls([cls.element_class.random(*args, **kwargs) for _ in range(n_populations)])
-
     def migrate(self, migrate_prob=None):
         for population, other in zip(self[:-1], self[1:]):
             if random() < (migrate_prob or self.migrate_prob):
@@ -525,8 +490,8 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
         super().transition(*args, **kwargs)
         self.migrate()
 
-    def best_fitness(self):
-        return max(map(attrgetter('best_fitness'), self))
+    def max_fitness(self):
+        return max(map(attrgetter('max_fitness'), self))
 
     def get_best_individual(self, copy=True):
         bests = map(methodcaller('get_best_individual'), self)

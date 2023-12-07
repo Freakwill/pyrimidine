@@ -7,7 +7,7 @@ Helpers for GA
 import numpy as np
 
 from .chromosome import BinaryChromosome
-from .individual import binaryIndividual
+from .individual import makeIndividual
 from .population import HOFPopulation
 from .de import DifferentialEvolution
 
@@ -51,8 +51,7 @@ def ga_minimize(func, *xlim, decode=_decode, population_size=20, size=8):
         ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
     """
 
-    class _Individual(binaryIndividual(size)):
-        default_size = len(xlim)
+    class _Individual(makeIndividual(n_chromosomes=len(xlim), size=size)):
 
         def _fitness(self):
             return - func(self.decode())
@@ -67,7 +66,7 @@ def ga_minimize(func, *xlim, decode=_decode, population_size=20, size=8):
     pop = _Population.random()
     pop.ezolve()
 
-    return pop.solution.decode()
+    return pop.solution
 
 
 def de_minimize(func, *xlim, decode=_decode, population_size=20, size=8):

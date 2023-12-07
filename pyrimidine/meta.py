@@ -221,14 +221,16 @@ class MetaContainer(ParamType):
             "apply": _apply
             })
 
-        def _type_check(self):
-            return all(isinstance(elm, self.element_class) for elm in self.__elements)
+        # def _type_check(self):
+        #     return all(isinstance(elm, self.element_class) for elm in self.__elements)
 
-        attrs['type_check'] = _type_check
+        # attrs['type_check'] = _type_check
 
         def _getstate(self):
-            return {'element_class':self.element_class, 'default_size':self.default_size,
-            'elements':self.elements, 'params':self.params}
+            return {'element_class':self.element_class,
+            'default_size':self.default_size,
+            'elements':self.elements,
+            'params':self.params}
 
         def _setstate(self, state):
             self.element_class = state.get('element_class', self.__class__.element_class)
@@ -298,6 +300,28 @@ class MetaContainer(ParamType):
 
     def __floordiv__(self, n):
         return self.set(default_size=n)
+
+    def random(self, n_elements=None, *args, **kwargs):
+        """Generate a container randomly
+        
+        Arguments:
+            **kwargs -- set size of the container if use the alias of n_elements
+        
+        Keyword Arguments:
+            n_elements {number} -- the number of elements (default: {None})
+        """
+
+        for k, v in kwargs.items():
+            if self.alias[k] == 'n_elements':
+                n_elements = v
+                del kwargs[k]
+                break
+        if isinstance(self.element_class, tuple):
+            return self([C.random(*args, **kwargs) for C in self.element_class])
+        else:
+            n_elements = n_elements or self.default_size
+            return self([self.element_class.random(*args, **kwargs) for _ in range(n_elements)])
+
 
 
 # class System(MetaContainer):
@@ -376,7 +400,7 @@ class MetaTuple(MetaContainer):
         return super().__new__(cls, name, bases, attrs)
 
     def __floordiv__(self, n):
-        raise DeprecationWarning('It is meaningless to do `//` on the class with a number.')
+        raise DeprecationWarning('It is meaningless to do `//` on the class {self.__name__} with a number.')
 
     def __call__(self, *args, **kwargs):
         o = super().__call__(*args, **kwargs)

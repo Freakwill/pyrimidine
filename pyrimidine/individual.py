@@ -182,6 +182,6 @@ def makeIndividual(element_class=BinaryChromosome, n_chromosomes=1, size=8, cls=
                 raise ValueError('the length of `size` must be 1 or `n_chromosomes`.')
         elif isinstance(size, int):
             cls = cls or PolyIndividual
-            return cls[tuple(element_class.set(default_size=size) for _ in np.range(n_chromosomes))]
+            return cls[element_class.set(default_size=size)].set(default_size=n_chromosomes)
         else:
             raise ValueError('the length of `size` must be a number or a tuple of numbers.')

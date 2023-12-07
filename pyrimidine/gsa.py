@@ -41,7 +41,9 @@ class Particle(PolyIndividual):
     def velocity(self, v):
         self.chromosomes[1] = v
 
-    def move(self): 
+    def move(self):
+        """Moving the particl with Newton's mechanics
+        """
         r = random()
         cpy = self.copy(fitness=None)
         cpy.velocity = r * cpy.velocity + cpy.accelerate
@@ -101,8 +103,6 @@ class GravitySearch(PopulationMixin):
         self.gravity_coefficient = exp(-self.attenuation_coefficient*k / self.n_iter)
 
     def move(self):
-        """Moving particles with Newton's mechanics
-        """
         for particle in self:
             particle.move()
 
