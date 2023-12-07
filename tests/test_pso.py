@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-from pyrimidine.utils import FloatChromosome, BasePopulation
+from pyrimidine import FloatChromosome, BasePopulation
 from pyrimidine.pso import Particle, ParticleSwarm
 from pyrimidine.benchmarks.special import rosenbrock
 

@@ -48,8 +48,6 @@ if __name__ == '__main__':
     # print(_map(attrgetter('fitness'), pop.individuals))
     # print(list(map(attrgetter('fitness'), pop.individuals)))
 
-    raise
-
 #     # Define statistics of population
     stat = {
         'Mean Fitness': 'mean_fitness',
@@ -59,7 +57,7 @@ if __name__ == '__main__':
         }
 
     # Do statistical task and print the results through the evoluation
-    data = pop.evolve(stat=stat, n_iter=3, history=True, verbose=True)
+    data = pop.evolve(stat=stat, n_iter=30, history=True, verbose=True)
 
     # Visualize the data
     import matplotlib.pyplot as plt

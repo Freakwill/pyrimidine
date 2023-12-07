@@ -2,7 +2,7 @@
 
 from collections import UserString
 
-from .meta import MetaContainer
+from pyrimidine.meta import MetaContainer
 
 
 class TestMeta:
