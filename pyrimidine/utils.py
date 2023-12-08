@@ -140,7 +140,7 @@ def pattern(chromosomes):
         >> **0
     """
 
-    return ''.join([str(a[0]) if all_equal(a) else '*' for a in zip(*chromosomes)])
+    return ''.join([str(a[0]) if all(ai==a[0] for ai in a) else '*' for a in zip(*chromosomes)])
 
 
 def rotations(x, y):
