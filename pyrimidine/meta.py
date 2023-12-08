@@ -81,6 +81,7 @@ class ParamType(type):
         return {"alias":{}, "params":{}}
 
     def set(self, *args, **kwargs):
+        # set the attributes dynamically
         for k in args:
             if k in globals():
                 setattr(self, k, globals()[k])
@@ -91,6 +92,7 @@ class ParamType(type):
         return self
 
     def set_params(self, **kwargs):
+        # set `params` dynamically
         self.params.update(kwargs)
         return self
 
@@ -296,6 +298,22 @@ class MetaContainer(ParamType):
         return o
 
     def __getitem__(self, class_):
+        """Helper to construct a container
+
+            `C[a] // n` is equiv. to
+            
+            ```
+            class C(metaclass=MetaContainer):
+                element_class = a
+                default_size = n
+            ```
+        
+        Args:
+            class_: `element_class` of the container
+        
+        Returns:
+            A container class
+        """
         return self.set(element_class=class_)
 
     def __floordiv__(self, n):
