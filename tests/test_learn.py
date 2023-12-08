@@ -4,7 +4,7 @@
 import numpy as np
 
 from pyrimidine.learn.neural_network import GAANN
-from pyrimidine.learn.regression import GALinearRegression
+from pyrimidine.learn.linear_regression import GALinearRegression
 
 
 def test_ann():
