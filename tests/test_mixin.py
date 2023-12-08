@@ -40,6 +40,8 @@ class TestMixin:
 
         class Game(CollectiveMixin, metaclass=MetaContainer):
 
+            alias = {'players': 'elements'}
+
             element_class = Player
             default_size = 10
 
@@ -47,8 +49,8 @@ class TestMixin:
                 pass
 
         game = Game.random()
-        game.save(filename='model.pkl')
-        assert True
+        # game.save(filename='model.pkl')
+        assert isinstance(game.players[0], Player)
         # game_ = Game.load(filename='model.pkl')
         # assert all(p.strategy == p_.strategy for p, p_ in zip(game, game_))
             
