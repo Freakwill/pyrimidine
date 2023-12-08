@@ -15,8 +15,9 @@ def example_problem():
     return _evaluate
 
 
-@pytest.fixture(scope='class')
+@pytest.fixture
 def example(example_problem):
+    n_bags = 10
     
     _evaluate = example_problem
 
@@ -25,7 +26,7 @@ def example(example_problem):
         element_class = BinaryChromosome.set(default_size=n_bags)
 
         def _fitness(self) -> float:
-            return _evaluate(chromosome)
+            return _evaluate(self.chromosome)
 
     class ExamplePopulation(StandardPopulation):
         element_class = ExampleIndividual

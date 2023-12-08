@@ -4,11 +4,13 @@
 Tabu Search was created by Fred W. Glover in 1986 and formalized in 1989
 """
 
+from ..base import BaseIndividual
 from ..utils import random, choice
-from pyrimidine.individual import MemoryIndividual
+from ..deco import basic_memory
 
 
-class BaseTabuSearch(MemoryIndividual):
+@basic_memory
+class BaseTabuSearch(BaseIndividual):
     """Tabu Search algorithm
     """
 

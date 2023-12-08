@@ -2,7 +2,7 @@
 
 
 import numpy as np
-from pyrimidine.chromosome import *
+from pyrimidine.individual import *
 
 
 class TestChromosome:

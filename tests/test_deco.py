@@ -31,7 +31,7 @@ class TestDeco:
 
         _fitness = lambda x: x.v+1
 
-        @set_fitness()
+        @set_fitness(_fitness)
         class C:
             v = 2
 
@@ -50,4 +50,3 @@ class TestDeco:
         c = C()
 
         assert list(c.upper()) == ['A', 'B']
-

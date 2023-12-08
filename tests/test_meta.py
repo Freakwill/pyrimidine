@@ -10,15 +10,15 @@ class TestMeta:
     def setup_method(self):
         class C(metaclass=MetaContainer):
             element_class = UserString
-            alias = {'strings': 'elements'}
+            alias = {'strings': 'elements',
+            'n_strings': 'n_elements'}
 
             def foo(self):
                 pass
 
             def after_setter(self):
                 self.fitness = None
-                
-        C = self.mc
+
         c = C([UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
         C.set(n_elems=lambda c: 1)
         self.C = C

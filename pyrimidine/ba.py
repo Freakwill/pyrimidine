@@ -14,10 +14,11 @@ from random import random
 
 import numpy as np
 
-from . import MemoryIndividual, BasePopulation, FloatChromosome
+from . import BaseIndividual, BasePopulation, FloatChromosome
+from .deco import basic_memory
 
-
-class Bat(MemoryIndividual):
+@basic_memory
+class Bat(BaseIndividual):
 
     element_class = FloatChromosome
     default_size = 5

@@ -34,7 +34,7 @@ class TestDE:
     
     def test_clone(self, example2):
         P1, P2 = example2
-        p2 = P1.random().clone(type_=P2)
+        p2 = P1.random().copy(type_=P2)
         assert isinstance(p2, P2)
 
     def test_evolve(self, example2):

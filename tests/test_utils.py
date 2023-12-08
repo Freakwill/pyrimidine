@@ -19,7 +19,7 @@ class TestUtils:
         assert [2,5,3,4,1] == rotate([5,2,3,1,4], res)
 
     def test_rand(self):
-        i, j = randint2()
+        i, j = randint2(ordered=True)
         assert i < j
 
     def test_prufer(self):

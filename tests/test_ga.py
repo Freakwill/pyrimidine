@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from pyrimidine import HOFPopulation
 
 class TestGA:
 
@@ -8,7 +9,7 @@ class TestGA:
         population = ExamplePopulation.random()
         cpy = population.clone()
         population.merge(cpy, n_sel=8)
-        assert len(population) == 16
+        assert len(population) == 8
 
     def test_evolve(self, example):
         ExamplePopulation, _ = example
@@ -18,10 +19,18 @@ class TestGA:
     
     def test_stat(self, example):
         ExamplePopulation, _ = example
+        population = ExamplePopulation.random()
         stat = {'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
-        data = self.my_population.evolve(stat=stat, n_iter=3, history=True)
-        assert 'mean_fitness' in data.columns and 'max_fitness' in data.columns and len(df) == 4
+        data = population.evolve(stat=stat, n_iter=3, history=True)
+        assert ('Mean Fitness' in data.columns) and ('Best Fitness' in data.columns)
+        assert len(data) == 4
 
+    def test_stat_default(self, example):
+        ExamplePopulation, _ = example
+        population = ExamplePopulation.random()
+        data = population.evolve(n_iter=3, history=True)
+        assert ('Mean Fitness' in data.columns) and ('Best Fitness' in data.columns)
+        assert len(data) == 4
 
     def test_hof(self, example):
         ExamplePopulation, ExampleIndividual = example
@@ -32,7 +41,7 @@ class TestGA:
         data = population.evolve(stat=stat, n_iter=5, history=True)
 
         def increasing(x):
-            all(xi <= xj for xi, xj in zip(x[:-1], x[1:]))
+            return all(xi <= xj for xi, xj in zip(x[:-1], x[1:]))
 
         assert increasing(data['Best Fitness'])
     

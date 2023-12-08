@@ -115,17 +115,18 @@ class add_cache:
         def _set_cache(obj, **d):
             obj._cache.update(d)
 
-        cls_copy = cls.copy
-        def _copy(obj, cache=True, *args, **kwargs):
-            cpy = cls_copy(obj, *args, **kwargs)
-            if cache:
-                cpy.set_cache(**obj._cache)
-            return cpy
-
         cls.cleared = _cleared
         cls.clear_cache = _clear_cache
         cls.set_cache = _set_cache
-        cls.copy = _copy
+
+        if hasattr(cls, 'copy'):
+            cls_copy = cls.copy
+            def _copy(obj, cache=True, *args, **kwargs):
+                cpy = cls_copy(obj, *args, **kwargs)
+                if cache:
+                    cpy.set_cache(**obj._cache)
+                return cpy
+            cls.copy = _copy
 
         for a in self.attrs:
             if not hasattr(cls, a) and not hasattr(cls, '_'+a):
@@ -151,8 +152,10 @@ class add_cache:
         cls.after_setter = _after_setter
 
         for name in self.methods:
-            if hasattr(obj, name):
+            if hasattr(cls, name):
                 setattr(cls, name, clear_cache(getattr(cls, name)))
+            else:
+                print(f'the class "{cls.__name__}" does not have method "{name}"')
 
         cls_new = cls.__new__
         def _new(cls, *args, **kwargs):
@@ -251,7 +254,30 @@ class add_memory:
         return cls
 
 
-basic_memory = add_memory({'fitness':None, 'solution': None})
+def basic_memory(cls):
+    # special case of `add_memory`
+
+    cls = add_memory({'fitness':None, 'solution': None})(cls)
+
+    def _backup(obj, check=True):
+        """Backup the fitness and other information
+        
+        Args:
+            check (bool, optional): check whether the fitness increases.
+        """
+
+        f = super(cls, obj).fitness
+        if not check or (obj.memory['fitness'] is None or f > obj.memory['fitness']):
+            obj.set_memory(fitness=f, solution=obj.decode())
+            
+    cls.backup = _backup
+
+    def _init(obj):
+        obj.backup(check=False)
+
+    cls.init = _init
+
+    return cls
 
 
 usual_side_effect = ['mutate', 'extend', 'pop', 'remove', '__setitem__', '__setattr__', '__setstate__']
@@ -281,37 +307,47 @@ def method_cache(func, a):
 
 class regester_map:
 
-    def __init__(self, maps, map_=map):
+    def __init__(self, mappings, map_=map):
         """
         Args:
-            maps (str, tuple of str): a mapping or mappings
+            mappings (str, tuple of str): a mapping or mappings
             map_ (None, optional): Description
         
         Raises:
             Exception: Description
         """
 
-        if maps:
-            self.maps = maps
+        if mappings:
+            self.mappings = mappings
         else:
             raise Exception('Have not provided any mapping')
         self.map = map_
 
     def __call__(self, cls, map_=None):
-        _map = map_ or self.map or cls.map
 
-        if isinstance(self.maps, str):
-            m = self.maps
+        if map_ is None:
+            if self.map is None:
+                if hasattr(cls, map):
+                    _map = cls.map
+                else:
+                    _map = map
+            else:
+                _map = self.map
+        else:
+            _map = map_
+
+        if isinstance(self.mappings, str):
+            m = self.mappings
             def _m(obj, *args, **kwargs):
                 return _map(methodcaller(m, *args, **kwargs), obj)
             setattr(cls, m, _m)
-        elif isinstance(self.maps, tuple):
-            for m in self.maps:
+        elif isinstance(self.mappings, tuple):
+            for m in self.mappings:
                 def _m(obj, *args, **kwargs):
                     return _map(methodcaller(m, *args, **kwargs), obj)
                 setattr(cls, m, _m)
         else:
-            raise TypeError('`maps` has to be an instance of str or a tuple of strings')
+            raise TypeError('`mappings` has to be an instance of str or a tuple of strings')
 
         return cls
 
@@ -325,17 +361,17 @@ class Regester:
 
     def __call__(self, cls):
 
-        def _regester_operator(self, name, key=None):
-            if hasattr(self, name):
-                raise AttributeError(f'"{name}" is an attribute of "{self.__name__}", and would not be regestered.')
-            self._operators.append(key)
-            setattr(self, name, MethodType(key, self))
+        def _regester_operator(obj, name, key=None):
+            if hasattr(obj, name):
+                raise AttributeError(f'"{name}" is an attribute of "{obj.__name__}", and would not be regestered.')
+            obj._operators.append(key)
+            setattr(obj, name, MethodType(key, obj))
 
-        def _element_regester(self, name, e):
-            if hasattr(self, e):
-                raise AttributeError(f'"{e}" is an attribute of "{self.__name__}", would not be regestered.')
-            self._elements.append(e)
-            setattr(self, name, e)
+        def _element_regester(obj, name, e):
+            if hasattr(obj, e):
+                raise AttributeError(f'"{e}" is an attribute of "{obj.__name__}", would not be regestered.')
+            obj._elements.append(e)
+            setattr(obj, name, e)
 
         cls.regester_operator = _regester_operator
         cls.regester_element = _regester_element

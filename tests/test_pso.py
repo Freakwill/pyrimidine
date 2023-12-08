@@ -26,10 +26,9 @@ class TestPSO:
             element_class = _Particle
             default_size = 10
 
-        ParticleSwarm = MyParticleSwarm
-
-        pop = ParticleSwarm.random()
+        pop = MyParticleSwarm.random()
+        pop.init()
         pop.transition()
         
-        assert isinstance(pop, ParticleSwarm)
+        assert isinstance(pop, MyParticleSwarm)
 

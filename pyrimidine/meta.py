@@ -258,8 +258,12 @@ class MetaContainer(ParamType):
         def _regester_map(self, name, key=None, force=True):
             if key is None:
                 key = methodcaller(name)
+
+            _map = self.map if hasattr(self, 'map') else map
+
             def m(obj, *args, **kwargs):
-                return obj.map(key, obj.__elements, *args, **kwargs)
+                return _map(key, obj.__elements, *args, **kwargs)
+                
             if not force and hasattr(self, name):
                 raise RegesterError(self.__class__, name)
             setattr(self, name, MethodType(m, self))
@@ -301,7 +305,7 @@ class MetaContainer(ParamType):
         """Helper to construct a container
 
             `C[a] // n` is equiv. to
-            
+
             ```
             class C(metaclass=MetaContainer):
                 element_class = a

@@ -26,5 +26,5 @@ class TestChromosome:
     def test_create(self):
         MyIndividual = (BinaryChromosome // 10).set_fitness(lambda o:sum(o.decode()))
         MyPopulation = HOFPopulation[MyIndividual] // 16
-        assert MyIndividual.element_class == MyIndividual
+        assert MyPopulation.element_class == MyIndividual
 

@@ -12,12 +12,14 @@ from operator import attrgetter
 
 import numpy as np
 
-from .base import PopulationMixin
+from .base import BaseIndividual
+from .mixin import PopulationMixin
 from .chromosome import FloatChromosome
-from .individual import MemoryIndividual
+from .deco import basic_memory
 
 
-class BaseParticle:
+@basic_memory
+class BaseParticle(BaseIndividual):
     """A particle in PSO
 
     An individual represented by 2 chromosomes: position and velocity
@@ -32,9 +34,6 @@ class BaseParticle:
 
     element_class = FloatChromosome
     default_size = 2
-
-    _memory = {'position': None,
-            'fitness': None}    # store the best position passed by the particle
 
     params = {'learning_factor': 2,
             'acceleration_coefficient': 3,
@@ -60,7 +59,9 @@ class BaseParticle:
     @property
     def best_position(self):
         # alias for the position of memory
-        return self.memory['position']
+        if 'solution' not in self.memory or self.memory['solution'] is None:
+            return self.position
+        return self.memory['solution']
 
     def update_vilocity(self, fame=None, *args, **kwargs):
         raise NotImplementedError
@@ -72,7 +73,7 @@ class BaseParticle:
         return self.best_position
 
 
-class Particle(BaseParticle, MemoryIndividual):
+class Particle(BaseParticle):
     """
     Standard Particle
 
@@ -81,6 +82,9 @@ class Particle(BaseParticle, MemoryIndividual):
 
     element_class = FloatChromosome
     default_size = 2
+
+    def init(self):
+        self.backup(check=False)
 
     @property
     def position(self):
@@ -129,7 +133,6 @@ class ParticleSwarm(PopulationMixin):
     def init(self):
         for particle in self:
             particle.init()
-
         self.hall_of_fame = self.get_best_individuals(self.n_best_particles, copy=True)
     
     def update_hall_of_fame(self):
