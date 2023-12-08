@@ -169,16 +169,19 @@ UserIndividual = MonoIndividual[BinaryChromosome // n].set_fitness(lambda o: _ev
 
 or with the helper:
 UserIndividual = makeIndividual(n_chromosomes=1, size=n).set_fitness(lambda o: _evaluate(o.chromosome))
-
-or let the individual be a chromosome:
-UserIndividual = (BinaryChromosome // n).set_fitness(lambda o: _evaluate(o.chromosome))
 """
 
 UserPopulation = StandardPopulation[UserIndividual] // 20
-"""
 ```
 
-We can collect all the codes to one line:
+You also see that the equivalent expressions no longer explicitly depends on class inheritance, making the code more concise and similar to algebraic operation.
+
+We can also consider chromosomes as the elements of the population, and define an individual as follows:
+```
+UserIndividual = (BinaryChromosome // n).set_fitness(lambda o: _evaluate(o.chromosome))
+```
+
+To further streamline the code, we integrate all the components into a single line:
 ```UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate)```
 
 
@@ -188,9 +191,6 @@ Finally, the optimal individual can be obtained with `pop.best_individual`, and 
 pop = UserPopulation.random()
 pop.evolve(n_iter=100)
 ```
-
-You also see that the equivalent expressions no longer explicitly depends on class inheritance, making the code more concise and similar to algebraic operation.
-
 
 # Visualization
 
