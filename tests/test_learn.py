@@ -19,6 +19,7 @@ def test_ann():
     s1 = model.score(X, Y)
     assert s0 <= s1
 
+
 def test_lr():
     X = np.array([[0,0], [0,1], [1,0], [1,1]])
     Y = np.array([2,1,0,0])
