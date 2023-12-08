@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
-from pyrimidine import *
+from pyrimidine import FloatChromosome, BasePopulation
 from pyrimidine.pso import Particle, ParticleSwarm
 
 from pyrimidine.benchmarks.special import *
 
-# generate a knapsack problem randomly
+
 def evaluate(x):
     return -rosenbrock(x)
+
 
 class _Particle(Particle):
     element_class = FloatChromosome.set(default_size=8)
@@ -21,7 +22,6 @@ class MyParticleSwarm(ParticleSwarm, BasePopulation):
 
 
 pop = MyParticleSwarm.random()
-
 
 stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
 
