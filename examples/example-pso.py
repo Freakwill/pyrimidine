@@ -18,12 +18,12 @@ class _Particle(Particle):
 class MyParticleSwarm(ParticleSwarm, BasePopulation):
     element_class = _Particle
     default_size = 10
-    
+
 
 pop = MyParticleSwarm.random()
 
 
-stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness'}
+stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
 
 data = pop.evolve(stat=stat, n_iter=100, history=True)
 import matplotlib.pyplot as plt
