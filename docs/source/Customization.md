@@ -125,7 +125,6 @@ After running `comparison-de.py`, we get the following fitness curves.
 Different from GA, DE or other algorithms based on the population, simulated annealing is based on single individual. It is a sort of local search. Following is the skelton of SA.
 
 ```python
-# import statsments
 
 class SimulatedAnnealing(PhantomIndividual):
     """Class for Simulated Annealing
@@ -148,7 +147,6 @@ class SimulatedAnnealing(PhantomIndividual):
         # initialize phantom solution
         self.phantom = self.copy(fitness=None)
 
-
     def transit(self, *args, **kwargs):
         T = self.initT
         for epoch in range(self.n_epochs):
@@ -159,7 +157,6 @@ class SimulatedAnnealing(PhantomIndividual):
         # set the phantom to be the true solution (if it is better then the previous record)
         self.backup()
         self.initT = T * self.ext_c
-
 
     def move(self, T):
         """Move phantom
@@ -175,7 +172,7 @@ class SimulatedAnnealing(PhantomIndividual):
         if flag:
             self.phantom.chromosomes = cpy.chromosomes
             self.phantom.fitness = cpy.fitness
-    ```
+```
 
 
 ```python
@@ -253,4 +250,18 @@ class BaseTabuSearch(BaseIndividual):
         raise NotImplementedError
 ```
 
+### GA with local search
+Now we incorporate the local search algorithm into GA. Suppose that `MyIndividual` is a subclass of `SimulatedAnnealing`.
+
+```python
+SAPopulation = LocalSearchPopulation[MyIndividual] // 10
+pop = SAPopulation.random()
+```
+
+The class `LocalSearchPopulation` will do local research in each iteration that is calling the `ezolve` method of `MyIndividual`.
+
+(`ezolve` method is an easy version of `evolve` method)
+
 ## Hacking
+
+Will be filled in future.
