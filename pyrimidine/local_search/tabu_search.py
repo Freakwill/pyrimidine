@@ -20,27 +20,32 @@ class BaseTabuSearch(BaseIndividual):
         'tabu_size': 10
         }
 
-    def init(self):
-        self.memory = self.copy()
-        self.best_fitness = self.memory.fitness
-
     def transition(self, *args, **kwargs):
         action = choice(self.actions)
         cpy = self.get_neighbour(action)
         if action not in self.tabu_list:
-            if cpy.fitness > self.best_fitness:
+            if cpy.fitness > self.fitness:
                 self.chromosomes = cpy.chromosomes
-                self.best_fitness = cpy.fitness
+                self.set_memory({
+                    'fitness': cpy.fitness,
+                    'solution': cpy.decode()
+                    })
             else:
                 if random() < 0.02:
-                    self.backup()
                     self.chromosomes = cpy.chromosomes
+                    self.set_memory({
+                        'fitness': cpy.fitness,
+                        'solution': cpy.decode()
+                        })
                 else:
                     self.tabu_list.append(action)
         else:
-            if cpy.fitness > self.best_fitness:
+            if cpy.fitness > self.fitness:
                 self.chromosomes = cpy.chromosomes
-                self.best_fitness = cpy.fitness
+                self.set_memory({
+                    'fitness': cpy.fitness,
+                    'solution': cpy.decode()
+                    })
                 self.tabu_list.remove(action)
         self.update_tabu_list()
 
@@ -53,6 +58,7 @@ class BaseTabuSearch(BaseIndividual):
 
 
 class SimpleTabuSearch(BaseTabuSearch):
+
     def get_neighbour(self, action):
         cpy = self.copy()
         i, j = action
