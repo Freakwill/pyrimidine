@@ -3,30 +3,27 @@
 """Firefly Algorithm
 """
 
+from scipy.spatial.distance import pdist, squareform
+import numpy as np
+
 from .base import PopulationMixin
 from .chromosome import FloatChromosome
 from .individual import PolyIndividual
 from .utils import gauss, random
 
-from scipy.spatial.distance import pdist, squareform
-import numpy as np
+from .deco import basic_memory
 
+
+@basic_memory
 class BaseFirefly(BaseIndividual):
 
     element_class = FloatChromosome
     default_size = 3
 
-    params = {'gamma': 1,
-    'alpha': 1
+    params = {
+        'gamma': 1,
+        'alpha': 1
     }
-
-    def backup(self):
-        if self.memory is None:
-            self.memory = self.copy(fitness=None)
-        self.memory = self.copy(fitness=self.fitness)
-
-    def init(self):
-        self.backup()
 
     @property
     def position(self):
@@ -47,7 +44,9 @@ class BaseFirefly(BaseIndividual):
     @property
     def best_position(self):
         # alias for the position of memory
-        return self.memory.position
+        if 'solution' not in self.memory or self.memory['solution'] is None:
+            return self.position
+        return self.memory['solution']
 
     def update_vilocity(self, fame=None, *args, **kwargs):
         raise NotImplementedError
@@ -70,13 +69,15 @@ def attractiveness(distance, gamma=1.0):
 
 
 class StandardFireflies:
-    
+    """Starndard Firefly Algorithm
+    """
+
     element_class = BaseFirefly
 
     params = {
-    "gamma": 1,
-    "beta": 1,
-    "alpha": 0.2
+        "gamma": 1,
+        "beta": 1,
+        "alpha": 0.2
     }
     
     def transition(self, *args, **kwargs):
@@ -91,3 +92,6 @@ class StandardFireflies:
 
         for f in self:
             f.random_move()
+
+        for f in self:
+            f.backup()
