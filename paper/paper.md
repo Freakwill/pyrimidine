@@ -125,7 +125,7 @@ The expression is borrowed from the module [typing](https://docs.python.org/3.11
 
 The class `UserPopulation` is defined to create a population of the individuals. The method of executing standard genetic operations has been implemented in the class.
 
-Algebraically, there is no different between `MonoIndividual` and a single `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes where use need not create an individual class.
+Algebraically, there is no discrepency between `MonoIndividual` and a single `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes where use need not create an individual class.
 
 ```python
 class UserChromosome(BaseChromosome):
@@ -159,14 +159,14 @@ class UserIndividual(MonoIndividual):
     element_class = BinaryChromosome // n
     def _fitness(self):
         # The return value must be a number
-        return _evaluate(self.chromosome)
+        return _evaluate(self[0])
 
 """
 equivalent to:
-UserIndividual = MonoIndividual[BinaryChromosome // n].set_fitness(lambda o: _evaluate(o.chromosome))
+UserIndividual = MonoIndividual[BinaryChromosome // n].set_fitness(lambda o: _evaluate(o[0]))
 
 or with the helper:
-UserIndividual = makeIndividual(n_chromosomes=1, size=n).set_fitness(lambda o: _evaluate(o.chromosome))
+UserIndividual = makeIndividual(n_chromosomes=1, size=n).set_fitness(lambda o: _evaluate(o[0]))
 """
 
 UserPopulation = StandardPopulation[UserIndividual] // 20
@@ -174,16 +174,11 @@ UserPopulation = StandardPopulation[UserIndividual] // 20
 
 You also see that the equivalent expressions no longer explicitly depends on class inheritance, making the code more concise and similar to algebraic operation.
 
-We can also consider chromosomes as the elements of the population, and define an individual as follows:
-```
-UserIndividual = (BinaryChromosome // n).set_fitness(lambda o: _evaluate(o.chromosome))
-```
-
-To further streamline the code, we integrate all the components into a single line:
+Using chromosome as the population's elements, we arrange all its components in a single line:
 ```UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate)```
 
 
-Finally, the optimal individual can be obtained with `pop.best_individual`, and `pop.solution` decodes it to the solution of the problem.
+Finally, the optimal individual can be obtained with `pop.best_individual`, or `pop.solution` decoding it to the solution of the problem.
 
 ```python
 pop = UserPopulation.random()

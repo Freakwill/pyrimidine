@@ -3,8 +3,7 @@
 
 from pyrimidine import *
 from pyrimidine.benchmarks.optimization import *
-
-from pyrimidine.deco import add_memory, fitness_cache, regester_map
+from pyrimidine.deco import fitness_cache, basic_memory
 
 # generate a knapsack problem randomly
 
@@ -16,20 +15,11 @@ class _IndMixin:
     def _fitness(self):
         return evaluate(self.decode())
 
-    def backup(self, check=True):
-        f = self._fitness()
-        if not check or (self.memory['fitness'] is None or f > self.memory['fitness']):
-            self._memory = {
-            'solution': self.solution,
-            'fitness': f
-            }
-
-@add_memory({'fitness':None, 'solution':None})
+@basic_memory
 class YourIndividual(_IndMixin, BinaryChromosome // n_bags):
     pass
 
 
-@add_memory({'fitness':None, 'solution':None})
 class MyIndividual(_IndMixin, QuantumChromosome // n_bags):
 
     def mutate(self):

@@ -29,7 +29,7 @@ def _evaluate(x):
 
     N = abs(np.sum([ni for ni, xi in zip(n, x) if xi==1]) - 30)
     T = max_repeat(ti for ti, xi in zip(t, x) if xi==1)
-    return - (N + T /2)
+    return - (N + T*10)
 
 
 class MyIndividual(BinaryChromosome // 10):
