@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 
-import numpy as np
 from pyrimidine.population import *
 from pyrimidine.individual import *
+
+import pytest
 
 
 @pytest.fixture

@@ -6,6 +6,7 @@ from .base import FitnessMixin, PopulationMixin
 from .meta import MetaContainer
 from scipy.stats import rv_discrete
 
+
 class BaseAnt(FitnessMixin):
     initial_position = 0
     __path = [0]
@@ -17,15 +18,12 @@ class BaseAnt(FitnessMixin):
     @path.setter
     def path(self, p):
         self.__path = p
-        self.fitness = None
-
 
     def __init__(self, *args, **kwargs):
         if args:
             raise Exception('__init__ has no position arguments!')
         for k, v in kwargs.items():
             setattr(self, k, v)
-
 
     def move(self, colony=None):
         while True:
@@ -34,7 +32,7 @@ class BaseAnt(FitnessMixin):
             ps = []
             for j in colony.positions:
                 if j not in self.path:
-                    pij = colony.pheromone[i,j]**colony.alpha/colony.distances[i,j]**colony.beta+0.001
+                    pij = colony.pheromone[i,j]**colony.alpha / colony.distances[i,j]**colony.beta + 0.001
                     ps.append(pij)
                     next_positions.append(j)
             if not next_positions: break
@@ -53,6 +51,7 @@ class BaseAntColony(PopulationMixin, metaclass=MetaContainer):
     element_class = BaseAnt
     params = {'sedimentation_constant':100, 'volatilization_rate':0.75, 'alpha':1, 'beta':5}
 
+    alias = {"ants": "elements"}
 
     @classmethod
     def from_positions(cls, n_ants=10, positions=None):
@@ -71,27 +70,21 @@ class BaseAntColony(PopulationMixin, metaclass=MetaContainer):
         obj.pheromone = np.zeros(distances.shape)
         return obj
 
-
-    @property
-    def ants(self):
-        return self.elements
-
-
     def transit(self, *args, **kwargs):
         self.init()
         self.move()
         self.update_pheromone()
 
     def init(self):
-        for ant in self.ants:
+        for ant in self:
             ant.path = [0]
 
     def move(self, *args, **kwargs):
-        for ant in self.ants:
+        for ant in self:
             ant.move(self, *args, **kwargs)
 
     def update_pheromone(self):
         delta = 0
-        for ant in self.ants:
+        for ant in self:
             delta += ant.pheromone
         self.pheromone = (1- self.volatilization_rate)*self.pheromone + delta

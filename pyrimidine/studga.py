@@ -30,4 +30,4 @@ class StudPopulation(HOFPopulation):
                 other = choice(self.halloffame)
                 offspring.append(individual.cross(other))
         self.extend(offspring)
-        self.offspring = self.__class__(offspring)
+        return offspring

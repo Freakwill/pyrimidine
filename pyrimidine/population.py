@@ -37,14 +37,14 @@ class StandardPopulation(BasePopulation):
         """
         elder = self.get_best_individuals(self.n_elders, copy=True)
         super().transition(*args, **kwargs)
-        self.merge(elder)
+        self.extend(elder)
 
 
 Population = StandardPopulation
 
 
-class HOFPopulation(StandardPopulation):
-    """Standard GA with hall of fame
+class HOFPopulation(BasePopulation):
+    """GA with hall of fame
     
     Extends:
         StandardPopulation
@@ -66,7 +66,7 @@ class HOFPopulation(StandardPopulation):
         Update the `hall_of_fame` after each step of evolution
         """
 
-        self.extend(self.hall_of_fame)
+        self.mate_with(self.hall_of_fame)
         super().transition(*args, **kwargs)
         self.update_hall_of_fame()
 
@@ -137,10 +137,8 @@ class GamogenesisPopulation(HOFPopulation):
     """
 
     def mate(self, mate_prob=None):
-        """Mate the whole population.
+        """Mate the male sub-population and female sub-population.
 
-        Just call the method `mate` of each individual (customizing anthor individual)
-        
         Keyword Arguments:
             mate_prob {number} -- the proba. of mating of two individuals (default: {None})
         """
@@ -149,7 +147,7 @@ class GamogenesisPopulation(HOFPopulation):
         offspring = [individual.cross(other) for individual, other in zip(self.males, self.females)
         if random() < mate_prob]
         self.individuals.extend(offspring)
-        self.offspring = self.__class__(offspring)
+        return offspring
 
     def get_homosex(self, x=0):
         return [i for i in self if i.gender==x]
@@ -189,11 +187,11 @@ class LocalSearchPopulation(StandardPopulation):
     """Population with `local_search` method
     """
 
-    params = {'n_local_iter': 10}
+    params = {'n_local_iter': 2}
 
-    def init(self):
-        for i in self:
-            i.n_iter = self.n_local_iter
+    # def init(self):
+    #     for i in self:
+    #         i.n_iter = self.n_local_iter
 
     def transition(self, *args, **kwargs):
         """Transitation of the states of population
@@ -201,7 +199,7 @@ class LocalSearchPopulation(StandardPopulation):
         Calling `local_search` method
         """
         super().transition(*args, **kwargs)
-        self.local_search()
+        self.local_search(n_iter=self.n_local_iter)
 
 
 class ModifiedPopulation(StandardPopulation):

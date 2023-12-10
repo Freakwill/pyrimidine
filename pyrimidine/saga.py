@@ -129,6 +129,7 @@ class SSAPopulation(StandardPopulation):
                 if self.match(individual, other):
                     children.append(individual.cross(other))
         self.extend(children)
+        return children
 
     @classmethod
     def match(cls, individual, other):

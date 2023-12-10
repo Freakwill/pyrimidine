@@ -60,6 +60,7 @@ import typing
 from random import randint, random
 
 from toolz import concat
+from itertools import product
 import numpy as np
 
 from .errors import *
@@ -376,7 +377,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
                 individual.mutate()
 
     def mate(self, mate_prob=None):
-        """Mate the whole population.
+        """To mate the entire population.
 
         Just call the method `mate` of each individual (customizing anthor individual)
         
@@ -385,20 +386,27 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         """
         
         mate_prob = mate_prob or self.mate_prob
-        offspring = [individual.cross(other) for individual, other in zip(self[::2], self[1::2])
+        offspring = [individual.cross(other_individual) for individual, other_individual in zip(self[:-1], self[1:])
         if random() < mate_prob]
         self.extend(offspring)
-        self.offspring = self.__class__(offspring)
+        return offspring
+
+    def mate_with(self, other, mate_prob=None):
+        mate_prob = mate_prob or self.mate_prob
+        offspring = [individual.cross(other_individual) for individual, other_individual in product(self, other)
+        if random() < mate_prob]
+        self.extend(offspring)
+        return offspring
 
     @side_effect
-    def local_search(self, *args, **kwargs):
+    def local_search(self, n_iter=2, *args, **kwargs):
         """Call local searching method
         
         By default, it calls the `ezolve` methods of individuals, iteratively
         """
 
         for individual in self:
-            individual.ezolve(*args, **kwargs)
+            individual.ezolve(n_iter=n_iter or self.n_iter, init=False)
 
     def get_rank(self, individual):
         """Get rank of one individual

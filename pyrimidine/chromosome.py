@@ -79,7 +79,7 @@ class NumpyArrayChromosome(BaseChromosome, np.ndarray):
         return cls(cls.element_class.random(*args, **kwargs))
 
     def __str__(self):
-        return f'{"|".join(map(str, self))}'
+        return "|".join(map(str, self))
 
     def cross(self, other):
         # note that when len(self) == 2  ==>  k==1
@@ -149,6 +149,9 @@ class BinaryChromosome(NaturalChromosome):
 
     element_class = BinaryGene
 
+    def __str__(self):
+        return "".join(map(str, self))
+
     def mutate(self, indep_prob=0.5):
         for i in range(len(self)):
             if random() < indep_prob:
@@ -186,7 +189,7 @@ class PermutationChromosome(NaturalChromosome):
 
     def __str__(self):
         if len(self)>10:
-            return "|".join(map(str, self))
+            return ",".join(map(str, self))
         return "".join(map(str, self))
 
     def dual(self):

@@ -268,7 +268,7 @@ def basic_memory(cls):
 
         f = super(cls, obj).fitness
         if not check or (obj.memory['fitness'] is None or f > obj.memory['fitness']):
-            obj.set_memory(fitness=f, solution=obj.decode())
+            obj.set_memory(fitness=f, solution=obj.solution)
             
     cls.backup = _backup
 
