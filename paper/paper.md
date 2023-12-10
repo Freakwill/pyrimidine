@@ -172,7 +172,7 @@ UserIndividual = makeIndividual(n_chromosomes=1, size=n).set_fitness(lambda o: _
 UserPopulation = StandardPopulation[UserIndividual] // 20
 ```
 
-You also see that the equivalent expressions no longer explicitly depends on class inheritance, making the code more concise and similar to algebraic operation.
+You see that the equivalent expressions no longer explicitly depends on class inheritance, making the code more concise and similar to algebraic operation.
 
 Using chromosome as the population's elements, we arrange all its components in a single line:
 ```UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate)```
@@ -190,14 +190,13 @@ pop.evolve(n_iter=100)
 Instead of implementing visualization methods, `pyrimidine` yields a `pandas.DataFrame` object that encapsulates statistical results for each generation by setting `history=True` in `evolve` method. Users can harness this object to plot the performance curves. Generally, users are required to furnish a "statistic dictionary" whose keys are the names of the statistics, and values are functions mapping the population to numerical values (strings are confined to pre-defined methods or attributes of the population).
 
 ```python
-# statistic dictionary, computing the mean fitness and best fitness of each generation
+# statistic dictionary, computing the mean fitness and best fitness for each generation (default setting)
 stat = {'Mean Fitness': 'mean_fitness',
 'Best Fitness': 'max_fitness'}
 
-# obtain the history data, i.e. the statistical results, through the evolution.
+# obtain the history data (pandas.DataFrame), i.e. the statistical results, through the evolution.
 data = pop.evolve(stat=stat, n_iter=100, history=True)
 
-# draw the results
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -209,7 +208,7 @@ plt.show()
 
 Here, `mean_fitness` and `max_fitness` denote the average fitness value of the population and the optimal individual fitness value, respectively. Notably, they inherently encapsulate functions (could be wrapped by `property` decorator) to perform statistical operations, for instance, `mean_fitness` corresponds to the mapping `pop->np.mean(pop.get_all_fitness())`.
 
-![](plot-history.png)
+![The fitness evolution curve of the population. The library does not provide specific plotting commands. Instead, users can directly utilize the plotting commands from the `pandas` library.](plot-history.png)
 
 
 # Create your own classes and algorithms
