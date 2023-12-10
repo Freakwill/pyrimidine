@@ -57,7 +57,7 @@ While an individual can be conceptualized as a container of chromosomes, it will
 
 In our framework, a container that defines operators for its elements is referred to as a **system**. For example, in a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, and it can be practically implemented as `s.cross(a, b)`. Although this system concept aligns with algebraic systems[@algebra], the current version of our framework diverges from this notion, as operators are directly defined as methods of the elements, such as `a.cross(b)`. While the relevant consideration is postponed to future releases, this potential change will not disrupt the design of APIs.
 
-The lifting of a function/method $f$ is a common approach to defining the function for the entire system:
+The lifting of a function/method $f$ is a common approach to defining the function/method for the system:
 $$
 f(s) := \{f(a)\}
 $$
@@ -100,12 +100,12 @@ There are three fundamental classes in `pyrimidine` constructed by the metaclass
 
 For convenience, `pyrimidine` provides some commonly used subclasses, so users do not have to redefine these settings. By inheriting these classes, users gain access to the methods such as, crossover and mutation. `pyrimidine` offers `BinaryChromosome` for the binary encoding as used in the classical GA.
 
-Generally, the algorithm design starts as follows, where `MonoIndividual`, as an individual class, just enforces that the individuals can only have one chromosome.
+Generally, the algorithm design starts as follows, where `MonoIndividual`, as a subclass of `BaseIndividual`, just enforces that the individuals can only have one chromosome.
 
 ```python
 class UserIndividual(MonoIndividual):
     element_class = BinaryChromosome
-    default_size = 8
+    # default_size = 1
 
     def _fitness(self):
         # Compute the fitness
@@ -115,13 +115,14 @@ class UserPopulation(StandardPopulation):
     default_size = 10
 ```
 
-In the codes, `UserIndividual` is an individual class with `BinaryChromosome` as its chromosome type. It is equivalent to set 
+In the codes, `UserIndividual`(resp. `UserPopulation`) is a container of elements in type of `BinaryChromosome` (resp. `UserIndividual`). Following is the equivalent expression:
 
 ```python
 UserIndividual = MonoIndividual[BinaryChromosome]
+UserPopulation = StandardPopulation[UserIndividual] // 10
 ```
 
-The expression is borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing) [@typing]. One can also use the helper `binaryIndividual(size=8)` to create the same class. 
+The expression is borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing) [@typing].
 
 The class `UserPopulation` is defined to create a population of the individuals. The method of executing standard genetic operations has been implemented in the class.
 
@@ -164,9 +165,6 @@ class UserIndividual(MonoIndividual):
 """
 equivalent to:
 UserIndividual = MonoIndividual[BinaryChromosome // n].set_fitness(lambda o: _evaluate(o[0]))
-
-or with the helper:
-UserIndividual = makeIndividual(n_chromosomes=1, size=n).set_fitness(lambda o: _evaluate(o[0]))
 """
 
 UserPopulation = StandardPopulation[UserIndividual] // 20
@@ -177,12 +175,13 @@ You see that the equivalent expressions no longer explicitly depends on class in
 Using chromosome as the population's elements, we arrange all its components in a single line:
 ```UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate)```
 
-Finally, the optimal individual can be obtained with `pop.best_individual`, or `pop.solution` decoding it to the solution of the problem.
-
+Then we execute the evolutionary program as follows.
 ```python
 pop = UserPopulation.random()
 pop.evolve(n_iter=100)
 ```
+
+Finally, the optimal individual can be obtained with `pop.best_individual`, or `pop.solution` decoding it to the solution of the problem.
 
 # Visualization
 
@@ -250,9 +249,9 @@ Various GA frameworks have been designed, such as `DEAP` and `gaft`. `Pyrimidine
 |`scikit-optimize`|`scikit-learn` Style  | Numerical Optimization | Very Limited | provide some plotting function |
 |`NEAT`[@neat-python]| OOP  | Neuroevolution | Limited | use the visualization tool `visualize` |
 
-`tpot/gama`, `gplearn/pysr`, and `scikit-opt` follow the `scikit-learn` style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`).
+`Tpot/gama`, `gplearn/pysr`, and `scikit-opt` follow the `scikit-learn` style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`).
 
-`DEAP` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `gaft` is a highly object-oriented software with excellent scalability, but it is currently inactive.
+`DEAP` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `Gaft` is a highly object-oriented software with excellent scalability, but it is currently inactive.
 
 In `pyrimidine`, various operations on chromosomes are treated as methods, rather than top-level functions. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods.
 
@@ -265,7 +264,7 @@ I have conducted extensive experiments and improvements, showcasing that `pyrimi
 
 Additionally, it uses numpy's arrays, which may result in slower crossover operations compared to DEAP's; however, alternative implementations can be employed. Naturally, there are other areas for improvement.
 
-The entire source code has been uploaded to [GitHub](https://github.com/Freakwill/pyrimidine), including numerous examples. Moreover, it's worth mentioning that the documentation for `pyrimidine` is still under development.
+The entire source code has been uploaded to [GitHub](https://github.com/Freakwill/pyrimidine), including numerous examples.
 
 
 # References
