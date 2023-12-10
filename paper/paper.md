@@ -51,11 +51,11 @@ s = \{a:A\}:S
 $$
 Here, the symbol $\{\cdot\}$ signifies either a set or a sequence, emphasizing the order of the elements.
 
-Expanding on this conceptual foundation, we articulate the definition of a population as a container of individuals. The introduction of multi-population extends this idea, representing a container of populations, commonly denoted as "the high-level container." What sets `pyrimidine` apart is its innate capability to seamlessly implement multi-population genetic algorithms. The populations in a multi-population behaves like the individuals in a population. Notably, it allows the definition of containers at higher levels, such as a container of multi-populations, potentially intertwined with conventional populations.
+Building upon the foundational concept, we define a population in pyrimidine as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, often referred to as "the high-level container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population genetic algorithms. Populations in a multi-population behave analogously to individuals in a population. Notably, it allows the definition of containers at higher levels, such as a container of multi-populations, potentially intertwined with conventional populations.
 
 While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered a system. Similarly, a chromosome might be viewed as a container of genes. In practice, we choose to implement chromosomes directly using `numpy.array` or `array.array`.
 
-In our framework, a container that defines operators for its elements is referred to as a **system**. For instance,in the population system $s$, the crossover operation of two individuals, denoted as $a \times_s b$ mathematically, can be implemented as `s.cross(a, b)`. Although this system concept aligns with algebraic systems, the current version of our framework diverges from this notion, as operators are directly defined as methods of the elements, such as `a.cross(b)`. While the relevant consideration is postponed to future releases, this potential change will not disrupt the design of APIs.
+In our framework, a container that defines operators for its elements is referred to as a **system**. For example, in a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, and it can be practically implemented as `s.cross(a, b)`. Although this system concept aligns with algebraic systems[@algebra], the current version of our framework diverges from this notion, as operators are directly defined as methods of the elements, such as `a.cross(b)`. While the relevant consideration is postponed to future releases, this potential change will not disrupt the design of APIs.
 
 The lifting of a function/method $f$ is a common approach to defining the function for the entire system:
 $$
@@ -177,7 +177,6 @@ You see that the equivalent expressions no longer explicitly depends on class in
 Using chromosome as the population's elements, we arrange all its components in a single line:
 ```UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate)```
 
-
 Finally, the optimal individual can be obtained with `pop.best_individual`, or `pop.solution` decoding it to the solution of the problem.
 
 ```python
@@ -212,6 +211,7 @@ Here, `mean_fitness` and `max_fitness` denote the average fitness value of the p
 
 
 # Create your own classes and algorithms
+
 In the standard GA, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs, these rates can be dynamically encoded in each individual, allowing for adaptability during iterations. It is remarkably simple to implement self-adaptability by `pyrimidine`. 
 
 We introduce a "mixed-individual," consisting of two chromosomes of different types: `BinaryChromosome`, representing the solution, and `FloatChromosome`, encapsulating the probabilities of mutation and crossover.
@@ -266,5 +266,6 @@ I have conducted extensive experiments and improvements, showcasing that `pyrimi
 Additionally, it uses numpy's arrays, which may result in slower crossover operations compared to DEAP's; however, alternative implementations can be employed. Naturally, there are other areas for improvement.
 
 The entire source code has been uploaded to [GitHub](https://github.com/Freakwill/pyrimidine), including numerous examples. Moreover, it's worth mentioning that the documentation for `pyrimidine` is still under development.
+
 
 # References
