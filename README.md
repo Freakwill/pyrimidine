@@ -201,7 +201,7 @@ Get the history of the evolution.
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness': lambda pop: pop.best_individual.fitness}
 data = pop.history(stat=stat)  # use history instead of evolve
 ```
-`stat` is a dict mapping keys to function, where string 'mean_fitness' means function `lambda pop:pop.mean_fitness` which gets the mean fitness of the individuals in `pop`. Since we have defined pop.best_individual.fitness as a property, `stat` could be redefined as `{'Fitness':'fitness', 'Best Fitness': 'best_fitness'}`.
+`stat` is a dict mapping keys to function, where string 'mean_fitness' means function `lambda pop:pop.mean_fitness` which gets the mean fitness of the individuals in `pop`. Since we have defined pop.best_individual.fitness as a property, `stat` could be redefined as `{'Fitness': 'fitness', 'Best Fitness': 'max_fitness'}`.
 
 It requires `ezstat`, a easy statistical tool devoloped by the author.
 
@@ -237,10 +237,12 @@ n = np.random.randint(1, 4, 100)
 
 import collections
 
+
 def max_repeat(x):
     # Maximum repetition
     c = collections.Counter(x)
     return np.max([b for a, b in c.items()])
+
 
 class MyIndividual(makeBinaryIndividual()):
 
@@ -249,15 +251,18 @@ class MyIndividual(makeBinaryIndividual()):
         y = max_repeat(ti for ti, c in zip(t, self) if c==1)
         return - x - y
 
+
 class MyPopulation(StandardPopulation):
     element_class = MyIndividual
 
 pop = MyPopulation.random(n_individuals=50, size=100)
 pop.evolve()
-print(pop.best_individual)  # or pop.solution
+print(pop.solution)  # or pop.best_individual.decode()
 ```
 
-Note that there is only one chromosome in `MonoIndividual`, which could be got by `self.chromosome`. In fact, the population could be the container of chromosomes. Therefore, we can rewrite the classes as follows.
+Note that there is only one chromosome in `MonoIndividual`, which could be got by `self.chromosome`.
+
+In fact, the population could be the container of chromosomes. Therefore, we can rewrite the classes as follows in a more natural way.
 
 ```python
 class MyChromosome(BinaryChromosome):
@@ -273,45 +278,44 @@ class MyPopulation(StandardPopulation):
 
 Equiv. to
 ```python
-def _fitness(self):
-    x = abs(np.dot(n, self)-10)
-    y = max_repeat(ti for ti, c in zip(t, self) if c==1)
+def _fitness(obj):
+    x = abs(np.dot(n, obj)-10)
+    y = max_repeat(ti for ti, c in zip(t, obj) if c==1)
     return - x - y
 
-MyChromosome = BinaryChromosome.set_fitness()  # need not to set fitness explicitly
-MyPopulation = StandardPopulation[MyChromosome]
+MyPopulation = StandardPopulation[BinaryChromosome].set_fitness(_fitness)
 ```
 
 ### Example2: Knapsack Problem
 
 One of the famous problem is the knapsack problem. It is a good example for GA.
 
-We set `history=True` in `evolve` method for the example, that will record the main data of the whole evolution. It will return an object of `pandas.DataFrame`. The argument `stat`  is a dict from a key to function/str(corresponding to a method) that map a population to a number. the numbers in one generation will be stored in a row of the dataframe.
+We set `history=True` in `evolve` method for the example, that will record the main data of the whole evolution. It will return an object of `pandas.DataFrame`. The argument `stat`  is a dict from a key to function/str(corresponding to a method) representing a mapping from a population to a number. these numbers of one generation will be stored in a row of the dataframe.
 
 see `# examples/example0`
 
 ```python
 #!/usr/bin/env python3
 
-from pyrimidine import classicalIndividual, StandardPopulation
-
+from pyrimidine import binaryIndividual, StandardPopulation
 from pyrimidine.benchmarks.optimization import *
 
 # generate a knapsack problem randomly
 evaluate = Knapsack.random(n=20)
 
-class MyIndividual(classicalIndividual(size=20)):
+
+class MyIndividual(binaryIndividual(size=20)):
     def _fitness(self):
         return evaluate(self)
-
 
 class MyPopulation(StandardPopulation):
     element_class = MyIndividual
     default_size = 10
 
+
 pop = MyPopulation.random()
 
-stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
+stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness'}
 data = pop.evolve(stat=stat, history=True) # an instance of `pandas.DataFrame`
 
 # Visualization
@@ -331,16 +335,17 @@ plt.show()
 
 `pyrimidine` is extremely extendable. It is easy to implement other iterative models or algorithms, such as simulation annealing(SA) and particle swarm optimization(PSO).
 
-Currently, it is recommended to define subclasses based on `IterativeModel` as a mixin.
+Currently, it is recommended to define subclasses based on `IterativeModel` as a mixin. (not mandatory)
 
 In PSO, we regard a particle as an individual, and `ParticleSwarm` as a population. But in the following, we subclass it from `IterativeModel`
 
 ```python
 # pso.py
-class Particle(MemoryIndividual):
+@basic_memory
+class Particle(BaseIndividual):
     """A particle in PSO
 
-    Extends MemoryIndividual
+    Extends BaseIndividual
 
     Variables:
         default_size {number} -- one individual represented by 2 chromosomes: position and velocity
@@ -349,58 +354,75 @@ class Particle(MemoryIndividual):
 
     element_class = FloatChromosome
     default_size = 2
-    phantom = None
-
-    def init(self):
-        self.phantom = self.clone(fitness=self.fitness)
 
     # other methods
 
-
-class ParticleSwarm(IterativeModel):
+class ParticleSwarm(PopulationMixin):
+    """Standard PSO
+    
+    Extends:
+        PopulationMixin
+    """
+    
     element_class = Particle
     default_size = 20
-    params = {'learning_factor': 2, 'acceleration_coefficient': 3, 'inertia':0.5, 'n_best_particles':0.1, 'max_velocity':None}
+
+    params = {'learning_factor': 2, 'acceleration_coefficient': 3,
+    'inertia':0.75, 'n_best_particles':0.2, 'max_velocity':None}
 
     def init(self):
-        self.best_particles = self.get_best_individuals(self.n_best_particles)
-        for particle in self.particles:
+        for particle in self:
             particle.init()
+        self.hall_of_fame = self.get_best_individuals(self.n_best_particles, copy=True)
+    
+    def update_hall_of_fame(self):
+        hof_size = len(self.hall_of_fame)
+        for ind in self:
+            for k in range(hof_size):
+                if self.hall_of_fame[-k-1].fitness < ind.fitness:
+                    self.hall_of_fame.insert(hof_size-k, ind.copy())
+                    self.hall_of_fame.pop(0)
+                    break
 
-    def transit(self, *args, **kwargs):
+    @property
+    def best_fitness(self):
+        if self.hall_of_fame:
+            return max(map(attrgetter('fitness'), self.hall_of_fame))
+        else:
+            return super().best_fitness
+
+    def transition(self, *args, **kwargs):
         """
         Transitation of the states of particles
         """
-        for particle in self:
-            if particle.phantom.fitness > particle.fitness:
-                particle.backup()
-        for particle in self:
-            if particle not in self.best_particles:
-                for k, b in enumerate(self.best_particles):
-                    if particle.fitness <= b.fitness:
-                        break
-                if k > 0:
-                    self.best_particles.pop(k)
-                    self.best_particles.insert(k, particle)
         self.move()
+        self.backup()
+        self.update_hall_of_fame()
+
+    def backup(self):
+        # overwrite the memory of the particle if its current state is better its memory
+        for particle in self:
+            particle.backup(check=True)
 
     def move(self):
-        # moving rule of particles
-        xi = random()
+        """Move the particles
+
+        Define the moving rule of particles, according to the hall of fame and the best record
+        """
+
+        scale = random()
         eta = random()
+        scale_fame = random()
         for particle in self:
-            if particle in self.best_particles:
-                particle.velocity = (self.inertia * particle.velocity
-             + self.learning_factor * xi * (particle.best_position-particle.position))
-            else:
-                for b in self.best_particles:
-                    if particle.fitness < b.fitness:
-                        break
-                particle.velocity = (self.inertia * particle.velocity
-                 + self.learning_factor * xi * (particle.best_position-particle.position)
-                 + self.acceleration_coefficient * eta * (b.best_position-particle.position))
-            particle.position += particle.velocity
-            particle.phantom.fitness = None
+            for fame in self.hall_of_fame:
+                if particle.fitness < fame.fitness:
+                    particle.update_vilocity_by_fame(fame, scale, scale_fame, 
+                        self.inertia, self.learning_factor, self.acceleration_coefficient)
+                    particle.position = particle.position + particle.velocity
+                    break
+        for particle in self.hall_of_fame:
+            particle.update_vilocity(scale, self.inertia, self.learning_factor)
+            particle.position = particle.position + particle.velocity
 ```
 
 If you want to apply PSO, then you can define
@@ -413,4 +435,4 @@ class MyParticleSwarm(ParticleSwarm, BasePopulation):
 pop = MyParticleSwarm.random()
 ```
 
-Of course, it is not coercive. It is allowed to inherit `ParticleSwarm` from `BasePopulation` directly.
+Of course, it is not mandatory. It is allowed to inherit `ParticleSwarm` from for example `HOFPopulation` directly.
