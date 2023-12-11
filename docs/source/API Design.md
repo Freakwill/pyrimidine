@@ -1,6 +1,6 @@
 # API Design
 
-## MetaClasses
+## Metaclasses
 The metaclass `System` is defined to simulate abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operators and functions on them.
 
 `Container` is the super-metaclass of `System` for creating containers.
@@ -8,6 +8,15 @@ The metaclass `System` is defined to simulate abstract algebraic systems, which 
 ## Mixin Classes
 
 Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. 
+
+The inheritance of metaclasses:
+```
+IterativeMixin  - - ->  CollectiveMixin
+    |                      |
+    |                      |
+    v                      v
+FitnessMixin  - - ->  PopulationMixin
+```
 
 ### Iterative models/algorithms
 

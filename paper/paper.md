@@ -35,7 +35,7 @@ As one of the earliest developed intelligent algorithms [holland, katoch], the g
 
 # Algebra-inspired Programming
 
-As is well-known, ther are wo fundamental concepts in GAs: individuals( or chromosomes) and populations.
+As is well-known, ther are two fundamental components in GAs: individuals( or chromosomes) and populations.
 
 In a typical Python implementation, populations are initially defined as lists of individuals, with each individual representing a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library `numpy`[@numpy]. Following this, evolutionary operators are defined and applied to these structures.
 
@@ -80,19 +80,9 @@ The metaclass `System` is defined to simulate abstract algebraic systems, which 
 
 Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. 
 
-The mixin class `FitnessMixin` is responsible for the iteration aiming to maximize the fitness, and its subclass `PopulationMixin` represents the "collective" form.
+The `FitnessMixin` class is dedicated to the iteration process focused on maximizing fitness, and its subclass `PopulationMixin` represents the collective form.
 
-When designing a new algorithm that may much differ from GA, it is recommended to inherit from the mixin classes initially, especially overriding the `transition` method, though it is not coercive.
-
-When designing a new algorithm, especially one that significantly differs from a GA, it is advisable to start by inheriting from the mixin classes and redefining the `transition` method, though this is not mandatory.
-
-<!--
-IterativeMixin  - - ->  CollectiveMixin
-    |                      |
-    |                      |
-    v                      v
-FitnessMixin  - - ->  PopulationMixin
--->
+When designing a novel algorithm, especially one that significantly differs from the GA, it is advisable to start by inheriting from the mixin classes and redefining the `transition` method, though this is not mandatory.
 
 ## Fundamental Classes
 
@@ -138,7 +128,7 @@ UserPopulation = StandardPopulation[UserChromosome]
 
 # An example to begin
 
-In this section, we demonstrate the basic usage of `pyrimidine` with a simple example: the classic 0-1 knapsack problem with $n=50$ dimensions. (Refer to more examples in the repository.)
+In this section, we demonstrate the basic usage of `pyrimidine` with a simple example, the classic 0-1 knapsack problem:
 
 $$
 \max \sum_i c_ix_i \\
@@ -146,7 +136,7 @@ $$
 \quad x_i=0,1,i=1,\cdots,n
 $$
 
-The problem solution can be naturally encoded in binary format without requiring additional decoding.
+The problem solution can be naturally encoded in binary format without the need for additional decoding. Therefore, we utilize the aforementioned classes.
 
 
 ```python
@@ -154,12 +144,11 @@ from pyrimidine import MonoIndividual, StandardPopulation, BinaryChromosome
 from pyrimidine.benchmarks.optimization import Knapsack
 
 n = 50
-_evaluate = Knapsack.random(n)  # A function mapping n-dimensional binary encoding to the objective function value
+_evaluate = Knapsack.random(n)  # the objective function
 
 class UserIndividual(MonoIndividual):
     element_class = BinaryChromosome // n
     def _fitness(self):
-        # The return value must be a number
         return _evaluate(self[0])
 
 """
@@ -170,9 +159,7 @@ UserIndividual = MonoIndividual[BinaryChromosome // n].set_fitness(lambda o: _ev
 UserPopulation = StandardPopulation[UserIndividual] // 20
 ```
 
-You see that the equivalent expressions no longer explicitly depends on class inheritance, making the code more concise and similar to algebraic operation.
-
-Using chromosome as the population's elements, we arrange all its components in a single line:
+Using chromosome as the population's elements, we arrange all the components in a single line:
 ```UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate)```
 
 Then we execute the evolutionary program as follows.
@@ -213,7 +200,7 @@ Here, `mean_fitness` and `max_fitness` denote the average fitness value of the p
 
 In the standard GA, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs, these rates can be dynamically encoded in each individual, allowing for adaptability during iterations. It is remarkably simple to implement self-adaptability by `pyrimidine`. 
 
-We introduce a "mixed-individual," consisting of two chromosomes of different types: `BinaryChromosome`, representing the solution, and `FloatChromosome`, encapsulating the probabilities of mutation and crossover.
+We introduce a "mixed-individual" consisting of two chromosomes of different types: `BinaryChromosome`, representing the solution, and `FloatChromosome`, encapsulating the probabilities of mutation and crossover.
 
 ```python
 class NewIndividual(MixedIndividual):
@@ -237,17 +224,27 @@ Here, `FloatChromosome` comes pre-equipped with genetic operations tailored for 
 
 Various GA frameworks have been designed, such as `DEAP` and `gaft`. `Pyrimidine`'s design is heavily influenced by these frameworks. The following table compares `pyrimidine` with several popular and mature frameworks:
 
++-------------------+------------+----------+----------+----------+
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
-| --------- | ------------------ | ---------- | ------------- | ---------------------- |
++:=================:+:==========:+:========:+:========:+:========:+
 | `pyrimidine`| OOP, Meta-programming, Algebra-insprited | Universal | Extensible | export the data in `DataFrame` |
++-------------------+------------+----------+----------+----------+
 | `DEAP` [@fortin]     | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
++-------------------+------------+----------+----------+----------+
 | `gaft`      | OOP, decoration partton   | Universal | Extensible    | Easy to Implement       |
++-------------------+------------+----------+----------+----------+
 |`geppy` | based on `DEAP` | Symbolic Regression | Limited | - |
++-------------------+------------+----------+----------+----------+
 | `tpot`[@olson]/`gama`[@pieter]     | `scikit-learn` Style | Hyperparameter Optimization | Limited | None                   |
++-------------------+------------+----------+----------+----------+
 | `gplearn`/`pysr`   | `scikit-learn` Style | Symbolic Regression | Limited | None                   |
++-------------------+------------+----------+----------+----------+
 | `scikit-opt`| `scikit-learn` Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
++-------------------+------------+----------+----------+----------+
 |`scikit-optimize`|`scikit-learn` Style  | Numerical Optimization | Very Limited | provide some plotting function |
++-------------------+------------+----------+----------+----------+
 |`NEAT`[@neat-python]| OOP  | Neuroevolution | Limited | use the visualization tool `visualize` |
++-------------------+------------+----------+----------+----------+
 
 `Tpot/gama`, `gplearn/pysr`, and `scikit-opt` follow the `scikit-learn` style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`).
 

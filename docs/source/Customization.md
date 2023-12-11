@@ -4,9 +4,9 @@ In this section, we present more complicated examples.
 
 ## Customization Tricks
 
-Take Partical Swarm Optimization(PSO) as an example for a quick look at the tricks of customization. First of all, define `class ParticleSwarm(PopulationModel):...`, as subclass of `PopulationModel`. `PopulationModel` is a mixin class where you have to define method `transit` to implement the PSO algorithm. Then assign `element_class` to be the type of particles, and set `default_size` as the number of the particles.
+Take Partical Swarm Optimization(PSO) as an example for a quick look at the tricks of customization. First of all, define `class ParticleSwarm(PopulationMixin):...`, as subclass of `PopulationMixin`. `PopulationMixin` is a mixin class where you have to define method `transit` to implement the PSO algorithm. Then assign `element_class` to be the type of particles, and set `default_size` as the number of the particles.
 
-Since the package has provide a practical class for PSO, you only need set the attribute `element_class` to be your own particle class in most case. See `example-pso.py` in `examples`.
+Since the package has provide a practical class for PSO, you only need set the attribute `element_class` to be your own particle class in most cases. See `example-pso.py` in `examples`.
 
 ```python
 class _Particle(BaseParticle):
@@ -23,12 +23,12 @@ In the standard definition, as an individual, a particle has two "chromosomes", 
 
 
 ## Simulated Annealing Algorithm
-See the following code for SA Algorithm. The standard SA is an iteration of one solution. Hence we inherit it from `FitnessModel` instead of `PopulationModel`
+See the following code for SA Algorithm. The standard SA is an iteration of one solution. Hence we inherit it from `FitnessMixin` instead of `PopulationMixin`
 
 ```python
 #!/usr/bin/env python3
 
-class SimulatedAnnealing(FitnessModel):
+class SimulatedAnnealing(FitnessMixin):
     """Class for Simulated Annealing
     
     Attributes:
@@ -81,10 +81,10 @@ class SimulatedAnnealing(FitnessModel):
 
 ## Differential Evolution
 
-The standard DE is a global searching algorithm. The class `DifferentialEvolution` for DE is inherited from `PopulationModel`.
+The standard DE is a global searching algorithm. The class `DifferentialEvolution` for DE is inherited from `PopulationMixin`.
 
 ```python
-class DifferentialEvolution(PopulationModel):
+class DifferentialEvolution(PopulationMixin):
 
     params ={
     "factor" : 0.25,
