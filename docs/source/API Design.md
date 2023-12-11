@@ -1,58 +1,75 @@
 # API Design
 
-## Iterative Models
+## MetaClasses
+The metaclass `System` is defined to simulate abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operators and functions on them.
 
-An iterative model is a class implementing iterative algorithms, repeating to call $x'=Tx$.
+`Container` is the super-metaclass of `System` for creating containers.
+
+## Mixin Classes
+
+Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. 
+
+### Iterative models/algorithms
+
+An iterative model is a mixin class implementing iterative algorithms, mainly repeating to call `transition` method.
 
 Following is the core (pseudo-)code of the class.
 
 ```python
-def evolve(self):
-    self.init()
-    looping by k:
-        self.transition(k)
+class IterativeMixin:
+
+    def evolve(self):
+        self.init()
+        looping by k:
+            self.transition(k)
 ```
 
-Users could override `transition` to implement any other iteration form.
+Users could override `transition` to implement own iteration algorithms.
 
 
-### Fitness Models
+### Fitness models
 
-Fitness Models are Iterative Models with fitness. Iteration in fitness models would be influenced by fitness.
+Fitness Models (`FitnessMixin`) are iterative models with fitness. The iteration in such models would be influenced by fitness.
 
 Indiviudal is a fitness model in GA.
 
-## Individuals
+### Population models
+
+Population Models (`PopulationMixin`) are collective algorithms with fitness.
+
+
+## Basic Classes
+
+### Individuals
 
 An individual is defined as a container of chromosomes.
 
 The individual classes are inherited from `BaseIndividual`. For instance, `BinaryIndividual` is a subclass encoded by   several binary chromosomes.
 
 
-
 See `Examples` section for a simple example of binary individuals --- Knapsack Problem.
 
 
-## Chromosomes
+### Chromosomes
 
 The chromosomes as an array of genes, could be regarded as the unit of genetic operations.  The subclass used most frequently is`BinaryChromosome`.
 
 A chromosome is equivalent to an individual with only one chromosome, mathematically.
 
 
-## Populations
+### Populations
 
 The population classes are inherited from `BasePopulation`. `StandardPopulation` is the standard population for GA. It is recommended to use `HOFPopulation` in most cases.
 
 A population is a container of individuals, in original meaning. But It is possible to be a container of chromosomes in the view of algebra.
 
 
-## Multi-populations
+### Multi-populations
 
 It is useful for multi-populations GA. It is regarded as a container of populations.
 
 
-## Environment
+### Environment
 It is designed to be the context for evolution of individuals. The aim of the class is not for numerical computing, instead for "the Skeuomorphic Design".
 
 ## Methods
@@ -74,7 +91,7 @@ Calculating the fintess is the most frequent task in the algorithms.
 - `sort/argsort`: sort the elements by fitness
 - `solution`: decoding the best element
 
-### Basic Operation
+### Basic operation
 
 - `copy`: copy an object
 - `random`: class method to generate an object randomly
@@ -112,7 +129,7 @@ Here `side-effect` means the method will change the fitness of the individual or
 - `*_prob`: probability
 - `*_rate`: e.g. `learning_rate`
 
-## params/alias
+## `params`/`alias`
 
 `params` is a dictionary of parameters for the algorithm, it could be inherited from super class by meta-programming.
 
