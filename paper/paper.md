@@ -1,5 +1,5 @@
 ---
-title: 'Pyrimidine: Algebra-inspired Programming framework for evolution algorithms'
+title: 'Pyrimidine: Algebra-inspired Programming framework for evolutionary algorithms'
 tags:
   - Python
   - genetic algorithms
@@ -24,7 +24,7 @@ bibliography: paper.bib
 
 ---
 
-# Pyrimidine: Algebra-inspired Programming framework for genetic algorithms
+# Pyrimidine: Algebra-inspired Programming framework for evolutionary algorithms
 
 # Summary
 
@@ -37,7 +37,7 @@ As one of the earliest developed intelligent algorithms [holland, katoch], the g
 
 As is well-known, ther are two fundamental components in GAs: individuals( or chromosomes) and populations.
 
-In a typical Python implementation, populations are initially defined as lists of individuals, with each individual representing a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library `numpy`[@numpy]. Following this, evolutionary operators are defined and applied to these structures.
+In a typical Python implementation, populations are initially defined as lists of individuals, with each individual representing a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library `numpy` [@numpy]. Following this, evolutionary operators are defined and applied to these structures.
 
 Our design concept transcends the ordinary and embraces a higher level of extensibility. We term this innovative approach "algebra-inspired Programming." It should not be confused with so-called algebraic programming, but it draws inspiration from its underlying principles.
 
@@ -55,7 +55,7 @@ Building upon the foundational concept, we define a population in pyrimidine as 
 
 While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered a system. Similarly, a chromosome might be viewed as a container of genes. In practice, we choose to implement chromosomes directly using `numpy.array` or `array.array`.
 
-In our framework, a container that defines operators for its elements is referred to as a **system**. For example, in a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, and it can be practically implemented as `s.cross(a, b)`. Although this system concept aligns with algebraic systems[@algebra], the current version of our framework diverges from this notion, as operators are directly defined as methods of the elements, such as `a.cross(b)`. While the relevant consideration is postponed to future releases, this potential change will not disrupt the design of APIs.
+In our framework, a container that defines operators for its elements is referred to as a **system**. For example, in a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, and it can be practically implemented as `s.cross(a, b)`. Although this system concept aligns with algebraic systems [@algebra], the current version of our framework diverges from this notion, as operators are directly defined as methods of the elements, such as `a.cross(b)`. While the relevant consideration is postponed to future releases, this potential change will not disrupt the design of APIs.
 
 The lifting of a function/method $f$ is a common approach to defining the function/method for the system:
 $$
@@ -235,7 +235,7 @@ Various GA frameworks have been designed, such as `DEAP` and `gaft`. `Pyrimidine
 +-------------------+------------+----------+----------+----------+
 |`geppy` | based on `DEAP` | Symbolic Regression | Limited | - |
 +-------------------+------------+----------+----------+----------+
-| `tpot`[@olson]/`gama`[@pieter]     | `scikit-learn` Style | Hyperparameter Optimization | Limited | None                   |
+| `tpot` [@olson]/`gama` [@pieter]     | `scikit-learn` Style | Hyperparameter Optimization | Limited | None                   |
 +-------------------+------------+----------+----------+----------+
 | `gplearn`/`pysr`   | `scikit-learn` Style | Symbolic Regression | Limited | None                   |
 +-------------------+------------+----------+----------+----------+
@@ -243,7 +243,7 @@ Various GA frameworks have been designed, such as `DEAP` and `gaft`. `Pyrimidine
 +-------------------+------------+----------+----------+----------+
 |`scikit-optimize`|`scikit-learn` Style  | Numerical Optimization | Very Limited | provide some plotting function |
 +-------------------+------------+----------+----------+----------+
-|`NEAT`[@neat-python]| OOP  | Neuroevolution | Limited | use the visualization tool `visualize` |
+|`NEAT` [@neat-python]| OOP  | Neuroevolution | Limited | use the visualization tool `visualize` |
 +-------------------+------------+----------+----------+----------+
 
 `Tpot/gama`, `gplearn/pysr`, and `scikit-opt` follow the `scikit-learn` style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`).
@@ -252,7 +252,7 @@ Various GA frameworks have been designed, such as `DEAP` and `gaft`. `Pyrimidine
 
 In `pyrimidine`, various operations on chromosomes are treated as methods, rather than top-level functions. When users customize chromosome operations, they only need to inherit the base chromosome class and override the corresponding methods.
 
-We have implemented a variety of intelligent algorithms by `pyrimidine`, including adaptive genetic algorithms[@hinterding], quantum genetic algorithms[@supasil], differential evolution, evolutionary programming, particle swarm optimization[@wang], bat algorithm, gravity search algorithm, as well as some local search algorithms.
+We have implemented a variety of intelligent algorithms by `pyrimidine`, including adaptive genetic algorithms [@hinterding], quantum genetic algorithms [@supasil], differential evolution, evolutionary programming, particle swarm optimization [@wang], bat algorithm, gravity search algorithm, as well as some local search algorithms.
 
 
 # Conclusion
