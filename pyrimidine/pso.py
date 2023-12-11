@@ -131,8 +131,7 @@ class ParticleSwarm(PopulationMixin):
     'inertia':0.75, 'n_best_particles':0.2, 'max_velocity':None}
 
     def init(self):
-        for particle in self:
-            particle.init()
+        super().init()
         self.hall_of_fame = self.get_best_individuals(self.n_best_particles, copy=True)
     
     def update_hall_of_fame(self):
@@ -162,7 +161,7 @@ class ParticleSwarm(PopulationMixin):
     def backup(self):
         # overwrite the memory of the particle if its current state is better its memory
         for particle in self:
-            particle.backup(check=True)
+            particle.backup()
 
     def move(self):
         """Move the particles

@@ -103,8 +103,7 @@ class NumpyArrayChromosome(BaseChromosome, np.ndarray):
 
 
 class VectorChromosome(NumpyArrayChromosome):
-
-    element_class = BaseGene
+    pass
 
 
 class MatrixChromosome(NumpyArrayChromosome):
@@ -122,6 +121,13 @@ class MatrixChromosome(NumpyArrayChromosome):
         A = np.vstack((self[:k, :l], other[k:, :l]))
         B = np.vstack((other[:k, l:], self[k:, l:]))
         return self.__class__(np.hstack((A, B)))
+
+
+class StochasticMatrixChromosome(MatrixChromosome):
+
+    def normalize(self):
+        self[:] = max0(self)
+        self[:] = self / np.sum(self, axis=1)[:,None]
 
 
 class NaturalChromosome(VectorChromosome):

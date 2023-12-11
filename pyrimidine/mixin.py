@@ -57,10 +57,11 @@ class IterativeMixin:
         """
         raise NotImplementedError('If you apply a local search algorithm, you must define the `local_search` method.')
 
-    def ezolve(self, n_iter=None):
+    def ezolve(self, n_iter=None, init=True):
         # Extreamly eazy evolution method for lazybones
         n_iter = n_iter or self.n_iter
-        self.init()
+        if init:
+            self.init()
         for k in range(1, n_iter+1):
             self.transition(k)
 
@@ -225,13 +226,13 @@ class FitnessMixin(IterativeMixin):
         cls._fitness = f
         return cls
 
-    def evolve(self, stat=None, attrs=('solution',), *args, **kwargs):
+    def evolve(self, stat=None, *args, **kwargs):
         """Get the history of solution and its fitness by default.
         """
 
         if stat is None:
             stat = {'Fitness': 'fitness'}
-        return super().evolve(stat=stat, attrs=attrs, *args, **kwargs)
+        return super().evolve(stat=stat, *args, **kwargs)
 
 
 class CollectiveMixin(IterativeMixin):
@@ -263,6 +264,14 @@ class CollectiveMixin(IterativeMixin):
     def append(self, ind):
         self.elements.append(ind)
 
+    def copy(self, type_=None, element_class=None, *args, **kwargs):
+        type_ = type_ or self.__class__
+        cpy = type_(list(map(methodcaller('copy', type_=element_class or type_.element_class), self)))
+        return cpy
+
+    def clone(self):
+        return self.__class__(list(map(methodcaller('clone'), self)))
+
 
 class PopulationMixin(FitnessMixin, CollectiveMixin):
     """mixin class for population-based heuristic algorithm
@@ -277,6 +286,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         if stat is None:
             stat = {'Best Fitness': 'max_fitness', 'Mean Fitness': 'mean_fitness',
             'STD Fitness': 'std_fitness'}
+        print(stat)
         return super().evolve(stat=stat, *args, **kwargs)
 
     @classmethod
@@ -414,11 +424,3 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
             n = int(n)
         ks = self.argsort()
         self.elements = [self[k] for k in ks[n:]]
-
-    def copy(self, type_=None, element_class=None, *args, **kwargs):
-        type_ = type_ or self.__class__
-        cpy = type_(list(map(methodcaller('copy', type_=element_class or type_.element_class), self)))
-        return cpy
-
-    def clone(self):
-        return self.__class__(list(map(methodcaller('clone'), self)))

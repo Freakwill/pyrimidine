@@ -1,4 +1,5 @@
 # Helpers
+[TOC]
 
 To introduce useful helpers
 
@@ -23,6 +24,7 @@ OUTPUT: `[-0.0078125 -1.       ]`
 
 ## Decorators
 
+Introduce some useful decorators.
 
 ### Memory
 ```python
@@ -112,5 +114,8 @@ Cache the fitness, if the indiviudal dose not change, the fitness will be read f
 
 ```python
 @fitness_cache
-class MyIndividual...
+class MyIndividual
+...
 ```
+
+Methods decorated by `@side_effect` has side effect that will change the fitness. So it will clear the fitness in cache after executing itself, If you do set a cache.

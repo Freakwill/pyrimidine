@@ -15,11 +15,13 @@ class _IndMixin:
     def _fitness(self):
         return evaluate(self.decode())
 
+
 @basic_memory
 class YourIndividual(_IndMixin, BinaryChromosome // n_bags):
     pass
 
 
+@basic_memory
 class MyIndividual(_IndMixin, QuantumChromosome // n_bags):
 
     def mutate(self):
@@ -54,12 +56,11 @@ class YourPopulation(_Mixin, HOFPopulation):
     default_size = 20
 
 
-stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'best_fitness'}
 mypop = MyPopulation.random()
 for i in mypop: i.measure()
 yourpop = MyPopulation([YourIndividual(i.measure_result) for i in mypop])
-mydata = mypop.evolve(n_iter=50, stat=stat, history=True)
-yourdata = yourpop.evolve(n_iter=50, stat=stat, history=True)
+mydata = mypop.evolve(n_iter=50, history=True)
+yourdata = yourpop.evolve(n_iter=50, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
