@@ -226,33 +226,33 @@ AdaptivePopulation = StandardPopulation[AdaptiveIndividual] // 20
 
 # Comparison with other frameworks
 
-A multitude of GA frameworks have been devised, such as [DEAP](https://deap.readthedocs.io/) [@fortin] and [gaft](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`. The table below provides a concise comparison between `pyrimidine` and several popular frameworks.
+A multitude of GA frameworks have been devised, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`. The table below provides a concise comparison between `pyrimidine` and several popular frameworks.
 
 +-------------------+------------+----------+----------+----------+
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
 +:=================:+:==========:+:========:+:========:+:========:+
 | `pyrimidine`| OOP, Meta-programming, Algebra-insprited | Universal | Extensible | export the data in `DataFrame` |
 +-------------------+------------+----------+----------+----------+
-| DEAP     | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
+| `DEAP`     | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
 +-------------------+------------+----------+----------+----------+
-| gaft      | OOP, decoration partton   | Universal | Extensible    | Easy to Implement       |
+| `gaft`      | OOP, decoration partton   | Universal | Extensible    | Easy to Implement       |
 +-------------------+------------+----------+----------+----------+
-|[geppy](https://geppy.readthedocs.io/) | based on DEAP | Symbolic Regression | Limited | - |
+|[`geppy`](https://geppy.readthedocs.io/) | based on `DEAP` | Symbolic Regression | Limited | - |
 +-------------------+------------+----------+----------+----------+
-| [tpot](https://github.com/EpistasisLab/tpot) [@olson]/[gama](https://github.com/openml-labs/gama) [@pieter]     | [scikit-learn](https://scikit-learn.org/) Style | Hyperparameter Optimization | Limited | None                   |
+| [`tpot`](https://github.com/EpistasisLab/tpot) [@olson]/[`gama`](https://github.com/openml-labs/gama) [@pieter]     | [scikit-learn](https://scikit-learn.org/) Style | Hyperparameter Optimization | Limited | None                   |
 +-------------------+------------+----------+----------+----------+
-| [gplearn](https://gplearn.readthedocs.io/)/pysr   | scikit-learn Style | Symbolic Regression | Limited | None                   |
+| [`gplearn`](https://gplearn.readthedocs.io/)/[`pysr`](https://astroautomata.com/PySR/)   | scikit-learn Style | Symbolic Regression | Limited | None                   |
 +-------------------+------------+----------+----------+----------+
-| [scikit-opt](https://github.com/guofei9987/scikit-opt)| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
+| [`scikit-opt`](https://github.com/guofei9987/scikit-opt)| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
 +-------------------+------------+----------+----------+----------+
-|[scikit-optimize](https://scikit-optimize.github.io/stable/)|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
+|[`scikit-optimize`](https://scikit-optimize.github.io/stable/)|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
 +-------------------+------------+----------+----------+----------+
-|[NEAT](https://neat-python.readthedocs.io/) [@neat-python]| OOP  | Neuroevolution | Limited | use the visualization tools |
+|[`NEAT`](https://neat-python.readthedocs.io/) [@neat-python]| OOP  | Neuroevolution | Limited | use the visualization tools |
 +-------------------+------------+----------+----------+----------+
 
-Tpot/gama, gplearn/pysr, and scikit-opt follow the scikit-learn style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as NEAT).
+`Tpot`/`gama`, `gplearn`/`pysr`, and `scikit-opt` follow the scikit-learn style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`).
 
-DEAP is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. Gaft is a highly object-oriented software with excellent scalability, but it is currently inactive.
+`DEAP` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `Gaft` is a highly object-oriented software with excellent scalability, but it is currently inactive.
 
 `Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the API and the extension of the program more natural. So far, We have implemented a variety of intelligent algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution, evolutionary programming, particle swarm optimization [@wang], bat algorithm, gravity search algorithm, as well as some local search algorithms, such as simulated annealing.
 

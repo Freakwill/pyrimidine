@@ -49,7 +49,7 @@ pop = MyPopulation.random()
 # Define statistics of population
 stat = {
     'Mean Fitness': 'fitness',
-    'Best Fitness': 'best_fitness',
+    'Best Fitness': 'max_fitness',
     'Standard Deviation of Fitnesses': 'std_fitness',
     'number': lambda pop: len(pop.individuals)  # or `'n_individuals'`
     }
@@ -125,8 +125,11 @@ MyPopulation = StandardPopulation[MyIndividual]
 
 if __name__ == '__main__':
     pop = MyPopulation.random(n_individuals=20, size=20)
-    stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-    data = pop.evolve(stat=stat, n_iter=100, history=True)
+    """stat={'Mean Fitness':'mean_fitness',
+    'Best Fitness':'max_fitness'} by default;
+    need not set `stat` explicitly.
+    """
+    data = pop.evolve(n_iter=100, history=True)
 
     import matplotlib.pyplot as plt
     fig = plt.figure()
@@ -157,6 +160,8 @@ iteration & solution & Mean Fitness & Best Fitness & Standard Deviation of Fitne
 
 In the following example, the binary chromosomes should be decoded to floats. We recommend `digit_converter` to handle with it, created by the author for such purpose.
 
+We will use `MixedIndividual` to encode the `threshold` for a novel algorithm.
+
 ```python
 #!/usr/bin/env python3
 
@@ -184,7 +189,7 @@ class uChromosome(BinaryChromosome):
 def _fitness(i):
     return evaluate(i.decode())
 
-ExampleIndividual = MultiIndividual[_Chromosome].set_fitness(_fitness) // ndim
+_Individual = MultiIndividual[_Chromosome].set_fitness(_fitness) // ndim
 
 class MyIndividual(MixedIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fitness(_fitness)):
     """My own individual class
@@ -224,13 +229,13 @@ MyPopulation = StandardPopulation[MyIndividual]
 ### Comparison of Algorithms
 
 ```python
-stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
+stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'max_fitness'}
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
-_Population = StandardPopulation[ExampleIndividual]
+_Population = StandardPopulation[_Individual]
 pop = MyPopulation.random(n_individuals=20, sizes=[8]*ndim+[8])
 cpy = pop.copy(type_=_Population)
 d = cpy.evolve(stat=stat, n_iter=100, history=True)
@@ -245,11 +250,11 @@ plt.show()
 ![](comparison.png)
 
 
-## Example 3
+## Example 3 --- Quantum GA
+Here we create Quantum GA.
 
-### Quantum GA
-
-It is based on quantum chromosomes. Let use have a look at the source code.
+### use `QuantumChromosome`
+Quantum GA is based on quantum chromosomes, `QuantumChromosome`. Let use have a look at the source code. It is recommended to use decorate `@basic_memory` to save the best measure result of a quantum chromosome.
 
 ```python
 class QuantumChromosome(CircleChromosome):
@@ -266,6 +271,8 @@ class QuantumChromosome(CircleChromosome):
         self.measure_result = np.cos(self) ** 2 > rs
         self.measure_result.astype(np.int_)
 ```
+
+### Create quantum GA
 
 ```python
 #!/usr/bin/env python3
@@ -289,28 +296,17 @@ class YourIndividual(BinaryChromosome // n_bags):
 YourPopulation = HOFPopulation[YourIndividual] // 20
 
 @fitness_cache
-@add_memory({'measure_result': None, 'fitness': None})
+@basic_memory
 class MyIndividual(QuantumChromosome // n_bags):
 
     def _fitness(self):
         return evaluate(self.decode())
 
-    def backup(self, check=False):
-        f = self._fitness()
-        if not check or (self.memory['fitness'] is None or f > self.memory['fitness']):
-            self._memory = {
-            'measure_result': self.measure_result,
-            'fitness': f
-            }
 
 class MyPopulation(HOFPopulation):
 
     element_class = MyIndividual
     default_size = 20
-
-    def init(self):
-        self.backup()
-        super().init()
 
     def backup(self, check=True):
         for i in self:
@@ -322,12 +318,11 @@ class MyPopulation(HOFPopulation):
         """
         self.backup()
         super().update_hall_of_fame(*args, **kwargs)
-
 ```
 
 ### Visualization and comparison
 ```python
-stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'best_fitness'}
+stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
 mypop = MyPopulation.random()
 
 yourpop = YourPopulation([YourIndividual(i.decode()) for i in mypop])
@@ -349,9 +344,82 @@ plt.show()
 
 ![](QGA.png)
 
+## Example 4 --- MultiPopulation
+
+It is extremely natural to implement multi-population GA.
+
+```python
+#!/usr/bin/env python3
+
+import numpy as np
+
+from pyrimidine import MultiPopulation, HOFPopulation, MonoIndividual, BinaryChromosome
+from pyrimidine.benchmarks.optimization import *
+
+
+# generate a knapsack problem randomly
+n_bags = 100
+_evaluate = Knapsack.random(n_bags)
+
+class _Individual(MonoIndividual[BinaryChromosome // n_bags]):
+
+    def decode(self):
+        return self[0]
+
+    def _fitness(self):
+        return _evaluate(self.decode())
+
+
+class _Population(HOFPopulation):
+    element_class = _Individual
+    default_size = 10
+
+class _MultiPopulation(MultiPopulation):
+    element_class = _Population
+    default_size = 2
+
+
+mp = _MultiPopulation.random()
+data = mp.evolve(n_iter=100, history=True)
+```
+
+Equivalently
+
+```python
+#!/usr/bin/env python3
+
+import numpy as np
+
+from pyrimidine import MultiPopulation, HOFPopulation, PolyIndividual, BinaryChromosome
+from pyrimidine.benchmarks.optimization import *
+
+
+# generate a knapsack problem randomly
+n_bags = 100
+_evaluate = Knapsack.random(n_bags)
+
+_Individual = (BinaryChromosome // n_bags).set_fitness(_evaluate)
+_Population = HOFPopulation[_Individual] // 10
+_MultiPopulation = MultiPopulation[_Population] // 2
+
+mp = _MultiPopulation.random()
+data = mp.evolve(n_iter=100, history=True)
+```
+
+Plot the fitness curves as usual.
+```python
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = fig.add_subplot(111)
+data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+ax.set_xlabel('Generations')
+ax.set_ylabel('Fitness')
+plt.show()
+```
+
 ## Game
 
-Let's play the "scissors, paper, stone" game.
+Let's play the "scissors, paper, stone" game. We do not need fitness here, so just subclass `CollectiveMixin`, regarded as a Population without fitness.
 
 ```python
 #!/usr/bin/env python

@@ -2,15 +2,15 @@
 
 import numpy as np
 
-from pyrimidine import MultiPopulation, HOFPopulation, PolyIndividual, BinaryChromosome
+from pyrimidine import MultiPopulation, HOFPopulation, MonoIndividual, BinaryChromosome
 from pyrimidine.benchmarks.optimization import *
 
 
 # generate a knapsack problem randomly
 n_bags = 100
-_evaluate = Knapsack.random(n=n_bags)
+_evaluate = Knapsack.random(n_bags)
 
-class _Individual(PolyIndividual[BinaryChromosome.set(default_size=n_bags)]):
+class _Individual(MonoIndividual[BinaryChromosome // n_bags]):
 
     def decode(self):
         return self[0]
@@ -29,8 +29,7 @@ class _MultiPopulation(MultiPopulation):
 
 
 sp = _MultiPopulation.random()
-stat={'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
-data = sp.evolve(stat=stat, n_iter=100, history=True)
+data = sp.evolve(n_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt
