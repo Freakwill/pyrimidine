@@ -1,6 +1,6 @@
 # pyrimidine
 
-`pyrimidine` is nn extensible framework of genetic/evolutionary algorithm by Python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details.
+`pyrimidine` is an extensible framework of genetic/evolutionary algorithm by Python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details.
 
 ![LOGO](logo.png)
 

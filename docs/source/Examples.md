@@ -249,7 +249,7 @@ plt.show()
 
 ![](comparison.png)
 
-## Example 3 ---
+## Example 3 --- Evolution Strategy
 
 ```python
 #!/usr/bin/env python
@@ -346,7 +346,7 @@ class QuantumChromosome(CircleChromosome):
 
 # import statements
 
-from pyrimidine.deco import add_memory, fitness_cache
+from pyrimidine.deco import basic_memory, fitness_cache
 
 # generate a knapsack problem randomly
 n_bags = 50
