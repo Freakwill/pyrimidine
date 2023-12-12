@@ -1,5 +1,5 @@
 ---
-title: 'Pyrimidine: An algebra-inspired Programming framework for evolutionary algorithms'
+title: '`Pyrimidine`: An algebra-inspired Programming framework for evolutionary algorithms'
 tags:
   - Python
   - genetic algorithms
@@ -28,13 +28,13 @@ output:
     number_sections: yes
 ---
 
-# Pyrimidine: An algebra-inspired Programming framework for evolutionary algorithms
+# `Pyrimidine`: An algebra-inspired Programming framework for evolutionary algorithms
 
 # Summary
 
 As one of the earliest developed intelligent algorithms [holland, katoch], the genetic algorithm(GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [@holland; @simon] and the associated literatures.
 
-[Pyrimidine](https://github.com/Freakwill/pyrimidine) stands as a versatile framework designed for GAs, offering exceptional extensibility for a wide array of evolutionary algorithms, including particle swarm optimization and difference evolution.
+[`Pyrimidine`](https://github.com/Freakwill/pyrimidine) stands as a versatile framework designed for GAs, offering exceptional extensibility for a wide array of evolutionary algorithms, including particle swarm optimization and difference evolution.
 
 Leveraging the principles of object-oriented programming(OOP) and the meta-programming, we introduce a distinctive design paradigm is coined as "algebra-inspired Programming" signifying the fusion of algebraic methodologies with the software architecture.
 
@@ -57,7 +57,7 @@ s = \{a:A\}:S
 $$
 Here, the symbol $\{\cdot\}$ signifies either a set or a sequence, emphasizing the order of the elements.
 
-Building upon the foundational concept, we define a population in pyrimidine as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, often referred to as "the high-level container". Pyrimidine distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. Populations in a multi-population behave analogously to individuals in a population. Notably, it allows to define containers at higher levels, such as a container of multi-populations, potentially intertwined with conventional populations.
+Building upon the foundational concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, often referred to as "the high-level container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. Populations in a multi-population behave analogously to individuals in a population. Notably, it allows to define containers at higher levels, such as a container of multi-populations, potentially intertwined with conventional populations.
 
 While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered a system. Similarly, a chromosome might be viewed as a container of genes. In practice, we choose to implement chromosomes directly using the arrays.
 
@@ -92,9 +92,9 @@ When designing a novel algorithm, especially one that significantly differs from
 
 ## Fundamental Classes
 
-There are three fundamental classes in pyrimidine constructed by the metaclasses: `BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively.
+There are three fundamental classes in `pyrimidine` constructed by the metaclasses: `BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively.
 
-For convenience, pyrimidine provides some commonly used subclasses, so users do not have to redefine these settings. By inheriting these classes, users gain access to the methods such as, crossover and mutation. pyrimidine offers `BinaryChromosome` for the binary encoding as used in the classical GA.
+For convenience, `pyrimidine` provides some commonly used subclasses, so users do not have to redefine these settings. By inheriting these classes, users gain access to the methods such as, crossover and mutation. `pyrimidine` offers `BinaryChromosome` for the binary encoding as used in the classical GA.
 
 Generally, the algorithm design starts as follows, where `MonoIndividual`, as a subclass of `BaseIndividual`, just enforces that the individuals can only have one chromosome.
 
@@ -134,7 +134,7 @@ UserPopulation = StandardPopulation[UserChromosome]
 
 # An example to begin
 
-In this section, we demonstrate the basic usage of pyrimidine with a simple example, the classic 0-1 knapsack problem:
+In this section, we demonstrate the basic usage of `pyrimidine` with a simple example, the classic 0-1 knapsack problem:
 
 $$
 \max \sum_i c_ix_i \\
@@ -178,7 +178,7 @@ Finally, the optimal individual can be obtained with `pop.best_individual`, or `
 
 # Visualization
 
-Instead of implementing visualization methods, pyrimidine yields a `pandas.DataFrame` object that encapsulates statistical results for each generation by setting `history=True` in `evolve` method. Users can harness this object to plot the performance curves. Generally, users are required to furnish a "statistic dictionary" whose keys are the names of the statistics, and values are functions mapping the population to numerical values, or strings presenting pre-defined methods or attributes of the population.
+Instead of implementing visualization methods, `pyrimidine` yields a `pandas.DataFrame` object that encapsulates statistical results for each generation by setting `history=True` in `evolve` method. Users can harness this object to plot the performance curves. Generally, users are required to furnish a "statistic dictionary" whose keys are the names of the statistics, and values are functions mapping the population to numerical values, or strings presenting pre-defined methods or attributes of the population.
 
 ```python
 # statistic dictionary, computing the mean fitness and best fitness for each generation (default setting)
@@ -204,7 +204,7 @@ Here, `mean_fitness` and `max_fitness` are pre-defined methods (wrapped by the `
 
 # Create your own classes and algorithms
 
-In the standard GA, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs, these rates can be dynamically encoded in each individual, allowing for adaptability during iterations. It is remarkably simple to implement self-adaptability by pyrimidine. 
+In the standard GA, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs, these rates can be dynamically encoded in each individual, allowing for adaptability during iterations. It is remarkably simple to implement self-adaptability by `pyrimidine`. 
 
 We introduce a "mixed-individual" consisting of two chromosomes of different types: `BinaryChromosome`, representing the solution, and `FloatChromosome`, encapsulating the probabilities of mutation and crossover, which is inherently equipped with genetic operations tailored for floating-point numbers.
 
@@ -226,12 +226,12 @@ AdaptivePopulation = StandardPopulation[AdaptiveIndividual] // 20
 
 # Comparison with other frameworks
 
-A multitude of GA frameworks have been devised, such as [DEAP](https://deap.readthedocs.io/) [@fortin] and [gaft](https://github.com/PytLab/gaft), which have significantly influenced the design of pyrimidine. The table below provides a concise comparison between pyrimidine and several popular frameworks.
+A multitude of GA frameworks have been devised, such as [DEAP](https://deap.readthedocs.io/) [@fortin] and [gaft](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`. The table below provides a concise comparison between `pyrimidine` and several popular frameworks.
 
 +-------------------+------------+----------+----------+----------+
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
 +:=================:+:==========:+:========:+:========:+:========:+
-| pyrimidine| OOP, Meta-programming, Algebra-insprited | Universal | Extensible | export the data in `DataFrame` |
+| `pyrimidine`| OOP, Meta-programming, Algebra-insprited | Universal | Extensible | export the data in `DataFrame` |
 +-------------------+------------+----------+----------+----------+
 | DEAP     | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
 +-------------------+------------+----------+----------+----------+
@@ -254,12 +254,12 @@ Tpot/gama, gplearn/pysr, and scikit-opt follow the scikit-learn style [@sklearn_
 
 DEAP is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. Gaft is a highly object-oriented software with excellent scalability, but it is currently inactive.
 
-Pyrimidine fully utilizes the OOP and meta-programming capabilities of Python, making the design of the API and the extension of the program more natural. So far, We have implemented a variety of intelligent algorithms by pyrimidine, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution, evolutionary programming, particle swarm optimization [@wang], bat algorithm, gravity search algorithm, as well as some local search algorithms, such as simulated annealing.
+`Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the API and the extension of the program more natural. So far, We have implemented a variety of intelligent algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution, evolutionary programming, particle swarm optimization [@wang], bat algorithm, gravity search algorithm, as well as some local search algorithms, such as simulated annealing.
 
 
 # Conclusion
 
-I have conducted extensive experiments and improvements, showcasing that pyrimidine is a versatile framework suitable for implementing various evolution algorithms. Its design offers strong extensibility, allowing the implementation of any iterative algorithm, such as simulated annealing or particle swarm optimization. For users developing new algorithms, pyrimidine is a promising choice.
+I have conducted extensive experiments and improvements, showcasing that `pyrimidine` is a versatile framework suitable for implementing various evolution algorithms. Its design offers strong extensibility, allowing the implementation of any iterative algorithm, such as simulated annealing or particle swarm optimization. For users developing new algorithms, `pyrimidine` is a promising choice.
 
 We have not implemented parallel computation yet which is important fot intelligent algorithms, but we have set up an interface that can be utilized at any time. The full realization of algebraic programming concepts is still in progress. Certainly, there is ample room for further improvement.
 
