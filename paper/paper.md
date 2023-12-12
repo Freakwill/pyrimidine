@@ -13,15 +13,19 @@ authors:
     equal-contrib: true
     affiliation: "1" # (Multiple affiliations must be quoted)
 affiliations:
- - name: Lyman Spitzer, Jr. Fellow, Princeton University, USA
+ - name: Yanqi Lake Beijing Institute of Mathematical Sciences and Applications, China
    index: 1
- - name: Institution Name, Country
-   index: 2
- - name: Independent Researcher, Country
-   index: 3
-date: 9 December 2023
+date: 12 December 2023
 bibliography: paper.bib
-
+toccolor: teal
+citecolor: teal
+linkcolor: teal
+urlcolor: teal
+output: 
+  pdf_document: 
+    toc: no
+    toc_depth: 4
+    number_sections: yes
 ---
 
 # Pyrimidine: An algebra-inspired Programming framework for evolutionary algorithms
