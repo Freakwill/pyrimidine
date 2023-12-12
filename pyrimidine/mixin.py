@@ -286,7 +286,6 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         if stat is None:
             stat = {'Best Fitness': 'max_fitness', 'Mean Fitness': 'mean_fitness',
             'STD Fitness': 'std_fitness'}
-        print(stat)
         return super().evolve(stat=stat, *args, **kwargs)
 
     @classmethod

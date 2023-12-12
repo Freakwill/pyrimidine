@@ -10,7 +10,9 @@ from .individual import *
 from .population import *
 from .multipopulation import *
 from .saga import *
+from .studga import *
 from .pso import *
+from .es import *
 from .ep import *
 from .de import *
 from .ba import *

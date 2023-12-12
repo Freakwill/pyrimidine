@@ -305,10 +305,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         """
         raise NotImplementedError
 
-    def select_aspirants(self, individuals, size):
-        # select `size` individuals from the list `individuals` in one tournament.
-        return choice(individuals, size=size, replace=False)
-
     def select(self, n_sel=None, tourn_size=None):
         """The standard method of selecting operation in GA
         
