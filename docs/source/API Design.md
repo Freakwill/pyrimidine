@@ -1,15 +1,40 @@
 # API Design
 
+## Modules
+
+Short introduction to modules:
+
+- `meta`: Metaclasses
+- `mixin`: Mixin Classes
+- `base`: The base classes, esp. for creating GAs
+- `population`: populations to implement classical GAs
+- `chromosome`: some type of chromosomes
+- `multipopulation`: multi-population GAs
+- `individual`: individuals for GA or other EA
+- `es/de/ep`: Evolutionary algorithms
+- `pso/ba/fa`: Swarm intelligent algorithms
+- `deco`: Decorators
+- `utils`: Helpers
+- `errors`: Exceptions
+- `local_search/*`: Local search algorithms
+- `learn/*`: Machine learning implemented by GAs
+
 ## Metaclasses
 The metaclass `System` is defined to simulate abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operators and functions on them.
 
-`Container` is the super-metaclass of `System` for creating containers.
+`MetaContainer` is the super-metaclass of `System` for creating container classes.
+
+1. `ParamType --> MetaContainer --> System`
+2. `ParamType --> MetaArray`
+
+`MetaArray` is a compact version of `MetaContainer`
 
 ## Mixin Classes
 
 Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. 
 
 The inheritance of metaclasses:
+
 ```
 IterativeMixin  - - ->  CollectiveMixin
     |                      |
