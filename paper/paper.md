@@ -37,7 +37,7 @@ Leveraging the principles of object-oriented programming(OOP) and the meta-progr
 
 # Algebra-inspired Programming
 
-As is well-known, there are two fundamental components in GAs: individuals (or chromosomes) and populations.
+As is well-known, there are two fundamental components in GA: individuals (or chromosomes) and populations.
 
 In a typical Python implementation, populations are initially defined as lists of individuals, with each individual representing a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library `numpy` [@numpy]. Following this, evolutionary operators are defined and applied to these structures.
 

@@ -1,6 +1,6 @@
 # pyrimidine
 
-An extensible framework of genetic algorithm by python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details.
+`pyrimidine` is nn extensible framework of genetic/evolutionary algorithm by Python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details.
 
 ![LOGO](logo.png)
 
@@ -22,7 +22,7 @@ We regard the population as a container of individuals, an individual as a conta
 and a chromosome as a container(array) of genes.
 
 The container could be a list or an array.
-Container class has an attribute `element_class`, telling itself the class of the elements in it.
+The container class has an attribute `element_class`, telling itself the type of the elements in it.
 
 Following is the part of the source code of `BaseIndividual` and `BasePopulation`.
 
@@ -31,7 +31,7 @@ class BaseIndividual(FitnessModel, metaclass=MetaContainer):
     element_class = BaseChromosome
     default_size = 1
 
-class BasePopulation(PopulationModel, metaclass=MetaHighContainer):
+class BasePopulation(PopulationModel, metaclass=MetaContainer):
     element_class = BaseIndividual
     default_size = 20
 ```
@@ -54,7 +54,7 @@ s={a:A}:S
 
 We define a population as a container of individuals or chromosomes, and an individual is a container of chromosomes.
 
-An indivdiual has only one chromosome is equivalent to a chromosome mathematically.
+Algebraically, an indivdiual has only one chromosome is equivalent to a chromosome mathematically. A population could also be a container of chromosomes. If the individual has only one chromosome, then just build the population based on chromosomes directly.
 
 The methods are the functions or operators defined on $s$.
 
@@ -65,13 +65,13 @@ The methods are the functions or operators defined on $s$.
 - BaseGene: the gene of chromosome
 - BaseChromosome: sequence of genes, represents part of a solution
 - BaseIndividual: sequence of chromosomes, represents a solution of a problem
-- BasePopulation: set of individuals, represents a set of a problem
+- BasePopulation: a container of individuals, represents a container of a problem
                 also the state of a stachostic process
-- BaseSpecies: set of population for more complicated optimalization
+- BaseMultipopulation: a container of population for more complicated optimalization
 
 
 ### import
-Just use the command `from pyrimidine import *` import all of the objects.
+Just use the command `from pyrimidine import *` import all of the algorithms.
 
 ### subclass
 
@@ -157,23 +157,27 @@ class MyPopulation(StandardPopulation):
 
 `random` is a factory method!
 
-#### Initialize a population
-
-Generate a population, with 50 individuals and each individual has 100 genes
+Generate a population, with 50 individuals and each individual has 100 genes:
 
 `pop = MyPopulation.random(n_individuals=50, size=100)`
 
-When each individual contains 5 chromosomes.
+When each individual contains 5 chromosomes, use
 
 `pop = MyPopulation.random(n_individuals=10, n_chromosomes=5, size=10)`
 
-For `MixedIndividual`, we recommand to use, for example
+However, we recommand to set `default_size` in the classes, then run `MyPopulation.random()`
 
-`pop = MyPopulation.random(n_individuals=10, sizes=(10,8,8,3))`
+```python
+class MyPopulation(StandardPopulation):
+    element_class = MyIndividual // 5
+    default_size = 10
 
-#### Initialize an individual
+# equiv. to
 
-In fact, `random` method of `Population` will call random method of `Individual`. If you want to generate an individual, then just execute `MyIndividual.random(n_chromosomes=5, size=10)`, for simple individuals, just execute `SimpleIndividual.random(size=10)` since its `n_chromosomes` equals to 1.
+MyPopulation = StandardPopulation[MyIndividual//5]//10
+```
+
+In fact, `random` method of `BasePopulation` will call random method of `BaseIndividual`. If you want to generate an individual, then just execute `MyIndividual.random(n_chromosomes=5, size=10)`, or set `default_size`, then execute `MyIndividual.random()`.
 
 
 ### Evolution
@@ -276,7 +280,7 @@ class MyPopulation(StandardPopulation):
     element_class = MyChromosome
 ```
 
-Equiv. to
+It is equiv. to
 ```python
 def _fitness(obj):
     x = abs(np.dot(n, obj)-10)

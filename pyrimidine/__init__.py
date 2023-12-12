@@ -16,7 +16,7 @@ from .de import *
 from .ba import *
 
 
-__version__ = "1.5.3"
+__version__ = "1.5.4"
 
 __template__ = """
 from pyrimidine.chromosome import BinaryChromosome
