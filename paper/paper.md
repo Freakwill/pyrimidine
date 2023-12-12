@@ -13,7 +13,7 @@ authors:
     equal-contrib: true
     affiliation: "1" # (Multiple affiliations must be quoted)
 affiliations:
- - name: Yanqi Lake Beijing Institute of Mathematical Sciences and Applications, China
+ - name: Yanqi Lake Beijing Institute of Mathematical Sciences and Applications, Beijing, China
    index: 1
 date: 12 December 2023
 bibliography: paper.bib
@@ -32,11 +32,11 @@ output:
 
 # Summary
 
-As one of the earliest developed intelligent algorithms [holland, katoch], the genetic algorithm(GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam, @cheng,@katoch]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [@holland, @simon] and the associated literatures.
+As one of the earliest developed intelligent algorithms [holland, katoch], the genetic algorithm(GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [@holland; @simon] and the associated literatures.
 
 `Pyrimidine` stands as a versatile framework designed for GAs, offering exceptional extensibility for a wide array of evolutionary algorithms, including particle swarm optimization and difference evolution.
 
-Leveraging the principles of object-oriented programming(OOP) and the meta-programming, we introduce a distinctive design paradigm is coined as "algebra-inspired Programming," signifying the fusion of algebraic methodologies with the software architecture.
+Leveraging the principles of object-oriented programming(OOP) and the meta-programming, we introduce a distinctive design paradigm is coined as "algebra-inspired Programming" signifying the fusion of algebraic methodologies with the software architecture.
 
 
 # Algebra-inspired Programming
@@ -226,7 +226,7 @@ AdaptivePopulation = StandardPopulation[AdaptiveIndividual] // 20
 
 # Comparison with other frameworks
 
-A multitude of GA frameworks have been devised, such as `DEAP` and `gaft`, which have significantly influenced the design of `Pyrimidine`. The table below provides a concise comparison between `Pyrimidine` and several popular frameworks.
+A multitude of GA frameworks have been devised, such as `DEAP` and `gaft`, which have significantly influenced the design of `pyrimidine`. The table below provides a concise comparison between `pyrimidine` and several popular frameworks.
 
 +-------------------+------------+----------+----------+----------+
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
