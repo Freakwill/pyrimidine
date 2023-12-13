@@ -95,7 +95,7 @@ class MyIndividual(MonoIndividual):
         ...
 ```
 
-Since `binaryIndividual(size=8)` could create such individual, it is equivalent to
+Since the helper `makeIndividual(n_chromosomes=1, size=8)` could create such individual, it is equivalent to
 
 ```python
 class MyIndividual(binaryIndividual()):
@@ -149,8 +149,7 @@ class MyPopulation(StandardPopulation):
     element_class = MyIndividual
 ```
 
-`element_class` is the most important attribute of the class that defines the class of the individual of the population. It is equivalent to `MyPopulation=StandardPopulation[MyIndividual]`.
-
+It is equivalent to `MyPopulation = StandardPopulation[MyIndividual]`.
 
 
 ### Initialize randomly
