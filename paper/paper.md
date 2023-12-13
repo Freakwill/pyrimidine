@@ -32,7 +32,7 @@ output:
 
 # Summary
 
-As one of the earliest developed intelligent algorithms [holland, katoch], the genetic algorithm(GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. The principles of GA will not be extensively reviewed in this article. For a detailed understanding, please refer to reference [@holland; @simon] and the associated literatures.
+As one of the earliest developed intelligent algorithms [holland, katoch], the genetic algorithm(GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. The principles of GA will not be reviewed in this article. For a detailed understanding, please refer to references [@holland; @simon] and the associated literatures.
 
 [`Pyrimidine`](https://github.com/Freakwill/pyrimidine) stands as a versatile framework designed for GAs, offering exceptional extensibility for a wide array of evolutionary algorithms, including particle swarm optimization and difference evolution.
 
@@ -41,9 +41,7 @@ Leveraging the principles of object-oriented programming(OOP) and the meta-progr
 
 # Algebra-inspired Programming
 
-As is well-known, there are two fundamental components in GA: individuals (or chromosomes) and populations.
-
-In a typical Python implementation, populations are initially defined as lists of individuals, with each individual representing a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's array or the widely-used third-party library [numpy](https://numpy.org/). Following this, evolutionary operators are defined and applied to these structures.
+In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's array or the widely-used third-party library [numpy](https://numpy.org/). Following this, evolutionary operators are defined and applied to these structures.
 
 Our design concept transcends the ordinary and embraces a higher level of extensibility. We term this innovative approach "algebra-inspired Programming." It should not be confused with so-called algebraic programming, but it draws inspiration from its underlying principles.
 
@@ -61,7 +59,7 @@ Building upon the foundational concept, we define a population in `pyrimidine` a
 
 While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered a system. Similarly, a chromosome might be viewed as a container of genes. In practice, we choose to implement chromosomes directly using the arrays.
 
-In our framework, a container that defines operators for its elements is referred to as a **system**. For example, in a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, and it can be practically implemented as `s.cross(a, b)`. Although this system concept aligns with algebraic systems [@algebra], the current version of our framework diverges from this notion, as operators are directly defined as methods of the elements, such as `a.cross(b)`. While the relevant consideration is postponed to future releases, this potential change will not disrupt the design of APIs.
+In our framework, a container that defines operators for its elements is referred to as a **system**. For example, in a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, and it can be practically implemented as the command `s.cross(a, b)`. Although this system concept aligns with algebraic systems [@algebra], the current version of our framework diverges from this notion, as operators are directly defined as methods of the elements, such as `a.cross(b)`. While the relevant consideration is postponed to future releases, this potential change will not disrupt the design of APIs.
 
 The lifting of a function/method $f$ is a common approach to defining the function/method for the system:
 $$
@@ -84,7 +82,7 @@ The metaclass `System` is defined to simulate abstract algebraic systems, which 
 
 ## Mixin classes
 
-Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. 
+<!-- Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. -->
 
 The `FitnessMixin` class is dedicated to the iteration process focused on maximizing fitness, and its subclass `PopulationMixin` represents the collective form.
 
