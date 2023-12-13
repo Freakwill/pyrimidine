@@ -1,7 +1,7 @@
 # Helpers
 [TOC]
 
-To introduce useful helpers
+To introduce the useful helpers and decorators
 
 ## Optimization
 
@@ -27,13 +27,17 @@ OUTPUT: `[-0.0078125 -1.       ]`
 Introduce some useful decorators.
 
 ### Memory
+In common case, use `basic_memory`. If you want to store more information in memory dic, then consider to use `add_memory({'solution': None, 'fitness': None, ...})`
+
+The memory decorator works like cache, but it is a part of the algorithm. Memory always store the best solution and the coresponding fitness of each individual, making the algorithm more effective.
+
 ```python
 #!/usr/bin/env python3
 
 from pyrimidine import *
 from pyrimidine.benchmarks.optimization import *
 
-from pyrimidine.deco import add_memory
+from pyrimidine.deco import basic_memory
 
 # generate a knapsack problem randomly
 n_bags = 50
@@ -48,17 +52,9 @@ class YourIndividual(BinaryChromosome // n_bags):
 YourPopulation = HOFPopulation[YourIndividual] // 20
 
 
-@add_memory({'solution': None, 'fitness': None})
+@basic_memory
 class MyIndividual(YourIndividual):
     # Individual with a memory, recording a best solution
-
-    def backup(self, check=False):
-        f = self._fitness()
-        if not check or (self.memory['fitness'] is None or f > self.memory['fitness']):
-            self._memory = {
-            'solution': self.clone(),
-            'fitness': f
-            }
 
     @property
     def solution(self):
@@ -73,20 +69,16 @@ class MyPopulation(HOFPopulation):
     element_class = MyIndividual
     default_size = 20
 
-    def init(self):
-        self.backup()
-        super().init()
-
     def backup(self, check=True):
         for i in self:
             i.backup(check=check)
 
-    def transition(self, *args, **kwargs):
+    def update_hall_of_fame(self, *args, **kwargs):
         """
         Update the `hall_of_fame` after each step of evolution
         """
         self.backup()
-        super().transition(*args, **kwargs)
+        super().update_hall_of_fame(*args, **kwargs)
 
 
 stat = {'Mean Fitness': 'mean_fitness', 'Best Fitness': 'best_fitness'}
@@ -110,12 +102,15 @@ plt.show()
 ```
 
 ### Cache
-Cache the fitness, if the indiviudal dose not change, the fitness will be read from cache by default.
+
+This decorator caches the fitness, if the indiviudal dose not change (in one step of the iteration), the fitness will be read from cache by default. If the cache is empty, then it will re-compute the fitness, and save the result in cache.
+
+Cache decorator is a technique to speed up the algorithm, but is not supposed to change the behavior of the algorithm.
 
 ```python
 @fitness_cache
-class MyIndividual
-...
+class MyIndividual:
+    ...
 ```
 
-Methods decorated by `@side_effect` has side effect that will change the fitness. So it will clear the fitness in cache after executing itself, If you do set a cache.
+Methods decorated by `@side_effect` has side effect that will change the fitness. So it will clear the fitness in cache after executing itself, if you do set a cache, otherwise it will produce uncorrect results.

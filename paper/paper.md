@@ -82,7 +82,7 @@ The metaclass `System` is defined to simulate abstract algebraic systems, which 
 
 ## Mixin classes
 
-<!-- Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does. -->
+Mixin classes specify the basic functionality of the algorithm.
 
 The `FitnessMixin` class is dedicated to the iteration process focused on maximizing fitness, and its subclass `PopulationMixin` represents the collective form.
 
