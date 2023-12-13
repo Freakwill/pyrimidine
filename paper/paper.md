@@ -181,9 +181,11 @@ Finally, the optimal individual can be obtained with `pop.best_individual`, or `
 Instead of implementing visualization methods, `pyrimidine` yields a `pandas.DataFrame` object that encapsulates statistical results for each generation by setting `history=True` in `evolve` method. Users can harness this object to plot the performance curves. Generally, users are required to furnish a "statistic dictionary" whose keys are the names of the statistics, and values are functions mapping the population to numerical values, or strings presenting pre-defined methods or attributes of the population.
 
 ```python
-# statistic dictionary, computing the mean fitness and best fitness for each generation (default setting)
+# statistic dictionary, computing the mean fitness, the maximum fitness and the standard deviation for each generation
 stat = {'Mean Fitness': 'mean_fitness',
-'Best Fitness': 'max_fitness'}
+'Best Fitness': 'max_fitness',
+'Standard Deviation of Fitnesses': lambda pop: np.std(pop.get_all_fitness())
+}
 
 # obtain the history data (pandas.DataFrame), i.e. the statistical results, through the evolution.
 data = pop.evolve(stat=stat, n_iter=100, history=True)
@@ -191,7 +193,11 @@ data = pop.evolve(stat=stat, n_iter=100, history=True)
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
+ax2 = ax.twinx()
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+ax.legend(loc='upper left')
+data['Standard Deviation of Fitnesses'].plot(ax=ax2, style='y-.')
+ax2.legend(loc='lower right')
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 plt.show()
