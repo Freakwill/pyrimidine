@@ -263,7 +263,7 @@ A multitude of GA frameworks have been devised, such as [`DEAP`](https://deap.re
 
 I have conducted extensive experiments and improvements, showcasing that `pyrimidine` is a versatile framework suitable for implementing various evolution algorithms. Its design offers strong extensibility, allowing the implementation of any iterative algorithm, such as simulated annealing or particle swarm optimization. For users developing new algorithms, `pyrimidine` is a promising choice.
 
-We have not implemented parallel computation yet which is important fot intelligent algorithms, but we have set up an interface that can be utilized at any time. The full realization of algebraic programming concepts is still in progress. The functionality of symbolic regression has not been realized yet, but we are considering reusing what `DEAP` provides rather than reinventing the wheel. Certainly, there is ample room for further improvement.
+We have not implemented parallel computation yet which is important for intelligent algorithms, but we have set up an interface that can be utilized at any time. The full realization of algebraic programming concepts is still in progress. The functionality of symbolic regression has not been realized yet, but we are considering reusing what `DEAP` provides rather than reinventing the wheel. Certainly, there is ample room for further improvement.
 
 The source code has been uploaded to [GitHub](https://github.com/Freakwill/pyrimidine), along with numerous examples.
 
