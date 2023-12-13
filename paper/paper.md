@@ -111,16 +111,14 @@ class UserPopulation(StandardPopulation):
     default_size = 10
 ```
 
-In the codes, `UserIndividual`(resp. `UserPopulation`) is a container of elements in type of `BinaryChromosome` (resp. `UserIndividual`). Following is the equivalent expression:
+In the codes, `UserIndividual` (resp. `UserPopulation`) is a container of elements in type of `BinaryChromosome` (resp. `UserIndividual`). Following is the equivalent expression (borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing) [@typing]):
 
 ```python
 UserIndividual = MonoIndividual[BinaryChromosome]
 UserPopulation = StandardPopulation[UserIndividual] // 10
 ```
 
-The expression is borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing) [@typing].
-
-The class `UserPopulation` is defined to create a population of the individuals. The method of executing standard genetic operations has been implemented in the class.
+<!-- The class `UserPopulation` is defined to create a population of the individuals. The method of executing standard genetic operations has been implemented in the class. -->
 
 Algebraically, there is no discrepency between `MonoIndividual` and a single `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes where use need not create an individual class.
 
@@ -146,7 +144,7 @@ The problem solution can be naturally encoded in binary format without the need 
 
 
 ```python
-from pyrimidine import MonoIndividual, StandardPopulation, BinaryChromosome
+from pyrimidine import BinaryChromosome, MonoIndividual, StandardPopulation
 from pyrimidine.benchmarks.optimization import Knapsack
 
 n = 50
@@ -203,16 +201,14 @@ ax.set_ylabel('Fitness')
 plt.show()
 ```
 
-Here, `mean_fitness` and `max_fitness` are pre-defined methods (wrapped by the `@property` decorator) to compute the average fitness value and the maximum fitness value of the population, respectively.
-
 ![The fitness evolution curve of the population. The library does not provide specific plotting commands. Instead, users can directly utilize the plotting commands from the `pandas` library.](plot-history.png)
 
 
 # Create your own classes and algorithms
 
-In the standard GA, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs, these rates can be dynamically encoded in each individual, allowing for adaptability during iterations. It is remarkably simple to implement self-adaptability by `pyrimidine`. 
+In the standard GA, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs, these rates can be dynamically encoded in each individual, allowing for adaptability during iterations.
 
-We introduce a "mixed-individual" consisting of two chromosomes of different types: `BinaryChromosome`, representing the solution, and `FloatChromosome`, encapsulating the probabilities of mutation and crossover, which is inherently equipped with genetic operations tailored for floating-point numbers.
+For such purpose, we introduce a "mixed-individual" consisting of two chromosomes of different types: `BinaryChromosome`, representing the solution, and `FloatChromosome`, encapsulating the probabilities of mutation and crossover, which is inherently equipped with genetic operations tailored for floating-point numbers.
 
 ```python
 class AdaptiveIndividual(MixedIndividual):
