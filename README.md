@@ -366,7 +366,7 @@ class ParticleSwarm(PopulationMixin):
     Extends:
         PopulationMixin
     """
-    
+
     element_class = Particle
     default_size = 20
 
@@ -377,7 +377,7 @@ class ParticleSwarm(PopulationMixin):
         for particle in self:
             particle.init()
         self.hall_of_fame = self.get_best_individuals(self.n_best_particles, copy=True)
-    
+
     def update_hall_of_fame(self):
         hof_size = len(self.hall_of_fame)
         for ind in self:
