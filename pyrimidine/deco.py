@@ -130,7 +130,7 @@ class add_cache:
 
         for a in self.attrs:
             if not hasattr(cls, a):
-                raise AttributeError(f'"{a}" should be used in the algorithm!')
+                raise AttributeError(f'The attribute "{a}" should be used in the algorithm!')
             def f(obj):
                 """get the attribute from cache, 
                 otherwise compute it again by the default method

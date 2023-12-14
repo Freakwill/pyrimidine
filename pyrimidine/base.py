@@ -478,8 +478,8 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
     'n_populations': 'n_elements',
     'best_population': 'best_element',
     'worst_population': 'worst_element',
-    "get_best_population": "get_best_element",
-    "get_best_populations": "get_best_elements"
+    'get_best_population': 'get_best_element',
+    'get_best_populations': 'get_best_elements'
     }
 
     def __str__(self):
