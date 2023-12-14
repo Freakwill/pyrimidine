@@ -55,51 +55,27 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 </section>
-<section id="module-pyrimidine.learn.regression">
-<span id="pyrimidine-learn-regression-module"></span><h2>pyrimidine.learn.regression module<a class="headerlink" href="#module-pyrimidine.learn.regression" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrimidine.learn.regression.GALinearRegression">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.learn.regression.</span></span><span class="sig-name descname"><span class="pre">GALinearRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_intercept</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.regression.GALinearRegression" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearRegression</span></code></p>
-<p>Linear Regression</p>
-<p>solve Xp = y, with min_p ||Xp-y|| + a||p||, a&gt;=0</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.learn.regression.GALinearRegression.alpha">
-<span class="sig-name descname"><span class="pre">alpha</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.05</span></em><a class="headerlink" href="#pyrimidine.learn.regression.GALinearRegression.alpha" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.learn.regression.GALinearRegression.config">
-<span class="sig-name descname"><span class="pre">config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.regression.GALinearRegression.config" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.learn.regression.GALinearRegression.perf">
-<span class="sig-name descname"><span class="pre">perf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.regression.GALinearRegression.perf" title="Link to this definition">¶</a></dt>
-<dd><p>Check the performance by running it several times</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><p>n {int} – running times</p>
-</dd>
-<dt>Returns:</dt><dd><p>number – mean time</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.learn.regression.GALinearRegression.postprocess">
-<span class="sig-name descname"><span class="pre">postprocess</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.regression.GALinearRegression.postprocess" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pyrimidine.learn.regression.random">
-<span class="sig-prename descclassname"><span class="pre">pyrimidine.learn.regression.</span></span><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">x</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">interval</span> <span class="pre">[0,</span> <span class="pre">1).</span></span></span><a class="headerlink" href="#pyrimidine.learn.regression.random" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<section id="pyrimidine-learn-regression-module">
+<h2>pyrimidine.learn.regression module<a class="headerlink" href="#pyrimidine-learn-regression-module" title="Link to this heading">¶</a></h2>
 </section>
 <section id="module-pyrimidine.learn">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyrimidine.learn" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.learn.BaseEstimator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.learn.</span></span><span class="sig-name descname"><span class="pre">BaseEstimator</span></span><a class="headerlink" href="#pyrimidine.learn.BaseEstimator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.learn.BaseEstimator.config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.BaseEstimator.config" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.learn.BaseEstimator.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warm_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.BaseEstimator.fit" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -115,18 +91,15 @@
     <ul>
 <li><a class="reference internal" href="#">pyrimidine.learn package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-pyrimidine.learn.regression">pyrimidine.learn.regression module</a><ul>
-<li><a class="reference internal" href="#pyrimidine.learn.regression.GALinearRegression"><code class="docutils literal notranslate"><span class="pre">GALinearRegression</span></code></a><ul>
-<li><a class="reference internal" href="#pyrimidine.learn.regression.GALinearRegression.alpha"><code class="docutils literal notranslate"><span class="pre">GALinearRegression.alpha</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.learn.regression.GALinearRegression.config"><code class="docutils literal notranslate"><span class="pre">GALinearRegression.config()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.learn.regression.GALinearRegression.perf"><code class="docutils literal notranslate"><span class="pre">GALinearRegression.perf()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.learn.regression.GALinearRegression.postprocess"><code class="docutils literal notranslate"><span class="pre">GALinearRegression.postprocess()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine-learn-regression-module">pyrimidine.learn.regression module</a></li>
+<li><a class="reference internal" href="#module-pyrimidine.learn">Module contents</a><ul>
+<li><a class="reference internal" href="#pyrimidine.learn.BaseEstimator"><code class="docutils literal notranslate"><span class="pre">BaseEstimator</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.learn.BaseEstimator.config"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.config()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.learn.BaseEstimator.fit"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.fit()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#pyrimidine.learn.regression.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyrimidine.learn">Module contents</a></li>
 </ul>
 </li>
 </ul>

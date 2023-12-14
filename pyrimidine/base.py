@@ -115,9 +115,6 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
     def random(cls, size=None):
         raise NotImplementedError
 
-    def copy(self, *args, **kwargs):
-        raise NotImplementedError
-
     def transition(self, *args, **kwargs):
         self.mutate()
 
@@ -142,16 +139,12 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
 
     def decode(self):
         """Decoding of the chromesome
+
         Translate the chromesome to (part of) solution, maybe a number.
         """
         return self
 
-    @classmethod
-    def encode(cls, x):
-        # encode x to a chromosome
-        raise NotImplementedError
-
-    def equal(self, other):
+    def equal_to(self, other):
         return np.array_equal(self, other)
 
 

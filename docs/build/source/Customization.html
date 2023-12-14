@@ -53,8 +53,8 @@
 <p>In this section, we present more complicated examples.</p>
 <section id="customization-tricks">
 <h2>Customization Tricks<a class="headerlink" href="#customization-tricks" title="Link to this heading">¶</a></h2>
-<p>Take Partical Swarm Optimization(PSO) as an example for a quick look at the tricks of customization. First of all, define <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">ParticleSwarm(PopulationModel):...</span></code>, as subclass of <code class="docutils literal notranslate"><span class="pre">PopulationModel</span></code>. <code class="docutils literal notranslate"><span class="pre">PopulationModel</span></code> is a mixin class where you have to define method <code class="docutils literal notranslate"><span class="pre">transit</span></code> to implement the PSO algorithm. Then assign <code class="docutils literal notranslate"><span class="pre">element_class</span></code> to be the type of particles, and set <code class="docutils literal notranslate"><span class="pre">default_size</span></code> as the number of the particles.</p>
-<p>Since the package has provide a practical class for PSO, you only need set the attribute <code class="docutils literal notranslate"><span class="pre">element_class</span></code> to be your own particle class in most case. See <code class="docutils literal notranslate"><span class="pre">example-pso.py</span></code> in <code class="docutils literal notranslate"><span class="pre">examples</span></code>.</p>
+<p>Take Partical Swarm Optimization(PSO) as an example for a quick look at the tricks of customization. First of all, define <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">ParticleSwarm(PopulationMixin):...</span></code>, as subclass of <code class="docutils literal notranslate"><span class="pre">PopulationMixin</span></code>. <code class="docutils literal notranslate"><span class="pre">PopulationMixin</span></code> is a mixin class where you have to define method <code class="docutils literal notranslate"><span class="pre">transit</span></code> to implement the PSO algorithm. Then assign <code class="docutils literal notranslate"><span class="pre">element_class</span></code> to be the type of particles, and set <code class="docutils literal notranslate"><span class="pre">default_size</span></code> as the number of the particles.</p>
+<p>Since the package has provide a practical class for PSO, you only need set the attribute <code class="docutils literal notranslate"><span class="pre">element_class</span></code> to be your own particle class in most cases. See <code class="docutils literal notranslate"><span class="pre">example-pso.py</span></code> in <code class="docutils literal notranslate"><span class="pre">examples</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">_Particle</span><span class="p">(</span><span class="n">BaseParticle</span><span class="p">):</span>
     <span class="o">...</span>
 
@@ -69,10 +69,10 @@
 </section>
 <section id="simulated-annealing-algorithm">
 <h2>Simulated Annealing Algorithm<a class="headerlink" href="#simulated-annealing-algorithm" title="Link to this heading">¶</a></h2>
-<p>See the following code for SA Algorithm. The standard SA is an iteration of one solution. Hence we inherit it from <code class="docutils literal notranslate"><span class="pre">FitnessModel</span></code> instead of <code class="docutils literal notranslate"><span class="pre">PopulationModel</span></code></p>
+<p>See the following code for SA Algorithm. The standard SA is an iteration of one solution. Hence we inherit it from <code class="docutils literal notranslate"><span class="pre">FitnessMixin</span></code> instead of <code class="docutils literal notranslate"><span class="pre">PopulationMixin</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
 
-<span class="k">class</span> <span class="nc">SimulatedAnnealing</span><span class="p">(</span><span class="n">FitnessModel</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SimulatedAnnealing</span><span class="p">(</span><span class="n">FitnessMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for Simulated Annealing</span>
 <span class="sd">    </span>
 <span class="sd">    Attributes:</span>
@@ -126,8 +126,8 @@
 </section>
 <section id="differential-evolution">
 <h2>Differential Evolution<a class="headerlink" href="#differential-evolution" title="Link to this heading">¶</a></h2>
-<p>The standard DE is a global searching algorithm. The class <code class="docutils literal notranslate"><span class="pre">DifferentialEvolution</span></code> for DE is inherited from <code class="docutils literal notranslate"><span class="pre">PopulationModel</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DifferentialEvolution</span><span class="p">(</span><span class="n">PopulationModel</span><span class="p">):</span>
+<p>The standard DE is a global searching algorithm. The class <code class="docutils literal notranslate"><span class="pre">DifferentialEvolution</span></code> for DE is inherited from <code class="docutils literal notranslate"><span class="pre">PopulationMixin</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DifferentialEvolution</span><span class="p">(</span><span class="n">PopulationMixin</span><span class="p">):</span>
 
     <span class="n">params</span> <span class="o">=</span><span class="p">{</span>
     <span class="s2">&quot;factor&quot;</span> <span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span>
@@ -165,8 +165,7 @@
 <section id="id1">
 <h3>Simulated Annealing Algorithm<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <p>Different from GA, DE or other algorithms based on the population, simulated annealing is based on single individual. It is a sort of local search. Following is the skelton of SA.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># import statsments</span>
-
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 <span class="k">class</span> <span class="nc">SimulatedAnnealing</span><span class="p">(</span><span class="n">PhantomIndividual</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for Simulated Annealing</span>
 <span class="sd">    </span>
@@ -188,7 +187,6 @@
         <span class="c1"># initialize phantom solution</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fitness</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
-
     <span class="k">def</span> <span class="nf">transit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">T</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initT</span>
         <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_epochs</span><span class="p">):</span>
@@ -199,7 +197,6 @@
         <span class="c1"># set the phantom to be the true solution (if it is better then the previous record)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">backup</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">initT</span> <span class="o">=</span> <span class="n">T</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ext_c</span>
-
 
     <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Move phantom</span>
@@ -215,11 +212,9 @@
         <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span><span class="o">.</span><span class="n">chromosomes</span> <span class="o">=</span> <span class="n">cpy</span><span class="o">.</span><span class="n">chromosomes</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="n">cpy</span><span class="o">.</span><span class="n">fitness</span>
-    <span class="err">```</span>
-
-
-<span class="err">```</span><span class="n">python</span>
-<span class="c1"># import statements</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># import statements</span>
 
 <span class="n">n</span> <span class="o">=</span> <span class="mi">15</span>
 <span class="n">f</span> <span class="o">=</span> <span class="n">rosenbrock</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
@@ -293,9 +288,20 @@
 </pre></div>
 </div>
 </section>
+<section id="ga-with-local-search">
+<h3>GA with local search<a class="headerlink" href="#ga-with-local-search" title="Link to this heading">¶</a></h3>
+<p>Now we incorporate the local search algorithm into GA. Suppose that <code class="docutils literal notranslate"><span class="pre">MyIndividual</span></code> is a subclass of <code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SAPopulation</span> <span class="o">=</span> <span class="n">LocalSearchPopulation</span><span class="p">[</span><span class="n">MyIndividual</span><span class="p">]</span> <span class="o">//</span> <span class="mi">10</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">SAPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The class <code class="docutils literal notranslate"><span class="pre">LocalSearchPopulation</span></code> will do local research in each iteration that is calling the <code class="docutils literal notranslate"><span class="pre">ezolve</span></code> method of <code class="docutils literal notranslate"><span class="pre">MyIndividual</span></code>.</p>
+<p>(<code class="docutils literal notranslate"><span class="pre">ezolve</span></code> method is an easy version of <code class="docutils literal notranslate"><span class="pre">evolve</span></code> method)</p>
+</section>
 </section>
 <section id="hacking">
 <h2>Hacking<a class="headerlink" href="#hacking" title="Link to this heading">¶</a></h2>
+<p>Will be filled in future.</p>
 </section>
 </section>
 
@@ -316,6 +322,7 @@
 <li><a class="reference internal" href="#local-search">Local Search</a><ul>
 <li><a class="reference internal" href="#id1">Simulated Annealing Algorithm</a></li>
 <li><a class="reference internal" href="#tabu-searching">Tabu Searching</a></li>
+<li><a class="reference internal" href="#ga-with-local-search">GA with local search</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#hacking">Hacking</a></li>

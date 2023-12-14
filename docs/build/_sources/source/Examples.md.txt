@@ -49,7 +49,7 @@ pop = MyPopulation.random()
 # Define statistics of population
 stat = {
     'Mean Fitness': 'fitness',
-    'Best Fitness': 'best_fitness',
+    'Best Fitness': 'max_fitness',
     'Standard Deviation of Fitnesses': 'std_fitness',
     'number': lambda pop: len(pop.individuals)  # or `'n_individuals'`
     }
@@ -125,8 +125,11 @@ MyPopulation = StandardPopulation[MyIndividual]
 
 if __name__ == '__main__':
     pop = MyPopulation.random(n_individuals=20, size=20)
-    stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-    data = pop.evolve(stat=stat, n_iter=100, history=True)
+    """stat={'Mean Fitness':'mean_fitness',
+    'Best Fitness':'max_fitness'} by default;
+    need not set `stat` explicitly.
+    """
+    data = pop.evolve(n_iter=100, history=True)
 
     import matplotlib.pyplot as plt
     fig = plt.figure()
@@ -157,6 +160,8 @@ iteration & solution & Mean Fitness & Best Fitness & Standard Deviation of Fitne
 
 In the following example, the binary chromosomes should be decoded to floats. We recommend `digit_converter` to handle with it, created by the author for such purpose.
 
+We will use `MixedIndividual` to encode the `threshold` for a novel algorithm.
+
 ```python
 #!/usr/bin/env python3
 
@@ -184,7 +189,7 @@ class uChromosome(BinaryChromosome):
 def _fitness(i):
     return evaluate(i.decode())
 
-ExampleIndividual = MultiIndividual[_Chromosome].set_fitness(_fitness) // ndim
+_Individual = MultiIndividual[_Chromosome].set_fitness(_fitness) // ndim
 
 class MyIndividual(MixedIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fitness(_fitness)):
     """My own individual class
@@ -224,13 +229,13 @@ MyPopulation = StandardPopulation[MyIndividual]
 ### Comparison of Algorithms
 
 ```python
-stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
+stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'max_fitness'}
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
-_Population = StandardPopulation[ExampleIndividual]
+_Population = StandardPopulation[_Individual]
 pop = MyPopulation.random(n_individuals=20, sizes=[8]*ndim+[8])
 cpy = pop.copy(type_=_Population)
 d = cpy.evolve(stat=stat, n_iter=100, history=True)
@@ -244,12 +249,79 @@ plt.show()
 
 ![](comparison.png)
 
+## Example 3 --- Evolution Strategy
 
-## Example 3
+```python
+#!/usr/bin/env python
 
-### Quantum GA
+from .base import BasePopulation
+from .utils import randint2
 
-It is based on quantum chromosomes. Let use have a look at the source code.
+
+class EvolutionStrategy(BasePopulation):
+    # Evolution Strategy
+
+    params ={
+        "mu" : 10,
+        "lambda_": 20,
+    }
+
+    def init(self):
+        super().init()
+        if 'mu' not in self.params:
+            self.set_params(mu=self.default_size) 
+
+    def transition(self, *args, **kwargs):
+        offspring = self.mate()
+        self.extend(offspring)
+        self.mate()
+        self.select_best_individuals(self.mu)
+
+    def mate(self, lambda_=None):
+        lambda_ = lambda_ or self.lambda_
+        offspring = []
+        n = len(self)
+        for _ in range(lambda_):
+            i, j = randint2(0, n-1)
+            child = self[i].cross(self[j])
+            offspring.append(child)
+        return offspring
+
+    def select_best_individuals(self, mu=None):
+        mu = mu or self.mu
+        self.individuals = self.get_best_individuals(mu)
+```
+
+```python
+#!/usr/bin/env python3
+
+# import statements
+
+n = 15
+f = lambda x: -rosenbrock(x)
+
+MyPopulation = EvolutionStrategy[FloatChromosome // n].set_fitness(f)
+
+
+ind = MyPopulation.random()
+data = ind.evolve(n_iter=100, history=True)
+
+
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = fig.add_subplot(111)
+data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+ax.set_xlabel('Generations')
+ax.set_ylabel('Fitness')
+ax.set_title('Demo of Evolution Strategy')
+plt.show()
+```
+
+## Example 4 --- Quantum GA
+Here we create Quantum GA.
+
+### use `QuantumChromosome`
+Quantum GA is based on quantum chromosomes, `QuantumChromosome`. Let use have a look at the source code. It is recommended to use decorate `@basic_memory` to save the best measure result of a quantum chromosome.
 
 ```python
 class QuantumChromosome(CircleChromosome):
@@ -267,13 +339,14 @@ class QuantumChromosome(CircleChromosome):
         self.measure_result.astype(np.int_)
 ```
 
+### Create quantum GA
+
 ```python
 #!/usr/bin/env python3
 
-from pyrimidine import *
-from pyrimidine.benchmarks.optimization import *
+# import statements
 
-from pyrimidine.deco import add_memory, fitness_cache
+from pyrimidine.deco import basic_memory, fitness_cache
 
 # generate a knapsack problem randomly
 n_bags = 50
@@ -289,28 +362,17 @@ class YourIndividual(BinaryChromosome // n_bags):
 YourPopulation = HOFPopulation[YourIndividual] // 20
 
 @fitness_cache
-@add_memory({'measure_result': None, 'fitness': None})
+@basic_memory
 class MyIndividual(QuantumChromosome // n_bags):
 
     def _fitness(self):
         return evaluate(self.decode())
 
-    def backup(self, check=False):
-        f = self._fitness()
-        if not check or (self.memory['fitness'] is None or f > self.memory['fitness']):
-            self._memory = {
-            'measure_result': self.measure_result,
-            'fitness': f
-            }
 
 class MyPopulation(HOFPopulation):
 
     element_class = MyIndividual
     default_size = 20
-
-    def init(self):
-        self.backup()
-        super().init()
 
     def backup(self, check=True):
         for i in self:
@@ -322,12 +384,12 @@ class MyPopulation(HOFPopulation):
         """
         self.backup()
         super().update_hall_of_fame(*args, **kwargs)
-
 ```
 
 ### Visualization and comparison
+
 ```python
-stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'best_fitness'}
+stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
 mypop = MyPopulation.random()
 
 yourpop = YourPopulation([YourIndividual(i.decode()) for i in mypop])
@@ -344,30 +406,97 @@ ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 ax.set_title(f'Demo of (Quantum)GA: {n_bags}-Knapsack Problem')
 plt.show()
-
 ```
 
 ![](QGA.png)
 
-## Game
+## Example 5 --- MultiPopulation
+
+It is extremely natural to implement multi-population GA.
+
+```python
+#!/usr/bin/env python3
+
+# import statements
+
+# generate a knapsack problem randomly
+n_bags = 100
+_evaluate = Knapsack.random(n_bags)
+
+class _Individual(MonoIndividual[BinaryChromosome // n_bags]):
+
+    def decode(self):
+        return self[0]
+
+    def _fitness(self):
+        return _evaluate(self.decode())
+
+
+class _Population(HOFPopulation):
+    element_class = _Individual
+    default_size = 10
+
+class _MultiPopulation(MultiPopulation):
+    element_class = _Population
+    default_size = 2
+
+
+mp = _MultiPopulation.random()
+data = mp.evolve(n_iter=100, history=True)
+```
+
+Equivalently
+
+```python
+#!/usr/bin/env python3
+
+import numpy as np
+
+from pyrimidine import MultiPopulation, HOFPopulation, PolyIndividual, BinaryChromosome
+from pyrimidine.benchmarks.optimization import *
+
+
+# generate a knapsack problem randomly
+n_bags = 100
+_evaluate = Knapsack.random(n_bags)
+
+_Individual = (BinaryChromosome // n_bags).set_fitness(_evaluate)
+_Population = HOFPopulation[_Individual] // 10
+_MultiPopulation = MultiPopulation[_Population] // 2
+
+mp = _MultiPopulation.random()
+data = mp.evolve(n_iter=100, history=True)
+```
+
+Plot the fitness curves as usual.
+```python
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = fig.add_subplot(111)
+data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+ax.set_xlabel('Generations')
+ax.set_ylabel('Fitness')
+plt.show()
+```
+
+## Exmaple 6 --- Game
+
+Let's play the "scissors, paper, stone" game. We do not need fitness here, so just subclass `CollectiveMixin`, regarded as a Population without fitness.
 
 ```python
 #!/usr/bin/env python
 
-
-from random import random, randint
-
-import numpy as np
-
-from pyrimidine import BasePopulation
+# import statements
 
 
 class Player:
     """
-    'scissors', 'paper', 'stone' = 0, 1, 2
+    Play the "scissors, paper, stone" game
+
+    `scissors`, `paper`, `stone` = 0, 1, 2
     """
 
-    params = {'mutate_prob': 0.02}
+    params = {'mutate_prob': 0.1}
 
     def __init__(self, strategy=0, score=0):
         self.strategy = strategy # 1,2
@@ -391,8 +520,13 @@ class Player:
             or (self.strategy, other.strategy) == (1, 2)
             or (self.strategy, other.strategy) == (2, 0))
 
+    def __str__(self):
+        return f'{self.strategy}: {self.score}'
 
-class Game(BasePopulation):
+
+class Game(CollectiveMixin, metaclass=MetaContainer):
+
+    params = {'compete_prob': 0.5, 'mutate_prob': 0.2}
 
     element_class = Player
     default_size = 100
@@ -402,12 +536,17 @@ class Game(BasePopulation):
         self.duplicate()
         self.mutate()
 
+    def mutate(self, mutate_prob=None):
+        for player in self:
+            if random() < (mutate_prob or self.mutate_prob):
+                player.mutate()
+
     def compete(self):
         k = int(0.5 * self.default_size)
         winner = []
         for i, p in enumerate(self[:-1]):
             for j, q in enumerate(self[:i]):
-                if random() < 0.5:
+                if random() < self.compete_prob:
                     if p < q:
                         p.score += 1
                         q.score -= 1      

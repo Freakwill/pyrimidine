@@ -8,9 +8,15 @@ class TestDeco:
 
     def test_cache(self):
 
+        class D:
+            @property
+            def f(self):
+                return self._f()
+
         @add_cache(attrs=('f',), methods=('bar',))
-        class C:
+        class C(D):
             v = 1
+
             def _f(self):
                 return self.v
 
@@ -50,3 +56,22 @@ class TestDeco:
         c = C()
 
         assert list(c.upper()) == ['A', 'B']
+
+
+    def test_memory(self):
+        from pyrimidine.chromosome import BinaryChromosome
+
+        @basic_memory
+        class Individual(BinaryChromosome):
+            def _fitness(self):
+                return sum(self)
+
+        i = Individual.random()
+        i[0] = 1
+        i.backup()
+        assert i._fitness() == i.fitness
+
+        i[0] = 0
+        i.backup()
+        assert i._fitness() < i.fitness
+

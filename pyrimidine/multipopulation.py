@@ -9,11 +9,25 @@ from .utils import *
 
 
 class MultiPopulation(BaseMultiPopulation):
-    pass
+
+    def select(self):
+        for p in self:
+            p.select()
+
+    def mutate(self):
+        for p in self:
+            p.mutate()
+
+    def mate(self):
+        for p in self:
+            p.mate()
 
 
 class DualPopulation(BaseMultiPopulation):
 
+    """Multi-population composed by male and female population
+    """
+    
     params = {'n_elders':0.5, 'mate_prob':0.75}
 
     default_size = 2
@@ -86,4 +100,23 @@ class DualPopulation(BaseMultiPopulation):
     def merge(self, other):
         self.populations[0].merge(other.populations[0])
         self.populations[1].merge(other.populations[1])
+
+
+class HybridPopulation(MultiPopulation):
+
+    def migrate(self, migrate_prob=None, copy=True):
+        migrate_prob = migrate_prob or self.migrate_prob
+        for this, other in zip(self[:-1], self[1:]):
+            if random() < migrate_prob:
+                if isinstance(this, _Population):
+                    this_best = this.get_best_individual(copy=copy)
+                    if isinstance(other, _Population):
+                        other.append(this.get_best_individual(copy=copy))
+                        this.append(other.get_best_individual(copy=copy))
+                    else:
+                        this.append(other.copy())
+                else:
+                    this_best = this.copy()
+                    if isinstance(other, _Population):
+                        other.append(this.get_best_individual(copy=copy))
 

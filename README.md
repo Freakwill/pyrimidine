@@ -6,11 +6,10 @@
 
 ## Why
 
-Why is the package named as “pyrimidine”? Because it begins with “py”.
-
-> — Are you kiding?
->
-> — No, I am serious.
+> -- Why is the package named as “pyrimidine”? 
+> -- Because it begins with “py”.
+> -- Are you kiding?
+> -- No, I am serious.
 
 ## Download
 

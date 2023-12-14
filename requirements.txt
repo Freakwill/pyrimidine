@@ -10,9 +10,11 @@ ezstat
 # Visualization
 matplotlib
 
+# Machine Learning
+scikit-learn
+
 # Examples
 digit_converter
-scikit-learn
 
 # Test
 pytest

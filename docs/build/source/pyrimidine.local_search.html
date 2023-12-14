@@ -137,6 +137,11 @@ phantom: phantom solution for exploration</p>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester">
+<span class="sig-name descname"><span class="pre">regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester_map">
 <span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester_map" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -150,11 +155,6 @@ based on certain rules, such as crossing and mutating for individuals in GA,
 or the moving method in Simulated Annealing.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.type_check">
-<span class="sig-name descname"><span class="pre">type_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.type_check" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 </section>
@@ -164,7 +164,7 @@ or the moving method in Simulated Annealing.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.local_search.tabu_search.</span></span><span class="sig-name descname"><span class="pre">BaseTabuSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="pyrimidine.html#pyrimidine.individual.MemoryIndividual" title="pyrimidine.individual.MemoryIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">MemoryIndividual</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseIndividual" title="pyrimidine.base.BaseIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseIndividual</span></code></a></p>
 <p>Tabu Search algorithm</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.alias">
@@ -176,9 +176,29 @@ or the moving method in Simulated Annealing.</p>
 <span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.apply" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.backup">
+<span class="sig-name descname"><span class="pre">backup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.backup" title="Link to this definition">¶</a></dt>
+<dd><p>Backup the fitness and other information</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>check (bool, optional): check whether the fitness increases.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.copy" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.elements">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.elements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.fitness">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fitness</span></span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.fitness" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -199,6 +219,11 @@ or the moving method in Simulated Annealing.</p>
 <dd></dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.memory">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">memory</span></span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.memory" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.n_elements">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.n_elements" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -209,9 +234,26 @@ or the moving method in Simulated Annealing.</p>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.regester">
+<span class="sig-name descname"><span class="pre">regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.regester" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.regester_map">
 <span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.regester_map" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.set_memory">
+<span class="sig-name descname"><span class="pre">set_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.set_memory" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.solution">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solution</span></span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.solution" title="Link to this definition">¶</a></dt>
+<dd><p>get the attribute from memory, 
+where the best solution is stored</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.transition">
@@ -221,11 +263,6 @@ or the moving method in Simulated Annealing.</p>
 based on certain rules, such as crossing and mutating for individuals in GA,
 or the moving method in Simulated Annealing.</p>
 </dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.type_check">
-<span class="sig-name descname"><span class="pre">type_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.type_check" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.update_tabu_list">
@@ -276,13 +313,13 @@ or the moving method in Simulated Annealing.</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester_map">
-<span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester_map" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester">
+<span class="sig-name descname"><span class="pre">regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.type_check">
-<span class="sig-name descname"><span class="pre">type_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.type_check" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester_map">
+<span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester_map" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -334,9 +371,9 @@ or the moving method in Simulated Annealing.</p>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.n_elements"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.n_elements</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.params</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.phantom</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.regester()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester_map"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.regester_map()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.transition"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.transition()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.type_check"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.type_check()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -345,15 +382,21 @@ or the moving method in Simulated Annealing.</p>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch</span></code></a><ul>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.alias"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.alias</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.apply"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.apply()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.backup"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.backup()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.copy"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.copy()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.elements"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.fitness"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.fitness</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.get_neighbour"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.get_neighbour()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.init"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.init()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.isa"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.isa()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.memory"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.memory</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.n_elements"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.n_elements</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.params"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.regester"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.regester()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.regester_map"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.regester_map()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.set_memory"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.set_memory()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.solution"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.solution</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.transition"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.transition()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.type_check"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.type_check()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.update_tabu_list"><code class="docutils literal notranslate"><span class="pre">BaseTabuSearch.update_tabu_list()</span></code></a></li>
 </ul>
 </li>
@@ -365,8 +408,8 @@ or the moving method in Simulated Annealing.</p>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.isa"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.isa()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.n_elements"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.n_elements</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.params"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.regester()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.regester_map"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.regester_map()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.SimpleTabuSearch.type_check"><code class="docutils literal notranslate"><span class="pre">SimpleTabuSearch.type_check()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#pyrimidine.local_search.tabu_search.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>

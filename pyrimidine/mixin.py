@@ -168,6 +168,11 @@ class IterativeMixin:
     def decode(self):
         return self
 
+    @classmethod
+    def encode(cls, x):
+        # encode x to a chromosome
+        raise NotImplementedError
+
     @property
     def solution(self):
         return self.decode()

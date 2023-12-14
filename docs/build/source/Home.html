@@ -62,22 +62,24 @@
 <h2>Download<a class="headerlink" href="#download" title="Link to this heading">¶</a></h2>
 <p>It has been uploaded to pypi, so download it with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyrimidine</span></code>, and also could download it from github.</p>
 </section>
-<section id="idea">
-<h2>Idea<a class="headerlink" href="#idea" title="Link to this heading">¶</a></h2>
-<p>We regard the population as a container of individuals, an individual as a container of chromosomes
-and a chromosome as a container(array) of genes.</p>
-<p>The container could be a list or an array. Container class has an attribute <code class="docutils literal notranslate"><span class="pre">element_class</span></code>, telling itself the class of the elements in it.</p>
-<p>Following is the part of the source code of <code class="docutils literal notranslate"><span class="pre">BaseIndividual</span></code> and <code class="docutils literal notranslate"><span class="pre">BasePopulation</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaseIndividual</span><span class="p">(</span><span class="n">FitnessModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaContainer</span><span class="p">):</span>
+<section id="idea-of-algebra-inspired">
+<h2>Idea of algebra-inspired<a class="headerlink" href="#idea-of-algebra-inspired" title="Link to this heading">¶</a></h2>
+<p>We view the population as a container of individuals, each individual as a container of chromosomes, and a chromosome as a container (array) of genes. This container could be represented as a list or an array. The Container class has an attribute <code class="docutils literal notranslate"><span class="pre">element_class</span></code>, which specifies the class of the elements within it.</p>
+<p>Mathematically, we denote a container of elements of type <code class="docutils literal notranslate"><span class="pre">A</span></code> as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span><span class="n">A</span><span class="p">}:</span><span class="n">S</span>
+</pre></div>
+</div>
+<p>A population is a container of individuals; an individual is a container of chromosomes. Below is the partial source code for <code class="docutils literal notranslate"><span class="pre">BaseIndividual</span></code> and <code class="docutils literal notranslate"><span class="pre">BasePopulation</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaseIndividual</span><span class="p">(</span><span class="n">FitnessMixin</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaContainer</span><span class="p">):</span>
     <span class="n">element_class</span> <span class="o">=</span> <span class="n">BaseChromosome</span>
     <span class="n">default_size</span> <span class="o">=</span> <span class="mi">1</span>
     
-<span class="k">class</span> <span class="nc">BasePopulation</span><span class="p">(</span><span class="n">FitnessModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaHighContainer</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">BasePopulation</span><span class="p">(</span><span class="n">FitnessMixin</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaHighContainer</span><span class="p">):</span>
     <span class="n">element_class</span> <span class="o">=</span> <span class="n">BaseIndividual</span>
     <span class="n">default_size</span> <span class="o">=</span> <span class="mi">20</span>
 </pre></div>
 </div>
-<p>where <code class="docutils literal notranslate"><span class="pre">FitnessModel</span></code> is a mixin, as a iteravtive model with fitness.</p>
+<p>where <code class="docutils literal notranslate"><span class="pre">FitnessMixin</span></code> is a mixin, representing a <a class="reference external" href="https://pyrimidine.readthedocs.io/en/latest/source/API%20Design.html#iterative-models">iterative algorithm</a> with fitness.</p>
 <p>There are mainly two kinds of containers: list and tuple as in programming language <code class="docutils literal notranslate"><span class="pre">Haskell</span></code>. See following examples.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># individual with chromosomes of type _Chromosome</span>
 <span class="n">_Individual1</span> <span class="o">=</span> <span class="n">BaseIndividual</span><span class="p">[</span><span class="n">_Choromosome</span><span class="p">]</span>
@@ -87,7 +89,14 @@ and a chromosome as a container(array) of genes.</p>
 <span class="n">_Individual2</span> <span class="o">=</span> <span class="n">MixedIndividual</span><span class="p">[</span><span class="n">_Chromosome1</span><span class="p">,</span> <span class="n">_Chromosome2</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>In fact, a container (so a population in GA) is treated as a special algebraic system. For this reason, we call it algebra-oriental design.</p>
+<p>A population can also serve as a container of chromosomes, particularly in scenarios where an individual possesses only a single chromosome.</p>
+<p>In essence, a container - and by extension, a population in genetic algorithms - is regarded as a distinctive algebraic system. This perspective leads us to refer to it as an “algebra-inspired” design.</p>
+</section>
+<section id="fitness">
+<h2>Fitness<a class="headerlink" href="#fitness" title="Link to this heading">¶</a></h2>
+<p>This is how we compute <code class="docutils literal notranslate"><span class="pre">fitness</span></code>. The method <code class="docutils literal notranslate"><span class="pre">_fitness</span></code> is responsible for the underlying computation. The attribute <code class="docutils literal notranslate"><span class="pre">fitness</span></code> further encapsulates <code class="docutils literal notranslate"><span class="pre">_fitness</span></code>. If caching is enabled, it will first read from the cache; if not, it will call <code class="docutils literal notranslate"><span class="pre">_fitness</span></code>.</p>
+<p>It is recommended to add the <code class="docutils literal notranslate"><span class="pre">&#64;fitness_cache</span></code> decorator to individuals. If the individual has not changed, it can reduce computation and improve algorithm efficiency, otherwise it should re-compute fitness.</p>
+<p>Unlike the cache class decorator, the <code class="docutils literal notranslate"><span class="pre">memory</span></code> decorator (e.g., <code class="docutils literal notranslate"><span class="pre">&#64;basic_memory</span></code>) will change the algorithm’s behavior. It stores the best results during the individual’s changes. <code class="docutils literal notranslate"><span class="pre">fitness</span></code> will first read from memory. Memory itself also has a caching effect, so if you add the memory decorator, there is no need to add the cache decorator.</p>
 </section>
 </section>
 
@@ -104,7 +113,8 @@ and a chromosome as a container(array) of genes.</p>
 <li><a class="reference internal" href="#">pyrimidine: a universal framework for genetic algorithm</a><ul>
 <li><a class="reference internal" href="#why">Why</a></li>
 <li><a class="reference internal" href="#download">Download</a></li>
-<li><a class="reference internal" href="#idea">Idea</a></li>
+<li><a class="reference internal" href="#idea-of-algebra-inspired">Idea of algebra-inspired</a></li>
+<li><a class="reference internal" href="#fitness">Fitness</a></li>
 </ul>
 </li>
 </ul>

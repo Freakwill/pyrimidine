@@ -4,9 +4,9 @@ In this section, we present more complicated examples.
 
 ## Customization Tricks
 
-Take Partical Swarm Optimization(PSO) as an example for a quick look at the tricks of customization. First of all, define `class ParticleSwarm(PopulationModel):...`, as subclass of `PopulationModel`. `PopulationModel` is a mixin class where you have to define method `transit` to implement the PSO algorithm. Then assign `element_class` to be the type of particles, and set `default_size` as the number of the particles.
+Take Partical Swarm Optimization(PSO) as an example for a quick look at the tricks of customization. First of all, define `class ParticleSwarm(PopulationMixin):...`, as subclass of `PopulationMixin`. `PopulationMixin` is a mixin class where you have to define method `transit` to implement the PSO algorithm. Then assign `element_class` to be the type of particles, and set `default_size` as the number of the particles.
 
-Since the package has provide a practical class for PSO, you only need set the attribute `element_class` to be your own particle class in most case. See `example-pso.py` in `examples`.
+Since the package has provide a practical class for PSO, you only need set the attribute `element_class` to be your own particle class in most cases. See `example-pso.py` in `examples`.
 
 ```python
 class _Particle(BaseParticle):
@@ -23,12 +23,12 @@ In the standard definition, as an individual, a particle has two "chromosomes", 
 
 
 ## Simulated Annealing Algorithm
-See the following code for SA Algorithm. The standard SA is an iteration of one solution. Hence we inherit it from `FitnessModel` instead of `PopulationModel`
+See the following code for SA Algorithm. The standard SA is an iteration of one solution. Hence we inherit it from `FitnessMixin` instead of `PopulationMixin`
 
 ```python
 #!/usr/bin/env python3
 
-class SimulatedAnnealing(FitnessModel):
+class SimulatedAnnealing(FitnessMixin):
     """Class for Simulated Annealing
     
     Attributes:
@@ -81,10 +81,10 @@ class SimulatedAnnealing(FitnessModel):
 
 ## Differential Evolution
 
-The standard DE is a global searching algorithm. The class `DifferentialEvolution` for DE is inherited from `PopulationModel`.
+The standard DE is a global searching algorithm. The class `DifferentialEvolution` for DE is inherited from `PopulationMixin`.
 
 ```python
-class DifferentialEvolution(PopulationModel):
+class DifferentialEvolution(PopulationMixin):
 
     params ={
     "factor" : 0.25,
@@ -125,7 +125,6 @@ After running `comparison-de.py`, we get the following fitness curves.
 Different from GA, DE or other algorithms based on the population, simulated annealing is based on single individual. It is a sort of local search. Following is the skelton of SA.
 
 ```python
-# import statsments
 
 class SimulatedAnnealing(PhantomIndividual):
     """Class for Simulated Annealing
@@ -148,7 +147,6 @@ class SimulatedAnnealing(PhantomIndividual):
         # initialize phantom solution
         self.phantom = self.copy(fitness=None)
 
-
     def transit(self, *args, **kwargs):
         T = self.initT
         for epoch in range(self.n_epochs):
@@ -159,7 +157,6 @@ class SimulatedAnnealing(PhantomIndividual):
         # set the phantom to be the true solution (if it is better then the previous record)
         self.backup()
         self.initT = T * self.ext_c
-
 
     def move(self, T):
         """Move phantom
@@ -175,7 +172,7 @@ class SimulatedAnnealing(PhantomIndividual):
         if flag:
             self.phantom.chromosomes = cpy.chromosomes
             self.phantom.fitness = cpy.fitness
-    ```
+```
 
 
 ```python
@@ -253,4 +250,18 @@ class BaseTabuSearch(BaseIndividual):
         raise NotImplementedError
 ```
 
+### GA with local search
+Now we incorporate the local search algorithm into GA. Suppose that `MyIndividual` is a subclass of `SimulatedAnnealing`.
+
+```python
+SAPopulation = LocalSearchPopulation[MyIndividual] // 10
+pop = SAPopulation.random()
+```
+
+The class `LocalSearchPopulation` will do local research in each iteration that is calling the `ezolve` method of `MyIndividual`.
+
+(`ezolve` method is an easy version of `evolve` method)
+
 ## Hacking
+
+Will be filled in future.
