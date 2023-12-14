@@ -387,6 +387,7 @@ class MyPopulation(HOFPopulation):
 ```
 
 ### Visualization and comparison
+
 ```python
 stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
 mypop = MyPopulation.random()
@@ -405,7 +406,6 @@ ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 ax.set_title(f'Demo of (Quantum)GA: {n_bags}-Knapsack Problem')
 plt.show()
-
 ```
 
 ![](QGA.png)

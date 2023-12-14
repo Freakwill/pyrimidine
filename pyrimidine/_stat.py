@@ -49,7 +49,7 @@ class Statistics(dict):
 
     def __new__(cls, *args, **kwargs):
         obj = super().__new__(cls, *args, **kwargs)
-        for k, _ in d.items():
+        for k, _ in obj.items():
             if not isinstance(k, str):
                 raise TypeError(f'The keys must be strings, but `{k}` is not a string.')
         return obj

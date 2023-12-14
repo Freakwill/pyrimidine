@@ -129,17 +129,14 @@ class add_cache:
             cls.copy = _copy
 
         for a in self.attrs:
-            if not hasattr(cls, a) and not hasattr(cls, '_'+a):
+            if not hasattr(cls, a):
                 raise AttributeError(f'"{a}" should be used in the algorithm!')
             def f(obj):
                 """get the attribute from cache, 
                 otherwise compute it again by the default method
                 """
                 if obj._cache[a] is None:      
-                    if hasattr(cls, '_'+a):
-                        v = getattr(obj, '_'+a)()
-                    else:
-                        v = getattr(super(cls, obj), a)
+                    v = getattr(super(cls, obj), a)
                     obj._cache[a] = v
                     return v
                 else:

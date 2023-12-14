@@ -23,7 +23,11 @@ from operator import methodcaller, attrgetter
 import numpy as np
 import pandas as pd
 
-from ezstat import Statistics
+try:
+    from ezstat import Statistics
+except:
+    from ._stat import Statistics
+
 from .errors import *
 
 from .deco import side_effect

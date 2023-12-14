@@ -18,11 +18,7 @@ It has been uploaded to [pypi](https://pypi.org/project/pyrimidine/), so downloa
 
 ## Idea
 
-We regard the population as a container of individuals, an individual as a container of chromosomes
-and a chromosome as a container(array) of genes.
-
-The container could be a list or an array.
-The container class has an attribute `element_class`, telling itself the type of the elements in it.
+We view the population as a container of individuals, each individual as a container of chromosomes, and a chromosome as a container (array) of genes. This container could be represented as a list or an array. The Container class has an attribute `element_class`, which specifies the class of the elements within it.
 
 Following is the part of the source code of `BaseIndividual` and `BasePopulation`.
 
@@ -36,7 +32,7 @@ class BasePopulation(PopulationModel, metaclass=MetaContainer):
     default_size = 20
 ```
 
-There is mainly tow kinds of containers: list and tuple as in programming language `Haskell`. See following examples.
+There is two main kinds of containers: list-like and tuple-like, as in programming language `Haskell`. See following examples.
 
 ```python
 # individual with chromosomes of type _Chromosome
@@ -46,13 +42,14 @@ _Individual2 = MixedIndividual[_Chromosome1, _Chromosome2]
 ```
 
 ### Math expression
+
 $s$ of type $S$ is a container of $a:A$, represented as follows:
 
 ```
 s={a:A}:S
 ```
 
-We define a population as a container of individuals or chromosomes, and an individual is a container of chromosomes.
+We could define a population as a container of individuals or chromosomes, and an individual is a container of chromosomes.
 
 Algebraically, an indivdiual has only one chromosome is equivalent to a chromosome mathematically. A population could also be a container of chromosomes. If the individual has only one chromosome, then just build the population based on chromosomes directly.
 
@@ -127,7 +124,6 @@ class ExampleIndividual(BaseIndividual):
         x = self.decode()  # will call decode method of _Chromosome
         return evaluate(x)
 ```
-
 
 If the chromosomes in an individual are different with each other, then subclass `MixedIndividual`, meanwhile, the property `element_class` should be assigned with a tuple of classes for each chromosome.
 
@@ -206,7 +202,7 @@ data = pop.history(stat=stat)  # use history instead of evolve
 ```
 `stat` is a dict mapping keys to function, where string 'mean_fitness' means function `lambda pop:pop.mean_fitness` which gets the mean fitness of the individuals in `pop`. Since we have defined pop.best_individual.fitness as a property, `stat` could be redefined as `{'Fitness': 'fitness', 'Best Fitness': 'max_fitness'}`.
 
-It requires `ezstat`, a easy statistical tool devoloped by the author.
+It requires `ezstat` (optional but recommended), a easy statistical tool devoloped by the author.
 
 #### performance
 

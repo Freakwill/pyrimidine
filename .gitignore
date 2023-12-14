@@ -4,3 +4,4 @@ examples/*.csv
 examples/*.mp4
 */__pycache__/
 -*.py
+*.pdf

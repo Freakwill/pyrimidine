@@ -7,10 +7,13 @@ An ordinary example of the usage of `pyrimidine`
 from pyrimidine import MonoIndividual, BinaryChromosome, StandardPopulation
 from pyrimidine.benchmarks.optimization import *
 
+from pyrimidine.deco import fitness_cache
+
 n_bags = 50
 _evaluate = Knapsack.random(n_bags)  # : 0-1 array -> float
 
 # Define the individual class
+@fitness_cache
 class MyIndividual(MonoIndividual):
 
     element_class = BinaryChromosome.set(default_size=n_bags)

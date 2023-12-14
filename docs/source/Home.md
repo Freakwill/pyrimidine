@@ -17,19 +17,15 @@ Why is the package named as "pyrimidine"? Because it begins with "py".
 
 It has been uploaded to pypi, so download it with `pip install pyrimidine`, and also could download it from github.
 
-## Idea
+## Idea of algebra-inspired
+We view the population as a container of individuals, each individual as a container of chromosomes, and a chromosome as a container (array) of genes. This container could be represented as a list or an array. The Container class has an attribute `element_class`, which specifies the class of the elements within it.
 
-We regard the population as a container of individuals, an individual as a container of chromosomes
-and a chromosome as a container(array) of genes.
+Mathematically, we denote a container of elements of type `A` as follows:
 
-The container could be a list or an array. Container class has an attribute `element_class`, telling itself the class of the elements in it.
-
-Mathematically, we denote a container of elements in type `A` as following
 ```
 s = {a:A}:S
 ```
-
-A population is a container of individuals; An indiviudal is a container of chromosomes. Following is the part of the source code of `BaseIndividual` and `BasePopulation`.
+A population is a container of individuals; an individual is a container of chromosomes. Below is the partial source code for `BaseIndividual` and `BasePopulation`.
 
 ```python
 class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
@@ -54,6 +50,14 @@ _Individual1 = BaseIndividual[_Choromosome] // 20
 _Individual2 = MixedIndividual[_Chromosome1, _Chromosome2]
 ```
 
-An population also could be the container of chromosomes. It will be considered in the case when the indiviudal has only one chromosome.
+A population can also serve as a container of chromosomes, particularly in scenarios where an individual possesses only a single chromosome.
 
-In fact, a container (so a population in GA) is treated as a special algebraic system. For this reason, we call it "algebra-oriental" design.
+In essence, a container - and by extension, a population in genetic algorithms - is regarded as a distinctive algebraic system. This perspective leads us to refer to it as an "algebra-inspired" design.
+
+## Fitness
+
+This is how we compute `fitness`. The method `_fitness` is responsible for the underlying computation. The attribute `fitness` further encapsulates `_fitness`. If caching is enabled, it will first read from the cache; if not, it will call `_fitness`.
+
+It is recommended to add the `@fitness_cache` decorator to individuals. If the individual has not changed, it can reduce computation and improve algorithm efficiency, otherwise it should re-compute fitness. 
+
+Unlike the cache class decorator, the `memory` decorator (e.g., `@basic_memory`) will change the algorithm's behavior. It stores the best results during the individual's changes. `fitness` will first read from memory. Memory itself also has a caching effect, so if you add the memory decorator, there is no need to add the cache decorator.
