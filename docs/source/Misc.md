@@ -20,3 +20,5 @@ src="https://youtu.be/KwpNPCNutcI" controls=""
 height=350 
 width=600> 
 </video>
+
+If it fails to play, then access the url https://youtu.be/KwpNPCNutcI

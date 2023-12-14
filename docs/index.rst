@@ -18,6 +18,7 @@ Welcome to pyrimidine's world of genetic algorithm
 
    Home <../source/Home.md>
    Install <../source/Install.md>
+   Release History <../source/Release History.md>
    API Design <../source/API Design.md>
    Examples <../source/Examples.md>
    Customization <../source/Customization.md>
