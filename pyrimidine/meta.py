@@ -12,38 +12,40 @@ from operator import attrgetter, methodcaller
 
 
 def inherit(attrs, attr, bases):
-    """inherit attribute `attr` from `bases`
+    """Inherit attribute `attr` from `bases`
     
     Args:
-        attrs (dict): THe dictionary of attributions 
-        attr (string): An attribution
+        attrs (dict): The attribution dictionary of an object 
+        attr (string): An attribution whose value is a dict
         bases (tuple): The base classes
     
     Returns:
         dict: The updated dictionary of attributions
     """
+
     v = {}
-    for b in bases:
-        if hasattr(b, attr) and hasattr(b, attr):
+    for b in bases[::-1]:
+        if hasattr(b, attr):
             v.update(getattr(b, attr))
 
     v.update(attrs.get(attr,  {}))
+    # attributes in `v` should not cover the attributes of the object
     v = {k:vk for k, vk in v.items() if k not in attrs}
     attrs[attr] = v
     return attrs
 
 
 class ParamType(type):
-    """just a wrapper of `type`
+    """Just a wrapper of `type`
 
-    then key-value pairs in `params` could be inherited from super classes, like attributes.
+    The key-value pairs in `params` could be inherited from super classes, like attributes.
     It make users set and manage parameters of classes or instances more conveniently.
     """
 
     def __new__(cls, name, bases=(), attrs={}):
 
         # inherit alias instead of overwriting it, when setting `alias` for a subclass
-        # alias is not recommended to use!
+        # `alias` is not recommended to use.
         attrs = inherit(attrs, 'alias', bases)
 
         # inherit params instead of overwriting it, when setting `params` for a subclass
