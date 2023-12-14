@@ -8,7 +8,7 @@
 
 **Documentation as PDF**: download latest
 
-`pyrimidine` is a framework for genetic algorithm.
+`pyrimidine` stands as a versatile framework designed for GAs, offering exceptional extensibility for a wide array of evolutionary algorithms, including particle swarm optimization and difference evolution.
 
 ## Install pyrimidine
 

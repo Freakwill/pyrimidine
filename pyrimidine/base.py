@@ -115,18 +115,30 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
     def random(cls, size=None):
         raise NotImplementedError
 
+    def copy(self, *args, **kwargs):
+        raise NotImplementedError
+
+    def transition(self, *args, **kwargs):
+        self.mutate()
+
     def x(self, other):
         # alias for cross
         return self.cross(other)
 
     def cross(self, other):
+        # crossover operation
         raise NotImplementedError
 
-    def merge(self, *other):
-        raise NotImplementedError
-
+    @side_effect
     def mutate(self):
+        # mutation operation
         raise NotImplementedError
+
+    def replicate(self):
+        # Replication operation of a chromosome
+        ind = self.copy()
+        ind.mutate()
+        return ind
 
     def decode(self):
         """Decoding of the chromesome
@@ -141,15 +153,6 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
 
     def equal(self, other):
         return np.array_equal(self, other)
-
-    def copy(self, *args, **kwargs):
-        raise NotImplementedError
-
-    def replicate(self):
-        # Replication operation of a chromosome
-        ind = self.copy()
-        ind.mutate()
-        return ind
 
 
 class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
@@ -202,6 +205,9 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
             return type_([c.copy(type_=t) for c, t in zip(self, type_.element_class)])
         else:
             return type_([c.copy(type_=type_.element_class) for c in self])
+
+    def transition(self, *args, **kwargs):
+        self.mutate()
 
     def cross(self, other):
         # Cross operation of two individual
@@ -258,6 +264,7 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         return self.__class__([this - that for this, that in zip(self.chromosomes, other.chromosomes)])
 
     def __rmul__(self, other):
+        # assert isinstance(other, np.number)
         return self.__class__([other * this for this in self.chromosomes])
 
 
@@ -479,19 +486,22 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
     'best_population': 'best_element',
     'worst_population': 'worst_element',
     "get_best_population": "get_best_element",
-    "get_best_populations": "get_best_elements"}
+    "get_best_populations": "get_best_elements"
+    }
 
     def __str__(self):
         return '\n\n'.join(map(str, self))
 
-    def migrate(self, migrate_prob=None):
+    def migrate(self, migrate_prob=None, copy=True):
+        migrate_prob = migrate_prob or self.migrate_prob
         for population, other in zip(self[:-1], self[1:]):
-            if random() < (migrate_prob or self.migrate_prob):
-                other.append(population.get_best_individual(copy=True))
-                population.append(other.get_best_individual(copy=True))
+            if random() < migrate_prob:
+                other.append(population.get_best_individual(copy=copy))
+                population.append(other.get_best_individual(copy=copy))
 
     def transition(self, *args, **kwargs):
-        super().transition(*args, **kwargs)
+        for p in self:
+            p.transition(*args, **kwargs)
         self.migrate()
 
     def max_fitness(self):

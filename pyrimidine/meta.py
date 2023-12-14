@@ -439,9 +439,9 @@ class MetaHighContainer(MetaContainer):
         if 'element_class' in attrs:
             element_class = attrs['element_class']
             if (not isinstance(element_class, MetaContainer)
-                and isinstance(element_class, tuple) and not isinstance(element_class[0], MetaContainer)
+                and isinstance(element_class, tuple) and not any(isinstance(ec, MetaContainer) for ec in element_class)
                 and not isinstance(element_class, ParamType)):
-                raise TypeError('`element_class` should be an instance of MetaContainer, or a list of such instances.')
+                raise TypeError('`element_class` should be an instance of `MetaContainer`, or a tuple where one element is an instance of `MetaContainer`.')
 
         def _flatten(self, type_):
             elms = []
