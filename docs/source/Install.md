@@ -8,13 +8,14 @@
 
 **Documentation as PDF**: download latest
 
-`pyrimidine` is a framework that makes building simple and scalable tests easy. Tests are expressive and readable—no boilerplate code required. Get started in minutes with a small unit test or complex functional test for your application or library.
+`pyrimidine` is a framework for genetic algorithm.
 
 ## Install pyrimidine
 
 Run the following command to install `pyrimidine`:
 
 `pip install [-U] pyrimidine`
+
 Check the version:
 
 `$ pyrimidine --version`
@@ -23,7 +24,7 @@ Check the version:
 
 `Pyrimidine` requires few packages. It only needs `numpy/scipy` for computing, and `pandas/matplotlib` for visualization. 
 
-The author also recommends `digit_converter` for chromosome encoding of solutions.
+It is recommended to use `digit_converter` for decoding chromosomes to the real solutions, which is developed by the author for GA. However, users can implement the deoding method in your own method.
 
 `ezstat` is also required for statistics which is also created by the author.
 
