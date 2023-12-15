@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 
+"""GA for linear regression
+"""
 
-from pyrimidine import StandardPopulation
+import numpy as np
+import numpy.linalg as LA
+from sklearn.linear_model import LinearRegression
+from ..learn import BaseEstimator
+
+from .population import StandardPopulation
 from digit_converter import IntervalConverter
 
 c = IntervalConverter(lb=-60, ub=60)
 class _BinaryChromosome(BinaryChromosome):
     def decode(self):
         return c(self)
-
-
-import numpy as np
-import numpy.linalg as LA
-from sklearn.linear_model import LinearRegression
-from ..learn import BaseEstimator
 
 
 class GALinearRegression(BaseEstimator, LinearRegression):

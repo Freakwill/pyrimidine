@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
+"""GA for optimization of neural networks
+"""
+
 import numpy as np
-import numpy.linalg as LA
-from scipy.special import softmax
-from scipy.stats import entropy
 
 from sklearn.neural_network import MLPRegressor
 
@@ -12,11 +12,9 @@ from ..population import StandardPopulation
 from ..learn import BaseEstimator
 
 
-class GAANN(BaseEstimator, MLPRegressor):
-    """GA for ANN
+class GAMLPRegression(BaseEstimator, MLPRegressor):
+    """GA for MLP Regression
     """
-
-    pop = None
 
     hidden_dim = 4
     max_iter = 100
@@ -33,7 +31,7 @@ class GAANN(BaseEstimator, MLPRegressor):
         return model
 
     def __init__(self, *args, **kwargs):
-        # create GAANN object
+        # create MLPRegressor
         super().__init__(hidden_layer_sizes=(self.hidden_dim,), max_iter=1, *args, **kwargs)
         self.out_activation_ = 'identity'
         self.n_layers_ = 3
