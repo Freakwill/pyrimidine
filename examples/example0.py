@@ -11,11 +11,10 @@ n_bags = 100
 _evaluate = Knapsack.random(n_bags)
 def _fitness(o):
     return _evaluate(o)
-_Individual = (BinaryChromosome // n_bags).set_fitness(_fitness)
-MyPopulation = StandardPopulation[_Individual] // 5
+
+MyPopulation = HOFPopulation[(BinaryChromosome // n_bags).set_fitness(_fitness)] // 5
 
 pop = MyPopulation.random()
-
 # import concurrent.futures
 # MyPopulation.map = concurrent.futures.ProcessPoolExecutor().map
 

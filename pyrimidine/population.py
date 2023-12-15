@@ -59,6 +59,7 @@ class HOFPopulation(BasePopulation):
     # hall_of_fame = []
 
     def init(self):
+        super().init()
         self.hall_of_fame = self.get_best_individuals(self.hof_size, copy=True)
 
     def transition(self, *args, **kwargs):
@@ -71,6 +72,11 @@ class HOFPopulation(BasePopulation):
         self.update_hall_of_fame()
 
     def update_hall_of_fame(self):
+        """Update the hall of fame
+
+        insert the best individuals of the population into the hall of fame;
+        meanwhile, remove the worst ones in the hall of fame
+        """
         for ind in self:
             for k in range(self.hof_size):
                 if self.hall_of_fame[-k-1].fitness < ind.fitness:
@@ -78,25 +84,12 @@ class HOFPopulation(BasePopulation):
                     self.hall_of_fame.pop(0)
                     break
 
-    # def update_hall_of_fame(self, n=2):
-    #     bs = self.get_best_individuals(n)
-    #     N = len(self.hall_of_fame)
-    #     k = N
-    #     for b in bs[::-1]:
-    #         while k > 0:
-    #             k -= 1
-    #             i = self.hall_of_fame[k]
-    #             if i.fitness < b.fitness:
-    #                 self.hall_of_fame.pop(k)
-    #                 self.hall_of_fame.insert(k, b.copy())
-    #                 break
-
     @property
-    def best_fitness(self):
+    def max_fitness(self):
         if self.hall_of_fame:
             return max(map(attrgetter('fitness'), self.hall_of_fame))
         else:
-            return super().best_fitness
+            return super().max_fitness
 
     @property
     def best_individual(self):
@@ -207,7 +200,7 @@ class ModifiedPopulation(StandardPopulation):
     params = {'mutate_prob_ub':0.5, 'mutate_prob_lb':0.1}
 
     def mutate(self):
-        fm = self.best_fitness
+        fm = self.max_fitness
         fa = self.mean_fitness
         for individual in self:
             f = individual.fitness

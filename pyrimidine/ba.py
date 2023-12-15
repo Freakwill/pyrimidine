@@ -15,17 +15,10 @@ from random import random
 import numpy as np
 
 from . import BaseIndividual, BasePopulation, FloatChromosome
-from .deco import basic_memory
+from .pso import BaseParticle
 
-@basic_memory
-class Bat(BaseIndividual):
 
-    element_class = FloatChromosome
-    default_size = 5
-
-    _memory = {'position': None,
-        'fitness': None
-        }
+class Bat(BaseParticle):
 
     params = {'frequency': 0.5,
         'pulse_rate': 0,

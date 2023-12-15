@@ -35,11 +35,6 @@ class BaseParticle(BaseIndividual):
     element_class = FloatChromosome
     default_size = 2
 
-    params = {'learning_factor': 2,
-            'acceleration_coefficient': 3,
-            'inertia': 0.5
-            }
-
     @property
     def position(self):
         raise NotImplementedError
@@ -66,8 +61,11 @@ class BaseParticle(BaseIndividual):
     def update_vilocity(self, fame=None, *args, **kwargs):
         raise NotImplementedError
 
-    def move(self):
-        self.position += self.velocity
+    def move(self, velocity=None):
+        if velocity is None:
+            self.position += self.velocity
+        else:
+            self.position += velocity
 
     def decode(self):
         return self.best_position
@@ -83,8 +81,10 @@ class Particle(BaseParticle):
     element_class = FloatChromosome
     default_size = 2
 
-    def init(self):
-        self.backup(check=False)
+    params = {'learning_factor': 2,
+        'acceleration_coefficient': 3,
+        'inertia': 0.5
+        }
 
     @property
     def position(self):
@@ -93,7 +93,7 @@ class Particle(BaseParticle):
     @position.setter
     def position(self, x):
         self.chromosomes[0] = x
-        self.__fitness = None
+        self.after_setter()
 
     @property
     def velocity(self):

@@ -165,11 +165,11 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
     def __repr__(self):
         # seperate the chromosomes with $ 
         sep = " $ "
-        return f'{self.__class__.__name__}:= {sep.join(map(repr, self.chromosomes))}'
+        return f'{self.__class__.__name__}:= {sep.join(map(repr, self))}'
 
     def __str__(self):
         sep = " $ "
-        return sep.join(map(str, self.chromosomes))
+        return sep.join(map(str, self))
 
     def __format__(self, spec=None):
         """ 
@@ -246,15 +246,15 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
             TYPE: BasePopulation
         """
         
-        assert isinstance(n, np.int_) and n>0, 'n must be a positive integer'
+        assert isinstance(n, np.int_) and n > 0, 'n must be a positive integer'
         C = StandardPopulation[self.__class__]
         return C([self.copy() for _ in range(n)])
 
     def __add__(self, other):
-        return self.__class__([this + that for this, that in zip(self.chromosomes, other.chromosomes)])
+        return self.__class__([this + that for this, that in zip(self, other)])
 
     def __sub__(self, other):
-        return self.__class__([this - that for this, that in zip(self.chromosomes, other.chromosomes)])
+        return self.__class__([this - that for this, that in zip(self, other)])
 
     def __rmul__(self, other):
         # assert isinstance(other, np.number)

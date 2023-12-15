@@ -336,7 +336,7 @@ class MetaContainer(ParamType):
         """
 
         for k, v in kwargs.items():
-            if self.alias[k] == 'n_elements':
+            if k in self.alias and self.alias[k] == 'n_elements':
                 n_elements = v
                 del kwargs[k]
                 break

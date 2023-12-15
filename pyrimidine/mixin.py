@@ -2,7 +2,8 @@
 
 
 """
-Mixin classes for iterative algorithms or models
+Mixin classes for iterative algorithms or models,
+where the basic operations are defined.
 
 IterativeMixin: base class for all iterative algorithms
 FitnessMixin: IterativeMixin with `fitness`
@@ -28,9 +29,9 @@ try:
 except:
     from ._stat import Statistics
 
-from .errors import *
-
 from .deco import side_effect
+
+from .errors import *
 
 
 class IterativeMixin:
@@ -113,14 +114,14 @@ class IterativeMixin:
 -------------------------------------------------------------
 {" & ".join(map(str, concat((("[0]",), (getattr(self, attr) for attr in attrs), map(str, res.values())))))}""")
 
-        for k in range(1, n_iter+1):
-            self.transition(k)
-            if history_flag and (period == 1 or k % period ==0):
+        for t in range(1, n_iter+1):
+            self.transition(t)
+            if history_flag and (period == 1 or t % period ==0):
                 res = stat(self) if stat else {}
                 history = pd.concat([history,
                     pd.Series(res.values(), index=res.keys()).to_frame().T],
                     ignore_index=True)
-            if verbose and (period == 1 or k % period ==0):
+            if verbose and (period == 1 or t % period ==0):
                 print(f'{" & ".join(map(str, concat((("[%d]"%k,), (getattr(self, attr) for attr in attrs), map(str, res.values())))))}')
             
             if control:
@@ -178,18 +179,38 @@ class IterativeMixin:
         return self.decode()
  
     def save(self, filename=None, check=False):
+        """Save the object to file using pickle
+        
+        Args:
+            filename (None, optional): the path of the pickle file
+            check (bool, optional): check whether the file has existed.
+        
+        Raises:
+            FileExistsError: Description
+        """
         import pickle, pathlib
         if filename is None:
             filename = f'{self.__class__.__name__}-{self.__name__}'
         if isinstance(filename, str):
             pklPath = pathlib.Path(filename).with_suffix('.pkl')
         if check and pklPath.exists():
-            raise FileExistsError(f'File {filename} has exist!')
+            raise FileExistsError(f'File {filename} has existed!')
         with open(pklPath, 'wb') as fo:
             pickle.dump(self, fo)
 
     @classmethod
-    def load(cls, filename):
+    def load(cls, filename=None):
+        """Load the object from the pickle file
+        
+        Args:
+            filename (None, optional): the path of the pickle file
+        
+        Returns:
+            TYPE: the object of `cls`
+
+        Raises:
+            FileNotFoundError: Do not find the file
+        """
         import pickle, pathlib
         if filename is None:
             filename = f'{cls.__name__}-{pop}'
@@ -197,7 +218,9 @@ class IterativeMixin:
             pklPath = pathlib.Path(filename).with_suffix('.pkl')
         if pklPath.exists():
             with open(pklPath, 'rb') as fo:
-                return pickle.load(fo)
+                obj = pickle.load(fo)
+                if not isinstance(obj, cls):
+                    raise TypeError('The object loaded is not an instance of "{cls}".')
         else:
             raise FileNotFoundError(f'Could not find the file {filename}!')
 
@@ -245,6 +268,7 @@ class FitnessMixin(IterativeMixin):
 
 
 class CollectiveMixin(IterativeMixin):
+    # mixin class for swarm intelligent algorithm
 
     map = map
 
@@ -305,15 +329,16 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
 
     @property
     def fitness(self):
+        # The fitness of the entire population is the maximum fitness of the individuals
         return self.max_fitness
 
-    def _fitness(self):
-        """Calculate the fitness of the whole population
+    # def _fitness(self):
+    #     """Calculate the fitness of the whole population
 
-        Fitness of a population is the best fitness by default.
-        (not recommended to be overridden)
-        """
-        return self.max_fitness
+    #     Fitness of a population is the best fitness by default.
+    #     (not recommended to be overridden)
+    #     """
+    #     return self.max_fitness
 
     def get_all_fitness(self):
         return list(self.map(attrgetter('fitness'), self))
