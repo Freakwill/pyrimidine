@@ -8,7 +8,7 @@ from scipy.stats import entropy
 from sklearn.neural_network import MLPRegressor
 
 from .. import MixedIndividual, FloatChromosome, FloatMatrixChromosome
-from ..population import HOFPopulation
+from ..population import StandardPopulation
 from ..learn import BaseEstimator
 
 
@@ -21,6 +21,8 @@ class GAANN(BaseEstimator, MLPRegressor):
     hidden_dim = 4
     max_iter = 100
     n_layers = 3
+
+    estimated_params = ('coefs_', 'intercepts_')
 
     @classmethod
     def create_model(cls, *args, **kwargs):
@@ -58,13 +60,7 @@ class GAANN(BaseEstimator, MLPRegressor):
                 model.n_layers_ = 3
                 return model
 
-        MyPopulation = HOFPopulation[MyIndividual]
+        MyPopulation = StandardPopulation[MyIndividual]
 
         return MyPopulation.random(n_individuals=n_individuals, size=((input_dim, cls.hidden_dim), cls.hidden_dim, (cls.hidden_dim, output_dim), output_dim))
-
-    def _fit(self, X, Y):
-        self.pop.ezolve(n_iter=self.max_iter)
-        model_ = self.pop.solution
-        self.coefs_ = model_.coefs_
-        self.intercepts_ = model_.intercepts_
 

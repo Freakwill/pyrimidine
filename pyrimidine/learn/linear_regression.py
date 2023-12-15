@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-from pyrimidine import *
+from pyrimidine import StandardPopulation
 from digit_converter import IntervalConverter
 
 c = IntervalConverter(lb=-60, ub=60)
@@ -20,24 +20,21 @@ class GALinearRegression(BaseEstimator, LinearRegression):
     '''Linear Regression by GA
     '''
 
+    estimated_params = ('coefs_', 'intercepts_')
+
     @classmethod
     def create_model(cls, *args, **kwargs):
         return LinearRegression(*args, **kwargs)
-
-    def _fit(self, X, Y):
-        self.pop.ezolve(n_iter=self.max_iter)
-        model_ = self.pop.solution
-        self.coef_ = model_.coef_
-        self.intercept_ = model_.intercept_
 
     @classmethod
     def config(cls, X, Y, n_individuals=10, *args, **kwargs):
 
         input_dim = X.shape[1]
+        assert np.ndim(Y) == 1, 'only support 1D array for `Y`'
         # output_dim = Y.shape[1]
 
         class MyIndividual(MixedIndividual):
-            params={'sigma':0.02}
+
             element_class = FloatChromosome, _BinaryChromosome
 
             def decode(self):
@@ -50,8 +47,7 @@ class GALinearRegression(BaseEstimator, LinearRegression):
                 model = self.decode()
                 return model.score(X, Y)
 
-        class MyPopulation(HOFPopulation):
-            element_class = MyIndividual
+        MyPopulation = StandardPopulation[MyIndividual]
 
         pop = MyPopulation.random(n_individuals=n_individuals, size=(input_dim, 8))
 
