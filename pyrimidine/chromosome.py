@@ -8,6 +8,7 @@ import scipy.stats
 from .base import BaseChromosome, BaseGene
 from .gene import *
 from .utils import *
+from .deco import side_effect
 
 
 def _asarray(out):
@@ -118,7 +119,7 @@ class NumpyArrayChromosome(BaseChromosome, np.ndarray):
 
         return self.__class__(np.copy(self))
 
-    @side_affect
+    @side_effect
     def mutate(self, indep_prob=0.1):
         # mutation
         for i in range(len(self)):
@@ -132,7 +133,7 @@ class VectorChromosome(NumpyArrayChromosome):
 
 class MatrixChromosome(NumpyArrayChromosome):
     
-    @side_affect
+    @side_effect
     def mutate(self, indep_prob=0.1):
         r, c = self.shape
         for i in range(r):
@@ -159,7 +160,7 @@ class NaturalChromosome(VectorChromosome):
 
     element_class = NaturalGene
 
-    @side_affect
+    @side_effect
     def mutate(self, indep_prob=0.1):
         for i in range(len(self)):
             if random()< indep_prob:
@@ -184,7 +185,7 @@ class BinaryChromosome(NaturalChromosome):
     def __str__(self):
         return "".join(map(str, self))
 
-    @side_affect
+    @side_effect
     def mutate(self, indep_prob=0.5):
         for i in range(len(self)):
             if random() < indep_prob:
@@ -212,7 +213,7 @@ class PermutationChromosome(NaturalChromosome):
         r = choice(rotations(self, other))
         rotate(self, r)
 
-    @side_affect
+    @side_effect
     def mutate(self):
         i, j = randint2(0, self.default_size-1)
         self[[i,j]] = self[[j,i]]
@@ -238,7 +239,7 @@ class FloatChromosome(NumpyArrayChromosome):
     def __str__(self):
         return "|".join(format(c, '.4') for c in self)
 
-    @side_affect
+    @side_effect
     def mutate(self, indep_prob=0.1, mu=0, sigma=None):
         sigma = sigma or self.sigma
         for i in range(len(self)):
@@ -424,7 +425,7 @@ class ArrayChromosome(BaseChromosome, array.array):
     def copy(self, type_=None):
         return copy.copy(self)
 
-    @side_affect
+    @side_effect
     def mutate(self, indep_prob=0.1):
         a = self.random()
         for k in range(len(self)):
