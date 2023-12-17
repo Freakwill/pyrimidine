@@ -446,10 +446,8 @@ class MetaHighContainer(MetaContainer):
                 raise TypeError('`element_class` should be an instance of `MetaContainer`, or a tuple where one element is an instance of `MetaContainer`.')
 
         def _flatten(self, type_):
-            elms = []
-            for elm in self.__elements:
-                elm.extend(elm.__elements)
-            return elms
+            from toolz import concat
+            return concat(elm.__elements for elm in self.__elements)
 
         attrs['flatten'] = _flatten
 

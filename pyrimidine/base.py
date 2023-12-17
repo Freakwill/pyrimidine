@@ -206,6 +206,9 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         # Cross operation of two individual
         return self.__class__([chromosome.cross(other_c) for chromosome, other_c in zip(self, other)])
 
+    def cross2(self, other):
+        return self.__class__(list(product(*(chromosome.cross2(other_c) for chromosome, other_c in zip(self, other)))))
+
     @side_effect
     def mutate(self):
         # Mutating operation of an individual
