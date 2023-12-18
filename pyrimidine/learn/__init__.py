@@ -2,8 +2,6 @@
 
 from sklearn.base import BaseEstimator as BE
 
-from ..chromosome import BinaryChromosome
-
 import warnings, os
 warnings.filterwarnings("ignore")
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'

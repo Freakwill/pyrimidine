@@ -12,7 +12,7 @@ from ..population import StandardPopulation
 from ..learn import BaseEstimator
 
 
-class GAMLPRegression(BaseEstimator, MLPRegressor):
+class GAMLPRegressor(BaseEstimator, MLPRegressor):
     """GA for MLP Regression
     """
 

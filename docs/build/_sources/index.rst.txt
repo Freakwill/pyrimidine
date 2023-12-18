@@ -26,9 +26,9 @@ Welcome to pyrimidine's world of genetic algorithm
    Misc <../source/Misc.md>
 
 
-   modules <../source/modules.md>
+   modules <../source/modules.rst>
 
-Indices and tables
+Indices
 ==================
 
 * :ref:`source/genindex`

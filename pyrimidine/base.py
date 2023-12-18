@@ -475,7 +475,7 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
     element_class = BasePopulation
     default_size = 2
 
-    params = {'migrate_prob': 0.2}
+    params = {'migrate_prob': 0.75}
 
     alias = {'positions': 'elements',
     'n_populations': 'n_elements',
@@ -496,12 +496,12 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
                 population.append(other.get_best_individual(copy=copy))
 
     def transition(self, *args, **kwargs):
+        self.migrate()
         for p in self:
             p.transition(*args, **kwargs)
-        self.migrate()
 
-    def max_fitness(self):
-        return max(map(attrgetter('max_fitness'), self))
+    # def max_fitness(self):
+    #     return max(map(attrgetter('max_fitness'), self))
 
     def get_best_individual(self, copy=True):
         bests = map(methodcaller('get_best_individual'), self)

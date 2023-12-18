@@ -4,7 +4,7 @@
 from itertools import product
 import threading
 
-from . import BaseMultiPopulation
+from .base import BasePopulation, BaseMultiPopulation
 from .utils import *
 
 
@@ -66,7 +66,8 @@ class DualPopulation(BaseMultiPopulation):
             else:
                 child = female.cross(male)
             children.append(child)
-        ps = [threading.Thread(target=_target, args=(male, female)) for male, female in product(self.males, self.females) if random() < self.mate_prob and self.match(male, female)]
+        ps = [threading.Thread(target=_target, args=(male, female)) for male, female in product(self.males, self.females)
+            if random() < self.mate_prob and self.match(male, female)]
 
         for p in ps:
             p.start()
@@ -108,15 +109,15 @@ class HybridPopulation(MultiPopulation):
         migrate_prob = migrate_prob or self.migrate_prob
         for this, other in zip(self[:-1], self[1:]):
             if random() < migrate_prob:
-                if isinstance(this, _Population):
+                if isinstance(this, BasePopulation):
                     this_best = this.get_best_individual(copy=copy)
-                    if isinstance(other, _Population):
+                    if isinstance(other, BasePopulation):
                         other.append(this.get_best_individual(copy=copy))
                         this.append(other.get_best_individual(copy=copy))
                     else:
                         this.append(other.copy())
                 else:
                     this_best = this.copy()
-                    if isinstance(other, _Population):
+                    if isinstance(other, BasePopulation):
                         other.append(this.get_best_individual(copy=copy))
 

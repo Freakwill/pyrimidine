@@ -1,6 +1,8 @@
 # Examples and Comparison of Algorithms
 [TOC]
 
+Let's see some examples for learning to use `pyrimidine`.
+
 ## Example 1
 
 ### A simple example --- Knapsack problem
@@ -476,6 +478,69 @@ ax = fig.add_subplot(111)
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
+plt.show()
+```
+
+### Source code
+
+Following is the core code to implement multi-population where we just introduce `migrate` method into `transition`.
+
+```python
+class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
+    
+    element_class = BasePopulation
+    default_size = 2
+
+    def migrate(self):
+        # exchange the best individules between any two populations
+
+    def transition(self, *args, **kwargs):
+        self.migrate()
+        for p in self:
+            p.transition(*args, **kwargs)
+```
+
+### Hybrid-population
+It is possible mix the individuals(or chromosomes as the individuals) and populations in the multipopulation (named hybrid-population)
+
+```python
+#!/usr/bin/env python3
+
+from random import random
+import numpy as np
+
+from pyrimidine import HybridPopulation, HOFPopulation, BinaryChromosome
+from pyrimidine.benchmarks.optimization import *
+
+
+# generate a knapsack problem randomly
+n_bags = 100
+_evaluate = Knapsack.random(n_bags)
+
+_Individual = (BinaryChromosome // n_bags).set_fitness(_evaluate)
+
+
+_Population = HOFPopulation[_Individual] // 5
+
+
+class _HybridPopulation(HybridPopulation[_Population, _Population, _Individual, _Individual]):
+
+    def max_fitness(self):
+        # compute maximum fitness for statistics
+        return max(self.get_all_fitness())
+
+
+sp = _HybridPopulation.random()
+data = sp.evolve(n_iter=100, history=True)
+
+
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = fig.add_subplot(111)
+data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+ax.set_xlabel('Generations')
+ax.set_ylabel('Fitness')
+ax.set_title('Demo of Hybrid Population (Mixed by individuals and populations)')
 plt.show()
 ```
 

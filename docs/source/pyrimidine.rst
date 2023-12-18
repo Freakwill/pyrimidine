@@ -14,6 +14,14 @@ Subpackages
 Submodules
 ----------
 
+pyrimidine.ba module
+----------------------
+
+.. automodule:: pyrimidine.ba
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pyrimidine.base module
 ----------------------
 
@@ -30,10 +38,26 @@ pyrimidine.chromosome module
    :undoc-members:
    :show-inheritance:
 
+pyrimidine.deco module
+--------------------
+
+.. automodule:: pyrimidine.deco
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pyrimidine.ep module
 --------------------
 
 .. automodule:: pyrimidine.ep
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyrimidine.es module
+--------------------
+
+.. automodule:: pyrimidine.es
    :members:
    :undoc-members:
    :show-inheritance:
@@ -74,6 +98,14 @@ pyrimidine.meta module
 ----------------------
 
 .. automodule:: pyrimidine.meta
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyrimidine.multipopulation module
+----------------------
+
+.. automodule:: pyrimidine.multipopulation
    :members:
    :undoc-members:
    :show-inheritance:

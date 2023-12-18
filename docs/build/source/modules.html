@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pyrimidine &#8212; pyrimidine 1.0 documentation</title>
+    <title>pyrimidine &#8212; pyrimidine 1.5 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4848ba22" />
     <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=a5b9c134" />
-    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/documentation_options.js?v=aaadad1f"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="Misc.html" title="Misc"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine</a></li> 
       </ul>
     </div>  
@@ -70,7 +70,8 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.learn.html">pyrimidine.learn package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine-learn-regression-module">pyrimidine.learn.regression module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine-learn-linear-regression-module">pyrimidine.learn.linear_regression module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine-learn-neural-network-module">pyrimidine.learn.neural_network module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#module-pyrimidine.learn">Module contents</a></li>
 </ul>
 </li>
@@ -85,13 +86,46 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pyrimidine.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.html#module-pyrimidine.ba">pyrimidine.ba module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bat"><code class="docutils literal notranslate"><span class="pre">Bat</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bat.alias"><code class="docutils literal notranslate"><span class="pre">Bat.alias</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bat.apply"><code class="docutils literal notranslate"><span class="pre">Bat.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bat.elements"><code class="docutils literal notranslate"><span class="pre">Bat.elements</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bat.isa"><code class="docutils literal notranslate"><span class="pre">Bat.isa()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bat.move"><code class="docutils literal notranslate"><span class="pre">Bat.move()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bat.n_elements"><code class="docutils literal notranslate"><span class="pre">Bat.n_elements</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bat.params"><code class="docutils literal notranslate"><span class="pre">Bat.params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bat.position"><code class="docutils literal notranslate"><span class="pre">Bat.position</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bat.regester"><code class="docutils literal notranslate"><span class="pre">Bat.regester()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bat.regester_map"><code class="docutils literal notranslate"><span class="pre">Bat.regester_map()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bat.velocity"><code class="docutils literal notranslate"><span class="pre">Bat.velocity</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bats"><code class="docutils literal notranslate"><span class="pre">Bats</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bats.alias"><code class="docutils literal notranslate"><span class="pre">Bats.alias</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bats.apply"><code class="docutils literal notranslate"><span class="pre">Bats.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bats.elements"><code class="docutils literal notranslate"><span class="pre">Bats.elements</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bats.init"><code class="docutils literal notranslate"><span class="pre">Bats.init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bats.isa"><code class="docutils literal notranslate"><span class="pre">Bats.isa()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bats.n_elements"><code class="docutils literal notranslate"><span class="pre">Bats.n_elements</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bats.params"><code class="docutils literal notranslate"><span class="pre">Bats.params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bats.regester"><code class="docutils literal notranslate"><span class="pre">Bats.regester()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bats.regester_map"><code class="docutils literal notranslate"><span class="pre">Bats.regester_map()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.Bats.transition"><code class="docutils literal notranslate"><span class="pre">Bats.transition()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.ba.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="pyrimidine.html#module-pyrimidine.base">pyrimidine.base module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseChromosome"><code class="docutils literal notranslate"><span class="pre">BaseChromosome</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseChromosome.default_size"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.default_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.element_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseChromosome.alias"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.alias</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseChromosome.cross"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.cross()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseChromosome.decode"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.decode()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseChromosome.default_size"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.default_size</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.element_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#id0"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.default_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#id1"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.element_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseChromosome.equal_to"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.equal_to()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.mutate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseChromosome.params"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.params</span></code></a></li>
@@ -128,8 +162,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseGene"><code class="docutils literal notranslate"><span class="pre">BaseGene</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseGene.random"><code class="docutils literal notranslate"><span class="pre">BaseGene.random()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseGene.values"><code class="docutils literal notranslate"><span class="pre">BaseGene.values</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseGene.random"><code class="docutils literal notranslate"><span class="pre">BaseGene.random()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#id2"><code class="docutils literal notranslate"><span class="pre">BaseGene.values</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseIndividual"><code class="docutils literal notranslate"><span class="pre">BaseIndividual</span></code></a><ul>
@@ -137,6 +172,7 @@
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseIndividual.apply"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.apply()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseIndividual.copy"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.copy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseIndividual.cross"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.cross()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseIndividual.cross2"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.cross2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseIndividual.decode"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.decode()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseIndividual.default_size"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.default_size</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseIndividual.element_class"><code class="docutils literal notranslate"><span class="pre">BaseIndividual.element_class</span></code></a></li>
@@ -153,16 +189,17 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.alias"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.alias</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.apply"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.apply()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.default_size"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.default_size</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.element_class"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.element_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.alias"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.alias</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.apply"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#id3"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.default_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#id4"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.element_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.elements"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.elements</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.flatten()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.get_best_individual"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.get_best_individual()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.individuals"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.individuals</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.isa"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.isa()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.max_fitness"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.max_fitness()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.migrate"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.migrate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.n_elements</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.params"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.params</span></code></a></li>
@@ -201,10 +238,11 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pyrimidine.html#module-pyrimidine.chromosome">pyrimidine.chromosome module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.ArrayChromosome"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.ArrayChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.element_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.ArrayChromosome.alias"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.alias</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.ArrayChromosome.copy"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.copy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.ArrayChromosome.cross"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.cross()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.ArrayChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.element_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#id5"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.element_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.ArrayChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.mutate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.ArrayChromosome.params"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.params</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.ArrayChromosome.random"><code class="docutils literal notranslate"><span class="pre">ArrayChromosome.random()</span></code></a></li>
@@ -262,11 +300,13 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome"><code class="docutils literal notranslate"><span class="pre">NumpyArrayChromosome</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">NumpyArrayChromosome.element_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.alias"><code class="docutils literal notranslate"><span class="pre">NumpyArrayChromosome.alias</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.clone"><code class="docutils literal notranslate"><span class="pre">NumpyArrayChromosome.clone()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.copy"><code class="docutils literal notranslate"><span class="pre">NumpyArrayChromosome.copy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.cross"><code class="docutils literal notranslate"><span class="pre">NumpyArrayChromosome.cross()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">NumpyArrayChromosome.element_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.cross2"><code class="docutils literal notranslate"><span class="pre">NumpyArrayChromosome.cross2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#id6"><code class="docutils literal notranslate"><span class="pre">NumpyArrayChromosome.element_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.elements"><code class="docutils literal notranslate"><span class="pre">NumpyArrayChromosome.elements</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">NumpyArrayChromosome.mutate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.params"><code class="docutils literal notranslate"><span class="pre">NumpyArrayChromosome.params</span></code></a></li>
@@ -335,6 +375,23 @@
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.chromosome.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.html#pyrimidine-deco-module">pyrimidine.deco module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.Regester"><code class="docutils literal notranslate"><span class="pre">Regester</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.add_cache"><code class="docutils literal notranslate"><span class="pre">add_cache</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.add_cache.attrs"><code class="docutils literal notranslate"><span class="pre">add_cache.attrs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.add_cache.methods"><code class="docutils literal notranslate"><span class="pre">add_cache.methods</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.add_memory"><code class="docutils literal notranslate"><span class="pre">add_memory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.basic_memory"><code class="docutils literal notranslate"><span class="pre">basic_memory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.clear_cache"><code class="docutils literal notranslate"><span class="pre">clear_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.clear_fitness"><code class="docutils literal notranslate"><span class="pre">clear_fitness()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.method_cache"><code class="docutils literal notranslate"><span class="pre">method_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.regester_map"><code class="docutils literal notranslate"><span class="pre">regester_map</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.set_fitness"><code class="docutils literal notranslate"><span class="pre">set_fitness</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.side_effect"><code class="docutils literal notranslate"><span class="pre">side_effect()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="pyrimidine.html#module-pyrimidine.ep">pyrimidine.ep module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.ep.BaseEPIndividual"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ep.BaseEPIndividual.alias"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual.alias</span></code></a></li>
@@ -355,6 +412,24 @@
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ep.EPPopulation.element_class"><code class="docutils literal notranslate"><span class="pre">EPPopulation.element_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ep.EPPopulation.select"><code class="docutils literal notranslate"><span class="pre">EPPopulation.select()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.ep.EPPopulation.transition"><code class="docutils literal notranslate"><span class="pre">EPPopulation.transition()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.html#module-pyrimidine.es">pyrimidine.es module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy.alias"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy.alias</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy.apply"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy.elements"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy.elements</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy.init"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy.init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy.isa"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy.isa()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy.mate"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy.mate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy.n_elements"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy.n_elements</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy.params"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy.params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy.regester"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy.regester()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy.regester_map"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy.regester_map()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy.select_best_individuals"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy.select_best_individuals()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.es.EvolutionStrategy.transition"><code class="docutils literal notranslate"><span class="pre">EvolutionStrategy.transition()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -552,6 +627,63 @@
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.meta.inherit"><code class="docutils literal notranslate"><span class="pre">inherit()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.html#pyrimidine-multipopulation-module">pyrimidine.multipopulation module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation"><code class="docutils literal notranslate"><span class="pre">DualPopulation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.alias"><code class="docutils literal notranslate"><span class="pre">DualPopulation.alias</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.apply"><code class="docutils literal notranslate"><span class="pre">DualPopulation.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.default_size"><code class="docutils literal notranslate"><span class="pre">DualPopulation.default_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.elements"><code class="docutils literal notranslate"><span class="pre">DualPopulation.elements</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.female_fitness"><code class="docutils literal notranslate"><span class="pre">DualPopulation.female_fitness</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.female_population"><code class="docutils literal notranslate"><span class="pre">DualPopulation.female_population</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.females"><code class="docutils literal notranslate"><span class="pre">DualPopulation.females</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">DualPopulation.flatten()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.isa"><code class="docutils literal notranslate"><span class="pre">DualPopulation.isa()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.male_fitness"><code class="docutils literal notranslate"><span class="pre">DualPopulation.male_fitness</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.male_population"><code class="docutils literal notranslate"><span class="pre">DualPopulation.male_population</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.males"><code class="docutils literal notranslate"><span class="pre">DualPopulation.males</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.match"><code class="docutils literal notranslate"><span class="pre">DualPopulation.match()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.mate"><code class="docutils literal notranslate"><span class="pre">DualPopulation.mate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.merge"><code class="docutils literal notranslate"><span class="pre">DualPopulation.merge()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.mutate"><code class="docutils literal notranslate"><span class="pre">DualPopulation.mutate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">DualPopulation.n_elements</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.params"><code class="docutils literal notranslate"><span class="pre">DualPopulation.params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.regester"><code class="docutils literal notranslate"><span class="pre">DualPopulation.regester()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.regester_map"><code class="docutils literal notranslate"><span class="pre">DualPopulation.regester_map()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.select"><code class="docutils literal notranslate"><span class="pre">DualPopulation.select()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.DualPopulation.transition"><code class="docutils literal notranslate"><span class="pre">DualPopulation.transition()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.HybridPopulation"><code class="docutils literal notranslate"><span class="pre">HybridPopulation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.HybridPopulation.alias"><code class="docutils literal notranslate"><span class="pre">HybridPopulation.alias</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.HybridPopulation.apply"><code class="docutils literal notranslate"><span class="pre">HybridPopulation.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.HybridPopulation.elements"><code class="docutils literal notranslate"><span class="pre">HybridPopulation.elements</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.HybridPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">HybridPopulation.flatten()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.HybridPopulation.isa"><code class="docutils literal notranslate"><span class="pre">HybridPopulation.isa()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.HybridPopulation.migrate"><code class="docutils literal notranslate"><span class="pre">HybridPopulation.migrate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.HybridPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">HybridPopulation.n_elements</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.HybridPopulation.params"><code class="docutils literal notranslate"><span class="pre">HybridPopulation.params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.HybridPopulation.regester"><code class="docutils literal notranslate"><span class="pre">HybridPopulation.regester()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.HybridPopulation.regester_map"><code class="docutils literal notranslate"><span class="pre">HybridPopulation.regester_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation"><code class="docutils literal notranslate"><span class="pre">MultiPopulation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.alias"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.alias</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.apply"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.elements"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.elements</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.flatten()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.isa"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.isa()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.mate"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.mate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.mutate"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.mutate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.n_elements</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.params"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.regester"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.regester()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.regester_map"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.regester_map()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.select"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.select()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="pyrimidine.html#module-pyrimidine.optimize">pyrimidine.optimize module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.optimize.de_minimize"><code class="docutils literal notranslate"><span class="pre">de_minimize()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.optimize.ga_minimize"><code class="docutils literal notranslate"><span class="pre">ga_minimize()</span></code></a></li>
@@ -612,6 +744,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.population.HOFPopulation"><code class="docutils literal notranslate"><span class="pre">HOFPopulation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.population.HOFPopulation.hall_of_fame"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.hall_of_fame</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.population.HOFPopulation.alias"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.alias</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.population.HOFPopulation.apply"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.apply()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.population.HOFPopulation.best_individual"><code class="docutils literal notranslate"><span class="pre">HOFPopulation.best_individual</span></code></a></li>
@@ -706,7 +839,6 @@
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.pso.Particle.direction"><code class="docutils literal notranslate"><span class="pre">Particle.direction</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.pso.Particle.element_class"><code class="docutils literal notranslate"><span class="pre">Particle.element_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.pso.Particle.elements"><code class="docutils literal notranslate"><span class="pre">Particle.elements</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.pso.Particle.init"><code class="docutils literal notranslate"><span class="pre">Particle.init()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.pso.Particle.isa"><code class="docutils literal notranslate"><span class="pre">Particle.isa()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.pso.Particle.n_elements"><code class="docutils literal notranslate"><span class="pre">Particle.n_elements</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.pso.Particle.params"><code class="docutils literal notranslate"><span class="pre">Particle.params</span></code></a></li>
@@ -815,7 +947,7 @@
         <li class="right" >
           <a href="Misc.html" title="Misc"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine</a></li> 
       </ul>
     </div>

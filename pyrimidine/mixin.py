@@ -249,14 +249,26 @@ class FitnessMixin(IterativeMixin):
         return self._fitness()
 
     @classmethod
-    def set_fitness(cls, f=None):
+    def set_fitness(cls, f=None, decode=None):
+        """Set fitness computing method
+        
+        Args:
+            f (None, optional): function to evalute the fintess
+            decode (None, optional): decode the individual or not before calcuating fitness
+        
+        Returns:
+            An individual class with the fitness `f`
+        """
+
         if f is None:
             if '_fitness' in globals():
                 f = globals()['_fitness']
             else:
                 raise Exception('Function `_fitness` is not defined before setting fitness. You may forget to create the class in the context of environment.')
-        cls._fitness = f
-        return cls
+        class cls_(cls):
+            def _fitness(self):
+                return f(self)
+        return cls_
 
     def evolve(self, stat=None, *args, **kwargs):
         """Get the history of solution and its fitness by default.

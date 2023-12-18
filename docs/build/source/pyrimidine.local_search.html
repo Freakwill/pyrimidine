@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pyrimidine.local_search package &#8212; pyrimidine 1.0 documentation</title>
+    <title>pyrimidine.local_search package &#8212; pyrimidine 1.5 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4848ba22" />
     <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=a5b9c134" />
-    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/documentation_options.js?v=aaadad1f"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="pyrimidine.learn.html" title="pyrimidine.learn package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pyrimidine.html" accesskey="U">pyrimidine package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine.local_search package</a></li> 
@@ -86,11 +86,23 @@ S. Kirkpatrick, C. D. Gelatt, Jr., M. P. Vecchi. Optimization by Simulated Annea
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.local_search.simulated_annealing.</span></span><span class="sig-name descname"><span class="pre">SimulatedAnnealing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pyrimidine.html#pyrimidine.individual.PhantomIndividual" title="pyrimidine.individual.PhantomIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhantomIndividual</span></code></a></p>
 <p>Class for Simulated Annealing</p>
-<dl class="simple">
-<dt>Attributes:</dt><dd><p>params (dict): parameters in SA
-phantom: phantom solution for exploration</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params">
+<span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params" title="Link to this definition">¶</a></dt>
+<dd><p>parameters in SA</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom">
+<span class="sig-name descname"><span class="pre">phantom</span></span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom" title="Link to this definition">¶</a></dt>
+<dd><p>phantom solution for exploration</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.alias">
 <span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chromosomes':</span> <span class="pre">'elements',</span> <span class="pre">'n_chromosomes':</span> <span class="pre">'n_elements'}</span></em><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.alias" title="Link to this definition">¶</a></dt>
@@ -115,8 +127,9 @@ phantom: phantom solution for exploration</p>
 <dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.move">
 <span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.move" title="Link to this definition">¶</a></dt>
 <dd><p>Move phantom</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><p>T {number} – temperature</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>temperature</strong> (<em>T {number} --</em>) – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -127,13 +140,13 @@ phantom: phantom solution for exploration</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'ext_c':</span> <span class="pre">0.99,</span> <span class="pre">'initT':</span> <span class="pre">100,</span> <span class="pre">'int_c':</span> <span class="pre">0.99,</span> <span class="pre">'n_epochs':</span> <span class="pre">200,</span> <span class="pre">'n_iter':</span> <span class="pre">100,</span> <span class="pre">'termT':</span> <span class="pre">0.0001}</span></em><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'ext_c':</span> <span class="pre">0.99,</span> <span class="pre">'initT':</span> <span class="pre">100,</span> <span class="pre">'int_c':</span> <span class="pre">0.99,</span> <span class="pre">'n_epochs':</span> <span class="pre">200,</span> <span class="pre">'n_iter':</span> <span class="pre">100,</span> <span class="pre">'termT':</span> <span class="pre">0.0001}</span></em><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom">
-<span class="sig-name descname"><span class="pre">phantom</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">phantom</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -180,8 +193,9 @@ or the moving method in Simulated Annealing.</p>
 <dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.backup">
 <span class="sig-name descname"><span class="pre">backup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.backup" title="Link to this definition">¶</a></dt>
 <dd><p>Backup the fitness and other information</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>check (bool, optional): check whether the fitness increases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>check</strong> (<em>bool</em><em>, </em><em>optional</em>) – check whether the fitness increases.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -251,7 +265,7 @@ or the moving method in Simulated Annealing.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="pyrimidine.local_search.tabu_search.BaseTabuSearch.solution">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solution</span></span><a class="headerlink" href="#pyrimidine.local_search.tabu_search.BaseTabuSearch.solution" title="Link to this definition">¶</a></dt>
-<dd><p>get the attribute from memory, 
+<dd><p>get the attribute from memory,
 where the best solution is stored</p>
 </dd></dl>
 
@@ -363,14 +377,16 @@ or the moving method in Simulated Annealing.</p>
 </li>
 <li><a class="reference internal" href="#module-pyrimidine.local_search.simulated_annealing">pyrimidine.local_search.simulated_annealing module</a><ul>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.phantom</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.alias"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.alias</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.apply"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.apply()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.elements"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.elements</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.isa"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.isa()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.move"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.move()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.n_elements"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.n_elements</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.params"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.params</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.phantom"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.phantom</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.params</span></code></a></li>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.phantom</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.regester()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.regester_map"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.regester_map()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.local_search.simulated_annealing.SimulatedAnnealing.transition"><code class="docutils literal notranslate"><span class="pre">SimulatedAnnealing.transition()</span></code></a></li>
@@ -462,7 +478,7 @@ or the moving method in Simulated Annealing.</p>
         <li class="right" >
           <a href="pyrimidine.learn.html" title="pyrimidine.learn package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pyrimidine.html" >pyrimidine package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine.local_search package</a></li> 

@@ -3,8 +3,7 @@
 
 """Evolution Programming
 
-Invented by L. Fogel[Fogel et al. 1966]
-for designing FSM initially.
+Invented by L. Fogel[1966] for designing FSM initially.
 
 General form of the algorithm:
 initialize a population with N individuals

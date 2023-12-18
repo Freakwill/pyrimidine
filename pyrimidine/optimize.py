@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Helpers for GA
+Optimiazation Helpers for GA
 """
 
 import numpy as np
@@ -27,6 +27,7 @@ def _decode(c, a, b):
     Raises:
         e: fail to import a 3rd-part lib
     """
+
     try:
         from digit_converter import IntervalConverter
     except ImportError as e:

@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pyrimidine.learn package &#8212; pyrimidine 1.0 documentation</title>
+    <title>pyrimidine.learn package &#8212; pyrimidine 1.5 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4848ba22" />
     <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=a5b9c134" />
-    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/documentation_options.js?v=aaadad1f"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="pyrimidine.benchmarks.html" title="pyrimidine.benchmarks package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pyrimidine.html" accesskey="U">pyrimidine package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine.learn package</a></li> 
@@ -55,8 +55,53 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 </section>
-<section id="pyrimidine-learn-regression-module">
-<h2>pyrimidine.learn.regression module<a class="headerlink" href="#pyrimidine-learn-regression-module" title="Link to this heading">¶</a></h2>
+<section id="pyrimidine-learn-linear-regression-module">
+<h2>pyrimidine.learn.linear_regression module<a class="headerlink" href="#pyrimidine-learn-linear-regression-module" title="Link to this heading">¶</a></h2>
+</section>
+<section id="pyrimidine-learn-neural-network-module">
+<h2>pyrimidine.learn.neural_network module<a class="headerlink" href="#pyrimidine-learn-neural-network-module" title="Link to this heading">¶</a></h2>
+<dl class="py class" id="module-pyrimidine.learn.neural_network">
+<dt class="sig sig-object py" id="pyrimidine.learn.neural_network.GAANN">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.learn.neural_network.</span></span><span class="sig-name descname"><span class="pre">GAANN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.neural_network.GAANN" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.learn.BaseEstimator" title="pyrimidine.learn.BaseEstimator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">MLPRegressor</span></code></p>
+<p>GA for ANN</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.learn.neural_network.GAANN.config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_individuals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.neural_network.GAANN.config" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.learn.neural_network.GAANN.create_model">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.neural_network.GAANN.create_model" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.learn.neural_network.GAANN.estimated_params">
+<span class="sig-name descname"><span class="pre">estimated_params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('coefs_',</span> <span class="pre">'intercepts_')</span></em><a class="headerlink" href="#pyrimidine.learn.neural_network.GAANN.estimated_params" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.learn.neural_network.GAANN.hidden_dim">
+<span class="sig-name descname"><span class="pre">hidden_dim</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#pyrimidine.learn.neural_network.GAANN.hidden_dim" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.learn.neural_network.GAANN.max_iter">
+<span class="sig-name descname"><span class="pre">max_iter</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></em><a class="headerlink" href="#pyrimidine.learn.neural_network.GAANN.max_iter" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.learn.neural_network.GAANN.n_layers">
+<span class="sig-name descname"><span class="pre">n_layers</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#pyrimidine.learn.neural_network.GAANN.n_layers" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.learn.neural_network.GAANN.pop">
+<span class="sig-name descname"><span class="pre">pop</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pyrimidine.learn.neural_network.GAANN.pop" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-pyrimidine.learn">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyrimidine.learn" title="Link to this heading">¶</a></h2>
@@ -67,6 +112,11 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.learn.BaseEstimator.config">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.BaseEstimator.config" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.learn.BaseEstimator.estimated_params">
+<span class="sig-name descname"><span class="pre">estimated_params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">()</span></em><a class="headerlink" href="#pyrimidine.learn.BaseEstimator.estimated_params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -91,10 +141,24 @@
     <ul>
 <li><a class="reference internal" href="#">pyrimidine.learn package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#pyrimidine-learn-regression-module">pyrimidine.learn.regression module</a></li>
+<li><a class="reference internal" href="#pyrimidine-learn-linear-regression-module">pyrimidine.learn.linear_regression module</a></li>
+<li><a class="reference internal" href="#pyrimidine-learn-neural-network-module">pyrimidine.learn.neural_network module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.learn.neural_network.GAANN"><code class="docutils literal notranslate"><span class="pre">GAANN</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.learn.neural_network.GAANN.config"><code class="docutils literal notranslate"><span class="pre">GAANN.config()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.learn.neural_network.GAANN.create_model"><code class="docutils literal notranslate"><span class="pre">GAANN.create_model()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.learn.neural_network.GAANN.estimated_params"><code class="docutils literal notranslate"><span class="pre">GAANN.estimated_params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.learn.neural_network.GAANN.hidden_dim"><code class="docutils literal notranslate"><span class="pre">GAANN.hidden_dim</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.learn.neural_network.GAANN.max_iter"><code class="docutils literal notranslate"><span class="pre">GAANN.max_iter</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.learn.neural_network.GAANN.n_layers"><code class="docutils literal notranslate"><span class="pre">GAANN.n_layers</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.learn.neural_network.GAANN.pop"><code class="docutils literal notranslate"><span class="pre">GAANN.pop</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-pyrimidine.learn">Module contents</a><ul>
 <li><a class="reference internal" href="#pyrimidine.learn.BaseEstimator"><code class="docutils literal notranslate"><span class="pre">BaseEstimator</span></code></a><ul>
 <li><a class="reference internal" href="#pyrimidine.learn.BaseEstimator.config"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.config()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.learn.BaseEstimator.estimated_params"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.estimated_params</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.learn.BaseEstimator.fit"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.fit()</span></code></a></li>
 </ul>
 </li>
@@ -151,7 +215,7 @@
         <li class="right" >
           <a href="pyrimidine.benchmarks.html" title="pyrimidine.benchmarks package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="pyrimidine.html" >pyrimidine package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine.learn package</a></li> 

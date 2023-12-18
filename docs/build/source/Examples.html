@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Examples and Comparison of Algorithms &#8212; pyrimidine 1.0 documentation</title>
+    <title>Examples and Comparison of Algorithms &#8212; pyrimidine 1.5 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4848ba22" />
     <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=a5b9c134" />
-    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/documentation_options.js?v=aaadad1f"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="API%20Design.html" title="API Design"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Examples and Comparison of Algorithms</a></li> 
       </ul>
     </div>  
@@ -53,6 +53,7 @@
   <section class="tex2jax_ignore mathjax_ignore" id="examples-and-comparison-of-algorithms">
 <h1>Examples and Comparison of Algorithms<a class="headerlink" href="#examples-and-comparison-of-algorithms" title="Link to this heading">¶</a></h1>
 <p>[TOC]</p>
+<p>Let’s see some examples for learning to use <code class="docutils literal notranslate"><span class="pre">pyrimidine</span></code>.</p>
 <section id="example-1">
 <h2>Example 1<a class="headerlink" href="#example-1" title="Link to this heading">¶</a></h2>
 <section id="a-simple-example-knapsack-problem">
@@ -515,6 +516,68 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+<section id="source-code">
+<h3>Source code<a class="headerlink" href="#source-code" title="Link to this heading">¶</a></h3>
+<p>Following is the core code to implement multi-population where we just introduce <code class="docutils literal notranslate"><span class="pre">migrate</span></code> method into <code class="docutils literal notranslate"><span class="pre">transition</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaseMultiPopulation</span><span class="p">(</span><span class="n">PopulationMixin</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaHighContainer</span><span class="p">):</span>
+    
+    <span class="n">element_class</span> <span class="o">=</span> <span class="n">BasePopulation</span>
+    <span class="n">default_size</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="nf">migrate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># exchange the best individules between any two populations</span>
+
+    <span class="k">def</span> <span class="nf">transition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">migrate</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="hybrid-population">
+<h3>Hybrid-population<a class="headerlink" href="#hybrid-population" title="Link to this heading">¶</a></h3>
+<p>It is possible mix the individuals(or chromosomes as the individuals) and populations in the multipopulation (named hybrid-population)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="n">HybridPopulation</span><span class="p">,</span> <span class="n">HOFPopulation</span><span class="p">,</span> <span class="n">BinaryChromosome</span>
+<span class="kn">from</span> <span class="nn">pyrimidine.benchmarks.optimization</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="c1"># generate a knapsack problem randomly</span>
+<span class="n">n_bags</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">_evaluate</span> <span class="o">=</span> <span class="n">Knapsack</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n_bags</span><span class="p">)</span>
+
+<span class="n">_Individual</span> <span class="o">=</span> <span class="p">(</span><span class="n">BinaryChromosome</span> <span class="o">//</span> <span class="n">n_bags</span><span class="p">)</span><span class="o">.</span><span class="n">set_fitness</span><span class="p">(</span><span class="n">_evaluate</span><span class="p">)</span>
+
+
+<span class="n">_Population</span> <span class="o">=</span> <span class="n">HOFPopulation</span><span class="p">[</span><span class="n">_Individual</span><span class="p">]</span> <span class="o">//</span> <span class="mi">5</span>
+
+
+<span class="k">class</span> <span class="nc">_HybridPopulation</span><span class="p">(</span><span class="n">HybridPopulation</span><span class="p">[</span><span class="n">_Population</span><span class="p">,</span> <span class="n">_Population</span><span class="p">,</span> <span class="n">_Individual</span><span class="p">,</span> <span class="n">_Individual</span><span class="p">]):</span>
+
+    <span class="k">def</span> <span class="nf">max_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># compute maximum fitness for statistics</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_all_fitness</span><span class="p">())</span>
+
+
+<span class="n">sp</span> <span class="o">=</span> <span class="n">_HybridPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">data</span><span class="p">[[</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Generations&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Fitness&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Demo of Hybrid Population (Mixed by individuals and populations)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="exmaple-6-game">
 <h2>Exmaple 6 — Game<a class="headerlink" href="#exmaple-6-game" title="Link to this heading">¶</a></h2>
@@ -645,7 +708,11 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 <li><a class="reference internal" href="#visualization-and-comparison">Visualization and comparison</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#example-5-multipopulation">Example 5 — MultiPopulation</a></li>
+<li><a class="reference internal" href="#example-5-multipopulation">Example 5 — MultiPopulation</a><ul>
+<li><a class="reference internal" href="#source-code">Source code</a></li>
+<li><a class="reference internal" href="#hybrid-population">Hybrid-population</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#exmaple-6-game">Exmaple 6 — Game</a></li>
 </ul>
 </li>
@@ -698,7 +765,7 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
         <li class="right" >
           <a href="API%20Design.html" title="API Design"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Examples and Comparison of Algorithms</a></li> 
       </ul>
     </div>
