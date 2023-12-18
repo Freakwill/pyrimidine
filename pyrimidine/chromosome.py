@@ -234,7 +234,7 @@ class PermutationChromosome(NaturalChromosome):
 class FloatChromosome(NumpyArrayChromosome):
 
     element_class = FloatGene
-    sigma = 0.05
+    sigma = 0.1
 
     def __str__(self):
         return "|".join(format(c, '.4') for c in self)
@@ -397,7 +397,7 @@ class ArrayChromosome(BaseChromosome, array.array):
     """Chromosome class implemented by array.array
     
     Attributes:
-        element_class (TYPE): the type of gene
+        element_class (str): the type of gene
     """
 
     element_class = 'd'

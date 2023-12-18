@@ -17,7 +17,7 @@ def example_population():
             return self[0]
 
         def _fitness(self):
-            return _evaluate(self.decode())
+            return sum(self.decode())
 
     class _Population(StandardPopulation):
         element_class = _Individual
