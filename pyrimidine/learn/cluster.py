@@ -5,14 +5,16 @@
 
 import numpy as np
 from sklearn.cluster import KMeans
-from ..learn import BaseEstimator
 
-from .population import StandardPopulation
+from ..chromosome import FloatChromosome
+from ..population import StandardPopulation
+
+from ..learn import BaseEstimator
 
 
 class GALinearRegression(BaseEstimator, KMeans):
-    '''Linear Regression by GA
-    '''
+    """Linear Regression by GA
+    """
 
     estimated_params = ('cluster_centers_',)
 
