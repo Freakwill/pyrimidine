@@ -6,10 +6,13 @@
 import numpy as np
 import numpy.linalg as LA
 from sklearn.linear_model import LinearRegression
+
+from ..chromosome import BinaryChromosome, FloatChromosome
+from ..individual import MixedIndividual
+from ..population import StandardPopulation
+
 from ..learn import BaseEstimator
 
-from ..chromosome import BinaryChromosome
-from ..population import StandardPopulation
 from digit_converter import IntervalConverter
 
 
@@ -23,7 +26,7 @@ class GALinearRegression(BaseEstimator, LinearRegression):
     '''Linear Regression by GA
     '''
 
-    estimated_params = ('coefs_', 'intercepts_')
+    estimated_params = ('coef_', 'intercept_')
 
     @classmethod
     def create_model(cls, *args, **kwargs):
