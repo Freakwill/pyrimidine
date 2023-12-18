@@ -8,7 +8,7 @@ import numpy.linalg as LA
 from sklearn.linear_model import LinearRegression
 from ..learn import BaseEstimator
 
-from .population import StandardPopulation
+from ..population import StandardPopulation
 from digit_converter import IntervalConverter
 
 c = IntervalConverter(lb=-60, ub=60)
