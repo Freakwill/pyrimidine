@@ -185,6 +185,14 @@ class BinaryChromosome(NaturalChromosome):
     def __str__(self):
         return "".join(map(str, self))
 
+    @classmethod
+    def zero(cls):
+        return cls(np.zeros(cls.default_size))
+
+    @classmethod
+    def one(cls):
+        return cls(np.ones(cls.default_size))
+
     @side_effect
     def mutate(self, indep_prob=0.5):
         for i in range(len(self)):
@@ -200,6 +208,10 @@ class PermutationChromosome(NaturalChromosome):
 
     element_class = NaturalGene
     default_size = 10
+
+    @classmethod
+    def identity(cls):
+        return cls(np.arange(cls.default_size))
 
     @classmethod
     def random(cls, size=None):
