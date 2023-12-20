@@ -88,6 +88,7 @@ from .deco import fitness_cache
 
 @fitness_cache
 class PhantomIndividual(BaseIndividual):
+    # Anthor way to implement memory system for individual
 
     phantom = None
 
@@ -112,10 +113,7 @@ def binaryIndividual(size=8):
     return MonoIndividual[BinaryChromosome.set(default_size=size)]
 
 
-makeBinaryIndividual = binaryIndividual
-
-
-def makeIndividual(element_class=BinaryChromosome, n_chromosomes=1, size=8, cls=None):
+def makeIndividual(element_class=BinaryChromosome, n_chromosomes=None, size=8, cls=None):
     """helper to make an individual
     
     Example:
@@ -126,13 +124,19 @@ def makeIndividual(element_class=BinaryChromosome, n_chromosomes=1, size=8, cls=
     
     Args:
         element_class (BaseChromosome, tuple, optional): class of chromosomes
-        n_chromosomes (int, optional): number of chromosomes
+        n_chromosomes (int, optional): the number of chromosomes
         size (int, tuple, optional): the sizes of chromosomes
         cls: the class of the return individual
     
     Returns:
         cls or other individual classes
     """
+
+    if n_chromosomes is None:
+        if isinstance(size, tuple):
+            n_chromosomes = len(size)
+        else:
+            n_chromosomes = 1
 
     if n_chromosomes == 1:
         assert isinstance(size, int)
@@ -150,10 +154,13 @@ def makeIndividual(element_class=BinaryChromosome, n_chromosomes=1, size=8, cls=
             elif len(size) == 1:
                 cls = cls or PolyIndividual
                 return PolyIndividual[tuple(element_class.set(default_size=size[0]) for _ in n_chromosomes)]
-            else:
+            else: 
                 raise ValueError('the length of `size` must be 1 or `n_chromosomes`.')
         elif isinstance(size, int):
             cls = cls or PolyIndividual
             return cls[element_class.set(default_size=size)].set(default_size=n_chromosomes)
         else:
             raise ValueError('the length of `size` must be a number or a tuple of numbers.')
+
+
+makeBinaryIndividual = lambda size: binaryIndividual(size=size)

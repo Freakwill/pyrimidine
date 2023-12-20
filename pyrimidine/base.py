@@ -254,6 +254,7 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         return C([self.copy() for _ in range(n)])
 
     def __add__(self, other):
+        # algebraic operation `+` of two individuals
         return self.__class__([this + that for this, that in zip(self, other)])
 
     def __sub__(self, other):
@@ -467,9 +468,7 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
     
     Attributes:
         default_size (int): the number of populations
-        element_class (TYPE): the type of the populations
-        elements (TYPE): populations as the elements
-        fitness (TYPE): best fitness
+        element_class (BasePopulation): the type of the populations
     """
     
     element_class = BasePopulation
@@ -477,7 +476,7 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
 
     params = {'migrate_prob': 0.75}
 
-    alias = {'positions': 'elements',
+    alias = {'populations': 'elements',
     'n_populations': 'n_elements',
     'best_population': 'best_element',
     'worst_population': 'worst_element',

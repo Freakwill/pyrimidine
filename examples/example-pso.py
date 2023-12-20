@@ -16,7 +16,7 @@ class _Particle(Particle):
         return evaluate(self.position)
 
 
-class MyParticleSwarm(ParticleSwarm, BasePopulation):
+class MyParticleSwarm(ParticleSwarm):
     element_class = _Particle
     default_size = 10
 

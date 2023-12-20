@@ -13,8 +13,9 @@ from operator import attrgetter
 import numpy as np
 
 from .base import BaseIndividual
-from .mixin import PopulationMixin
 from .chromosome import FloatChromosome
+from .mixin import PopulationMixin
+from .meta import MetaContainer
 from .deco import basic_memory
 
 
@@ -117,7 +118,7 @@ class Particle(BaseParticle):
                         + acceleration_coefficient * scale_fame * (fame.best_position-self.position))
 
 
-class ParticleSwarm(PopulationMixin):
+class ParticleSwarm(PopulationMixin, metaclass=MetaContainer):
     """Standard PSO
     
     Extends:
@@ -128,11 +129,15 @@ class ParticleSwarm(PopulationMixin):
     default_size = 20
 
     params = {'learning_factor': 2, 'acceleration_coefficient': 3,
-    'inertia':0.75, 'n_best_particles':0.2, 'max_velocity':None}
+    'inertia':0.75, 'hof_size':0.2, 'max_velocity':None}
+
+    alias = {
+    'get_best_particles': 'get_best_elements'
+    }
 
     def init(self):
         super().init()
-        self.hall_of_fame = self.get_best_individuals(self.n_best_particles, copy=True)
+        self.hall_of_fame = self.get_best_particles(self.hof_size, copy=True)
     
     def update_hall_of_fame(self):
         hof_size = len(self.hall_of_fame)
