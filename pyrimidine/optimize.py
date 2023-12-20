@@ -86,7 +86,7 @@ def de_minimize(func, *xlim, decode=_decode, population_size=20, size=8):
         ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
     """
 
-    class _Individual(makeBinaryIndividual(size)):
+    class _Individual(makeIndividual(n_chromosomes=len(xlim), size=size)):
         default_size = len(xlim)
 
         def _fitness(self):
@@ -102,7 +102,7 @@ def de_minimize(func, *xlim, decode=_decode, population_size=20, size=8):
     pop = _Population.random()
     pop.ezolve()
 
-    return pop.solution.decode()
+    return pop.solution
 
 
 def ga_minimize_1D(func, xlim, decode=_decode, population_size=20, size=8):
@@ -121,7 +121,7 @@ def ga_minimize_1D(func, xlim, decode=_decode, population_size=20, size=8):
         ga_minimize_1D(lambda x:x**2, (-1,1))
     """
 
-    class _Chromosome(BinaryChromosome):
+    class _Chromosome(BinaryChromosome // size):
 
         def _fitness(self):
             return - func(self.decode())
@@ -136,4 +136,21 @@ def ga_minimize_1D(func, xlim, decode=_decode, population_size=20, size=8):
     pop = _Population.random()
     pop.ezolve()
 
-    return pop.solution.decode()
+    return pop.solution
+
+
+class Optimizer:
+
+    def __init__(self, Population=None, min_max=None):
+        self.Population = Population
+        self.min_max = min_max
+
+    def __call__(self, func):
+        if self.min_max == 'min':
+            def _evaluate(obj):
+                return - func(obj.decode())
+        else:
+            def _evaluate(obj):
+                return func(obj.decode())
+        self.Population.set_fitness(_evaluate)
+        return self.Population.random().ezolve().solution

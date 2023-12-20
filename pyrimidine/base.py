@@ -111,10 +111,6 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
     def __str__(self):
         return ":".join(map(str, self))
 
-    @classmethod
-    def random(cls, size=None):
-        raise NotImplementedError
-
     def transition(self, *args, **kwargs):
         self.mutate()
 

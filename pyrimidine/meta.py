@@ -322,8 +322,13 @@ class MetaContainer(ParamType):
         """
         return self.set(element_class=class_)
 
-    def __floordiv__(self, n):
+    def __ifloordiv__(self, n):
         return self.set(default_size=n)
+
+    def __floordiv__(self, n):
+        class cls(self):
+            default_size = n
+        return cls
 
     def random(self, n_elements=None, *args, **kwargs):
         """Generate a container randomly
@@ -512,6 +517,11 @@ class MetaArray(ParamType):
 
         return super().__new__(cls, name, bases, attrs)
 
-    def __floordiv__(self, n):
+    def __ifloordiv__(self, n):
         return self.set(default_size=n)
+
+    def __floordiv__(self, n):
+        class cls(self):
+            default_size = n
+        return cls
 

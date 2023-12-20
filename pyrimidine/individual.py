@@ -141,28 +141,29 @@ def makeIndividual(element_class=BinaryChromosome, n_chromosomes=None, size=8, c
     if n_chromosomes == 1:
         assert isinstance(size, int)
         cls = cls or MonoIndividual
-        return cls[element_class.set(default_size=size)]
+        return cls[element_class // size]
     else:
         if isinstance(size, tuple):
             if len(size) == n_chromosomes:
                 if isinstance(element_class, tuple):
                     cls = cls or MixedIndividual
-                    return cls[tuple(e_c.set(default_size=s) for e_c, s in zip(element_class, size))]
+                    return cls[tuple(e_c // s for e_c, s in zip(element_class, size))]
                 else:
                     cls = cls or MixedIndividual
-                    return cls[tuple(element_class.set(default_size=s) for s in size)]
-            elif len(size) == 1:
-                cls = cls or PolyIndividual
-                return cls[tuple(element_class.set(default_size=size[0]) for _ in n_chromosomes)]
+                    return cls[tuple(element_class // s for s in size)]
             else: 
-                raise ValueError('the length of `size` must be 1 or `n_chromosomes`.')
+                raise ValueError('the length of `size` must be `n_chromosomes`.')
         elif isinstance(size, int):
             cls = cls or PolyIndividual
-            return cls[element_class.set(default_size=size)].set(default_size=n_chromosomes)
+            return cls[element_class // size].set(default_size=n_chromosomes)
         else:
             raise ValueError('the length of `size` must be a number or a tuple of numbers.')
 
 
 def makeBinaryIndividual(size=8, cls=None):
     cls = cls or MixedIndividual
-    return cls[tuple(element_class.set(default_size=s) for s in size)]
+    if isinstance(size, tuple):
+        return cls[tuple(BinaryChromosome // s for s in size)]
+    else:
+        return cls[BinaryChromosome // size]
+

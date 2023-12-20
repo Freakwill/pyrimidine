@@ -4,18 +4,21 @@
 Differential Evolution Algorithm
 """
 
-import copy
 
 import numpy as np
 
+from .base import BaseIndividual
 from .mixin import PopulationMixin
+from .meta import MetaContainer
 from .individual import MonoIndividual
 
 from .utils import *
 
 
-class DifferentialEvolution(PopulationMixin):
+class DifferentialEvolution(PopulationMixin, metaclass=MetaContainer):
     # Differential Evolution Algo.
+    element_class = BaseIndividual
+    default_size = 2
 
     params ={
         "factor" : 0.05,
