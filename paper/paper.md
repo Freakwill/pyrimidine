@@ -43,8 +43,6 @@ As one of the earliest developed intelligent algorithms [holland, katoch], the g
 
 In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's array or the widely-used third-party library [numpy](https://numpy.org/). Following this, evolutionary operators are defined and applied to these structures.
 
-Our design concept transcends the ordinary and embraces a higher level of extensibility. We term this innovative approach "algebra-inspired Programming." It should not be confused with so-called algebraic programming, but it draws inspiration from its underlying principles.
-
 The table below provides a concise comparison between `pyrimidine` and several popular frameworks, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
 
 +-------------------+------------+----------+----------+----------+
@@ -73,9 +71,13 @@ The table below provides a concise comparison between `pyrimidine` and several p
 
 `DEAP` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `Gaft` is a highly object-oriented software with excellent scalability, but it is currently inactive.
 
-`Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the API and the extension of the program more natural. So far, We have implemented a variety of intelligent algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming, particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing.
+`Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, We have implemented a variety of intelligent algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming, particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing.
+
+<!-- Our design concept transcends the ordinary and embraces a higher level of extensibility.  -->
 
 # Algebra-inspired programming
+
+The innovative approach is termed "algebra-inspired Programming." It should not be confused with so-called algebraic programming, but it draws inspiration from its underlying principles.
 
 ## Basic concepts
 We introduce the concept of a **container**, simulating an **(algebraic) system** where specific operators are not yet defined.
@@ -146,7 +148,6 @@ In the codes, `UserIndividual` (resp. `UserPopulation`) is a container of elemen
 UserIndividual = MonoIndividual[BinaryChromosome]
 UserPopulation = StandardPopulation[UserIndividual] // 10
 ```
-
 
 Algebraically, there is no discrepency between `MonoIndividual` and a single `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes.
 
