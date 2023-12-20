@@ -179,7 +179,7 @@ class SimulatedAnnealing(PhantomIndividual):
 # import statements
 
 n = 15
-f = rosenbrock(n=n)
+f = rosenbrock
 
 class MyIndividual(SimulatedAnnealing, MonoIndividual):
     element_class = FloatChromosome.set(default_size=n)

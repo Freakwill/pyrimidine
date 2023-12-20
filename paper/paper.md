@@ -71,9 +71,9 @@ unless explicitly redefined. For example, the mutation of a population typically
 $$
 T(s):S\to S
 $$
-The iterative algorithms can be represented as $T^n(s)$. It is also possible to lift method `transition` to higher containers.
+The iterative algorithms can be represented as $T^n(s)$. It is possible to lift method `transition` to higher containers.
 
-New features will be incorporated based on the structure.
+<!-- New features will be incorporated based on the structure. -->
 
 ## Metaclasses
 The metaclass `System` is defined to simulate abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operators and functions on them.
@@ -86,15 +86,15 @@ Mixin classes specify the basic functionality of the algorithm.
 
 The `FitnessMixin` class is dedicated to the iteration process focused on maximizing fitness, and its subclass `PopulationMixin` represents the collective form.
 
-When designing a novel algorithm, especially one that significantly differs from the GA, it is advisable to start by inheriting from the mixin classes and redefining the `transition` method, though this is not mandatory.
+When designing a novel algorithm, significantly differing from the GA, it is advisable to start by inheriting from the mixin classes and redefining the `transition` method, though it is not mandatory.
 
-## Fundamental Classes
+## Base Classes
 
-There are three fundamental classes in `pyrimidine` constructed by the metaclasses: `BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively.
+There are three base classes in `pyrimidine`: `BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively.
 
-For convenience, `pyrimidine` provides some commonly used subclasses, so users do not have to redefine these settings. By inheriting these classes, users gain access to the methods such as, crossover and mutation. `pyrimidine` offers `BinaryChromosome` for the binary encoding as used in the classical GA.
+For convenience, `pyrimidine` provides some commonly used subclasses, where the genetic operations are implemented such as, `cross` and `mutate`. Especially, `pyrimidine` offers `BinaryChromosome` for the binary encoding as used in the classical GA.
 
-Generally, the algorithm design starts as follows, where `MonoIndividual`, as a subclass of `BaseIndividual`, just enforces that the individuals can only have one chromosome.
+Generally, the algorithm design starts as follows, where `MonoIndividual`, a subclass of `BaseIndividual`, just enforces that the individuals can only have one chromosome.
 
 ```python
 class UserIndividual(MonoIndividual):
@@ -116,9 +116,8 @@ UserIndividual = MonoIndividual[BinaryChromosome]
 UserPopulation = StandardPopulation[UserIndividual] // 10
 ```
 
-<!-- The class `UserPopulation` is defined to create a population of the individuals. The method of executing standard genetic operations has been implemented in the class. -->
 
-Algebraically, there is no discrepency between `MonoIndividual` and a single `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes where use need not create an individual class.
+Algebraically, there is no discrepency between `MonoIndividual` and a single `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes.
 
 ```python
 class UserChromosome(BaseChromosome):
@@ -130,15 +129,13 @@ UserPopulation = StandardPopulation[UserChromosome]
 
 # An example to begin
 
-In this section, we demonstrate the basic usage of `pyrimidine` with a simple example, the classic 0-1 knapsack problem:
+In this section, we demonstrate the basic usage of `pyrimidine` with a simple example, the classic 0-1 knapsack problem, whose solution can be naturally encoded in binary format without the need for additional decoding:
 
 $$
 \max \sum_i c_ix_i \\
 \sum_i w_ix_i \leq W, \\
 \quad x_i=0,1,i=1,\cdots,n
 $$
-
-The problem solution can be naturally encoded in binary format without the need for additional decoding. Therefore, we utilize the aforementioned classes.
 
 
 ```python
@@ -254,7 +251,7 @@ A multitude of GA frameworks have been devised, such as [`DEAP`](https://deap.re
 
 `DEAP` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `Gaft` is a highly object-oriented software with excellent scalability, but it is currently inactive.
 
-`Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the API and the extension of the program more natural. So far, We have implemented a variety of intelligent algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution, evolutionary programming, particle swarm optimization [@wang], bat algorithm, gravity search algorithm, as well as some local search algorithms, such as simulated annealing.
+`Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the API and the extension of the program more natural. So far, We have implemented a variety of intelligent algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution, evolutionary programming, particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing.
 
 
 # Conclusion
