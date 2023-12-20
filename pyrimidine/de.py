@@ -17,8 +17,9 @@ from .utils import *
 
 class DifferentialEvolution(PopulationMixin, metaclass=MetaContainer):
     # Differential Evolution Algo.
+    
     element_class = BaseIndividual
-    default_size = 2
+    default_size = 4
 
     params ={
         "factor" : 0.05,
