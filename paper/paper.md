@@ -45,9 +45,9 @@ In a typical Python implementation, populations are initially defined as lists o
 
 Our design concept transcends the ordinary and embraces a higher level of extensibility. We term this innovative approach "algebra-inspired Programming." It should not be confused with so-called algebraic programming, but it draws inspiration from its underlying principles.
 
-## Algebra-inspired programming
+# Algebra-inspired programming
 
-We introduce the concept of a **container**, simulating an abstract algebraic system where specific operators are not yet defined.
+We introduce the concept of a **container**, simulating an **(algebraic) system** where specific operators are not yet defined.
 
 A container $s$ of type $S$, with elements of type $A$, is represented by following expression:
 $$
@@ -55,11 +55,11 @@ s = \{a:A\}:S
 $$
 Here, the symbol $\{\cdot\}$ signifies either a set or a sequence, emphasizing the order of the elements.
 
-Building upon the foundational concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, often referred to as "the high-level container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. Populations in a multi-population behave analogously to individuals in a population. Notably, it allows to define containers at higher levels, such as a container of multi-populations, potentially intertwined with conventional populations.
+Building upon the foundational concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, often referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. Populations in a multi-population behave analogously to individuals in a population. Notably, it allows to define containers in higher order, such as a container of multi-populations, potentially intertwined with conventional populations.
 
-While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered a system. Similarly, a chromosome might be viewed as a container of genes. In practice, we choose to implement chromosomes directly using the arrays.
+While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered a system. Similarly, a chromosome might be viewed as a container of genes (implemented by the arrays in practice).
 
-In our framework, a container that defines operators for its elements is referred to as a **system**. For example, in a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, and it can be practically implemented as the command `s.cross(a, b)`. Although this system concept aligns with algebraic systems [@algebra], the current version of our framework diverges from this notion, as operators are directly defined as methods of the elements, such as `a.cross(b)`. While the relevant consideration is postponed to future releases, this potential change will not disrupt the design of APIs.
+In a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, that can be implemented as the command `s.cross(a, b)`. Although this system concept aligns with algebraic systems [@algebra], the current version of our framework diverges from this notion, and the operators are directly defined as methods of the elements, such as `a.cross(b)`.
 
 The lifting of a function/method $f$ is a common approach to defining the function/method for the system:
 $$
@@ -71,7 +71,7 @@ unless explicitly redefined. For example, the mutation of a population typically
 $$
 T(s):S\to S
 $$
-The iterative algorithms can be represented as $T^n(s)$. It is possible to lift method `transition` to higher containers.
+The iterative algorithms can be represented as $T^n(s)$.
 
 <!-- New features will be incorporated based on the structure. -->
 
@@ -129,7 +129,7 @@ UserPopulation = StandardPopulation[UserChromosome]
 
 # An example to begin
 
-In this section, we demonstrate the basic usage of `pyrimidine` with a simple example, the classic 0-1 knapsack problem, whose solution can be naturally encoded in binary format without the need for additional decoding:
+In this section, we demonstrate the basic usage of `pyrimidine` with the classic 0-1 knapsack problem, whose solution can be naturally encoded in binary format without the need for additional decoding:
 
 $$
 \max \sum_i c_ix_i \\
@@ -159,7 +159,9 @@ UserPopulation = StandardPopulation[UserIndividual] // 20
 ```
 
 Using chromosome as the population's elements, we arrange all the components in a single line:
-```UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate)```
+```python
+UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate)
+```
 
 Then we execute the evolutionary program as follows.
 ```python
@@ -167,20 +169,20 @@ pop = UserPopulation.random()
 pop.evolve(n_iter=100)
 ```
 
-Finally, the optimal individual can be obtained with `pop.best_individual`, or `pop.solution` decoding it to the solution of the problem.
+Finally, the optimal individual can be obtained with `pop.best_individual`, or `pop.solution` to decode the individual to the solution of the problem.
 
 # Visualization
 
 Instead of implementing visualization methods, `pyrimidine` yields a `pandas.DataFrame` object that encapsulates statistical results for each generation by setting `history=True` in `evolve` method. Users can harness this object to plot the performance curves. Generally, users are required to furnish a "statistic dictionary" whose keys are the names of the statistics, and values are functions mapping the population to numerical values, or strings presenting pre-defined methods or attributes of the population.
 
 ```python
-# statistic dictionary, computing the mean fitness, the maximum fitness and the standard deviation for each generation
+# statistic dictionary, computing the mean, the maximum and the standard deviation of the fitenss for each generation
 stat = {'Mean Fitness': 'mean_fitness',
 'Best Fitness': 'max_fitness',
 'Standard Deviation of Fitnesses': lambda pop: np.std(pop.get_all_fitness())
 }
 
-# obtain the history data (pandas.DataFrame), i.e. the statistical results, through the evolution.
+# obtain the history data, i.e. the statistical results, through the evolution.
 data = pop.evolve(stat=stat, n_iter=100, history=True)
 
 import matplotlib.pyplot as plt
@@ -201,9 +203,9 @@ plt.show()
 
 # Create your own classes and algorithms
 
-In the standard GA, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs, these rates can be dynamically encoded in each individual, allowing for adaptability during iterations.
+In the standard GA, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs [@hinterding], these rates can be dynamically encoded in each individual, allowing for adaptability during iterations.
 
-For such purpose, we introduce a "mixed-individual" consisting of two chromosomes of different types: `BinaryChromosome`, representing the solution, and `FloatChromosome`, encapsulating the probabilities of mutation and crossover, which is inherently equipped with genetic operations tailored for floating-point numbers.
+Following we introduce the "mixed-individual" consisting of two chromosomes of different types: `BinaryChromosome`, representing the solution, and `FloatChromosome`, encapsulating the probabilities of mutation and crossover, which is equipped with genetic operations tailored for floating-point numbers.
 
 ```python
 class AdaptiveIndividual(MixedIndividual):
