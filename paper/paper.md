@@ -231,7 +231,7 @@ plt.show()
 
 ![The fitness evolution curve of the population. The library does not provide specific plotting commands. Instead, users can directly utilize the plotting commands from the `pandas` library.](plot-history.png)
 
-
+<!-- 
 # Create your own classes and algorithms
 
 In the standard GA, the mutation rate and crossover rate remain constant and uniform throughout the entire population during evolution. However, in self-adaptive GAs [@hinterding], these rates can be dynamically encoded in each individual, allowing for adaptability during iterations.
@@ -251,7 +251,7 @@ class AdaptiveIndividual(MixedIndividual):
 
 
 AdaptivePopulation = StandardPopulation[AdaptiveIndividual] // 20
-```
+``` -->
 
 # Conclusion
 
