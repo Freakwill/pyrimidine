@@ -11,6 +11,10 @@ class TestChromosome:
         b = makeIndividual(element_class=BinaryChromosome, n_chromosomes=2, size=8).random()
         assert len(b) == 2
 
+    def test_make_binary(self):
+        b = makeBinaryIndividual(size=(8, 4)).random()
+        assert len(b[0]) == 8 and len(b[1]) == 4
+
     def test_cross(self):
         I = MonoIndividual[BinaryChromosome]
         b1 = I.random()
