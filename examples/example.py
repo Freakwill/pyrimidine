@@ -13,17 +13,17 @@ n_bags = 50
 _evaluate = Knapsack.random(n_bags)  # : 0-1 array -> float
 
 # Define the individual class
-@fitness_cache
-class MyIndividual(MonoIndividual):
+# @fitness_cache
+# class MyIndividual(MonoIndividual):
 
-    element_class = BinaryChromosome.set(default_size=n_bags)
-    def _fitness(self) -> float:
-        # To evaluate an individual!
-        return _evaluate(self.chromosome)
+#     element_class = BinaryChromosome.set(default_size=n_bags)
+#     def _fitness(self) -> float:
+#         # To evaluate an individual!
+#         return _evaluate(self.chromosome)
 
-""" Equiv. to
-    MyIndividual = MonoIndividual[BinaryChromosome // n_bags].set_fitness(_evaluate)
-"""
+# Equiv. to
+MyIndividual = (BinaryChromosome // n_bags).set_fitness(_evaluate)
+
 
 # Define the population class
 class MyPopulation(StandardPopulation):
@@ -37,21 +37,11 @@ class MyPopulation(StandardPopulation):
 """
 
 pop = MyPopulation.random()
-# import multiprocessing
 
 
 if __name__ == '__main__':
-    
-    # multiprocessing.freeze_support()
-    # pool = multiprocessing.Pool()
-    # _map = pool.map
 
-    # from operator import attrgetter
-
-    # print(_map(attrgetter('fitness'), pop.individuals))
-    # print(list(map(attrgetter('fitness'), pop.individuals)))
-
-#     # Define statistics of population
+    # Define statistics of population
     stat = {
         'Mean Fitness': 'mean_fitness',
         'Best Fitness': 'max_fitness',

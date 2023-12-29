@@ -290,7 +290,26 @@ class MetaContainer(ParamType):
         o.params = copy.deepcopy(self.params)
 
         if args:
-            o.__elements = args[0]
+            elements = []
+            if isinstance(self.element_class, tuple):
+                for e, e_c in zip(args[0], self.element_class):
+                    if not isinstance(e, e_c):
+                        try:
+                            e = e.copy(type_=e_c)
+                        except:
+                            e = e_c(e)
+                    elements.append(e)
+            else:
+                e_c = self.element_class
+                for e in args[0]:
+                    if not isinstance(e, e_c):
+                        try:
+                            e = e.copy(type_=e_c)
+                        except:
+                            e = e_c(e)
+                    elements.append(e)
+
+            o.__elements = elements
             # for e in o.__elements:  # consider in future
             #     e.__system = o
         else:

@@ -55,7 +55,7 @@ class BaseParticle(BaseIndividual):
     @property
     def best_position(self):
         # alias for the position of memory
-        if 'solution' not in self.memory or self.memory['solution'] is None:
+        if self.memory.get('solution', None) is None:
             return self.position
         return self.memory['solution']
 
@@ -132,6 +132,10 @@ class ParticleSwarm(PopulationMixin, metaclass=MetaContainer):
     'inertia':0.75, 'hof_size':0.2, 'max_velocity':None}
 
     alias = {
+    'particles': 'elements',
+    'n_particles': 'n_elements',
+    'best_particle': 'best_element',
+    'get_best_particle': 'get_best_element',
     'get_best_particles': 'get_best_elements'
     }
 

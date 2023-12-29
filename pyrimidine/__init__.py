@@ -18,12 +18,12 @@ from .de import *
 from .ba import *
 
 
-__version__ = "1.5.4"
+__version__ = "1.5.5"
 
 __template__ = """
 from pyrimidine.chromosome import BinaryChromosome
 from pyrimidine.individual import MonoIndividual, binaryIndividual
-from pyrimidine.population import HOFPopulation
+from pyrimidine.population import StandardPopulation
 
 from pyrimidine.benchmarks.optimization import *
 
@@ -32,19 +32,27 @@ _evaluate = Knapsack.random(n)
 
 
 # Define individual
-class MyIndividual(MonoIndividual[BinaryChromosome//n]):
+class MyIndividual(MonoIndividual):
+    element_class = BinaryChromosome//n
+
     def _fitness(self) -> float:
         # To evaluate an individual!
         return _evaluate(self.chromosome)
-    
-# MyIndividual = binaryIndividual(n).set_fitness(lambda o: _evaluate(o.chromosome))
+
+# Equiv. to
+# MyIndividual = MyIndividual[BinaryChromosome//n].set_fitness(lambda o: _evaluate(o.chromosome))
+# MyIndividual = (BinaryChromosome//n).set_fitness(_evaluate) # Algebraically equiv.
 
 # Define Population
 class MyPopulation(HOFPopulation):
     element_class = MyIndividual
     default_size = 20
 
-# MyPopulation = HOFPopulation[MyIndividual] // 20
+# Equiv. to
+# MyPopulation = StandardPopulation[MyIndividual] // 20
+
+# Define MyPopulation as a container of BinaryChromosome
+# MyPopulation = StandardPopulation[BinaryChromosome//n].set_fitness(_evaluate) // 20
 
 pop = MyPopulation.random(size=n)
 

@@ -6,8 +6,7 @@ Self Adaptive GA
 
 
 from random import random
-from . import *
-
+from . import MixedIndividual, StandardPopulation, BinaryChromosome, FloatChromosome
 
 
 class BaseSelfAdaptiveIndividual(MixedIndividual):
@@ -44,6 +43,7 @@ class SelfAdaptiveIndividual(BaseSelfAdaptiveIndividual):
     """
     
     # By default, the second chromosome (a float vector) encodes the prob of mutation and mating
+
     element_class = BinaryChromosome, FloatChromosome
 
     def mutate(self):
@@ -99,14 +99,16 @@ class RankingIndividual(SelfAdaptiveIndividual):
     # def threshold(self):
     #     return self.trait[-1]
 
+
 def lim(r, e):
     e -= 0.0001
     return 0 if r <= e else (r - e)**2 / (1 - e)
 
 
 class SSAPopulation(StandardPopulation):
+    # super self-adaptive population
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
 
         self.mate()
         self.mutate()
@@ -125,9 +127,8 @@ class SSAPopulation(StandardPopulation):
         self.rank()
         children = []
         for individual, other in zip(self[:-1], self[1:]):
-            if random() < min(individual.cross_prob, other.cross_prob):
-                if self.match(individual, other):
-                    children.append(individual.cross(other))
+            if random() < min(individual.cross_prob, other.cross_prob) and self.match(individual, other):
+                children.append(individual.cross(other))
         self.extend(children)
         return children
 

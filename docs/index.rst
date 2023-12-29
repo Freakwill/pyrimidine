@@ -10,7 +10,7 @@ Welcome to pyrimidine's world of genetic algorithm
    :width: 200
    :height: 200
 
-**pyrimidine** is a competitive framework for genetic algorithm.
+**pyrimidine** is a competitive framework for genetic algorithms or any type of evolutionary algorithms.
 
 .. toctree::
    :maxdepth: 2
@@ -26,11 +26,15 @@ Welcome to pyrimidine's world of genetic algorithm
    Misc <../source/Misc.md>
 
 
-   modules <../source/modules.rst>
-
-Indices
+Models
 ==================
 
-* :ref:`source/genindex`
-* :ref:`source/modindex`
-* :ref:`source/search`
+   modules <../source/modules.rst>
+
+
+.. Indices
+.. ==================
+
+.. * :ref:`source/genindex`
+.. * :ref:`source/modindex`
+.. * :ref:`source/search`

@@ -109,7 +109,7 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
         return f'{self.__class__.__name__}: {":".join(map(repr, self))}'
 
     def __str__(self):
-        return ":".join(map(str, self))
+        return "|".join(map(str, self))
 
     def transition(self, *args, **kwargs):
         self.mutate()
@@ -142,6 +142,10 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
 
     def equal_to(self, other):
         return np.array_equal(self, other)
+
+    @classmethod
+    def random(cls, *args, **kwargs):
+        raise NotImplementedError
 
 
 class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
@@ -187,13 +191,6 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
             return self.environment.evaluate(self)
         else:
             raise NotImplementedError
-
-    def copy(self, type_=None, *args, **kwargs):
-        type_ = type_ or self.__class__
-        if isinstance(type_.element_class, tuple):
-            return type_([c.copy(type_=t) for c, t in zip(self, type_.element_class)])
-        else:
-            return type_([c.copy(type_=type_.element_class) for c in self])
 
     def transition(self, *args, **kwargs):
         self.mutate()

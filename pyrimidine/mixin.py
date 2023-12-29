@@ -122,7 +122,7 @@ class IterativeMixin:
                     pd.Series(res.values(), index=res.keys()).to_frame().T],
                     ignore_index=True)
             if verbose and (period == 1 or t % period ==0):
-                print(f'{" & ".join(map(str, concat((("[%d]"%k,), (getattr(self, attr) for attr in attrs), map(str, res.values())))))}')
+                print(f'{" & ".join(map(str, concat((("[%d]"%t,), (getattr(self, attr) for attr in attrs), map(str, res.values())))))}')
             
             if control:
                 if control(self):
@@ -255,6 +255,7 @@ class FitnessMixin(IterativeMixin):
         Args:
             f (None, optional): function to evalute the fintess
             decode (None, optional): decode the individual or not before calcuating fitness
+                                    (deprecated currently, eps. when you use `memory`!)
         
         Returns:
             An individual class with the fitness `f`
@@ -265,10 +266,14 @@ class FitnessMixin(IterativeMixin):
                 f = globals()['_fitness']
             else:
                 raise Exception('Function `_fitness` is not defined before setting fitness. You may forget to create the class in the context of environment.')
-        class cls_(cls):
-            def _fitness(self):
-                return f(self)
-        return cls_
+        if not decode:
+            def _fitness(obj):
+                return f(obj)
+        else:
+            def _fitness(obj):
+                return f(obj.decode())
+        cls._fitness = _fitness
+        return cls
 
     def evolve(self, stat=None, *args, **kwargs):
         """Get the history of solution and its fitness by default.
@@ -277,6 +282,17 @@ class FitnessMixin(IterativeMixin):
         if stat is None:
             stat = {'Fitness': 'fitness'}
         return super().evolve(stat=stat, *args, **kwargs)
+
+    def copy(self, type_=None, element_class=None, *args, **kwargs):
+        type_ = type_ or self.__class__
+        element_class = element_class or type_.element_class
+        if isinstance(type_.element_class, tuple):
+            return type_([c.copy(type_=t) for c, t in zip(self, type_.element_class)])
+        else:
+            return type_([c.copy(type_=element_class) for c in self])
+
+    def clone(self):
+        return self.__class__(list(map(methodcaller('clone'), self)))
 
 
 class CollectiveMixin(IterativeMixin):
@@ -309,14 +325,6 @@ class CollectiveMixin(IterativeMixin):
     def append(self, ind):
         self.elements.append(ind)
 
-    def copy(self, type_=None, element_class=None, *args, **kwargs):
-        type_ = type_ or self.__class__
-        cpy = type_(list(map(methodcaller('copy', type_=element_class or type_.element_class), self)))
-        return cpy
-
-    def clone(self):
-        return self.__class__(list(map(methodcaller('clone'), self)))
-
 
 class PopulationMixin(FitnessMixin, CollectiveMixin):
     """mixin class for population-based heuristic algorithm
@@ -336,7 +344,10 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
     @classmethod
     def set_fitness(cls, *args, **kwargs):
         # set fitness for the element_class.
-        cls.element_class.set_fitness(*args, **kwargs)
+        if hasattr(cls.element_class, 'set_fitness'):
+            cls.element_class.set_fitness(*args, **kwargs)
+        else:
+            raise AttributeError(f'{cls.element_class} does not have `set_fitness`')
         return cls
 
     @property

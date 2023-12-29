@@ -3,7 +3,8 @@
 from random import choice, randint, gauss, random
 
 import numpy as np
-import scipy.stats
+from scipy.stats import norm
+from scipy.special import softmax
 
 from .base import BaseChromosome, BaseGene
 from .gene import *
@@ -79,9 +80,6 @@ class NumpyArrayChromosome(BaseChromosome, np.ndarray):
                 raise UnknownSizeError(cls)
         return cls(cls.element_class.random(*args, **kwargs))
 
-    def __str__(self):
-        return "|".join(map(str, self))
-
     def cross(self, other):
         """Crossover operation for a single chromosome
 
@@ -104,11 +102,8 @@ class NumpyArrayChromosome(BaseChromosome, np.ndarray):
                 self.__class__(np.concatenate((other[:k], self[k:]), axis=0)))
 
     def copy(self, type_=None, *args, **kwargs):
-        if type_ is None:
-            obj = self.__class__(np.copy(self))
-        else:
-            obj = type_(np.copy(self))
-        return obj
+        type_ = type_ or self.__class__
+        return type_(np.copy(self))
 
     def clone(self):
         """Alias of `copy`, but regarded as a genetic operation
@@ -147,13 +142,6 @@ class MatrixChromosome(NumpyArrayChromosome):
         A = np.vstack((self[:k, :l], other[k:, :l]))
         B = np.vstack((other[:k, l:], self[k:, l:]))
         return self.__class__(np.hstack((A, B)))
-
-
-class StochasticMatrixChromosome(MatrixChromosome):
-
-    def normalize(self):
-        self[:] = max0(self)
-        self[:] = self / np.sum(self, axis=1)[:,None]
 
 
 class NaturalChromosome(VectorChromosome):
@@ -262,7 +250,7 @@ class FloatChromosome(NumpyArrayChromosome):
         # select a neighour randomly
         sigma = sigma or self.sigma
         cpy = self.copy()
-        n = scipy.stats.norm(mu, sigma)
+        n = norm(mu, sigma)
         cpy += n.rvs(len(self))
         return cpy
 
@@ -349,9 +337,8 @@ class ProbabilityChromosome(PositiveChromosome):
         cpy = self.copy()
         i, j = randint2(0, len(cpy)-1)
         p = cpy[i] + cpy[j]
-        r = np.random.uniform(0, p)
-        cpy[i] = r
-        cpy[j] = p - r
+        r = random() * p
+        cpy[[i,j]] = [r, p - r]
         return cpy
 
     def mutate(self, *args, **kwargs):
@@ -359,10 +346,13 @@ class ProbabilityChromosome(PositiveChromosome):
         self.normalize()
 
     def normalize(self):
-        super().normalize()
-        a = self + 0.001
-        self[:] = a / np.sum(a)
+        self[:] = softmax(self)
 
+
+class StochasticMatrixChromosome(MatrixChromosome, PositiveChromosome):
+
+    def normalize(self):
+        self[:] = softmax(self, axis=1)
 
 class CircleChromosome(FloatChromosome):
     """Used in Quantum-Chromosome
@@ -406,7 +396,7 @@ import copy
 import array
 
 class ArrayChromosome(BaseChromosome, array.array):
-    """Chromosome class implemented by array.array
+    """Chromosome class implemented by `array.array`
     
     Attributes:
         element_class (str): the type of gene
@@ -422,13 +412,6 @@ class ArrayChromosome(BaseChromosome, array.array):
 
         return array.array(element_class, array)
 
-    @classmethod
-    def random(cls, *args, **kwargs):
-        raise NotImplementedError
-
-    def __str__(self):
-        return f'{"|".join(map(str, self))}'
-
     def cross(self, other):
         # note that when len(self) == 2  ==>  k==1
         k = randint(1, len(self)-1)
@@ -440,7 +423,31 @@ class ArrayChromosome(BaseChromosome, array.array):
     @side_effect
     def mutate(self, indep_prob=0.1):
         a = self.random()
-        for k in range(len(self)):
+        for k, ak in enumerate(a):
             if random() < indep_prob:
-                self[k] = a[k]
+                self[k] = ak
 
+
+class ListChromosome(BaseChromosome, list):
+    """Chromosome class implemented by `list`
+    
+    Attributes:
+        element_class (str): the type of gene
+    """
+
+    element_class = None
+
+    def cross(self, other):
+        # note that when len(self) == 2  ==>  k==1
+        k = randint(1, len(self)-1)
+        return self[:k] + other[k:]
+
+    def copy(self, type_=None):
+        return copy.deepcopy(self)
+
+    @side_effect
+    def mutate(self, indep_prob=0.1):
+        a = self.random()
+        for k, ak in enumerate(a):
+            if random() < indep_prob:
+                self[k] = ak

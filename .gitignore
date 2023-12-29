@@ -3,5 +3,6 @@
 examples/*.csv
 examples/*.mp4
 */__pycache__/
--*.py
+-*.md
+pyrimidine/-*.py
 *.pdf

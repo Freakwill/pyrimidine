@@ -77,8 +77,8 @@ class add_cache:
     """Handle with cache for class
     
     Attributes:
-        attrs (tuple[str]): a tuple of attributes
-        methods (tuple[str]): a tuple of method names
+        attrs (tuple[str]): a tuple of attributes what will be cached
+        methods (tuple[str]): a tuple of method names that will be cached
     """
 
     def __init__(self, attrs, methods=(), scope=None):
@@ -178,7 +178,8 @@ class set_fitness:
             if '_fitness' in globals():
                 self.f = globals()['_fitness']
             else:
-                raise Exception('Function `_fitness` is not defined before setting fitness. You may forget to create the class in the context of environment.')
+                raise Exception('''Function `_fitness` is not defined before setting fitness.
+You may forget to create the class in the context of environment.''')
         cls._fitness = self.f
         return cls
 
@@ -191,6 +192,9 @@ class add_memory:
     The memory dict stores the best solution,
     unlike the `_cache` dict which only records the last computing result.
     And it is not affected by the genetic operations.
+
+    _memory {dict[str]} -- the memory for an object;
+                        In general, the key is the property of the object.
     """
 
     def __init__(self, memory={}):

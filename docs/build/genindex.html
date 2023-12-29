@@ -56,6 +56,7 @@
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
@@ -64,6 +65,7 @@
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#X"><strong>X</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
  
 </div>
 <h2 id="A">A</h2>
@@ -109,6 +111,8 @@
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.FloatChromosome.alias">(pyrimidine.chromosome.FloatChromosome attribute)</a>
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.FloatMatrixChromosome.alias">(pyrimidine.chromosome.FloatMatrixChromosome attribute)</a>
+</li>
+        <li><a href="source/pyrimidine.html#pyrimidine.chromosome.ListChromosome.alias">(pyrimidine.chromosome.ListChromosome attribute)</a>
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.MatrixChromosome.alias">(pyrimidine.chromosome.MatrixChromosome attribute)</a>
 </li>
@@ -178,7 +182,11 @@
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.BaseParticle.alias">(pyrimidine.pso.BaseParticle attribute)</a>
 </li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.DiscreteParticleSwarm.alias">(pyrimidine.pso.DiscreteParticleSwarm attribute)</a>
+</li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.Particle.alias">(pyrimidine.pso.Particle attribute)</a>
+</li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.ParticleSwarm.alias">(pyrimidine.pso.ParticleSwarm attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -248,7 +256,11 @@
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.BaseParticle.apply">(pyrimidine.pso.BaseParticle method)</a>
 </li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.DiscreteParticleSwarm.apply">(pyrimidine.pso.DiscreteParticleSwarm method)</a>
+</li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.Particle.apply">(pyrimidine.pso.Particle method)</a>
+</li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.ParticleSwarm.apply">(pyrimidine.pso.ParticleSwarm method)</a>
 </li>
       </ul></li>
       <li><a href="source/pyrimidine.benchmarks.html#pyrimidine.benchmarks.optimization.Knapsack.argsort">argsort() (pyrimidine.benchmarks.optimization.Knapsack method)</a>
@@ -366,13 +378,15 @@
       <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.BaseEstimator.config">config() (pyrimidine.learn.BaseEstimator class method)</a>
 
       <ul>
-        <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAANN.config">(pyrimidine.learn.neural_network.GAANN class method)</a>
+        <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAMLPRegressor.config">(pyrimidine.learn.neural_network.GAMLPRegressor class method)</a>
 </li>
       </ul></li>
-      <li><a href="source/pyrimidine.html#pyrimidine.base.BaseIndividual.copy">copy() (pyrimidine.base.BaseIndividual method)</a>
+      <li><a href="source/pyrimidine.html#pyrimidine.utils.copy">copy() (in module pyrimidine.utils)</a>
 
       <ul>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.ArrayChromosome.copy">(pyrimidine.chromosome.ArrayChromosome method)</a>
+</li>
+        <li><a href="source/pyrimidine.html#pyrimidine.chromosome.ListChromosome.copy">(pyrimidine.chromosome.ListChromosome method)</a>
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.copy">(pyrimidine.chromosome.NumpyArrayChromosome method)</a>
 </li>
@@ -385,7 +399,7 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAANN.create_model">create_model() (pyrimidine.learn.neural_network.GAANN class method)</a>
+      <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAMLPRegressor.create_model">create_model() (pyrimidine.learn.neural_network.GAMLPRegressor class method)</a>
 </li>
       <li><a href="source/pyrimidine.html#pyrimidine.base.BaseChromosome.cross">cross() (pyrimidine.base.BaseChromosome method)</a>
 
@@ -395,6 +409,8 @@
         <li><a href="source/pyrimidine.html#pyrimidine.base.BasePopulation.cross">(pyrimidine.base.BasePopulation method)</a>
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.ArrayChromosome.cross">(pyrimidine.chromosome.ArrayChromosome method)</a>
+</li>
+        <li><a href="source/pyrimidine.html#pyrimidine.chromosome.ListChromosome.cross">(pyrimidine.chromosome.ListChromosome method)</a>
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.MatrixChromosome.cross">(pyrimidine.chromosome.MatrixChromosome method)</a>
 </li>
@@ -520,9 +536,11 @@
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.FloatChromosome.element_class">(pyrimidine.chromosome.FloatChromosome attribute)</a>
 </li>
+        <li><a href="source/pyrimidine.html#id6">(pyrimidine.chromosome.ListChromosome attribute)</a>, <a href="source/pyrimidine.html#pyrimidine.chromosome.ListChromosome.element_class">[1]</a>
+</li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.NaturalChromosome.element_class">(pyrimidine.chromosome.NaturalChromosome attribute)</a>
 </li>
-        <li><a href="source/pyrimidine.html#id6">(pyrimidine.chromosome.NumpyArrayChromosome attribute)</a>, <a href="source/pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.element_class">[1]</a>
+        <li><a href="source/pyrimidine.html#id7">(pyrimidine.chromosome.NumpyArrayChromosome attribute)</a>, <a href="source/pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.element_class">[1]</a>
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.PermutationChromosome.element_class">(pyrimidine.chromosome.PermutationChromosome attribute)</a>
 </li>
@@ -612,7 +630,11 @@
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.BaseParticle.elements">(pyrimidine.pso.BaseParticle property)</a>
 </li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.DiscreteParticleSwarm.elements">(pyrimidine.pso.DiscreteParticleSwarm property)</a>
+</li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.Particle.elements">(pyrimidine.pso.Particle property)</a>
+</li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.ParticleSwarm.elements">(pyrimidine.pso.ParticleSwarm property)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -629,10 +651,10 @@
 </li>
       <li><a href="source/pyrimidine.html#pyrimidine.base.BaseChromosome.equal_to">equal_to() (pyrimidine.base.BaseChromosome method)</a>
 </li>
-      <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.BaseEstimator.estimated_params">estimated_params (pyrimidine.learn.BaseEstimator attribute)</a>
+      <li><a href="source/pyrimidine.learn.html#id0">estimated_params (pyrimidine.learn.BaseEstimator attribute)</a>, <a href="source/pyrimidine.learn.html#pyrimidine.learn.BaseEstimator.estimated_params">[1]</a>
 
       <ul>
-        <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAANN.estimated_params">(pyrimidine.learn.neural_network.GAANN attribute)</a>
+        <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAMLPRegressor.estimated_params">(pyrimidine.learn.neural_network.GAMLPRegressor attribute)</a>
 </li>
       </ul></li>
       <li><a href="source/pyrimidine.html#pyrimidine.base.BaseEnvironment.evaluate">evaluate() (pyrimidine.base.BaseEnvironment method)</a>
@@ -709,7 +731,7 @@
 </li>
       <li><a href="source/pyrimidine.html#pyrimidine.optimize.ga_minimize_1D">ga_minimize_1D() (in module pyrimidine.optimize)</a>
 </li>
-      <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAANN">GAANN (class in pyrimidine.learn.neural_network)</a>
+      <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAMLPRegressor">GAMLPRegressor (class in pyrimidine.learn.neural_network)</a>
 </li>
       <li><a href="source/pyrimidine.html#pyrimidine.population.GamogenesisPopulation">GamogenesisPopulation (class in pyrimidine.population)</a>
 </li>
@@ -747,7 +769,7 @@
 </li>
       <li><a href="source/pyrimidine.benchmarks.html#pyrimidine.benchmarks.special.hansen">hansen() (in module pyrimidine.benchmarks.special)</a>
 </li>
-      <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAANN.hidden_dim">hidden_dim (pyrimidine.learn.neural_network.GAANN attribute)</a>
+      <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAMLPRegressor.hidden_dim">hidden_dim (pyrimidine.learn.neural_network.GAMLPRegressor attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -763,6 +785,8 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/pyrimidine.html#pyrimidine.chromosome.PermutationChromosome.identity">identity() (pyrimidine.chromosome.PermutationChromosome class method)</a>
+</li>
       <li><a href="source/pyrimidine.html#pyrimidine.base.BaseMultiPopulation.individuals">individuals (pyrimidine.base.BaseMultiPopulation property)</a>
 </li>
       <li><a href="source/pyrimidine.html#pyrimidine.meta.inherit">inherit() (in module pyrimidine.meta)</a>
@@ -848,7 +872,11 @@
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.BaseParticle.isa">(pyrimidine.pso.BaseParticle method)</a>
 </li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.DiscreteParticleSwarm.isa">(pyrimidine.pso.DiscreteParticleSwarm method)</a>
+</li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.Particle.isa">(pyrimidine.pso.Particle method)</a>
+</li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.ParticleSwarm.isa">(pyrimidine.pso.ParticleSwarm method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -882,6 +910,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/pyrimidine.benchmarks.html#pyrimidine.benchmarks.approximation.lin_comb">lin_comb() (in module pyrimidine.benchmarks.approximation)</a>
+</li>
+      <li><a href="source/pyrimidine.html#pyrimidine.chromosome.ListChromosome">ListChromosome (class in pyrimidine.chromosome)</a>
 </li>
       <li><a href="source/pyrimidine.html#pyrimidine.base.BasePopulation.local_search">local_search() (pyrimidine.base.BasePopulation method)</a>
 </li>
@@ -931,7 +961,7 @@
 </li>
       <li><a href="source/pyrimidine.html#pyrimidine.population.HOFPopulation.max_fitness">max_fitness (pyrimidine.population.HOFPopulation property)</a>
 </li>
-      <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAANN.max_iter">max_iter (pyrimidine.learn.neural_network.GAANN attribute)</a>
+      <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAMLPRegressor.max_iter">max_iter (pyrimidine.learn.neural_network.GAMLPRegressor attribute)</a>
 </li>
       <li><a href="source/pyrimidine.html#pyrimidine.utils.max_lb">max_lb() (in module pyrimidine.utils)</a>
 </li>
@@ -1099,6 +1129,8 @@
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.FloatChromosome.mutate">(pyrimidine.chromosome.FloatChromosome method)</a>
 </li>
+        <li><a href="source/pyrimidine.html#pyrimidine.chromosome.ListChromosome.mutate">(pyrimidine.chromosome.ListChromosome method)</a>
+</li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.MatrixChromosome.mutate">(pyrimidine.chromosome.MatrixChromosome method)</a>
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.NaturalChromosome.mutate">(pyrimidine.chromosome.NaturalChromosome method)</a>
@@ -1193,12 +1225,16 @@
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.BaseParticle.n_elements">(pyrimidine.pso.BaseParticle property)</a>
 </li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.DiscreteParticleSwarm.n_elements">(pyrimidine.pso.DiscreteParticleSwarm property)</a>
+</li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.Particle.n_elements">(pyrimidine.pso.Particle property)</a>
+</li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.ParticleSwarm.n_elements">(pyrimidine.pso.ParticleSwarm property)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAANN.n_layers">n_layers (pyrimidine.learn.neural_network.GAANN attribute)</a>
+      <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAMLPRegressor.n_layers">n_layers (pyrimidine.learn.neural_network.GAMLPRegressor attribute)</a>
 </li>
       <li><a href="source/pyrimidine.html#pyrimidine.chromosome.NaturalChromosome">NaturalChromosome (class in pyrimidine.chromosome)</a>
 </li>
@@ -1219,6 +1255,18 @@
 </li>
       </ul></li>
       <li><a href="source/pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome">NumpyArrayChromosome (class in pyrimidine.chromosome)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/pyrimidine.html#pyrimidine.chromosome.BinaryChromosome.one">one() (pyrimidine.chromosome.BinaryChromosome class method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/pyrimidine.html#pyrimidine.optimize.Optimizer">Optimizer (class in pyrimidine.optimize)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1256,6 +1304,8 @@
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.FloatChromosome.params">(pyrimidine.chromosome.FloatChromosome attribute)</a>
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.FloatMatrixChromosome.params">(pyrimidine.chromosome.FloatMatrixChromosome attribute)</a>
+</li>
+        <li><a href="source/pyrimidine.html#pyrimidine.chromosome.ListChromosome.params">(pyrimidine.chromosome.ListChromosome attribute)</a>
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.MatrixChromosome.params">(pyrimidine.chromosome.MatrixChromosome attribute)</a>
 </li>
@@ -1329,6 +1379,8 @@
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.BaseParticle.params">(pyrimidine.pso.BaseParticle attribute)</a>
 </li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.DiscreteParticleSwarm.params">(pyrimidine.pso.DiscreteParticleSwarm attribute)</a>
+</li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.Particle.params">(pyrimidine.pso.Particle attribute)</a>
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.ParticleSwarm.params">(pyrimidine.pso.ParticleSwarm attribute)</a>
@@ -1366,10 +1418,10 @@
 </li>
       <li><a href="source/pyrimidine.html#pyrimidine.individual.PolyIndividual">PolyIndividual (in module pyrimidine.individual)</a>
 </li>
-      <li><a href="source/pyrimidine.learn.html#pyrimidine.learn.neural_network.GAANN.pop">pop (pyrimidine.learn.neural_network.GAANN attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/pyrimidine.learn.html#id1">pop (pyrimidine.learn.BaseEstimator attribute)</a>, <a href="source/pyrimidine.learn.html#pyrimidine.learn.BaseEstimator.pop">[1]</a>
+</li>
       <li><a href="source/pyrimidine.html#pyrimidine.population.Population">Population (in module pyrimidine.population)</a>
 </li>
       <li><a href="source/pyrimidine.html#pyrimidine.ba.Bat.position">position (pyrimidine.ba.Bat property)</a>
@@ -1657,8 +1709,6 @@
 </li>
         <li><a href="source/pyrimidine.benchmarks.html#pyrimidine.benchmarks.optimization.ShortestPath.random">(pyrimidine.benchmarks.optimization.ShortestPath static method)</a>
 </li>
-        <li><a href="source/pyrimidine.html#pyrimidine.chromosome.ArrayChromosome.random">(pyrimidine.chromosome.ArrayChromosome class method)</a>
-</li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.NumpyArrayChromosome.random">(pyrimidine.chromosome.NumpyArrayChromosome class method)</a>
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.chromosome.PermutationChromosome.random">(pyrimidine.chromosome.PermutationChromosome class method)</a>
@@ -1757,7 +1807,11 @@
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.BaseParticle.regester">(pyrimidine.pso.BaseParticle method)</a>
 </li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.DiscreteParticleSwarm.regester">(pyrimidine.pso.DiscreteParticleSwarm method)</a>
+</li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.Particle.regester">(pyrimidine.pso.Particle method)</a>
+</li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.ParticleSwarm.regester">(pyrimidine.pso.ParticleSwarm method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1827,7 +1881,11 @@
 </li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.BaseParticle.regester_map">(pyrimidine.pso.BaseParticle method)</a>
 </li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.DiscreteParticleSwarm.regester_map">(pyrimidine.pso.DiscreteParticleSwarm method)</a>
+</li>
         <li><a href="source/pyrimidine.html#pyrimidine.pso.Particle.regester_map">(pyrimidine.pso.Particle method)</a>
+</li>
+        <li><a href="source/pyrimidine.html#pyrimidine.pso.ParticleSwarm.regester_map">(pyrimidine.pso.ParticleSwarm method)</a>
 </li>
       </ul></li>
       <li><a href="source/pyrimidine.html#pyrimidine.base.BaseChromosome.replicate">replicate() (pyrimidine.base.BaseChromosome method)</a>
@@ -2037,6 +2095,14 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/pyrimidine.html#pyrimidine.base.BaseChromosome.x">x() (pyrimidine.base.BaseChromosome method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/pyrimidine.html#pyrimidine.chromosome.BinaryChromosome.zero">zero() (pyrimidine.chromosome.BinaryChromosome class method)</a>
 </li>
   </ul></td>
 </tr></table>

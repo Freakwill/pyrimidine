@@ -11,6 +11,9 @@
 > -- Are you kiding?
 > -- No, I am serious.
 
+
+If you have more questions, then log in [google group](https://groups.google.com/g/pyrimidine) and post your questions.
+
 ## Download
 
 It has been uploaded to [pypi](https://pypi.org/project/pyrimidine/), so download it with `pip install pyrimidine`, and also could download it from github.

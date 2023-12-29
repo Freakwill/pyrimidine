@@ -25,7 +25,8 @@ pop = MyParticleSwarm.random()
 
 stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
 
-data = pop.evolve(stat=stat, n_iter=100, history=True)
+data = pop.evolve(stat=stat, n_iter=10, history=True, verbose=True)
+
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)

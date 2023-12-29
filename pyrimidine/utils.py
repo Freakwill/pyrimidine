@@ -6,12 +6,20 @@ Helper functions
 
 from random import random, randint
 from math import exp
+from copy import deepcopy
 
 from toolz import unique
 import numpy as np
 from scipy.spatial.distance import euclidean
 from scipy.special import softmax
 from scipy.stats import rv_discrete
+
+
+def copy(obj, *args, **kwargs):
+    if hasattr(obj, 'copy'):
+        return obj.copy(*args, **kwargs)
+    else:
+        return deepcopy(obj)
 
 
 def boltzmann_select(xs, fs, T=1):

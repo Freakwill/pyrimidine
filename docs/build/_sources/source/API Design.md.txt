@@ -43,6 +43,8 @@ IterativeMixin  - - ->  CollectiveMixin
 FitnessMixin  - - ->  PopulationMixin
 ```
 
+If you want to create novel algorithm different from GAs, it is recommended to inherit from the mixin classes. The base classes are designed for GA-like algorithms. It is not coercive. One can override the methods in the base classes.
+
 ### Iterative models/algorithms
 
 An iterative model is a mixin class implementing iterative algorithms, mainly repeating to call `transition` method.

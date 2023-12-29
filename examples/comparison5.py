@@ -22,18 +22,21 @@ class Gene2(FloatGene):
 class Chromosome2(FloatChromosome):
     element_class = Gene2
 
-class _Individual(MixIndividual):
+class _Individual(MixedIndividual):
     element_class = Chromosome1, Chromosome2, Chromosome2
 
 
     def _fitness(self):
         return evaluate(*self.chromosomes)
 
+from pyrimidine.parallel import *
 
 MyPopulation = HOFPopulation[_Individual] // 50
+MyPopulation.map = DaskMap()
 YourPopulation = StandardPopulation[_Individual] // 50
+YourPopulation.map = DaskMap()
 
-pop = MyPopulation.random(sizes=(10, 10, 10))
+pop = MyPopulation.random(size=(10, 10, 10))
 pop2 = pop.copy(type_=YourPopulation)
 
 pop.ezolve(n_iter=300)
