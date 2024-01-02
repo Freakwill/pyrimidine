@@ -13,8 +13,6 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pyrimidine.learn package" href="pyrimidine.learn.html" />
-    <link rel="prev" title="pyrimidine package" href="pyrimidine.html" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <!--[if lte IE 6]>
@@ -32,15 +30,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="pyrimidine.learn.html" title="pyrimidine.learn package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="pyrimidine.html" title="pyrimidine package"
-             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="pyrimidine.html" accesskey="U">pyrimidine package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine.benchmarks package</a></li> 
       </ul>
     </div>  
@@ -119,21 +109,8 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.benchmarks.fitting.basis">
-<span class="sig-prename descclassname"><span class="pre">pyrimidine.benchmarks.fitting.</span></span><span class="sig-name descname"><span class="pre">basis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.fitting.basis" title="Link to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<em>number</em>) – Rotation</p></li>
-<li><p><strong>d1</strong> (<em>number</em>) – Scaling</p></li>
-<li><p><strong>d2</strong> (<em>number</em>) – Scaling</p></li>
-<li><p><strong>t</strong> (<em>number</em>) – Translation</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>function</p>
-</dd>
-</dl>
-</dd></dl>
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.benchmarks.fitting.</span></span><span class="sig-name descname"><span class="pre">basis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.fitting.basis" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </section>
 <section id="module-pyrimidine.benchmarks.linear_model">
@@ -163,8 +140,33 @@
 </dd></dl>
 
 </section>
-<section id="pyrimidine-benchmarks-neural-network-module">
-<h2>pyrimidine.benchmarks.neural_network module<a class="headerlink" href="#pyrimidine-benchmarks-neural-network-module" title="Link to this heading">¶</a></h2>
+<section id="module-pyrimidine.benchmarks.neural_network">
+<span id="pyrimidine-benchmarks-neural-network-module"></span><h2>pyrimidine.benchmarks.neural_network module<a class="headerlink" href="#module-pyrimidine.benchmarks.neural_network" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.benchmarks.neural_network.MLP">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.benchmarks.neural_network.</span></span><span class="sig-name descname"><span class="pre">MLP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.neural_network.MLP" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.benchmarks.BaseProblem" title="pyrimidine.benchmarks.BaseProblem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseProblem</span></code></a></p>
+<p>Y = A2f(A1X+b1)+b2</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.benchmarks.neural_network.MLP.random">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.neural_network.MLP.random" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.benchmarks.neural_network.RNN">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.benchmarks.neural_network.</span></span><span class="sig-name descname"><span class="pre">RNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.neural_network.RNN" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.benchmarks.BaseProblem" title="pyrimidine.benchmarks.BaseProblem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseProblem</span></code></a></p>
+<p>Yt+1 = A2f(A1Xt+C1Zt+b1)+b2
+Zt+1 = C2g(A1X+C1Zt+b1)+c2</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.benchmarks.neural_network.RNN.random">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.benchmarks.neural_network.RNN.random" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-pyrimidine.benchmarks.optimization">
 <span id="pyrimidine-benchmarks-optimization-module"></span><h2>pyrimidine.benchmarks.optimization module<a class="headerlink" href="#module-pyrimidine.benchmarks.optimization" title="Link to this heading">¶</a></h2>
@@ -395,7 +397,17 @@ make it behaving as function</p>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#pyrimidine-benchmarks-neural-network-module">pyrimidine.benchmarks.neural_network module</a></li>
+<li><a class="reference internal" href="#module-pyrimidine.benchmarks.neural_network">pyrimidine.benchmarks.neural_network module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.neural_network.MLP"><code class="docutils literal notranslate"><span class="pre">MLP</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.neural_network.MLP.random"><code class="docutils literal notranslate"><span class="pre">MLP.random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.neural_network.RNN"><code class="docutils literal notranslate"><span class="pre">RNN</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.benchmarks.neural_network.RNN.random"><code class="docutils literal notranslate"><span class="pre">RNN.random()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-pyrimidine.benchmarks.optimization">pyrimidine.benchmarks.optimization module</a><ul>
 <li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.CurvePath"><code class="docutils literal notranslate"><span class="pre">CurvePath</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.benchmarks.optimization.FacilityLayout"><code class="docutils literal notranslate"><span class="pre">FacilityLayout</span></code></a><ul>
@@ -451,16 +463,6 @@ make it behaving as function</p>
 </ul>
 
   </div>
-  <div>
-    <h4>Previous topic</h4>
-    <p class="topless"><a href="pyrimidine.html"
-                          title="previous chapter">pyrimidine package</a></p>
-  </div>
-  <div>
-    <h4>Next topic</h4>
-    <p class="topless"><a href="pyrimidine.learn.html"
-                          title="next chapter">pyrimidine.learn package</a></p>
-  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -491,15 +493,7 @@ make it behaving as function</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="pyrimidine.learn.html" title="pyrimidine.learn package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="pyrimidine.html" title="pyrimidine package"
-             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="pyrimidine.html" >pyrimidine package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine.benchmarks package</a></li> 
       </ul>
     </div>

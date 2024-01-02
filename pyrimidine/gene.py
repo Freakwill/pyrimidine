@@ -29,7 +29,6 @@ class IntegerGene(np.int_, BaseGene):
 
 
 class BinaryGene(np.int_, BaseGene):
-    values = (0, 1)
 
     @classmethod
     def random(cls, *args, **kwargs):

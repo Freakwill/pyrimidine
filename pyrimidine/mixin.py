@@ -70,7 +70,7 @@ class IterativeMixin:
         for k in range(1, n_iter+1):
             self.transition(k)
 
-    def evolve(self, n_iter:int=100, period:int=1, verbose:bool=False, history=False, stat=None, attrs=('solution',), control=None):
+    def evolve(self, initialize:bool=True, n_iter:int=100, period:int=1, verbose:bool=False, history=False, stat=None, attrs=('solution',), control=None):
         """Get the history of the whole evolution
 
         Keyword Arguments:
@@ -91,8 +91,9 @@ class IterativeMixin:
         n_iter = n_iter or self.n_iter
 
         if isinstance(stat, dict): stat = Statistics(stat)
-
-        self.init()
+        
+        if initialize:
+            self.init()
 
         if history is True:
             res = stat(self) if stat else {}
@@ -227,6 +228,10 @@ class IterativeMixin:
     def after_setter(self):
         if hasattr(self, '_cache'):
             self.clear_cache()
+
+    @classmethod
+    def solve(cls, *args, **kwargs):
+        return cls.random().evolve(*args, **kwargs).solution
 
 
 class FitnessMixin(IterativeMixin):

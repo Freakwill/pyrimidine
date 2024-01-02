@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
 """
-The base classes are defined here, mainly to implement GAs.
+The base classes are defined here, mainly for implementation of GAs.
 
 This is the core module of pyrimidine. 
 
 Main classes:
-BaseGene: the gene of chromosome
-BaseChromosome: sequence of genes, represents part of a solution
-BaseIndividual: sequence of chromosomes, represents a solution of a problem
-BasePopulation: set of individuals, represents a set of a problem
-                also the state of a stachostic process
-BaseMultiPopulation/BaseCommunity: set of populations for more complicated optimalization
-BaseEnviorenment:
+    BaseGene: the gene of chromosome
+    BaseChromosome: sequence of genes, represents part of a solution
+    BaseIndividual: sequence of chromosomes, represents a solution of a problem
+    BasePopulation: set of individuals, represents a set of a problem
+                    also the state of a stachostic process
+    BaseMultiPopulation/BaseCommunity: set of populations for more complicated optimalization
+    BaseEnviorenment:
 
 Remark:
 1. Subclass the classes and override some main method esp. `_fitness`.
@@ -492,12 +492,25 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
         for p in self:
             p.transition(*args, **kwargs)
 
+    @side_effect
+    def select(self):
+        for p in self:
+            p.select()
+
+    @side_effect
+    def mutate(self):
+        for p in self:
+            p.mutate()
+
+    def mate(self):
+        raise NotImplementedError
+
     # def max_fitness(self):
     #     return max(map(attrgetter('max_fitness'), self))
 
     def get_best_individual(self, copy=True):
         bests = map(methodcaller('get_best_individual'), self)
-        k = np.argmax([b.fitness for b in bests])
+        k = max(b.fitness for b in bests)
         if copy:
             return bests[k].copy()
         else:

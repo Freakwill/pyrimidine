@@ -13,7 +13,7 @@ authors:
     equal-contrib: true
     affiliation: "1" # (Multiple affiliations must be quoted)
 affiliations:
- - name: Yanqi Lake Beijing Institute of Mathematical Sciences and Applications, Beijing, China
+ - name: Beijing Institute of Mathematical Sciences and Applications, Beijing, China
    index: 1
 date: 12 December 2023
 bibliography: paper.bib

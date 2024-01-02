@@ -25,6 +25,10 @@ Welcome to pyrimidine's world of genetic algorithm
    Helpers <../source/Helpers.md>
    Misc <../source/Misc.md>
 
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
    modules <../source/modules.rst>
 
 

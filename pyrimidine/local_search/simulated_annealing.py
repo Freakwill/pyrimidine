@@ -18,10 +18,7 @@ class SimulatedAnnealing(PhantomIndividual):
     
     Attributes:
         params (dict): parameters in SA
-        phantom: phantom solution for exploration
     """
-
-    phantom = None
 
     params = {'ext_c': 0.99,  # external coef
         'int_c': 0.99,        # internal coef

@@ -13,8 +13,6 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pyrimidine package" href="pyrimidine.html" />
-    <link rel="prev" title="Misc" href="Misc.html" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <!--[if lte IE 6]>
@@ -32,12 +30,6 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="pyrimidine.html" title="pyrimidine package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="Misc.html" title="Misc"
-             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine</a></li> 
       </ul>
@@ -61,7 +53,7 @@
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.benchmarks.html#module-pyrimidine.benchmarks.fitting">pyrimidine.benchmarks.fitting module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.benchmarks.html#module-pyrimidine.benchmarks.linear_model">pyrimidine.benchmarks.linear_model module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.benchmarks.html#module-pyrimidine.benchmarks.matrix">pyrimidine.benchmarks.matrix module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.benchmarks.html#pyrimidine-benchmarks-neural-network-module">pyrimidine.benchmarks.neural_network module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.benchmarks.html#module-pyrimidine.benchmarks.neural_network">pyrimidine.benchmarks.neural_network module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.benchmarks.html#module-pyrimidine.benchmarks.optimization">pyrimidine.benchmarks.optimization module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.benchmarks.html#pyrimidine-benchmarks-others-module">pyrimidine.benchmarks.others module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.benchmarks.html#module-pyrimidine.benchmarks.special">pyrimidine.benchmarks.special module</a></li>
@@ -199,11 +191,14 @@
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.get_best_individual"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.get_best_individual()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.individuals"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.individuals</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.isa"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.isa()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.mate"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.mate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.migrate"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.migrate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.mutate"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.mutate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.n_elements</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.params"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.params</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.regester"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.regester()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.regester_map"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.regester_map()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.select"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.select()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.base.BaseMultiPopulation.transition"><code class="docutils literal notranslate"><span class="pre">BaseMultiPopulation.transition()</span></code></a></li>
 </ul>
 </li>
@@ -391,6 +386,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.add_cache"><code class="docutils literal notranslate"><span class="pre">add_cache</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.add_cache.attrs"><code class="docutils literal notranslate"><span class="pre">add_cache.attrs</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.add_cache.methods"><code class="docutils literal notranslate"><span class="pre">add_cache.methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.add_cache.cmd"><code class="docutils literal notranslate"><span class="pre">add_cache.cmd</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.deco.add_memory"><code class="docutils literal notranslate"><span class="pre">add_memory</span></code></a></li>
@@ -446,6 +442,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pyrimidine.html#module-pyrimidine.errors">pyrimidine.errors module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.errors.RegesterError"><code class="docutils literal notranslate"><span class="pre">RegesterError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.errors.UnavalibleAttributeError"><code class="docutils literal notranslate"><span class="pre">UnavalibleAttributeError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.errors.UnknownSizeError"><code class="docutils literal notranslate"><span class="pre">UnknownSizeError</span></code></a></li>
 </ul>
@@ -453,7 +450,6 @@
 <li class="toctree-l2"><a class="reference internal" href="pyrimidine.html#module-pyrimidine.gene">pyrimidine.gene module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.gene.BinaryGene"><code class="docutils literal notranslate"><span class="pre">BinaryGene</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.gene.BinaryGene.random"><code class="docutils literal notranslate"><span class="pre">BinaryGene.random()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.gene.BinaryGene.values"><code class="docutils literal notranslate"><span class="pre">BinaryGene.values</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.gene.CircleGene"><code class="docutils literal notranslate"><span class="pre">CircleGene</span></code></a><ul>
@@ -684,12 +680,10 @@
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.flatten"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.flatten()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.isa"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.isa()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.mate"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.mate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.mutate"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.mutate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.n_elements</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.params"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.params</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.regester"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.regester()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.regester_map"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.regester_map()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.MultiPopulation.select"><code class="docutils literal notranslate"><span class="pre">MultiPopulation.select()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pyrimidine.html#pyrimidine.multipopulation.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
@@ -929,16 +923,6 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <div>
-    <h4>Previous topic</h4>
-    <p class="topless"><a href="Misc.html"
-                          title="previous chapter">Misc</a></p>
-  </div>
-  <div>
-    <h4>Next topic</h4>
-    <p class="topless"><a href="pyrimidine.html"
-                          title="next chapter">pyrimidine package</a></p>
-  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -969,12 +953,6 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="pyrimidine.html" title="pyrimidine package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="Misc.html" title="Misc"
-             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine</a></li> 
       </ul>

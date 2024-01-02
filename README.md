@@ -16,7 +16,7 @@ If you have more questions, then log in [google group](https://groups.google.com
 
 ## Download
 
-It has been uploaded to [pypi](https://pypi.org/project/pyrimidine/), so download it with `pip install pyrimidine`, and also could download it from github.
+It has been uploaded to [pypi](https://pypi.org/project/pyrimidine/), so download it with `pip install pyrimidine`, and also could download it from Github.
 
 ## Idea
 
@@ -34,7 +34,7 @@ class BasePopulation(PopulationModel, metaclass=MetaContainer):
     default_size = 20
 ```
 
-There is two main kinds of containers: list-like and tuple-like, as in programming language `Haskell`. See following examples.
+There is two main kinds of containers: list-like and tuple-like. See following examples.
 
 ```python
 # individual with chromosomes of type _Chromosome
@@ -437,3 +437,8 @@ pop = MyParticleSwarm.random()
 ```
 
 Of course, it is not mandatory. It is allowed to inherit `ParticleSwarm` from for example `HOFPopulation` directly.
+
+## Contributions
+
+If you'd like to contribute to `pyrimidine`, please contact with me;
+and if you have noticed some bugs, then use the GitHub issues page to report them.

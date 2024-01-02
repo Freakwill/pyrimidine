@@ -10,20 +10,12 @@ from .utils import *
 
 class MultiPopulation(BaseMultiPopulation):
 
-    def select(self):
-        for p in self:
-            p.select()
-
-    def mutate(self):
-        for p in self:
-            p.mutate()
-
     def mate(self):
         for p in self:
             p.mate()
 
 
-class DualPopulation(BaseMultiPopulation):
+class DualPopulation(MultiPopulation):
 
     """Multi-population composed by male and female population
     """
@@ -109,15 +101,15 @@ class HybridPopulation(MultiPopulation):
         migrate_prob = migrate_prob or self.migrate_prob
         for this, other in zip(self[:-1], self[1:]):
             if random() < migrate_prob:
-                if isinstance(this, BasePopulation):
+                if isinstance(this, self.element_class):
                     this_best = this.get_best_individual(copy=copy)
-                    if isinstance(other, BasePopulation):
+                    if isinstance(other, self.element_class):
                         other.append(this.get_best_individual(copy=copy))
                         this.append(other.get_best_individual(copy=copy))
                     else:
                         this.append(other.copy())
                 else:
                     this_best = this.copy()
-                    if isinstance(other, BasePopulation):
+                    if isinstance(other, self.element_class):
                         other.append(this.get_best_individual(copy=copy))
 

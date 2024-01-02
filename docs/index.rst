@@ -26,15 +26,15 @@ Welcome to pyrimidine's world of genetic algorithm
    Misc <../source/Misc.md>
 
 
-Models
-==================
-
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
    modules <../source/modules.rst>
 
 
-.. Indices
-.. ==================
+Indices
+==================
 
-.. * :ref:`source/genindex`
-.. * :ref:`source/modindex`
-.. * :ref:`source/search`
+* :ref:`source/genindex`
+* :ref:`source/modindex`
+* :ref:`source/search`

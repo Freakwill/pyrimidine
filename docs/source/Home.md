@@ -23,9 +23,15 @@ We view the population as a container of individuals, each individual as a conta
 Mathematically, we denote a container of elements of type `A` as follows:
 
 ```
-s = {a:A}:S
+s = {a:A}:S  <==> s: S[A]
 ```
-A population is a container of individuals; an individual is a container of chromosomes. Below is the partial source code for `BaseIndividual` and `BasePopulation`.
+
+Now we give the following definition:
+- A population is a container of individuals (or chromosomes); 
+- An individual is a container of chromosomes; 
+- A multi-population is a container of population;
+
+Below is the partial source code for `BaseIndividual` and `BasePopulation`.
 
 ```python
 class BaseIndividual(FitnessMixin, metaclass=MetaContainer):

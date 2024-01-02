@@ -13,8 +13,6 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pyrimidine.local_search package" href="pyrimidine.local_search.html" />
-    <link rel="prev" title="pyrimidine.benchmarks package" href="pyrimidine.benchmarks.html" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <!--[if lte IE 6]>
@@ -32,15 +30,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="pyrimidine.local_search.html" title="pyrimidine.local_search package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="pyrimidine.benchmarks.html" title="pyrimidine.benchmarks package"
-             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="pyrimidine.html" accesskey="U">pyrimidine package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine.learn package</a></li> 
       </ul>
     </div>  
@@ -57,6 +47,29 @@
 </section>
 <section id="pyrimidine-learn-linear-regression-module">
 <h2>pyrimidine.learn.linear_regression module<a class="headerlink" href="#pyrimidine-learn-linear-regression-module" title="Link to this heading">¶</a></h2>
+<p id="module-pyrimidine.learn.linear_regression">GA for linear regression</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.learn.linear_regression.GALinearRegression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.learn.linear_regression.</span></span><span class="sig-name descname"><span class="pre">GALinearRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_intercept</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.linear_regression.GALinearRegression" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.learn.BaseEstimator" title="pyrimidine.learn.BaseEstimator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearRegression</span></code></p>
+<p>Linear Regression by GA</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.learn.linear_regression.GALinearRegression.config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_individuals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.linear_regression.GALinearRegression.config" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.learn.linear_regression.GALinearRegression.create_model">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.linear_regression.GALinearRegression.create_model" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.learn.linear_regression.GALinearRegression.estimated_params">
+<span class="sig-name descname"><span class="pre">estimated_params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('coef_',</span> <span class="pre">'intercept_')</span></em><a class="headerlink" href="#pyrimidine.learn.linear_regression.GALinearRegression.estimated_params" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="pyrimidine-learn-neural-network-module">
 <h2>pyrimidine.learn.neural_network module<a class="headerlink" href="#pyrimidine-learn-neural-network-module" title="Link to this heading">¶</a></h2>
@@ -165,7 +178,15 @@
     <ul>
 <li><a class="reference internal" href="#">pyrimidine.learn package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#pyrimidine-learn-linear-regression-module">pyrimidine.learn.linear_regression module</a></li>
+<li><a class="reference internal" href="#pyrimidine-learn-linear-regression-module">pyrimidine.learn.linear_regression module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.learn.linear_regression.GALinearRegression"><code class="docutils literal notranslate"><span class="pre">GALinearRegression</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.learn.linear_regression.GALinearRegression.config"><code class="docutils literal notranslate"><span class="pre">GALinearRegression.config()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.learn.linear_regression.GALinearRegression.create_model"><code class="docutils literal notranslate"><span class="pre">GALinearRegression.create_model()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.learn.linear_regression.GALinearRegression.estimated_params"><code class="docutils literal notranslate"><span class="pre">GALinearRegression.estimated_params</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#pyrimidine-learn-neural-network-module">pyrimidine.learn.neural_network module</a><ul>
 <li><a class="reference internal" href="#pyrimidine.learn.neural_network.GAMLPRegressor"><code class="docutils literal notranslate"><span class="pre">GAMLPRegressor</span></code></a><ul>
 <li><a class="reference internal" href="#pyrimidine.learn.neural_network.GAMLPRegressor.config"><code class="docutils literal notranslate"><span class="pre">GAMLPRegressor.config()</span></code></a></li>
@@ -194,16 +215,6 @@
 </li>
 </ul>
 
-  </div>
-  <div>
-    <h4>Previous topic</h4>
-    <p class="topless"><a href="pyrimidine.benchmarks.html"
-                          title="previous chapter">pyrimidine.benchmarks package</a></p>
-  </div>
-  <div>
-    <h4>Next topic</h4>
-    <p class="topless"><a href="pyrimidine.local_search.html"
-                          title="next chapter">pyrimidine.local_search package</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -235,15 +246,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="pyrimidine.local_search.html" title="pyrimidine.local_search package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="pyrimidine.benchmarks.html" title="pyrimidine.benchmarks package"
-             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >pyrimidine</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="pyrimidine.html" >pyrimidine package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine.learn package</a></li> 
       </ul>
     </div>

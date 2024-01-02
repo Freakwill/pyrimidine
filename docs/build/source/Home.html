@@ -30,6 +30,9 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="Install.html" title="Installation and Getting Started"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -63,10 +66,16 @@
 <h2>Idea of algebra-inspired<a class="headerlink" href="#idea-of-algebra-inspired" title="Link to this heading">¶</a></h2>
 <p>We view the population as a container of individuals, each individual as a container of chromosomes, and a chromosome as a container (array) of genes. This container could be represented as a list or an array. The Container class has an attribute <code class="docutils literal notranslate"><span class="pre">element_class</span></code>, which specifies the class of the elements within it.</p>
 <p>Mathematically, we denote a container of elements of type <code class="docutils literal notranslate"><span class="pre">A</span></code> as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span><span class="n">A</span><span class="p">}:</span><span class="n">S</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span><span class="n">A</span><span class="p">}:</span><span class="n">S</span>  <span class="o">&lt;==&gt;</span> <span class="n">s</span><span class="p">:</span> <span class="n">S</span><span class="p">[</span><span class="n">A</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>A population is a container of individuals; an individual is a container of chromosomes. Below is the partial source code for <code class="docutils literal notranslate"><span class="pre">BaseIndividual</span></code> and <code class="docutils literal notranslate"><span class="pre">BasePopulation</span></code>.</p>
+<p>Now we give the following definition:</p>
+<ul class="simple">
+<li><p>A population is a container of individuals (or chromosomes);</p></li>
+<li><p>An individual is a container of chromosomes;</p></li>
+<li><p>A multi-population is a container of population;</p></li>
+</ul>
+<p>Below is the partial source code for <code class="docutils literal notranslate"><span class="pre">BaseIndividual</span></code> and <code class="docutils literal notranslate"><span class="pre">BasePopulation</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaseIndividual</span><span class="p">(</span><span class="n">FitnessMixin</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaContainer</span><span class="p">):</span>
     <span class="n">element_class</span> <span class="o">=</span> <span class="n">BaseChromosome</span>
     <span class="n">default_size</span> <span class="o">=</span> <span class="mi">1</span>
@@ -154,6 +163,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="Install.html" title="Installation and Getting Started"
              >next</a> |</li>

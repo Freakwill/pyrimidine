@@ -49,6 +49,7 @@ def clear_fitness(func):
 
 usual_side_effect = ['mutate', 'extend', 'pop', 'remove', '__setitem__', '__setattr__', '__setstate__']
 
+
 def method_cache(func, a):
     """cache for methods
 
@@ -79,12 +80,14 @@ class add_cache:
     Attributes:
         attrs (tuple[str]): a tuple of attributes what will be cached
         methods (tuple[str]): a tuple of method names that will be cached
+        cmd (dict[str]): a dict of commands to handle with the cache
     """
 
-    def __init__(self, attrs, methods=(), scope=None):
+    def __init__(self, attrs, methods=(), scope=None, cmd={}):
         self.methods = methods
         self.attrs = attrs
         self.scope = scope
+        self.cmd = cmd
 
     def __call__(self, cls):
 
@@ -119,9 +122,15 @@ class add_cache:
         cls.clear_cache = _clear_cache
         cls.set_cache = _set_cache
 
+        for n, c in self.cmd.items():
+            def _c(obj):
+                c(obj._cache)
+            setattr(cls, n, _c)
+
         if hasattr(cls, 'copy'):
             cls_copy = cls.copy
             def _copy(obj, cache=True, *args, **kwargs):
+                # set cache=True to copy the cache
                 cpy = cls_copy(obj, *args, **kwargs)
                 if cache:
                     cpy.set_cache(**obj._cache)
@@ -133,7 +142,7 @@ class add_cache:
                 raise AttributeError(f'The attribute "{a}" should be used in the algorithm!')
             def f(obj):
                 """get the attribute from cache, 
-                otherwise compute it again by the default method
+                otherwise re-compute it by the default/parent method
                 """
                 if obj._cache[a] is None:      
                     v = getattr(super(cls, obj), a)
@@ -178,8 +187,8 @@ class set_fitness:
             if '_fitness' in globals():
                 self.f = globals()['_fitness']
             else:
-                raise Exception('''Function `_fitness` is not defined before setting fitness.
-You may forget to create the class in the context of environment.''')
+                raise Exception("""Function `_fitness` is not defined before setting fitness.
+You may forget to create the class in the context of environment.""")
         cls._fitness = self.f
         return cls
 
@@ -295,6 +304,7 @@ def method_cache(func, a):
     Returns:
         MethodType
     """
+
     def mthd(obj):
         # get the attribute from cache, otherwise compute it again
         if obj._cache[a] is None:
@@ -311,11 +321,8 @@ class regester_map:
     def __init__(self, mappings, map_=map):
         """
         Args:
-            mappings (str, tuple of str): a mapping or mappings
-            map_ (None, optional): Description
-        
-        Raises:
-            Exception: Description
+            mappings (str, tuple of str): a mapping or mappings on the object
+            map_ (None, optional): map method
         """
 
         if mappings:
@@ -336,6 +343,9 @@ class regester_map:
                 _map = self.map
         else:
             _map = map_
+
+        # if type_:
+        #     _map = lambda *args, **kwargs: type_(_map(**args, **kwargs))
 
         if isinstance(self.mappings, str):
             m = self.mappings
@@ -365,7 +375,10 @@ class Regester:
         def _regester_operator(obj, name, key=None):
             if hasattr(obj, name):
                 raise AttributeError(f'"{name}" is an attribute of "{obj.__name__}", and would not be regestered.')
-            obj._operators.append(key)
+            if not hasattr(obj, '_operators'):
+                obj._operators = [key]
+            else:
+                obj._operators.append(key)
             setattr(obj, name, MethodType(key, obj))
 
         def _element_regester(obj, name, e):
