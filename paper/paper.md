@@ -43,19 +43,20 @@ As one of the earliest developed intelligent algorithms [holland, katoch], the g
 
 In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/). Following this, evolutionary operators are defined and applied to these structures.
 
-\autoref{frameworks} provides a concise comparison between `pyrimidine` and several popular frameworks, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
+A concise comparison between `pyrimidine` and several popular frameworks provided in \autoref{frameworks}, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
+
 
 : Comparison of the popular genetic algorithm frameworks. []{label="frameworks"}
 
 <!-- +-------------------+------------+----------+----------+----------+ -->
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
-|:----------:|:-------:|:--------:|:--------:|:----------:|
+|:----------:|:-------|:--------|:--------|:----------|
 | `pyrimidine`| OOP, Meta-programming, Algebra-insprited | Universal | Extensible | export the data in `DataFrame` |
 | `DEAP`     | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
-| `gaft`      | OOP, decoration partton   | Universal | Extensible    | Easy to Implement       |
+| `gaft`      | OOP, decoration pattern   | Universal | Extensible    | Easy to Implement       |
 |[`geppy`](https://geppy.readthedocs.io/) | based on `DEAP` | Symbolic Regression | Limited | - |
-| [`tpot`](https://github.com/EpistasisLab/tpot) [@olson]/[`gama`](https://github.com/openml-labs/gama) [@pieter]     | [scikit-learn](https://scikit-learn.org/) Style | Hyperparameter Optimization | Limited | None                   |
-| [`gplearn`](https://gplearn.readthedocs.io/)/[`pysr`](https://astroautomata.com/PySR/)   | scikit-learn Style | Symbolic Regression | Limited | None                   |
+| [`tpot`](https://github.com/EpistasisLab/tpot) [@olson]/[`gama`](https://github.com/openml-labs/gama) [@pieter]     | [scikit-learn](https://scikit-learn.org/) Style | Hyperparameter Optimization | Limited | -                   |
+| [`gplearn`](https://gplearn.readthedocs.io/)/[`pysr`](https://astroautomata.com/PySR/)   | scikit-learn Style | Symbolic Regression | Limited | -                  |
 | [`scikit-opt`](https://github.com/guofei9987/scikit-opt)| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
 |[`scikit-optimize`](https://scikit-optimize.github.io/stable/)|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
 |[`NEAT`](https://neat-python.readthedocs.io/) [@neat-python]| OOP  | Neuroevolution | Limited | use the visualization tools |
@@ -79,9 +80,9 @@ A container $s$ of type $S$, with elements of type $A$, is represented by follow
 $$
 s = \{a:A\}:S
 $$
-or equivalently
+or equivalently,
 $$
-s:S[A] \label{continer}
+s:S[A] {label=continer}
 $$
 where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements, and the notation $S[\cdot]$ is borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing) [@typing])
 
