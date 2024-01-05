@@ -43,7 +43,9 @@ As one of the earliest developed intelligent algorithms [holland, katoch], the g
 
 In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's array or the widely-used third-party library [numpy](https://numpy.org/). Following this, evolutionary operators are defined and applied to these structures.
 
-The table below provides a concise comparison between `pyrimidine` and several popular frameworks, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
+\autoref{frameworks} below provides a concise comparison between `pyrimidine` and several popular frameworks, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
+
+: Comparison of the popular genetic algorithm frameworks. []{label="frameworks"}
 
 +-------------------+------------+----------+----------+----------+
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
@@ -84,9 +86,9 @@ We introduce the concept of a **container**, simulating an **(algebraic) system*
 
 A container $s$ of type $S$, with elements of type $A$, is represented by following expression:
 $$
-s = \{a:A\}:S
+s = \{a:A\}:S \iff s:S[A]\label{continer}
 $$
-Here, the symbol $\{\cdot\}$ signifies either a set or a sequence, emphasizing the order of the elements.
+Here, the symbol $\{\cdot\}$ signifies either a set or a sequence, emphasizing the order of the elements. (The notation is borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing) [@typing])
 
 Building upon the foundational concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, often referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. Populations in a multi-population behave analogously to individuals in a population. Notably, it allows to define containers in higher order, such as a container of multi-populations, potentially intertwined with conventional populations.
 
@@ -142,7 +144,7 @@ class UserPopulation(StandardPopulation):
     default_size = 10
 ```
 
-In the codes, `UserIndividual` (resp. `UserPopulation`) is a container of elements in type of `BinaryChromosome` (resp. `UserIndividual`). Following is the equivalent expression (borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing) [@typing]):
+In the codes, `UserIndividual` (resp. `UserPopulation`) is a container of elements in type of `BinaryChromosome` (resp. `UserIndividual`). Following is the equivalent expression(see \autoref{container}):
 
 ```python
 UserIndividual = MonoIndividual[BinaryChromosome]

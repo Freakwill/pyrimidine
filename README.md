@@ -18,6 +18,10 @@ If you have more questions, then log in [google group](https://groups.google.com
 
 It has been uploaded to [pypi](https://pypi.org/project/pyrimidine/), so download it with `pip install pyrimidine`, and also could download it from Github.
 
+## Video tutorials
+
+[An gental introduction](https://www.youtube.com/watch?v=uVf3y427ei4&t=3s)
+
 ## Idea
 
 We view the population as a container of individuals, each individual as a container of chromosomes, and a chromosome as a container (array) of genes. This container could be represented as a list or an array. The Container class has an attribute `element_class`, which specifies the class of the elements within it.
