@@ -38,6 +38,14 @@ pyrimidine.chromosome module
    :undoc-members:
    :show-inheritance:
 
+pyrimidine.de module
+--------------------
+
+.. automodule:: pyrimidine.de
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pyrimidine.deco module
 --------------------
 
@@ -134,18 +142,10 @@ pyrimidine.pso module
    :undoc-members:
    :show-inheritance:
 
-pyrimidine.species module
--------------------------
-
-.. automodule:: pyrimidine.species
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-pyrimidine.trait\_ga module
+pyrimidine.saga module
 ---------------------------
 
-.. automodule:: pyrimidine.trait_ga
+.. automodule:: pyrimidine.saga
    :members:
    :undoc-members:
    :show-inheritance:

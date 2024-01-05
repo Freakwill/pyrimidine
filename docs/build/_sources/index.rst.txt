@@ -28,13 +28,22 @@ Welcome to pyrimidine's world of genetic algorithm
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Modules
    modules <../source/modules.rst>
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: about
+   GitHub Page <https://github.com/Freakwill/pyrimidine>
 
 
 Indices
 ==================
 
-* :ref:`source/genindex`
-* :ref:`source/modindex`
-* :ref:`source/search`
+.. toctree::
+   :maxdepth: 2
+
+   genindex
+   modindex
+   search

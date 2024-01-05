@@ -4,7 +4,7 @@ In this section, we present more complicated examples.
 
 ## Customization Tricks
 
-Take Partical Swarm Optimization(PSO) as an example for a quick look at the tricks of customization. First of all, define `class ParticleSwarm(PopulationMixin):...`, as subclass of `PopulationMixin`. `PopulationMixin` is a mixin class where you have to define method `transit` to implement the PSO algorithm. Then assign `element_class` to be the type of particles, and set `default_size` as the number of the particles.
+Take Partical Swarm Optimization(PSO) as an example for a quick look at the tricks of customization. First of all, define `class ParticleSwarm(PopulationMixin):...`, as subclass of `PopulationMixin`. `PopulationMixin` is a mixin class where you have to define method `transition` to implement the PSO algorithm. Then assign `element_class` to be the type of particles, and set `default_size` as the number of the particles.
 
 Since the package has provide a practical class for PSO, you only need set the attribute `element_class` to be your own particle class in most cases. See `example-pso.py` in `examples`.
 
@@ -97,7 +97,7 @@ class DifferentialEvolution(PopulationMixin):
         self.dimension = len(self.individuals[0][0])
         self.test = self.clone()
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         self.move()
         for k, (test_individual, individual) in enumerate(zip(self.test, self)):
             if test_individual.fitness > individual.fitness:
@@ -147,7 +147,7 @@ class SimulatedAnnealing(PhantomIndividual):
         # initialize phantom solution
         self.phantom = self.copy(fitness=None)
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         T = self.initT
         for epoch in range(self.n_epochs):
             self.move(T)
@@ -228,7 +228,7 @@ class BaseTabuSearch(BaseIndividual):
     def init(self):
         self.best_fitness = self.fitness
 
-    def transit(self, *args, **kwargs):
+    def transition(self, *args, **kwargs):
         action = choice(self.actions)
         cpy = self.move(action)
         if action not in self.tabu_list:

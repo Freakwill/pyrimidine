@@ -32,6 +32,9 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="Misc.html" title="Misc"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -58,14 +61,38 @@ $<span class="math notranslate nohighlight">\(
 \min_{x_1,x_2}x_1^2+x_2\\
 x_1, x_2\in [-1,1]
 \)</span>$</p>
-<p><code class="docutils literal notranslate"><span class="pre">ga_min</span></code> encapsulates the GA algorithm. You need not use the classes of containers.</p>
+<section id="ga-minimize">
+<h3><code class="docutils literal notranslate"><span class="pre">ga_minimize</span></code><a class="headerlink" href="#ga-minimize" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ga_minimize</span></code> encapsulates the GA algorithm. You need not use the classes of containers.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="n">optimize</span>
 
-<span class="n">solution</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">ga_min</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">solution</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">ga_minimzie</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>OUTPUT: <code class="docutils literal notranslate"><span class="pre">[-0.0078125</span> <span class="pre">-1.</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">]</span></code></p>
+</section>
+<section id="de-minimize">
+<h3><code class="docutils literal notranslate"><span class="pre">de_minimize</span></code><a class="headerlink" href="#de-minimize" title="Link to this heading">¶</a></h3>
+<p>We can define optimizers based on other intelligent algorithms. Currently we only define <code class="docutils literal notranslate"><span class="pre">de_minimize</span></code>, the optimizer based on the DE algorithm.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">solution</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">de_minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="optimizer">
+<h3>Optimizer<a class="headerlink" href="#optimizer" title="Link to this heading">¶</a></h3>
+<p>Here an optimizer is a class to do optimization based on intelligent algorithms.</p>
+<p>Give an example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrimidine.optimize</span> <span class="kn">import</span> <span class="n">Optimizer</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">make_standard</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">optimizer</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># &lt;==&gt; optimize.ga_minimzie(lambda x:x[0]**2+x[1], (-1,1), (-1,1))</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="decorators">
 <h2>Decorators<a class="headerlink" href="#decorators" title="Link to this heading">¶</a></h2>
@@ -169,7 +196,12 @@ x_1, x_2\in [-1,1]
     <h3><a href="../index.html">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">Helpers</a><ul>
-<li><a class="reference internal" href="#optimization">Optimization</a></li>
+<li><a class="reference internal" href="#optimization">Optimization</a><ul>
+<li><a class="reference internal" href="#ga-minimize"><code class="docutils literal notranslate"><span class="pre">ga_minimize</span></code></a></li>
+<li><a class="reference internal" href="#de-minimize"><code class="docutils literal notranslate"><span class="pre">de_minimize</span></code></a></li>
+<li><a class="reference internal" href="#optimizer">Optimizer</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#decorators">Decorators</a><ul>
 <li><a class="reference internal" href="#memory">Memory</a></li>
 <li><a class="reference internal" href="#cache">Cache</a></li>
@@ -217,6 +249,9 @@ x_1, x_2\in [-1,1]
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="Misc.html" title="Misc"
              >next</a> |</li>

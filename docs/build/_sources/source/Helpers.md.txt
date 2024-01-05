@@ -11,16 +11,41 @@ $$
 x_1, x_2\in [-1,1]
 $$
 
-`ga_min` encapsulates the GA algorithm. You need not use the classes of containers.
+### `ga_minimize`
+`ga_minimize` encapsulates the GA algorithm. You need not use the classes of containers.
 
 ```python
 from pyrimidine import optimize
 
-solution = optimize.ga_min(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+solution = optimize.ga_minimzie(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
 print(solution)
 ```
 
 OUTPUT: `[-0.0078125 -1.       ]`
+
+
+### `de_minimize`
+
+We can define optimizers based on other intelligent algorithms. Currently we only define `de_minimize`, the optimizer based on the DE algorithm.
+
+```python
+solution = optimize.de_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+print(solution)
+```
+
+### Optimizer
+
+Here an optimizer is a class to do optimization based on intelligent algorithms.
+
+Give an example:
+```python
+from pyrimidine.optimize import Optimizer
+
+optimizer = Optimizer.make_standard((-1,1), (-1,1))
+optimizer(lambda x:x[0]**2+x[1])
+
+# <==> optimize.ga_minimzie(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+```
 
 ## Decorators
 

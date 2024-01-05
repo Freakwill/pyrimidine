@@ -354,16 +354,14 @@ from pyrimidine.deco import basic_memory, fitness_cache
 n_bags = 50
 evaluate = Knapsack.random(n=n_bags)
 
-@fitness_cache
+
+@basic_memory
 class YourIndividual(BinaryChromosome // n_bags):
 
     def _fitness(self):
         return evaluate(self.decode())
 
 
-YourPopulation = HOFPopulation[YourIndividual] // 20
-
-@fitness_cache
 @basic_memory
 class MyIndividual(QuantumChromosome // n_bags):
 
@@ -371,9 +369,7 @@ class MyIndividual(QuantumChromosome // n_bags):
         return evaluate(self.decode())
 
 
-class MyPopulation(HOFPopulation):
-
-    element_class = MyIndividual
+class Population(HOFPopulation):
     default_size = 20
 
     def backup(self, check=True):
@@ -386,6 +382,10 @@ class MyPopulation(HOFPopulation):
         """
         self.backup()
         super().update_hall_of_fame(*args, **kwargs)
+
+
+MyPopulation = Population[MyIndividual]
+YourPopulation = Population[YourIndividual]
 ```
 
 ### Visualization and comparison
@@ -393,8 +393,8 @@ class MyPopulation(HOFPopulation):
 ```python
 stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
 mypop = MyPopulation.random()
-
 yourpop = YourPopulation([YourIndividual(i.decode()) for i in mypop])
+
 mydata = mypop.evolve(n_iter=100, stat=stat, history=True)
 yourdata = yourpop.evolve(n_iter=100, stat=stat, history=True)
 
@@ -414,7 +414,7 @@ plt.show()
 
 ## Example 5 --- MultiPopulation
 
-It is extremely natural to implement multi-population GA.
+It is extremely natural to implement multi-population GA by `pyrimidine`.
 
 ```python
 #!/usr/bin/env python3
@@ -437,6 +437,7 @@ class _Individual(MonoIndividual[BinaryChromosome // n_bags]):
 class _Population(HOFPopulation):
     element_class = _Individual
     default_size = 10
+
 
 class _MultiPopulation(MultiPopulation):
     element_class = _Population
@@ -465,6 +466,9 @@ _evaluate = Knapsack.random(n_bags)
 _Individual = (BinaryChromosome // n_bags).set_fitness(_evaluate)
 _Population = HOFPopulation[_Individual] // 10
 _MultiPopulation = MultiPopulation[_Population] // 2
+
+# or in one line elegently,
+# _MultiPopulation = MultiPopulation[HOFPopulation[BinaryChromosome // n_bags] // 10].set_fitness(_evaluate) // 2
 
 mp = _MultiPopulation.random()
 data = mp.evolve(n_iter=100, history=True)
@@ -499,6 +503,10 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
         for p in self:
             p.transition(*args, **kwargs)
 ```
+
+Left the users to think that what will happen, if remove the `migrate` method.
+
+One can consider higher-order multi-population, the container of multi-populations.
 
 ### Hybrid-population
 It is possible mix the individuals(or chromosomes as the individuals) and populations in the multipopulation (named hybrid-population)

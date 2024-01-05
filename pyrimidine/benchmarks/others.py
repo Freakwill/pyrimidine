@@ -2,14 +2,15 @@
 
 import numpy as np
 
-from ..benchmarks import Problem
+from ..benchmarks import BaseProblem
 
 
-class Kantorovich(Problem):
+class Kantorovich(BaseProblem):
     '''
     a: a
     b: b
     '''
+    
     def __init__(self, a=0.5, b=1):
         self.a = a
         self.b = b

@@ -3,7 +3,7 @@
 
 import numpy as np
 import numpy.linalg as LA
-
+from ..benchmark import BaseProblem
 
 
 class KMeans(BaseProblem):

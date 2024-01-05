@@ -29,7 +29,7 @@ s = {a:A}:S  <==> s: S[A]
 Now we give the following definition:
 - A population is a container of individuals (or chromosomes); 
 - An individual is a container of chromosomes; 
-- A multi-population is a container of population;
+- A multi-population is a container of populations;
 
 Below is the partial source code for `BaseIndividual` and `BasePopulation`.
 

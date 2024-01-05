@@ -16,6 +16,7 @@ def schaffer(x:np.ndarray):
     r2 = np.sum(x**2)
     return (sin(sqrt(r2)) ** 2 - 0.5) / (1+ 0.001*r2**2)**2
 
+
 def rastrigrin(x:np.ndarray):
     return np.sum(x**2 - 10 * np.cos(2*pi*x)) + 40
 
