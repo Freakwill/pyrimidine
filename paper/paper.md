@@ -41,33 +41,24 @@ Leveraging the principles of object-oriented programming(OOP) and the meta-progr
 
 As one of the earliest developed intelligent algorithms [holland, katoch], the genetic algorithm(GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. The principles of GA will not be reviewed in this article. For a detailed understanding, please refer to references [@holland; @simon] and the associated literatures.
 
-In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's array or the widely-used third-party library [numpy](https://numpy.org/). Following this, evolutionary operators are defined and applied to these structures.
+In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/). Following this, evolutionary operators are defined and applied to these structures.
 
-\autoref{frameworks} below provides a concise comparison between `pyrimidine` and several popular frameworks, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
+\autoref{frameworks} provides a concise comparison between `pyrimidine` and several popular frameworks, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
 
 : Comparison of the popular genetic algorithm frameworks. []{label="frameworks"}
 
-+-------------------+------------+----------+----------+----------+
+<!-- +-------------------+------------+----------+----------+----------+ -->
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
-+:=================:+:==========:+:========:+:========:+:========:+
+|:----------:|:-------:|:--------:|:--------:|:----------:|
 | `pyrimidine`| OOP, Meta-programming, Algebra-insprited | Universal | Extensible | export the data in `DataFrame` |
-+-------------------+------------+----------+----------+----------+
 | `DEAP`     | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
-+-------------------+------------+----------+----------+----------+
 | `gaft`      | OOP, decoration partton   | Universal | Extensible    | Easy to Implement       |
-+-------------------+------------+----------+----------+----------+
 |[`geppy`](https://geppy.readthedocs.io/) | based on `DEAP` | Symbolic Regression | Limited | - |
-+-------------------+------------+----------+----------+----------+
 | [`tpot`](https://github.com/EpistasisLab/tpot) [@olson]/[`gama`](https://github.com/openml-labs/gama) [@pieter]     | [scikit-learn](https://scikit-learn.org/) Style | Hyperparameter Optimization | Limited | None                   |
-+-------------------+------------+----------+----------+----------+
 | [`gplearn`](https://gplearn.readthedocs.io/)/[`pysr`](https://astroautomata.com/PySR/)   | scikit-learn Style | Symbolic Regression | Limited | None                   |
-+-------------------+------------+----------+----------+----------+
 | [`scikit-opt`](https://github.com/guofei9987/scikit-opt)| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
-+-------------------+------------+----------+----------+----------+
 |[`scikit-optimize`](https://scikit-optimize.github.io/stable/)|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
-+-------------------+------------+----------+----------+----------+
 |[`NEAT`](https://neat-python.readthedocs.io/) [@neat-python]| OOP  | Neuroevolution | Limited | use the visualization tools |
-+-------------------+------------+----------+----------+----------+
 
 `Tpot`/`gama`, `gplearn`/`pysr`, and `scikit-opt` follow the scikit-learn style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`).
 
@@ -86,9 +77,13 @@ We introduce the concept of a **container**, simulating an **(algebraic) system*
 
 A container $s$ of type $S$, with elements of type $A$, is represented by following expression:
 $$
-s = \{a:A\}:S \iff s:S[A]\label{continer}
+s = \{a:A\}:S
 $$
-Here, the symbol $\{\cdot\}$ signifies either a set or a sequence, emphasizing the order of the elements. (The notation is borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing) [@typing])
+or equivalently
+$$
+s:S[A] \label{continer}
+$$
+where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements, and the notation $S[\cdot]$ is borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing) [@typing])
 
 Building upon the foundational concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, often referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. Populations in a multi-population behave analogously to individuals in a population. Notably, it allows to define containers in higher order, such as a container of multi-populations, potentially intertwined with conventional populations.
 
