@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Optimiazation Helpers for GA
+Optimization Helpers for GA
 """
 
 import numpy as np
@@ -36,7 +36,7 @@ def _decode(c, a, b):
     return IntervalConverter(a, b)(c)
 
 
-def _make_individual(*xlim, size=8):
+def _make_individual(func, *xlim, size=8, decode=_decode):
     """Make an individual class
     
     Args:
@@ -49,25 +49,19 @@ def _make_individual(*xlim, size=8):
     if ndim == 1:
         class _Individual(BinaryChromosome // size):
 
-            def _fitness(self):
-                return - func(self.decode())
-
             def decode(self):
-                return decode(self, *xlim)
+                return decode(self, *xlim[0])
     else:
         class _Individual(makeIndividual(n_chromosomes=ndim, size=size)):
             default_size = ndim
 
-            def _fitness(self):
-                return - func(self.decode())
-
             def decode(self):
                 return np.asarray([decode(c, a, b) for c, (a, b) in zip(self, xlim)])
 
-    return _Individual
+    return _Individual.set_fitness(lambda obj: - func(obj.decode()))
 
 
-def ga_minimize(func, *xlim, decode=_decode, population_size=20, size=8, *args, **kwargs):
+def ga_minimize(func, *xlim, decode=_decode, population_size=20, size=8, **kwargs):
     """
     GA(with hall of fame) for minimizing the function `func` defined on `xlim`
 
@@ -83,11 +77,13 @@ def ga_minimize(func, *xlim, decode=_decode, population_size=20, size=8, *args, 
         ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
     """
 
-    _Individual = _make_individual(*xlim, size)
+    _Individual = _make_individual(func, *xlim, size=size, decode=decode)
     _Population = StandardPopulation[_Individual] // population_size
 
     pop = _Population.random()
-    return pop.ezolve(*args, **kwargs).solution
+    pop.ezolve(**kwargs)
+
+    return pop.solution
 
 
 def de_minimize(func, *xlim, decode=_decode, population_size=20, size=8, **kwargs):
@@ -106,14 +102,15 @@ def de_minimize(func, *xlim, decode=_decode, population_size=20, size=8, **kwarg
         ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
     """
 
-    _Individual = _make_individual(*xlim, size)
+    _Individual = _make_individual(func, *xlim, size=size, decode=decode)
     _Population = DifferentialEvolution[_Individual] // population_size
 
     pop = _Population.random()
-    return pop.ezolve(**kwargs).solution
+    pop.ezolve(**kwargs)
+    return pop.solution
 
 
-def ga_minimize_1D(func, xlim, decode=_decode, population_size=20, size=8, *args, **kwargs):
+def ga_minimize_1d(func, xlim, decode=_decode, population_size=20, size=8, *args, **kwargs):
     """
     GA(with hall of fame) for minimizing 1D function `func` defined on the interval `xlim`
 
@@ -126,14 +123,15 @@ def ga_minimize_1D(func, xlim, decode=_decode, population_size=20, size=8, *args
         size {int}: the length of the encoding of x
 
     Example:
-        ga_minimize_1D(lambda x:x**2, (-1,1))
+        ga_minimize_1d(lambda x:x**2, (-1,1))
     """
 
-    _Chromosome = _make_individual(xlim, size)
+    _Chromosome = _make_individual(func, xlim, size=size, decode=decode)
     _Population = StandardPopulation[_Chromosome] // population_size
 
     pop = _Population.random()
-    return pop.ezolve(**kwargs).solution
+    pop.ezolve(**kwargs)
+    return pop.solution
 
 
 class Optimizer:
@@ -149,13 +147,11 @@ class Optimizer:
         self.Population = Population
         self.min_max = min_max
 
-    @classmethod
-    def make_standard(cls, *xlim, min_max='min'):
-        _Individual = _make_individual(*xlim, size)
-        _Population = StandardPopulation[_Individual] // population_size
-        return cls(_Population, min_max)
+    def __call__(self, func, *xlim, decode=_decode, population_size=20, size=8, **kwargs):
 
-    def __call__(self, func, **kwargs):
+        _Individual = _make_individual(func, *xlim, size=size, decode=decode)
+        _Population = self.Population[_Individual] // population_size
+
         if self.min_max == 'min':
             def _evaluate(obj):
                 return - func(obj.decode())
@@ -163,6 +159,8 @@ class Optimizer:
             def _evaluate(obj):
                 return func(obj.decode())
         self.Population.set_fitness(_evaluate)
-        
-        return self.Population.random().ezolve(**kwargs).solution
+
+        pop = self.Population.random()
+        pop.ezolve(**kwargs)
+        return pop.solution
 

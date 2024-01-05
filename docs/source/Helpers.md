@@ -41,8 +41,8 @@ Give an example:
 ```python
 from pyrimidine.optimize import Optimizer
 
-optimizer = Optimizer.make_standard((-1,1), (-1,1))
-optimizer(lambda x:x[0]**2+x[1])
+optimizer = Optimizer(StandardPopulation)
+optimizer(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
 
 # <==> optimize.ga_minimzie(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
 ```
