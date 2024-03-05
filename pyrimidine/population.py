@@ -2,6 +2,8 @@
 
 """Variants of Population classes
 
+A population is defined as a container of individuals.
+
 StandardPopulation: Standard Genetic Algorithm
 HOFPopulation: Standard Genetic Algorithm with hall of fame
 """

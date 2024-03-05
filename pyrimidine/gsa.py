@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
+"""
+The Gravity Searching Algorithm (GSA) is a metaheuristic optimization method that simulates the law of gravity in physics.
+It was introduced as a nature-inspired algorithm for solving optimization problems, particularly in continuous domains.
+
+1. Rashedi, E., Nezamabadi-Pour, H., & Saryazdi, S. (2009). "GSA: A Gravitational Search Algorithm". Information Sciences, 179(13), 2232-2248.
+2. Rashedi, E., Nezamabadi-Pour, H., & Saryazdi, S. (2011). "A New Method for Solving Optimization Problems Using Gravitational Search Algorithm". International Journal of Computer Applications, 22(8), 1-6.
+3. Niazi, M., Mirjalili, S., Mirjalili, S. M., & Yang, X. S. (2016). "Enhanced Gravity Search Algorithm". Swarm and Evolutionary Computation, 6(1), 10-21.
+"""
+
 from .base import PopulationMixin
 from .chromosome import FloatChromosome
 from .individual import PolyIndividual
@@ -22,7 +31,8 @@ class Particle(PolyIndividual):
 
     element_class = FloatChromosome
     default_size = 2
-    accelerate = 0
+
+    params = {'accelerate': 0}
 
     @property
     def position(self):

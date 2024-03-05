@@ -2,6 +2,9 @@
 
 """
 (mu + lambda) - Evolution Strategy
+
+*References*
+Rechenberg, I. 1973. Evolutionsstrategie – Optimierung technischer Systeme nach Prinzipien der biologischen Evolution, Frommann-Holzboog.
 """
 
 

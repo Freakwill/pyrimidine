@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 
 """Firefly Algorithm
+
+*References*
+Yang, X. S. (2010). "Firefly Algorithm: A New Approach for Optimization".
+  In Stochastic Algorithms: Foundations and Applications (pp. 169-178). Springer Berlin Heidelberg.
+Yang, X. S. (2013). "Nature-Inspired Metaheuristic Algorithms". Luniver Press.
 """
 
 from scipy.spatial.distance import pdist, squareform

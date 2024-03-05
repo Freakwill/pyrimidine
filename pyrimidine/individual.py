@@ -2,6 +2,9 @@
 
 """
 Individual classes
+
+An individual represents a solution of a optimization problem.
+It is defined as a container of chromosomes.
 """
 
 from .base import BaseIndividual

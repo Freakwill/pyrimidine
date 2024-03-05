@@ -2,6 +2,12 @@
 
 """
 Optimization Helpers for GA
+
+Users can use the following example to optimize a multivariate function by GA directly
+without encoding the solutions to chromosomes or individuals.
+    ```
+    ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+    ```
 """
 
 import numpy as np

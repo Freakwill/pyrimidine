@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 
+"""
+Chromosome classes
+
+A chromosome is an array of genes.
+It could be a part of an individual or encodes a solution directly.
+"""
+
 from random import choice, randint, gauss, random
 
 import numpy as np

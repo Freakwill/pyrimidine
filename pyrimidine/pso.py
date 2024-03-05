@@ -4,7 +4,7 @@
 
 Developed by J. Kennedy and R. Eberhart[Kennedy and Eberhart 2001]
 
-Each individual is represented position and velocity.
+Each individual is represented by the position and the velocity.
 """
 
 from random import random
