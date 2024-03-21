@@ -179,7 +179,13 @@ class MetaContainer(ParamType):
         
         def _getitem(self, k):
             # print(DeprecationWarning('get item directly is not recommended now.'))
-            return self.__elements[k]
+            try:
+                return self.__elements[k]
+            except:
+                if isinstance(k, list):
+                    return [self[_] for _ in k]
+                else:
+                    raise TypeError(f'The index must be int/tuple/slice or list! But what you provided is {type(k)}')
 
         def _setitem(self, k, v):
             # print(DeprecationWarning('get item directly is not recommended now.'))
@@ -200,7 +206,8 @@ class MetaContainer(ParamType):
             '__setitem__': _setitem,
             '__iter__': _iter,
             '__len__': _len,
-            '__contains__': _contains})
+            '__contains__': _contains}
+            )
 
         def _apply(self, f, *args, **kwargs):
             return self.map(lambda o: f(o, *args, **kwargs), self.__elements)

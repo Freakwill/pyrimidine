@@ -330,6 +330,14 @@ class CollectiveMixin(IterativeMixin):
     def append(self, ind):
         self.elements.append(ind)
 
+    def random_select(self, n_sel=None, copy=False):
+        if n_sel is None:
+            k = np.random.randint(len(self))
+            return self[k]
+        else:
+            ks = np.random.randint(len(self), size=n_sel)
+            return self[ks]
+
 
 class PopulationMixin(FitnessMixin, CollectiveMixin):
     """mixin class for population-based heuristic algorithm
@@ -473,7 +481,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
     def sort(self):
         # sort the whole population
         ks = self.argsort()
-        self.__elements = [self[k] for k in ks]
+        self.__elements = self[ks]
 
     def argsort(self):
         return np.argsort(self.get_all_fitness())
