@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 """
-Chromosome classes
+Chromosome classes, subclass of BaseChromosome
 
-A chromosome is an array of genes.
+A chromosome is an array of genes, or it can be customized by the user.
 It could be a part of an individual or encodes a solution directly.
 """
 

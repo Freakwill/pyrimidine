@@ -5,7 +5,12 @@ The Bat Algorithm is a nature-inspired optimization algorithm developed by Xin-S
 It is based on the echolocation behavior of bats.
 Bats emit ultrasonic pulses and listen to the echoes to determine the distance to obstacles and the location of prey.
 This behavior forms the basis of the algorithm where solutions are represented as virtual bats,
-and their positions in the search space are adjusted iteratively to find the optimal solution. 
+and their positions in the search space are adjusted iteratively to find the optimal solution.
+
+*References*
+Gagnon, Iannick et al. “A critical analysis of the bat algorithm.” Engineering Reports 2 (2020): n. pag.
+Yang, Xin-She. “A New Metaheuristic Bat-Inspired Algorithm.” Nature Inspired Cooperative Strategies for Optimization (2010).
+Yang, Xin-She and Amir Hossein Gandomi. “Bat algorithm: a novel approach for global engineering optimization.” Engineering Computations 29 (2012): 464-483.
 """
 
 

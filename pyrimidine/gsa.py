@@ -4,21 +4,23 @@
 The Gravity Searching Algorithm (GSA) is a metaheuristic optimization method that simulates the law of gravity in physics.
 It was introduced as a nature-inspired algorithm for solving optimization problems, particularly in continuous domains.
 
+*References*
 1. Rashedi, E., Nezamabadi-Pour, H., & Saryazdi, S. (2009). "GSA: A Gravitational Search Algorithm". Information Sciences, 179(13), 2232-2248.
 2. Rashedi, E., Nezamabadi-Pour, H., & Saryazdi, S. (2011). "A New Method for Solving Optimization Problems Using Gravitational Search Algorithm". International Journal of Computer Applications, 22(8), 1-6.
 3. Niazi, M., Mirjalili, S., Mirjalili, S. M., & Yang, X. S. (2016). "Enhanced Gravity Search Algorithm". Swarm and Evolutionary Computation, 6(1), 10-21.
 """
 
+from scipy.spatial.distance import pdist, squareform
 from .base import PopulationMixin
 from .chromosome import FloatChromosome
-from .individual import PolyIndividual
+from .pso import BaseParticle
 from .utils import euclidean, random, exp, metropolis_rule
-from scipy.spatial.distance import pdist, squareform
+from .deco import side_effect
 
 import numpy as np
 
 
-class Particle(PolyIndividual):
+class Particle(BaseParticle):
     """A particle in GSA
     
     Extends:
@@ -41,7 +43,7 @@ class Particle(PolyIndividual):
     @position.setter
     def position(self, x):
         self.chromosomes[0] = x
-        self._cache['fitness'] = None
+        self.after_setter()
 
     @property
     def velocity(self):
@@ -51,6 +53,7 @@ class Particle(PolyIndividual):
     def velocity(self, v):
         self.chromosomes[1] = v
 
+    @side_effect
     def move(self):
         """Moving the particl with Newton's mechanics
         """
@@ -62,7 +65,6 @@ class Particle(PolyIndividual):
         D = cpy.fitness - self.fitness
         if flag:
             self.chromosomes = cpy.chromosomes
-            self._cache['fitness'] = cpy.fitness
 
 
 class GravitySearch(PopulationMixin):
@@ -71,6 +73,9 @@ class GravitySearch(PopulationMixin):
     Extends:
         PopulationMixin
     """
+
+    alias = {'particles': 'elements',
+    'n_particles': 'n_elements'}
 
     element_class = Particle
     default_size = 20

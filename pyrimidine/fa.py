@@ -8,13 +8,13 @@ Yang, X. S. (2010). "Firefly Algorithm: A New Approach for Optimization".
 Yang, X. S. (2013). "Nature-Inspired Metaheuristic Algorithms". Luniver Press.
 """
 
+from random import gauss, random
 from scipy.spatial.distance import pdist, squareform
 import numpy as np
 
 from .base import PopulationMixin
 from .chromosome import FloatChromosome
 from .individual import PolyIndividual
-from .utils import gauss, random
 
 from .pso import BaseParticle
 

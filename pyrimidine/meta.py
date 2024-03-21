@@ -371,7 +371,6 @@ class MetaContainer(ParamType):
             return self([self.element_class.random(*args, **kwargs) for _ in range(n_elements)])
 
 
-
 # class System(MetaContainer):
 #     """Metaclass of systems, considered in future!
 
@@ -517,7 +516,7 @@ class MetaArray(ParamType):
     Chromosomes could be seen as a container of genes. But we implement them
     by the arrays for convenience.
     """
-    
+
     def __new__(cls, name, bases, attrs):
         if 'element_class' in attrs:
             element_class = attrs['element_class']

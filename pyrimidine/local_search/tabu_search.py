@@ -2,6 +2,11 @@
 
 """
 Tabu Search was created by Fred W. Glover in 1986 and formalized in 1989
+
+*References*
+Glover, Fred W. and Manuel Laguna. “Tabu Search.” (1997).
+Glover, Fred W.. “Tabu Search - Part I.” INFORMS J. Comput. 1 (1989): 190-206.
+Glover, Fred W.. “Tabu Search - Part II.” INFORMS J. Comput. 2 (1989): 4-32.
 """
 
 from ..base import BaseIndividual
