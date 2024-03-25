@@ -64,6 +64,6 @@ In essence, a container - and by extension, a population in genetic algorithms -
 
 This is how we compute `fitness`. The method `_fitness` is responsible for the underlying computation. The attribute `fitness` further encapsulates `_fitness`. If caching is enabled, it will first read from the cache; if not, it will call `_fitness`.
 
-It is recommended to add the `@fitness_cache` decorator to individuals. If the individual has not changed, it can reduce computation and improve algorithm efficiency, otherwise it should re-compute fitness. 
+It is recommended to add the `@fitness_cache` decorator to individuals. If the individual has not changed, then it can reduce computation and improve algorithm efficiency, otherwise it should re-compute fitness. The shortage is that you have to add `@side_effect` to the methods which have side effect, namly changing the fitness of the individual.
 
 Unlike the cache class decorator, the `memory` decorator (e.g., `@basic_memory`) will change the algorithm's behavior. It stores the best results during the individual's changes. `fitness` will first read from memory. Memory itself also has a caching effect, so if you add the memory decorator, there is no need to add the cache decorator.

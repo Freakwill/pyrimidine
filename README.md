@@ -446,3 +446,6 @@ Of course, it is not mandatory. It is allowed to inherit `ParticleSwarm` from fo
 
 If you'd like to contribute to `pyrimidine`, please contact with me;
 and if you have noticed some bugs, then use the GitHub issues page to report them.
+
+
+![LOGO](logo-ai.png)
