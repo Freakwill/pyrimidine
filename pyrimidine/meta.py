@@ -182,10 +182,10 @@ class MetaContainer(ParamType):
             try:
                 return self.__elements[k]
             except:
-                if isinstance(k, list):
+                if isinstance(k, Iterable):
                     return [self[_] for _ in k]
                 else:
-                    raise TypeError(f'The index must be int/tuple/slice or list! But what you provided is {type(k)}')
+                    raise TypeError(f'The index must be int/tuple/slice or list-like iterable object! But what you provided is {type(k)}')
 
         def _setitem(self, k, v):
             # print(DeprecationWarning('get item directly is not recommended now.'))

@@ -6,11 +6,11 @@ from pyrimidine.benchmarks.optimization import *
 
 # generate a knapsack problem randomly
 
-n_bags = 50
-_evaluate = Knapsack.random(n=n_bags)
+n_bags = 20
+_evaluate = Knapsack.random(n_bags=n_bags)
 
 class _Individual(BaseEPIndividual):
-    element_class = BinaryChromosome, FloatChromosome
+    element_class = BinaryChromosome // n_bags, FloatChromosome // n_bags
 
     def decode(self):
         return self.chromosomes[0]
@@ -21,20 +21,21 @@ class _Individual(BaseEPIndividual):
 
     def mutate(self):
         rx = np.random.rand(*self.chromosomes[0].shape)
-        self.chromosomes[0] ^= (rx < self.variance)
+        b = (rx < self.variance)
+        self.chromosomes[0] = self.chromosomes[0] * (1-b) + (1-self.chromosomes[0])*b
         
         rv = np.random.randn(*self.variance.shape)
         self.variance += self.c * rv
 
 
-class _Population(EPPopulation, BasePopulation):
+class _Population(EvolutionProgramming, BasePopulation):
     element_class = _Individual
-    default_size = 40
+    default_size = 10
 
 
-pop = _Population.random(sizes=(n_bags, n_bags))
+pop = _Population.random()
 
-data = pop.evolve(n_iter=100, period=10, history=True)
+data = pop.evolve(n_iter=100, period=2, history=True, verbose=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

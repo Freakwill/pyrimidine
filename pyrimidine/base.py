@@ -230,7 +230,7 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         return [chromosome.decode() for chromosome in self]
 
     def __eq__(self, other):
-        return np.all([c.equal(oc) for c, oc in zip(self, other)])
+        return np.all(list(map(np.equal, self, other)))
 
     def __mul__(self, n):
         """population = individual * n

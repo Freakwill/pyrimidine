@@ -97,12 +97,6 @@ def max0(x):
     return np.maximum(x, 0)
 
 
-def max_lb(lb):
-    def m(x):
-        return np.maximum(x, lb)
-    return m
-
-
 def hl(x):
     return np.clip(x, 0, 1) 
 

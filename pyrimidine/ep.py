@@ -29,7 +29,8 @@ import numpy as np
 from .base import PopulationMixin, BaseChromosome
 from .chromosome import FloatChromosome
 from .individual import MixedIndividual
-from .utils import max_lb
+
+from .deco import side_effect
 
 
 class BaseEPIndividual(MixedIndividual):
@@ -53,16 +54,17 @@ class BaseEPIndividual(MixedIndividual):
     def variance(self, v):
         self.chromosomes[1] = v
     
+    @side_effect
     def mutate(self):
         rx = np.random.randn(*self.chromosomes[0].shape)
         self.chromosomes[0] += rx * np.sqrt(self.variance)
 
         rv = np.random.randn(*self.variance.shape)
         self.variance += self.c * rv * np.sqrt(self.variance)
-        self.variance = max_lb(self.epsilon)(self.variance)
+        self.variance = np.maximum(self.variance, self.epsilon)
 
 
-class EPPopulation(PopulationMixin):
+class EvolutionProgramming(PopulationMixin):
     """Evolution Programming
     
     Extends:
@@ -72,15 +74,20 @@ class EPPopulation(PopulationMixin):
     element_class = BaseEPIndividual
 
     def select(self):
-        d = groupby(attrgetter('fitness'), self.sorted_individuals)
+        self.sort()
+        d = groupby(attrgetter('fitness'), self)
         inds = []
         ks = np.sort(list(d.keys()))[::-1]
-        while len(inds) < self.n_individuals:
+        flag = True
+        while flag:
             for k in ks:
                 if d[k]:
                     a = choice(d[k])
                     inds.append(a)
                     d[k].remove(a)
+                    if len(inds) <= self.default_size:
+                        flag = False
+                        break
         self.individuals = inds
 
     def transition(self, *args, **kwargs):
@@ -88,3 +95,4 @@ class EPPopulation(PopulationMixin):
         self.mutate()
         self.merge(cpy)
         self.select()
+    
