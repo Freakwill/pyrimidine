@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# Test for Evolution Programming
+
 
 from pyrimidine import FloatChromosome, BasePopulation
 from pyrimidine.ep import BaseEPIndividual, EvolutionProgramming
@@ -13,7 +15,6 @@ def evaluate(x):
 class TestEP:
 
     def test_ep(self):
-        # generate a knapsack problem randomly
 
         class _Individual(BaseEPIndividual):
             element_class = FloatChromosome // n, FloatChromosome // n
@@ -21,9 +22,8 @@ class TestEP:
             def decode(self):
                 return self.chromosomes[0]
 
-
             def _fitness(self):
-                return - _evaluate(self.decode())
+                return _evaluate(self.decode())
 
 
         class _Population(EvolutionProgramming, BasePopulation):
