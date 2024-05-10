@@ -75,11 +75,3 @@ pyrimidine.benchmarks.special module
    :members:
    :undoc-members:
    :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: pyrimidine.benchmarks
-   :members:
-   :undoc-members:
-   :show-inheritance:

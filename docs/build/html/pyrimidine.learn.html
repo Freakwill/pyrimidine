@@ -51,7 +51,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.learn.linear_regression.GALinearRegression">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.learn.linear_regression.</span></span><span class="sig-name descname"><span class="pre">GALinearRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_intercept</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.linear_regression.GALinearRegression" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrimidine.learn.BaseEstimator" title="pyrimidine.learn.BaseEstimator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearRegression</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearRegression</span></code></p>
 <p>Linear Regression by GA</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.learn.linear_regression.GALinearRegression.config">
@@ -77,7 +77,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.learn.neural_network.GAMLPRegressor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.learn.neural_network.</span></span><span class="sig-name descname"><span class="pre">GAMLPRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.neural_network.GAMLPRegressor" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrimidine.learn.BaseEstimator" title="pyrimidine.learn.BaseEstimator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">MLPRegressor</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">MLPRegressor</span></code></p>
 <p>GA for MLP Regression</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.learn.neural_network.GAMLPRegressor.config">
@@ -112,53 +112,27 @@
 </dd></dl>
 
 </section>
-<section id="module-pyrimidine.learn">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyrimidine.learn" title="Link to this heading">¶</a></h2>
+<section id="module-pyrimidine.learn.cluster">
+<span id="pyrimidine-learn-cluster-module"></span><h2>pyrimidine.learn.cluster module<a class="headerlink" href="#module-pyrimidine.learn.cluster" title="Link to this heading">¶</a></h2>
+<p>GA for linear regression</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="pyrimidine.learn.BaseEstimator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.learn.</span></span><span class="sig-name descname"><span class="pre">BaseEstimator</span></span><a class="headerlink" href="#pyrimidine.learn.BaseEstimator" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code></p>
-<p>Base class for machine learning by GA</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.learn.BaseEstimator.estimated_params">
-<span class="sig-name descname"><span class="pre">estimated_params</span></span><a class="headerlink" href="#pyrimidine.learn.BaseEstimator.estimated_params" title="Link to this definition">¶</a></dt>
-<dd><p>estimtated/learnable parameters by GA</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.learn.BaseEstimator.pop">
-<span class="sig-name descname"><span class="pre">pop</span></span><a class="headerlink" href="#pyrimidine.learn.BaseEstimator.pop" title="Link to this definition">¶</a></dt>
-<dd><p>the population for GA</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Population</p>
-</dd>
-</dl>
-</dd></dl>
-
+<dt class="sig sig-object py" id="pyrimidine.learn.cluster.GAKmeans">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.learn.cluster.</span></span><span class="sig-name descname"><span class="pre">GAKmeans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'k-means++'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'warn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lloyd'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.cluster.GAKmeans" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">KMeans</span></code></p>
+<p>KMeans by GA</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.learn.BaseEstimator.config">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.BaseEstimator.config" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">estimated_params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">()</span></em><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.learn.cluster.GAKmeans.config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_individuals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.cluster.GAKmeans.config" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.learn.BaseEstimator.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warm_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.BaseEstimator.fit" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.learn.cluster.GAKmeans.create_model">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.learn.cluster.GAKmeans.create_model" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">pop</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.learn.cluster.GAKmeans.estimated_params">
+<span class="sig-name descname"><span class="pre">estimated_params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('cluster_centers_',)</span></em><a class="headerlink" href="#pyrimidine.learn.cluster.GAKmeans.estimated_params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -199,14 +173,11 @@
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyrimidine.learn">Module contents</a><ul>
-<li><a class="reference internal" href="#pyrimidine.learn.BaseEstimator"><code class="docutils literal notranslate"><span class="pre">BaseEstimator</span></code></a><ul>
-<li><a class="reference internal" href="#pyrimidine.learn.BaseEstimator.estimated_params"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.estimated_params</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.learn.BaseEstimator.pop"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.pop</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.learn.BaseEstimator.config"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.config()</span></code></a></li>
-<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.estimated_params</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.learn.BaseEstimator.fit"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.fit()</span></code></a></li>
-<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">BaseEstimator.pop</span></code></a></li>
+<li><a class="reference internal" href="#module-pyrimidine.learn.cluster">pyrimidine.learn.cluster module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.learn.cluster.GAKmeans"><code class="docutils literal notranslate"><span class="pre">GAKmeans</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.learn.cluster.GAKmeans.config"><code class="docutils literal notranslate"><span class="pre">GAKmeans.config()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.learn.cluster.GAKmeans.create_model"><code class="docutils literal notranslate"><span class="pre">GAKmeans.create_model()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.learn.cluster.GAKmeans.estimated_params"><code class="docutils literal notranslate"><span class="pre">GAKmeans.estimated_params</span></code></a></li>
 </ul>
 </li>
 </ul>

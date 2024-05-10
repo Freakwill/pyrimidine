@@ -6,10 +6,12 @@ To introduce the useful helpers and decorators
 ## Optimization
 
 An example of function optimization:
-$$
-\min_{x_1,x_2}x_1^2+x_2\\
-x_1, x_2\in [-1,1]
-$$
+
+.. math::
+
+    \min_{x_1,x_2} x_1^2+x_2\\
+    x_1, x_2 \in [-1,1]
+
 
 ### `ga_minimize`
 `ga_minimize` encapsulates the GA algorithm. You need not use the classes of containers.
@@ -49,12 +51,12 @@ optimizer(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
 
 ## Decorators
 
-Introduce some useful decorators.
+Mainly introduce two useful decorators: memory and cache
 
 ### Memory
 In common case, use `basic_memory`. If you want to store more information in memory dic, then consider to use `add_memory({'solution': None, 'fitness': None, ...})`
 
-The memory decorator works like cache, but it is a part of the algorithm. Memory always store the best solution and the coresponding fitness of each individual, making the algorithm more effective.
+The memory decorator works like cache, but it is a part of the algorithm. Memory always stores the best solution and the corresponding fitness of each individual, making the algorithm more effective.
 
 ```python
 #!/usr/bin/env python3
@@ -137,5 +139,9 @@ Cache decorator is a technique to speed up the algorithm, but is not supposed to
 class MyIndividual:
     ...
 ```
+
+### Side_effect
+
+`side-effect` is used along with the decorator `cache`.
 
 Methods decorated by `@side_effect` has side effect that will change the fitness. So it will clear the fitness in cache after executing itself, if you do set a cache, otherwise it will produce uncorrect results.

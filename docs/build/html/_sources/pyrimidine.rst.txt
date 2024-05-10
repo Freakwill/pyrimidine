@@ -54,6 +54,14 @@ pyrimidine.deco module
    :undoc-members:
    :show-inheritance:
 
+pyrimidine.aco module
+--------------------
+
+.. automodule:: pyrimidine.aco
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pyrimidine.ep module
 --------------------
 

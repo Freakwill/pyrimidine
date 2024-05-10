@@ -27,11 +27,3 @@ pyrimidine.local\_search.tabu\_search module
    :members:
    :undoc-members:
    :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: pyrimidine.local_search
-   :members:
-   :undoc-members:
-   :show-inheritance:

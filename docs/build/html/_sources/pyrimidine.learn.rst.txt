@@ -20,10 +20,10 @@ pyrimidine.learn.neural_network module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
+pyrimidine.learn.cluster module
+----------------------------------
 
-.. automodule:: pyrimidine.learn
+.. automodule:: pyrimidine.learn.cluster
    :members:
    :undoc-members:
    :show-inheritance:

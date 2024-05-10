@@ -8,21 +8,28 @@ Original Picture
 ![](https://img.sj33.cn/uploads/allimg/201404/7-1404160TQ63V.png)
 
 ## Videos
-<video
-src="tsp.mp4" controls=""
-height=350 
-width=600> 
-TSP solved by GA
-</video>
 
-<video
-src="https://youtu.be/KwpNPCNutcI" controls=""
-height=350 
-width=600> 
-</video>
+.. video:: tsp.mp4 
+   :width: 640  
+   :height: 480  
+   :controls:  
+   :autoplay:
 
-If it fails to play, then access the url https://youtu.be/KwpNPCNutcI
+.. raw:: html 
+
+    <video
+    src="tsp.mp4" controls=""
+    height=350 
+    width=600> 
+    TSP solved by GA
+    </video>
+
+.. raw:: html  
+
+    <iframe width="560" height="315" src="https://youtu.be/KwpNPCNutcI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+If it fails to play, then access the url https://youtu.be/KwpNPCNutcI.
 
 ## Tutorial
 
-https://youtu.be/LWc2V28kzgA
+Video tutorial: https://youtu.be/LWc2V28kzgA

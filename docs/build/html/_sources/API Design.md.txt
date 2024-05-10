@@ -1,6 +1,9 @@
 # API Design
 
+.. api-design:
+
 ## Modules
+
 
 Short introduction to modules:
 

@@ -43,6 +43,10 @@
   <section class="tex2jax_ignore mathjax_ignore" id="customization">
 <h1>Customization<a class="headerlink" href="#customization" title="Link to this heading">¶</a></h1>
 <p>In this section, we present more complicated examples.</p>
+<section id="principle">
+<h2>Principle<a class="headerlink" href="#principle" title="Link to this heading">¶</a></h2>
+<p>If you aspire to create a novel algorithm that differs from genetic algorithms (GAs), it is advisable to derive from the mixin classe and use the metaclass :ref:<code class="docutils literal notranslate"><span class="pre">api-design</span></code>. The base classes have been crafted specifically for GA-style algorithms, yet they offer flexibility. There is no compulsion to adhere strictly to their implementation; you have the freedom to override the methods within the base classes to suit your novel algorithm’s requirements.</p>
+</section>
 <section id="customization-tricks">
 <h2>Customization Tricks<a class="headerlink" href="#customization-tricks" title="Link to this heading">¶</a></h2>
 <p>Take Partical Swarm Optimization(PSO) as an example for a quick look at the tricks of customization. First of all, define <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">ParticleSwarm(PopulationMixin):...</span></code>, as subclass of <code class="docutils literal notranslate"><span class="pre">PopulationMixin</span></code>. <code class="docutils literal notranslate"><span class="pre">PopulationMixin</span></code> is a mixin class where you have to define method <code class="docutils literal notranslate"><span class="pre">transition</span></code> to implement the PSO algorithm. Then assign <code class="docutils literal notranslate"><span class="pre">element_class</span></code> to be the type of particles, and set <code class="docutils literal notranslate"><span class="pre">default_size</span></code> as the number of the particles.</p>
@@ -59,60 +63,57 @@
 </div>
 <p>In the standard definition, as an individual, a particle has two “chromosomes”, one represents the current position, the other represents the current velocity. While, you can define three or more chromosomes, to include the acceleration. It also has an important attribute, <code class="docutils literal notranslate"><span class="pre">memory</span></code> storing the best position that the particle passed-by.</p>
 </section>
-<section id="simulated-annealing-algorithm">
-<h2>Simulated Annealing Algorithm<a class="headerlink" href="#simulated-annealing-algorithm" title="Link to this heading">¶</a></h2>
-<p>See the following code for SA Algorithm. The standard SA is an iteration of one solution. Hence we inherit it from <code class="docutils literal notranslate"><span class="pre">FitnessMixin</span></code> instead of <code class="docutils literal notranslate"><span class="pre">PopulationMixin</span></code></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<section id="evolution-strategy">
+<h2>Evolution Strategy<a class="headerlink" href="#evolution-strategy" title="Link to this heading">¶</a></h2>
+<p>Evolution Strategy is indeed a special type of GA. Hence we inherit it from <code class="docutils literal notranslate"><span class="pre">BasePopulation</span></code>.</p>
+<p>Here we mainly redefine the method <code class="docutils literal notranslate"><span class="pre">mate</span></code> and remove <code class="docutils literal notranslate"><span class="pre">mutate</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
 
-<span class="k">class</span> <span class="nc">SimulatedAnnealing</span><span class="p">(</span><span class="n">FitnessMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for Simulated Annealing</span>
-<span class="sd">    </span>
-<span class="sd">    Attributes:</span>
-<span class="sd">        params (dict): parameters in SA</span>
-<span class="sd">        phantom: phantom solution for exploration</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">(mu + lambda) - Evolution Strategy</span>
 
-    <span class="n">phantom</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="sd">*References*</span>
+<span class="sd">Rechenberg, I. 1973. Evolutionsstrategie – Optimierung technischer Systeme nach Prinzipien der biologischen Evolution, Frommann-Holzboog.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
-    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ext_c&#39;</span><span class="p">:</span> <span class="mf">0.995</span><span class="p">,</span>
-        <span class="s1">&#39;int_c&#39;</span><span class="p">:</span> <span class="mf">0.996</span><span class="p">,</span>
-        <span class="s1">&#39;nepoch&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-        <span class="s1">&#39;initT&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>      <span class="c1"># initial temperature</span>
-        <span class="s1">&#39;termT&#39;</span><span class="p">:</span> <span class="mf">0.0001</span>    <span class="c1"># terminal temperature</span>
-        <span class="p">}</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">BasePopulation</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">randint2</span>
+
+
+<span class="k">class</span> <span class="nc">EvolutionStrategy</span><span class="p">(</span><span class="n">BasePopulation</span><span class="p">):</span>
+    <span class="c1"># Evolution Strategy</span>
+
+    <span class="n">params</span> <span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;mu&quot;</span> <span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s2">&quot;lambda_&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fitness</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;mu&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">default_size</span><span class="p">)</span> 
 
     <span class="k">def</span> <span class="nf">transition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">T</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initT</span>
-        <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nepoch</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
-            <span class="n">T</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_c</span>
-            <span class="k">if</span> <span class="n">T</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">termT</span><span class="p">:</span>
-                <span class="k">break</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span><span class="o">.</span><span class="n">fitness</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">chromosomes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span><span class="o">.</span><span class="n">chromosomes</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phantom</span><span class="o">.</span><span class="n">fitness</span>
+        <span class="n">offspring</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">offspring</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">select_best_individuals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">postprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initT</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ext_c</span>
+    <span class="k">def</span> <span class="nf">mate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lambda_</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">lambda_</span> <span class="o">=</span> <span class="n">lambda_</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_</span>
+        <span class="n">offspring</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lambda_</span><span class="p">):</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">randint2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="n">offspring</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">offspring</span>
 
+    <span class="k">def</span> <span class="nf">select_best_individuals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">mu</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">individuals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_best_individuals</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transition of states</span>
-<span class="sd">        </span>
-<span class="sd">        Arguments:</span>
-<span class="sd">            T {number} -- temperature</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">cpy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_neighbour</span><span class="p">()</span>
-
-        <span class="c1"># Metropolis rule</span>
-        <span class="n">flag</span> <span class="o">=</span> <span class="n">metropolis_rule</span><span class="p">(</span><span class="n">D</span><span class="o">=</span><span class="n">cpy</span><span class="o">.</span><span class="n">fitness</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">chromosomes</span> <span class="o">=</span> <span class="n">cpy</span><span class="o">.</span><span class="n">chromosomes</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="n">cpy</span><span class="o">.</span><span class="n">fitness</span>
 </pre></div>
 </div>
 </section>
@@ -154,8 +155,8 @@
 </section>
 <section id="local-search">
 <h2>Local Search<a class="headerlink" href="#local-search" title="Link to this heading">¶</a></h2>
-<section id="id1">
-<h3>Simulated Annealing Algorithm<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<section id="evolutionary-strategy">
+<h3>Evolutionary Strategy<a class="headerlink" href="#evolutionary-strategy" title="Link to this heading">¶</a></h3>
 <p>Different from GA, DE or other algorithms based on the population, simulated annealing is based on single individual. It is a sort of local search. Following is the skelton of SA.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 <span class="k">class</span> <span class="nc">SimulatedAnnealing</span><span class="p">(</span><span class="n">PhantomIndividual</span><span class="p">):</span>
@@ -308,11 +309,12 @@
     <h3><a href="index.html">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">Customization</a><ul>
+<li><a class="reference internal" href="#principle">Principle</a></li>
 <li><a class="reference internal" href="#customization-tricks">Customization Tricks</a></li>
-<li><a class="reference internal" href="#simulated-annealing-algorithm">Simulated Annealing Algorithm</a></li>
+<li><a class="reference internal" href="#evolution-strategy">Evolution Strategy</a></li>
 <li><a class="reference internal" href="#differential-evolution">Differential Evolution</a></li>
 <li><a class="reference internal" href="#local-search">Local Search</a><ul>
-<li><a class="reference internal" href="#id1">Simulated Annealing Algorithm</a></li>
+<li><a class="reference internal" href="#evolutionary-strategy">Evolutionary Strategy</a></li>
 <li><a class="reference internal" href="#tabu-searching">Tabu Searching</a></li>
 <li><a class="reference internal" href="#ga-with-local-search">GA with local search</a></li>
 </ul>
