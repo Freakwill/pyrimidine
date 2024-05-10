@@ -96,7 +96,7 @@ class IterativeMixin:
             self.init()
 
         if history is True:
-            res = stat(self) if stat else {}
+            res = stat(self)
             history = pd.DataFrame(data={k:[v] for k, v in res.items()})
             history_flag = True
         elif history is False:
@@ -109,24 +109,25 @@ class IterativeMixin:
         if verbose:
             from toolz.itertoolz import concat
             if not history_flag:
-                res = stat(self) if stat else {}
+                res = stat(self)
             print(f"""
 {" & ".join(concat((("iteration",), attrs, res.keys())))}
 -------------------------------------------------------------
-{" & ".join(map(str, concat((("[0]",), (getattr(self, attr) for attr in attrs), map(str, res.values())))))}""")
+{" & ".join(map(str, concat((("[0]",), (getattr(self, attr) for attr in attrs), res.values()))))}""")
 
         for t in range(1, n_iter+1):
             self.transition(t)
             if history_flag and (period == 1 or t % period ==0):
-                res = stat(self) if stat else {}
+                res = stat(self)
                 history = pd.concat([history,
                     pd.Series(res.values(), index=res.keys()).to_frame().T],
                     ignore_index=True)
             if verbose and (period == 1 or t % period ==0):
-                print(f'{" & ".join(map(str, concat((("[%d]"%t,), (getattr(self, attr) for attr in attrs), map(str, res.values())))))}')
-            
+                print(f'{" & ".join(map(str, concat((("[%d]"%t,), (getattr(self, attr) for attr in attrs), res.values()))))}')
+
             if control:
                 if control(self):
+                    # if it satisfies the control condition
                     break
         return history
 
@@ -299,6 +300,12 @@ class FitnessMixin(IterativeMixin):
     def clone(self):
         return self.__class__(list(map(methodcaller('clone'), self)))
 
+    # def diff_fitness(self):
+    #     return self.fitness - self.previous_fitness
+
+    # def previous_fitness(self):
+    #     return self.memory['fitness']
+
 
 class CollectiveMixin(IterativeMixin):
     # mixin class for swarm intelligent algorithm
@@ -463,11 +470,24 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         return self.best_element.decode()
 
     def get_worst_element(self, copy=False):
+        # see get_best_element
         k = np.argmin(self.get_all_fitness())
         if copy:
             return self[k].copy()
         else:
             return self[k]
+
+    def get_worst_elements(self, n=1, copy=False):
+        # see get_best_elements
+        if n < 1:
+            n = int(self.n_elements * n)
+        elif not isinstance(n, int):
+            n = int(n)
+
+        if copy:
+            return [self[k].copy() for k in self.argsort()[:n]]
+        else:
+            return [self[k] for k in self.argsort()[:n]]
 
     @property
     def worst_element(self):

@@ -1,6 +1,12 @@
 # Release History
 
-## Current version
+## v1.6
+
+- Add `aco.py` to implement the ant colony optimization (test the observer pattern)
+- define `get_worst_elements` method for `PopulationMixin` class
+- correct some code in examples and `IterativeMixin` class.
+
+## v1.5
 
 - Give an example for "hybrid population", composed of populations and individuals
 - parallel computing, limited to computing the fitnesses parallely

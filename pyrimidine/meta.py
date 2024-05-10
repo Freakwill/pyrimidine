@@ -325,8 +325,6 @@ class MetaContainer(ParamType):
         for k, v in kwargs.items():
             setattr(o, k, v)
 
-        # if '_environment' in globals():
-        #     o.environment = globals()['_environment']
         return o
 
     def __getitem__(self, class_):
