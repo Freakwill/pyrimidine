@@ -12,8 +12,10 @@ from ..population import StandardPopulation
 from ..learn import BaseEstimator
 
 
-class GALinearRegression(BaseEstimator, KMeans):
-    """Linear Regression by GA
+class GAKmeans(BaseEstimator, KMeans):
+
+    """
+    KMeans by GA
     """
 
     estimated_params = ('cluster_centers_',)

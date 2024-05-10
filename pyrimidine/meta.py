@@ -131,6 +131,7 @@ class MetaContainer(ParamType):
     and operators acting on the elements
 
     Example:
+
         ```
         from collections import UserString
         class C(metaclass=MetaContainer):
@@ -149,24 +150,27 @@ class MetaContainer(ParamType):
 
         c.regester('upper')
         print(c.upper())
-
-        # <class 'collections.UserString'>
-        # <property object at 0x1065715e0>
-        # ['I', 'love', 'you']
-        # for ever
-        # 3
-        # love
-        # I
-        # love
-        # you
-        # ['I', 'LOVE', 'YOU']
         ```
+
+    Output:
+
+        <class 'collections.UserString'>
+        <property object at 0x1065715e0>
+        ['I', 'love', 'you']
+        for ever
+        3
+        love
+        I
+        love
+        you
+        ['I', 'LOVE', 'YOU']
     """
 
     def __new__(cls, name, bases, attrs):
         """
         Users have to define `element_class` in the class.
         """
+
         if 'element_class' in attrs:
             element_class = attrs['element_class']
         else:
@@ -264,6 +268,7 @@ class MetaContainer(ParamType):
         if the mapping f is regestered, then A owns method f, automatically
         f(A) := {f(a), a in A} where f is a method of A.
         """
+
         def _regester_map(self, name, key=None, force=True):
             if key is None:
                 key = methodcaller(name)

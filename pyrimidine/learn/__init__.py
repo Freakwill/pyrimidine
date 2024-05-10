@@ -15,7 +15,7 @@ class BaseEstimator(BE):
         estimated_params (tuple): estimtated/learnable parameters by GA
         pop (Population): the population for GA
     """
-    
+
     pop = None
     estimated_params = ()
 

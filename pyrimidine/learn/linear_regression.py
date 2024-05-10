@@ -23,8 +23,9 @@ class _BinaryChromosome(BinaryChromosome):
 
 
 class GALinearRegression(BaseEstimator, LinearRegression):
-    '''Linear Regression by GA
-    '''
+    
+    """Linear Regression by GA
+    """
 
     estimated_params = ('coef_', 'intercept_')
 

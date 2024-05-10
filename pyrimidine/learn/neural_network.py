@@ -13,6 +13,7 @@ from ..learn import BaseEstimator
 
 
 class GAMLPRegressor(BaseEstimator, MLPRegressor):
+
     """GA for MLP Regression
     """
 
