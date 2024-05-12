@@ -513,3 +513,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
             n = int(n)
         ks = self.argsort()
         self.elements = [self[k] for k in ks[n:]]
+
+    def observe(self):
+        for o in self:
+            o._population = self
