@@ -76,8 +76,9 @@ The methods are the functions or operators defined on $s$.
 
 To import all algorithms for beginners, simply use the command `from pyrimidine import *`.
 
-To speed the lib, use the following commands 
-```
+To speed the lib, use the following commands.
+
+```python
 from pyrimidine import BaseChromosome, BaseIndividual, BasePopulation # import the base classes form `base.py` to build your own classes
 
 # Commands used frequently
@@ -95,6 +96,8 @@ from pyrimidine.deco import fitness_cache, basic_memory # use the cache decorato
 
 from pyrimidine import optimize # do optimization implictly with GAs
 ```
+
+To import other classes or helpers, please see the docs.
 
 ### subclasses
 
