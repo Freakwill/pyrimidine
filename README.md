@@ -1,5 +1,10 @@
 # pyrimidine
 
+[![Pytest](https://github.com/Freakwill/pyrimidine/actions/workflows/pytest.yml/badge.svg)](https://github.com/Freakwill/pyrimidine/actions/workflows/pytest.yml)
+[
+![PyPi](https://img.shields.io/pypi/v/pyrimidine.svg)
+](https://pypi.python.org/pypi/pyrimidine)
+
 `pyrimidine` is an extensible framework of genetic/evolutionary algorithm by Python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details.
 
 ![LOGO](logo.png)
