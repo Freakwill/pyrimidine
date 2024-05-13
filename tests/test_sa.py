@@ -3,7 +3,7 @@
 
 from pyrimidine.individual import MonoIndividual
 from pyrimidine.chromosome import FloatChromosome
-from pyrimidine.local_search.simulated_annealing import *
+from pyrimidine.local_search.simulated_annealing import SimulatedAnnealing
 
 from pyrimidine.benchmarks.special import rosenbrock
 

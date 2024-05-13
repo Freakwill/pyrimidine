@@ -310,7 +310,7 @@ class FitnessMixin(IterativeMixin):
 class CollectiveMixin(IterativeMixin):
     # mixin class for swarm intelligent algorithm
 
-    map = map
+    map = map  # use the biuld-in `map` function by default
 
     def init(self, *args, **kwargs):
         for element in self:
@@ -408,6 +408,14 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
 
     @property
     def stat_fitness(self, s=np.max):
+        """Do statistics for the fitnesses of individuals in the population
+        
+        Args:
+            s (a function or a tuple of functions): a statistic
+        
+        Returns:
+            number or a tuple of numbers
+        """
         f = self.get_all_fitness()
         if isinstance(s, tuple):
             return tuple(si(f) for si in  s)
@@ -421,7 +429,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
             copy (bool, optional): return the copy of the selected element, if `copy=True`
         
         Returns:
-            An element
+            An element: the element with max fitness
         """
 
         k = np.argmax(self.get_all_fitness())
@@ -491,6 +499,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
 
     @property
     def worst_element(self):
+        # like worst_element
         k = np.argmin(self.get_all_fitness())
         return self[k]
 
