@@ -7,7 +7,6 @@ Blum, Christian. "Ant colony optimization: Introduction and recent trends." Phys
 """
 
 
-from types import MethodType
 import numpy as np
 from .base import FitnessMixin, PopulationMixin
 from .meta import MetaContainer
@@ -18,33 +17,37 @@ from random import random
 
 class BaseAnt(FitnessMixin):
 
-    initial_position = 0
-
     params = {"initial_position": None,
     "path": None,
-    "n_steps": 1}
+    "n_steps": 1,
+    "greedy_degree": 1,
+    "move_flag": True}
 
     def init(self):
         self.path = [0]
 
-    def __init__(self, *args, **kwargs):
-        if args:
-            raise Exception('__init__ has no position arguments!')
-        for k, v in kwargs.items():
-            setattr(self, k, v)
-
     def move(self, colony=None, n_steps=1):
+        """To move an ant
+        
+        Args:
+            colony (None, optional): the population of ants
+            n_steps (int, optional): the number of steps in each move
+        
+        Returns:
+            bool
+        """
         colony = colony or self._colony
         i = self.path[-1]
         self.new_path = [i]
         for _ in range(n_steps):
             next_positions = [j for j in colony.positions if j not in self.path]
-            if not next_positions: break
+            if not next_positions or not self.move_flag: break
             elif len(next_positions) == 1:
                 i = next_positions[0]
             else:
                 ps = np.array([colony.move_proba[i, j] for j in colony.positions if j not in self.path])
                 ps += 0.0001
+                ps **= self.greedy_degree
                 ps /= np.sum(ps)
                 rv = rv_discrete(values=(next_positions, ps))
                 i = rv.rvs(size=1)[0]
@@ -52,6 +55,9 @@ class BaseAnt(FitnessMixin):
             self.path.append(i)
         if len(self.new_path) >= 2:
             self.release_pheromone(colony)
+            self.move_flag = True
+        else:
+            self.move_flag = False
 
     def release_pheromone(self, colony):
         self.pheromone = colony.sedimentation / np.sum(colony.distances[i,j] for i, j in zip(self.new_path[:-1], self.new_path[1:]))
@@ -71,14 +77,16 @@ class BaseAnt(FitnessMixin):
 
     def reset(self):
         self.path = [0]
+        self.move_flag = True
         
 
 class BaseAntColony(PopulationMixin, metaclass=MetaContainer):
 
     element_class = BaseAnt
-    params = {'sedimentation':100, 'volatilization':0.75, 'alpha':1, 'beta':5, 'n_steps':1}
+    params = {'sedimentation':100, 'volatilization':0.75, 'alpha':1, 'beta':5, 'n_steps':1,
+    'reset_rate': 0.3, 'local_n_iter': 3, 'move_rate':0.5}
 
-    alias = {"ants": "elements", "worst_ant": "worst_element", "get_worst_individuals": "get_worst_elements"}
+    alias = {"ants": "elements", "worst_ant": "worst_element", "get_worst_ants": "get_worst_elements"}
 
     @classmethod
     def from_positions(cls, n_ants=10, positions=None):
@@ -87,7 +95,7 @@ class BaseAntColony(PopulationMixin, metaclass=MetaContainer):
         obj.positions = positions
         obj.pheromone = np.zeros((len(positions),)*2)
         obj.distances = squareform(pdist(points))
-        obj.observe()
+        obj.observe(name='_colony')
         return obj
 
     @classmethod
@@ -96,17 +104,20 @@ class BaseAntColony(PopulationMixin, metaclass=MetaContainer):
         obj.positions = np.arange(distances.shape[0])
         obj.distances = distances
         obj.pheromone = np.zeros(distances.shape)
-        obj.observe()
+        obj.observe(name='_colony')
         return obj
 
-    def observe(self):
-        for ant in self:
-            ant._colony = self
-
     def transition(self, *args, **kwargs):
-        self.move(n_steps=self.n_steps)
-        self.update_pheromone()
-        for ant in self.get_worst_individuals(0.3):
+
+        for _ in range(self.local_n_iter)
+            self.move(n_steps=self.n_steps)
+            self.update_pheromone()
+            if not any(ant.move_flag for ant in self):
+                # all ants stop moving
+                break
+
+        # reset the worst ants
+        for ant in self.get_worst_ants(self.reset_rate):
             ant.reset()
 
     @property
@@ -119,7 +130,8 @@ class BaseAntColony(PopulationMixin, metaclass=MetaContainer):
 
     def move(self, *args, **kwargs):
         for ant in self:
-            ant.move(self, *args, **kwargs)
+            if random() < self.move_rate:
+                ant.move(self, *args, **kwargs)
 
     def update_pheromone(self):
         delta = np.zeros_like(self.pheromone)
