@@ -28,11 +28,11 @@ from operator import attrgetter
 
 import numpy as np
 
-from .base import PopulationMixin, BaseChromosome
+from .base import BasePopulation, BaseChromosome
 from .chromosome import FloatChromosome
 from .individual import MixedIndividual
 
-from .deco import side_effect
+from .deco import side_effect, fitness_cache
 
 
 class BaseEPIndividual(MixedIndividual):
@@ -66,7 +66,7 @@ class BaseEPIndividual(MixedIndividual):
         self.variance = np.maximum(self.variance, self.epsilon)
 
 
-class EvolutionProgramming(PopulationMixin):
+class EvolutionProgramming(BasePopulation):
     """Evolution Programming
     
     Extends:

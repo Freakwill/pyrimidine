@@ -2,49 +2,39 @@
 
 
 from pyrimidine.individual import MonoIndividual
-from pyrimidine.population import HOFPopulation, BasePopulation
 from pyrimidine.chromosome import FloatChromosome
-from pyrimidine.de import DifferentialEvolution
+from pyrimidine.local_search.simulated_annealing import *
 
 from pyrimidine.benchmarks.special import rosenbrock
 
 import pytest
 
+
 @pytest.fixture(scope="class")
-def example2():
+def example():
     n = 20
     f = rosenbrock
 
-    class MyIndividual(MonoIndividual):
-        element_class = FloatChromosome // n
+    class MyIndividual(SimulatedAnnealing, MonoIndividual):
+        element_class = FloatChromosome.set(default_size=n)
 
         def _fitness(self):
-            return -f(self.chromosome)
+            return - f(self.chromosome)
 
-    class _Population1(DifferentialEvolution, BasePopulation):
-        element_class = MyIndividual
-        default_size = 10
+        def get_neighbour(self):
+            cpy = self.clone()
+            cpy.mutate()
+            # or cpy.chromosomes[0] = cpy.chromosome.random_neighbour()
+            return cpy
 
-    _Population2 = HOFPopulation[MyIndividual] // 10
-
-    return _Population1, _Population2
+    return MyIndividual
 
 
-class TestDE:
-    
-    def test_clone(self, example2):
-        P1, P2 = example2
-        p2 = P1.random().copy(type_=P2)
-        assert isinstance(p2, P2)
+class TestSA:
 
-    def test_evolve(self, example2):
-        P1, P2 = example2
-        self.population1 = P1.random()
-        self.population2 = P2.random()
-        stat = {'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness'}
-        data1 = self.population1.evolve(stat=stat, n_iter=3, history=True)
-        data2 = self.population2.evolve(stat=stat, n_iter=3, history=True)
-        assert ('Mean Fitness' in data1.columns and 'Best Fitness' in data1.columns and
-            'Mean Fitness' in data2.columns and 'Best Fitness' in data2.columns)
-        assert len(data1) == len(data2) == 4
+    def test_evolve(self, example):
+        I = example
+        self.individual = I.random()
+        data = self.individual.evolve(n_iter=3, history=True)
+        assert len(data) == 4
 

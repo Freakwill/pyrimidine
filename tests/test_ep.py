@@ -26,7 +26,7 @@ class TestEP:
                 return _evaluate(self.decode())
 
 
-        class _Population(EvolutionProgramming, BasePopulation):
+        class _Population(EvolutionProgramming):
             element_class = _Individual
             default_size = 20
 

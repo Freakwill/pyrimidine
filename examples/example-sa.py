@@ -10,6 +10,7 @@ from pyrimidine.benchmarks.optimization import *
 
 from pyrimidine.benchmarks.special import *
 
+
 n = 15
 f = rosenbrock(n=n)
 

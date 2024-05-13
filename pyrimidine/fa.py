@@ -8,18 +8,16 @@ Yang, X. S. (2010). "Firefly Algorithm: A New Approach for Optimization".
 Yang, X. S. (2013). "Nature-Inspired Metaheuristic Algorithms". Luniver Press.
 """
 
-from random import gauss, random
-from scipy.spatial.distance import pdist, squareform
+
 import numpy as np
+from scipy.spatial.distance import pdist, squareform
 
 from .base import PopulationMixin
 from .chromosome import FloatChromosome
-from .individual import PolyIndividual
 
 from .pso import BaseParticle
 
 
-@basic_memory
 class BaseFirefly(BaseParticle):
 
     params = {
@@ -38,7 +36,7 @@ def attractiveness(distance, gamma=1.0):
     return np.exp(-gamma * distance**2)
 
 
-class StandardFireflies:
+class StandardFireflies(PopulationMixin):
     """Starndard Firefly Algorithm
     """
 

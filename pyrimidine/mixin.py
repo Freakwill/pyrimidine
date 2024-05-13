@@ -494,17 +494,13 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         k = np.argmin(self.get_all_fitness())
         return self[k]
 
-    def get_samples(self, size=1, copy=False):
+    def get_samples(self, copy=False, *args, **kwargs):
         # get a part of the population randomly
-        if size < 1:
-            size = int(self.n_elements * size)
-        elif not isinstance(size, int):
-            size = int(size)
 
         if copy:
-            return [self[k].copy() for k in np.random.randint(len(self), size=size)]
+            return [self[k].copy() for k in np.random.choice(np.arange(len(self)), *args, **kwargs)]
         else:
-            return [self[k] for k in np.random.randint(len(self), size=size)]
+            return [self[k] for k in np.random.choice(np.arange(len(self)), *args, **kwargs)]
 
     def sorted_(self):
         # return a list of sorted individuals
