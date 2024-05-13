@@ -91,10 +91,12 @@ from pyrimidine.indiviual import makeIndividual # a helper to make Individual ob
 from pyrimidine import MultiPopulation # build the multi-populations
 from pyrimidine import MetaContainer # meta class for socalled container class, that is recommended to be used for creating novel evolutionary algorithms.
 
-from pyrimidine.deco import * # import all decorators
 from pyrimidine.deco import fitness_cache, basic_memory # use the cache decorator and memory decorator
 
 from pyrimidine import optimize # do optimization implictly with GAs
+
+from pyrimidine.pso import Particle, ParticleSwarm # for PSO
+from pyrimidine.es import EvolutionStrategy # for ES as a variant of GA
 ```
 
 To import other classes or helpers, please see the docs.
