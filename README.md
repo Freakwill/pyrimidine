@@ -12,8 +12,11 @@
 ## Why
 
 > -- Why is the package named as “pyrimidine”? 
+>
 > -- Because it begins with “py”.
+>
 > -- Are you kiding?
+>
 > -- No, I am serious.
 
 If you have more questions, then log in [google group](https://groups.google.com/g/pyrimidine) and post your questions.
@@ -56,7 +59,7 @@ _Individual2 = MixedIndividual[_Chromosome1, _Chromosome2]
 $s$ of type $S$ is a container of $a:A$, represented as follows:
 
 ```
-s={a:A}:S
+s = {a:A}:S  or  s: S[A]
 ```
 
 We could define a population as a container of individuals or chromosomes, and an individual is a container of chromosomes.
@@ -70,7 +73,7 @@ The methods are the functions or operators defined on $s$.
 ### Main classes
 
 - BaseGene: the gene of chromosome
-- BaseChromosome: sequence of genes, represents part of a solution
+- BaseChromosome: sequence of genes, represents part of a solution (or an entire solution)
 - BaseIndividual: sequence of chromosomes, represents a solution of a problem
 - BasePopulation: a container of individuals, represents a container of a problem
                 also the state of a stachostic process
