@@ -46,7 +46,7 @@ In a typical Python implementation, populations are initially defined as lists o
 A concise comparison between `pyrimidine` and several popular frameworks provided in \autoref{frameworks}, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
 
 
-: Comparison of the popular genetic algorithm frameworks. []{label="frameworks"}
+: Comparison of the popular genetic algorithm frameworks. {label="frameworks"}
 
 <!-- +-------------------+------------+----------+----------+----------+ -->
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
@@ -67,7 +67,7 @@ A concise comparison between `pyrimidine` and several popular frameworks provide
 
 `Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, We have implemented a variety of intelligent algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming, particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing.
 
-This library provides a wide range of chromosome classes to use, including Boolean, integer, and real number types, and that can even represent probability distributions and node permutations in graphs. Most of them are subclasses of `numpy.ndarray`, but custom definitions are also allowed. Each class implements corresponding genetic operations such as crossover and others.
+This library provides a wide range of chromosome classes to use, including Boolean, integer, and real number types, and that can even represent probability distributions and node permutations in graph and their mixed forms. Most of them are subclasses of `numpy.ndarray`, but custom definitions are also allowed. Each class implements corresponding genetic operations such as crossover and others.
 
 # Algebra-inspired programming
 
@@ -79,13 +79,9 @@ We introduce the concept of a **container**, simulating an **(algebraic) system*
 
 A container $s$ of type $S$, with elements of type $A$, is represented by following expression:
 $$
-s = \{a:A\}: S
+s = \{a:A\}: S ~~\text{or}~~ s:S[A]{label=container}
 $$
-or equivalently,
-$$
-s: S[A] {label=continer}
-$$
-where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements, and the notation $S[\cdot]$ is borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
+where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimicks Python syntax, borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
 
 Building upon the foundational concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, often referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. Populations in a multi-population behave analogously to individuals in a population. Notably, it allows to define containers in higher order, such as a container of multi-populations, potentially intertwined with conventional populations.
 
@@ -140,21 +136,24 @@ class UserPopulation(StandardPopulation):
     default_size = 10
 ```
 
-In the codes, `UserIndividual` (respectively `UserPopulation`) is a container of elements in type of `BinaryChromosome` (respectively `UserIndividual`). Following is the equivalent expression(see \autoref{container}):
+In the codes, `UserIndividual` (respectively `UserPopulation`) is a container of elements in type of `BinaryChromosome` (respectively `UserIndividual`). Following is the equivalent expression, using the notion in \autoref{container}:
 
 ```python
 UserIndividual = MonoIndividual[BinaryChromosome]
 UserPopulation = StandardPopulation[UserIndividual] // 10
 ```
 
-Algebraically, there is no difference between `MonoIndividual` and a single `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes.
+Notably, users are not encouraged to directly override the `fitness` attribute, but instead to override the `_fitness` method, where users should define the specific fitness calculation process. The operator `// 10` creates a population with 10 individuals by default.
+
+The code can be further simplified. Algebraically, there is no difference between `MonoIndividual`, the individual class with a single chromosome, and `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes.
 
 ```python
 class UserChromosome(BaseChromosome):
     def _fitness(self):
         # Compute the fitness
 
-UserPopulation = StandardPopulation[UserChromosome]
+# population as a container of chromosomes, instead of individuals
+UserPopulation = StandardPopulation[UserChromosome] // 10
 ```
 
 # An example to begin
