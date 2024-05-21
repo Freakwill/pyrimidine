@@ -46,7 +46,7 @@ In a typical Python implementation, populations are initially defined as lists o
 A concise comparison between `pyrimidine` and several popular frameworks provided in \autoref{frameworks}, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
 
 
-: Comparison of the popular genetic algorithm frameworks. {label="frameworks"}
+: Comparison of the popular genetic algorithm frameworks. \label{frameworks}
 
 <!-- +-------------------+------------+----------+----------+----------+ -->
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
@@ -79,7 +79,7 @@ We introduce the concept of a **container**, simulating an **(algebraic) system*
 
 A container $s$ of type $S$, with elements of type $A$, is represented by following expression:
 $$
-s = \{a:A\}: S ~~\text{or}~~ s:S[A]{label=container}
+s = \{a:A\}: S ~~\text{or}~~ s:S[A]\label{container}
 $$
 where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimicks Python syntax, borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
 
