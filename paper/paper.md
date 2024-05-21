@@ -46,7 +46,7 @@ In a typical Python implementation, populations are initially defined as lists o
 A concise comparison between `pyrimidine` and several popular frameworks provided in \autoref{frameworks}, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
 
 
-: Comparison of the popular genetic algorithm frameworks. \label{frameworks}
+: Comparison of the popular genetic algorithm frameworks. []{label="frameworks"}
 
 <!-- +-------------------+------------+----------+----------+----------+ -->
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
@@ -73,14 +73,20 @@ This library provides a wide range of chromosome classes to use, including Boole
 
 The innovative approach is termed "algebra-inspired Programming." It should not be confused with so-called algebraic programming, but it draws inspiration from its underlying principles.
 
+The advantages of the model are summarized as follows:
+
+1. The population system and genetic operations are treated as an algebraic system, and genetic algorithms are constructed by imitating algebraic operations.
+2. It has better scalability.
+3. The code is more concise.
+
 ## Basic concepts
 
 We introduce the concept of a **container**, simulating an **(algebraic) system** where specific operators are not yet defined.
 
 A container $s$ of type $S$, with elements of type $A$, is represented by following expression:
-$$
-s = \{a:A\}: S ~~\text{or}~~ s:S[A] \label{container}
-$$
+
+[$$s = \{a:A\}: S \quad \text{or} \quad s:S[A]$$]{label="container"}
+
 where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimicks Python syntax, borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
 
 Building upon the foundational concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, often referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. Populations in a multi-population behave analogously to individuals in a population. Notably, it allows to define containers in higher order, such as a container of multi-populations, potentially intertwined with conventional populations.
