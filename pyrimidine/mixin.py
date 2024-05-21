@@ -345,6 +345,19 @@ class CollectiveMixin(IterativeMixin):
             ks = np.random.randint(len(self), size=n_sel)
             return self[ks]
 
+    def observe(self, name='_system'):
+        for o in self:
+            setattr(o, name, self)
+
+    @property
+    def op(self):
+        class _C
+            def __getitem__(obj, s):
+                def _f(*args, **kwargs):
+                    return getattr(self._system, s)(self, *args, **kwargs)
+                return _f
+        return _C()
+
 
 class PopulationMixin(FitnessMixin, CollectiveMixin):
     """mixin class for population-based heuristic algorithm
@@ -530,7 +543,3 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
             n = int(n)
         ks = self.argsort()
         self.elements = [self[k] for k in ks[n:]]
-
-    def observe(self, name='_population'):
-        for o in self:
-            setattr(o, name, self)
