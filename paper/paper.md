@@ -34,12 +34,12 @@ output:
 
 [`Pyrimidine`](https://github.com/Freakwill/pyrimidine) stands as a versatile framework designed for GAs, offering exceptional extensibility for a wide array of evolutionary algorithms, including particle swarm optimization and difference evolution.
 
-Leveraging the principles of object-oriented programming(OOP) and the meta-programming, we introduce a distinctive design paradigm is coined as "algebra-inspired Programming" signifying the fusion of algebraic methodologies with the software architecture.
+Leveraging the principles of object-oriented programming (OOP) and the meta-programming, we introduce a distinctive design paradigm is coined as "algebra-inspired Programming" signifying the fusion of algebraic methodologies with the software architecture.
 
 
 # Statement of need
 
-As one of the earliest developed intelligent algorithms [holland, katoch], the genetic algorithm(GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. The principles of GA will not be reviewed in this article. For a detailed understanding, please refer to references [@holland; @simon] and the associated literatures.
+As one of the earliest developed optimization algorithms [@holland; @katoch], the genetic algorithm (GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. The principles of GA will not be reviewed in this article. For a detailed understanding, please refer to references [@holland; @simon] and the associated literatures.
 
 In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/). Following this, evolutionary operators are defined and applied to these structures.
 
@@ -67,30 +67,31 @@ A concise comparison between `pyrimidine` and several popular frameworks provide
 
 `Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, We have implemented a variety of intelligent algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming, particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing.
 
-<!-- Our design concept transcends the ordinary and embraces a higher level of extensibility.  -->
+This library provides a wide range of chromosome classes to use, including Boolean, integer, and real number types, and that can even represent probability distributions and node permutations in graphs. Most of them are subclasses of `numpy.ndarray`, but custom definitions are also allowed. Each class implements corresponding genetic operations such as crossover and others.
 
 # Algebra-inspired programming
 
 The innovative approach is termed "algebra-inspired Programming." It should not be confused with so-called algebraic programming, but it draws inspiration from its underlying principles.
 
 ## Basic concepts
+
 We introduce the concept of a **container**, simulating an **(algebraic) system** where specific operators are not yet defined.
 
 A container $s$ of type $S$, with elements of type $A$, is represented by following expression:
 $$
-s = \{a:A\}:S
+s = \{a:A\}: S
 $$
 or equivalently,
 $$
-s:S[A] {label=continer}
+s: S[A] {label=continer}
 $$
-where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements, and the notation $S[\cdot]$ is borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing) [@typing])
+where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements, and the notation $S[\cdot]$ is borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
 
 Building upon the foundational concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, often referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. Populations in a multi-population behave analogously to individuals in a population. Notably, it allows to define containers in higher order, such as a container of multi-populations, potentially intertwined with conventional populations.
 
 While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered a system. Similarly, a chromosome might be viewed as a container of genes (implemented by the arrays in practice).
 
-In a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, that can be implemented as the command `s.cross(a, b)`. Although this system concept aligns with algebraic systems [@algebra], the current version of our framework diverges from this notion, and the operators are directly defined as methods of the elements, such as `a.cross(b)`.
+In a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, that can be implemented as the command `s.cross(a, b)`. Although this system concept aligns with algebraic systems, the current version of our framework diverges from this notion, and the operators are directly defined as methods of the elements, such as `a.cross(b)`.
 
 The lifting of a function/method $f$ is a common approach to defining the function/method for the system:
 $$
@@ -104,9 +105,8 @@ T(s):S\to S
 $$
 The iterative algorithms can be represented as $T^n(s)$.
 
-<!-- New features will be incorporated based on the structure. -->
-
 ## Metaclasses
+
 The metaclass `System` is defined to simulate abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operators and functions on them.
 
 `Container` is the super-metaclass of `System` for creating containers.
@@ -140,14 +140,14 @@ class UserPopulation(StandardPopulation):
     default_size = 10
 ```
 
-In the codes, `UserIndividual` (resp. `UserPopulation`) is a container of elements in type of `BinaryChromosome` (resp. `UserIndividual`). Following is the equivalent expression(see \autoref{container}):
+In the codes, `UserIndividual` (respectively `UserPopulation`) is a container of elements in type of `BinaryChromosome` (respectively `UserIndividual`). Following is the equivalent expression(see \autoref{container}):
 
 ```python
 UserIndividual = MonoIndividual[BinaryChromosome]
 UserPopulation = StandardPopulation[UserIndividual] // 10
 ```
 
-Algebraically, there is no discrepency between `MonoIndividual` and a single `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes.
+Algebraically, there is no difference between `MonoIndividual` and a single `Chromosome`. And the population also can be treated as a container of chromosomes. See the following codes.
 
 ```python
 class UserChromosome(BaseChromosome):
@@ -163,10 +163,11 @@ In this section, we demonstrate the basic usage of `pyrimidine` with the classic
 
 $$
 \max \sum_i c_ix_i \\
-\sum_i w_ix_i \leq W, \\
+\text{st}~ \sum_i w_ix_i \leq W, \\
 \quad x_i=0,1,i=1,\cdots,n
 $$
 
+where $c_i$ and $w_i$ represents the value and the weight of the $i$-th bag respectively, and $x_i$ is a binary variable indicating whether the $i$-th bag is taken or not.
 
 ```python
 from pyrimidine import BinaryChromosome, MonoIndividual, StandardPopulation
@@ -215,7 +216,10 @@ stat = {'Mean Fitness': 'mean_fitness',
 # obtain the statistical results through the evolution.
 data = pop.evolve(stat=stat, n_iter=100, history=True)
 
-import matplotlib.pyplot as plt
+# Utilize the `plot` method of the `pandas.DataFrame` object to draw separate plots for the fitness values and the standard deviations of the population.
+```
+
+<!-- import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
 ax2 = ax.twinx()
@@ -225,10 +229,9 @@ data['Standard Deviation of Fitnesses'].plot(ax=ax2, style='y-.')
 ax2.legend(loc='lower right')
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
-plt.show()
-```
+plt.show() -->
 
-![The fitness evolution curve of the population. The library does not provide specific plotting commands. Instead, users can directly utilize the plotting commands from the `pandas` library.](plot-history.png)
+![The fitness evolution curve of the population.](plot-history.png)
 
 <!-- 
 # Create your own classes and algorithms
@@ -257,8 +260,5 @@ AdaptivePopulation = StandardPopulation[AdaptiveIndividual] // 20
 I have conducted extensive experiments and improvements, showcasing that `pyrimidine` is a versatile framework suitable for implementing various evolution algorithms. Its design offers strong extensibility, allowing the implementation of any iterative algorithm, such as simulated annealing or particle swarm optimization. For users developing new algorithms, `pyrimidine` is a promising choice.
 
 We have not implemented parallel computation yet which is important for intelligent algorithms, but we have set up an interface that can be utilized at any time. The full realization of algebraic programming concepts is still in progress. The functionality of symbolic regression has not been realized yet, but we are considering reusing what `DEAP` provides rather than reinventing the wheel. Certainly, there is ample room for further improvement.
-
-The source code has been uploaded to [GitHub](https://github.com/Freakwill/pyrimidine), along with numerous examples.
-
 
 # References

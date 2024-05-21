@@ -156,6 +156,7 @@ from pyrimidine.individual import BaseIndividual
 from pyrimidine.chromosome import BinaryChromosome
 
 class _Chromosome(BinaryChromosome):
+
     def decode(self):
         """Decode a binary chromosome
         
