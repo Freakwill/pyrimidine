@@ -41,7 +41,7 @@ Leveraging the principles of object-oriented programming (OOP) and the meta-prog
 
 As one of the earliest developed optimization algorithms [@holland; @katoch], the genetic algorithm (GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. The principles of GA will not be reviewed in this article. For a detailed understanding, please refer to references [@holland; @simon] and the associated literatures.
 
-In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/). Following this, evolutionary operators are defined and applied to these structures.
+In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/) [@numpy]. Following this, evolutionary operators are defined and applied to these structures.
 
 A concise comparison between `pyrimidine` and several popular frameworks provided in \autoref{frameworks}, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
 
@@ -67,7 +67,7 @@ A concise comparison between `pyrimidine` and several popular frameworks provide
 
 `Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, We have implemented a variety of intelligent algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming, particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing.
 
-This library provides a wide range of chromosome classes to use, including Boolean, integer, and real number types, and that can even represent probability distributions and node permutations in graph and their mixed forms. Most of them are subclasses of `numpy.ndarray`, but custom definitions are also allowed. Each class implements corresponding genetic operations such as crossover and others.
+This library provides a wide range of chromosome classes to use, including Boolean, integer, and real number types, and that can even represent probability distributions and node permutations in graph and their mixed forms. Most of them are subclasses of `numpy.ndarray`, the array class of `numpy`, but custom definitions are also allowed. Each class implements corresponding genetic operations such as crossover and others.
 
 # Algebra-inspired programming
 
@@ -79,7 +79,7 @@ We introduce the concept of a **container**, simulating an **(algebraic) system*
 
 A container $s$ of type $S$, with elements of type $A$, is represented by following expression:
 $$
-s = \{a:A\}: S ~~\text{or}~~ s:S[A]\label{container}
+s = \{a:A\}: S ~~\text{or}~~ s:S[A] \label{container}
 $$
 where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimicks Python syntax, borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
 
