@@ -152,6 +152,11 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
     @classmethod
     def random(cls, *args, **kwargs):
         raise NotImplementedError
+    
+    def op(self, s):
+        def _f(*args, **kwargs):
+            return getattr(self._population, s)(self, *args, **kwargs)
+        return _f
 
 
 class BaseIndividual(FitnessMixin, metaclass=MetaContainer):

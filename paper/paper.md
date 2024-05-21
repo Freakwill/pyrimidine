@@ -36,7 +36,6 @@ output:
 
 Leveraging the principles of object-oriented programming (OOP) and the meta-programming, we introduce a distinctive design paradigm is coined as "algebra-inspired Programming" signifying the fusion of algebraic methodologies with the software architecture.
 
-
 # Statement of need
 
 As one of the earliest developed optimization algorithms [@holland; @katoch], the genetic algorithm (GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. The principles of GA will not be reviewed in this article. For a detailed understanding, please refer to references [@holland; @simon] and the associated literatures.
@@ -44,7 +43,6 @@ As one of the earliest developed optimization algorithms [@holland; @katoch], th
 In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/) [@numpy]. Following this, evolutionary operators are defined and applied to these structures.
 
 A concise comparison between `pyrimidine` and several popular frameworks provided in \autoref{frameworks}, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
-
 
 : Comparison of the popular genetic algorithm frameworks. []{label="frameworks"}
 
@@ -67,7 +65,9 @@ A concise comparison between `pyrimidine` and several popular frameworks provide
 
 `Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, We have implemented a variety of intelligent algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming, particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing.
 
-This library provides a wide range of chromosome classes to use, including Boolean, integer, and real number types, and that can even represent probability distributions and node permutations in graph and their mixed forms. Most of them are subclasses of `numpy.ndarray`, the array class of `numpy`, but custom definitions are also allowed. Each class implements corresponding genetic operations such as crossover and others.
+This library provides a wide range of chromosome classes in the `chromosome` module, including Boolean, integer, and real number types, and that can even represent probability distributions and node permutations in graph and their mixed forms. Most of them are subclasses of `numpy.ndarray`, the array class of `numpy`, but custom definitions are also allowed. Each class implements corresponding genetic operations such as crossover and others.
+
+In the `benchmarks` module, we offer a comprehensive array of problems to evaluate various algorithms, encompassing both traditional optimization models and cutting-edge machine learning models.
 
 # Algebra-inspired programming
 
@@ -158,7 +158,8 @@ class UserChromosome(BaseChromosome):
     def _fitness(self):
         # Compute the fitness
 
-# population as a container of chromosomes, instead of individuals
+# population as a container of chromosomes, 
+# instead of individuals
 UserPopulation = StandardPopulation[UserChromosome] // 10
 ```
 
@@ -188,7 +189,8 @@ class UserIndividual(MonoIndividual):
 
 """
 equivalent to:
-UserIndividual = MonoIndividual[BinaryChromosome // n].set_fitness(lambda o: _evaluate(o[0]))
+UserIndividual = MonoIndividual[BinaryChromosome // n]
+.set_fitness(lambda o: _evaluate(o[0]))
 """
 
 UserPopulation = StandardPopulation[UserIndividual] // 20
@@ -209,10 +211,11 @@ Finally, the optimal individual can be obtained with `pop.best_individual`, or `
 
 # Visualization
 
-Instead of implementing visualization methods, `pyrimidine` yields a `pandas.DataFrame` object that encapsulates statistical results for each generation by setting `history=True` in `evolve` method. Users can harness this object to plot the performance curves. Generally, users are required to furnish a "statistic dictionary" whose keys are the names of the statistics, and values are functions mapping the population to numerical values, or strings presenting pre-defined methods or attributes of the population.
+Instead of implementing visualization methods, `pyrimidine` yields a `pandas.DataFrame` object that encapsulates statistical results for each generation by setting `history=True` in the `evolve` method. Users can harness this object to plot the performance curves. Generally, users are required to furnish a "statistic dictionary" whose keys are the names of the statistics, and values are functions mapping the population to numerical values, or strings presenting pre-defined methods or attributes of the population.
 
 ```python
-# statistic dictionary, computing the mean, the maximum and the standard deviation of the fitnesses for each generation
+# statistic dictionary, computing the mean, the maximum and 
+# the standard deviation of the fitnesses for each generation
 stat = {'Mean Fitness': 'mean_fitness',
 'Best Fitness': 'max_fitness',
 'Standard Deviation of Fitnesses': lambda pop: np.std(pop.get_all_fitness())
@@ -220,23 +223,13 @@ stat = {'Mean Fitness': 'mean_fitness',
 
 # obtain the statistical results through the evolution.
 data = pop.evolve(stat=stat, n_iter=100, history=True)
-
-# Utilize the `plot` method of the `pandas.DataFrame` object to draw separate plots for the fitness values and the standard deviations of the population.
 ```
 
-<!-- import matplotlib.pyplot as plt
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax2 = ax.twinx()
-data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
-ax.legend(loc='upper left')
-data['Standard Deviation of Fitnesses'].plot(ax=ax2, style='y-.')
-ax2.legend(loc='lower right')
-ax.set_xlabel('Generations')
-ax.set_ylabel('Fitness')
-plt.show() -->
+`data` is an `pandas.DataFrame` object, with the columns "Mean Fitness", "Best Fitness" and "Standard Deviation of Fitnesses". Now utilize the `plot` method of the object (or the Python library `matplotlib`) to show the iteration history.
 
 ![The fitness evolution curve of the population.](plot-history.png)
+
+You can also set `verbose=True` in the `evolve` method to see each step of the iteration. If you do not want to set anything, then it is recommended to use the `ezolve` method, such as `pop.ezolve()`.
 
 <!-- 
 # Create your own classes and algorithms
