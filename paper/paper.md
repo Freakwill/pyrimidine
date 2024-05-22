@@ -43,8 +43,7 @@ In a typical Python implementation, populations are initially defined as lists o
 
 A concise comparison between `pyrimidine` and several popular frameworks provided in \autoref{frameworks} , such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
 
-
-\caption{Comparison of the popular genetic algorithm frameworks. \label{frameworks}}
+:Comparison of the popular genetic algorithm frameworks. \label{frameworks}
 
 <!-- +-------------------+------------+----------+----------+----------+ -->
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
