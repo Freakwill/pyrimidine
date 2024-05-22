@@ -43,7 +43,7 @@ In a typical Python implementation, populations are initially defined as lists o
 
 A concise comparison between `pyrimidine` and several popular frameworks provided in \autoref{frameworks} , such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
 
-:Comparison of the popular genetic algorithm frameworks. \label{frameworks}
+: Comparison of the popular genetic algorithm frameworks. []{label="frameworks"}
 
 <!-- +-------------------+------------+----------+----------+----------+ -->
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
@@ -51,7 +51,7 @@ A concise comparison between `pyrimidine` and several popular frameworks provide
 | `pyrimidine`| OOP, Meta-programming, Algebra-insprited | Universal | Extensible | export the data in `DataFrame` |
 | `DEAP`     | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
 | `gaft`      | OOP, decoration pattern   | Universal | Extensible    | Easy to Implement       |
-|[`geppy`](https://geppy.readthedocs.io/) | based on `DEAP` | Symbolic Regression | Limited | - |
+| [`geppy`](https://geppy.readthedocs.io/) | based on `DEAP` | Symbolic Regression | Limited | - |
 | [`tpot`](https://github.com/EpistasisLab/tpot) [@olson]/[`gama`](https://github.com/openml-labs/gama) [@pieter]     | [scikit-learn](https://scikit-learn.org/) Style | Hyperparameter Optimization | Limited | -                   |
 | [`gplearn`](https://gplearn.readthedocs.io/)/[`pysr`](https://astroautomata.com/PySR/)   | scikit-learn Style | Symbolic Regression | Limited | -                  |
 | [`scikit-opt`](https://github.com/guofei9987/scikit-opt)| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
@@ -85,7 +85,8 @@ We introduce the concept of a **container**, simulating an **(algebraic) system*
 A container $s$ of type $S$, with elements of type $A$, is represented by following expression:
 
 $$
-s = \{a:A\}: S \quad \text{or} \quad s:S[A] \label{container}
+s = \{a:A\}: S \quad \text{or} \quad s:S[A] 
+\label{container}
 $$
 
 where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimicks Python syntax, borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
