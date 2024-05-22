@@ -83,7 +83,7 @@ The advantages of the model are summarized as follows:
 We introduce the concept of a **container**, simulating an **(algebraic) system** where specific operators are not yet defined.
 
 A container $s$ of type $S$, with elements of type $A$, is represented by following expression:
-$$s = \{a:A\}: S \quad \text{or} \quad s:S[A] \label{container}$$
+$$s = \{a:A\}: S \quad \text{or} \quad s:S[A] \label{eq:container}$$
 where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimicks Python syntax, borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
 
 Building upon the foundational concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, often referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. Populations in a multi-population behave analogously to individuals in a population. Notably, it allows to define containers in higher order, such as a container of multi-populations, potentially intertwined with conventional populations.
@@ -139,7 +139,7 @@ class UserPopulation(StandardPopulation):
     default_size = 10
 ```
 
-In the codes, `UserIndividual` (respectively `UserPopulation`) is a container of elements in type of `BinaryChromosome` (respectively `UserIndividual`). Following is the equivalent expression, using the notion in \autoref{container} :
+In the codes, `UserIndividual` (respectively `UserPopulation`) is a container of elements in type of `BinaryChromosome` (respectively `UserIndividual`). Following is the equivalent expression, using the notion in \autoref{eq:container} :
 
 ```python
 UserIndividual = MonoIndividual[BinaryChromosome]
