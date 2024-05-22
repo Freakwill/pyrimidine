@@ -10,7 +10,6 @@ tags:
 authors:
   - name: Congwei Song
     orcid: 0000-0002-4409-7276
-    equal-contrib: true
     affiliation: "1" # (Multiple affiliations must be quoted)
 affiliations:
  - name: Beijing Institute of Mathematical Sciences and Applications, Beijing, China
@@ -44,8 +43,8 @@ In a typical Python implementation, populations are initially defined as lists o
 
 A concise comparison between `pyrimidine` and several popular frameworks provided in \autoref{frameworks} , such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
 
-: Comparison of the popular genetic algorithm frameworks. []{label="frameworks"}
 
+\caption{Comparison of the popular genetic algorithm frameworks. \label{frameworks}}
 
 <!-- +-------------------+------------+----------+----------+----------+ -->
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
@@ -86,7 +85,9 @@ We introduce the concept of a **container**, simulating an **(algebraic) system*
 
 A container $s$ of type $S$, with elements of type $A$, is represented by following expression:
 
-[$$s = \{a:A\}: S \quad \text{or} \quad s:S[A]$$]{label="container"}
+$$
+s = \{a:A\}: S \quad \text{or} \quad s:S[A] \label{container}
+$$
 
 where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimicks Python syntax, borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
 
@@ -226,9 +227,9 @@ stat = {'Mean Fitness': 'mean_fitness',
 data = pop.evolve(stat=stat, n_iter=100, history=True)
 ```
 
-`data` is an `pandas.DataFrame` object, with the columns "Mean Fitness", "Best Fitness" and "Standard Deviation of Fitnesses". Now utilize the `plot` method of the object (or the Python library `matplotlib`) to show the iteration history.
+`data` is an `pandas.DataFrame` object, with the columns "Mean Fitness", "Best Fitness" and "Standard Deviation of Fitnesses". Now utilize the `plot` method of the object (or the Python library `matplotlib`) to show the iteration history \autoref{history}.
 
-![The fitness evolution curve of the population.](plot-history.png)
+![The fitness evolution curve of the population. \label{history}](plot-history.png)
 
 You can also set `verbose=True` in the `evolve` method to see each step of the iteration. If you do not want to set anything, then it is recommended to use the `ezolve` method, such as `pop.ezolve()`.
 
