@@ -34,7 +34,7 @@ stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness'}
 
 # pop.evolve(verbose=True)
 
-data = pop.evolve(n_iter=200, stat=stat, history=True)
+data = pop.evolve(max_iter=200, stat=stat, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
@@ -42,7 +42,7 @@ ax = fig.add_subplot(111)
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 
 pop = MyPopulation(cpy.individuals)
-data = pop.evolve(n_iter=200, stat=stat, history=True)
+data = pop.evolve(max_iter=200, stat=stat, history=True)
 
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.legend(('Fitness', 'Best Fitness', 'My Fitness', 'My Best Fitness'))

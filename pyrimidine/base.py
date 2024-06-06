@@ -398,14 +398,14 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         return offspring
 
     @side_effect
-    def local_search(self, n_iter=2, *args, **kwargs):
+    def local_search(self, max_iter=2, *args, **kwargs):
         """Call local searching method
         
         By default, it calls the `ezolve` methods of individuals, iteratively
         """
 
         for individual in self:
-            individual.ezolve(n_iter=n_iter or self.n_iter, init=False)
+            individual.ezolve(max_iter=max_iter or self.max_iter, init=False)
 
     def get_rank(self, individual):
         """Get rank of one individual

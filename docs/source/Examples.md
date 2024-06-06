@@ -57,7 +57,7 @@ stat = {
     }
 
 # Do statistical task and print the results through the evoluation
-data = pop.evolve(stat=stat, n_iter=100, history=True, verbose=True)
+data = pop.evolve(stat=stat, max_iter=100, history=True, verbose=True)
 
 # Print the solution(the best individual in the population)
 print(pop.best_individual) # or print(pop.solution)
@@ -131,7 +131,7 @@ if __name__ == '__main__':
     'Best Fitness':'max_fitness'} by default;
     need not set `stat` explicitly.
     """
-    data = pop.evolve(n_iter=100, history=True)
+    data = pop.evolve(max_iter=100, history=True)
 
     import matplotlib.pyplot as plt
     fig = plt.figure()
@@ -240,10 +240,10 @@ ax = fig.add_subplot(111)
 _Population = StandardPopulation[_Individual]
 pop = MyPopulation.random(n_individuals=20, sizes=[8]*ndim+[8])
 cpy = pop.copy(type_=_Population)
-d = cpy.evolve(stat=stat, n_iter=100, history=True)
+d = cpy.evolve(stat=stat, max_iter=100, history=True)
 ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
 
-d = pop.history(n_iter=100, stat=stat, history=True)
+d = pop.history(max_iter=100, stat=stat, history=True)
 ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
 ax.legend(('Traditional mean','Traditional best', 'New mean', 'New best'))
 plt.show()
@@ -306,7 +306,7 @@ MyPopulation = EvolutionStrategy[FloatChromosome // n].set_fitness(f)
 
 
 ind = MyPopulation.random()
-data = ind.evolve(n_iter=100, history=True)
+data = ind.evolve(max_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt
@@ -395,8 +395,8 @@ stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
 mypop = MyPopulation.random()
 yourpop = YourPopulation([YourIndividual(i.decode()) for i in mypop])
 
-mydata = mypop.evolve(n_iter=100, stat=stat, history=True)
-yourdata = yourpop.evolve(n_iter=100, stat=stat, history=True)
+mydata = mypop.evolve(max_iter=100, stat=stat, history=True)
+yourdata = yourpop.evolve(max_iter=100, stat=stat, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
@@ -445,7 +445,7 @@ class _MultiPopulation(MultiPopulation):
 
 
 mp = _MultiPopulation.random()
-data = mp.evolve(n_iter=100, history=True)
+data = mp.evolve(max_iter=100, history=True)
 ```
 
 Equivalently
@@ -471,7 +471,7 @@ _MultiPopulation = MultiPopulation[_Population] // 2
 # _MultiPopulation = MultiPopulation[HOFPopulation[BinaryChromosome // n_bags] // 10].set_fitness(_evaluate) // 2
 
 mp = _MultiPopulation.random()
-data = mp.evolve(n_iter=100, history=True)
+data = mp.evolve(max_iter=100, history=True)
 ```
 
 Plot the fitness curves as usual.
@@ -539,7 +539,7 @@ class _HybridPopulation(HybridPopulation[_Population, _Population, _Individual, 
 
 
 sp = _HybridPopulation.random()
-data = sp.evolve(n_iter=100, history=True)
+data = sp.evolve(max_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt

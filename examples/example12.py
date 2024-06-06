@@ -40,7 +40,7 @@ if __name__ == '__main__':
     pop = StandardPopulation.random(n_individuals=30, sizes=(N, N, N, p, p, p, 3))
     
     stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness', 'STD Fitness': 'std_fitness'}
-    data = pop.evolve(stat=stat, n_iter=100, history=True)
+    data = pop.evolve(stat=stat, max_iter=100, history=True)
 
     import matplotlib.pyplot as plt
     fig = plt.figure()

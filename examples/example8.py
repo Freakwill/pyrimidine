@@ -31,7 +31,7 @@ ax = fig.add_subplot(111)
 points = _evaluate.points
 
 def animate(i, step=5, start=0):
-    pop.ezolve(n_iter=step)
+    pop.ezolve(max_iter=step)
     x = pop.solution
     ax.plot(points[x, 0], points[x, 1], 'r-o')
     ax.legend((f'Generation {start+i*step}({-pop.best_fitness:.4})',))

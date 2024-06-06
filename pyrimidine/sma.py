@@ -36,7 +36,7 @@ class SlimeMould(HOFPopulation):
     element_class = SlimyMaterial
 
     params = {
-        "n_iter": 100
+        "max_iter": 100
     }
 
     def get_ranks(self):
@@ -48,7 +48,7 @@ class SlimeMould(HOFPopulation):
     def approach_food(self, t):
         N = len(self)
         # calculate vc and a
-        vc = 1 - t/self.n_iter
+        vc = 1 - t/self.max_iter
         a = np.arctanh(vc)
         # all fitness, max/min fitness
         all_fitness = self.get_all_fitness()

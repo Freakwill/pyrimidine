@@ -106,7 +106,7 @@
     <span class="p">}</span>
 
 <span class="c1"># Do statistical task and print the results through the evoluation</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Print the solution(the best individual in the population)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">best_individual</span><span class="p">)</span> <span class="c1"># or print(pop.solution)</span>
@@ -177,7 +177,7 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 <span class="sd">    &#39;Best Fitness&#39;:&#39;max_fitness&#39;} by default;</span>
 <span class="sd">    need not set `stat` explicitly.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
@@ -280,10 +280,10 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 <span class="n">_Population</span> <span class="o">=</span> <span class="n">StandardPopulation</span><span class="p">[</span><span class="n">_Individual</span><span class="p">]</span>
 <span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n_individuals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">*</span><span class="n">ndim</span><span class="o">+</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
 <span class="n">cpy</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">type_</span><span class="o">=</span><span class="n">_Population</span><span class="p">)</span>
-<span class="n">d</span> <span class="o">=</span> <span class="n">cpy</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">cpy</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">],</span> <span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Best Fitness&#39;</span><span class="p">],</span> <span class="s1">&#39;.-&#39;</span><span class="p">)</span>
 
-<span class="n">d</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">],</span> <span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Best Fitness&#39;</span><span class="p">],</span> <span class="s1">&#39;.-&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="s1">&#39;Traditional mean&#39;</span><span class="p">,</span><span class="s1">&#39;Traditional best&#39;</span><span class="p">,</span> <span class="s1">&#39;New mean&#39;</span><span class="p">,</span> <span class="s1">&#39;New best&#39;</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -345,7 +345,7 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 
 
 <span class="n">ind</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">ind</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">ind</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -434,8 +434,8 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 <span class="n">mypop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
 <span class="n">yourpop</span> <span class="o">=</span> <span class="n">YourPopulation</span><span class="p">([</span><span class="n">YourIndividual</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mypop</span><span class="p">])</span>
 
-<span class="n">mydata</span> <span class="o">=</span> <span class="n">mypop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">yourdata</span> <span class="o">=</span> <span class="n">yourpop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mydata</span> <span class="o">=</span> <span class="n">mypop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">yourdata</span> <span class="o">=</span> <span class="n">yourpop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
@@ -483,7 +483,7 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 
 
 <span class="n">mp</span> <span class="o">=</span> <span class="n">_MultiPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Equivalently</p>
@@ -507,7 +507,7 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 <span class="c1"># _MultiPopulation = MultiPopulation[HOFPopulation[BinaryChromosome // n_bags] // 10].set_fitness(_evaluate) // 2</span>
 
 <span class="n">mp</span> <span class="o">=</span> <span class="n">_MultiPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Plot the fitness curves as usual.</p>
@@ -570,7 +570,7 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 
 
 <span class="n">sp</span> <span class="o">=</span> <span class="n">_HybridPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>

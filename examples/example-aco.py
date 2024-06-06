@@ -18,7 +18,7 @@ class AntPopulation(BaseAntColony):
 
 
 ac = AntPopulation.from_distances(n_ants=10, distances=distances)
-ac.ezolve(n_iter=30)
+ac.ezolve(max_iter=30)
 
 print('colony:')
 for ant in ac:

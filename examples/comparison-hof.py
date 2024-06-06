@@ -32,8 +32,8 @@ pop1 = _Population1.random(size=n_bags)
 # pop2 = pop1.copy(type_=_Population2)
 
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness'}
-data1 = pop1.evolve(stat=stat, n_iter=50, history=True)
-# data2 = pop2.evolve(stat=stat, n_iter=100, history=True)
+data1 = pop1.evolve(stat=stat, max_iter=50, history=True)
+# data2 = pop2.evolve(stat=stat, max_iter=100, history=True)
 
 
 # import matplotlib.pyplot as plt

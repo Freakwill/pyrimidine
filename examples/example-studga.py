@@ -31,9 +31,9 @@ pop = MyPopulation.random(size=n)
 pop2 = pop.clone(type_=YourPopulation)
 
 stat={'Mean Fitness':'fitness', 'Best Fitness':'best_fitness', 'Standard Deviation of Fitnesses': 'std_fitness'}
-data = pop.evolve(stat=stat, n_iter=200, history=True)
+data = pop.evolve(stat=stat, max_iter=200, history=True)
 stat={'Mean Fitness2':'fitness', 'Best Fitness2':'best_fitness', 'Standard Deviation of Fitnesses2': 'std_fitness'}
-data2 = pop2.evolve(stat=stat, n_iter=200, history=True)
+data2 = pop2.evolve(stat=stat, max_iter=200, history=True)
 
 
 import matplotlib.pyplot as plt

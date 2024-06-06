@@ -29,8 +29,8 @@ pop1 = _Population1.random()
 pop2 = pop1.copy(type_=_Population2) # population 2 with the same initial values to population 1
 
 # stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness'}
-data1 = pop1.evolve(n_iter=100, history=True)
-data2 = pop2.evolve(n_iter=100, history=True)
+data1 = pop1.evolve(max_iter=100, history=True)
+data2 = pop2.evolve(max_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt

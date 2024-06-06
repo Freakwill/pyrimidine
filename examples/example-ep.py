@@ -35,7 +35,7 @@ class _Population(EvolutionProgramming, BasePopulation):
 
 pop = _Population.random()
 
-data = pop.evolve(n_iter=100, period=2, history=True, verbose=True)
+data = pop.evolve(max_iter=100, period=2, history=True, verbose=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

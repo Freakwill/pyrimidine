@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     pop.mate_prob = pop.mutate_prob = 1
 
-    data = pop.evolve(n_iter=300, history=True, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness', 
+    data = pop.evolve(max_iter=300, history=True, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness', 
         'mean threshold': lambda pop: np.mean([ind.threshold for ind in pop.individuals]),
         'mean mate_prob': lambda pop: np.mean([ind.mate_prob for ind in pop.individuals]),
         'mean mutate_prob': lambda pop: np.mean([ind.mutate_prob for ind in pop.individuals]),
@@ -73,16 +73,16 @@ if __name__ == '__main__':
         ind2.mate_prob = ind.mate_prob
         ind2.mutate_prob = ind.mutate_prob
 
-    data2 = pop2.evolve(n_iter=300, history=True, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'})
+    data2 = pop2.evolve(max_iter=300, history=True, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'})
 
 
     pop1.mate_prob = 0.8
     pop1.mutate_prob = 0.4
 
-    data1 = pop1.evolve(n_iter=300, history=True, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'})
+    data1 = pop1.evolve(max_iter=300, history=True, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'})
     # pop2.mate_prob = data.loc[300, 'best mate_prob']
     # pop2.mutate_prob = data.loc[300, 'best mutate_prob']
-    # data2 = pop2.evolve(n_iter=300, history=True, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'})
+    # data2 = pop2.evolve(max_iter=300, history=True, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'})
 
     import matplotlib.pyplot as plt
     fig = plt.figure()

@@ -58,7 +58,7 @@ points = _evaluate.points
 
 
 def animate(i):
-    pop.ezolve(n_iter=2)
+    pop.ezolve(max_iter=2)
     x = pop.best_individual.decode()
     ax.plot(points[x, 0], points[x, 1], 'k-o')
     ax.legend((f'Generation {i*2}({pop.best_fitness:.4})',))

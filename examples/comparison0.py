@@ -31,8 +31,8 @@ with Env() as env:
     pop2 = pop1.copy(type_=_Population2)
 
     stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-    data1 = pop1.evolve(stat=stat, n_iter=100, history=True)
-    data2 = pop2.evolve(stat=stat, n_iter=100, history=True)
+    data1 = pop1.evolve(stat=stat, max_iter=100, history=True)
+    data2 = pop2.evolve(stat=stat, max_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt

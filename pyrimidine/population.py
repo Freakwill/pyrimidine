@@ -186,7 +186,7 @@ class LocalSearchPopulation(StandardPopulation):
 
     # def init(self):
     #     for i in self:
-    #         i.n_iter = self.n_local_iter
+    #         i.max_iter = self.n_local_iter
 
     def transition(self, *args, **kwargs):
         """Transitation of the states of population
@@ -194,7 +194,7 @@ class LocalSearchPopulation(StandardPopulation):
         Calling `local_search` method
         """
         super().transition(*args, **kwargs)
-        self.local_search(n_iter=self.n_local_iter)
+        self.local_search(max_iter=self.n_local_iter)
 
 
 class ModifiedPopulation(StandardPopulation):

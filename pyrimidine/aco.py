@@ -84,7 +84,7 @@ class BaseAntColony(PopulationMixin, metaclass=MetaContainer):
 
     element_class = BaseAnt
     params = {'sedimentation':100, 'volatilization':0.75, 'alpha':1, 'beta':5, 'n_steps':1,
-    'reset_rate': 0.3, 'local_n_iter': 3, 'move_rate':0.5}
+    'reset_rate': 0.3, 'local_max_iter': 3, 'move_rate':0.5}
 
     alias = {"ants": "elements", "worst_ant": "worst_element", "get_worst_ants": "get_worst_elements"}
 
@@ -109,7 +109,7 @@ class BaseAntColony(PopulationMixin, metaclass=MetaContainer):
 
     def transition(self, *args, **kwargs):
 
-        for _ in range(self.local_n_iter)
+        for _ in range(self.local_max_iter)
             self.move(n_steps=self.n_steps)
             self.update_pheromone()
             if not any(ant.move_flag for ant in self):

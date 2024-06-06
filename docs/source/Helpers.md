@@ -112,8 +112,8 @@ stat = {'Mean Fitness': 'mean_fitness', 'Best Fitness': 'best_fitness'}
 mypop = MyPopulation.random()
 
 yourpop = mypop.clone(type_=YourPopulation)
-mydata = mypop.evolve(n_iter=200, stat=stat, history=True)
-yourdata = yourpop.evolve(n_iter=200, stat=stat, history=True)
+mydata = mypop.evolve(max_iter=200, stat=stat, history=True)
+yourdata = yourpop.evolve(max_iter=200, stat=stat, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

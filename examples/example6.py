@@ -64,13 +64,13 @@ if __name__ == '__main__':
     cpy = pop.clone(type_=StandardPopulation[ExampleIndividual])
     pop.mate_prob = 1
     pop.mutate_prob = 1
-    d = pop.evolve(n_iter=500, stat=stat, history=True, period=10)
+    d = pop.evolve(max_iter=500, stat=stat, history=True, period=10)
 
     d[['Mean Fitness', 'Best Fitness']].plot(ax=ax, style='.-')
     d['Standard Deviation'].plot(ax=ax2, style='--')
 
     cpy.mate_prob = 0.9
-    d = cpy.evolve(n_iter=500, stat=stat, history=True, period=10)
+    d = cpy.evolve(max_iter=500, stat=stat, history=True, period=10)
     d[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
     d['Standard Deviation'].plot(ax=ax2, style='--')
 

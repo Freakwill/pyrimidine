@@ -201,7 +201,7 @@ UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate
 Then we execute the evolutionary program as follows.
 ```python
 pop = UserPopulation.random()
-pop.evolve(n_iter=100)
+pop.evolve(max_iter=100)
 ```
 
 Finally, the optimal individual can be obtained with `pop.best_individual`, or `pop.solution` to decode the individual to the solution of the problem.
@@ -219,7 +219,7 @@ stat = {'Mean Fitness': 'mean_fitness',
 }
 
 # obtain the statistical results through the evolution.
-data = pop.evolve(stat=stat, n_iter=100, history=True)
+data = pop.evolve(stat=stat, max_iter=100, history=True)
 ```
 
 `data` is an `pandas.DataFrame` object, with the columns "Mean Fitness", "Best Fitness" and "Standard Deviation of Fitnesses". Now utilize the `plot` method of the object (or the Python library `matplotlib`) to show the iteration history \autoref{history}.

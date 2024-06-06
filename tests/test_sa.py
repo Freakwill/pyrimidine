@@ -35,6 +35,6 @@ class TestSA:
     def test_evolve(self, example):
         I = example
         self.individual = I.random()
-        data = self.individual.evolve(n_iter=3, history=True)
+        data = self.individual.evolve(max_iter=3, history=True)
         assert len(data) == 4
 

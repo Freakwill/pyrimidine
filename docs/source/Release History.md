@@ -5,6 +5,7 @@
 - Add `aco.py` to implement the ant colony optimization (test the observer pattern)
 - define `get_worst_elements` method for `PopulationMixin` class
 - correct some code in examples and `IterativeMixin` class.
+- The argument `n_iter` is changed to `max_iter`
 
 ## v1.5
 

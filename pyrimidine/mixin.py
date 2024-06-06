@@ -37,7 +37,7 @@ from .errors import *
 class IterativeMixin:
     # Mixin class for iterative algrithms
 
-    params = {'n_iter': 100}
+    params = {'max_iter': 100}
 
     # @property
     # def _row(self):
@@ -62,19 +62,19 @@ class IterativeMixin:
         """
         raise NotImplementedError('If you apply a local search algorithm, you must define the `local_search` method.')
 
-    def ezolve(self, n_iter=None, init=True):
+    def ezolve(self, max_iter=None, init=True):
         # Extreamly eazy evolution method for lazybones
-        n_iter = n_iter or self.n_iter
+        max_iter = max_iter or self.max_iter
         if init:
             self.init()
-        for k in range(1, n_iter+1):
+        for k in range(1, max_iter+1):
             self.transition(k)
 
-    def evolve(self, initialize:bool=True, n_iter:int=100, period:int=1, verbose:bool=False, history=False, stat=None, attrs=('solution',), control=None):
+    def evolve(self, initialize:bool=True, max_iter:int=100, period:int=1, verbose:bool=False, history=False, stat=None, attrs=('solution',), control=None):
         """Get the history of the whole evolution
 
         Keyword Arguments:
-            n_iter {number} -- number of iterations (default: {None})
+            max_iter {number} -- number of iterations (default: {None})
             period {integer} -- the peroid of stat
             verbose {bool} -- to print the iteration process
             stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
@@ -88,7 +88,7 @@ class IterativeMixin:
 
         assert control is None or callable(control)
  
-        n_iter = n_iter or self.n_iter
+        max_iter = max_iter or self.max_iter
 
         if isinstance(stat, dict): stat = Statistics(stat)
         
@@ -105,30 +105,35 @@ class IterativeMixin:
             history_flag = True
         else:
             raise TypeError('The argument `history` should be an instance of `pandas.DataFrame` or `bool`.')
-        # n_iter = n_iter or self.n_iter
+
         if verbose:
+            def _row(t, attrs, res, sep=" & "):
+                return f'{sep.join(map(str, concat((("[%d]"%t,), (getattr(self, attr) for attr in attrs), res.values()))))}'
             from toolz.itertoolz import concat
             if not history_flag:
                 res = stat(self)
-            print(f"""
+            print(f"""            ** History **
 {" & ".join(concat((("iteration",), attrs, res.keys())))}
--------------------------------------------------------------
-{" & ".join(map(str, concat((("[0]",), (getattr(self, attr) for attr in attrs), res.values()))))}""")
+-------------------------------------------------------------""")
+            print(_row(0, attrs, res))
 
-        for t in range(1, n_iter+1):
+        for t in range(1, max_iter+1):
             self.transition(t)
+
             if history_flag and (period == 1 or t % period ==0):
                 res = stat(self)
                 history = pd.concat([history,
                     pd.Series(res.values(), index=res.keys()).to_frame().T],
                     ignore_index=True)
+
             if verbose and (period == 1 or t % period ==0):
-                print(f'{" & ".join(map(str, concat((("[%d]"%t,), (getattr(self, attr) for attr in attrs), res.values()))))}')
+                print(_row(t, attrs, res))
 
             if control:
                 if control(self):
-                    # if it satisfies the control condition
+                    # if it satisfies the control condition (such as convergence criterion)
                     break
+
         return history
 
     def perf(self, n_repeats=10, timing=True, *args, **kwargs):
@@ -351,7 +356,7 @@ class CollectiveMixin(IterativeMixin):
 
     @property
     def op(self):
-        class _C
+        class _C:
             def __getitem__(obj, s):
                 def _f(*args, **kwargs):
                     return getattr(self._system, s)(self, *args, **kwargs)

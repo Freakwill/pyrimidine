@@ -25,7 +25,7 @@ class _HybridPopulation(HybridPopulation[_Population, _Population, _Individual, 
 
 
 sp = _HybridPopulation.random()
-data = sp.evolve(n_iter=100, history=True)
+data = sp.evolve(max_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt
