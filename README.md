@@ -21,6 +21,7 @@
 
 If you have more questions, then log in [google group](https://groups.google.com/g/pyrimidine) and post your questions.
 
+
 ## Download
 
 It has been uploaded to [pypi](https://pypi.org/project/pyrimidine/), so download it with `pip install pyrimidine`, and also could download it from Github.
@@ -506,6 +507,22 @@ pop = MyParticleSwarm.random()
 ```
 
 Of course, it is not mandatory. It is allowed to inherit `ParticleSwarm` from for example `HOFPopulation` directly.
+
+## Related works
+
+| Library   | Design Style      | Versatility | Extensibility | Visualization           |
+|:----------:|:-------|:--------|:--------|:----------|
+| `pyrimidine`| OOP, Meta-programming, Algebra-insprited | Universal | Extensible | export the data in `DataFrame` |
+| `DEAP`     | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
+| `gaft`      | OOP, decoration pattern   | Universal | Extensible    | Easy to Implement       |
+| [`geppy`](https://geppy.readthedocs.io/) | based on `DEAP` | Symbolic Regression | Limited | - |
+| [`tpot`](https://github.com/EpistasisLab/tpot) [@olson]/[`gama`](https://github.com/openml-labs/gama) [@pieter]     | [scikit-learn](https://scikit-learn.org/) Style | Hyperparameter Optimization | Limited | -                   |
+| [`gplearn`](https://gplearn.readthedocs.io/)/[`pysr`](https://astroautomata.com/PySR/)   | scikit-learn Style | Symbolic Regression | Limited | -                  |
+| [`scikit-opt`](https://github.com/guofei9987/scikit-opt)| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
+|[`scikit-optimize`](https://scikit-optimize.github.io/stable/)|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
+|[`NEAT`](https://neat-python.readthedocs.io/) [@neat-python]| OOP  | Neuroevolution | Limited | use the visualization tools |
+
+: Comparison of the popular genetic algorithm frameworks.
 
 ## Contributions
 

@@ -182,7 +182,6 @@ class MetaContainer(ParamType):
                 raise Exception('Have not provided element class yet.')
         
         def _getitem(self, k):
-            # print(DeprecationWarning('get item directly is not recommended now.'))
             try:
                 return self.__elements[k]
             except:
@@ -322,8 +321,16 @@ class MetaContainer(ParamType):
                     elements.append(e)
 
             o.__elements = elements
-            # for e in o.__elements:  # consider in future
-            #     e.__system = o
+            # o.observe(e): # consider in future
+            # for e in o.__elements:
+            #     e._system = o
+            #     class _C:
+            #         def __getitem__(obj, s):
+            #             def _f(*args, **kwargs):
+            #                 return getattr(self._system, s)(self, *args, **kwargs)
+            #             return _f
+            #     e.op = _C()
+
         else:
             raise TypeError('missing a list/tuple of elements as the unique positional argument!')
 
@@ -503,20 +510,6 @@ class MetaSingle(MetaContainer):
         if o.n_elements != 1:
             raise ValueError('There should be only 1 element!')
         return o
-
-
-# import array
-# import numpy as np
-
-# def array_check(bases):
-#     if array.array in bases or np.ndarray in bases:
-#         return True
-#     else:
-#         for base in bases:
-#             if issubclass(base, (array.array, np.ndarray)):
-#                 return True
-#         else:
-#             return False
 
 
 class MetaArray(ParamType):
