@@ -19,7 +19,7 @@ pop = MyPopulation.random()
 # MyPopulation.map = concurrent.futures.ProcessPoolExecutor().map
 
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness': 'max_fitness'}
-data = pop.evolve(stat=stat, n_iter=100, history=True)
+data = pop.evolve(stat=stat, max_iter=100, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

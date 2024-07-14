@@ -30,12 +30,10 @@ def boltzmann_select(xs, fs, T=1):
 
 
 def choice(xs, *args, **kwargs):
-    """Choose xi from xs with certain probability
+    """Choose xi from xs with a certain probability
     
     Args:
         xs (List): a list of objects
-        ps (List): a list of numbers
-        n (int, optional): number of samples
     
     Returns:
         List: the sampling result
@@ -46,12 +44,10 @@ def choice(xs, *args, **kwargs):
 
 
 def choice_uniform(xs, *args, **kwargs):
-    """Choose xi from xs with certain probability
+    """Choose xi from xs with the unifrom probability
     
     Args:
         xs (List): a list of objects
-        ps (List): a list of numbers
-        n (int, optional): number of samples
     
     Returns:
         List: the sampling result

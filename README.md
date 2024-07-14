@@ -7,12 +7,13 @@
 ## Why
 
 > -- Why is the package named as “pyrimidine”? 
+>
 > -- Because it begins with “py”.
 > -- Are you kidding?
 > -- No, I am serious.
 
-
 If you have more questions, then log in [google group](https://groups.google.com/g/pyrimidine) and post your questions.
+
 
 ## Download
 
@@ -52,7 +53,7 @@ _Individual2 = MixedIndividual[_Chromosome1, _Chromosome2]
 $s$ of type $S$ is a container of $a:A$, represented as follows:
 
 ```
-s={a:A}:S
+s = {a:A}:S  or  s: S[A]
 ```
 
 We could define a population as a container of individuals or chromosomes, and an individual is a container of chromosomes.
@@ -66,7 +67,7 @@ The methods are the functions or operators defined on $s$.
 ### Main classes
 
 - BaseGene: the gene of chromosome
-- BaseChromosome: sequence of genes, represents part of a solution
+- BaseChromosome: sequence of genes, represents part of a solution (or an entire solution)
 - BaseIndividual: sequence of chromosomes, represents a solution of a problem
 - BasePopulation: a container of individuals, represents a container of a problem
                 also the state of a stochastic process
@@ -74,9 +75,37 @@ The methods are the functions or operators defined on $s$.
 
 
 ### import
+
 Just use the command `from pyrimidine import *` to import all of the algorithms.
 
-### subclass
+To import all algorithms for beginners, simply use the command `from pyrimidine import *`.
+
+To speed the lib, use the following commands.
+
+```python
+from pyrimidine import BaseChromosome, BaseIndividual, BasePopulation # import the base classes form `base.py` to build your own classes
+
+# Commands used frequently
+from pyrimidine.base import BinaryChromosome, FloatChromosome # import the Chromosome classes and utilize them directly
+# equivalent to `from pyrimidine import BinaryChromosome, FloatChromosome`
+from pyrimidine.population import StandardPopulation, HOFPopulation # For creating population with standard GA 
+# the same effect with `from pyrimidine import StandardPopulation, HOFPopulation`
+from pyrimidine.indiviual import makeIndividual # a helper to make Individual objects, or `from pyrimidine import makeIndividual`
+
+from pyrimidine import MultiPopulation # build the multi-populations
+from pyrimidine import MetaContainer # meta class for socalled container class, that is recommended to be used for creating novel evolutionary algorithms.
+
+from pyrimidine.deco import fitness_cache, basic_memory # use the cache decorator and memory decorator
+
+from pyrimidine import optimize # do optimization implictly with GAs
+
+from pyrimidine.pso import Particle, ParticleSwarm # for PSO
+from pyrimidine.es import EvolutionStrategy # for ES as a variant of GA
+```
+
+To import other classes or helpers, please see the docs.
+
+### subclasses
 
 #### Chromosome
 
@@ -88,6 +117,11 @@ As an array of 0-1s, `BinaryChromosome` is used most frequently.
 just subclass `MonoIndividual` in most cases.
 
 ```python
+from pyrimidine.individual import MonoIndividual
+from pyrimidine.chromosome import BinaryChromosome
+
+# or from pyrimidine import MonoIndividual, BinaryChromosome
+
 class MyIndividual(MonoIndividual):
     """individual with only one chromosome
     we set the gene to 0 or 1 in the chromosome
@@ -101,20 +135,24 @@ class MyIndividual(MonoIndividual):
 Since the helper `makeIndividual(n_chromosomes=1, size=8)` could create such an individual, it is equivalent to
 
 ```python
+from pyrimidine.individual import binaryIndividual
+
 class MyIndividual(binaryIndividual()):
     # only need to define the fitness
     def _fitness(self):
         ...
 ```
 
-
 If an individual contains several chromosomes, then subclass `MultiIndividual` or `PolyIndividual`. It could be applied in multi-real-variable optimization problems where each variable has a separative binary encoding.
-
 
 In most cases, we have to decode chromosomes to real numbers.
 
 ```python
+from pyrimidine.individual import BaseIndividual
+from pyrimidine.chromosome import BinaryChromosome
+
 class _Chromosome(BinaryChromosome):
+
     def decode(self):
         """Decode a binary chromosome
         
@@ -134,6 +172,8 @@ class ExampleIndividual(BaseIndividual):
 If the chromosomes in an individual are different with each other, then subclass `MixedIndividual`, meanwhile, the property `element_class` should be assigned with a tuple of classes for each chromosome.
 
 ```python
+from pyrimidine.individual import MixedIndividual
+
 class MyIndividual(MixedIndividual):
     """
     Inherit the fitness from ExampleIndividual directly.
@@ -147,6 +187,8 @@ It equivalent to `MyIndividual=MixedIndividual[(_Chromosome,)*5 + (FloatChromoso
 #### Population
 
 ```python
+from pyrimidine.population import StandardPopulation
+
 class MyPopulation(StandardPopulation):
     element_class = MyIndividual
 ```
@@ -169,6 +211,8 @@ When each individual contains 5 chromosomes, use
 However, we recommand to set `default_size` in the classes, then run `MyPopulation.random()`
 
 ```python
+from pyrimidine.population import StandardPopulation
+
 class MyPopulation(StandardPopulation):
     element_class = MyIndividual // 5
     default_size = 10
@@ -179,7 +223,6 @@ MyPopulation = StandardPopulation[MyIndividual//5]//10
 ```
 
 In fact, `random` method of `BasePopulation` will call random method of `BaseIndividual`. If you want to generate an individual, then just execute `MyIndividual.random(n_chromosomes=5, size=10)`, or set `default_size`, then execute `MyIndividual.random()`.
-
 
 ### Evolution
 
@@ -214,7 +257,6 @@ It requires `ezstat` (optional but recommended), an easy statistical tool develo
 
 Use `pop.perf()` to check the performance, which calls `evolve` several times.
 
-
 ## Example
 
 ### Example 1
@@ -237,10 +279,15 @@ $$
 where $t_m$ is the mode of $\{t_i, i\in I\}$
 
 ```python
+import numpy as np
+
 t = np.random.randint(1, 5, 100)
 n = np.random.randint(1, 4, 100)
 
 import collections
+
+from pyrimidine.individual import makeBinaryIndividual
+from pyrimidine.population import StandardPopulation
 
 
 def max_repeat(x):
@@ -270,6 +317,9 @@ Note that there is only one chromosome in `MonoIndividual`, which could be got b
 In fact, the population could be the container of chromosomes. Therefore, we can rewrite the classes as follows in a more natural way.
 
 ```python
+from pyrimidine.chromosome import BinaryChromosome
+from pyrimidine.population import StandardPopulation
+
 class MyChromosome(BinaryChromosome):
 
     def _fitness(self):
@@ -345,6 +395,17 @@ Currently, it is recommended to define subclasses based on `IterativeModel` as a
 In PSO, we regard a particle as an individual, and `ParticleSwarm` as a population. But in the following, we subclass it from `IterativeModel`
 
 ```python
+from random import random
+from operator import attrgetter
+
+import numpy as np
+
+from pyrimidine.base import BaseIndividual
+from pyrimidine.chromosome import FloatChromosome
+from pyrimidine.mixin import PopulationMixin
+from pyrimidine.meta import MetaContainer
+from pyrimidine.deco import basic_memory
+
 # pso.py
 @basic_memory
 class Particle(BaseIndividual):
@@ -441,6 +502,22 @@ pop = MyParticleSwarm.random()
 ```
 
 Of course, it is not mandatory. It is allowed to inherit `ParticleSwarm` from for example `HOFPopulation` directly.
+
+## Related works
+
+| Library   | Design Style      | Versatility | Extensibility | Visualization           |
+|:----------:|:-------|:--------|:--------|:----------|
+| `pyrimidine`| OOP, Meta-programming, Algebra-insprited | Universal | Extensible | export the data in `DataFrame` |
+| `DEAP`     | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
+| `gaft`      | OOP, decoration pattern   | Universal | Extensible    | Easy to Implement       |
+| [`geppy`](https://geppy.readthedocs.io/) | based on `DEAP` | Symbolic Regression | Limited | - |
+| [`tpot`](https://github.com/EpistasisLab/tpot) [@olson]/[`gama`](https://github.com/openml-labs/gama) [@pieter]     | [scikit-learn](https://scikit-learn.org/) Style | Hyperparameter Optimization | Limited | -                   |
+| [`gplearn`](https://gplearn.readthedocs.io/)/[`pysr`](https://astroautomata.com/PySR/)   | scikit-learn Style | Symbolic Regression | Limited | -                  |
+| [`scikit-opt`](https://github.com/guofei9987/scikit-opt)| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
+|[`scikit-optimize`](https://scikit-optimize.github.io/stable/)|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
+|[`NEAT`](https://neat-python.readthedocs.io/) [@neat-python]| OOP  | Neuroevolution | Limited | use the visualization tools |
+
+: Comparison of the popular genetic algorithm frameworks.
 
 ## Contributions
 

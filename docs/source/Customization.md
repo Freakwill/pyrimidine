@@ -2,6 +2,10 @@
 
 In this section, we present more complicated examples.
 
+## Principle
+
+If you aspire to create a novel algorithm that differs from genetic algorithms (GAs), it is advisable to derive from the mixin classe and use the metaclass :ref:`api-design`. The base classes have been crafted specifically for GA-style algorithms, yet they offer flexibility. There is no compulsion to adhere strictly to their implementation; you have the freedom to override the methods within the base classes to suit your novel algorithm's requirements.
+
 ## Customization Tricks
 
 Take Partical Swarm Optimization(PSO) as an example for a quick look at the tricks of customization. First of all, define `class ParticleSwarm(PopulationMixin):...`, as subclass of `PopulationMixin`. `PopulationMixin` is a mixin class where you have to define method `transition` to implement the PSO algorithm. Then assign `element_class` to be the type of particles, and set `default_size` as the number of the particles.
@@ -22,61 +26,60 @@ class MyParticleSwarm(ParticleSwarm, metaclass=MetaContainer):
 In the standard definition, as an individual, a particle has two "chromosomes", one represents the current position, the other represents the current velocity. While, you can define three or more chromosomes, to include the acceleration. It also has an important attribute, `memory` storing the best position that the particle passed-by.
 
 
-## Simulated Annealing Algorithm
-See the following code for SA Algorithm. The standard SA is an iteration of one solution. Hence we inherit it from `FitnessMixin` instead of `PopulationMixin`
+## Evolution Strategy
+
+Evolution Strategy is indeed a special type of GA. Hence we inherit it from `BasePopulation`.
+
+Here we mainly redefine the method `mate` and remove `mutate`.
 
 ```python
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
-class SimulatedAnnealing(FitnessMixin):
-    """Class for Simulated Annealing
-    
-    Attributes:
-        params (dict): parameters in SA
-        phantom: phantom solution for exploration
-    """
+"""
+(mu + lambda) - Evolution Strategy
 
-    phantom = None
+*References*
+Rechenberg, I. 1973. Evolutionsstrategie – Optimierung technischer Systeme nach Prinzipien der biologischen Evolution, Frommann-Holzboog.
+"""
 
-    params = {'ext_c': 0.995,
-        'int_c': 0.996,
-        'nepoch': 200,
-        'initT': 100,      # initial temperature
-        'termT': 0.0001    # terminal temperature
-        }
+
+from .base import BasePopulation
+from .utils import randint2
+
+
+class EvolutionStrategy(BasePopulation):
+    # Evolution Strategy
+
+    params ={
+        "mu" : 10,
+        "lambda_": 20,
+    }
 
     def init(self):
-        self.phantom = self.copy(fitness=None)
+        super().init()
+        if 'mu' not in self.params:
+            self.set_params(mu=self.default_size) 
 
     def transition(self, *args, **kwargs):
-        T = self.initT
-        for epoch in range(self.nepoch):
-            self.phantom.move(T)
-            T *= self.int_c
-            if T < self.termT:
-                break
-        if self.fitness < self.phantom.fitness:
-            self.chromosomes = self.phantom.chromosomes
-            self.fitness = self.phantom.fitness
+        offspring = self.mate()
+        self.extend(offspring)
+        self.mate()
+        self.select_best_individuals(self.mu)
 
-    def postprocess(self):
-        self.initT *= self.ext_c
+    def mate(self, lambda_=None):
+        lambda_ = lambda_ or self.lambda_
+        offspring = []
+        n = len(self)
+        for _ in range(lambda_):
+            i, j = randint2(0, n-1)
+            child = self[i].cross(self[j])
+            offspring.append(child)
+        return offspring
 
+    def select_best_individuals(self, mu=None):
+        mu = mu or self.mu
+        self.individuals = self.get_best_individuals(mu)
 
-    def move(self, T):
-        """Transition of states
-        
-        Arguments:
-            T {number} -- temperature
-        """
-
-        cpy = self.get_neighbour()
-
-        # Metropolis rule
-        flag = metropolis_rule(D=cpy.fitness - self.fitness, T=T)
-        if flag:
-            self.chromosomes = cpy.chromosomes
-            self.fitness = cpy.fitness
 ```
 
 ## Differential Evolution
@@ -121,7 +124,7 @@ After running `comparison-de.py`, we get the following fitness curves.
 
 ## Local Search
 
-### Simulated Annealing Algorithm
+### Evolutionary Strategy
 Different from GA, DE or other algorithms based on the population, simulated annealing is based on single individual. It is a sort of local search. Following is the skelton of SA.
 
 ```python
@@ -197,7 +200,7 @@ class MyIndividual(SimulatedAnnealing, MonoIndividual):
 ind = MyIndividual.random()
 
 stat = {'Fitness':'_fitness'}
-data = ind.evolve(stat=stat, n_iter=100, history=True)
+data = ind.evolve(stat=stat, max_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt

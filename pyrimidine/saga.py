@@ -6,7 +6,10 @@ Self Adaptive GA
 
 
 from random import random
-from . import MixedIndividual, StandardPopulation, BinaryChromosome, FloatChromosome
+
+from .chromosome import BinaryChromosome, FloatChromosome
+from .individual import MixedIndividual
+from .population import StandardPopulation
 
 
 class BaseSelfAdaptiveIndividual(MixedIndividual):

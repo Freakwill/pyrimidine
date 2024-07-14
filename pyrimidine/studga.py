@@ -7,8 +7,9 @@ Khatib, Wael and Peter John Fleming. “The Stud GA: A Mini Revolution?” Paral
 """
 
 from random import random
+
 from .population import HOFPopulation
-from .utils import choice
+from .utils import choice_uniform
 
 
 class StudPopulation(HOFPopulation):
@@ -27,7 +28,7 @@ class StudPopulation(HOFPopulation):
             if individual in self.halloffame:
                 continue
             if random() < (mate_prob or self.mate_prob):
-                other = choice(self.halloffame)
+                other = choice_uniform(self.halloffame)
                 offspring.append(individual.cross(other))
         self.extend(offspring)
         return offspring

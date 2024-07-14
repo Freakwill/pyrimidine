@@ -42,7 +42,7 @@ MyPopulation = HOFPopulation[MyIndividual] // 16
 
 pop = MyPopulation.random()
 stat = {'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness'}
-data = pop.evolve(stat=stat, n_iter=50, history=True, verbose=True)
+data = pop.evolve(stat=stat, max_iter=50, history=True, verbose=True)
 
 if __name__ == '__main__':
 

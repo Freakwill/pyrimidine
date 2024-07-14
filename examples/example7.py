@@ -41,7 +41,7 @@ if __name__ == '__main__':
     HOFPopulation.element_class = MyIndividual
 
     pop = HOFPopulation.random(n_individuals=10, size=15)
-    data = pop.evolve(n_iter=100, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}, history=True)
+    data = pop.evolve(max_iter=100, stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}, history=True)
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)

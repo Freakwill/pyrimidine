@@ -2,6 +2,9 @@
 
 """
 Differential Evolution Algorithm
+
+*Ref*
+Price, Kenneth V., Rainer M. Storn, and Jouni A. Lampinen. The differential evolution algorithm. Differential evolution: a practical approach to global optimization (2005): 37-134.
 """
 
 
@@ -38,7 +41,7 @@ class DifferentialEvolution(PopulationMixin, metaclass=MetaContainer):
     def move(self):
         self.test = self.copy()
         for t in self.test:
-            x0, x1, x2 = choice(self, size=3, replace=False)
+            x0, x1, x2 = self.get_samples(size=3, replace=False)
             jrand = map(np.random.randint, self.ndims)
             xx = x0 + self.factor * (x1 - x2)
             for chromosome, xc, n, r in zip(t, xx, self.ndims, jrand):
@@ -47,8 +50,8 @@ class DifferentialEvolution(PopulationMixin, metaclass=MetaContainer):
                 chromosome[r] = xc[r]
 
 
-class DifferentialEvolutionC(DifferentialEvolution):
-    # For the population of chromosomes
+class DifferentialEvolution1(DifferentialEvolution):
+    # As a population of chromosomes
 
     params = {
         "factor": 0.5,

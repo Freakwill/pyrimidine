@@ -28,7 +28,7 @@ def example1():
         element_class = YourIndividual
 
     pop = YourPopulation.random(n_individuals=50, n_chromosomes=2, size=32)
-    pop.evolve(n_iter=100, verbose=True)
+    pop.evolve(max_iter=100, verbose=True)
 
 
 def example2():
@@ -51,6 +51,6 @@ def example2():
         element_class = YourIndividual
 
     pop = YourPopulation.random(n_individuals=50, n_chromosomes=3, size=16)
-    pop.evolve(n_iter=100, verbose=True)
+    pop.evolve(max_iter=100, verbose=True)
 
 example2()

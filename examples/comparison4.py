@@ -29,10 +29,10 @@ pop2 = MyPopulation([i[0].copy() for i in pop])
 
 
 stat={'Best Fitness(PSO)': 'max_fitness'}
-data = pop.evolve(stat=stat, n_iter=100, history=True)
+data = pop.evolve(stat=stat, max_iter=100, history=True)
 
 stat={'Best Fitness(GA)': 'max_fitness'}
-data2 = pop2.evolve(stat=stat, n_iter=100, history=True)
+data2 = pop2.evolve(stat=stat, max_iter=100, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

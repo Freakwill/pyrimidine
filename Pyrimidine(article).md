@@ -102,7 +102,7 @@ class MyPopulation(SGAPopulation):
     default_size = 20
 
 pop = MyPopulation.random(size=n)  # Size: length of the chromosome
-pop.evolve(n_iter=100)
+pop.evolve(max_iter=100)
 ```
 
 Finally, the optimal individual can be found using `pop.best_individual` as the solution. Setting `verbose=True` prints the iteration process. The equivalent expression is as follows:
@@ -121,7 +121,7 @@ To assess the algorithm's performance, it is common to plot fitness curves or ot
 
 ```python
 stat = {'Mean Fitness': 'mean_fitness', 'Best Fitness': 'best_fitness'}
-data = pop.history(stat=stat, n_iter=100)
+data = pop.history(stat=stat, max_iter=100)
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)

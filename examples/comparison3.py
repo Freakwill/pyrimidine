@@ -32,7 +32,7 @@ class YourPopulation(HOFPopulation):
 
 
 pop = YourPopulation.random()
-data = pop.evolve(n_iter=100, history=True)
+data = pop.evolve(max_iter=100, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
@@ -41,7 +41,7 @@ data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 
 
 pop = pop.copy(type_=MyPopulation)
-data = pop.evolve(n_iter=100, history=True)
+data = pop.evolve(max_iter=100, history=True)
 data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
 ax.legend(('My Fitness', 'My Best Fitness', 'Your Fitness', 'Your Best Fitness'))
 ax.set_xlabel('Generations')

@@ -15,7 +15,7 @@ class BaseEstimator(BE):
         estimated_params (tuple): estimtated/learnable parameters by GA
         pop (Population): the population for GA
     """
-    
+
     pop = None
     estimated_params = ()
 
@@ -33,7 +33,7 @@ class BaseEstimator(BE):
         return self
 
     def _fit(self):
-        self.pop.ezolve(n_iter=self.max_iter)
+        self.pop.ezolve(max_iter=self.max_iter)
         model_ = self.pop.solution
         for k in self.estimated_params:
             setattr(self, k, getattr(model_, k))

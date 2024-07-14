@@ -22,7 +22,7 @@ pop = MyGravitySearch.random()
 
 
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness':'best_fitness'}
-data = pop.evolve(stat=stat, n_iter=100, history=True)
+data = pop.evolve(stat=stat, max_iter=100, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

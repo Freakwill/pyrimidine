@@ -8,7 +8,7 @@ from pyrimidine.ep import BaseEPIndividual, EvolutionProgramming
 from pyrimidine.benchmarks.special import rosenbrock
 
 
-def evaluate(x):
+def _evaluate(x):
     return - rosenbrock(x)
 
 
@@ -17,7 +17,7 @@ class TestEP:
     def test_ep(self):
 
         class _Individual(BaseEPIndividual):
-            element_class = FloatChromosome // n, FloatChromosome // n
+            element_class = FloatChromosome // 8, FloatChromosome // 8
 
             def decode(self):
                 return self.chromosomes[0]
@@ -26,7 +26,7 @@ class TestEP:
                 return _evaluate(self.decode())
 
 
-        class _Population(EvolutionProgramming, BasePopulation):
+        class _Population(EvolutionProgramming):
             element_class = _Individual
             default_size = 20
 

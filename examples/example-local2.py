@@ -43,7 +43,7 @@ class TSIndividual(_Individual, BaseTabuSearch):
 
 ts = TSIndividual.random(size=8)
 
-ts_data = ts.history(n_iter=100)
+ts_data = ts.history(max_iter=100)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

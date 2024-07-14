@@ -32,7 +32,7 @@ from random import gauss, random, randint
 import numpy as np
 from scipy.spatial.distance import pdist, squareform
 
-from .base import PopulationMixin
+from .mixin import PopulationMixin
 from .chromosome import FloatChromosome
 from .individual import PolyIndividual
 
@@ -66,7 +66,7 @@ class Scrounger(BaseSparrow):
             self[:] = producer + np.abs(self - producer) * (np.random.randint(2, size=d)*2 - 1) /d**2
 
 
-class StandardSparrowSearch:
+class StandardSparrowSearch(PopulationMixin):
     """Starndard Sparrow Search Algorithm
     """
 

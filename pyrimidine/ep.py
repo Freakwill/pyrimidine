@@ -6,18 +6,20 @@
 Invented by L. Fogel[1966] for designing FSM initially.
 
 General form of the algorithm:
-initialize a population with N individuals
-loop:
-    calculate f(x) for each x in population
-    mutate x for each x
-    get new population (mixed with the original population)
-    select best N individuals from the 2N mixed population
 
-The mutation:
-    x' <- x + r*sqrt(v)
-    v' <- v + c*r*sqrt(v) (make sure that v>epsilon)
+    initialize a population with N individuals
+    loop:
+        calculate f(x) for each x in population
+        mutate x for each x
+        get new population (mixed with the original population)
+        select best N individuals from the 2N mixed population
 
-Caution: No cross operation in EP
+    The mutation:
+        x' <- x + r*sqrt(v)
+        v' <- v + c*r*sqrt(v) (make sure that v>epsilon)
+
+Remark:
+    No cross operation in EP
 """
 
 from random import choice
@@ -26,11 +28,11 @@ from operator import attrgetter
 
 import numpy as np
 
-from .base import PopulationMixin, BaseChromosome
+from .base import BasePopulation, BaseChromosome
 from .chromosome import FloatChromosome
 from .individual import MixedIndividual
 
-from .deco import side_effect
+from .deco import side_effect, fitness_cache
 
 
 class BaseEPIndividual(MixedIndividual):
@@ -64,7 +66,7 @@ class BaseEPIndividual(MixedIndividual):
         self.variance = np.maximum(self.variance, self.epsilon)
 
 
-class EvolutionProgramming(PopulationMixin):
+class EvolutionProgramming(BasePopulation):
     """Evolution Programming
     
     Extends:

@@ -71,7 +71,7 @@ sp = MySpecies.random(sizes=(n_bags, 4))
 
 stat={'Male Fitness':'male_fitness', 'Female Fitness':'female_fitness', 'Best Fitness': 'best_fitness', 'Mean Expect': 'expect', 'Best Expect': 'best_expect'}
 
-data = sp.evolve(stat=stat, n_iter=100, history=True)
+data = sp.evolve(stat=stat, max_iter=100, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

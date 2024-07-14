@@ -27,7 +27,7 @@ MyPopulation = HOFPopulation[MyIndividual]
 pop = MyPopulation.random(n_individuals=100)
 
 stat = {'Best Fitness': 'best_fitness', 'Mean Fitness': 'mean_fitness'}
-data = pop.evolve(n_iter=200, stat=stat, history=True)
+data = pop.evolve(max_iter=200, stat=stat, history=True)
 
 
 import matplotlib.pyplot as plt

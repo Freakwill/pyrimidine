@@ -3,7 +3,7 @@
 
 import numpy as np
 import numpy.linalg as LA
-from ..benchmark import BaseProblem
+from ..benchmarks import BaseProblem
 
 
 class KMeans(BaseProblem):
@@ -27,8 +27,7 @@ class KMeans(BaseProblem):
         # xi = k  iff  Xi in k-class
         cs = set(x)
         xs = {c:[self.X[i] for i, k in enumerate(x) if k==c] for c in cs}
-        J = np.mean([np.sum([LA.norm(xi - np.mean(x, axis=0)) for xi in x]) for c, x in xs.items()])
-        return J
+        return np.mean([np.sum((x - np.mean(x, axis=0))**2) for c, x in xs.items()])
 
 # from scipy.stats import norm
 

@@ -69,16 +69,16 @@ class MyPopulation(HOFPopulation[MyIndividual]):
 if __name__ == '__main__':
 
     stat = {'Mean Fitness':'mean_fitness',
-        'Best Fitness': 'best_fitness'}
+        'Best Fitness': 'max_fitness'}
 
     import matplotlib.pyplot as plt
     fig = plt.figure()
     ax = fig.add_subplot(111)
     pop = MyPopulation.random(n_individuals=40, size=[8]*ndim+[8])
-    cpy = pop.clone(HOFPopulation[ExampleIndividual])
-    d = cpy.evolve(n_iter=200, stat=stat, history=True)
+    cpy = pop.copy(HOFPopulation[ExampleIndividual])
+    d = cpy.evolve(max_iter=200, stat=stat, history=True, verbose=True)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
-    d = pop.evolve(n_iter=200, stat=stat, history=True)
+    d = pop.evolve(max_iter=200, stat=stat, history=True)
     ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
     ax.legend(('Traditional mean', f'Traditional best({cpy.best_fitness})', 'New mean', f'New best({pop.best_fitness})'))
     ax.set_title('Comparison of two GAs')

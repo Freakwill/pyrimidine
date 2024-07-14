@@ -14,21 +14,21 @@ class TestGA:
     def test_evolve(self, example):
         ExamplePopulation, _ = example
         population = ExamplePopulation.random()
-        population.evolve(n_iter=2)
+        population.evolve(max_iter=2)
         assert True
     
     def test_stat(self, example):
         ExamplePopulation, _ = example
         population = ExamplePopulation.random()
         stat = {'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
-        data = population.evolve(stat=stat, n_iter=3, history=True)
+        data = population.evolve(stat=stat, max_iter=3, history=True)
         assert ('Mean Fitness' in data.columns) and ('Best Fitness' in data.columns)
         assert len(data) == 4
 
     def test_stat_default(self, example):
         ExamplePopulation, _ = example
         population = ExamplePopulation.random()
-        data = population.evolve(n_iter=3, history=True)
+        data = population.evolve(max_iter=3, history=True)
         assert ('Mean Fitness' in data.columns) and ('Best Fitness' in data.columns)
         assert len(data) == 4
 
@@ -38,7 +38,7 @@ class TestGA:
         population = NewPopulation.random()
 
         stat = {'Best Fitness': 'max_fitness'}
-        data = population.evolve(stat=stat, n_iter=5, history=True)
+        data = population.evolve(stat=stat, max_iter=5, history=True)
 
         def increasing(x):
             return all(xi <= xj for xi, xj in zip(x[:-1], x[1:]))

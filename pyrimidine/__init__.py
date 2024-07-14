@@ -18,7 +18,7 @@ from .de import *
 from .ba import *
 
 
-__version__ = "1.5.6"
+__version__ = "1.6.1"
 
 __template__ = """
 from pyrimidine.chromosome import BinaryChromosome
@@ -58,7 +58,7 @@ pop = MyPopulation.random(size=n)
 
 stat={'Mean Fitness': 'fitness', 'Best Fitness': 'max_fitness',
   'Standard Deviation of Fitnesses': 'std_fitness'}
-data = pop.evolve(stat=stat, n_iter=200, history=True)
+data = pop.evolve(stat=stat, max_iter=200, history=True)
 
 
 import matplotlib.pyplot as plt

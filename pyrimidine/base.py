@@ -6,6 +6,7 @@ The base classes are defined here, mainly for implementation of GAs.
 This is the core module of pyrimidine. 
 
 Main classes:
+
     BaseGene: the gene of chromosome
     BaseChromosome: sequence of genes, represents part of a solution
     BaseIndividual: sequence of chromosomes, represents a solution of a problem
@@ -16,43 +17,48 @@ Main classes:
 
 Remark:
 1. Subclass the classes and override some main method esp. `_fitness`.
-2. `BaseGene` is not important
+2. `BaseGene` is not important, as a wrapper of np.int_ and np.float_
+3. The base classes have been crafted specifically for GA-style algorithms.
+  If your novel algorithm differs from GAs, it is advisable to derive from the mixin classes. 
 
 Example:
+
     select ti, ni from arraies t, n
     sum of ni ~ 10 (for example), while ti are exptected to be not repeated
 
-The opt. problem is
+    The opt. problem is
     min sum of {ni} and maximum of frequences in {ti}
     where i are selected indexes.
 
-t = np.random.randint(1, 5, 100)
-n = np.random.randint(1, 4, 100)
+    ```
+    t = np.random.randint(1, 5, 100)
+    n = np.random.randint(1, 4, 100)
 
-import collections
-def max_repeat(x):
-    # maximum of numbers of repeats
-    c = collections.Counter(x)
-    bm=np.argmax([b for a, b in c.items()])
-    return list(c.keys())[bm]
+    import collections
+    def max_repeat(x):
+        # maximum of numbers of repeats
+        c = collections.Counter(x)
+        bm=np.argmax([b for a, b in c.items()])
+        return list(c.keys())[bm]
 
-class MyIndividual(MonoIndividual):
+    class MyIndividual(MonoIndividual):
 
-    element_class = BinaryChromosome
+        element_class = BinaryChromosome
 
-    def _fitness(self):
-        x = self.evaluate()
-        return - x[0] - x[1]
+        def _fitness(self):
+            x = self.evaluate()
+            return - x[0] - x[1]
 
-    def evaluate(self):
-        return np.dot(n, self.chromosomes[0]), max_repeat(ti for ti, c in zip(t, self.chromosomes[0]) if c==1)
+        def evaluate(self):
+            return np.dot(n, self.chromosomes[0]), max_repeat(ti for ti, c in zip(t, self.chromosomes[0]) if c==1)
 
-class MyPopulation(StandardPopulation):
-    element_class = MyIndividual
+    class MyPopulation(StandardPopulation):
+        element_class = MyIndividual
 
-pop = MyPopulation.random(n_individuals=50, size=100)
-pop.evolve()
-print(pop.best_individual)
+    pop = MyPopulation.random(n_individuals=50, size=100)
+    pop.evolve()
+    print(pop.best_individual)
+    ```
 """
 
 from operator import attrgetter
@@ -392,14 +398,14 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         return offspring
 
     @side_effect
-    def local_search(self, n_iter=2, *args, **kwargs):
+    def local_search(self, max_iter=2, *args, **kwargs):
         """Call local searching method
         
         By default, it calls the `ezolve` methods of individuals, iteratively
         """
 
         for individual in self:
-            individual.ezolve(n_iter=n_iter or self.n_iter, init=False)
+            individual.ezolve(max_iter=max_iter or self.max_iter, init=False)
 
     def get_rank(self, individual):
         """Get rank of one individual

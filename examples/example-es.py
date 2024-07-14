@@ -14,7 +14,7 @@ MyPopulation = EvolutionStrategy[FloatChromosome // n].set_fitness(f)
 
 ind = MyPopulation.random()
 
-data = ind.evolve(n_iter=100, history=True)
+data = ind.evolve(max_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt

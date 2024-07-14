@@ -44,7 +44,7 @@ ax = fig.add_subplot(111)
 points = _evaluate.points
 
 def animate(i):
-    sa.evolve(n_iter=5, verbose=False)
+    sa.evolve(max_iter=5, verbose=False)
     ax.plot(*sa.chromosome.to_points(), 'k-o')
     ax.plot(*sa.phantom.chromosome.to_points(), 'b--o')
     ax.legend((f'Best Solution({sa.fitness:.4})', f'Generation {i*5}'))

@@ -30,7 +30,7 @@ class MyIndividual(SimulatedAnnealing, _Individual):
 
 i = MyIndividual.random(size=20)
 
-data = i.evolve(n_iter=100, history=True)
+data = i.evolve(max_iter=100, history=True)
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)

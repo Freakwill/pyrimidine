@@ -29,7 +29,7 @@ class _Population(EvolutionProgramming, BasePopulation):
 pop = _Population.random()
 
 stat={'Mean Fitness':'mean_fitness', 'Max Fitness': 'max_fitness', 'Size': len}
-data = pop.evolve(stat=stat, n_iter=100, period=5, history=True, verbose=True)
+data = pop.evolve(stat=stat, max_iter=100, period=5, history=True, verbose=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

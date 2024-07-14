@@ -39,11 +39,11 @@ YourPopulation.map = DaskMap()
 pop = MyPopulation.random(size=(10, 10, 10))
 pop2 = pop.copy(type_=YourPopulation)
 
-pop.ezolve(n_iter=300)
+pop.ezolve(max_iter=300)
 ind1 = pop.best_individual
 y1 = evaluate.fit(*ind1.chromosomes)
 
-pop2.ezolve(n_iter=300)
+pop2.ezolve(max_iter=300)
 ind2 = pop2.best_individual
 y2 = evaluate.fit(*ind2.chromosomes)
 

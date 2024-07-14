@@ -86,20 +86,20 @@ pop = MyPopulation(individuals=sp.copy().individuals)
 
 stat={'Male Fitness':'male_fitness', 'Female Fitness':'female_fitness', 'Best Fitness': 'best_fitness', 'Mean Fitness': 'mean_fitness'}
 
-n_iter = 500
-data2, t2 = sp.perf(stat=stat, n_iter=n_iter, n_repeats=1)
+max_iter = 500
+data2, t2 = sp.perf(stat=stat, max_iter=max_iter, n_repeats=1)
 
 stat={'Mean Fitness':'mean_fitness', 'Best Fitness': 'best_fitness'}
-data3, t3 = pop.perf(stat=stat, n_iter=n_iter, n_repeats=1)
+data3, t3 = pop.perf(stat=stat, max_iter=max_iter, n_repeats=1)
 
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(data2.index * t2 / n_iter, data2['Best Fitness'], 'r',
-    data2.index * t2 / n_iter, data2['Mean Fitness'], 'r--', 
-    data3.index * t3 / n_iter, data3['Best Fitness'], 'b',
-    data3.index * t3 / n_iter, data3['Mean Fitness'], 'b--')
+ax.plot(data2.index * t2 / max_iter, data2['Best Fitness'], 'r',
+    data2.index * t2 / max_iter, data2['Mean Fitness'], 'r--', 
+    data3.index * t3 / max_iter, data3['Best Fitness'], 'b',
+    data3.index * t3 / max_iter, data3['Mean Fitness'], 'b--')
 ax.legend(('My Fitness', 'My Mean Fitness', 'Traditional Fitness', 'Traditional Mean Fitness'))
 ax.set_xlabel('Time')
 ax.set_ylabel('Fitness')

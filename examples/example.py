@@ -50,7 +50,7 @@ if __name__ == '__main__':
         }
 
     # Do statistical task and print the results through the evoluation
-    data = pop.evolve(stat=stat, n_iter=100, history=True)
+    data = pop.evolve(stat=stat, max_iter=100, history=True)
 
     # Visualize the data
     import matplotlib.pyplot as plt

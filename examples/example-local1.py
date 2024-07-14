@@ -38,7 +38,7 @@ class SAIndividual(SimulatedAnnealing, _Individual):
 
 sa = SAIndividual.random(size=n)
 
-sa_data = sa.evolve(stat={'Fitness':'fitness', 'Phantom Fitness':lambda ind: ind.phantom.fitness}, n_iter=200, history=True)
+sa_data = sa.evolve(stat={'Fitness':'fitness', 'Phantom Fitness':lambda ind: ind.phantom.fitness}, max_iter=200, history=True)
 
 
 import matplotlib.pyplot as plt

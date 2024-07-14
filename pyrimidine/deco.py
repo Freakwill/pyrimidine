@@ -2,6 +2,11 @@
 
 """
 Decorators
+
+Two main kinds of decorators:
+1. cache decorator: store the information of previous computing, to seep up the algorithm.
+         Should clear it to suppress the side effect. It is used with `@side-effect` decorator.
+2. memory decorator: As cache, it record some information, but it will chage the behavior of the algorithms.
 """
 
 from types import MethodType
@@ -10,6 +15,8 @@ import copy
 
 
 def clear_cache(func):
+    # clear the cache coersively
+
     def mthd(obj, *args, **kwargs):
         result = func(obj, *args, **kwargs)
         obj.clear_cache()
@@ -203,7 +210,7 @@ class add_memory:
     And it is not affected by the genetic operations.
 
     _memory {dict[str]} -- the memory for an object;
-                        In general, the key is the property of the object.
+                        In general, the keys are the attributes of the object.
     """
 
     def __init__(self, memory={}):
@@ -223,14 +230,15 @@ class add_memory:
 
         cls.set_memory = _set_memory
 
-        def fitness(obj):
-            # get fitness from memory by default
-            if obj.memory['fitness'] is None:
-                return obj._fitness()
-            else:
-                return obj.memory['fitness']
+        if hasattr(cls, '_fitness'):
+            def fitness(obj):
+                # get fitness from memory by default
+                if obj.memory['fitness'] is None:
+                    return obj._fitness()
+                else:
+                    return obj.memory['fitness']
 
-        cls.fitness = property(fitness)
+            cls.fitness = property(fitness)
 
         for a in cls._memory:
             if a == 'fitness': continue
@@ -239,8 +247,7 @@ class add_memory:
                 where the best solution is stored
                 """
                 if obj._memory[a] is None:      
-                    v = getattr(super(cls, obj), a)
-                    return v
+                    return getattr(super(cls, obj), a)
                 else:
                     return obj._memory[a]
             setattr(cls, a, property(f))
@@ -293,16 +300,19 @@ def basic_memory(cls):
 usual_side_effect = ['mutate', 'extend', 'pop', 'remove', '__setitem__', '__setattr__', '__setstate__']
 
 def method_cache(func, a):
-    """cache for methods
+    """make cache for the method
 
-    Pre-define `_cache` as an attribute of the obj.
+    If the attribute a is in the cache, then access it from the cache directly,
+    else compute it again, and store it in the cache
+
+    Please pre-define `_cache` as an attribute of the obj.
     
     Args:
         func (TYPE): the original method
         a (TYPE): an attribute (or any value) computed by the method
     
     Returns:
-        MethodType
+        function: new method
     """
 
     def mthd(obj):
@@ -317,6 +327,7 @@ def method_cache(func, a):
 
 
 class regester_map:
+    # To regester the map method for the class requiring `map` method
 
     def __init__(self, mappings, map_=map):
         """

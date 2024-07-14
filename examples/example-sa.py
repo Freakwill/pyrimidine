@@ -10,6 +10,7 @@ from pyrimidine.benchmarks.optimization import *
 
 from pyrimidine.benchmarks.special import *
 
+
 n = 15
 f = rosenbrock(n=n)
 
@@ -29,7 +30,7 @@ class MyIndividual(SimulatedAnnealing, MonoIndividual):
 ind = MyIndividual.random()
 
 stat = {'Fitness':'_fitness'}
-data = ind.evolve(stat=stat, n_iter=100, history=True)
+data = ind.evolve(stat=stat, max_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt

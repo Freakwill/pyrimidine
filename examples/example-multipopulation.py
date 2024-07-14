@@ -29,7 +29,7 @@ class _MultiPopulation(MultiPopulation):
 
 
 sp = _MultiPopulation.random()
-data = sp.evolve(n_iter=100, history=True)
+data = sp.evolve(max_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt

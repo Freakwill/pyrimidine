@@ -131,6 +131,7 @@ class MetaContainer(ParamType):
     and operators acting on the elements
 
     Example:
+
         ```
         from collections import UserString
         class C(metaclass=MetaContainer):
@@ -149,24 +150,27 @@ class MetaContainer(ParamType):
 
         c.regester('upper')
         print(c.upper())
-
-        # <class 'collections.UserString'>
-        # <property object at 0x1065715e0>
-        # ['I', 'love', 'you']
-        # for ever
-        # 3
-        # love
-        # I
-        # love
-        # you
-        # ['I', 'LOVE', 'YOU']
         ```
+
+    Output:
+
+        <class 'collections.UserString'>
+        <property object at 0x1065715e0>
+        ['I', 'love', 'you']
+        for ever
+        3
+        love
+        I
+        love
+        you
+        ['I', 'LOVE', 'YOU']
     """
 
     def __new__(cls, name, bases, attrs):
         """
         Users have to define `element_class` in the class.
         """
+
         if 'element_class' in attrs:
             element_class = attrs['element_class']
         else:
@@ -178,7 +182,6 @@ class MetaContainer(ParamType):
                 raise Exception('Have not provided element class yet.')
         
         def _getitem(self, k):
-            # print(DeprecationWarning('get item directly is not recommended now.'))
             try:
                 return self.__elements[k]
             except:
@@ -264,6 +267,7 @@ class MetaContainer(ParamType):
         if the mapping f is regestered, then A owns method f, automatically
         f(A) := {f(a), a in A} where f is a method of A.
         """
+
         def _regester_map(self, name, key=None, force=True):
             if key is None:
                 key = methodcaller(name)
@@ -317,16 +321,22 @@ class MetaContainer(ParamType):
                     elements.append(e)
 
             o.__elements = elements
-            # for e in o.__elements:  # consider in future
-            #     e.__system = o
+            # o.observe(e): # consider in future
+            # for e in o.__elements:
+            #     e._system = o
+            #     class _C:
+            #         def __getitem__(obj, s):
+            #             def _f(*args, **kwargs):
+            #                 return getattr(self._system, s)(self, *args, **kwargs)
+            #             return _f
+            #     e.op = _C()
+
         else:
             raise TypeError('missing a list/tuple of elements as the unique positional argument!')
 
         for k, v in kwargs.items():
             setattr(o, k, v)
 
-        # if '_environment' in globals():
-        #     o.environment = globals()['_environment']
         return o
 
     def __getitem__(self, class_):
@@ -500,20 +510,6 @@ class MetaSingle(MetaContainer):
         if o.n_elements != 1:
             raise ValueError('There should be only 1 element!')
         return o
-
-
-# import array
-# import numpy as np
-
-# def array_check(bases):
-#     if array.array in bases or np.ndarray in bases:
-#         return True
-#     else:
-#         for base in bases:
-#             if issubclass(base, (array.array, np.ndarray)):
-#                 return True
-#         else:
-#             return False
 
 
 class MetaArray(ParamType):

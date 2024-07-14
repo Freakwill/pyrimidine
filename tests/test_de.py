@@ -42,8 +42,8 @@ class TestDE:
         self.population1 = P1.random()
         self.population2 = P2.random()
         stat = {'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness'}
-        data1 = self.population1.evolve(stat=stat, n_iter=3, history=True)
-        data2 = self.population2.evolve(stat=stat, n_iter=3, history=True)
+        data1 = self.population1.evolve(stat=stat, max_iter=3, history=True)
+        data2 = self.population2.evolve(stat=stat, max_iter=3, history=True)
         assert ('Mean Fitness' in data1.columns and 'Best Fitness' in data1.columns and
             'Mean Fitness' in data2.columns and 'Best Fitness' in data2.columns)
         assert len(data1) == len(data2) == 4

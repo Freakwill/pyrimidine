@@ -48,7 +48,7 @@ MyPopulation = HOFPopulation[MyIndividual] // 50
 
 pop = MyPopulation.random()
 
-pop.ezolve(n_iter=250)
+pop.ezolve(max_iter=250)
 params = pop.solution
 im = evaluate.toimage(*params)
 im.show()

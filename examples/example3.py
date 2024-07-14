@@ -72,8 +72,8 @@ i = _Individual([_Chromosome(w) for w in W.T * HN] + [_PChromosome(h) for h in H
 pop = MyPopulation.random()
 # pop.append(i)
 pop2 = pop.copy(type_=YourPopulation)
-data = pop.evolve(stat={'Error': lambda pop: - pop.max_fitness}, n_iter=300, history=True, period=5)
-yourdata = pop2.evolve(stat={'Error': lambda pop: - pop.max_fitness}, n_iter=300, history=True, period=5)
+data = pop.evolve(stat={'Error': lambda pop: - pop.max_fitness}, max_iter=300, history=True, period=5)
+yourdata = pop2.evolve(stat={'Error': lambda pop: - pop.max_fitness}, max_iter=300, history=True, period=5)
 
 
 import matplotlib.pyplot as plt

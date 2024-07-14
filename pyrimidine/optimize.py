@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 
 """
-Optimization Helpers for GA
+Optimization Helpers for GA.
 
 Users can use the following example to optimize a multivariate function by GA directly
 without encoding the solutions to chromosomes or individuals.
+
+Example:
+
     ```
+    # min x1^2+x2, x1,x2 in (-1,1)
     ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
     ```
 """
+
 
 import numpy as np
 
@@ -72,7 +77,8 @@ def ga_minimize(func, *xlim, decode=_decode, population_size=20, size=8, **kwarg
     GA(with hall of fame) for minimizing the function `func` defined on `xlim`
 
     Arguments:
-        func: objective function defined on R^n
+
+        func {function}: objective function defined on R^n
         xlim {tuple of number pairs}: the intervals of xi
         decode {mapping}: transform a binary sequence to a real number
             ('0-1' sequence, lower_bound, upper_bound) |-> xi
@@ -80,6 +86,7 @@ def ga_minimize(func, *xlim, decode=_decode, population_size=20, size=8, **kwarg
         size {int or tuple of int}: the length of the encoding of xi
 
     Example:
+
         ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
     """
 
@@ -97,7 +104,8 @@ def de_minimize(func, *xlim, decode=_decode, population_size=20, size=8, **kwarg
     DE for minimizing the function `func` defined on `xlim`
 
     Arguments:
-        func: objective function defined on R^n
+
+        func {function}: objective function defined on R^n
         xlim: the intervals of xi
         decode: transform a binary sequence to a real number
             ('0-1' sequence, lower_bound, upper_bound) |-> xi
@@ -105,7 +113,8 @@ def de_minimize(func, *xlim, decode=_decode, population_size=20, size=8, **kwarg
         size: the length of the encoding of xi
 
     Example:
-        ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+
+        de_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
     """
 
     _Individual = _make_individual(func, *xlim, size=size, decode=decode)
