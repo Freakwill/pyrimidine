@@ -4,7 +4,10 @@
 
 Developed by J. Kennedy and R. Eberhart[Kennedy and Eberhart 2001]
 
-Each individual is represented by the position and the velocity.
+Each individual consists of the position and the velocity. It also has the memory of the best solution
+
+*Ref.*
+J. Kennedy, R. Eberhart Particle swarm optimization Proc. IEEE Int. Conf. Neural Netw., 4 (1995), pp. 1942-1948
 """
 
 from random import random

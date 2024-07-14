@@ -18,8 +18,7 @@ IterativeMixin  --->  CollectiveMixin
 FitnessMixin  --->  PopulationMixin
 """
 
-from deprecated import deprecated
-from warnings import deprecated
+
 from operator import methodcaller, attrgetter
 
 import numpy as np
@@ -38,7 +37,7 @@ from .errors import *
 class IterativeMixin:
     # Mixin class for iterative algrithms
 
-    params = {'n_iter': 100}
+    params = {'max_iter': 100}
 
     # @property
     # def _row(self):
@@ -63,19 +62,19 @@ class IterativeMixin:
         """
         raise NotImplementedError('If you apply a local search algorithm, you must define the `local_search` method.')
 
-    def ezolve(self, n_iter=None, init=True):
+    def ezolve(self, max_iter=None, init=True):
         # Extreamly eazy evolution method for lazybones
-        n_iter = n_iter or self.n_iter
+        max_iter = max_iter or self.max_iter
         if init:
             self.init()
-        for k in range(1, n_iter+1):
+        for k in range(1, max_iter+1):
             self.transition(k)
 
-    def evolve(self, initialize:bool=True, n_iter:int=100, period:int=1, verbose:bool=False, history=False, stat=None, attrs=('solution',), control=None):
+    def evolve(self, initialize:bool=True, max_iter:int=100, period:int=1, verbose:bool=False, history=False, stat=None, attrs=('solution',), control=None):
         """Get the history of the whole evolution
 
         Keyword Arguments:
-            n_iter {number} -- number of iterations (default: {None})
+            max_iter {number} -- number of iterations (default: {None})
             period {integer} -- the peroid of stat
             verbose {bool} -- to print the iteration process
             stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
@@ -89,7 +88,7 @@ class IterativeMixin:
 
         assert control is None or callable(control)
  
-        n_iter = n_iter or self.n_iter
+        max_iter = max_iter or self.max_iter
 
         if isinstance(stat, dict): stat = Statistics(stat)
         
@@ -118,7 +117,7 @@ class IterativeMixin:
 -------------------------------------------------------------""")
             print(_row(0, attrs, res))
 
-        for t in range(1, n_iter+1):
+        for t in range(1, max_iter+1):
             self.transition(t)
 
             if history_flag and (period == 1 or t % period ==0):
@@ -175,7 +174,6 @@ class IterativeMixin:
         return self.copy()
 
     def decode(self):
-        # decode the object to the real solution
         return self
 
     @classmethod
@@ -353,19 +351,17 @@ class CollectiveMixin(IterativeMixin):
             return self[ks]
 
     def observe(self, name='_system'):
-        """Let the elements observe the system, by `o._system`
-        
-        Args:
-            name (str, optional): the attribute name of the system
-        """
-        for e in self:
-            setattr(e, name, self)
-            class _C:
-                def __getitem__(obj, s):
-                    def _f(*args, **kwargs):
-                        return getattr(self._system, s)(self, *args, **kwargs)
-                    return _f
-            e.op = _C()
+        for o in self:
+            setattr(o, name, self)
+
+    @property
+    def op(self):
+        class _C:
+            def __getitem__(obj, s):
+                def _f(*args, **kwargs):
+                    return getattr(self._system, s)(self, *args, **kwargs)
+                return _f
+        return _C()
 
 
 class PopulationMixin(FitnessMixin, CollectiveMixin):
@@ -418,10 +414,10 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
     @property
     def std_fitness(self):
         return np.std(self.get_all_fitness())
-    
+
     @property
-    @deprecated(reason="`best_fitness` is depricated and please use `max_fitness`")
     def best_fitness(self):
+        print('`best_fitness` is depricated and please use `max_fitness`')
         return np.max(self.get_all_fitness())
 
     @property
