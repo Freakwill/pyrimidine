@@ -1,11 +1,6 @@
 # pyrimidine
 
-[![Pytest](https://github.com/Freakwill/pyrimidine/actions/workflows/pytest.yml/badge.svg)](https://github.com/Freakwill/pyrimidine/actions/workflows/pytest.yml)
-[
-![PyPi](https://img.shields.io/pypi/v/pyrimidine.svg)
-](https://pypi.python.org/pypi/pyrimidine)
-
-`pyrimidine` is an extensible framework of genetic/evolutionary algorithm by Python. See [pyrimidine's document](https://pyrimidine.readthedocs.io/) for more details.
+`pyrimidine` is an extensible framework of genetic/evolutionary algorithm by Python. See [pyrimidine's documentation](https://pyrimidine.readthedocs.io/) for more details.
 
 ![LOGO](logo.png)
 
@@ -14,9 +9,7 @@
 > -- Why is the package named as “pyrimidine”? 
 >
 > -- Because it begins with “py”.
->
-> -- Are you kiding?
->
+> -- Are you kidding?
 > -- No, I am serious.
 
 If you have more questions, then log in [google group](https://groups.google.com/g/pyrimidine) and post your questions.
@@ -28,7 +21,7 @@ It has been uploaded to [pypi](https://pypi.org/project/pyrimidine/), so downloa
 
 ## Video tutorials
 
-[An gental introduction](https://www.youtube.com/watch?v=uVf3y427ei4&t=3s)
+[An gentle introduction](https://www.youtube.com/watch?v=uVf3y427ei4&t=3s)
 
 ## Idea
 
@@ -46,7 +39,7 @@ class BasePopulation(PopulationModel, metaclass=MetaContainer):
     default_size = 20
 ```
 
-There is two main kinds of containers: list-like and tuple-like. See following examples.
+There are two main kinds of containers: list-like and tuple-like. See the following examples.
 
 ```python
 # individual with chromosomes of type _Chromosome
@@ -65,7 +58,7 @@ s = {a:A}:S  or  s: S[A]
 
 We could define a population as a container of individuals or chromosomes, and an individual is a container of chromosomes.
 
-Algebraically, an indivdiual has only one chromosome is equivalent to a chromosome mathematically. A population could also be a container of chromosomes. If the individual has only one chromosome, then just build the population based on chromosomes directly.
+Algebraically, an individual with one chromosome is equivalent to a chromosome mathematically. A population could also be a container of chromosomes. If the individual has only one chromosome, then just build the population based on chromosomes directly.
 
 The methods are the functions or operators defined on $s$.
 
@@ -77,11 +70,13 @@ The methods are the functions or operators defined on $s$.
 - BaseChromosome: sequence of genes, represents part of a solution (or an entire solution)
 - BaseIndividual: sequence of chromosomes, represents a solution of a problem
 - BasePopulation: a container of individuals, represents a container of a problem
-                also the state of a stachostic process
-- BaseMultipopulation: a container of population for more complicated optimalization
+                also the state of a stochastic process
+- BaseMultipopulation: a container of population for more complicated optimization
 
 
 ### import
+
+Just use the command `from pyrimidine import *` to import all of the algorithms.
 
 To import all algorithms for beginners, simply use the command `from pyrimidine import *`.
 
@@ -129,7 +124,7 @@ from pyrimidine.chromosome import BinaryChromosome
 
 class MyIndividual(MonoIndividual):
     """individual with only one chromosome
-    we set the gene is 0 or 1 in the chromosome
+    we set the gene to 0 or 1 in the chromosome
     """
     element_class = BinaryChromosome
 
@@ -137,13 +132,13 @@ class MyIndividual(MonoIndividual):
         ...
 ```
 
-Since the helper `makeIndividual(n_chromosomes=1, size=8)` could create such individual, it is equivalent to
+Since the helper `makeIndividual(n_chromosomes=1, size=8)` could create such an individual, it is equivalent to
 
 ```python
 from pyrimidine.individual import binaryIndividual
 
 class MyIndividual(binaryIndividual()):
-    # only need define the fitness
+    # only need to define the fitness
     def _fitness(self):
         ...
 ```
@@ -161,8 +156,8 @@ class _Chromosome(BinaryChromosome):
     def decode(self):
         """Decode a binary chromosome
         
-        if the sequence of 0-1 represents a real number, then overide the method
-        to transform it to a nubmer
+        if the sequence of 0-1 represents a real number, then override the method
+        to transform it to a number
         """
 
 class ExampleIndividual(BaseIndividual):
@@ -182,7 +177,7 @@ from pyrimidine.individual import MixedIndividual
 class MyIndividual(MixedIndividual):
     """
     Inherit the fitness from ExampleIndividual directly.
-    It has 6 chromosomes, 5 are instances of _Chromosome, 1 is instance of FloatChromosome
+    It has 6 chromosomes: 5 are instances of _Chromosome, 1 is an instance of FloatChromosome
     """
     element_class = (_Chromosome,)*5 + (FloatChromosome,)
 ```
@@ -256,7 +251,7 @@ data = pop.history(stat=stat)  # use history instead of evolve
 ```
 `stat` is a dict mapping keys to function, where string 'mean_fitness' means function `lambda pop:pop.mean_fitness` which gets the mean fitness of the individuals in `pop`. Since we have defined pop.best_individual.fitness as a property, `stat` could be redefined as `{'Fitness': 'fitness', 'Best Fitness': 'max_fitness'}`.
 
-It requires `ezstat` (optional but recommended), a easy statistical tool devoloped by the author.
+It requires `ezstat` (optional but recommended), an easy statistical tool developed by the author.
 
 #### performance
 
@@ -269,11 +264,11 @@ Use `pop.perf()` to check the performance, which calls `evolve` several times.
 Description
 
     select some of ti, ni, i=1,...,L, ti in {1,2,...,T}, ni in {1,2,...,N}
-    the sum of ni approx. 10, while ti dose not repeat
+    the sum of ni approx. 10, while it does not repeat
 
 The opt. problem is
 
-    min abs(sum_i{ni}-10) + maximum of frequences in {ti}
+    min abs(sum_i{ni}-10) + maximum of frequencies in {ti}
     where i is selected.
 
 $$
@@ -350,7 +345,7 @@ MyPopulation = StandardPopulation[BinaryChromosome].set_fitness(_fitness)
 
 One of the famous problem is the knapsack problem. It is a good example for GA.
 
-We set `history=True` in `evolve` method for the example, that will record the main data of the whole evolution. It will return an object of `pandas.DataFrame`. The argument `stat`  is a dict from a key to function/str(corresponding to a method) representing a mapping from a population to a number. these numbers of one generation will be stored in a row of the dataframe.
+We set `history=True` in `evolve` method for the example, that will record the main data of the whole evolution. It will return an object of `pandas.DataFrame`. The argument `stat`  is a dict from a key to function/str(corresponding to a method) representing a mapping from a population to a number. These numbers of one generation will be stored in a row of the dataframe.
 
 see `# examples/example0`
 
@@ -464,14 +459,14 @@ class ParticleSwarm(PopulationMixin):
 
     def transition(self, *args, **kwargs):
         """
-        Transitation of the states of particles
+        Transition of the states of particles
         """
         self.move()
         self.backup()
         self.update_hall_of_fame()
 
     def backup(self):
-        # overwrite the memory of the particle if its current state is better its memory
+        # overwrite the memory of the particle if its current state is better than its memory
         for particle in self:
             particle.backup(check=True)
 
@@ -526,8 +521,8 @@ Of course, it is not mandatory. It is allowed to inherit `ParticleSwarm` from fo
 
 ## Contributions
 
-If you'd like to contribute to `pyrimidine`, please contact with me;
-and if you have noticed some bugs, then use the GitHub issues page to report them.
+If you'd like to contribute to `pyrimidine`, please contact me;
+and if you have noticed any bugs, use the [GitHub issues page](https://github.com/Freakwill/pyrimidine/issues) to report them.
 
 
 ![LOGO](logo-ai.png)
