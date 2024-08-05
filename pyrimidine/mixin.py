@@ -63,7 +63,7 @@ class IterativeMixin:
         raise NotImplementedError('If you apply a local search algorithm, you must define the `local_search` method.')
 
     def ezolve(self, max_iter=None, init=True):
-        # Extreamly eazy evolution method for lazybones
+        # Extremely eazy evolution method for lazybones
         max_iter = max_iter or self.max_iter
         if init:
             self.init()
