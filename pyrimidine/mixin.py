@@ -417,7 +417,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
 
     @property
     def best_fitness(self):
-        print('`best_fitness` is depricated and please use `max_fitness`')
+        DeprecationWarning('`best_fitness` is depricated and please use `max_fitness`')
         return np.max(self.get_all_fitness())
 
     @property

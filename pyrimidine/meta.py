@@ -330,6 +330,8 @@ class MetaContainer(ParamType):
         for k, v in kwargs.items():
             setattr(o, k, v)
 
+        o.element_type = o.element_class
+
         return o
 
     def __getitem__(self, class_):
@@ -381,11 +383,12 @@ class MetaContainer(ParamType):
             return self([self.element_class.random(*args, **kwargs) for _ in range(n_elements)])
 
 
-# class System(MetaContainer):
-#     """Metaclass of systems, considered in future!
+class System(MetaContainer):
+    """Metaclass of systems, considered in future!
 
-#     A system is a type of container, that defines operators on them.
-#     """
+    A system is a type of container, that defines operators on them.
+    """
+    pass
     
 #     def __new__(cls, name, bases=(), attrs={}): 
 #         """
