@@ -111,8 +111,15 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
     "n_chromosomes": "n_elements"
     }
 
+    @property
+    def class_name(self):
+        if hasattr(self.__class__, '_name'):
+            return self.__class__._name
+        else:
+            return self.__class__.__name__
+
     def __repr__(self):
-        return f'{self.__class__.__name__}: {":".join(map(repr, self))}'
+        return f'{self.class_name}: {":".join(map(repr, self))}'
 
     def __str__(self):
         return "|".join(map(str, self))
@@ -462,7 +469,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         return self.__class__([c.dual() for c in self])
 
 
-class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
+class BaseMultiPopulation(MultiPopulationMixin, metaclass=MetaHighContainer):
     """Base class of BaseMultiPopulation
     
     Attributes:
@@ -477,7 +484,7 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
 
     alias = {'populations': 'elements',
     'n_populations': 'n_elements',
-    'best_population': 'best_element',
+    'get_best_populationspopulation': 'best_element',
     'worst_population': 'worst_element',
     'get_best_population': 'get_best_element',
     'get_best_populations': 'get_best_elements'
@@ -510,9 +517,6 @@ class BaseMultiPopulation(PopulationMixin, metaclass=MetaHighContainer):
 
     def mate(self):
         raise NotImplementedError
-
-    # def max_fitness(self):
-    #     return max(map(attrgetter('max_fitness'), self))
 
     def get_best_individual(self, copy=True):
         bests = map(methodcaller('get_best_individual'), self)

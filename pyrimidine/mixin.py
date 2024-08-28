@@ -19,6 +19,7 @@ FitnessMixin  --->  PopulationMixin
 """
 
 
+from itertools import chain
 from operator import methodcaller, attrgetter
 
 import numpy as np
@@ -62,10 +63,10 @@ class IterativeMixin:
         """
         raise NotImplementedError('If you apply a local search algorithm, you must define the `local_search` method.')
 
-    def ezolve(self, max_iter=None, init=True):
+    def ezolve(self, max_iter=None, initialize=True):
         # Extreamly eazy evolution method for lazybones
         max_iter = max_iter or self.max_iter
-        if init:
+        if initialize:
             self.init()
         for k in range(1, max_iter+1):
             self.transition(k)
@@ -108,12 +109,11 @@ class IterativeMixin:
 
         if verbose:
             def _row(t, attrs, res, sep=" & "):
-                return f'{sep.join(map(str, concat((("[%d]"%t,), (getattr(self, attr) for attr in attrs), res.values()))))}'
-            from toolz.itertoolz import concat
+                return sep.join(map(str, chain(("[%d]"%t,), (getattr(self, attr) for attr in attrs), res.values())))
             if not history_flag:
                 res = stat(self)
             print(f"""            ** History **
-{" & ".join(concat((("iteration",), attrs, res.keys())))}
+{" & ".join(chain(("iteration",), attrs, res.keys()))}
 -------------------------------------------------------------""")
             print(_row(0, attrs, res))
 
@@ -122,11 +122,13 @@ class IterativeMixin:
 
             if history_flag and (period == 1 or t % period ==0):
                 res = stat(self)
-                history = pd.concat([history,
+                history = pd.chain([history,
                     pd.Series(res.values(), index=res.keys()).to_frame().T],
                     ignore_index=True)
 
             if verbose and (period == 1 or t % period ==0):
+                if not history_flag:
+                    res = stat(self)
                 print(_row(t, attrs, res))
 
             if control:
@@ -375,7 +377,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         """
 
         if stat is None:
-            stat = {'Best Fitness': 'max_fitness', 'Mean Fitness': 'mean_fitness',
+            stat = {'Max Fitness': 'max_fitness', 'Mean Fitness': 'mean_fitness',
             'STD Fitness': 'std_fitness'}
         return super().evolve(stat=stat, *args, **kwargs)
 
@@ -548,3 +550,11 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
             n = int(n)
         ks = self.argsort()
         self.elements = [self[k] for k in ks[n:]]
+
+
+class MultiPopulationMixin(PopulationMixin):
+
+    @property
+    def solution(self):
+        return self.best_element.solution()
+

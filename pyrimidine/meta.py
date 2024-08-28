@@ -330,8 +330,6 @@ class MetaContainer(ParamType):
         for k, v in kwargs.items():
             setattr(o, k, v)
 
-        o.element_type = o.element_class
-
         return o
 
     def __getitem__(self, class_):
@@ -359,6 +357,7 @@ class MetaContainer(ParamType):
     def __floordiv__(self, n):
         class cls(self):
             default_size = n
+        cls._name = self.__name__
         return cls
 
     def random(self, n_elements=None, *args, **kwargs):
@@ -554,5 +553,6 @@ class MetaArray(ParamType):
     def __floordiv__(self, n):
         class cls(self):
             default_size = n
+        cls._name = self.__name__
         return cls
 
