@@ -139,7 +139,7 @@ class UserPopulation(StandardPopulation):
     default_size = 10
 ```
 
-In the template code above, `UserIndividual` (or `UserPopulation`) serves as a container of elements in type of `BinaryChromosome` (or `UserIndividual`), and employs the operators of the elements in the lifting form by default. Following is the equivalent expression, using the notion in \autoref{eq:container}:
+In the template code above, `UserIndividual` (or `UserPopulation`) serves as a container of elements with type `BinaryChromosome` (or `UserIndividual`), and employs the operators of the elements in the lifting form by default. Following is the equivalent expression, using the notion in \autoref{eq:container}:
 
 ```python
 UserIndividual = MonoIndividual[BinaryChromosome]
