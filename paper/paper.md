@@ -64,7 +64,7 @@ A concise comparison between `pyrimidine` and several popular frameworks is prov
 
 `Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, we have implemented a variety of optimization algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming [@fogel], particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing [@kirkpatrick].
 
-To meet diverse demands, it provides enough encoding schemes for solutions to optimization problems, including Boolean, integer, real number types and their hybrid forms.
+To meet diverse demands, `Pyrimidine` provides enough encoding schemes for solutions to optimization problems, including Boolean, integer, real number types and their hybrid forms.
 
 # Algebra-inspired programming
 
