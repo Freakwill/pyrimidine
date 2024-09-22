@@ -70,7 +70,7 @@ To meet diverse demands, `Pyrimidine` provides enough encoding schemes for solut
 
 `Pyrimidine`'s API design is built around an approach we term "algebra-inspired Programming." This approach should not be confused with so-called algebraic programming [@kapitonova], but it draws inspiration from its underlying principles.
 
-The advantages of the model are summarized as follows:
+The advantages of `Pyrimidine`'s model are summarized as follows:
 
 1. The population system and genetic operations are treated as an algebraic system, and genetic algorithms are constructed by imitating algebraic operations.
 2. It is highly extensible. For example it is easy to define multi-populations, even so-called hybrid-populations.
