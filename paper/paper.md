@@ -84,7 +84,7 @@ A container $s$ of type $S$, with elements of type $A$, is represented by the fo
 \begin{equation}\label{eq:container}
 s = \{a:A\}: S \quad \text{or} \quad s:S[A]\,,
 \end{equation}
-where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimicks Python syntax, borrowed from the [built-in typing module](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
+where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimicks Python syntax, borrowed from the built-in `typing` module.
 
 Building upon the concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. It even allows to define containers in higher order, such as a container of multi-populations.
 
