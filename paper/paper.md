@@ -189,7 +189,7 @@ class UserIndividual(MonoIndividual):
 UserPopulation = StandardPopulation[UserIndividual] // 20
 ```
 
-Using chromosome as the population's elements, we arrange all the components in a single line:
+For a population composed of members with type `BinaryChromosome`, we arrange all the components in a single line:
 ```python
 UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate)
 ```
