@@ -68,7 +68,7 @@ To meet diverse demands, `Pyrimidine` provides enough encoding schemes for solut
 
 # Algebra-inspired programming
 
-The innovative approach is termed "algebra-inspired Programming." It should not be confused with so-called algebraic programming [@kapitonova], but it draws inspiration from its underlying principles.
+`Pyrimidine`'s API design is built around an approach we term "algebra-inspired Programming." This approach should not be confused with so-called algebraic programming [@kapitonova], but it draws inspiration from its underlying principles.
 
 The advantages of the model are summarized as follows:
 
