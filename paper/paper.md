@@ -58,19 +58,19 @@ A concise comparison between `pyrimidine` and several popular frameworks is prov
 
 : Comparison of the popular genetic algorithm frameworks. \label{frameworks}
 
-`Tpot`/`gama`[@olson; @pieter], `gplearn`/`pysr`, and `scikit-opt` follow the scikit-learn style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`[@neat-python]).
+`Tpot`/`gama` [@olson; @pieter], `gplearn`/`pysr`, and `scikit-opt` follow the scikit-learn style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`[@neat-python]).
 
 `DEAP` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `Gaft` is a highly object-oriented software with excellent scalability, but it is currently inactive.
 
 `Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, we have implemented a variety of optimization algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming [@fogel], particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing [@kirkpatrick].
 
-To meet diverse demands, it provides enough encoding schemes for solutions to optimization problems, including Boolean, integer, real number types and their hybrid forms.
+To meet diverse demands, `Pyrimidine` provides enough encoding schemes for solutions to optimization problems, including Boolean, integer, real number types and their hybrid forms.
 
 # Algebra-inspired programming
 
-The innovative approach is termed "algebra-inspired Programming." It should not be confused with so-called algebraic programming [@kapitonova], but it draws inspiration from its underlying principles.
+`Pyrimidine`'s API design is built around an approach we term "algebra-inspired Programming." This approach should not be confused with so-called algebraic programming [@kapitonova], but it draws inspiration from its underlying principles.
 
-The advantages of the model are summarized as follows:
+The advantages of `Pyrimidine`'s model are summarized as follows:
 
 1. The population system and genetic operations are treated as an algebraic system, and genetic algorithms are constructed by imitating algebraic operations.
 2. It is highly extensible. For example it is easy to define multi-populations, even so-called hybrid-populations.
@@ -84,9 +84,9 @@ A container $s$ of type $S$, with elements of type $A$, is represented by the fo
 \begin{equation}\label{eq:container}
 s = \{a:A\}: S \quad \text{or} \quad s:S[A]\,,
 \end{equation}
-where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimicks Python syntax, borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
+where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimics Python syntax, borrowed from the built-in `typing` module.
 
-Building upon the concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. It even allows to define containers in higher order, such as a container of multi-populations.
+Building upon the concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. It even allows users to define containers in higher order, such as a container of multi-populations.
 
 While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered a system. Similarly, a chromosome might be viewed as a container of genes (implemented by the arrays in practice).
 
@@ -122,7 +122,7 @@ There are three base classes in `pyrimidine`: `BaseChromosome`, `BaseIndividual`
 
 For convenience, `pyrimidine` provides some commonly used subclasses, where the genetic operations are implemented such as, `cross` and `mutate`. Especially, `pyrimidine` offers `BinaryChromosome` for the binary encoding as used in the classical GA.
 
-Generally, the algorithm design starts as follows, where `MonoIndividual`, a subclass of `BaseIndividual`, just enforces that the individuals can only have one chromosome.
+Generally, the algorithm design starts as follows, where `MonoIndividual` (a subclass of `BaseIndividual`) simply enforces that an individual can only have one chromosome.
 
 ```python
 class UserIndividual(MonoIndividual):
@@ -139,7 +139,7 @@ class UserPopulation(StandardPopulation):
     default_size = 10
 ```
 
-In the template code above, `UserIndividual` (or `UserPopulation`) serves as a container of elements in type of `BinaryChromosome` (or `UserIndividual`), and employs the operators of the elements in the lifting form by default. Following is the equivalent expression, using the notion in \autoref{eq:container}:
+In the template code above, `UserIndividual` (or `UserPopulation`) serves as a container of elements with type `BinaryChromosome` (or `UserIndividual`), and employs the operators of the elements in the lifting form by default. Following is the equivalent expression, using the notion in \autoref{eq:container}:
 
 ```python
 UserIndividual = MonoIndividual[BinaryChromosome]
@@ -189,7 +189,7 @@ class UserIndividual(MonoIndividual):
 UserPopulation = StandardPopulation[UserIndividual] // 20
 ```
 
-Using chromosome as the population's elements, we arrange all the components in a single line:
+For a population composed of members with type `BinaryChromosome`, we arrange all the components in a single line:
 ```python
 UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate)
 ```
