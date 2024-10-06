@@ -60,7 +60,7 @@ A concise comparison between `pyrimidine` and several popular frameworks is prov
 
 `Tpot`/`gama`[@olson; @pieter], `gplearn`/`pysr`, and `scikit-opt` follow the scikit-learn style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`[@neat-python]).
 
-`DEAP` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `Gaft` is a highly object-oriented software with excellent scalability, but it is currently inactive.
+`DEAP` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `Gaft` is a highly object-oriented software with excellent scalability, but is currently inactive.
 
 `Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, we have implemented a variety of optimization algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming [@fogel], particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing [@kirkpatrick].
 
@@ -74,7 +74,7 @@ The advantages of the model are summarized as follows:
 
 1. The population system and genetic operations are treated as an algebraic system, and genetic algorithms are constructed by imitating algebraic operations.
 2. It is highly extensible. For example it is easy to define multi-populations, even so-called hybrid-populations.
-3. The code is more robust and concise.
+3. The code is more concise.
 
 ## Basic concepts
 
@@ -88,7 +88,7 @@ where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize 
 
 Building upon the concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. It even allows to define containers in higher order, such as a container of multi-populations.
 
-While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered a system. Similarly, a chromosome might be viewed as a container of genes (implemented by the arrays in practice).
+While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered an algebraic system. Similarly, a chromosome might be viewed as a container of genes (implemented by the arrays in practice).
 
 In a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, that can be implemented as the command `s.cross(a, b)`. Although this system concept aligns with algebraic systems, the current version diverges from this notion, and the operators are directly defined as methods of the elements, such as `a.cross(b)`.
 
@@ -114,15 +114,15 @@ Mixin classes specify the basic functionality of the algorithm.
 
 The `FitnessMixin` class is dedicated to the iteration process focused on maximizing fitness, and its subclass `PopulationMixin` represents the collective form.
 
-When designing a novel algorithm, significantly differing from the GA, it is advisable to start by inheriting from the mixin classes and redefining the `transition` method.
+When designing a novel algorithm, significantly differing from the GA, it is advisable to start by inheriting from the mixin classes.
 
 ## Base Classes
 
 There are three base classes in `pyrimidine`: `BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively.
 
-For convenience, `pyrimidine` provides some commonly used subclasses, where the genetic operations are implemented such as, `cross` and `mutate`. Especially, `pyrimidine` offers `BinaryChromosome` for the binary encoding as used in the classical GA.
+For convenience, `pyrimidine` provides some commonly used subclasses, where the genetic operations are implemented such as, `cross` and `mutate`, such as `BinaryChromosome` for the binary encoding as in the classical GA.
 
-Generally, the algorithm design starts as follows, where `MonoIndividual`, a subclass of `BaseIndividual`, just enforces that the individuals can only have one chromosome.
+Generally, the algorithm design starts as follows, where `MonoIndividual`, a subclass of `BaseIndividual`, enforces that the individuals can only have one chromosome.
 
 ```python
 class UserIndividual(MonoIndividual):
@@ -148,7 +148,7 @@ UserPopulation = StandardPopulation[UserIndividual] // 10
 
 Instead of overriding the `fitness` attribute, users are recommended to override the `_fitness` method, where the concrete fitness computation is defined. The operator `// 10` is equivalent to set `default_size = 10`.
 
-Algebraically, there is no difference between `MonoIndividual`, the individual class with a single chromosome, and `Chromosome`. Meanwhile the population also can be treated as a container of chromosomes. So the code can be further simplified as follows. 
+Algebraically, there is no difference between `MonoIndividual`, the individual class with a single chromosome, and `Chromosome`. Meanwhile the population also can be treated as a container of chromosomes as follows. 
 
 ```python
 class UserChromosome(BaseChromosome):
@@ -157,72 +157,6 @@ class UserChromosome(BaseChromosome):
 
 UserPopulation = StandardPopulation[UserChromosome] // 10
 ```
-
-# An example to begin
-
-Here, we demonstrate the basic usage of `pyrimidine` with the classic 0-1 knapsack problem, whose solution can be naturally encoded in binary format:
-
-$$
-\max \sum_i c_ix_i \\
-\text{st}~ \sum_i w_ix_i \leq W \\
-\quad x_i=0,1; i=1,\cdots,n
-$$
-
-where $c_i$ and $w_i$ represents the value and the weight of the $i$-th bag respectively, and $x_i$ is a binary variable indicating whether the $i$-th bag is taken or not.
-
-```python
-from pyrimidine import BinaryChromosome, MonoIndividual, StandardPopulation
-from pyrimidine.benchmarks.optimization import Knapsack
-
-n = 50
-_evaluate = Knapsack.random(n)  # the objective function
-
-class UserIndividual(MonoIndividual):
-    element_class = BinaryChromosome // n
-    def _fitness(self):
-        return _evaluate(self[0])
-
-# equivalent to:
-# UserIndividual = MonoIndividual[BinaryChromosome // n]
-#   .set_fitness(lambda o: _evaluate(o[0]))
-
-UserPopulation = StandardPopulation[UserIndividual] // 20
-```
-
-Using chromosome as the population's elements, we arrange all the components in a single line:
-```python
-UserPopulation = StandardPopulation[BinaryChromosome // n].set_fitness(_evaluate)
-```
-
-Then we execute the evolutionary program as follows.
-```python
-pop = UserPopulation.random()
-pop.evolve(max_iter=100)
-# to avoid unnecessary computations, use the method `ezolve`
-# pop.ezolve(max_iter=100)
-```
-
-Finally, the optimal individual can be obtained with `pop.best_individual`.
-
-# Visualization
-
-Instead of implementing visualization methods, `pyrimidine` yields a `pandas.DataFrame` object [@mckinney] that encapsulates statistical results for each generation by setting `history=True` in the `evolve` method. Users can harness this object to plot the performance curves. Generally, users are required to furnish a "statistic dictionary" whose keys are the names of the statistics, and values are functions mapping the population to numerical values, or strings presenting pre-defined methods or attributes of the population.
-
-```python
-# statistic dictionary, computing the mean, the maximum and 
-# the standard deviation of the fitnesses for each generation
-stat = {'Mean Fitness': 'mean_fitness',
-'Best Fitness': 'max_fitness',
-'Standard Deviation of Fitnesses': lambda pop: np.std(pop.get_all_fitness())
-}
-
-# obtain the statistical results through the evolution.
-data = pop.evolve(stat=stat, max_iter=100, history=True)
-```
-
-`data` is an `pandas.DataFrame` object, with the columns "Mean Fitness", "Best Fitness" and "Standard Deviation of Fitnesses". Now utilize the `plot` method of the object (or the Python library `matplotlib`) to show the iteration history \autoref{history}.
-
-![The fitness evolution curve of the population. \label{history}](plot-history.png)
 
 # Conclusion
 

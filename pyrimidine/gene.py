@@ -8,7 +8,7 @@ import numpy as np
 from . import BaseGene
 
 
-class NaturalGene(np.int_, BaseGene):
+class NaturalGene(np.int64, BaseGene):
     lb, ub = 0, 10
 
     @classmethod
@@ -20,7 +20,7 @@ class DigitGene(NaturalGene):
     pass
 
 
-class IntegerGene(np.int_, BaseGene):
+class IntegerGene(np.int64, BaseGene):
     lb, ub = -10, 10
 
     @classmethod
@@ -28,14 +28,14 @@ class IntegerGene(np.int_, BaseGene):
         return np.random.randint(cls.ub-cls.lb, dtype=cls, *args, **kwargs) + cls.lb
 
 
-class BinaryGene(np.int_, BaseGene):
+class BinaryGene(np.int64, BaseGene):
 
     @classmethod
     def random(cls, *args, **kwargs):
         return np.random.randint(2, dtype=cls, *args, **kwargs)
 
 
-class FloatGene(np.float_, BaseGene):
+class FloatGene(np.float64, BaseGene):
     lb, ub = 0, 1
 
     @classmethod
