@@ -64,7 +64,7 @@ class IterativeMixin:
         raise NotImplementedError('If you apply a local search algorithm, you must define the `local_search` method.')
 
     def ezolve(self, max_iter=None, initialize=True):
-        # Extreamly eazy evolution method for lazybones
+        # Extremely eazy evolution method for lazybones
         max_iter = max_iter or self.max_iter
         if initialize:
             self.init()
@@ -72,7 +72,9 @@ class IterativeMixin:
             self.transition(k)
 
     def evolve(self, initialize:bool=True, max_iter:int=100, period:int=1, verbose:bool=False, history=False, stat=None, attrs=('solution',), control=None):
-        """Get the history of the whole evolution
+        """Let the population evolve automatically.
+
+        To get the history of the whole evolution via setting `history=True`
 
         Keyword Arguments:
             max_iter {number} -- number of iterations (default: {None})
@@ -122,7 +124,7 @@ class IterativeMixin:
 
             if history_flag and (period == 1 or t % period ==0):
                 res = stat(self)
-                history = pd.chain([history,
+                history = pd.concat([history,
                     pd.Series(res.values(), index=res.keys()).to_frame().T],
                     ignore_index=True)
 

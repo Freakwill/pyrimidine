@@ -29,7 +29,7 @@ class TestGA:
         ExamplePopulation, _ = example
         population = ExamplePopulation.random()
         data = population.evolve(max_iter=3, history=True)
-        assert ('Mean Fitness' in data.columns) and ('Best Fitness' in data.columns)
+        assert ('Mean Fitness' in data.columns) and ('Max Fitness' in data.columns)
         assert len(data) == 4
 
     def test_hof(self, example):
