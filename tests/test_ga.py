@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+"""
+Test for Classical Genetic Algo.
+
+HOFPopulation: Population with a hof.
+"""
+
 from pyrimidine import HOFPopulation
 
 class TestGA:
