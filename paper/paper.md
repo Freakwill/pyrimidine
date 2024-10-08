@@ -88,7 +88,7 @@ where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize 
 
 Building upon the concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. It even allows to define containers in higher order, such as a container of multi-populations.
 
-While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered an algebraic system. Similarly, a chromosome might be viewed as a container of genes (implemented by the arrays in practice).
+While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered an algebraic system. Similarly, a chromosome might be viewed as a container of genes.
 
 In a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, that can be implemented as the command `s.cross(a, b)`. Although this system concept aligns with algebraic systems, the current version diverges from this notion, and the operators are directly defined as methods of the elements, such as `a.cross(b)`.
 
@@ -106,7 +106,7 @@ The iterative algorithms can be represented as $T^n(s)$.
 
 ## Metaclasses
 
-A metaclass should be defined to simulate abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operators and functions on them. Currently, the metaclass `MetaContainer` is proposed to create container classes without defining operators explicitly.
+A metaclass should be defined to simulate abstract algebraic systems, which are instantiated as a set containing several elements, as well as operators and functions on them. Currently, the metaclass `MetaContainer` is proposed to create container classes without defining operators explicitly.
 
 ## Mixin classes
 
@@ -148,7 +148,7 @@ UserPopulation = StandardPopulation[UserIndividual] // 10
 
 Instead of overriding the `fitness` attribute, users are recommended to override the `_fitness` method, where the concrete fitness computation is defined. The operator `// 10` is equivalent to set `default_size = 10`.
 
-Algebraically, there is no difference between `MonoIndividual`, the individual class with a single chromosome, and `Chromosome`. Meanwhile the population also can be treated as a container of chromosomes as follows. 
+Algebraically, there is no difference between `MonoIndividual` and `Chromosome`. Meanwhile the population also can be treated as a container of chromosomes as follows. 
 
 ```python
 class UserChromosome(BaseChromosome):
