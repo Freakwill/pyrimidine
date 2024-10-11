@@ -6,6 +6,8 @@
 - define `get_worst_elements` method for `PopulationMixin` class
 - correct some code in examples and `IterativeMixin` class.
 - The argument `n_iter` is changed to `max_iter`
+- Debug for new version of `numpy`
+- move some optimization algo to the folder `misc`
 
 ## v1.5
 

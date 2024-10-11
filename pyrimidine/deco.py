@@ -6,6 +6,7 @@ Decorators
 Two main kinds of decorators:
 1. cache decorator: store the information of previous computing, to seep up the algorithm.
          Should clear it to suppress the side effect. It is used with `@side-effect` decorator.
+         methods with `@side-effect` will clear the cache after executing.
 2. memory decorator: As cache, it record some information, but it will chage the behavior of the algorithms.
 """
 

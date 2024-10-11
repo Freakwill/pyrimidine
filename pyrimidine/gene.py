@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 """
-Gene classes
+Gene classes: as the elements in the chromosome.
+
+The wrapper of data type of `numpy`.
 """
 
 import numpy as np

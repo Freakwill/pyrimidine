@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 """Evolution Programming
 
 Invented by L. Fogel[1966] for designing FSM initially.

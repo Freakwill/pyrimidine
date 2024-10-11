@@ -122,7 +122,7 @@ There are three base classes in `pyrimidine`: `BaseChromosome`, `BaseIndividual`
 
 For convenience, `pyrimidine` provides some commonly used subclasses, where the genetic operations are implemented such as, `cross` and `mutate`, such as `BinaryChromosome` for the binary encoding as in the classical GA.
 
-Generally, the algorithm design starts as follows, where `MonoIndividual`, a subclass of `BaseIndividual`, enforces that the individuals can only have one chromosome.
+Generally, the algorithm design starts as follows, where `MonoIndividual` (a subclass of `BaseIndividual`) simply enforces that an individual can only have one chromosome.
 
 ```python
 class UserIndividual(MonoIndividual):
@@ -148,7 +148,7 @@ UserPopulation = StandardPopulation[UserIndividual] // 10
 
 Instead of overriding the `fitness` attribute, users are recommended to override the `_fitness` method, where the concrete fitness computation is defined. The operator `// 10` is equivalent to set `default_size = 10`.
 
-Algebraically, there is no difference between `MonoIndividual` and `Chromosome`. Meanwhile the population also can be treated as a container of chromosomes as follows. 
+Algebraically, there is no difference between `MonoIndividual` and `Chromosome`. Meanwhile the population also can be treated as a container of chromosomes as follows.
 
 ```python
 class UserChromosome(BaseChromosome):
