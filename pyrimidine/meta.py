@@ -12,13 +12,13 @@ from operator import attrgetter, methodcaller
 
 
 def inherit(attrs, attr, bases):
-    """Inherit attribute `attr` from `bases`
-    
+    """Inherit attribute the attributes `attr` from the base classes `bases`
+
     Args:
         attrs (dict): The attribution dictionary of an object 
         attr (string): An attribution whose value is a dict
         bases (tuple): The base classes
-    
+
     Returns:
         dict: The updated dictionary of attributions
     """
@@ -99,6 +99,12 @@ class ParamType(type):
         return self
 
     def mixin(self, bases):
+        """mixin other bases
+
+        Args:
+            bases (tuple): the base classes
+        """
+
         if isinstance(bases, tuple):
             self.__bases__ = bases + self.__bases__
         else:
@@ -106,21 +112,25 @@ class ParamType(type):
         return self
 
     def __and__(self, other):
+        # The syntax sugar for `class cls(self, other)`
         class cls(self, other):
             pass
         return cls
 
     def __rand__(self, other):
+        # The syntax sugar for `class cls(other, self)`
         class cls(other, self):
             pass
         return cls
 
     def __call__(self, *args, **kwargs):
+        # initalize an object with the same `params` of the class
         obj = super().__call__(*args, **kwargs)
         obj.params = copy.deepcopy(self.params)
         return obj
 
     def __matmul__(self, deco):
+        # The syntax sugar for the decorator
         return deco(self)
 
 
@@ -352,9 +362,27 @@ class MetaContainer(ParamType):
         return self.set(element_class=class_)
 
     def __ifloordiv__(self, n):
+        """The syntax sugar for `self.set(default_size=n)`
+        
+        Keyword Arguments:
+            n {number} -- the number assigned to default_size
+
+        Returns:
+            The container class
+        """
+
         return self.set(default_size=n)
 
     def __floordiv__(self, n):
+        """The syntax sugar for `self.set(default_size=n)` but return a copy
+        
+        Keyword Arguments:
+            n {number} -- the number assigned to default_size
+
+        Returns:
+            A copyed class
+        """
+
         class cls(self):
             default_size = n
         cls._name = self.__name__
@@ -368,6 +396,9 @@ class MetaContainer(ParamType):
         
         Keyword Arguments:
             n_elements {number} -- the number of elements (default: {None})
+
+        Returns:
+            The container class
         """
 
         for k, v in kwargs.items():
@@ -548,9 +579,19 @@ class MetaArray(ParamType):
         return super().__new__(cls, name, bases, attrs)
 
     def __ifloordiv__(self, n):
+        """The syntax sugar for `self.set(default_size=n)`
+        
+        Keyword Arguments:
+            n {number} -- the number assigned to default_size
+
+        Returns:
+            The container class
+        """
+
         return self.set(default_size=n)
 
     def __floordiv__(self, n):
+
         class cls(self):
             default_size = n
         cls._name = self.__name__

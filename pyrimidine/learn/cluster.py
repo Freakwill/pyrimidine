@@ -22,10 +22,16 @@ class GAKmeans(BaseEstimator, KMeans):
 
     @classmethod
     def create_model(cls, *args, **kwargs):
+        """Create KMeans model
+        
+        Returns:
+            KMeans (of scikit-learn)
+        """
         return KMeans(*args, **kwargs)
 
     @classmethod
-    def config(cls, X, Y=None, n_clusters=2, n_individuals=10, *args, **kwargs):
+    def config(cls, X, n_clusters=2, n_individuals=10, *args, **kwargs):
+        # configure a population based on the data X
 
         n_features = X.shape[1]
 

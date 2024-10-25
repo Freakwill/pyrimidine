@@ -32,14 +32,14 @@ class GAMLPRegressor(BaseEstimator, MLPRegressor):
         return model
 
     def __init__(self, *args, **kwargs):
-        # create MLPRegressor
+        # initalize MLPRegressor
         super().__init__(hidden_layer_sizes=(self.hidden_dim,), max_iter=1, *args, **kwargs)
         self.out_activation_ = 'identity'
         self.n_layers_ = 3
 
     @classmethod
     def config(cls, X, Y, n_individuals=10, *args, **kwargs):
-        # configure the population for GA
+        # configure the population for GA based on the data X, Y
 
         input_dim = X.shape[1]
         output_dim = Y.shape[1]

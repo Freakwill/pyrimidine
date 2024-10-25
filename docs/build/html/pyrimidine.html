@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pyrimidine package &#8212; pyrimidine 1.6 documentation</title>
+    <title>pyrimidine package &#8212; pyrimidine 1.7 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4848ba22" />
     <link rel="stylesheet" type="text/css" href="_static/pyramid.css?v=310c80ee" />
-    <script src="_static/documentation_options.js?v=9d552775"></script>
+    <script src="_static/documentation_options.js?v=392da36c"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pyrimidine 1.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyrimidine 1.7 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine package</a></li> 
       </ul>
     </div>  
@@ -159,6 +159,8 @@
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.linear_regression.GALinearRegression.config"><code class="docutils literal notranslate"><span class="pre">GALinearRegression.config()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.linear_regression.GALinearRegression.create_model"><code class="docutils literal notranslate"><span class="pre">GALinearRegression.create_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.linear_regression.GALinearRegression.estimated_params"><code class="docutils literal notranslate"><span class="pre">GALinearRegression.estimated_params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.linear_regression.GALinearRegression.set_fit_request"><code class="docutils literal notranslate"><span class="pre">GALinearRegression.set_fit_request()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.linear_regression.GALinearRegression.set_score_request"><code class="docutils literal notranslate"><span class="pre">GALinearRegression.set_score_request()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -171,6 +173,8 @@
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.neural_network.GAMLPRegressor.hidden_dim"><code class="docutils literal notranslate"><span class="pre">GAMLPRegressor.hidden_dim</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.neural_network.GAMLPRegressor.max_iter"><code class="docutils literal notranslate"><span class="pre">GAMLPRegressor.max_iter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.neural_network.GAMLPRegressor.n_layers"><code class="docutils literal notranslate"><span class="pre">GAMLPRegressor.n_layers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.neural_network.GAMLPRegressor.set_fit_request"><code class="docutils literal notranslate"><span class="pre">GAMLPRegressor.set_fit_request()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.neural_network.GAMLPRegressor.set_score_request"><code class="docutils literal notranslate"><span class="pre">GAMLPRegressor.set_score_request()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -180,6 +184,8 @@
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.cluster.GAKmeans.config"><code class="docutils literal notranslate"><span class="pre">GAKmeans.config()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.cluster.GAKmeans.create_model"><code class="docutils literal notranslate"><span class="pre">GAKmeans.create_model()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.cluster.GAKmeans.estimated_params"><code class="docutils literal notranslate"><span class="pre">GAKmeans.estimated_params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.cluster.GAKmeans.set_fit_request"><code class="docutils literal notranslate"><span class="pre">GAKmeans.set_fit_request()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyrimidine.learn.html#pyrimidine.learn.cluster.GAKmeans.set_score_request"><code class="docutils literal notranslate"><span class="pre">GAKmeans.set_score_request()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -367,7 +373,7 @@ Yang, Xin-She and Amir Hossein Gandomi. “Bat algorithm: a novel approach for g
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.ba.Bats.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'alpha':</span> <span class="pre">0.95,</span> <span class="pre">'gamma':</span> <span class="pre">0.5,</span> <span class="pre">'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'pulse_rate':</span> <span class="pre">0.9,</span> <span class="pre">'scaling':</span> <span class="pre">0.2,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.ba.Bats.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'alpha':</span> <span class="pre">0.95,</span> <span class="pre">'gamma':</span> <span class="pre">0.5,</span> <span class="pre">'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'pulse_rate':</span> <span class="pre">0.9,</span> <span class="pre">'scaling':</span> <span class="pre">0.2,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.ba.Bats.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -383,7 +389,7 @@ Yang, Xin-She and Amir Hossein Gandomi. “Bat algorithm: a novel approach for g
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.ba.Bats.transition">
 <span class="sig-name descname"><span class="pre">transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.ba.Bats.transition" title="Link to this definition">¶</a></dt>
-<dd><p>Transitation of the states of population</p>
+<dd><p>Transition of the states of population. The core method of the class</p>
 <p>It is considered to be the standard flow of the Genetic Algorithm</p>
 </dd></dl>
 
@@ -413,7 +419,11 @@ BaseEnviorenment:</p>
 </div></blockquote>
 <p>Remark:
 1. Subclass the classes and override some main method esp. <cite>_fitness</cite>.
-2. <cite>BaseGene</cite> is not important, as a wrapper of <a href="#id28"><span class="problematic" id="id29">np.int_</span></a> and <a href="#id30"><span class="problematic" id="id31">np.float_</span></a></p>
+2. <cite>BaseGene</cite> is not important, as a wrapper of np.int32 and np.float64
+3. The base classes have been crafted specifically for GA-style algorithms.</p>
+<blockquote>
+<div><p>If your novel algorithm differs from GAs, it is advisable to derive from the mixin classes.</p>
+</div></blockquote>
 <p class="rubric">Example</p>
 <p>select ti, ni from arraies t, n
 sum of ni ~ 10 (for example), while ti are exptected to be not repeated</p>
@@ -483,10 +493,24 @@ print(pop.best_individual)
 <span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chromosomes':</span> <span class="pre">'elements',</span> <span class="pre">'n_chromosomes':</span> <span class="pre">'n_elements'}</span></em><a class="headerlink" href="#pyrimidine.base.BaseChromosome.alias" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.base.BaseChromosome.class_name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_name</span></span><a class="headerlink" href="#pyrimidine.base.BaseChromosome.class_name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseChromosome.cross">
 <span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BaseChromosome.cross" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>crossover operation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyrimidine.base.BaseChromosome" title="pyrimidine.base.BaseChromosome"><em>BaseChromosome</em></a>) – another choromosome</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseChromosome.decode">
@@ -509,7 +533,16 @@ print(pop.best_individual)
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseChromosome.equal_to">
 <span class="sig-name descname"><span class="pre">equal_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BaseChromosome.equal_to" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Judge that self == other</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyrimidine.base.BaseChromosome" title="pyrimidine.base.BaseChromosome"><em>BaseChromosome</em></a>) – another choromosome</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseChromosome.mutate">
@@ -553,7 +586,7 @@ or the moving method in Simulated Annealing.</p>
 <dd><p>Bases: <a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation" title="pyrimidine.base.BaseMultiPopulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMultiPopulation</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseCommunity.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'best_population':</span> <span class="pre">'best_element',</span> <span class="pre">'get_best_population':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_populations':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'n_populations':</span> <span class="pre">'n_elements',</span> <span class="pre">'populations':</span> <span class="pre">'elements',</span> <span class="pre">'worst_population':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.base.BaseCommunity.alias" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'get_best_population':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_populations':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'get_best_populationspopulation':</span> <span class="pre">'best_element',</span> <span class="pre">'n_populations':</span> <span class="pre">'n_elements',</span> <span class="pre">'populations':</span> <span class="pre">'elements',</span> <span class="pre">'worst_population':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.base.BaseCommunity.alias" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -583,7 +616,7 @@ or the moving method in Simulated Annealing.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseCommunity.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'migrate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.base.BaseCommunity.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'max_iter':</span> <span class="pre">100,</span> <span class="pre">'migrate_prob':</span> <span class="pre">0.75}</span></em><a class="headerlink" href="#pyrimidine.base.BaseCommunity.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -709,7 +742,16 @@ or the moving method in Simulated Annealing.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseIndividual.cross">
 <span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BaseIndividual.cross" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Cross operation of two individuals</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyrimidine.base.BaseIndividual" title="pyrimidine.base.BaseIndividual"><em>BaseIndividual</em></a>) – another individual</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BaseIndividual</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseIndividual.cross2">
@@ -721,6 +763,14 @@ or the moving method in Simulated Annealing.</p>
 <span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BaseIndividual.decode" title="Link to this definition">¶</a></dt>
 <dd><p>Decode an individual to a real solution</p>
 <p>For example, transform a 0-1 sequence to a real number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a list of codes</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -795,7 +845,7 @@ or the moving method in Simulated Annealing.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseMultiPopulation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.base.</span></span><span class="sig-name descname"><span class="pre">BaseMultiPopulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BaseMultiPopulation" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PopulationMixin</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiPopulationMixin</span></code></p>
 <p>Base class of BaseMultiPopulation</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseMultiPopulation.default_size">
@@ -821,7 +871,7 @@ or the moving method in Simulated Annealing.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseMultiPopulation.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'best_population':</span> <span class="pre">'best_element',</span> <span class="pre">'get_best_population':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_populations':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'n_populations':</span> <span class="pre">'n_elements',</span> <span class="pre">'populations':</span> <span class="pre">'elements',</span> <span class="pre">'worst_population':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.base.BaseMultiPopulation.alias" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'get_best_population':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_populations':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'get_best_populationspopulation':</span> <span class="pre">'best_element',</span> <span class="pre">'n_populations':</span> <span class="pre">'n_elements',</span> <span class="pre">'populations':</span> <span class="pre">'elements',</span> <span class="pre">'worst_population':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.base.BaseMultiPopulation.alias" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -853,7 +903,19 @@ or the moving method in Simulated Annealing.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseMultiPopulation.get_best_individual">
 <span class="sig-name descname"><span class="pre">get_best_individual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BaseMultiPopulation.get_best_individual" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>To get the individual with the max. fitness</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>copy</strong> (<em>bool</em><em>, </em><em>optional</em>) – if it is true, then return a copy</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An individual representing the solution</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyrimidine.base.BaseIndividual" title="pyrimidine.base.BaseIndividual">BaseIndividual</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseMultiPopulation.individuals">
@@ -887,7 +949,7 @@ or the moving method in Simulated Annealing.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseMultiPopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'migrate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.base.BaseMultiPopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'max_iter':</span> <span class="pre">100,</span> <span class="pre">'migrate_prob':</span> <span class="pre">0.75}</span></em><a class="headerlink" href="#pyrimidine.base.BaseMultiPopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -939,7 +1001,22 @@ or the moving method in Simulated Annealing.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BasePopulation.cross">
 <span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BasePopulation.cross" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Cross two populations as two individuals</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> (<a class="reference internal" href="#pyrimidine.base.BasePopulation" title="pyrimidine.base.BasePopulation"><em>BasePopulation</em></a>) – another population</p></li>
+<li><p><strong>n_sel</strong> (<em>int</em><em>|</em><em>float</em>) – the number of individuals in the result population</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the result population</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyrimidine.base.BasePopulation" title="pyrimidine.base.BasePopulation">BasePopulation</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.base.BasePopulation.default_size">
@@ -949,7 +1026,17 @@ or the moving method in Simulated Annealing.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BasePopulation.dual">
 <span class="sig-name descname"><span class="pre">dual</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BasePopulation.dual" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The dual of the population</p>
+<p>Just call the dual method of each individual</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the dual population</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyrimidine.base.BasePopulation" title="pyrimidine.base.BasePopulation">BasePopulation</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.base.BasePopulation.element_class">
@@ -967,6 +1054,17 @@ or the moving method in Simulated Annealing.</p>
 <span class="sig-name descname"><span class="pre">get_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">individual</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BasePopulation.get_rank" title="Link to this definition">¶</a></dt>
 <dd><p>Get rank of one individual</p>
 <p>Use <cite>rank</cite> if you call it frequently.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>individual</strong> (<a class="reference internal" href="#pyrimidine.base.BaseIndividual" title="pyrimidine.base.BaseIndividual"><em>BaseIndividual</em></a><em>, </em><em>optional</em>) – an individual in the population</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the rank of the individual</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -987,7 +1085,7 @@ or the moving method in Simulated Annealing.</p>
 <p>Just call the method <cite>mate</cite> of each individual (customizing anthor individual)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>(</strong><strong>default</strong> (<em>mate_prob {number} -- the proba.</em><em> of </em><em>mating</em><em> of </em><em>two individuals</em>) – {None})</p>
+<dd class="field-odd"><p><strong>(</strong><strong>default</strong> (<em>mate_prob {float} -- the proba.</em><em> of </em><em>mating</em><em> of </em><em>two individuals</em>) – {None})</p>
 </dd>
 </dl>
 </dd></dl>
@@ -995,7 +1093,23 @@ or the moving method in Simulated Annealing.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BasePopulation.mate_with">
 <span class="sig-name descname"><span class="pre">mate_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mate_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BasePopulation.mate_with" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>To mate with another population.</p>
+<p>Just call the method <cite>mate</cite> of each individual (customizing anthor individual)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>population</strong> (<em>other {BasePopulation} -- another</em>)</p></li>
+<li><p><strong>(</strong><strong>default</strong> (<em>mate_prob {float} -- the proba.</em><em> of </em><em>mating</em><em> of </em><em>two individuals</em>) – {None})</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the offspring</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyrimidine.base.BasePopulation" title="pyrimidine.base.BasePopulation">BasePopulation</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BasePopulation.merge">
@@ -1003,12 +1117,35 @@ or the moving method in Simulated Annealing.</p>
 <dd><p>Merge two populations.</p>
 <p>Applied in the case when merging the offspring to the original population.</p>
 <p><cite>other</cite> should be a population or a list/tuple of individuals</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> (<a class="reference internal" href="#pyrimidine.base.BasePopulation" title="pyrimidine.base.BasePopulation"><em>BasePopulation</em></a>) – another population</p></li>
+<li><p><strong>n_sel</strong> (<em>int</em><em>|</em><em>float</em>) – the number of individuals in the result population</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the result population</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyrimidine.base.BasePopulation" title="pyrimidine.base.BasePopulation">BasePopulation</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BasePopulation.migrate">
 <span class="sig-name descname"><span class="pre">migrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BasePopulation.migrate" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Migrate between two populations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> (<a class="reference internal" href="#pyrimidine.base.BasePopulation" title="pyrimidine.base.BasePopulation"><em>BasePopulation</em></a>) – another population</p></li>
+<li><p><strong>n_sel</strong> (<em>int</em><em>|</em><em>float</em>) – the number of individuals in the result population</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BasePopulation.mutate">
@@ -1022,7 +1159,7 @@ or the moving method in Simulated Annealing.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.base.BasePopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.base.BasePopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.base.BasePopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1052,12 +1189,20 @@ or the moving method in Simulated Annealing.</p>
 <dd><p>The standard method of selecting operation in GA</p>
 <p>Select the best individual among <cite>tourn_size</cite> randomly chosen
 individuals, <cite>n_sel</cite> times.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_sel</strong> (<em>int</em><em>|</em><em>float</em>) – the number of individuals that will be selected</p></li>
+<li><p><strong>tourn_size</strong> (<em>int</em>) – the size of the tournament</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BasePopulation.transition">
 <span class="sig-name descname"><span class="pre">transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BasePopulation.transition" title="Link to this definition">¶</a></dt>
-<dd><p>Transitation of the states of population</p>
+<dd><p>Transition of the states of population. The core method of the class</p>
 <p>It is considered to be the standard flow of the Genetic Algorithm</p>
 </dd></dl>
 
@@ -1098,12 +1243,33 @@ It could be a part of an individual or encodes a solution directly.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.chromosome.ArrayChromosome.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.chromosome.ArrayChromosome.copy" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>copy the object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – the type of new object</p></li>
+<li><p><strong>element_class</strong> (<em>None</em><em>, </em><em>optional</em>) – the new element_class</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a new object copy the data but with new type</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.chromosome.ArrayChromosome.cross">
 <span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.chromosome.ArrayChromosome.cross" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>crossover operation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyrimidine.base.BaseChromosome" title="pyrimidine.base.BaseChromosome"><em>BaseChromosome</em></a>) – another choromosome</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id11">
@@ -1300,13 +1466,33 @@ It could be a part of an individual or encodes a solution directly.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.chromosome.ListChromosome.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.chromosome.ListChromosome.copy" title="Link to this definition">¶</a></dt>
-<dd><p>Return a shallow copy of the list.</p>
+<dd><p>copy the object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – the type of new object</p></li>
+<li><p><strong>element_class</strong> (<em>None</em><em>, </em><em>optional</em>) – the new element_class</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a new object copy the data but with new type</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.chromosome.ListChromosome.cross">
 <span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.chromosome.ListChromosome.cross" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>crossover operation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#pyrimidine.base.BaseChromosome" title="pyrimidine.base.BaseChromosome"><em>BaseChromosome</em></a>) – another choromosome</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id12">
@@ -1430,54 +1616,19 @@ It could be a part of an individual or encodes a solution directly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.chromosome.NumpyArrayChromosome.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'C'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.chromosome.NumpyArrayChromosome.copy" title="Link to this definition">¶</a></dt>
-<dd><p>Return a copy of the array.</p>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.chromosome.NumpyArrayChromosome.copy" title="Link to this definition">¶</a></dt>
+<dd><p>copy the object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>order</strong> (<em>{'C'</em><em>, </em><em>'F'</em><em>, </em><em>'A'</em><em>, </em><em>'K'}</em><em>, </em><em>optional</em>) – Controls the memory layout of the copy. ‘C’ means C-order,
-‘F’ means F-order, ‘A’ means ‘F’ if <cite>a</cite> is Fortran contiguous,
-‘C’ otherwise. ‘K’ means match the layout of <cite>a</cite> as closely
-as possible. (Note that this function and <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.copy()</span></code> are very
-similar but have different default values for their order=
-arguments, and this function always passes sub-classes through.)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – the type of new object</p></li>
+<li><p><strong>element_class</strong> (<em>None</em><em>, </em><em>optional</em>) – the new element_class</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a new object copy the data but with new type</p>
 </dd>
 </dl>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.copy</span></code></dt><dd><p>Similar function with different default behavior</p>
-</dd>
-</dl>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.copyto</span></code></p>
-</div>
-<p class="rubric">Notes</p>
-<p>This function is the preferred method for creating an array copy.  The
-function <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.copy()</span></code> is similar, but it defaults to using order ‘K’,
-and will not pass sub-classes through by default.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]],</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
-<span class="go">array([[0, 0, 0],</span>
-<span class="go">       [0, 0, 0]])</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
-<span class="go">array([[1, 2, 3],</span>
-<span class="go">       [4, 5, 6]])</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s1">&#39;C_CONTIGUOUS&#39;</span><span class="p">]</span>
-<span class="go">True</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -1813,6 +1964,8 @@ and will not pass sub-classes through by default.</p>
 <section id="module-pyrimidine.de">
 <span id="pyrimidine-de-module"></span><h2>pyrimidine.de module<a class="headerlink" href="#module-pyrimidine.de" title="Link to this heading">¶</a></h2>
 <p>Differential Evolution Algorithm</p>
+<p><em>Ref</em>
+Price, Kenneth V., Rainer M. Storn, and Jouni A. Lampinen. The differential evolution algorithm. Differential evolution: a practical approach to global optimization (2005): 37-134.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolution">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.de.</span></span><span class="sig-name descname"><span class="pre">DifferentialEvolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolution" title="Link to this definition">¶</a></dt>
@@ -1890,57 +2043,57 @@ or the moving method in Simulated Annealing.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolutionC">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.de.</span></span><span class="sig-name descname"><span class="pre">DifferentialEvolutionC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolutionC" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolution1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.de.</span></span><span class="sig-name descname"><span class="pre">DifferentialEvolution1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolution1" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyrimidine.de.DifferentialEvolution" title="pyrimidine.de.DifferentialEvolution"><code class="xref py py-class docutils literal notranslate"><span class="pre">DifferentialEvolution</span></code></a></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolutionC.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pyrimidine.de.DifferentialEvolutionC.alias" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolution1.alias">
+<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pyrimidine.de.DifferentialEvolution1.alias" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolutionC.apply">
-<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolutionC.apply" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolution1.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolution1.apply" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolutionC.elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolutionC.elements" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolution1.elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolution1.elements" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolutionC.init">
-<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolutionC.init" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolution1.init">
+<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolution1.init" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolutionC.isa">
-<span class="sig-name descname"><span class="pre">isa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolutionC.isa" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolution1.isa">
+<span class="sig-name descname"><span class="pre">isa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolution1.isa" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolutionC.move">
-<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolutionC.move" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolution1.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolution1.move" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolutionC.n_elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolutionC.n_elements" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolution1.n_elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolution1.n_elements" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolutionC.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'cross_prob':</span> <span class="pre">0.75,</span> <span class="pre">'factor':</span> <span class="pre">0.5,</span> <span class="pre">'max_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.de.DifferentialEvolutionC.params" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolution1.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'cross_prob':</span> <span class="pre">0.75,</span> <span class="pre">'factor':</span> <span class="pre">0.5,</span> <span class="pre">'max_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.de.DifferentialEvolution1.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolutionC.regester">
-<span class="sig-name descname"><span class="pre">regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolutionC.regester" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolution1.regester">
+<span class="sig-name descname"><span class="pre">regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolution1.regester" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolutionC.regester_map">
-<span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolutionC.regester_map" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pyrimidine.de.DifferentialEvolution1.regester_map">
+<span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.de.DifferentialEvolution1.regester_map" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1954,6 +2107,15 @@ or the moving method in Simulated Annealing.</p>
 <section id="pyrimidine-deco-module">
 <h2>pyrimidine.deco module<a class="headerlink" href="#pyrimidine-deco-module" title="Link to this heading">¶</a></h2>
 <p id="module-pyrimidine.deco">Decorators</p>
+<p>Two main kinds of decorators:
+1. cache decorator: store the information of previous computing, to seep up the algorithm.</p>
+<blockquote>
+<div><p>Should clear it to suppress the side effect. It is used with <cite>&#64;side-effect</cite> decorator.
+methods with <cite>&#64;side-effect</cite> will clear the cache after executing.</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>memory decorator: As cache, it record some information, but it will chage the behavior of the algorithms.</p></li>
+</ol>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.deco.Regester">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">Regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.Regester" title="Link to this definition">¶</a></dt>
@@ -2009,7 +2171,7 @@ or the moving method in Simulated Annealing.</p>
 unlike the <cite>_cache</cite> dict which only records the last computing result.
 And it is not affected by the genetic operations.</p>
 <dl class="simple">
-<dt>_memory {dict[str]} – the memory for an object;</dt><dd><p>In general, the key is the property of the object.</p>
+<dt>_memory {dict[str]} – the memory for an object;</dt><dd><p>In general, the keys are the attributes of the object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2032,8 +2194,10 @@ And it is not affected by the genetic operations.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.deco.method_cache">
 <span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">method_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.method_cache" title="Link to this definition">¶</a></dt>
-<dd><p>cache for methods</p>
-<p>Pre-define <cite>_cache</cite> as an attribute of the obj.</p>
+<dd><p>make cache for the method</p>
+<p>If the attribute a is in the cache, then access it from the cache directly,
+else compute it again, and store it in the cache</p>
+<p>Please pre-define <cite>_cache</cite> as an attribute of the obj.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2042,7 +2206,10 @@ And it is not affected by the genetic operations.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>MethodType</p>
+<dd class="field-even"><p>new method</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2079,151 +2246,6 @@ it is not advisable to include the decorator in that method.</p>
 </section>
 <section id="pyrimidine-aco-module">
 <h2>pyrimidine.aco module<a class="headerlink" href="#pyrimidine-aco-module" title="Link to this heading">¶</a></h2>
-<p id="module-pyrimidine.aco">Ant Colony Optimization</p>
-<p><em>Ref</em>
-Blum, Christian. “Ant colony optimization: Introduction and recent trends.” Physics of Life reviews 2.4 (2005): 353-373.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAnt">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.aco.</span></span><span class="sig-name descname"><span class="pre">BaseAnt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAnt" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FitnessMixin</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAnt.get_length">
-<span class="sig-name descname"><span class="pre">get_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distances</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAnt.get_length" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAnt.init">
-<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAnt.init" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAnt.initial_position">
-<span class="sig-name descname"><span class="pre">initial_position</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pyrimidine.aco.BaseAnt.initial_position" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAnt.move">
-<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colony</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAnt.move" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAnt.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'initial_position':</span> <span class="pre">None,</span> <span class="pre">'n_steps':</span> <span class="pre">1,</span> <span class="pre">'path':</span> <span class="pre">None}</span></em><a class="headerlink" href="#pyrimidine.aco.BaseAnt.params" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAnt.release_pheromone">
-<span class="sig-name descname"><span class="pre">release_pheromone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colony</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAnt.release_pheromone" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAnt.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAnt.reset" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.aco.</span></span><span class="sig-name descname"><span class="pre">BaseAntColony</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PopulationMixin</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'ants':</span> <span class="pre">'elements',</span> <span class="pre">'get_worst_individuals':</span> <span class="pre">'get_worst_elements',</span> <span class="pre">'worst_ant':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.alias" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.apply">
-<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.apply" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.element_class">
-<span class="sig-name descname"><span class="pre">element_class</span></span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.element_class" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#pyrimidine.aco.BaseAnt" title="pyrimidine.aco.BaseAnt"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAnt</span></code></a></p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.from_distances">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_distances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_ants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distances</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.from_distances" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.from_positions">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_ants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.from_positions" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.init">
-<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.init" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.isa">
-<span class="sig-name descname"><span class="pre">isa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.isa" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.move">
-<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.move" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.move_proba">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">move_proba</span></span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.move_proba" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.n_elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.n_elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.observe">
-<span class="sig-name descname"><span class="pre">observe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.observe" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'alpha':</span> <span class="pre">1,</span> <span class="pre">'beta':</span> <span class="pre">5,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'n_steps':</span> <span class="pre">1,</span> <span class="pre">'sedimentation':</span> <span class="pre">100,</span> <span class="pre">'volatilization':</span> <span class="pre">0.75}</span></em><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.params" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.regester">
-<span class="sig-name descname"><span class="pre">regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.regester" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.regester_map">
-<span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.regester_map" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.transition">
-<span class="sig-name descname"><span class="pre">transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.transition" title="Link to this definition">¶</a></dt>
-<dd><p>The core method of the object.</p>
-<p>This method transitions one state of the object to another state
-based on certain rules, such as crossing and mutating for individuals in GA,
-or the moving method in Simulated Annealing.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.aco.BaseAntColony.update_pheromone">
-<span class="sig-name descname"><span class="pre">update_pheromone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.aco.BaseAntColony.update_pheromone" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pyrimidine.aco.random">
-<span class="sig-prename descclassname"><span class="pre">pyrimidine.aco.</span></span><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">x</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">interval</span> <span class="pre">[0,</span> <span class="pre">1).</span></span></span><a class="headerlink" href="#pyrimidine.aco.random" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </section>
 <section id="module-pyrimidine.ep">
 <span id="pyrimidine-ep-module"></span><h2>pyrimidine.ep module<a class="headerlink" href="#module-pyrimidine.ep" title="Link to this heading">¶</a></h2>
@@ -2231,21 +2253,27 @@ or the moving method in Simulated Annealing.</p>
 <p>Invented by L. Fogel[1966] for designing FSM initially.</p>
 <p>General form of the algorithm:</p>
 <blockquote>
-<div><p>initialize a population with N individuals
-loop:</p>
-<blockquote>
-<div><p>calculate f(x) for each x in population
+<div><ol class="arabic simple">
+<li><p>initialize a population with N individuals</p></li>
+<li><dl class="simple">
+<dt>loop:</dt><dd><p>calculate f(x) for each x in population
 mutate x for each x
 get new population (mixed with the original population)
 select best N individuals from the 2N mixed population</p>
-</div></blockquote>
+</dd>
+</dl>
+</li>
+</ol>
 <dl class="simple">
-<dt>The mutation:</dt><dd><p>x’ &lt;- x + r*sqrt(v)
+<dt>where the mutation defined as,</dt><dd><p>x’ &lt;- x + r*sqrt(v)
 v’ &lt;- v + c*r*sqrt(v) (make sure that v&gt;epsilon)</p>
 </dd>
 </dl>
 </div></blockquote>
-<p>Caution: No cross operation in EP</p>
+<dl class="simple">
+<dt>Remark:</dt><dd><p>No cross operation in EP</p>
+</dd>
+</dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.ep.BaseEPIndividual">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.ep.</span></span><span class="sig-name descname"><span class="pre">BaseEPIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.ep.BaseEPIndividual" title="Link to this definition">¶</a></dt>
@@ -2267,6 +2295,14 @@ v’ &lt;- v + c*r*sqrt(v) (make sure that v&gt;epsilon)</p>
 <span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.ep.BaseEPIndividual.decode" title="Link to this definition">¶</a></dt>
 <dd><p>Decode an individual to a real solution</p>
 <p>For example, transform a 0-1 sequence to a real number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a list of codes</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -2318,31 +2354,80 @@ v’ &lt;- v + c*r*sqrt(v) (make sure that v&gt;epsilon)</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.ep.EvolutionProgramming">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.ep.</span></span><span class="sig-name descname"><span class="pre">EvolutionProgramming</span></span><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PopulationMixin</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.ep.</span></span><span class="sig-name descname"><span class="pre">EvolutionProgramming</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.base.BasePopulation" title="pyrimidine.base.BasePopulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePopulation</span></code></a></p>
 <p>Evolution Programming</p>
 <dl class="simple">
 <dt>Extends:</dt><dd><p>PopulationMixin</p>
 </dd>
 </dl>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.ep.EvolutionProgramming.alias">
+<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'best_individual':</span> <span class="pre">'best_element',</span> <span class="pre">'best_individuals':</span> <span class="pre">'best_elements',</span> <span class="pre">'get_best_individual':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_individuals':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'individuals':</span> <span class="pre">'elements',</span> <span class="pre">'n_individuals':</span> <span class="pre">'n_elements',</span> <span class="pre">'worst_individual':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming.alias" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.ep.EvolutionProgramming.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming.apply" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.ep.EvolutionProgramming.element_class">
 <span class="sig-name descname"><span class="pre">element_class</span></span><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming.element_class" title="Link to this definition">¶</a></dt>
 <dd><p>alias of <a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual" title="pyrimidine.ep.BaseEPIndividual"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEPIndividual</span></code></a></p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.ep.EvolutionProgramming.elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming.elements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.ep.EvolutionProgramming.isa">
+<span class="sig-name descname"><span class="pre">isa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming.isa" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.ep.EvolutionProgramming.n_elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming.n_elements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.ep.EvolutionProgramming.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming.params" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.ep.EvolutionProgramming.regester">
+<span class="sig-name descname"><span class="pre">regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming.regester" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.ep.EvolutionProgramming.regester_map">
+<span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming.regester_map" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.ep.EvolutionProgramming.select">
 <span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming.select" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The standard method of selecting operation in GA</p>
+<p>Select the best individual among <cite>tourn_size</cite> randomly chosen
+individuals, <cite>n_sel</cite> times.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_sel</strong> (<em>int</em><em>|</em><em>float</em>) – the number of individuals that will be selected</p></li>
+<li><p><strong>tourn_size</strong> (<em>int</em>) – the size of the tournament</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.ep.EvolutionProgramming.transition">
 <span class="sig-name descname"><span class="pre">transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.ep.EvolutionProgramming.transition" title="Link to this definition">¶</a></dt>
-<dd><p>The core method of the object.</p>
-<p>This method transitions one state of the object to another state
-based on certain rules, such as crossing and mutating for individuals in GA,
-or the moving method in Simulated Annealing.</p>
+<dd><p>Transition of the states of population. The core method of the class</p>
+<p>It is considered to be the standard flow of the Genetic Algorithm</p>
 </dd></dl>
 
 </dd></dl>
@@ -2389,7 +2474,7 @@ Rechenberg, I. 1973. Evolutionsstrategie – Optimierung technischer Systeme nac
 <p>Just call the method <cite>mate</cite> of each individual (customizing anthor individual)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>(</strong><strong>default</strong> (<em>mate_prob {number} -- the proba.</em><em> of </em><em>mating</em><em> of </em><em>two individuals</em>) – {None})</p>
+<dd class="field-odd"><p><strong>(</strong><strong>default</strong> (<em>mate_prob {float} -- the proba.</em><em> of </em><em>mating</em><em> of </em><em>two individuals</em>) – {None})</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2401,7 +2486,7 @@ Rechenberg, I. 1973. Evolutionsstrategie – Optimierung technischer Systeme nac
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.es.EvolutionStrategy.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'lambda_':</span> <span class="pre">20,</span> <span class="pre">'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'mu':</span> <span class="pre">10,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.es.EvolutionStrategy.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'lambda_':</span> <span class="pre">20,</span> <span class="pre">'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mu':</span> <span class="pre">10,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.es.EvolutionStrategy.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -2422,7 +2507,7 @@ Rechenberg, I. 1973. Evolutionsstrategie – Optimierung technischer Systeme nac
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.es.EvolutionStrategy.transition">
 <span class="sig-name descname"><span class="pre">transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.es.EvolutionStrategy.transition" title="Link to this definition">¶</a></dt>
-<dd><p>Transitation of the states of population</p>
+<dd><p>Transition of the states of population. The core method of the class</p>
 <p>It is considered to be the standard flow of the Genetic Algorithm</p>
 </dd></dl>
 
@@ -2452,7 +2537,8 @@ Rechenberg, I. 1973. Evolutionsstrategie – Optimierung technischer Systeme nac
 </section>
 <section id="module-pyrimidine.gene">
 <span id="pyrimidine-gene-module"></span><h2>pyrimidine.gene module<a class="headerlink" href="#module-pyrimidine.gene" title="Link to this heading">¶</a></h2>
-<p>Gene classes</p>
+<p>Gene classes: as the elements in the chromosome.</p>
+<p>The wrapper of data type of <cite>numpy</cite>.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.gene.BinaryGene">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gene.</span></span><span class="sig-name descname"><span class="pre">BinaryGene</span></span><a class="headerlink" href="#pyrimidine.gene.BinaryGene" title="Link to this definition">¶</a></dt>
@@ -2598,152 +2684,8 @@ Rechenberg, I. 1973. Evolutionsstrategie – Optimierung technischer Systeme nac
 </dd></dl>
 
 </section>
-<section id="module-pyrimidine.gsa">
-<span id="pyrimidine-gsa-module"></span><h2>pyrimidine.gsa module<a class="headerlink" href="#module-pyrimidine.gsa" title="Link to this heading">¶</a></h2>
-<p>The Gravity Searching Algorithm (GSA) is a metaheuristic optimization method that simulates the law of gravity in physics.
-It was introduced as a nature-inspired algorithm for solving optimization problems, particularly in continuous domains.</p>
-<p><em>References</em>
-1. Rashedi, E., Nezamabadi-Pour, H., &amp; Saryazdi, S. (2009). “GSA: A Gravitational Search Algorithm”. Information Sciences, 179(13), 2232-2248.
-2. Rashedi, E., Nezamabadi-Pour, H., &amp; Saryazdi, S. (2011). “A New Method for Solving Optimization Problems Using Gravitational Search Algorithm”. International Journal of Computer Applications, 22(8), 1-6.
-3. Niazi, M., Mirjalili, S., Mirjalili, S. M., &amp; Yang, X. S. (2016). “Enhanced Gravity Search Algorithm”. Swarm and Evolutionary Computation, 6(1), 10-21.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrimidine.gsa.GravitySearch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gsa.</span></span><span class="sig-name descname"><span class="pre">GravitySearch</span></span><a class="headerlink" href="#pyrimidine.gsa.GravitySearch" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PopulationMixin</span></code></p>
-<p>Standard GSA</p>
-<dl class="simple">
-<dt>Extends:</dt><dd><p>PopulationMixin</p>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.gsa.GravitySearch.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'n_particles':</span> <span class="pre">'n_elements',</span> <span class="pre">'particles':</span> <span class="pre">'elements'}</span></em><a class="headerlink" href="#pyrimidine.gsa.GravitySearch.alias" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.gsa.GravitySearch.compute_accelerate">
-<span class="sig-name descname"><span class="pre">compute_accelerate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gsa.GravitySearch.compute_accelerate" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.gsa.GravitySearch.compute_mass">
-<span class="sig-name descname"><span class="pre">compute_mass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gsa.GravitySearch.compute_mass" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.gsa.GravitySearch.default_size">
-<span class="sig-name descname"><span class="pre">default_size</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20</span></em><a class="headerlink" href="#pyrimidine.gsa.GravitySearch.default_size" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.gsa.GravitySearch.element_class">
-<span class="sig-name descname"><span class="pre">element_class</span></span><a class="headerlink" href="#pyrimidine.gsa.GravitySearch.element_class" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#pyrimidine.gsa.Particle" title="pyrimidine.gsa.Particle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Particle</span></code></a></p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.gsa.GravitySearch.move">
-<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gsa.GravitySearch.move" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.gsa.GravitySearch.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'attenuation_coefficient':</span> <span class="pre">10,</span> <span class="pre">'gravity_coefficient':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.gsa.GravitySearch.params" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.gsa.GravitySearch.transition">
-<span class="sig-name descname"><span class="pre">transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gsa.GravitySearch.transition" title="Link to this definition">¶</a></dt>
-<dd><p>Transitation of the states of particles</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gsa.</span></span><span class="sig-name descname"><span class="pre">Particle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gsa.Particle" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrimidine.pso.BaseParticle" title="pyrimidine.pso.BaseParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseParticle</span></code></a></p>
-<p>A particle in GSA</p>
-<dl class="simple">
-<dt>Extends:</dt><dd><p>PolyIndividual</p>
-</dd>
-<dt>Variables:</dt><dd><p>default_size {number} – one individual represented by 2 chromosomes: position and velocity
-phantom {Particle} – the current state of the particle moving in the solution space.</p>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chromosomes':</span> <span class="pre">'elements',</span> <span class="pre">'n_chromosomes':</span> <span class="pre">'n_elements'}</span></em><a class="headerlink" href="#pyrimidine.gsa.Particle.alias" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.apply">
-<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gsa.Particle.apply" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.default_size">
-<span class="sig-name descname"><span class="pre">default_size</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#pyrimidine.gsa.Particle.default_size" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.element_class">
-<span class="sig-name descname"><span class="pre">element_class</span></span><a class="headerlink" href="#pyrimidine.gsa.Particle.element_class" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#pyrimidine.chromosome.FloatChromosome" title="pyrimidine.chromosome.FloatChromosome"><code class="xref py py-class docutils literal notranslate"><span class="pre">FloatChromosome</span></code></a></p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.gsa.Particle.elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.isa">
-<span class="sig-name descname"><span class="pre">isa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gsa.Particle.isa" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.move">
-<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gsa.Particle.move" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.n_elements">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.gsa.Particle.n_elements" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'accelerate':</span> <span class="pre">0,</span> <span class="pre">'max_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.gsa.Particle.params" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.position">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><a class="headerlink" href="#pyrimidine.gsa.Particle.position" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.regester">
-<span class="sig-name descname"><span class="pre">regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gsa.Particle.regester" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.regester_map">
-<span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gsa.Particle.regester_map" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pyrimidine.gsa.Particle.velocity">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">velocity</span></span><a class="headerlink" href="#pyrimidine.gsa.Particle.velocity" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pyrimidine.gsa.random">
-<span class="sig-prename descclassname"><span class="pre">pyrimidine.gsa.</span></span><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">x</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">interval</span> <span class="pre">[0,</span> <span class="pre">1).</span></span></span><a class="headerlink" href="#pyrimidine.gsa.random" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<section id="pyrimidine-gsa-module">
+<h2>pyrimidine.gsa module<a class="headerlink" href="#pyrimidine-gsa-module" title="Link to this heading">¶</a></h2>
 </section>
 <section id="module-pyrimidine.individual">
 <span id="pyrimidine-individual-module"></span><h2>pyrimidine.individual module<a class="headerlink" href="#module-pyrimidine.individual" title="Link to this heading">¶</a></h2>
@@ -2916,6 +2858,9 @@ Base 0 means to interpret the base from the string as an integer literal.
 <dt class="field-even">Keyword Arguments<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>(</strong><strong>default</strong> (<em>n_elements {number} -- the number</em><em> of </em><em>elements</em>) – {None})</p>
 </dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The container class</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -2958,6 +2903,14 @@ It is equavalent to a chromosome.</p>
 <span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.MonoIndividual.decode" title="Link to this definition">¶</a></dt>
 <dd><p>Decode an individual to a real solution</p>
 <p>For example, transform a 0-1 sequence to a real number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a list of codes</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -2990,6 +2943,9 @@ It is equavalent to a chromosome.</p>
 </dd>
 <dt class="field-even">Keyword Arguments<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>(</strong><strong>default</strong> (<em>n_elements {number} -- the number</em><em> of </em><em>elements</em>) – {None})</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The container class</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3099,7 +3055,19 @@ It is equavalent to a chromosome.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.individual.PhantomIndividual.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.PhantomIndividual.copy" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>copy the object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – the type of new object</p></li>
+<li><p><strong>element_class</strong> (<em>None</em><em>, </em><em>optional</em>) – the new element_class</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a new object copy the data but with new type</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pyrimidine.individual.PhantomIndividual.elements">
@@ -3172,7 +3140,10 @@ encoded as a sequence such as 01001101</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.individual.makeBinaryIndividual">
 <span class="sig-prename descclassname"><span class="pre">pyrimidine.individual.</span></span><span class="sig-name descname"><span class="pre">makeBinaryIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.individual.makeBinaryIndividual" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>To make a binary individual</p>
+<p class="rubric">Examples</p>
+<p>makeBinaryIndividual(size=8) # an individual containting one binary choromosome with 8 genes</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.individual.makeIndividual">
@@ -3264,6 +3235,9 @@ you
 <dt class="field-even">Keyword Arguments<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>(</strong><strong>default</strong> (<em>n_elements {number} -- the number</em><em> of </em><em>elements</em>) – {None})</p>
 </dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The container class</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -3303,7 +3277,13 @@ It make users set and manage parameters of classes or instances more convenientl
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.meta.ParamType.mixin">
 <span class="sig-name descname"><span class="pre">mixin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bases</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.ParamType.mixin" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>mixin other bases</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bases</strong> (<em>tuple</em>) – the base classes</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.meta.ParamType.set">
@@ -3317,10 +3297,18 @@ It make users set and manage parameters of classes or instances more convenientl
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.meta.System">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.meta.</span></span><span class="sig-name descname"><span class="pre">System</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.System" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.meta.MetaContainer" title="pyrimidine.meta.MetaContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetaContainer</span></code></a></p>
+<p>Metaclass of systems, considered in future!</p>
+<p>A system is a type of container, that defines operators on them.</p>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.meta.inherit">
 <span class="sig-prename descclassname"><span class="pre">pyrimidine.meta.</span></span><span class="sig-name descname"><span class="pre">inherit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.inherit" title="Link to this definition">¶</a></dt>
-<dd><p>Inherit attribute <cite>attr</cite> from <cite>bases</cite></p>
+<dd><p>Inherit attribute the attributes <cite>attr</cite> from the base classes <cite>bases</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -3348,7 +3336,7 @@ It make users set and manage parameters of classes or instances more convenientl
 <p>Multi-population composed by male and female population</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.multipopulation.DualPopulation.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'best_population':</span> <span class="pre">'best_element',</span> <span class="pre">'get_best_population':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_populations':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'n_populations':</span> <span class="pre">'n_elements',</span> <span class="pre">'populations':</span> <span class="pre">'elements',</span> <span class="pre">'worst_population':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.multipopulation.DualPopulation.alias" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'get_best_population':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_populations':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'get_best_populationspopulation':</span> <span class="pre">'best_element',</span> <span class="pre">'n_populations':</span> <span class="pre">'n_elements',</span> <span class="pre">'populations':</span> <span class="pre">'elements',</span> <span class="pre">'worst_population':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.multipopulation.DualPopulation.alias" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3433,7 +3421,7 @@ It make users set and manage parameters of classes or instances more convenientl
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.multipopulation.DualPopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'migrate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'n_elders':</span> <span class="pre">0.5,</span> <span class="pre">'max_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.multipopulation.DualPopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'migrate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'n_elders':</span> <span class="pre">0.5}</span></em><a class="headerlink" href="#pyrimidine.multipopulation.DualPopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3468,7 +3456,7 @@ or the moving method in Simulated Annealing.</p>
 <dd><p>Bases: <a class="reference internal" href="#pyrimidine.multipopulation.MultiPopulation" title="pyrimidine.multipopulation.MultiPopulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiPopulation</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.multipopulation.HybridPopulation.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'best_population':</span> <span class="pre">'best_element',</span> <span class="pre">'get_best_population':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_populations':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'n_populations':</span> <span class="pre">'n_elements',</span> <span class="pre">'populations':</span> <span class="pre">'elements',</span> <span class="pre">'worst_population':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.multipopulation.HybridPopulation.alias" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'get_best_population':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_populations':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'get_best_populationspopulation':</span> <span class="pre">'best_element',</span> <span class="pre">'n_populations':</span> <span class="pre">'n_elements',</span> <span class="pre">'populations':</span> <span class="pre">'elements',</span> <span class="pre">'worst_population':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.multipopulation.HybridPopulation.alias" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3503,7 +3491,7 @@ or the moving method in Simulated Annealing.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.multipopulation.HybridPopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'migrate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.multipopulation.HybridPopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'max_iter':</span> <span class="pre">100,</span> <span class="pre">'migrate_prob':</span> <span class="pre">0.75}</span></em><a class="headerlink" href="#pyrimidine.multipopulation.HybridPopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3524,7 +3512,7 @@ or the moving method in Simulated Annealing.</p>
 <dd><p>Bases: <a class="reference internal" href="#pyrimidine.base.BaseMultiPopulation" title="pyrimidine.base.BaseMultiPopulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMultiPopulation</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.multipopulation.MultiPopulation.alias">
-<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'best_population':</span> <span class="pre">'best_element',</span> <span class="pre">'get_best_population':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_populations':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'n_populations':</span> <span class="pre">'n_elements',</span> <span class="pre">'populations':</span> <span class="pre">'elements',</span> <span class="pre">'worst_population':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.multipopulation.MultiPopulation.alias" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'get_best_population':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_populations':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'get_best_populationspopulation':</span> <span class="pre">'best_element',</span> <span class="pre">'n_populations':</span> <span class="pre">'n_elements',</span> <span class="pre">'populations':</span> <span class="pre">'elements',</span> <span class="pre">'worst_population':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.multipopulation.MultiPopulation.alias" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3559,7 +3547,7 @@ or the moving method in Simulated Annealing.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.multipopulation.MultiPopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'migrate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.multipopulation.MultiPopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'max_iter':</span> <span class="pre">100,</span> <span class="pre">'migrate_prob':</span> <span class="pre">0.75}</span></em><a class="headerlink" href="#pyrimidine.multipopulation.MultiPopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3717,7 +3705,7 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.population.AgePopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.AgePopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.AgePopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3733,7 +3721,7 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.population.AgePopulation.transition">
 <span class="sig-name descname"><span class="pre">transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.population.AgePopulation.transition" title="Link to this definition">¶</a></dt>
-<dd><p>Transitation of the states of population</p>
+<dd><p>Transition of the states of population. The core method of the class</p>
 <p>It is considered to be the standard flow of the Genetic Algorithm</p>
 </dd></dl>
 
@@ -3761,7 +3749,17 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.population.DualPopulation.dual">
 <span class="sig-name descname"><span class="pre">dual</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.population.DualPopulation.dual" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The dual of the population</p>
+<p>Just call the dual method of each individual</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the dual population</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyrimidine.base.BasePopulation" title="pyrimidine.base.BasePopulation">BasePopulation</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pyrimidine.population.DualPopulation.elements">
@@ -3780,7 +3778,7 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.population.DualPopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'dual_prob':</span> <span class="pre">0.2,</span> <span class="pre">'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'n_elders':</span> <span class="pre">0.3,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.DualPopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'dual_prob':</span> <span class="pre">0.2,</span> <span class="pre">'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'n_elders':</span> <span class="pre">0.3,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.DualPopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3837,7 +3835,7 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.population.EliminationPopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.EliminationPopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.EliminationPopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3853,7 +3851,7 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.population.EliminationPopulation.transition">
 <span class="sig-name descname"><span class="pre">transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.population.EliminationPopulation.transition" title="Link to this definition">¶</a></dt>
-<dd><p>Transitation of the states of population</p>
+<dd><p>Transition of the states of population. The core method of the class</p>
 <p>It is considered to be the standard flow of the Genetic Algorithm</p>
 </dd></dl>
 
@@ -3911,7 +3909,7 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.population.GamogenesisPopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'hof_size':</span> <span class="pre">2,</span> <span class="pre">'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.GamogenesisPopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'hof_size':</span> <span class="pre">2,</span> <span class="pre">'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.GamogenesisPopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3988,7 +3986,7 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.population.HOFPopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'hof_size':</span> <span class="pre">2,</span> <span class="pre">'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.HOFPopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'hof_size':</span> <span class="pre">2,</span> <span class="pre">'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.HOFPopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -4049,7 +4047,7 @@ meanwhile, remove the worst ones in the hall of fame</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.population.LocalSearchPopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'n_elders':</span> <span class="pre">0.5,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'n_local_iter':</span> <span class="pre">2,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.LocalSearchPopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'n_elders':</span> <span class="pre">0.5,</span> <span class="pre">'n_local_iter':</span> <span class="pre">2,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.LocalSearchPopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -4098,7 +4096,8 @@ meanwhile, remove the worst ones in the hall of fame</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.population.ModifiedPopulation.mutate">
 <span class="sig-name descname"><span class="pre">mutate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.population.ModifiedPopulation.mutate" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Mutate the whole population.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pyrimidine.population.ModifiedPopulation.n_elements">
@@ -4107,7 +4106,7 @@ meanwhile, remove the worst ones in the hall of fame</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.population.ModifiedPopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'mutate_prob_lb':</span> <span class="pre">0.1,</span> <span class="pre">'mutate_prob_ub':</span> <span class="pre">0.5,</span> <span class="pre">'n_elders':</span> <span class="pre">0.5,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.ModifiedPopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'mutate_prob_lb':</span> <span class="pre">0.1,</span> <span class="pre">'mutate_prob_ub':</span> <span class="pre">0.5,</span> <span class="pre">'n_elders':</span> <span class="pre">0.5,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.ModifiedPopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -4166,7 +4165,7 @@ meanwhile, remove the worst ones in the hall of fame</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.population.StandardPopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'n_elders':</span> <span class="pre">0.5,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.StandardPopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'n_elders':</span> <span class="pre">0.5,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.population.StandardPopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -4216,7 +4215,9 @@ meanwhile, remove the worst ones in the hall of fame</p>
 <span id="pyrimidine-pso-module"></span><h2>pyrimidine.pso module<a class="headerlink" href="#module-pyrimidine.pso" title="Link to this heading">¶</a></h2>
 <p>Particle Swarm Optimization</p>
 <p>Developed by J. Kennedy and R. Eberhart[Kennedy and Eberhart 2001]</p>
-<p>Each individual is represented by the position and the velocity.</p>
+<p>Each individual consists of the position and the velocity. It also has the memory of the best solution</p>
+<p><em>Ref.</em>
+J. Kennedy, R. Eberhart Particle swarm optimization Proc. IEEE Int. Conf. Neural Netw., 4 (1995), pp. 1942-1948</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.pso.BaseParticle">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.pso.</span></span><span class="sig-name descname"><span class="pre">BaseParticle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.pso.BaseParticle" title="Link to this definition">¶</a></dt>
@@ -4261,13 +4262,33 @@ memory {Particle} – the best state of the particle moving in the solution spac
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.pso.BaseParticle.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.pso.BaseParticle.copy" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>copy the object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – the type of new object</p></li>
+<li><p><strong>element_class</strong> (<em>None</em><em>, </em><em>optional</em>) – the new element_class</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a new object copy the data but with new type</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.pso.BaseParticle.decode">
 <span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.pso.BaseParticle.decode" title="Link to this definition">¶</a></dt>
 <dd><p>Decode an individual to a real solution</p>
 <p>For example, transform a 0-1 sequence to a real number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a list of codes</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -4397,7 +4418,7 @@ where the best solution is stored</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.pso.DiscreteParticleSwarm.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'acceleration_coefficient':</span> <span class="pre">3,</span> <span class="pre">'hof_size':</span> <span class="pre">0.2,</span> <span class="pre">'inertia':</span> <span class="pre">0.75,</span> <span class="pre">'learning_factor':</span> <span class="pre">2,</span> <span class="pre">'max_velocity':</span> <span class="pre">None,</span> <span class="pre">'max_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.pso.DiscreteParticleSwarm.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'acceleration_coefficient':</span> <span class="pre">3,</span> <span class="pre">'hof_size':</span> <span class="pre">0.2,</span> <span class="pre">'inertia':</span> <span class="pre">0.75,</span> <span class="pre">'learning_factor':</span> <span class="pre">2,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'max_velocity':</span> <span class="pre">None}</span></em><a class="headerlink" href="#pyrimidine.pso.DiscreteParticleSwarm.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -4565,7 +4586,7 @@ where the best solution is stored</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.pso.ParticleSwarm.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'acceleration_coefficient':</span> <span class="pre">3,</span> <span class="pre">'hof_size':</span> <span class="pre">0.2,</span> <span class="pre">'inertia':</span> <span class="pre">0.75,</span> <span class="pre">'learning_factor':</span> <span class="pre">2,</span> <span class="pre">'max_velocity':</span> <span class="pre">None,</span> <span class="pre">'max_iter':</span> <span class="pre">100}</span></em><a class="headerlink" href="#pyrimidine.pso.ParticleSwarm.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'acceleration_coefficient':</span> <span class="pre">3,</span> <span class="pre">'hof_size':</span> <span class="pre">0.2,</span> <span class="pre">'inertia':</span> <span class="pre">0.75,</span> <span class="pre">'learning_factor':</span> <span class="pre">2,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'max_velocity':</span> <span class="pre">None}</span></em><a class="headerlink" href="#pyrimidine.pso.ParticleSwarm.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -4758,7 +4779,7 @@ where the best solution is stored</p>
 <p>Just call the method <cite>mate</cite> of each individual (customizing anthor individual)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>(</strong><strong>default</strong> (<em>mate_prob {number} -- the proba.</em><em> of </em><em>mating</em><em> of </em><em>two individuals</em>) – {None})</p>
+<dd class="field-odd"><p><strong>(</strong><strong>default</strong> (<em>mate_prob {float} -- the proba.</em><em> of </em><em>mating</em><em> of </em><em>two individuals</em>) – {None})</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4770,7 +4791,7 @@ where the best solution is stored</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.saga.SSAPopulation.params">
-<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'n_elders':</span> <span class="pre">0.5,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.saga.SSAPopulation.params" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'n_elders':</span> <span class="pre">0.5,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.saga.SSAPopulation.params" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -4789,6 +4810,14 @@ where the best solution is stored</p>
 <dd><p>The standard method of selecting operation in GA</p>
 <p>Select the best individual among <cite>tourn_size</cite> randomly chosen
 individuals, <cite>n_sel</cite> times.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_sel</strong> (<em>int</em><em>|</em><em>float</em>) – the number of individuals that will be selected</p></li>
+<li><p><strong>tourn_size</strong> (<em>int</em>) – the size of the tournament</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -4909,14 +4938,10 @@ representing the prob of mutation and mating.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.utils.choice">
 <span class="sig-prename descclassname"><span class="pre">pyrimidine.utils.</span></span><span class="sig-name descname"><span class="pre">choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.utils.choice" title="Link to this definition">¶</a></dt>
-<dd><p>Choose xi from xs with certain probability</p>
+<dd><p>Choose xi from xs with a certain probability</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>xs</strong> (<em>List</em>) – a list of objects</p></li>
-<li><p><strong>ps</strong> (<em>List</em>) – a list of numbers</p></li>
-<li><p><strong>n</strong> (<em>int</em><em>, </em><em>optional</em>) – number of samples</p></li>
-</ul>
+<dd class="field-odd"><p><strong>xs</strong> (<em>List</em>) – a list of objects</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the sampling result</p>
@@ -4930,14 +4955,10 @@ representing the prob of mutation and mating.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.utils.choice_uniform">
 <span class="sig-prename descclassname"><span class="pre">pyrimidine.utils.</span></span><span class="sig-name descname"><span class="pre">choice_uniform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.utils.choice_uniform" title="Link to this definition">¶</a></dt>
-<dd><p>Choose xi from xs with certain probability</p>
+<dd><p>Choose xi from xs with the unifrom probability</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>xs</strong> (<em>List</em>) – a list of objects</p></li>
-<li><p><strong>ps</strong> (<em>List</em>) – a list of numbers</p></li>
-<li><p><strong>n</strong> (<em>int</em><em>, </em><em>optional</em>) – number of samples</p></li>
-</ul>
+<dd class="field-odd"><p><strong>xs</strong> (<em>List</em>) – a list of objects</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the sampling result</p>
@@ -5154,6 +5175,7 @@ Applied in GA operations.</p>
 <li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.default_size"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.default_size</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.element_class"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.element_class</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.alias"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.class_name"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.class_name</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.cross"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.cross()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.decode"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.decode()</span></code></a></li>
 <li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.default_size</span></code></a></li>
@@ -5438,17 +5460,17 @@ Applied in GA operations.</p>
 <li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolution.transition"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolution.transition()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolutionC"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolutionC</span></code></a><ul>
-<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolutionC.alias"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolutionC.alias</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolutionC.apply"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolutionC.apply()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolutionC.elements"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolutionC.elements</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolutionC.init"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolutionC.init()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolutionC.isa"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolutionC.isa()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolutionC.move"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolutionC.move()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolutionC.n_elements"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolutionC.n_elements</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolutionC.params"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolutionC.params</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolutionC.regester"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolutionC.regester()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolutionC.regester_map"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolutionC.regester_map()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolution1"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolution1</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolution1.alias"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolution1.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolution1.apply"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolution1.apply()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolution1.elements"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolution1.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolution1.init"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolution1.init()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolution1.isa"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolution1.isa()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolution1.move"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolution1.move()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolution1.n_elements"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolution1.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolution1.params"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolution1.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolution1.regester"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolution1.regester()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.de.DifferentialEvolution1.regester_map"><code class="docutils literal notranslate"><span class="pre">DifferentialEvolution1.regester_map()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#pyrimidine.de.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
@@ -5472,40 +5494,7 @@ Applied in GA operations.</p>
 <li><a class="reference internal" href="#pyrimidine.deco.side_effect"><code class="docutils literal notranslate"><span class="pre">side_effect()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#pyrimidine-aco-module">pyrimidine.aco module</a><ul>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAnt"><code class="docutils literal notranslate"><span class="pre">BaseAnt</span></code></a><ul>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAnt.get_length"><code class="docutils literal notranslate"><span class="pre">BaseAnt.get_length()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAnt.init"><code class="docutils literal notranslate"><span class="pre">BaseAnt.init()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAnt.initial_position"><code class="docutils literal notranslate"><span class="pre">BaseAnt.initial_position</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAnt.move"><code class="docutils literal notranslate"><span class="pre">BaseAnt.move()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAnt.params"><code class="docutils literal notranslate"><span class="pre">BaseAnt.params</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAnt.release_pheromone"><code class="docutils literal notranslate"><span class="pre">BaseAnt.release_pheromone()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAnt.reset"><code class="docutils literal notranslate"><span class="pre">BaseAnt.reset()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony"><code class="docutils literal notranslate"><span class="pre">BaseAntColony</span></code></a><ul>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.alias"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.alias</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.apply"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.apply()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.element_class"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.element_class</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.elements"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.elements</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.from_distances"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.from_distances()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.from_positions"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.from_positions()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.init"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.init()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.isa"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.isa()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.move"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.move()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.move_proba"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.move_proba</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.n_elements"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.n_elements</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.observe"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.observe()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.params"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.params</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.regester"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.regester()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.regester_map"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.regester_map()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.transition"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.transition()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.aco.BaseAntColony.update_pheromone"><code class="docutils literal notranslate"><span class="pre">BaseAntColony.update_pheromone()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#pyrimidine.aco.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#pyrimidine-aco-module">pyrimidine.aco module</a></li>
 <li><a class="reference internal" href="#module-pyrimidine.ep">pyrimidine.ep module</a><ul>
 <li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual</span></code></a><ul>
 <li><a class="reference internal" href="#pyrimidine.ep.BaseEPIndividual.alias"><code class="docutils literal notranslate"><span class="pre">BaseEPIndividual.alias</span></code></a></li>
@@ -5523,7 +5512,15 @@ Applied in GA operations.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#pyrimidine.ep.EvolutionProgramming"><code class="docutils literal notranslate"><span class="pre">EvolutionProgramming</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.ep.EvolutionProgramming.alias"><code class="docutils literal notranslate"><span class="pre">EvolutionProgramming.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.EvolutionProgramming.apply"><code class="docutils literal notranslate"><span class="pre">EvolutionProgramming.apply()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.ep.EvolutionProgramming.element_class"><code class="docutils literal notranslate"><span class="pre">EvolutionProgramming.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.EvolutionProgramming.elements"><code class="docutils literal notranslate"><span class="pre">EvolutionProgramming.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.EvolutionProgramming.isa"><code class="docutils literal notranslate"><span class="pre">EvolutionProgramming.isa()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.EvolutionProgramming.n_elements"><code class="docutils literal notranslate"><span class="pre">EvolutionProgramming.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.EvolutionProgramming.params"><code class="docutils literal notranslate"><span class="pre">EvolutionProgramming.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.EvolutionProgramming.regester"><code class="docutils literal notranslate"><span class="pre">EvolutionProgramming.regester()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.ep.EvolutionProgramming.regester_map"><code class="docutils literal notranslate"><span class="pre">EvolutionProgramming.regester_map()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.ep.EvolutionProgramming.select"><code class="docutils literal notranslate"><span class="pre">EvolutionProgramming.select()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.ep.EvolutionProgramming.transition"><code class="docutils literal notranslate"><span class="pre">EvolutionProgramming.transition()</span></code></a></li>
 </ul>
@@ -5600,37 +5597,7 @@ Applied in GA operations.</p>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyrimidine.gsa">pyrimidine.gsa module</a><ul>
-<li><a class="reference internal" href="#pyrimidine.gsa.GravitySearch"><code class="docutils literal notranslate"><span class="pre">GravitySearch</span></code></a><ul>
-<li><a class="reference internal" href="#pyrimidine.gsa.GravitySearch.alias"><code class="docutils literal notranslate"><span class="pre">GravitySearch.alias</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.GravitySearch.compute_accelerate"><code class="docutils literal notranslate"><span class="pre">GravitySearch.compute_accelerate()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.GravitySearch.compute_mass"><code class="docutils literal notranslate"><span class="pre">GravitySearch.compute_mass()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.GravitySearch.default_size"><code class="docutils literal notranslate"><span class="pre">GravitySearch.default_size</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.GravitySearch.element_class"><code class="docutils literal notranslate"><span class="pre">GravitySearch.element_class</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.GravitySearch.move"><code class="docutils literal notranslate"><span class="pre">GravitySearch.move()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.GravitySearch.params"><code class="docutils literal notranslate"><span class="pre">GravitySearch.params</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.GravitySearch.transition"><code class="docutils literal notranslate"><span class="pre">GravitySearch.transition()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle"><code class="docutils literal notranslate"><span class="pre">Particle</span></code></a><ul>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.alias"><code class="docutils literal notranslate"><span class="pre">Particle.alias</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.apply"><code class="docutils literal notranslate"><span class="pre">Particle.apply()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.default_size"><code class="docutils literal notranslate"><span class="pre">Particle.default_size</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.element_class"><code class="docutils literal notranslate"><span class="pre">Particle.element_class</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.elements"><code class="docutils literal notranslate"><span class="pre">Particle.elements</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.isa"><code class="docutils literal notranslate"><span class="pre">Particle.isa()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.move"><code class="docutils literal notranslate"><span class="pre">Particle.move()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.n_elements"><code class="docutils literal notranslate"><span class="pre">Particle.n_elements</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.params"><code class="docutils literal notranslate"><span class="pre">Particle.params</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.position"><code class="docutils literal notranslate"><span class="pre">Particle.position</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.regester"><code class="docutils literal notranslate"><span class="pre">Particle.regester()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.regester_map"><code class="docutils literal notranslate"><span class="pre">Particle.regester_map()</span></code></a></li>
-<li><a class="reference internal" href="#pyrimidine.gsa.Particle.velocity"><code class="docutils literal notranslate"><span class="pre">Particle.velocity</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#pyrimidine.gsa.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#pyrimidine-gsa-module">pyrimidine.gsa module</a></li>
 <li><a class="reference internal" href="#module-pyrimidine.individual">pyrimidine.individual module</a><ul>
 <li><a class="reference internal" href="#pyrimidine.individual.AgeIndividual"><code class="docutils literal notranslate"><span class="pre">AgeIndividual</span></code></a><ul>
 <li><a class="reference internal" href="#pyrimidine.individual.AgeIndividual.alias"><code class="docutils literal notranslate"><span class="pre">AgeIndividual.alias</span></code></a></li>
@@ -5738,6 +5705,7 @@ Applied in GA operations.</p>
 <li><a class="reference internal" href="#pyrimidine.meta.ParamType.set_params"><code class="docutils literal notranslate"><span class="pre">ParamType.set_params()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#pyrimidine.meta.System"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.meta.inherit"><code class="docutils literal notranslate"><span class="pre">inherit()</span></code></a></li>
 </ul>
 </li>
@@ -6119,7 +6087,7 @@ Applied in GA operations.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pyrimidine 1.6 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyrimidine 1.7 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine package</a></li> 
       </ul>
     </div>

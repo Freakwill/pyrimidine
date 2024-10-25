@@ -21,10 +21,26 @@ class BaseEstimator(BE):
 
     @classmethod
     def config(cls, X, Y=None, *args, **kwargs):
-        # configure a population for GA
+        """configure a population for GA based on the data X, Y
+        
+        Args:
+            X (array): input data
+            Y (array, optional): output data
+        """
         raise NotImplementedError
 
     def fit(self, X, Y=None, pop=None, warm_start=False):
+        """fit method for the estimator
+        
+        Args:
+            X (array): input data
+            Y (array, optional): output data
+            pop (None, optional): population for optimization
+            warm_start (bool, optional): warm start or not
+        
+        Returns:
+            the fitted estimator
+        """
         if warm_start:
             self.pop = pop or self.pop or self.config(X, Y)
         else:
@@ -33,6 +49,7 @@ class BaseEstimator(BE):
         return self
 
     def _fit(self):
+        # the fit method for dirty work
         self.pop.ezolve(max_iter=self.max_iter)
         model_ = self.pop.solution
         for k in self.estimated_params:

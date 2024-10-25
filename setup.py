@@ -8,7 +8,7 @@ with open("requirements.txt") as f:
 
 setup(
     name="bobocep",
-    version="1.6",
+    version="1.7",
     author="Freakwill",
     author_email="Williamxxoo@gmail.com",
     description="An extensible framework of genetic algorithm by python. "

@@ -5,7 +5,7 @@ Submodules
 ----------
 
 pyrimidine.learn.linear_regression module
-----------------------------------
+---------------------------------------
 
 .. automodule:: pyrimidine.learn.linear_regression
    :members:

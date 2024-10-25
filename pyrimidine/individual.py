@@ -164,6 +164,12 @@ def makeIndividual(element_class=BinaryChromosome, n_chromosomes=None, size=8, c
 
 
 def makeBinaryIndividual(size=8, cls=None):
+    """To make a binary individual
+
+    Examples:
+        makeBinaryIndividual(size=8) # an individual containting one binary choromosome with 8 genes
+    """
+
     cls = cls or MixedIndividual
     if isinstance(size, tuple):
         return cls[tuple(BinaryChromosome // s for s in size)]

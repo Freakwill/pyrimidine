@@ -17,7 +17,7 @@ Main classes:
 
 Remark:
 1. Subclass the classes and override some main method esp. `_fitness`.
-2. `BaseGene` is not important, as a wrapper of np.int_ and np.float_
+2. `BaseGene` is not important, as a wrapper of np.int32 and np.float64
 3. The base classes have been crafted specifically for GA-style algorithms.
   If your novel algorithm differs from GAs, it is advisable to derive from the mixin classes. 
 
@@ -132,7 +132,14 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
         return self.cross(other)
 
     def cross(self, other):
-        # crossover operation
+        """crossover operation
+        
+        Args:
+            other (BaseChromosome): another choromosome
+        
+        Raises:
+            NotImplementedError
+        """
         raise NotImplementedError
 
     @side_effect
@@ -154,6 +161,14 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
         return self
 
     def equal_to(self, other):
+        """Judge that self == other
+        
+        Args:
+            other (BaseChromosome): another choromosome
+        
+        Returns:
+            bool
+        """
         return np.array_equal(self, other)
 
     @classmethod
@@ -192,6 +207,7 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         Returns:
             str
         """
+
         if spec is None:
             return str(self)
         elif spec in {'d', 'decode'}:
@@ -200,16 +216,25 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
             return str(self)
 
     def _fitness(self):
+        # the concrete method to compute the fitness
         if hasattr(self, 'environment'):
             return self.environment.evaluate(self)
         else:
             raise NotImplementedError
 
     def transition(self, *args, **kwargs):
+        # the defualt `transition` method for individual 
         self.mutate()
 
     def cross(self, other):
-        # Cross operation of two individual
+        """Cross operation of two individuals
+        
+        Args:
+            other (BaseIndividual): another individual
+        
+        Returns:
+            BaseIndividual
+        """
         return self.__class__([chromosome.cross(other_c) for chromosome, other_c in zip(self, other)])
 
     def cross2(self, other):
@@ -239,6 +264,9 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         """Decode an individual to a real solution
 
         For example, transform a 0-1 sequence to a real number.
+
+        Returns:
+            list: a list of codes
         """
         return [chromosome.decode() for chromosome in self]
 
@@ -249,26 +277,54 @@ class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
         """population = individual * n
         
         Args:
-            n (TYPE): positive integer
+            n (int): a positive integer
         
         Returns:
-            TYPE: BasePopulation
+            BasePopulation
         """
         
-        assert isinstance(n, np.int_) and n > 0, 'n must be a positive integer'
+        assert isinstance(n, np.int32) and n > 0, 'n must be a positive integer'
         C = StandardPopulation[self.__class__]
         return C([self.copy() for _ in range(n)])
 
     def __add__(self, other):
-        # algebraic operation `+` of two individuals
+        """algebraic operation `+` of two individuals
+        
+        Args:
+            other (BaseIndividual): another individual
+        
+        Returns:
+            BaseIndividual: the result indiviudal
+        """
+
         return self.__class__([this + that for this, that in zip(self, other)])
 
     def __sub__(self, other):
+        """algebraic operation `-` of two individuals
+        
+        Args:
+            other (BaseIndividual): another individual
+        
+        Returns:
+            BaseIndividual: the result indiviudal
+        """
+
         return self.__class__([this - that for this, that in zip(self, other)])
 
-    def __rmul__(self, other):
-        # assert isinstance(other, np.number)
-        return self.__class__([other * this for this in self.chromosomes])
+    def __rmul__(self, n):
+        """algebraic operation `n*` of individual
+
+        It is different with population = individual * n
+
+        Args:
+            n (float): the number
+        
+        Returns:
+            BasePopulation
+        """
+
+        # assert isinstance(n, np.number)
+        return self.__class__([n * this for this in self.chromosomes])
 
 
 class BasePopulation(PopulationMixin, metaclass=MetaContainer):
@@ -298,7 +354,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         return '&\n'.join(map(str, self))
 
     def transition(self, *args, **kwargs):
-        """Transitation of the states of population
+        """Transition of the states of population. The core method of the class
 
         It is considered to be the standard flow of the Genetic Algorithm
         """
@@ -312,6 +368,12 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
 
         Applied in Multi population GA, 
         where the best individual of one populaitonemigrates to another.
+
+        Args:
+            other (BasePopulation): another population
+        
+        Returns:
+            BasePopulation
         """
         raise NotImplementedError
 
@@ -320,6 +382,10 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         
         Select the best individual among `tourn_size` randomly chosen
         individuals, `n_sel` times.
+
+        Args:
+            n_sel (int|float): the number of individuals that will be selected
+            tourn_size (int): the size of the tournament
         """
 
         if n_sel is None:
@@ -356,6 +422,13 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         Applied in the case when merging the offspring to the original population.
 
         `other` should be a population or a list/tuple of individuals
+
+        Args:
+            other (BasePopulation): another population
+            n_sel (int|float): the number of individuals in the result population
+        
+        Returns:
+            BasePopulation: the result population
         """
 
         if isinstance(other, BasePopulation):
@@ -375,7 +448,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         Just call the method `mutate` of each individual
         
         Keyword Arguments:
-            mutate_prob {number} -- the proba. of mutation of one individual (default: {None})
+            mutate_prob {float} -- the proba. of mutation of one individual (default: {None})
         """
 
         for individual in self:
@@ -388,7 +461,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         Just call the method `mate` of each individual (customizing anthor individual)
         
         Keyword Arguments:
-            mate_prob {number} -- the proba. of mating of two individuals (default: {None})
+            mate_prob {float} -- the proba. of mating of two individuals (default: {None})
         """
         
         mate_prob = mate_prob or self.mate_prob
@@ -398,6 +471,17 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         return offspring
 
     def mate_with(self, other, mate_prob=None):
+        """To mate with another population.
+
+        Just call the method `mate` of each individual (customizing anthor individual)
+        
+        Keyword Arguments:
+            other {BasePopulation} -- another population
+            mate_prob {float} -- the proba. of mating of two individuals (default: {None})
+
+        Returns:
+            BasePopulation: the offspring
+        """
         mate_prob = mate_prob or self.mate_prob
         offspring = [individual.cross(other_individual) for individual, other_individual in product(self, other)
         if random() < mate_prob]
@@ -405,19 +489,25 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         return offspring
 
     @side_effect
-    def local_search(self, max_iter=2, *args, **kwargs):
+    def local_search(self, max_iter=2):
         """Call local searching method
         
         By default, it calls the `ezolve` methods of individuals, iteratively
         """
 
         for individual in self:
-            individual.ezolve(max_iter=max_iter or self.max_iter, init=False)
+            individual.ezolve(max_iter=self.get('local_iter', max_iter), initialize=False)
 
     def get_rank(self, individual):
         """Get rank of one individual
 
         Use `rank` if you call it frequently.
+
+        Args:
+            individual (BaseIndividual, optional): an individual in the population
+
+        Returns:
+            float: the rank of the individual
         """
 
         r = 0
@@ -455,17 +545,39 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
                 i.ranking = k / self.n_individuals
 
     def cross(self, other):
-        # Cross two populations as two individuals
+        """Cross two populations as two individuals
+
+        Args:
+            other (BasePopulation): another population
+            n_sel (int|float): the number of individuals in the result population
+        
+        Returns:
+            BasePopulation: the result population
+        """
+
         k = randint(1, self.n_individuals-2)
         return self.__class__(self[k:] + other[:k])
 
     def migrate(self, other):
-        # migrate between two populations
+        """Migrate between two populations
+        
+        Args:
+            other (BasePopulation): another population
+            n_sel (int|float): the number of individuals in the result population
+        """
+
         k = randint(1, self.n_individuals-2)
         self.individuals = self[k:] + other[:k]
         other.individuals = other[k:] + self[:k]
 
     def dual(self):
+        """The dual of the population
+
+        Just call the dual method of each individual
+
+        Returns:
+            BasePopulation: the dual population
+        """
         return self.__class__([c.dual() for c in self])
 
 
@@ -507,11 +619,13 @@ class BaseMultiPopulation(MultiPopulationMixin, metaclass=MetaHighContainer):
 
     @side_effect
     def select(self):
+        # select the multi-population
         for p in self:
             p.select()
 
     @side_effect
     def mutate(self):
+        # mutate the multi-population
         for p in self:
             p.mutate()
 
@@ -519,6 +633,15 @@ class BaseMultiPopulation(MultiPopulationMixin, metaclass=MetaHighContainer):
         raise NotImplementedError
 
     def get_best_individual(self, copy=True):
+        """To get the individual with the max. fitness
+        
+        Args:
+            copy (bool, optional): if it is true, then return a copy
+
+        Return:
+            BaseIndividual: An individual representing the solution
+        """
+
         bests = map(methodcaller('get_best_individual'), self)
         k = max(b.fitness for b in bests)
         if copy:

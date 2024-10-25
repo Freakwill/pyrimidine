@@ -113,6 +113,7 @@ class DualPopulation(StandardPopulation):
     'n_elders': 0.3}
 
     def dual(self):
+        # make dual population
         for k, ind in enumerate(self):
             if random() < self.dual_prob:
                 d = ind.dual()
@@ -145,6 +146,7 @@ class GamogenesisPopulation(HOFPopulation):
         return offspring
 
     def get_homosex(self, x=0):
+        # get the list of individuals with gender `x`
         return [i for i in self if i.gender==x]
 
 
@@ -193,6 +195,7 @@ class LocalSearchPopulation(StandardPopulation):
 
         Calling `local_search` method
         """
+
         super().transition(*args, **kwargs)
         self.local_search(max_iter=self.n_local_iter)
 
@@ -202,6 +205,8 @@ class ModifiedPopulation(StandardPopulation):
     params = {'mutate_prob_ub':0.5, 'mutate_prob_lb':0.1}
 
     def mutate(self):
+        """Mutate the whole population.
+        """
         fm = self.max_fitness
         fa = self.mean_fitness
         for individual in self:

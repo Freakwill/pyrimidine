@@ -6,14 +6,14 @@ Invented by L. Fogel[1966] for designing FSM initially.
 
 General form of the algorithm:
 
-    initialize a population with N individuals
-    loop:
+    1. initialize a population with N individuals
+    2. loop:
         calculate f(x) for each x in population
         mutate x for each x
         get new population (mixed with the original population)
         select best N individuals from the 2N mixed population
 
-    The mutation:
+    where the mutation defined as,
         x' <- x + r*sqrt(v)
         v' <- v + c*r*sqrt(v) (make sure that v>epsilon)
 

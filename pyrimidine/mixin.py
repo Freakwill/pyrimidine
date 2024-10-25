@@ -46,6 +46,7 @@ class IterativeMixin:
     #     return f'{best} & {best.fitness}'
 
     def init(self):
+        # initalize the object
         pass
 
     def transition(self, *args, **kwargs):
@@ -64,7 +65,12 @@ class IterativeMixin:
         raise NotImplementedError('If you apply a local search algorithm, you must define the `local_search` method.')
 
     def ezolve(self, max_iter=None, initialize=True):
-        # Extremely eazy evolution method for lazybones
+        """Extremely eazy evolution method for lazybones
+
+        Keyword Arguments:
+            initialize {bool} -- set True to call `init` method (default: {True})
+            max_iter {number} -- number of iterations (default: {None})
+        """
         max_iter = max_iter or self.max_iter
         if initialize:
             self.init()
@@ -77,13 +83,15 @@ class IterativeMixin:
         To get the history of the whole evolution via setting `history=True`
 
         Keyword Arguments:
+            initialize {bool} -- set True to call `init` method (default: {True})
             max_iter {number} -- number of iterations (default: {None})
-            period {integer} -- the peroid of stat
-            verbose {bool} -- to print the iteration process
+            period {integer} -- the peroid of stat (default: {1})
+            verbose {bool} -- to print the iteration process (default: {False})
             stat {dict} -- a dict(key: function mapping from the object to a number) of statistics 
                            The value could be a string that should be a method pre-defined.
-            history {bool|DataFrame} -- True for recording history, or a DataFrame object recording previous history.
+            history {bool|DataFrame} -- True for recording history, or a DataFrame object recording previous history.  (default: {False})
             attrs {tuple[str]} -- attributes of the object
+            control -- control information for the iteration
         
         Returns:
             DataFrame | None
@@ -187,6 +195,7 @@ class IterativeMixin:
 
     @property
     def solution(self):
+        # get the real solution
         return self.decode()
  
     def save(self, filename=None, check=False):
@@ -197,7 +206,7 @@ class IterativeMixin:
             check (bool, optional): check whether the file has existed.
         
         Raises:
-            FileExistsError: Description
+            FileExistsError
         """
         import pickle, pathlib
         if filename is None:
@@ -236,12 +245,14 @@ class IterativeMixin:
             raise FileNotFoundError(f'Could not find the file {filename}!')
 
     def after_setter(self):
+        # what should be done after setting the attributes of the object
         if hasattr(self, '_cache'):
             self.clear_cache()
 
     @classmethod
     def solve(cls, *args, **kwargs):
-        return cls.random().evolve(*args, **kwargs).solution
+        # get the solution after evolution immediately
+        return cls.random().ezolve(*args, **kwargs).solution
 
 
 class FitnessMixin(IterativeMixin):
@@ -273,7 +284,7 @@ class FitnessMixin(IterativeMixin):
                                     (deprecated currently, eps. when you use `memory`!)
         
         Returns:
-            An individual class with the fitness `f`
+            the class with the fitness `f`
         """
 
         if f is None:
@@ -299,6 +310,15 @@ class FitnessMixin(IterativeMixin):
         return super().evolve(stat=stat, *args, **kwargs)
 
     def copy(self, type_=None, element_class=None, *args, **kwargs):
+        """copy the object
+        
+        Args:
+            type_: the type of new object
+            element_class (None, optional): the new element_class
+        
+        Returns:
+            a new object copy the data but with new type
+        """
         type_ = type_ or self.__class__
         element_class = element_class or type_.element_class
         if isinstance(type_.element_class, tuple):
@@ -307,6 +327,7 @@ class FitnessMixin(IterativeMixin):
             return type_([c.copy(type_=element_class) for c in self])
 
     def clone(self):
+        # totally copy the object
         return self.__class__(list(map(methodcaller('clone'), self)))
 
     # def diff_fitness(self):
@@ -331,22 +352,65 @@ class CollectiveMixin(IterativeMixin):
             element.transition(*args, **kwargs)
 
     @side_effect
-    def remove(self, individual):
-        self.elements.remove(individual)
+    def remove(self, element):
+        """remove an element from the list-like object
+        
+        Args:
+            element: an element in the object
+        
+        Returns:
+            CollectiveMixin
+        """
+        self.elements.remove(element)
 
     @side_effect
     def pop(self, k=-1):
+        """pop an element from the list-like object
+        
+        Args:
+            element: an element in the object
+        
+        Returns:
+            CollectiveMixin
+        """
         self.elements.pop(k)
 
     @side_effect
-    def extend(self, inds):
-        self.elements.extend(inds)
+    def extend(self, elements):
+        """extend the list-like object by elements
+        
+        Args:
+            elements: a list of elements
+        
+        Returns:
+            CollectiveMixin
+        """
+        self.elements.extend(elements)
 
     @side_effect
-    def append(self, ind):
-        self.elements.append(ind)
+    def append(self, element):
+        """append the list-like object with an element
+        
+        Args:
+            element: an element
+        
+        Returns:
+            CollectiveMixin
+        """
+
+        self.elements.append(element)
 
     def random_select(self, n_sel=None, copy=False):
+        """append the list-like object with an element
+        
+        Args:
+            n_sel (int): the number of elements selected
+            copy (bool): copy the element or not
+        
+        Returns:
+            An element (or its copy)
+        """
+
         if n_sel is None:
             k = np.random.randint(len(self))
             return self[k]
@@ -355,11 +419,26 @@ class CollectiveMixin(IterativeMixin):
             return self[ks]
 
     def observe(self, name='_system'):
+        """for observer design pattern
+        Args:
+            name (str): the attribute for the algebra system
+
+        Returns:
+            An element (or its copy)
+        """
+
         for o in self:
             setattr(o, name, self)
 
     @property
     def op(self):
+        """operators for algebraic-probramming
+
+        Example:
+           a.op['x'](b) == self._system.x(a, b)
+           # where `x` is an algebraic operation defined in `_system`
+        """
+
         class _C:
             def __getitem__(obj, s):
                 def _f(*args, **kwargs):
@@ -375,7 +454,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
     """
 
     def evolve(self, stat=None, *args, **kwargs):
-        """Get the history of the whole evolution
+        """To get the history of the whole evolution
         """
 
         if stat is None:
@@ -385,7 +464,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
 
     @classmethod
     def set_fitness(cls, *args, **kwargs):
-        # set fitness for the element_class.
+        # To set fitness for the element_class
         if hasattr(cls.element_class, 'set_fitness'):
             cls.element_class.set_fitness(*args, **kwargs)
         else:
@@ -521,7 +600,7 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
 
     @property
     def worst_element(self):
-        # like worst_element
+        # like best_element
         k = np.argmin(self.get_all_fitness())
         return self[k]
 
@@ -534,7 +613,12 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
             return [self[k] for k in np.random.choice(np.arange(len(self)), *args, **kwargs)]
 
     def sorted_(self):
-        # return a list of sorted individuals
+        """a list of sorted individuals
+
+        Returns:
+            list: the list of elements after sorting
+        """
+
         return [self[k] for k in self.argsort()]
 
     def sort(self):
@@ -543,9 +627,11 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         self.__elements = self[ks]
 
     def argsort(self):
+        # get the index after sorting the whole population
         return np.argsort(self.get_all_fitness())
 
     def drop(self, n=1):
+        # drop the worst n elements
         if n < 1:
             n = int(self.n_elements * n)
         elif not isinstance(n, int):

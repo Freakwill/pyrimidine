@@ -23,6 +23,7 @@ Welcome to pyrimidine's world of genetic algorithm
    Examples <../source/Examples.md>
    Customization <../source/Customization.md>
    Helpers <../source/Helpers.md>
+   Developers <../source/Developers.md>
    Misc <../source/Misc.md>
 
 

@@ -31,10 +31,16 @@ class GALinearRegression(BaseEstimator, LinearRegression):
 
     @classmethod
     def create_model(cls, *args, **kwargs):
+        """Create linear regression model
+        
+        Returns:
+            LinearRegression (of scikit-learn)
+        """
         return LinearRegression(*args, **kwargs)
 
     @classmethod
     def config(cls, X, Y, n_individuals=10, *args, **kwargs):
+        # configure a population based on the data X and Y
 
         input_dim = X.shape[1]
         assert np.ndim(Y) == 1, 'only support 1D array for `Y`'
