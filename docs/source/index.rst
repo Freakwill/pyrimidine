@@ -30,7 +30,7 @@ Welcome to pyrimidine's world of genetic algorithm
 .. toctree::
    :maxdepth: 2
    :caption: Modules
-   modules <../source/modules.rst>
+   Modules <../source/modules.rst>
 
 
 .. toctree::

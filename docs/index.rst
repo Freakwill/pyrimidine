@@ -16,21 +16,21 @@ Welcome to pyrimidine's world of genetic algorithm
    :maxdepth: 2
    :caption: Contents:
 
-   Home <../source/Home.md>
-   Install <../source/Install.md>
-   Release History <../source/Release History.md>
-   API Design <../source/API Design.md>
-   Examples <../source/Examples.md>
-   Customization <../source/Customization.md>
-   Helpers <../source/Helpers.md>
-   Developers <../source/Developers.md>
-   Misc <../source/Misc.md>
+   Home
+   Install
+   Release History
+   API Design
+   Examples
+   Customization
+   Helpers
+   Developers
+   Misc
 
 
 .. toctree::
    :maxdepth: 2
    :caption: Modules
-   modules <../source/modules.rst>
+   Modules
 
 
 .. toctree::
