@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, '.')
+sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
@@ -72,7 +72,7 @@ html_use_index = True
 html_use_modindex = True
 html_use_search = True
 
-html_output = '.'
+# html_output = '.'
 
 stickysidebar = True
 

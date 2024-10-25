@@ -99,7 +99,7 @@ class ParamType(type):
         return self
 
     def mixin(self, bases):
-        """mixin other bases
+        """mixin other base classes
 
         Args:
             bases (tuple): the base classes
