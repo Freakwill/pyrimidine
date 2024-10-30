@@ -10,17 +10,10 @@ Subpackages
    pyrimidine.benchmarks
    pyrimidine.learn
    pyrimidine.local_search
+   pyrimidine.misc
 
 Submodules
 ----------
-
-pyrimidine.ba module
-----------------------
-
-.. automodule:: pyrimidine.ba
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 pyrimidine.base module
 ----------------------

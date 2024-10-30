@@ -24,7 +24,7 @@ Welcome to pyrimidine's world of genetic algorithm
    Customization
    Helpers
    Developers
-   Misc
+   Media
 
 
 .. toctree::
@@ -36,7 +36,7 @@ Welcome to pyrimidine's world of genetic algorithm
 
 .. toctree::
    :maxdepth: 2
-   :caption: about
+   :caption: About
 
    GitHub Page <https://github.com/Freakwill/pyrimidine>
 
