@@ -16,10 +16,11 @@ Main classes:
     BaseEnviorenment:
 
 Remark:
-1. Subclass the classes and override some main method esp. `_fitness`.
-2. `BaseGene` is not important, as a wrapper of np.int32 and np.float64
-3. The base classes have been crafted specifically for GA-style algorithms.
-  If your novel algorithm differs from GAs, it is advisable to derive from the mixin classes. 
+
+    1. Subclass the classes and override some main method esp. `_fitness`.
+    2. `BaseGene` is not important, as a wrapper of np.int32 and np.float64
+    3. The base classes have been crafted specifically for GA-style algorithms.
+      If your novel algorithm differs from GAs, it is advisable to derive from the mixin classes. 
 
 Example:
 
@@ -569,16 +570,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         k = randint(1, self.n_individuals-2)
         self.individuals = self[k:] + other[:k]
         other.individuals = other[k:] + self[:k]
-
-    def dual(self):
-        """The dual of the population
-
-        Just call the dual method of each individual
-
-        Returns:
-            BasePopulation: the dual population
-        """
-        return self.__class__([c.dual() for c in self])
 
 
 class BaseMultiPopulation(MultiPopulationMixin, metaclass=MetaHighContainer):

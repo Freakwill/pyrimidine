@@ -118,7 +118,6 @@ Calculating the fintess is the most frequent task in the algorithms.
 
 - `_fitness()`: the basic method to calculate the fitness of the individual. The methods whose names are started with `_` always do the most dirty task.
 - `fitness`: decorated by `property`, get the fitness of the individual/population (from the cache first then call - `_fitness` if there is a cache). The fitness of a population is the maximal fitness of the individuals in the population.
-- `fitness`: decorated by `property`, get the fitness of the individual (from the cache first then call `_fitness` if there is a cache).
 - `best/mean/std_fitness`: the maximum/mean/std of the fitnesses of the individuals in a population.
 - `get_all_fitness`: get the all fitnesses
 

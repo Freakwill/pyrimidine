@@ -40,6 +40,20 @@ class ParamType(type):
 
     The key-value pairs in `params` could be inherited from super classes, like attributes.
     It make users set and manage parameters of classes or instances more conveniently.
+
+    Example:
+        class C(metaclass=ParamType):
+            alias = {"a": "A"}
+            params = {"A": 1}
+
+        c = C()
+        assert c.a == c.A == 1
+
+        class D(C):
+            pass
+        
+        d = D()
+        assert d.a == d.A == 1
     """
 
     def __new__(cls, name, bases=(), attrs={}):
@@ -596,4 +610,3 @@ class MetaArray(ParamType):
             default_size = n
         cls._name = self.__name__
         return cls
-

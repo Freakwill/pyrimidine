@@ -48,6 +48,10 @@ def side_effect(func):
 
 
 def clear_fitness(func):
+    """To clear fitness of the object after some changes have occurred
+    such as executing the method in the list `usual_side_effect`
+    """
+
     def mthd(obj, *args, **kwargs):
         result = func(obj, *args, **kwargs)
         obj.clear_cache('fitness')
@@ -70,6 +74,7 @@ def method_cache(func, a):
     Returns:
         MethodType
     """
+
     def mthd(obj):
         # get the attribute from cache, otherwise compute it again
         if obj._cache[a] is None:
@@ -186,6 +191,7 @@ fitness_cache = add_cache(('fitness',))
 
 
 class set_fitness:
+    # set the fitness method more elegently
 
     def __init__(self, f=None):
         self.f = f
@@ -208,7 +214,8 @@ class add_memory:
 
     The memory dict stores the best solution,
     unlike the `_cache` dict which only records the last computing result.
-    And it is not affected by the genetic operations.
+    it will affect the behaviour of the algo.
+    And it is not affected by any genetic operation.
 
     _memory {dict[str]} -- the memory for an object;
                         In general, the keys are the attributes of the object.
@@ -273,7 +280,9 @@ class add_memory:
 
 
 def basic_memory(cls):
-    # special case of `add_memory`
+    """special case of `add_memory`
+    it adds `_memory = {'fitness':None, 'solution': None}` to an object
+    """
 
     cls = add_memory({'fitness':None, 'solution': None})(cls)
 
@@ -297,8 +306,6 @@ def basic_memory(cls):
 
     return cls
 
-
-usual_side_effect = ['mutate', 'extend', 'pop', 'remove', '__setitem__', '__setattr__', '__setstate__']
 
 def method_cache(func, a):
     """make cache for the method
@@ -328,7 +335,30 @@ def method_cache(func, a):
 
 
 class regester_map:
-    # To regester the map method for the class requiring `map` method
+    """To regester the map method for the class requiring `map` method
+
+    Example:
+    
+        @regester_map(mappsings=('f', 'g'))
+        class C(metaclass=MetaContainor):
+            element_class = D
+            default_size = 8
+
+        class D:
+
+            def random(self):
+                pass
+
+            def f(self):
+                pass
+
+            def g(self):
+                pass
+
+        c = C.random()
+        list(c.f()) == [d.f() for d in c]
+        list(c.g()) == [d.g() for d in c]
+    """
 
     def __init__(self, mappings, map_=map):
         """
@@ -376,7 +406,7 @@ class regester_map:
 
 
 class Regester:
-    # regerster operators, used in the future version
+    # regerster operators, used in the future version!
 
     def __init__(name, key=None):
         self.name = name

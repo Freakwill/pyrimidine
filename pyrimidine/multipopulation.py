@@ -16,8 +16,8 @@ class MultiPopulation(BaseMultiPopulation):
 
 
 class DualPopulation(MultiPopulation):
-
-    """Multi-population composed by male and female population
+    """Multi-population composed by two populations:
+        the male and female population.
     """
     
     params = {'n_elders':0.5, 'mate_prob':0.75}
@@ -49,6 +49,10 @@ class DualPopulation(MultiPopulation):
         return self.populations[1].fitness
 
     def mate(self):
+        """The mate method for `DualPopulation`
+        
+        Crossing operations between the same population are prohibited.
+        """
         self.populations[0].rank(tied=True)
         self.populations[1].rank(tied=True)
         children = []
