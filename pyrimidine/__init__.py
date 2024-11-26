@@ -15,7 +15,6 @@ from .pso import *
 from .es import *
 from .ep import *
 from .de import *
-from .ba import *
 
 
 __version__ = "1.6.1"
