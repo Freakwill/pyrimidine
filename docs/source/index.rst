@@ -25,29 +25,3 @@ Welcome to pyrimidine's world of genetic algorithm
    Helpers
    Developers
    Media
-
-.. toctree::
-   :maxdepth: 2
-   :caption: About
-
-   GitHub Page <https://github.com/Freakwill/pyrimidine>
-
-
-Modules Overview
-================
-
-.. toctree::
-   :maxdepth: 1
-
-   pyrimidine
-
-
-Indices
-==================
-
-.. toctree::
-   :maxdepth: 2
-
-   genindex
-   modindex
-   search
