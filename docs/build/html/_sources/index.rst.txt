@@ -36,7 +36,7 @@ Modules Overview
 .. toctree::
    :maxdepth: 1
 
-   pyrimidine
+   source/pyrimidine
 
 
 Indices
