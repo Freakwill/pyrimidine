@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Helpers &#8212; pyrimidine 1.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4848ba22" />
+    <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=310c80ee" />
+    <script src="../_static/documentation_options.js?v=392da36c"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Developers" href="Developers.html" />
+    <link rel="prev" title="Customization" href="Customization.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Developers.html" title="Developers"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Customization.html" title="Customization"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyrimidine 1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Helpers</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="helpers">
+<h1>Helpers<a class="headerlink" href="#helpers" title="Link to this heading">¶</a></h1>
+<p>[TOC]</p>
+<p>To introduce the useful helpers and decorators</p>
+<section id="optimization">
+<h2>Optimization<a class="headerlink" href="#optimization" title="Link to this heading">¶</a></h2>
+<p>An example of function optimization:</p>
+<p>… math::</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>\min_{x_1,x_2} x_1^2+x_2\\
+x_1, x_2 \in [-1,1]
+</pre></div>
+</div>
+<section id="ga-minimize">
+<h3><code class="docutils literal notranslate"><span class="pre">ga_minimize</span></code><a class="headerlink" href="#ga-minimize" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ga_minimize</span></code> encapsulates the GA algorithm. You need not use the classes of containers.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="n">optimize</span>
+
+<span class="n">solution</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">ga_minimzie</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>OUTPUT: <code class="docutils literal notranslate"><span class="pre">[-0.0078125</span> <span class="pre">-1.</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">]</span></code></p>
+</section>
+<section id="de-minimize">
+<h3><code class="docutils literal notranslate"><span class="pre">de_minimize</span></code><a class="headerlink" href="#de-minimize" title="Link to this heading">¶</a></h3>
+<p>We can define optimizers based on other intelligent algorithms. Currently we only define <code class="docutils literal notranslate"><span class="pre">de_minimize</span></code>, the optimizer based on the DE algorithm.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">solution</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">de_minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="optimizer">
+<h3>Optimizer<a class="headerlink" href="#optimizer" title="Link to this heading">¶</a></h3>
+<p>Here an optimizer is a class to do optimization based on intelligent algorithms.</p>
+<p>Give an example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrimidine.optimize</span> <span class="kn">import</span> <span class="n">Optimizer</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">Optimizer</span><span class="p">(</span><span class="n">StandardPopulation</span><span class="p">)</span>
+<span class="n">optimizer</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># &lt;==&gt; optimize.ga_minimzie(lambda x:x[0]**2+x[1], (-1,1), (-1,1))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="decorators">
+<h2>Decorators<a class="headerlink" href="#decorators" title="Link to this heading">¶</a></h2>
+<p>Mainly introduce two useful decorators: memory and cache</p>
+<section id="memory">
+<h3>Memory<a class="headerlink" href="#memory" title="Link to this heading">¶</a></h3>
+<p>In common case, use <code class="docutils literal notranslate"><span class="pre">basic_memory</span></code>. If you want to store more information in memory dic, then consider to use <code class="docutils literal notranslate"><span class="pre">add_memory({'solution':</span> <span class="pre">None,</span> <span class="pre">'fitness':</span> <span class="pre">None,</span> <span class="pre">...})</span></code></p>
+<p>The memory decorator works like cache, but it is a part of the algorithm. Memory always stores the best solution and the corresponding fitness of each individual, making the algorithm more effective.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyrimidine.benchmarks.optimization</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">from</span> <span class="nn">pyrimidine.deco</span> <span class="kn">import</span> <span class="n">basic_memory</span>
+
+<span class="c1"># generate a knapsack problem randomly</span>
+<span class="n">n_bags</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">evaluate</span> <span class="o">=</span> <span class="n">Knapsack</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n_bags</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">YourIndividual</span><span class="p">(</span><span class="n">BinaryChromosome</span> <span class="o">//</span> <span class="n">n_bags</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+
+
+<span class="n">YourPopulation</span> <span class="o">=</span> <span class="n">HOFPopulation</span><span class="p">[</span><span class="n">YourIndividual</span><span class="p">]</span> <span class="o">//</span> <span class="mi">20</span>
+
+
+<span class="nd">@basic_memory</span>
+<span class="k">class</span> <span class="nc">MyIndividual</span><span class="p">(</span><span class="n">YourIndividual</span><span class="p">):</span>
+    <span class="c1"># Individual with a memory, recording a best solution</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">solution</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_memory</span><span class="p">[</span><span class="s1">&#39;solution&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_memory</span><span class="p">[</span><span class="s1">&#39;solution&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solution</span>
+
+
+<span class="k">class</span> <span class="nc">MyPopulation</span><span class="p">(</span><span class="n">HOFPopulation</span><span class="p">):</span>
+
+    <span class="n">element_class</span> <span class="o">=</span> <span class="n">MyIndividual</span>
+    <span class="n">default_size</span> <span class="o">=</span> <span class="mi">20</span>
+
+    <span class="k">def</span> <span class="nf">backup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">backup</span><span class="p">(</span><span class="n">check</span><span class="o">=</span><span class="n">check</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">update_hall_of_fame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the `hall_of_fame` after each step of evolution</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backup</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">update_hall_of_fame</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="n">stat</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">:</span> <span class="s1">&#39;mean_fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">:</span> <span class="s1">&#39;best_fitness&#39;</span><span class="p">}</span>
+<span class="n">mypop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+
+<span class="n">yourpop</span> <span class="o">=</span> <span class="n">mypop</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">type_</span><span class="o">=</span><span class="n">YourPopulation</span><span class="p">)</span>
+<span class="n">mydata</span> <span class="o">=</span> <span class="n">mypop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">yourdata</span> <span class="o">=</span> <span class="n">yourpop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">yourdata</span><span class="p">[[</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">mydata</span><span class="p">[[</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Mean Fitness(Memory)&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness(Memory)&#39;</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Generations&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Fitness&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Demo of GA: </span><span class="si">{</span><span class="n">n_bags</span><span class="si">}</span><span class="s1">-Knapsack Problem&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</pre></div>
+</div>
+</section>
+<section id="cache">
+<h3>Cache<a class="headerlink" href="#cache" title="Link to this heading">¶</a></h3>
+<p>This decorator caches the fitness, if the indiviudal dose not change (in one step of the iteration), the fitness will be read from cache by default. If the cache is empty, then it will re-compute the fitness, and save the result in cache.</p>
+<p>Cache decorator is a technique to speed up the algorithm, but is not supposed to change the behavior of the algorithm.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@fitness_cache</span>
+<span class="k">class</span> <span class="nc">MyIndividual</span><span class="p">:</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="side-effect">
+<h3>Side_effect<a class="headerlink" href="#side-effect" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">side-effect</span></code> is used along with the decorator <code class="docutils literal notranslate"><span class="pre">cache</span></code>.</p>
+<p>Methods decorated by <code class="docutils literal notranslate"><span class="pre">&#64;side_effect</span></code> has side effect that will change the fitness. So it will clear the fitness in cache after executing itself, if you do set a cache, otherwise it will produce uncorrect results.</p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Helpers</a><ul>
+<li><a class="reference internal" href="#optimization">Optimization</a><ul>
+<li><a class="reference internal" href="#ga-minimize"><code class="docutils literal notranslate"><span class="pre">ga_minimize</span></code></a></li>
+<li><a class="reference internal" href="#de-minimize"><code class="docutils literal notranslate"><span class="pre">de_minimize</span></code></a></li>
+<li><a class="reference internal" href="#optimizer">Optimizer</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#decorators">Decorators</a><ul>
+<li><a class="reference internal" href="#memory">Memory</a></li>
+<li><a class="reference internal" href="#cache">Cache</a></li>
+<li><a class="reference internal" href="#side-effect">Side_effect</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Customization.html"
+                          title="previous chapter">Customization</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Developers.html"
+                          title="next chapter">Developers</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/Helpers.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Developers.html" title="Developers"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Customization.html" title="Customization"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyrimidine 1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Helpers</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2023, William Song.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    </div>
+  </body>
+</html>
