@@ -79,12 +79,12 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pyrimidine.misc.html">pyrimidine.misc subpackage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#pyrimidine-misc-aco-module">pyrimidine.misc.aco module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#pyrimidine-misc-ba-module">pyrimidine.misc.ba module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#pyrimidine-misc-fa-module">pyrimidine.misc.fa module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#pyrimidine-misc-gsa-module">pyrimidine.misc.gsa module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#pyrimidine-misc-sma-module">pyrimidine.misc.sma module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#pyrimidine-misc-ssa-module">pyrimidine.misc.ssa module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#module-pyrimidine.misc.aco">pyrimidine.misc.aco module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#module-pyrimidine.misc.ba">pyrimidine.misc.ba module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#module-pyrimidine.misc.fa">pyrimidine.misc.fa module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#module-pyrimidine.misc.gsa">pyrimidine.misc.gsa module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#module-pyrimidine.misc.sma">pyrimidine.misc.sma module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#module-pyrimidine.misc.ssa">pyrimidine.misc.ssa module</a></li>
 </ul>
 </li>
 </ul>
@@ -105,12 +105,16 @@ BasePopulation: set of individuals, represents a set of a problem</p>
 <p>BaseMultiPopulation/BaseCommunity: set of populations for more complicated optimalization
 BaseEnviorenment:</p>
 </div></blockquote>
-<p>Remark:
-1. Subclass the classes and override some main method esp. <cite>_fitness</cite>.
-2. <cite>BaseGene</cite> is not important, as a wrapper of np.int32 and np.float64
-3. The base classes have been crafted specifically for GA-style algorithms.</p>
+<p>Remark:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Subclass the classes and override some main method esp. <cite>_fitness</cite>.</p></li>
+<li><p><cite>BaseGene</cite> is not important, as a wrapper of np.int32 and np.float64</p></li>
+<li><p>The base classes have been crafted specifically for GA-style algorithms.</p></li>
+</ol>
 <blockquote>
 <div><p>If your novel algorithm differs from GAs, it is advisable to derive from the mixin classes.</p>
+</div></blockquote>
 </div></blockquote>
 <p class="rubric">Example</p>
 <p>select ti, ni from arraies t, n
@@ -1781,14 +1785,10 @@ or the moving method in Simulated Annealing.</p>
 <span id="pyrimidine-deco-module"></span><h2>pyrimidine.deco module<a class="headerlink" href="#module-pyrimidine.deco" title="Link to this heading">¶</a></h2>
 <p>Decorators</p>
 <p>Two main kinds of decorators:
-1. cache decorator: store the information of previous computing, to seep up the algorithm.</p>
-<blockquote>
-<div><p>Should clear it to suppress the side effect. It is used with <cite>&#64;side-effect</cite> decorator.
-methods with <cite>&#64;side-effect</cite> will clear the cache after executing.</p>
-</div></blockquote>
-<ol class="arabic simple" start="2">
-<li><p>memory decorator: As cache, it record some information, but it will chage the behavior of the algorithms.</p></li>
-</ol>
+1. cache decorator: store the information of previous computing, to seep up the algorithm.
+Should clear it to suppress the side effect. It is used with <cite>&#64;side-effect</cite> decorator.
+Methods with <cite>&#64;side-effect</cite> will clear the cache after executing.
+2. memory decorator: As cache, it record some information, but it will chage the behavior of the algorithms.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.deco.Regester">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">Regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.Regester" title="Link to this definition">¶</a></dt>
@@ -1953,16 +1953,19 @@ it is not advisable to include the decorator in that method.</p>
 <p>Invented by L. Fogel[1966] for designing FSM initially.</p>
 <p>General form of the algorithm:</p>
 <blockquote>
-<div><p>initialize a population with N individuals
-loop:</p>
-<blockquote>
-<div><p>calculate f(x) for each x in population
+<div><ol class="arabic simple">
+<li><p>initialize a population with N individuals</p></li>
+<li><dl class="simple">
+<dt>loop:</dt><dd><p>calculate f(x) for each x in population
 mutate x for each x
 get new population (mixed with the original population)
 select best N individuals from the 2N mixed population</p>
-</div></blockquote>
+</dd>
+</dl>
+</li>
+</ol>
 <dl class="simple">
-<dt>The mutation:</dt><dd><p>x’ &lt;- x + r*sqrt(v)
+<dt>where the mutation defined as,</dt><dd><p>x’ &lt;- x + r*sqrt(v)
 v’ &lt;- v + c*r*sqrt(v) (make sure that v&gt;epsilon)</p>
 </dd>
 </dl>
@@ -2234,7 +2237,8 @@ Rechenberg, I. 1973. Evolutions strategie – Optimierung technischer Systeme na
 </section>
 <section id="module-pyrimidine.gene">
 <span id="pyrimidine-gene-module"></span><h2>pyrimidine.gene module<a class="headerlink" href="#module-pyrimidine.gene" title="Link to this heading">¶</a></h2>
-<p>Gene classes</p>
+<p>Gene classes: as the elements in the chromosome.</p>
+<p>The wrapper of data type of <cite>numpy</cite>.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.gene.BinaryGene">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gene.</span></span><span class="sig-name descname"><span class="pre">BinaryGene</span></span><a class="headerlink" href="#pyrimidine.gene.BinaryGene" title="Link to this definition">¶</a></dt>
@@ -2882,8 +2886,8 @@ by the arrays for convenience.</p>
 <p>Meta class of containers</p>
 <p>A container is a algebric system with elements of some type
 and operators acting on the elements</p>
-<p class="rubric">Example</p>
-<p><a href="#id14"><span class="problematic" id="id15">``</span></a>`
+<p>Example:</p>
+<p><a href="#id14"><span class="problematic" id="id15">``</span></a><a href="#id16"><span class="problematic" id="id17">`</span></a>python
 from collections import UserString
 class C(metaclass=MetaContainer):</p>
 <blockquote>
@@ -2903,20 +2907,20 @@ for a in c:</p>
 </div></blockquote>
 <p>c.regester(‘upper’)
 print(c.upper())
-<a href="#id16"><span class="problematic" id="id17">``</span></a><a href="#id18"><span class="problematic" id="id19">`</span></a></p>
-<p>Output:</p>
-<blockquote>
-<div><p>&lt;class ‘collections.UserString’&gt;
-&lt;property object at 0x1065715e0&gt;
-[‘I’, ‘love’, ‘you’]
-for ever
-3
-love
-I
-love
-you
-[‘I’, ‘LOVE’, ‘YOU’]</p>
-</div></blockquote>
+<a href="#id18"><span class="problematic" id="id19">``</span></a><a href="#id20"><span class="problematic" id="id21">`</span></a></p>
+<p>Output:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">&lt;class</span> <span class="pre">'collections.UserString'&gt;</span>
+<span class="pre">&lt;property</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x1065715e0&gt;</span>
+<span class="pre">['I',</span> <span class="pre">'love',</span> <span class="pre">'you']</span>
+<span class="pre">for</span> <span class="pre">ever</span>
+<span class="pre">3</span>
+<span class="pre">love</span>
+<span class="pre">I</span>
+<span class="pre">love</span>
+<span class="pre">you</span>
+<span class="pre">['I',</span> <span class="pre">'LOVE',</span> <span class="pre">'YOU']</span>
+<span class="pre">`</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.meta.MetaContainer.random">
 <span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.MetaContainer.random" title="Link to this definition">¶</a></dt>
@@ -3322,7 +3326,7 @@ without encoding the solutions to chromosomes or individuals.</p>
 <li><p><strong>{function}</strong> (<em>func</em>) – objective function defined on R^n</p></li>
 <li><p><strong>xlim</strong> – the intervals of xi</p></li>
 <li><p><strong>decode</strong> – transform a binary sequence to a real number
-(‘0-1’ sequence, lower_bound, upper_bound) <a href="#id20"><span class="problematic" id="id21">|</span></a>-&gt; xi</p></li>
+(‘0-1’ sequence, lower_bound, upper_bound) mapsto xi</p></li>
 <li><p><strong>population_size</strong> – size of the population</p></li>
 <li><p><strong>size</strong> – the length of the encoding of xi</p></li>
 </ul>
@@ -3342,7 +3346,7 @@ without encoding the solutions to chromosomes or individuals.</p>
 <li><p><strong>{function}</strong> (<em>func</em>) – objective function defined on R^n</p></li>
 <li><p><strong>pairs}</strong> (<em>xlim {tuple</em><em> of </em><em>number</em>) – the intervals of xi</p></li>
 <li><p><strong>{mapping}</strong> (<em>decode</em>) – transform a binary sequence to a real number
-(‘0-1’ sequence, lower_bound, upper_bound) <a href="#id22"><span class="problematic" id="id23">|</span></a>-&gt; xi</p></li>
+(‘0-1’ sequence, lower_bound, upper_bound) mapsto xi</p></li>
 <li><p><strong>{int}</strong> (<em>population_size</em>) – size of the population</p></li>
 <li><p><strong>int}</strong> (<em>size {int</em><em> or </em><em>tuple of</em>) – the length of the encoding of xi</p></li>
 </ul>
@@ -3362,7 +3366,7 @@ without encoding the solutions to chromosomes or individuals.</p>
 <li><p><strong>func</strong> – objective function defined on R</p></li>
 <li><p><strong>numbers}</strong> (<em>xlim {pair of</em>) – the interval of x</p></li>
 <li><p><strong>decode</strong> – transform a binary sequence to a real number
-(‘0-1’ sequence, lower_bound, upper_bound) <a href="#id24"><span class="problematic" id="id25">|</span></a>-&gt; xi</p></li>
+(‘0-1’ sequence, lower_bound, upper_bound) mapsto xi</p></li>
 <li><p><strong>{int}</strong> (<em>size</em>) – size of the population</p></li>
 <li><p><strong>{int}</strong> – the length of the encoding of x</p></li>
 </ul>
@@ -4318,8 +4322,77 @@ where the best solution is stored</p>
 <dd></dd></dl>
 
 </section>
-<section id="pyrimidine-qga-module">
-<h2>pyrimidine.qga module<a class="headerlink" href="#pyrimidine-qga-module" title="Link to this heading">¶</a></h2>
+<section id="module-pyrimidine.qga">
+<span id="pyrimidine-qga-module"></span><h2>pyrimidine.qga module<a class="headerlink" href="#module-pyrimidine.qga" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.qga.</span></span><span class="sig-name descname"><span class="pre">QuantumPopulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.population.HOFPopulation" title="pyrimidine.population.HOFPopulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">HOFPopulation</span></code></a></p>
+<p>Population for quantum QA</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation.alias">
+<span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'best_individuals':</span> <span class="pre">'best_elements',</span> <span class="pre">'get_best_individual':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_individuals':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'hof':</span> <span class="pre">'hall_of_fame',</span> <span class="pre">'individuals':</span> <span class="pre">'elements',</span> <span class="pre">'n_individuals':</span> <span class="pre">'n_elements',</span> <span class="pre">'worst_individual':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation.alias" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation.apply" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation.backup">
+<span class="sig-name descname"><span class="pre">backup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation.backup" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation.default_size">
+<span class="sig-name descname"><span class="pre">default_size</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20</span></em><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation.default_size" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation.element_class">
+<span class="sig-name descname"><span class="pre">element_class</span></span><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation.element_class" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_Individual</span></code></p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation.elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation.elements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation.isa">
+<span class="sig-name descname"><span class="pre">isa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation.isa" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation.n_elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_elements</span></span><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation.n_elements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'hof_size':</span> <span class="pre">2,</span> <span class="pre">'mate_prob':</span> <span class="pre">0.75,</span> <span class="pre">'max_iter':</span> <span class="pre">100,</span> <span class="pre">'mutate_prob':</span> <span class="pre">0.2,</span> <span class="pre">'tourn_size':</span> <span class="pre">5}</span></em><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation.params" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation.regester">
+<span class="sig-name descname"><span class="pre">regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation.regester" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation.regester_map">
+<span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation.regester_map" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation.update_hall_of_fame">
+<span class="sig-name descname"><span class="pre">update_hall_of_fame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation.update_hall_of_fame" title="Link to this definition">¶</a></dt>
+<dd><p>Update the <cite>hall_of_fame</cite> after each step of evolution</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-pyrimidine.saga">
 <span id="pyrimidine-saga-module"></span><h2>pyrimidine.saga module<a class="headerlink" href="#module-pyrimidine.saga" title="Link to this heading">¶</a></h2>
@@ -4793,7 +4866,7 @@ Khatib, Wael and Peter John Fleming. “The Stud GA: A Mini Revolution?” Paral
 </dl>
 <p class="rubric">Example</p>
 <p>&gt;&gt; pattern([[0,1,0], [1,0,0]])
-&gt;&gt; <a href="#id26"><span class="problematic" id="id27">**</span></a>0</p>
+&gt;&gt; # Output “<a href="#id22"><span class="problematic" id="id23">**</span></a>0”</p>
 </dd></dl>
 
 <dl class="py function">
@@ -5688,7 +5761,24 @@ Applied in GA operations.</p>
 <li><a class="reference internal" href="#pyrimidine.pso.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#pyrimidine-qga-module">pyrimidine.qga module</a></li>
+<li><a class="reference internal" href="#module-pyrimidine.qga">pyrimidine.qga module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation.alias"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation.alias</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation.apply"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation.apply()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation.backup"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation.backup()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation.default_size"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation.default_size</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation.element_class"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation.elements"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation.elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation.isa"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation.isa()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation.n_elements"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation.n_elements</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation.params"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation.params</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation.regester"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation.regester()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation.regester_map"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation.regester_map()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.qga.QuantumPopulation.update_hall_of_fame"><code class="docutils literal notranslate"><span class="pre">QuantumPopulation.update_hall_of_fame()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-pyrimidine.saga">pyrimidine.saga module</a><ul>
 <li><a class="reference internal" href="#pyrimidine.saga.BaseSelfAdaptiveIndividual"><code class="docutils literal notranslate"><span class="pre">BaseSelfAdaptiveIndividual</span></code></a><ul>
 <li><a class="reference internal" href="#pyrimidine.saga.BaseSelfAdaptiveIndividual.alias"><code class="docutils literal notranslate"><span class="pre">BaseSelfAdaptiveIndividual.alias</span></code></a></li>
