@@ -1,5 +1,5 @@
 pyrimidine.benchmarks subpackage
-=============================
+================================
 
 pyrimidine.benchmarks.approximation module
 ------------------------------------------

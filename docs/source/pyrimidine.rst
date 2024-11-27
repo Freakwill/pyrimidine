@@ -37,7 +37,7 @@ pyrimidine.de module
    :show-inheritance:
 
 pyrimidine.deco module
---------------------
+----------------------
 
 .. automodule:: pyrimidine.deco
    :members:
