@@ -2,13 +2,19 @@
 
 
 from .chromosome import QuantumChromosome
+from .population import HOFPopulation
 
 from .deco import basic_memory
 
+
 @basic_memory
 class _Individual(QuantumChromosome):
+    """
+    Chromosome/Individual for quantum QA
+    """
 
     def mutate(self):
+        # no mutation operation
         pass
 
     def cross(self, other):
@@ -16,6 +22,9 @@ class _Individual(QuantumChromosome):
 
 
 class QuantumPopulation(HOFPopulation):
+    """
+    Population for quantum QA
+    """
 
     element_class = _Individual
     default_size = 20

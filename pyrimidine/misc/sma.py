@@ -3,21 +3,21 @@
 """Slime Mould Algorithm
 """
 
+from random import random
+
 from scipy.spatial.distance import pdist, squareform
 import numpy as np
 
-from .base import BaseIndividual
-from .mixin import PopulationMixin, FitnessMixin
-from .chromosome import FloatChromosome
-from .population import HOFPopulation
-from random import random
+from ..base import BaseIndividual
+from ..chromosome import FloatChromosome
+from ..population import HOFPopulation
 
-from .deco import basic_memory
-from .utils import randint2
+from ..deco import basic_memory
+from ..utils import randint2
 
 
 @basic_memory
-class SlimyMaterial(FitnessMixin):
+class SlimyMaterial(BaseIndividual):
 
     def approach_food(self, fame, direction, p, vb, vc):
         if random() < p:

@@ -9,8 +9,8 @@ S. Kirkpatrick, C. D. Gelatt, Jr., M. P. Vecchi. Optimization by Simulated Annea
 """
 
 
-from .. import PhantomIndividual
-from .. import metropolis_rule
+from ..individual import PhantomIndividual
+from ..utils import metropolis_rule
 
 
 class SimulatedAnnealing(PhantomIndividual):

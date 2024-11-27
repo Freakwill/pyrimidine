@@ -1,16 +1,20 @@
 pyrimidine package
 ==================
 
+pyrimidine is a competitive framework for genetic algorithms
+
 Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
+   :caption: Submodules
 
    pyrimidine.benchmarks
    pyrimidine.learn
    pyrimidine.local_search
    pyrimidine.misc
+
 
 Submodules
 ----------
@@ -87,14 +91,6 @@ pyrimidine.gene module
    :undoc-members:
    :show-inheritance:
 
-pyrimidine.gsa module
----------------------
-
-.. automodule:: pyrimidine.gsa
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 pyrimidine.individual module
 ----------------------------
 
@@ -112,7 +108,7 @@ pyrimidine.meta module
    :show-inheritance:
 
 pyrimidine.multipopulation module
-----------------------
+---------------------------------
 
 .. automodule:: pyrimidine.multipopulation
    :members:
@@ -143,10 +139,26 @@ pyrimidine.pso module
    :undoc-members:
    :show-inheritance:
 
+pyrimidine.qga module
+---------------------
+
+.. automodule:: pyrimidine.qga
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pyrimidine.saga module
 ---------------------------
 
 .. automodule:: pyrimidine.saga
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyrimidine.studga module
+---------------------------
+
+.. automodule:: pyrimidine.studga
    :members:
    :undoc-members:
    :show-inheritance:

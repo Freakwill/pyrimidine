@@ -11,11 +11,11 @@ It was introduced as a nature-inspired algorithm for solving optimization proble
 """
 
 from scipy.spatial.distance import pdist, squareform
-from .base import PopulationMixin
-from .chromosome import FloatChromosome
-from .pso import BaseParticle
-from .utils import euclidean, random, exp, metropolis_rule
-from .deco import side_effect
+from ..mixin import PopulationMixin
+from ..chromosome import FloatChromosome
+from ..pso import BaseParticle
+from ..utils import euclidean, random, exp, metropolis_rule
+from ..deco import side_effect
 
 import numpy as np
 

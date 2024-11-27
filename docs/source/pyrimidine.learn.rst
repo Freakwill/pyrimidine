@@ -1,19 +1,16 @@
-pyrimidine.learn package
+pyrimidine.learn subpackage
 ========================
 
-Submodules
-----------
-
-pyrimidine.learn.linear_regression module
----------------------------------------
+pyrimidine.learn.linear\_regression module
+------------------------------------------
 
 .. automodule:: pyrimidine.learn.linear_regression
    :members:
    :undoc-members:
    :show-inheritance:
 
-pyrimidine.learn.neural_network module
-----------------------------------
+pyrimidine.learn.neural\_network module
+---------------------------------------
 
 .. automodule:: pyrimidine.learn.neural_network
    :members:

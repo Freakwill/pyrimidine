@@ -14,7 +14,7 @@ Welcome to pyrimidine's world of genetic algorithm
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Contents
 
    Home
    Install

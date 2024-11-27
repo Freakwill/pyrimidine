@@ -32,9 +32,9 @@ from random import gauss, random, randint
 import numpy as np
 from scipy.spatial.distance import pdist, squareform
 
-from .mixin import PopulationMixin
-from .chromosome import FloatChromosome
-from .individual import PolyIndividual
+from ..mixin import PopulationMixin
+from ..chromosome import FloatChromosome
+from ..individual import PolyIndividual
 
 
 @basic_memory

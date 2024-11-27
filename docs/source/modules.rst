@@ -1,7 +1,7 @@
-pyrimidine
-==========
+Modules of `pyrimidine`
+=======================
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 3
 
    pyrimidine

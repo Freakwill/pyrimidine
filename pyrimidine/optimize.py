@@ -81,7 +81,7 @@ def ga_minimize(func, *xlim, decode=_decode, population_size=20, size=8, **kwarg
         func {function}: objective function defined on R^n
         xlim {tuple of number pairs}: the intervals of xi
         decode {mapping}: transform a binary sequence to a real number
-            ('0-1' sequence, lower_bound, upper_bound) |-> xi
+            ('0-1' sequence, lower_bound, upper_bound) mapsto xi
         population_size {int}: size of the population
         size {int or tuple of int}: the length of the encoding of xi
 
@@ -108,7 +108,7 @@ def de_minimize(func, *xlim, decode=_decode, population_size=20, size=8, **kwarg
         func {function}: objective function defined on R^n
         xlim: the intervals of xi
         decode: transform a binary sequence to a real number
-            ('0-1' sequence, lower_bound, upper_bound) |-> xi
+            ('0-1' sequence, lower_bound, upper_bound) mapsto xi
         population_size: size of the population
         size: the length of the encoding of xi
 
@@ -133,7 +133,7 @@ def ga_minimize_1d(func, xlim, decode=_decode, population_size=20, size=8, *args
         func: objective function defined on R
         xlim {pair of numbers}: the interval of x
         decode: transform a binary sequence to a real number
-            ('0-1' sequence, lower_bound, upper_bound) |-> xi
+            ('0-1' sequence, lower_bound, upper_bound) mapsto xi
         population_size {int}: size of the population
         size {int}: the length of the encoding of x
 

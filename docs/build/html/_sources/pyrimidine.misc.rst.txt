@@ -1,8 +1,5 @@
-pyrimidine.misc package
+pyrimidine.misc subpackage
 ================================
-
-Submodules
-----------
 
 pyrimidine.misc.aco module
 --------------------------------------------

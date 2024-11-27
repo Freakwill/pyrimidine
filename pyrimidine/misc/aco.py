@@ -8,8 +8,8 @@ Blum, Christian. "Ant colony optimization: Introduction and recent trends." Phys
 
 
 import numpy as np
-from .base import FitnessMixin, PopulationMixin
-from .meta import MetaContainer
+from ..base import FitnessMixin, PopulationMixin
+from ..meta import MetaContainer
 from scipy.stats import rv_discrete
 
 from random import random
@@ -109,7 +109,7 @@ class BaseAntColony(PopulationMixin, metaclass=MetaContainer):
 
     def transition(self, *args, **kwargs):
 
-        for _ in range(self.local_max_iter)
+        for _ in range(self.local_max_iter):
             self.move(n_steps=self.n_steps)
             self.update_pheromone()
             if not any(ant.move_flag for ant in self):

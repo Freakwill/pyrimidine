@@ -12,10 +12,10 @@ Yang, X. S. (2013). "Nature-Inspired Metaheuristic Algorithms". Luniver Press.
 import numpy as np
 from scipy.spatial.distance import pdist, squareform
 
-from .base import PopulationMixin
-from .chromosome import FloatChromosome
+from ..base import PopulationMixin
+from ..chromosome import FloatChromosome
 
-from .pso import BaseParticle
+from ..pso import BaseParticle
 
 
 class BaseFirefly(BaseParticle):

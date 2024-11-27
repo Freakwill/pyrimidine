@@ -19,8 +19,8 @@ from random import random
 
 import numpy as np
 
-from . import BaseIndividual, BasePopulation, FloatChromosome
-from .pso import BaseParticle
+from ..base import BaseIndividual, BasePopulation, FloatChromosome
+from ..pso import BaseParticle
 
 
 class Bat(BaseParticle):
