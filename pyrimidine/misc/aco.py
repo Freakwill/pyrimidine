@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-"""Ant Colony Optimization
+"""
+Ant Colony Optimization
 
 *Ref*
 Blum, Christian. "Ant colony optimization: Introduction and recent trends." Physics of Life reviews 2.4 (2005): 353-373.
@@ -20,7 +21,8 @@ class BaseAnt(FitnessMixin):
     "path": None,
     "n_steps": 1,
     "greedy_degree": 1,
-    "move_flag": True}
+    "move_flag": True
+    }
 
     def init(self):
         self.path = [0]

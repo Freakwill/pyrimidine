@@ -1,5 +1,5 @@
 pyrimidine.local\_search subpackage
-================================
+===================================
 
 pyrimidine.local\_search.random\_walk module
 --------------------------------------------

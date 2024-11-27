@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 The Bat Algorithm is a nature-inspired optimization algorithm developed by Xin-She Yang in 2010.

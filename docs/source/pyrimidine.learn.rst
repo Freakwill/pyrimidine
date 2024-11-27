@@ -1,5 +1,5 @@
 pyrimidine.learn subpackage
-========================
+===========================
 
 pyrimidine.learn.linear\_regression module
 ------------------------------------------
