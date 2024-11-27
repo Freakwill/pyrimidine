@@ -73,6 +73,7 @@ html_use_modindex = True
 html_use_search = True
 
 html_output = '.'
+html_output_path = '.'
 
 stickysidebar = True
 
