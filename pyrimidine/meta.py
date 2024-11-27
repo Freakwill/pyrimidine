@@ -157,38 +157,39 @@ class MetaContainer(ParamType):
 
     Example:
 
-        ```
-        from collections import UserString
-        class C(metaclass=MetaContainer):
-            # container of strings
-            element_class = UserString
-            alias = {'strings': 'elements'}
+    ```python
+    from collections import UserString
+    class C(metaclass=MetaContainer):
+        # container of strings
+        element_class = UserString
+        alias = {'strings': 'elements'}
 
-        c = C(strings=[UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
-        print(c.element_class)
-        print(c.strings)
-        print(c.lasting)
-        print(c.n_strings)
-        print(c[1])
-        for a in c:
-            print(a)
+    c = C(strings=[UserString('I'), UserString('love'), UserString('you')], lasting='for ever')
+    print(c.element_class)
+    print(c.strings)
+    print(c.lasting)
+    print(c.n_strings)
+    print(c[1])
+    for a in c:
+        print(a)
 
-        c.regester('upper')
-        print(c.upper())
-        ```
+    c.regester('upper')
+    print(c.upper())
+    ```
 
     Output:
-
-        <class 'collections.UserString'>
-        <property object at 0x1065715e0>
-        ['I', 'love', 'you']
-        for ever
-        3
-        love
-        I
-        love
-        you
-        ['I', 'LOVE', 'YOU']
+    ```
+    <class 'collections.UserString'>
+    <property object at 0x1065715e0>
+    ['I', 'love', 'you']
+    for ever
+    3
+    love
+    I
+    love
+    you
+    ['I', 'LOVE', 'YOU']
+    ```
     """
 
     def __new__(cls, name, bases, attrs):

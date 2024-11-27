@@ -3,21 +3,14 @@ pyrimidine package
 
 pyrimidine is a competitive framework for genetic algorithms
 
-Subpackages
------------
-
 .. toctree::
    :maxdepth: 2
-   :caption: Submodules
+   :caption: Subpackages
 
    pyrimidine.benchmarks
    pyrimidine.learn
    pyrimidine.local_search
    pyrimidine.misc
-
-
-Submodules
-----------
 
 pyrimidine.base module
 ----------------------
@@ -52,7 +45,7 @@ pyrimidine.deco module
    :show-inheritance:
 
 pyrimidine.aco module
---------------------
+---------------------
 
 .. automodule:: pyrimidine.aco
    :members:
@@ -164,17 +157,10 @@ pyrimidine.studga module
    :show-inheritance:
 
 pyrimidine.utils module
------------------------
+-----------------------0
 
 .. automodule:: pyrimidine.utils
    :members:
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: pyrimidine
-   :members:
-   :undoc-members:
-   :show-inheritance:

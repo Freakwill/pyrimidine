@@ -135,7 +135,7 @@ def pattern(chromosomes):
 
     Example:
         >> pattern([[0,1,0], [1,0,0]])
-        >> **0
+        >> # Output "**0"
     """
 
     return ''.join([str(a[0]) if all(ai==a[0] for ai in a) else '*' for a in zip(*chromosomes)])

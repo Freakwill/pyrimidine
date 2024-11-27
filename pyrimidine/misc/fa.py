@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
-"""Firefly Algorithm
+"""
+Firefly Algorithm
 
 *References*
 Yang, X. S. (2010). "Firefly Algorithm: A New Approach for Optimization".
-  In Stochastic Algorithms: Foundations and Applications (pp. 169-178). Springer Berlin Heidelberg.
+In Stochastic Algorithms: Foundations and Applications (pp. 169-178). Springer Berlin Heidelberg.
 Yang, X. S. (2013). "Nature-Inspired Metaheuristic Algorithms". Luniver Press.
 """
 
@@ -12,7 +13,7 @@ Yang, X. S. (2013). "Nature-Inspired Metaheuristic Algorithms". Luniver Press.
 import numpy as np
 from scipy.spatial.distance import pdist, squareform
 
-from ..base import PopulationMixin
+from ..mixin import PopulationMixin
 from ..chromosome import FloatChromosome
 
 from ..pso import BaseParticle

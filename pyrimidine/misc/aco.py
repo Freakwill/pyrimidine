@@ -6,13 +6,12 @@
 Blum, Christian. "Ant colony optimization: Introduction and recent trends." Physics of Life reviews 2.4 (2005): 353-373.
 """
 
-
+from random import random
 import numpy as np
-from ..base import FitnessMixin, PopulationMixin
-from ..meta import MetaContainer
 from scipy.stats import rv_discrete
 
-from random import random
+from ..mixin import FitnessMixin, PopulationMixin
+from ..meta import MetaContainer
 
 
 class BaseAnt(FitnessMixin):

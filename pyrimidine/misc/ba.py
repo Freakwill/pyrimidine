@@ -19,7 +19,8 @@ from random import random
 
 import numpy as np
 
-from ..base import BaseIndividual, BasePopulation, FloatChromosome
+from ..base import BaseIndividual, BasePopulation
+from ..chromosome import FloatChromosome
 from ..pso import BaseParticle
 
 

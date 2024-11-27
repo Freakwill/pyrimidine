@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pyrimidine.benchmarks subpackage" href="pyrimidine.benchmarks.html" />
-    <link rel="prev" title="Modules of pyrimidine" href="Modules.html" />
+    <link rel="prev" title="Misc" href="Media.html" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <!--[if lte IE 6]>
@@ -36,10 +36,9 @@
           <a href="pyrimidine.benchmarks.html" title="pyrimidine.benchmarks subpackage"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="Modules.html" title="Modules of pyrimidine"
+          <a href="Media.html" title="Misc"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">pyrimidine 1.7 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="Modules.html" accesskey="U">Modules of <cite>pyrimidine</cite></a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine package</a></li> 
       </ul>
     </div>  
@@ -52,10 +51,8 @@
   <section id="pyrimidine-package">
 <h1>pyrimidine package<a class="headerlink" href="#pyrimidine-package" title="Link to this heading">¶</a></h1>
 <p>pyrimidine is a competitive framework for genetic algorithms</p>
-<section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Submodules</span></p>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pyrimidine.benchmarks.html">pyrimidine.benchmarks subpackage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pyrimidine.benchmarks.html#module-pyrimidine.benchmarks.approximation">pyrimidine.benchmarks.approximation module</a></li>
@@ -82,20 +79,16 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pyrimidine.misc.html">pyrimidine.misc subpackage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#pyrimidine-misc-aco-module">pyrimidine.misc.aco module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#pyrimidine-misc-ba-module">pyrimidine.misc.ba module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#pyrimidine-misc-fa-module">pyrimidine.misc.fa module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#pyrimidine-misc-gsa-module">pyrimidine.misc.gsa module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#pyrimidine-misc-sma-module">pyrimidine.misc.sma module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#pyrimidine-misc-ssa-module">pyrimidine.misc.ssa module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#module-pyrimidine.misc.aco">pyrimidine.misc.aco module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#module-pyrimidine.misc.ba">pyrimidine.misc.ba module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#module-pyrimidine.misc.fa">pyrimidine.misc.fa module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#module-pyrimidine.misc.gsa">pyrimidine.misc.gsa module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#module-pyrimidine.misc.sma">pyrimidine.misc.sma module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyrimidine.misc.html#module-pyrimidine.misc.ssa">pyrimidine.misc.ssa module</a></li>
 </ul>
 </li>
 </ul>
 </div>
-</section>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
-</section>
 <section id="module-pyrimidine.base">
 <span id="pyrimidine-base-module"></span><h2>pyrimidine.base module<a class="headerlink" href="#module-pyrimidine.base" title="Link to this heading">¶</a></h2>
 <p>The base classes are defined here, mainly for implementation of GAs.</p>
@@ -1792,14 +1785,10 @@ or the moving method in Simulated Annealing.</p>
 <h2>pyrimidine.deco module<a class="headerlink" href="#pyrimidine-deco-module" title="Link to this heading">¶</a></h2>
 <p id="module-pyrimidine.deco">Decorators</p>
 <p>Two main kinds of decorators:
-1. cache decorator: store the information of previous computing, to seep up the algorithm.</p>
-<blockquote>
-<div><p>Should clear it to suppress the side effect. It is used with <cite>&#64;side-effect</cite> decorator.
-methods with <cite>&#64;side-effect</cite> will clear the cache after executing.</p>
-</div></blockquote>
-<ol class="arabic simple" start="2">
-<li><p>memory decorator: As cache, it record some information, but it will chage the behavior of the algorithms.</p></li>
-</ol>
+1. cache decorator: store the information of previous computing, to seep up the algorithm.
+Should clear it to suppress the side effect. It is used with <cite>&#64;side-effect</cite> decorator.
+Methods with <cite>&#64;side-effect</cite> will clear the cache after executing.
+2. memory decorator: As cache, it record some information, but it will chage the behavior of the algorithms.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.deco.Regester">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">Regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.Regester" title="Link to this definition">¶</a></dt>
@@ -2897,8 +2886,8 @@ by the arrays for convenience.</p>
 <p>Meta class of containers</p>
 <p>A container is a algebric system with elements of some type
 and operators acting on the elements</p>
-<p class="rubric">Example</p>
-<p><a href="#id14"><span class="problematic" id="id15">``</span></a>`
+<p>Example:</p>
+<p><a href="#id14"><span class="problematic" id="id15">``</span></a><a href="#id16"><span class="problematic" id="id17">`</span></a>python
 from collections import UserString
 class C(metaclass=MetaContainer):</p>
 <blockquote>
@@ -2918,20 +2907,20 @@ for a in c:</p>
 </div></blockquote>
 <p>c.regester(‘upper’)
 print(c.upper())
-<a href="#id16"><span class="problematic" id="id17">``</span></a><a href="#id18"><span class="problematic" id="id19">`</span></a></p>
-<p>Output:</p>
-<blockquote>
-<div><p>&lt;class ‘collections.UserString’&gt;
-&lt;property object at 0x1065715e0&gt;
-[‘I’, ‘love’, ‘you’]
-for ever
-3
-love
-I
-love
-you
-[‘I’, ‘LOVE’, ‘YOU’]</p>
-</div></blockquote>
+<a href="#id18"><span class="problematic" id="id19">``</span></a><a href="#id20"><span class="problematic" id="id21">`</span></a></p>
+<p>Output:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">&lt;class</span> <span class="pre">'collections.UserString'&gt;</span>
+<span class="pre">&lt;property</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x1065715e0&gt;</span>
+<span class="pre">['I',</span> <span class="pre">'love',</span> <span class="pre">'you']</span>
+<span class="pre">for</span> <span class="pre">ever</span>
+<span class="pre">3</span>
+<span class="pre">love</span>
+<span class="pre">I</span>
+<span class="pre">love</span>
+<span class="pre">you</span>
+<span class="pre">['I',</span> <span class="pre">'LOVE',</span> <span class="pre">'YOU']</span>
+<span class="pre">`</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.meta.MetaContainer.random">
 <span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.MetaContainer.random" title="Link to this definition">¶</a></dt>
@@ -4777,10 +4766,9 @@ Khatib, Wael and Peter John Fleming. “The Stud GA: A Mini Revolution?” Paral
 <span class="sig-prename descclassname"><span class="pre">pyrimidine.studga.</span></span><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">x</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">interval</span> <span class="pre">[0,</span> <span class="pre">1).</span></span></span><a class="headerlink" href="#pyrimidine.studga.random" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
-</section>
-<section id="module-pyrimidine.utils">
-<span id="pyrimidine-utils-module"></span><h2>pyrimidine.utils module<a class="headerlink" href="#module-pyrimidine.utils" title="Link to this heading">¶</a></h2>
-<p>Helper functions</p>
+<p>pyrimidine.utils module
+———————–0</p>
+<p id="module-pyrimidine.utils">Helper functions</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.utils.boltzmann_select">
 <span class="sig-prename descclassname"><span class="pre">pyrimidine.utils.</span></span><span class="sig-name descname"><span class="pre">boltzmann_select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.utils.boltzmann_select" title="Link to this definition">¶</a></dt>
@@ -4878,7 +4866,7 @@ Khatib, Wael and Peter John Fleming. “The Stud GA: A Mini Revolution?” Paral
 </dl>
 <p class="rubric">Example</p>
 <p>&gt;&gt; pattern([[0,1,0], [1,0,0]])
-&gt;&gt; <a href="#id20"><span class="problematic" id="id21">**</span></a>0</p>
+&gt;&gt; # Output “<a href="#id22"><span class="problematic" id="id23">**</span></a>0”</p>
 </dd></dl>
 
 <dl class="py function">
@@ -4967,14 +4955,6 @@ Applied in GA operations.</p>
 </dd></dl>
 
 </section>
-<section id="module-pyrimidine">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyrimidine" title="Link to this heading">¶</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="pyrimidine.random">
-<span class="sig-prename descclassname"><span class="pre">pyrimidine.</span></span><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">x</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">interval</span> <span class="pre">[0,</span> <span class="pre">1).</span></span></span><a class="headerlink" href="#pyrimidine.random" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</section>
 </section>
 
 
@@ -4988,8 +4968,6 @@ Applied in GA operations.</p>
     <h3><a href="index.html">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">pyrimidine package</a><ul>
-<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-pyrimidine.base">pyrimidine.base module</a><ul>
 <li><a class="reference internal" href="#pyrimidine.base.BaseChromosome"><code class="docutils literal notranslate"><span class="pre">BaseChromosome</span></code></a><ul>
 <li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.default_size"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.default_size</span></code></a></li>
@@ -5881,9 +5859,6 @@ Applied in GA operations.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#pyrimidine.studga.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-pyrimidine.utils">pyrimidine.utils module</a><ul>
 <li><a class="reference internal" href="#pyrimidine.utils.boltzmann_select"><code class="docutils literal notranslate"><span class="pre">boltzmann_select()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.utils.choice"><code class="docutils literal notranslate"><span class="pre">choice()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.utils.choice_uniform"><code class="docutils literal notranslate"><span class="pre">choice_uniform()</span></code></a></li>
@@ -5900,10 +5875,6 @@ Applied in GA operations.</p>
 <li><a class="reference internal" href="#pyrimidine.utils.rotations"><code class="docutils literal notranslate"><span class="pre">rotations()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pyrimidine">Module contents</a><ul>
-<li><a class="reference internal" href="#pyrimidine.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -5911,8 +5882,8 @@ Applied in GA operations.</p>
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="Modules.html"
-                          title="previous chapter">Modules of <cite>pyrimidine</cite></a></p>
+    <p class="topless"><a href="Media.html"
+                          title="previous chapter">Misc</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
@@ -5953,10 +5924,9 @@ Applied in GA operations.</p>
           <a href="pyrimidine.benchmarks.html" title="pyrimidine.benchmarks subpackage"
              >next</a> |</li>
         <li class="right" >
-          <a href="Modules.html" title="Modules of pyrimidine"
+          <a href="Media.html" title="Misc"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">pyrimidine 1.7 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="Modules.html" >Modules of <cite>pyrimidine</cite></a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine package</a></li> 
       </ul>
     </div>
