@@ -12,28 +12,30 @@ Welcome to pyrimidine's world of genetic algorithm
 
 **pyrimidine** is a competitive framework for genetic algorithms or any type of evolutionary algorithms.
 
-.. _source:
-
 .. toctree::
    :maxdepth: 2
-   :caption: Contents
+   :caption: Document
 
-   Home
-   Install
-   Release History
-   API Design
-   Examples
-   Customization
-   Helpers
-   Developers
-   Media
+   source/Home
+   source/Install
+   source/Release History
+   source/API Design
+   source/Examples
+   source/Customization
+   source/Helpers
+   source/Media
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: About
 
    GitHub Page <https://github.com/Freakwill/pyrimidine>
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Developers
+
+   source/Developers
 
 Modules Overview
 ================
