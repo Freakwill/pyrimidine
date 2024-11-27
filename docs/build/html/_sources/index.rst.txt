@@ -16,14 +16,7 @@ Welcome to pyrimidine's world of genetic algorithm
    :maxdepth: 2
    :caption: Document
 
-   source/Home
-   source/Install
-   source/Release History
-   source/API Design
-   source/Examples
-   source/Customization
-   source/Helpers
-   source/Media
+   source/index
 
 .. toctree::
    :maxdepth: 1
