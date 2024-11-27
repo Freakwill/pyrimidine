@@ -64,7 +64,7 @@ html_theme = 'pyramid'
 html_static_path = ['_static']
 
 # The master toctree document.
-master_doc = 'index'
+root_doc = 'index'
 
 html_domain_indices = True
 
