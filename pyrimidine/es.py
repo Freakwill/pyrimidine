@@ -4,7 +4,7 @@
 (mu + lambda) - Evolution Strategy
 
 *References*
-Rechenberg, I. 1973. Evolutionsstrategie – Optimierung technischer Systeme nach Prinzipien der biologischen Evolution, Frommann-Holzboog.
+Rechenberg, I. 1973. Evolutions strategie – Optimierung technischer Systeme nach Prinzipien der biologischen Evolution, Frommann-Holzboog.
 """
 
 
@@ -17,7 +17,7 @@ class EvolutionStrategy(BasePopulation):
 
     params ={
         "mu" : 10,
-        "lambda_": 20,
+        "lambda_": 20
     }
 
     def init(self):

@@ -70,6 +70,8 @@ class ParamType(type):
                 return self.params[key]
             elif key in self.alias:
                 return getattr(self, self.alias[key])
+            elif key == 'lambda' and 'lambda_' in self.params:
+                return self.params['lambda_']
             else:
                 raise AttributeError(f"""`{key}` is neither an attribute of the object of `{self.__class__}`, nor in `params` or `alias`;
                     If you are sure that `{key}` has been defined as an attribute, then you should check the definition statement.

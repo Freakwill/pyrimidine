@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Optimization Helpers for GA.
+Helpers for the optimization based on GA.
 
 Users can use the following example to optimize a multivariate function by GA directly
 without encoding the solutions to chromosomes or individuals.
