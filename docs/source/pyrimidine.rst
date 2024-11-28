@@ -149,7 +149,7 @@ pyrimidine.studga module
    :show-inheritance:
 
 pyrimidine.utils module
------------------------0
+------------------------
 
 .. automodule:: pyrimidine.utils
    :members:

@@ -1,16 +1,9 @@
-.. pyrimidine documentation master file, created by
-   sphinx-quickstart on Dec 18 2023.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Document of `pyrimidine`
+===========================
 
-Welcome to pyrimidine's world of genetic algorithm
-====================================================================
-
-.. image:: source/logo.png
+.. image:: source/green_logo.png
    :width: 200
    :height: 200
-
-**pyrimidine** is a competitive framework for genetic algorithms or any type of evolutionary algorithms.
 
 .. toctree::
    :maxdepth: 2
@@ -23,5 +16,12 @@ Welcome to pyrimidine's world of genetic algorithm
    Examples
    Customization
    Helpers
-   Developers
    Media
+
+
+Indices
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

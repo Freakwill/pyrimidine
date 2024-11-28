@@ -1,6 +1,6 @@
 # API Design
 
-.. api-design:
+API design principles
 
 ## Modules
 

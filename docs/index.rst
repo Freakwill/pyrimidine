@@ -6,7 +6,7 @@
 Welcome to pyrimidine's world of genetic algorithm
 ====================================================================
 
-.. image:: source/logo.png
+.. image:: source/transparent_logo.png
    :width: 200
    :height: 200
 
@@ -42,9 +42,6 @@ Modules Overview
 Indices
 ==================
 
-.. toctree::
-   :maxdepth: 2
-
-   genindex
-   modindex
-   search
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
