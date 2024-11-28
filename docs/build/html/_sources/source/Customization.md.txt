@@ -82,6 +82,7 @@ class EvolutionStrategy(BasePopulation):
 
 ```
 
+
 ## Differential Evolution
 
 The standard DE is a global searching algorithm. The class `DifferentialEvolution` for DE is inherited from `PopulationMixin`.
@@ -124,7 +125,6 @@ After running `comparison-de.py`, we get the following fitness curves.
 
 ## Local Search
 
-### Evolutionary Strategy
 Different from GA, DE or other algorithms based on the population, simulated annealing is based on single individual. It is a sort of local search. Following is the skelton of SA.
 
 ```python

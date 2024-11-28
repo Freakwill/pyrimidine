@@ -1,5 +1,7 @@
 # API Design
 
+.. _api-design:
+
 API design principles
 
 ## Modules
@@ -14,8 +16,8 @@ Short introduction to modules:
 - `chromosome`: some type of chromosomes
 - `multipopulation`: multi-population GAs
 - `individual`: individuals for GA or other EA
-- `es/de/ep`: Evolutionary algorithms
-- `pso/ba/fa`: Swarm intelligent algorithms
+- `es/de/ep...`: Evolutionary algorithms
+- `pso/ba/fa...`: Swarm intelligent algorithms
 - `deco`: Decorators
 - `utils`: Helpers
 - `errors`: Exceptions
