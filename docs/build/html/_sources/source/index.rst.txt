@@ -1,7 +1,7 @@
 Document of `pyrimidine`
 ===========================
 
-.. image:: source/green_logo.png
+.. image:: src/yellow_logo.png
    :width: 200
    :height: 200
 
