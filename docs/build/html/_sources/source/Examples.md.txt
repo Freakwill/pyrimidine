@@ -1,5 +1,4 @@
 # Examples and Comparison of Algorithms
-[TOC]
 
 Let's see some examples for learning to use `pyrimidine`.
 
