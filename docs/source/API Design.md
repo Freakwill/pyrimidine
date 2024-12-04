@@ -6,7 +6,6 @@ API design principles
 
 ## Modules
 
-
 Short introduction to modules:
 
 - `meta`: Metaclasses
@@ -25,6 +24,7 @@ Short introduction to modules:
 - `learn/*`: Machine learning implemented by GAs
 
 ## Metaclasses
+
 The metaclass `System` is defined to simulate abstract algebraic systems, which are instantiated as a set containing a set of elements, as well as operators and functions on them.
 
 `MetaContainer` is the super-metaclass of `System` for creating container classes.

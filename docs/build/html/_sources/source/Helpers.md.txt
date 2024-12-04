@@ -1,5 +1,4 @@
 # Helpers
-[TOC]
 
 To introduce the useful helpers and decorators
 

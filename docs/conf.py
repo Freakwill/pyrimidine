@@ -58,10 +58,10 @@ templates_path = ['_templates']
 #
 html_theme = 'pyramid'
 
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# Add any paths that contain custom css files
+custom_css_path = '_static/css'
+
+html_static_path = ['_static', custom_css_path]
 
 # The master toctree document.
 master_doc = 'index'

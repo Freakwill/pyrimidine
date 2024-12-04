@@ -4,7 +4,6 @@ It is a highly object-oriental implement of genetic algorithm by Python.
 
 ![LOGO](source/green_logo.png)
 
-
 ## Why
 
 Why is the package named as "pyrimidine"? Because it begins with "py". 
