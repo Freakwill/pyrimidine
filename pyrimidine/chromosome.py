@@ -5,6 +5,14 @@ Chromosome classes, subclass of BaseChromosome
 
 A chromosome is an array of genes, or it can be customized by the user.
 It could be a part of an individual or encodes a solution directly.
+
+- `NumpyArrayChromosome`: Chromosome implemented by the array of numpy
+- `MatrixChromosome`: matrix type of chromosome
+- `BinaryChromosome`: 0-1 chromosome, such as `001101001`
+- `DigitChromosome`: chromosome with digits, such as `2312514`
+- `ProbabilityChromosome`: chromosome representing the probability
+- `QuantumChromosome`: for Quantum GA
+- `ListChromosome`: like `NumpyArrayChromosome`, but implemented by the list
 """
 
 from random import choice, randint, gauss, random
@@ -182,10 +190,12 @@ class BinaryChromosome(NaturalChromosome):
 
     @classmethod
     def zero(cls):
+        # the chromosome 00...0
         return cls(np.zeros(cls.default_size))
 
     @classmethod
     def one(cls):
+        # the chromosome 11...1
         return cls(np.ones(cls.default_size))
 
     @side_effect
@@ -195,6 +205,7 @@ class BinaryChromosome(NaturalChromosome):
                 self[i] ^= 1
 
     def dual(self):
+        # the dual chromosome, shifting 0->1, 1->0
         return self.__class__(1 ^ self)
 
 

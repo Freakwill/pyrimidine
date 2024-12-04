@@ -896,6 +896,15 @@ individuals, <cite>n_sel</cite> times.</p>
 <p>Chromosome classes, subclass of BaseChromosome</p>
 <p>A chromosome is an array of genes, or it can be customized by the user.
 It could be a part of an individual or encodes a solution directly.</p>
+<ul class="simple">
+<li><p><cite>NumpyArrayChromosome</cite>: Chromosome implemented by the array of numpy</p></li>
+<li><p><cite>MatrixChromosome</cite>: matrix type of chromosome</p></li>
+<li><p><cite>BinaryChromosome</cite>: 0-1 chromosome, such as <cite>001101001</cite></p></li>
+<li><p><cite>DigitChromosome</cite>: chromosome with digits, such as <cite>2312514</cite></p></li>
+<li><p><cite>ProbabilityChromosome</cite>: chromosome representing the probability</p></li>
+<li><p><cite>QuantumChromosome</cite>: for Quantum GA</p></li>
+<li><p><cite>ListChromosome</cite>: like <cite>NumpyArrayChromosome</cite>, but implemented by the list</p></li>
+</ul>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.chromosome.ArrayChromosome">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.chromosome.</span></span><span class="sig-name descname"><span class="pre">ArrayChromosome</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.chromosome.ArrayChromosome" title="Link to this definition">¶</a></dt>
@@ -3378,12 +3387,22 @@ without encoding the solutions to chromosomes or individuals.</p>
 <span id="pyrimidine-population-module"></span><h2>pyrimidine.population module<a class="headerlink" href="#module-pyrimidine.population" title="Link to this heading">¶</a></h2>
 <p>Variants of Population classes</p>
 <p>A population is defined as a container of individuals.</p>
-<p>StandardPopulation: Standard Genetic Algorithm
-HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
+<ul class="simple">
+<li><p><cite>StandardPopulation</cite>: Standard Genetic Algorithm</p></li>
+<li><p><cite>HOFPopulation</cite>: Standard Genetic Algorithm with hall of fame</p></li>
+<li><p><cite>DualPopulation</cite>: population with two <cite>dual</cite> method</p></li>
+<li><p><cite>LocalSearchPopulation</cite>: GA with local searching</p></li>
+<li><p><cite>AgePopulation</cite>: remove the old individuals in GA</p></li>
+</ul>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.population.AgePopulation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.population.</span></span><span class="sig-name descname"><span class="pre">AgePopulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.population.AgePopulation" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyrimidine.population.EliminationPopulation" title="pyrimidine.population.EliminationPopulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">EliminationPopulation</span></code></a></p>
+<p>Population with age</p>
+<dl class="simple">
+<dt>Extends:</dt><dd><p>EliminationPopulation</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.population.AgePopulation.alias">
 <span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'best_individual':</span> <span class="pre">'best_element',</span> <span class="pre">'best_individuals':</span> <span class="pre">'best_elements',</span> <span class="pre">'get_best_individual':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_individuals':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'individuals':</span> <span class="pre">'elements',</span> <span class="pre">'n_individuals':</span> <span class="pre">'n_elements',</span> <span class="pre">'worst_individual':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.population.AgePopulation.alias" title="Link to this definition">¶</a></dt>
@@ -3504,6 +3523,11 @@ HOFPopulation: Standard Genetic Algorithm with hall of fame</p>
 <dt class="sig sig-object py" id="pyrimidine.population.EliminationPopulation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.population.</span></span><span class="sig-name descname"><span class="pre">EliminationPopulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.population.EliminationPopulation" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyrimidine.base.BasePopulation" title="pyrimidine.base.BasePopulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePopulation</span></code></a></p>
+<p>Population with elimination rule</p>
+<dl class="simple">
+<dt>Extends:</dt><dd><p>EliminationPopulation</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyrimidine.population.EliminationPopulation.alias">
 <span class="sig-name descname"><span class="pre">alias</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'best_individual':</span> <span class="pre">'best_element',</span> <span class="pre">'best_individuals':</span> <span class="pre">'best_elements',</span> <span class="pre">'get_best_individual':</span> <span class="pre">'get_best_element',</span> <span class="pre">'get_best_individuals':</span> <span class="pre">'get_best_elements',</span> <span class="pre">'individuals':</span> <span class="pre">'elements',</span> <span class="pre">'n_individuals':</span> <span class="pre">'n_elements',</span> <span class="pre">'worst_individual':</span> <span class="pre">'worst_element'}</span></em><a class="headerlink" href="#pyrimidine.population.EliminationPopulation.alias" title="Link to this definition">¶</a></dt>

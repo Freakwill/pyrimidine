@@ -180,17 +180,19 @@ class IterativeMixin:
         return data / n_repeats, np.mean(times)
 
     def copy(self, *args, **kwargs):
+        # copy the object
         raise NotImplementedError
 
     def clone(self):
         return self.copy()
 
     def decode(self):
+        # decode the object (a chromosome or an indiviudal) to the real solution
         return self
 
     @classmethod
     def encode(cls, x):
-        # encode x to a chromosome
+        # encode x to a chromosome or an indiviudal
         raise NotImplementedError
 
     @property
@@ -245,13 +247,13 @@ class IterativeMixin:
             raise FileNotFoundError(f'Could not find the file {filename}!')
 
     def after_setter(self):
-        # what should be done after setting the attributes of the object
+        # What should be done after setting the attributes of the object
         if hasattr(self, '_cache'):
             self.clear_cache()
 
     @classmethod
     def solve(cls, *args, **kwargs):
-        # get the solution after evolution immediately
+        # To get the solution after evolution immediately
         return cls.random().ezolve(*args, **kwargs).solution
 
 
@@ -268,10 +270,17 @@ class FitnessMixin(IterativeMixin):
         raise NotImplementedError
 
     def _fitness(self):
+        """Compute the fitness
+
+        Instead of overriding the `fitness` attribute,
+        users are recommended to override the `_fitness` method,
+        where the concrete fitness computation is defined.
+        """
         raise NotImplementedError
 
     @property
     def fitness(self):
+        # get the fitness
         return self._fitness()
 
     @classmethod
@@ -329,12 +338,6 @@ class FitnessMixin(IterativeMixin):
     def clone(self):
         # totally copy the object
         return self.__class__(list(map(methodcaller('clone'), self)))
-
-    # def diff_fitness(self):
-    #     return self.fitness - self.previous_fitness
-
-    # def previous_fitness(self):
-    #     return self.memory['fitness']
 
 
 class CollectiveMixin(IterativeMixin):

@@ -4,8 +4,11 @@
 
 A population is defined as a container of individuals.
 
-StandardPopulation: Standard Genetic Algorithm
-HOFPopulation: Standard Genetic Algorithm with hall of fame
+- `StandardPopulation`: Standard Genetic Algorithm
+- `HOFPopulation`: Standard Genetic Algorithm with hall of fame
+- `DualPopulation`: population with two `dual` method
+- `LocalSearchPopulation`: GA with local searching
+- `AgePopulation`: remove the old individuals in GA
 """
 
 from operator import methodcaller, attrgetter
@@ -151,6 +154,11 @@ class GamogenesisPopulation(HOFPopulation):
 
 
 class EliminationPopulation(BasePopulation):
+    """Population with elimination rule
+    
+    Extends:
+        EliminationPopulation
+    """
 
     def transition(self, *args, **kwargs):
         elder = self.clone()
@@ -167,6 +175,11 @@ class EliminationPopulation(BasePopulation):
 
 
 class AgePopulation(EliminationPopulation):
+    """Population with age
+    
+    Extends:
+        EliminationPopulation
+    """
 
     def transition(self, *args, **kwargs):
         for individual in self:
