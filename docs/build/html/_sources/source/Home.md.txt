@@ -2,7 +2,7 @@
 
 It is a highly object-oriental implement of genetic algorithm by Python.
 
-![LOGO](source/green_logo.png)
+![LOGO](src/green_logo.png)
 
 ## Why
 
