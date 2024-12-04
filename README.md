@@ -1,8 +1,11 @@
 # pyrimidine
 
+.. image:: https://img.shields.io/pypi/pyversions/pyrimidine.svg
+   :target: https://pypi.python.org/pypi/pyrimidine
+
 `pyrimidine` is an extensible framework of genetic/evolutionary algorithm by Python. See [pyrimidine's documentation](https://pyrimidine.readthedocs.io/) for more details.
 
-![LOGO](logo.png)
+![LOGO](small-logo.png)
 
 ## Why
 

@@ -86,9 +86,9 @@ s = \{a:A\}: S \quad \text{or} \quad s:S[A]\,,
 \end{equation}
 where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimicks Python syntax, borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
 
-Building upon the concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs. It even allows to define containers in higher order, such as a container of multi-populations.
+Building upon the concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs.
 
-While an individual can be conceptualized as a container of chromosomes, it will not necessarily be considered an algebraic system. Similarly, a chromosome might be viewed as a container of genes.
+An individual is conceptualized as a container of chromosomes, without necessarily being an algebraic system. Similarly, a chromosome acts as a container of genes.
 
 In a population system $s$, the formal representation of the crossover operation between two individuals is denoted as $a \times_s b$, that can be implemented as the command `s.cross(a, b)`. Although this system concept aligns with algebraic systems, the current version diverges from this notion, and the operators are directly defined as methods of the elements, such as `a.cross(b)`.
 
@@ -96,13 +96,12 @@ The lifting of a function/method $f$ is a common approach to defining the functi
 $$
 f(s) := \{f(a)\}\,,
 $$
-unless explicitly redefined. For example, the mutation of a population typically involves the mutation of all individuals in it, but there are cases where it may be defined as the mutation of a randomly selected individual. Another type of lifting is that the fitness of a population is determined as the maximum of the fitness values among the individuals in the population.
+unless explicitly redefined. For example, the mutation of a population typically involves the mutation of all individuals in it. Other types of lifting are allowed.
 
 `transition` is the primary method in the iterative algorithms, denoted as a transform:
 $$
 T(s):S\to S\,.
 $$
-The iterative algorithms can be represented as $T^n(s)$.
 
 ## Metaclasses
 
@@ -120,14 +119,10 @@ When designing a novel algorithm, significantly differing from the GA, it is adv
 
 There are three base classes in `pyrimidine`: `BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively.
 
-For convenience, `pyrimidine` provides some commonly used subclasses, where the genetic operations are implemented such as, `cross` and `mutate`, such as `BinaryChromosome` for the binary encoding as in the classical GA.
-
-Generally, the algorithm design starts as follows, where `MonoIndividual` (a subclass of `BaseIndividual`) simply enforces that an individual can only have one chromosome.
+Generally, the algorithm design starts as follows, where `MonoIndividual` is a subclass of `BaseIndividual` with only one chromosome.
 
 ```python
 class UserIndividual(MonoIndividual):
-    # The individual with only one chromosome,
-    # in type of `BinaryChromosome`
     element_class = BinaryChromosome
     # default_size = 1
 
@@ -139,14 +134,12 @@ class UserPopulation(StandardPopulation):
     default_size = 10
 ```
 
-In the template code above, `UserIndividual` (or `UserPopulation`) serves as a container of elements in type of `BinaryChromosome` (or `UserIndividual`), and employs the operators of the elements in the lifting form by default. Following is the equivalent expression, using the notion in \autoref{eq:container}:
+Here, `UserIndividual` (or `UserPopulation`) serves as a container of elements in type of `BinaryChromosome` (or `UserIndividual`). Instead of overriding the `fitness` attribute, users are recommended to override the `_fitness` method, where the concrete fitness computation is defined. Following is the equivalent expression, using the notion in \autoref{eq:container}:
 
 ```python
 UserIndividual = MonoIndividual[BinaryChromosome]
 UserPopulation = StandardPopulation[UserIndividual] // 10
 ```
-
-Instead of overriding the `fitness` attribute, users are recommended to override the `_fitness` method, where the concrete fitness computation is defined. The operator `// 10` is equivalent to set `default_size = 10`.
 
 Algebraically, there is no difference between `MonoIndividual` and `Chromosome`. Meanwhile the population also can be treated as a container of chromosomes as follows.
 
