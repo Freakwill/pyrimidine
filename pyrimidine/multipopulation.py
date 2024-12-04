@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+classes for MultiPopulation GA
+"""
+
 
 from itertools import product
 import threading
@@ -9,15 +13,17 @@ from .utils import *
 
 
 class MultiPopulation(BaseMultiPopulation):
+    # for multi populaiton GA
 
     def mate(self):
+        # execute `mate` methods for each population
         for p in self:
             p.mate()
 
 
-class DualPopulation(MultiPopulation):
+class DoublePopulation(MultiPopulation):
     """Multi-population composed by two populations:
-        the male and female population.
+    the male and female population.
     """
     
     params = {'n_elders':0.5, 'mate_prob':0.75}
@@ -49,10 +55,10 @@ class DualPopulation(MultiPopulation):
         return self.populations[1].fitness
 
     def mate(self):
-        """The mate method for `DualPopulation`
-        
+        """
         Crossing operations between the same population are prohibited.
         """
+
         self.populations[0].rank(tied=True)
         self.populations[1].rank(tied=True)
         children = []
@@ -100,6 +106,7 @@ class DualPopulation(MultiPopulation):
 
 
 class HybridPopulation(MultiPopulation):
+    # Combine the populaitons and individuals
 
     def migrate(self, migrate_prob=None, copy=True):
         migrate_prob = migrate_prob or self.migrate_prob

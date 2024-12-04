@@ -182,12 +182,13 @@ class AgePopulation(EliminationPopulation):
     """
 
     def transition(self, *args, **kwargs):
+        # Increase the age of the individual in each iteration process
         for individual in self:
             individual.age += 1
         super().transition(*args, **kwargs)
 
     def eliminate(self):
-        # remove some old individuals
+        # To remove some old individuals
         for individual in self:
             if random() * individual.life_span < individual.age:
                 self.remove(individual)
@@ -214,18 +215,22 @@ class LocalSearchPopulation(StandardPopulation):
 
 
 class ModifiedPopulation(StandardPopulation):
+    # The `mutate` method is modified
 
     params = {'mutate_prob_ub':0.5, 'mutate_prob_lb':0.1}
 
     def mutate(self):
-        """Mutate the whole population.
+        """Mutate the whole population
+        where the `mutate_prob` is computed recoording to the fitness
         """
+
         fm = self.max_fitness
         fa = self.mean_fitness
+        _d = (self.mutate_prob_ub - self.mutate_prob_lb) / (fm-fa)
         for individual in self:
             f = individual.fitness
             if f > fa:
-                mutate_prob = self.mutate_prob_ub - (self.mutate_prob_ub-self.mutate_prob_lb) * (f-fa) / (fm-fa)
+                mutate_prob = self.mutate_prob_ub - _d * (f-fa)
             else:
                 mutate_prob = self.mutate_prob_ub
             if random() < mutate_prob:
@@ -233,7 +238,7 @@ class ModifiedPopulation(StandardPopulation):
 
 
 def makeBinaryPopulation(n_individuals=20, size=8, as_chromosome=True, cls=None):
-    """Make a binary population
+    """Helper to make a binary population
     
     Args:
         n_individuals (int, optional): the number of the individuals in the population
