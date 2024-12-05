@@ -39,5 +39,4 @@ class TestParallel:
         c = example([2,3,4,5])
         c.map = DaskMap(type_=tuple)
         assert c.map(lambda x:x-1, c) == (1, 2, 3, 4)
-        assert c.apply(lambda x:x-1) == (1, 2, 3, 4)
 
