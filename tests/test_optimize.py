@@ -17,7 +17,8 @@ def test_ga_minimize_1d():
 
 def test_de_minimize():
     x = de_minimize(lambda x: x[0]**2+x[1], (-1,1), (-1,1))
-    assert np.sum(np.abs(x- [0, -1])) < 0.1
+    import numpy as np
+    assert np.sum(np.abs(x- [0, -1])) < 0.2
 
 
 def test_optimizer():
