@@ -39,16 +39,16 @@ Leveraging the principles of object-oriented programming (OOP) and the meta-prog
 
 As one of the earliest developed optimization algorithms [@holland; @katoch], the genetic algorithm (GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. The principles of GA will not be reviewed in this article. For a detailed understanding, please refer to references [@holland; @simon] and the associated literatures.
 
-In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/) [@numpy]. The evolutionary operators are defined and applied to these structures.
+In a typical Python implementation, populations are defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/) [@numpy]. The evolutionary operators are defined on these structures.
 
-A concise comparison between `pyrimidine` and other frameworks is provided in \autoref{frameworks}, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
+A concise comparison between `pyrimidine` and other frameworks is provided in \autoref{frameworks}.
 
 <!-- +-------------------+------------+----------+----------+----------+ -->
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
 |:----------:|:-------|:--------|:--------|:----------|
 | `pyrimidine`| OOP, Meta-programming, Algebra-insprited | Universal | Extensible | export the data in `DataFrame` |
-| `DEAP`     | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
-| `gaft`      | OOP, decoration pattern   | Universal | Extensible    | Easy to Implement       |
+| [`DEAP`](https://deap.readthedocs.io/) | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
+| [`gaft`](https://github.com/PytLab/gaft) | OOP, decoration pattern   | Universal | Extensible    | Easy to Implement       |
 | [`geppy`](https://geppy.readthedocs.io/) | based on `DEAP` | Symbolic Regression | Limited | - |
 | [`tpot`](https://github.com/EpistasisLab/tpot) /[`gama`](https://github.com/openml-labs/gama)  | [scikit-learn](https://scikit-learn.org/) Style | Hyperparameter Optimization | Limited | -                   |
 | [`gplearn`](https://gplearn.readthedocs.io/)/[`pysr`](https://astroautomata.com/PySR/)   | scikit-learn Style | Symbolic Regression | Limited | -                  |
@@ -58,9 +58,9 @@ A concise comparison between `pyrimidine` and other frameworks is provided in \a
 
 : Comparison of the popular genetic algorithm frameworks. \label{frameworks}
 
-`Tpot`/`gama`[@olson; @pieter], `gplearn`/`pysr`, and `scikit-opt` follow the scikit-learn style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`[@neat-python]).
+`Tpot`/`gama`[@olson; @pieter], `gplearn`/`pysr`, and `scikit-opt` follow the scikit-learn style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (including `NEAT`[@neat-python]).
 
-`DEAP` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `Gaft` is a highly object-oriented software with excellent scalability, but is currently inactive.
+`DEAP`[@fortin] is feature-rich and mature. However, it adopts a tedious meta-programming style and some parts of the code lack decoupling, limiting its extensibility. `Gaft` is highly object-oriented and scalable, but inactive now.
 
 `Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, we have implemented a variety of optimization algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming [@fogel], particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing [@kirkpatrick].
 
@@ -100,7 +100,7 @@ unless explicitly redefined. For example, the mutation of a population typically
 
 `transition` is the primary method in the iterative algorithms, denoted as a transform:
 $$
-T(s):S\to S\,.
+T(s): S\to S\,.
 $$
 
 ## Metaclasses
@@ -119,12 +119,11 @@ When designing a novel algorithm, significantly differing from the GA, it is adv
 
 There are three base classes in `pyrimidine`: `BaseChromosome`, `BaseIndividual`, `BasePopulation`, to create chromosomes, individuals and populations respectively.
 
-Generally, the algorithm design starts as follows, where `MonoIndividual` is a subclass of `BaseIndividual` with only one chromosome.
+Generally, the algorithm design starts as follows.
 
 ```python
 class UserIndividual(MonoIndividual):
     element_class = BinaryChromosome
-    # default_size = 1
 
     def _fitness(self):
         # Compute the fitness
@@ -134,14 +133,14 @@ class UserPopulation(StandardPopulation):
     default_size = 10
 ```
 
-Here, `UserIndividual` (or `UserPopulation`) serves as a container of elements in type of `BinaryChromosome` (or `UserIndividual`). Instead of overriding the `fitness` attribute, users are recommended to override the `_fitness` method, where the concrete fitness computation is defined. Following is the equivalent expression, using the notion in \autoref{eq:container}:
+Here, `MonoIndividual` represents an individual with a single chromosome. `UserIndividual` (or `UserPopulation`) serves as a container of elements in type of `BinaryChromosome` (or `UserIndividual`). Instead of setting the `fitness` attribute, users are recommended to override the `_fitness` method, where the concrete fitness computation is defined. Following is the equivalent expression, using the notion in \autoref{eq:container}:
 
 ```python
 UserIndividual = MonoIndividual[BinaryChromosome]
 UserPopulation = StandardPopulation[UserIndividual] // 10
 ```
 
-Algebraically, there is no difference between `MonoIndividual` and `Chromosome`. Meanwhile the population also can be treated as a container of chromosomes as follows.
+Algebraically, there is no difference between `MonoIndividual` and `Chromosome`. And the population also can be treated as a container of chromosomes as follows.
 
 ```python
 class UserChromosome(BaseChromosome):

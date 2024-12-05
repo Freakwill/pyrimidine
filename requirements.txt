@@ -12,6 +12,9 @@ matplotlib
 # Machine Learning
 scikit-learn
 
+# parallel computing
+dask
+
 # Examples
 digit_converter
 

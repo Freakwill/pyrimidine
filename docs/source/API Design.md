@@ -15,8 +15,9 @@ Short introduction to modules:
 - `chromosome`: some type of chromosomes
 - `multipopulation`: multi-population GAs
 - `individual`: individuals for GA or other EA
-- `es/de/ep...`: Evolutionary algorithms
-- `pso/ba/fa...`: Swarm intelligent algorithms
+- `es,de,ep,gpa...`: Evolutionary algorithms
+- `pso`: Swarm intelligent algorithms
+- `misc/ba,fa..`: Swarm intelligent algorithms, Bionic intelligent algorithm
 - `deco`: Decorators
 - `utils`: Helpers
 - `errors`: Exceptions
@@ -41,11 +42,11 @@ Metaclasses define what the algorithm is, while mixin classes specify what the a
 The inheritance of metaclasses:
 
 ```
-IterativeMixin  - - ->  CollectiveMixin
+IterativeMixin  --->  CollectiveMixin
     |                      |
     |                      |
     v                      v
-FitnessMixin  - - ->  PopulationMixin
+ FitnessMixin   --->  PopulationMixin
 ```
 
 If you want to create novel algorithm different from GAs, it is recommended to inherit from the mixin classes. The base classes are designed for GA-like algorithms. It is not coercive. One can override the methods in the base classes.

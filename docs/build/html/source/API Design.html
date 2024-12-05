@@ -64,8 +64,9 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">chromosome</span></code>: some type of chromosomes</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">multipopulation</span></code>: multi-population GAs</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">individual</span></code>: individuals for GA or other EA</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">es/de/ep...</span></code>: Evolutionary algorithms</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">pso/ba/fa...</span></code>: Swarm intelligent algorithms</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">es,de,ep,gpa...</span></code>: Evolutionary algorithms</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pso</span></code>: Swarm intelligent algorithms</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">misc/ba,fa..</span></code>: Swarm intelligent algorithms, Bionic intelligent algorithm</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">deco</span></code>: Decorators</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">utils</span></code>: Helpers</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">errors</span></code>: Exceptions</p></li>
@@ -87,11 +88,11 @@
 <h2>Mixin Classes<a class="headerlink" href="#mixin-classes" title="Link to this heading">¶</a></h2>
 <p>Metaclasses define what the algorithm is, while mixin classes specify what the algorithm does.</p>
 <p>The inheritance of metaclasses:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IterativeMixin</span>  <span class="o">-</span> <span class="o">-</span> <span class="o">-&gt;</span>  <span class="n">CollectiveMixin</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IterativeMixin</span>  <span class="o">---&gt;</span>  <span class="n">CollectiveMixin</span>
     <span class="o">|</span>                      <span class="o">|</span>
     <span class="o">|</span>                      <span class="o">|</span>
     <span class="n">v</span>                      <span class="n">v</span>
-<span class="n">FitnessMixin</span>  <span class="o">-</span> <span class="o">-</span> <span class="o">-&gt;</span>  <span class="n">PopulationMixin</span>
+ <span class="n">FitnessMixin</span>   <span class="o">---&gt;</span>  <span class="n">PopulationMixin</span>
 </pre></div>
 </div>
 <p>If you want to create novel algorithm different from GAs, it is recommended to inherit from the mixin classes. The base classes are designed for GA-like algorithms. It is not coercive. One can override the methods in the base classes.</p>
