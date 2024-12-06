@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+"""Quantum GA
+"""
+
 
 from .chromosome import QuantumChromosome
 from .population import HOFPopulation

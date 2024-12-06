@@ -133,34 +133,34 @@ def dask_apply(cls):
     return cls
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     
-    @dask_apply
-    class C:
+#     @dask_apply
+#     class C:
 
-        def __init__(self, v=[1,2,3]):
-            self.v = v
-            self._map = MTMap(type_=tuple)
+#         def __init__(self, v=[1,2,3]):
+#             self.v = v
+#             self._map = MTMap(type_=tuple)
 
-        @property
-        def map(self):
-            return self._map
+#         @property
+#         def map(self):
+#             return self._map
 
-        @map.setter
-        def map(self, v):
-            self._map = v
+#         @map.setter
+#         def map(self, v):
+#             self._map = v
 
-        def __iter__(self):
-            return iter(self.v)
+#         def __iter__(self):
+#             return iter(self.v)
 
-    c = C([1,2,3,4])
-    print(c.map)
-    print(c.map(lambda x:x+1, c)==(2, 3, 4, 5))
-    print(c.apply(lambda x:x+2))
-    c.map = DaskMap(type_=tuple)
-    print(c.map)
-    print(c.map(lambda x:x+1, c))
-    c.map = map
-    print(c.map)
-    print(tuple(c.map(lambda x:x+1, c)))
+#     c = C([1,2,3,4])
+#     print(c.map)
+#     print(c.map(lambda x:x+1, c)==(2, 3, 4, 5))
+#     print(c.apply(lambda x:x+2))
+#     c.map = DaskMap(type_=tuple)
+#     print(c.map)
+#     print(c.map(lambda x:x+1, c))
+#     c.map = map
+#     print(c.map)
+#     print(tuple(c.map(lambda x:x+1, c)))
     
