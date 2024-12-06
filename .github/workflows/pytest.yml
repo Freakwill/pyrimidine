@@ -29,7 +29,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest
 
       - name: Run tests
-        run: pytest
+        if: ! contains(github.head_ref, "-skip-tests")
+        run: |
+          pip install pytest
+          pytest

@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+"""Test for parallel computing
+"""
+
 
 from pyrimidine.parallel import *
 
