@@ -33,7 +33,7 @@ output:
 
 [`Pyrimidine`](https://github.com/Freakwill/pyrimidine) stands as a versatile framework designed for genetic algorithms (GAs), offering exceptional extensibility for a wide array of evolutionary algorithms.
 
-Leveraging the principles of object-oriented programming (OOP) and the meta-programming, we introduce a distinctive design paradigm is coined as "algebra-inspired Programming" signifying the fusion of algebraic methodologies with the software architecture.
+Leveraging the principles of object-oriented programming (OOP) and the meta-programming, we introduce a distinctive design paradigm coined as "algebra-inspired Programming", signifying the fusion of algebraic methodologies with the software architecture.
 
 # Statement of need
 
