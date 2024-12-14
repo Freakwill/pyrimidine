@@ -25,6 +25,10 @@ from ..pso import BaseParticle
 
 
 class Bat(BaseParticle):
+    """a bat is regarded as a particle
+
+    see `BaseParticle`
+    """
 
     params = {'frequency': 0.5,
         'pulse_rate': 0,
@@ -54,6 +58,7 @@ class Bat(BaseParticle):
 
 
 class Bats(BasePopulation):
+    # population of bats
 
     alias = {'bats': 'elements', 'n_bats': 'n_elements'}
 
@@ -65,6 +70,7 @@ class Bats(BasePopulation):
         }
  
     def init(self):
+        # randomize the frequency and pulse rate
         for bat in self:
             bat.backup(check=False)
             bat.frequency = random()
