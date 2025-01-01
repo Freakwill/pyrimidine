@@ -150,8 +150,4 @@ class UserChromosome(BaseChromosome):
 UserPopulation = StandardPopulation[UserChromosome] // 10
 ```
 
-# Conclusion
-
-`Pyrimidine` is a versatile framework suitable for implementing various evolution algorithms. Its design offers strong extensibility. A key factor is that it was developed inspired by algebra. For users developing novel algorithms, `pyrimidine` is a promising choice.
-
 # References
