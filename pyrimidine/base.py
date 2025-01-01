@@ -161,6 +161,14 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
         """
         return self
 
+    @classmethod
+    def encode(cls, sol):
+        """Encoding to the chromesome, as inverse of `decode`
+
+        Transform the solution (e.g. a number) to the chromesome.
+        """
+        raise NotImplementedError
+
     def equal_to(self, other):
         """Judge that self == other
         

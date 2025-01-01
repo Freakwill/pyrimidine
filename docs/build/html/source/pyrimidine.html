@@ -223,6 +223,13 @@ print(pop.best_individual)
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.base.BaseChromosome.encode">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sol</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BaseChromosome.encode" title="Link to this definition">¶</a></dt>
+<dd><p>Encoding to the chromesome, as inverse of <cite>decode</cite></p>
+<p>Transform the solution (e.g. a number) to the chromesome.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrimidine.base.BaseChromosome.equal_to">
 <span class="sig-name descname"><span class="pre">equal_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.base.BaseChromosome.equal_to" title="Link to this definition">¶</a></dt>
 <dd><p>Judge that self == other</p>
@@ -3323,8 +3330,13 @@ without encoding the solutions to chromosomes or individuals.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.optimize.add_init_ind">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.optimize.</span></span><span class="sig-name descname"><span class="pre">add_init_ind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_ind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.optimize.add_init_ind" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.optimize.de_minimize">
-<span class="sig-prename descclassname"><span class="pre">pyrimidine.optimize.</span></span><span class="sig-name descname"><span class="pre">de_minimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*xlim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode=&lt;function</span> <span class="pre">_decode&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_size=20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size=8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.optimize.de_minimize" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.optimize.</span></span><span class="sig-name descname"><span class="pre">de_minimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*xlim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode=&lt;function</span> <span class="pre">_decode&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_size=20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size=8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_x=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.optimize.de_minimize" title="Link to this definition">¶</a></dt>
 <dd><p>DE for minimizing the function <cite>func</cite> defined on <cite>xlim</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3344,7 +3356,7 @@ without encoding the solutions to chromosomes or individuals.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.optimize.ga_minimize">
-<span class="sig-prename descclassname"><span class="pre">pyrimidine.optimize.</span></span><span class="sig-name descname"><span class="pre">ga_minimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*xlim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode=&lt;function</span> <span class="pre">_decode&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_size=20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size=8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.optimize.ga_minimize" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.optimize.</span></span><span class="sig-name descname"><span class="pre">ga_minimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*xlim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode=&lt;function</span> <span class="pre">_decode&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_size=20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size=8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_x=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.optimize.ga_minimize" title="Link to this definition">¶</a></dt>
 <dd><p>GA(with hall of fame) for minimizing the function <cite>func</cite> defined on <cite>xlim</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3355,6 +3367,7 @@ without encoding the solutions to chromosomes or individuals.</p>
 (‘0-1’ sequence, lower_bound, upper_bound) mapsto xi</p></li>
 <li><p><strong>{int}</strong> (<em>population_size</em>) – size of the population</p></li>
 <li><p><strong>int}</strong> (<em>size {int</em><em> or </em><em>tuple of</em>) – the length of the encoding of xi</p></li>
+<li><p><strong>init_x</strong> – the initial solution</p></li>
 </ul>
 </dd>
 </dl>
@@ -3364,7 +3377,7 @@ without encoding the solutions to chromosomes or individuals.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrimidine.optimize.ga_minimize_1d">
-<span class="sig-prename descclassname"><span class="pre">pyrimidine.optimize.</span></span><span class="sig-name descname"><span class="pre">ga_minimize_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode=&lt;function</span> <span class="pre">_decode&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_size=20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size=8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.optimize.ga_minimize_1d" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.optimize.</span></span><span class="sig-name descname"><span class="pre">ga_minimize_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode=&lt;function</span> <span class="pre">_decode&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_size=20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size=8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_x=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.optimize.ga_minimize_1d" title="Link to this definition">¶</a></dt>
 <dd><p>GA(with hall of fame) for minimizing 1D function <cite>func</cite> defined on the interval <cite>xlim</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -4346,6 +4359,7 @@ where the best solution is stored</p>
 </section>
 <section id="module-pyrimidine.qga">
 <span id="pyrimidine-qga-module"></span><h2>pyrimidine.qga module<a class="headerlink" href="#module-pyrimidine.qga" title="Link to this heading">¶</a></h2>
+<p>Quantum GA</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrimidine.qga.QuantumPopulation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.qga.</span></span><span class="sig-name descname"><span class="pre">QuantumPopulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.qga.QuantumPopulation" title="Link to this definition">¶</a></dt>
@@ -5001,6 +5015,7 @@ Applied in GA operations.</p>
 <li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.decode"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.decode()</span></code></a></li>
 <li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.default_size</span></code></a></li>
 <li><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.element_class</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.encode"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.encode()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.equal_to"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.equal_to()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.mutate"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.mutate()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.base.BaseChromosome.params"><code class="docutils literal notranslate"><span class="pre">BaseChromosome.params</span></code></a></li>
@@ -5588,6 +5603,7 @@ Applied in GA operations.</p>
 <li><a class="reference internal" href="#pyrimidine.optimize.Optimizer.Population"><code class="docutils literal notranslate"><span class="pre">Optimizer.Population</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#pyrimidine.optimize.add_init_ind"><code class="docutils literal notranslate"><span class="pre">add_init_ind()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.optimize.de_minimize"><code class="docutils literal notranslate"><span class="pre">de_minimize()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.optimize.ga_minimize"><code class="docutils literal notranslate"><span class="pre">ga_minimize()</span></code></a></li>
 <li><a class="reference internal" href="#pyrimidine.optimize.ga_minimize_1d"><code class="docutils literal notranslate"><span class="pre">ga_minimize_1d()</span></code></a></li>

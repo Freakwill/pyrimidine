@@ -111,7 +111,7 @@ class DualPopulation(StandardPopulation):
         StandardPopulation
     """
 
-    params ={
+    params = {
     'dual_prob': 0.2,
     'n_elders': 0.3}
 

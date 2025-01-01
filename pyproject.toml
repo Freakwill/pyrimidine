@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyrimidine"
-version = "1.7"
+version = "1.7.1"
 description = "A competitive framework for GA, designed by thorough OOP"
 authors = ["William Song <30965609+Freakwill@users.noreply.github.com>"]
 

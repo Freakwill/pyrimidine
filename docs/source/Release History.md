@@ -1,8 +1,9 @@
 # Release History
 
-## v1.7
+## v1.7+
 - update the notations of methods/functions 
 - update the documents
+- Allow the GA optimization function to accept an initial solution. see `examples/example-opt.py`
 
 ## v1.6
 
