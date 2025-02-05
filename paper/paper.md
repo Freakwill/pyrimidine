@@ -33,13 +33,13 @@ output:
 
 [`Pyrimidine`](https://github.com/Freakwill/pyrimidine) stands as a versatile framework designed for genetic algorithms (GAs), offering exceptional extensibility for a wide array of evolutionary algorithms.
 
-Leveraging the principles of object-oriented programming (OOP) and the meta-programming, we introduce a distinctive design paradigm coined as "algebra-inspired Programming", signifying the fusion of algebraic methodologies with the software architecture.
+Leveraging the principles of object-oriented programming (OOP) and the meta-programming, we introduce a distinctive design paradigm coined as "algebra-inspired Programming". signifying the fusion of algebraic methodologies with the software architecture.
 
 # Statement of need
 
 GAs [@holland; @katoch] have found extensive application across various domains and have undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. For details about the principles of GA, refer to the references [@holland; @simon].
 
-In a typical Python implementation, populations are defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/) [@numpy]. The evolutionary operators are defined on these structures.
+In a typical Python GA implementation, populations are defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/) [@numpy]. The evolutionary operators are defined on these structures.
 
 A concise comparison between `pyrimidine` and other frameworks is provided in \autoref{frameworks}.
 
@@ -64,17 +64,17 @@ A concise comparison between `pyrimidine` and other frameworks is provided in \a
 
 `Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, we have implemented a variety of optimization algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming [@fogel], particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing [@kirkpatrick].
 
-To meet diverse demands, it provides enough encoding schemes for solutions to optimization problems, including Boolean, integer, real number types and their hybrid forms.
+To meet diverse demands, `Pyrimidine` provides enough encoding schemes for solutions to optimization problems, including Boolean, integer, real number types and their hybrid forms.
 
 # Algebra-inspired programming
 
-The innovative approach is termed "algebra-inspired Programming". It should not be confused with so-called algebraic programming [@kapitonova], but it draws inspiration from its underlying principles.
+`Pyrimidine` uses a design approach we call "algebra-inspired Programming". It should not be confused with so-called algebraic programming [@kapitonova], but it draws inspiration from its underlying principles.
 
 The advantages of the model are summarized as follows:
 
 1. The population system and genetic operations are treated as an algebraic system, and genetic algorithms are constructed by imitating algebraic operations.
 2. It is highly extensible. For example it is easy to define multi-populations, even so-called hybrid-populations.
-3. The code is more concise.
+3. Library-user code is more concise.
 
 ## Basic concepts
 
@@ -86,7 +86,7 @@ s = \{a:A\}: S \quad \text{or} \quad s:S[A]\,,
 \end{equation}
 where the symbol $\{\cdot\}$ signifies either a set, or a sequence to emphasize the order of the elements. The notation $S[A]$ mimicks Python syntax, borrowed from the module [typing](https://docs.python.org/3.11/library/typing.html?highlight=typing#module-typing).
 
-Building upon the concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs.
+Using the container concept, we define a population in `pyrimidine` as a container of individuals. The introduction of multi-population further extends this notion, representing a container of populations, referred to as "the high-order container". `Pyrimidine` distinguishes itself with its inherent ability to seamlessly implement multi-population GAs.
 
 An individual is conceptualized as a container of chromosomes, without necessarily being an algebraic system. Similarly, a chromosome acts as a container of genes.
 
@@ -98,14 +98,14 @@ f(s) := \{f(a)\}\,,
 $$
 unless explicitly redefined. For example, the mutation of a population typically involves the mutation of all individuals in it. Other types of lifting are allowed.
 
-`transition` is the primary method in the iterative algorithms, denoted as a transform:
+We call updates by iterative algorithms `transition` operations, denoted as a transform:
 $$
 T(s): S\to S\,.
 $$
 
 ## Metaclasses
 
-A metaclass should be defined to simulate abstract algebraic systems, which are instantiated as a set containing several elements, as well as operators and functions on them. Currently, the metaclass `MetaContainer` is proposed to create container classes without defining operators explicitly.
+A metaclass should be defined to simulate abstract algebraic systems, which are instantiated as a set containing several elements, as well as operators and functions on them. Currently, `Pyrimidine` provides the metaclass `MetaContainer` to create container classes without defining operators explicitly.
 
 ## Mixin classes
 
