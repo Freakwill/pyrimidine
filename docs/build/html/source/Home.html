@@ -8,9 +8,11 @@
     <title>pyrimidine: a universal framework for genetic algorithm &#8212; pyrimidine 1.7 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4848ba22" />
     <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=310c80ee" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8f57d030" />
     <script src="../_static/documentation_options.js?v=392da36c"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Installation and Getting Started" href="Install.html" />
@@ -107,9 +109,9 @@
 </section>
 <section id="statement-of-need">
 <h2>Statement of need<a class="headerlink" href="#statement-of-need" title="Link to this heading">¶</a></h2>
-<p>As one of the earliest developed optimization algorithms [&#64;holland; &#64;katoch], the genetic algorithm (GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [&#64;alam; &#64;cheng; &#64;katoch]. The principles of GA will not be reviewed in this article. For a detailed understanding, please refer to references [&#64;holland; &#64;simon] and the associated literatures.</p>
-<p>In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library’s <code class="docutils literal notranslate"><span class="pre">array</span></code> or the widely-used third-party library <a class="reference external" href="https://numpy.org/"><code class="docutils literal notranslate"><span class="pre">numpy</span></code></a> [&#64;numpy]. The evolutionary operators are defined and applied to these structures.</p>
-<p>A concise comparison between <code class="docutils literal notranslate"><span class="pre">pyrimidine</span></code> and other frameworks is provided in \autoref{frameworks}, such as <a class="reference external" href="https://deap.readthedocs.io/"><code class="docutils literal notranslate"><span class="pre">DEAP</span></code></a> [&#64;fortin] and <a class="reference external" href="https://github.com/PytLab/gaft"><code class="docutils literal notranslate"><span class="pre">gaft</span></code></a>, which have significantly influenced the design of <code class="docutils literal notranslate"><span class="pre">pyrimidine</span></code>.</p>
+<p>As one of the earliest developed optimization algorithms, the genetic algorithm (GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms. The principles of GA will not be reviewed in this article. For a detailed understanding, please refer to references and the associated literatures.</p>
+<p>In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library’s <code class="docutils literal notranslate"><span class="pre">array</span></code> or the widely-used third-party library <a class="reference external" href="https://numpy.org/"><code class="docutils literal notranslate"><span class="pre">numpy</span></code></a>. The evolutionary operators are defined and applied to these structures.</p>
+<p>A concise comparison between <code class="docutils literal notranslate"><span class="pre">pyrimidine</span></code> and other frameworks is provided in \autoref{frameworks}, such as <a class="reference external" href="https://deap.readthedocs.io/"><code class="docutils literal notranslate"><span class="pre">DEAP</span></code></a> and <a class="reference external" href="https://github.com/PytLab/gaft"><code class="docutils literal notranslate"><span class="pre">gaft</span></code></a>, which have significantly influenced the design of <code class="docutils literal notranslate"><span class="pre">pyrimidine</span></code>.</p>
 <!-- +-------------------+------------+----------+----------+----------+ -->
 <table class="docutils align-default">
 <thead>
@@ -178,10 +180,27 @@
 </tbody>
 </table>
 <p>: Comparison of the popular genetic algorithm frameworks. \label{frameworks}</p>
-<p><code class="docutils literal notranslate"><span class="pre">Tpot</span></code>/<code class="docutils literal notranslate"><span class="pre">gama</span></code>[&#64;olson; &#64;pieter], <code class="docutils literal notranslate"><span class="pre">gplearn</span></code>/<code class="docutils literal notranslate"><span class="pre">pysr</span></code>, and <code class="docutils literal notranslate"><span class="pre">scikit-opt</span></code> follow the scikit-learn style [&#64;sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as <code class="docutils literal notranslate"><span class="pre">NEAT</span></code>[&#64;neat-python]).</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tpot</span></code>/<code class="docutils literal notranslate"><span class="pre">gama</span></code>, <code class="docutils literal notranslate"><span class="pre">gplearn</span></code>/<code class="docutils literal notranslate"><span class="pre">pysr</span></code>, and <code class="docutils literal notranslate"><span class="pre">scikit-opt</span></code> follow the scikit-learn style, providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as <code class="docutils literal notranslate"><span class="pre">NEAT</span></code>).</p>
 <p><code class="docutils literal notranslate"><span class="pre">DEAP</span></code> is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. <code class="docutils literal notranslate"><span class="pre">Gaft</span></code> is a highly object-oriented software with excellent scalability, but is currently inactive.</p>
-<p><code class="docutils literal notranslate"><span class="pre">Pyrimidine</span></code> fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, we have implemented a variety of optimization algorithms by <code class="docutils literal notranslate"><span class="pre">pyrimidine</span></code>, including adaptive GA [&#64;hinterding], quantum GA [&#64;supasil], differential evolution [&#64;radtke], evolutionary programming [&#64;fogel], particle swarm optimization [&#64;wang], as well as some local search algorithms, such as simulated annealing [&#64;kirkpatrick].</p>
+<p><code class="docutils literal notranslate"><span class="pre">Pyrimidine</span></code> fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, we have implemented a variety of optimization algorithms by <code class="docutils literal notranslate"><span class="pre">pyrimidine</span></code>, including adaptive GA, quantum GA, differential evolution, evolutionary programming, particle swarm optimization, as well as some local search algorithms, such as simulated annealing.</p>
 <p>To meet diverse demands, it provides enough encoding schemes for solutions to optimization problems, including Boolean, integer, real number types and their hybrid forms.</p>
+</section>
+<section id="references-part">
+<h2>References(part)<a class="headerlink" href="#references-part" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Holland, J. Adaptation in Natural and Artificial Systems. The Univ. of Michigan, 1975. DOI: 10.7551/mitpress/1090.001.0001.</p></li>
+<li><p>Simon, D. Evolutionary Optimization Algorithms: Biologically Inspired and Population - Based Approaches to Computer Intelligence. John Wiley &amp; Sons, 2013. URL: https://api.semanticscholar.org/CorpusID:60429433.</p></li>
+<li><p>Katoch, S., Chauhan, S. S., &amp; Kumar, V. A review on genetic algorithm: past, present, and future. Multimed Tools Appl, 2021, 80, 8091–8126. DOI: 10.1007/s11042 - 020 - 10139 - 6.</p></li>
+<li><p>Cheng, S., &amp; Alkhalifah, T. Robust data driven discovery of a seismic wave equation. Geophysical Journal International, 2023, 236(1), 537 - 546. Nov. DOI: 10.1093/gji/ggad446. E - print: https://academic.oup.com/gji/article - pdf/236/1/537/53710009/ggad446.pdf.</p></li>
+<li><p>Supasil, J., Pathumsoot, P., &amp; Suwanna, S. Simulation of implementable quantum - assisted genetic algorithm. Journal of Physics: Conference Series, 2021, Jan., 1719(1), 012102. DOI: 10.1088/1742 - 6596/1719/1/012102. URL: https://dx.doi.org/10.1088/1742 - 6596/1719/1/012102.</p></li>
+<li><p>Wang, D., Tan, D., &amp; Liu, L. Particle Swarm Optimization Algorithm: An Overview. Soft Computing, 2018, 22(2), 387 - 408. DOI: 10.1007/s00500 - 016 - 2474 - 6.</p></li>
+<li><p>Alam, T., Qamar, S., Dixit, A., &amp; Benaida, M. Genetic Algorithm: Reviews, Implementations, and Applications. CompSciRN: Computer Principles (Topic), 2020. DOI: 10.22541/au.159164762.28487263.</p></li>
+<li><p>McIntyre, A., Kallada, M., Miguel, C. G., &amp; da Silva, C. F. Neat - python. CodeReclaimers/neat - python, 2019. URL: https://github.com/CodeReclaimers/neat - python.</p></li>
+<li><p>Radtke, J. J., Bertoldo, G., &amp; Marchi, C. H. DEPP - Differential Evolution Parallel Program. Journal of Open Source Software, 2020, 5(47), 1701. DOI: 10.21105/joss.01701. URL: 10.21105/joss.01701.</p></li>
+<li><p>Kirkpatrick, S., Gelatt, C. D., &amp; Vecchi, M. P. Optimization by Simulated Annealing. Science, 1983, 220, 671-680. DOI: 10.1126/science.220.4598.671.</p></li>
+<li><p>Hinterding, R., Michalewicz, Z., &amp; Eiben, A. E. Adaptation in evolutionary computation: a survey. In Proceedings of 1997 IEEE International Conference on Evolutionary Computation (ICEC ‘97) (pp. 65 - 69), 1997. DOI: 10.1109/ICEC.1997.592270.</p></li>
+<li><p>Fogel, L. J., &amp; Fogel, D. B. Artificial intelligence through evolutionary programming: Prediction and identification. U.S. Army Research Institute, 1986. Final Report. URL: https://apps.dtic.mil/sti/tr/pdf/ADA171544.pdf. DOI: 10.21236/ada171544.</p></li>
+</ul>
 </section>
 </section>
 
@@ -201,6 +220,7 @@
 <li><a class="reference internal" href="#idea-of-algebra-inspired">Idea of algebra-inspired</a></li>
 <li><a class="reference internal" href="#fitness">Fitness</a></li>
 <li><a class="reference internal" href="#statement-of-need">Statement of need</a></li>
+<li><a class="reference internal" href="#references-part">References(part)</a></li>
 </ul>
 </li>
 </ul>

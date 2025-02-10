@@ -59,9 +59,13 @@ templates_path = ['_templates']
 html_theme = 'pyramid'
 
 # Add any paths that contain custom css files
-custom_css_path = '_static/css'
 
-html_static_path = ['_static', custom_css_path]
+html_static_path = ['_static']
+
+html_favicon = '_static/favicon.ico'
+html_css_files = [
+    'custom.css'
+]
 
 # The master toctree document.
 master_doc = 'index'

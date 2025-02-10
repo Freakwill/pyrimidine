@@ -69,11 +69,11 @@ Unlike the cache class decorator, the `memory` decorator (e.g., `@basic_memory`)
 
 ## Statement of need
 
-As one of the earliest developed optimization algorithms [@holland; @katoch], the genetic algorithm (GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. The principles of GA will not be reviewed in this article. For a detailed understanding, please refer to references [@holland; @simon] and the associated literatures.
+As one of the earliest developed optimization algorithms, the genetic algorithm (GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms. The principles of GA will not be reviewed in this article. For a detailed understanding, please refer to references and the associated literatures.
 
-In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/) [@numpy]. The evolutionary operators are defined and applied to these structures.
+In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/). The evolutionary operators are defined and applied to these structures.
 
-A concise comparison between `pyrimidine` and other frameworks is provided in \autoref{frameworks}, such as [`DEAP`](https://deap.readthedocs.io/) [@fortin] and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
+A concise comparison between `pyrimidine` and other frameworks is provided in \autoref{frameworks}, such as [`DEAP`](https://deap.readthedocs.io/) and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
 
 <!-- +-------------------+------------+----------+----------+----------+ -->
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
@@ -90,10 +90,25 @@ A concise comparison between `pyrimidine` and other frameworks is provided in \a
 
 : Comparison of the popular genetic algorithm frameworks. \label{frameworks}
 
-`Tpot`/`gama`[@olson; @pieter], `gplearn`/`pysr`, and `scikit-opt` follow the scikit-learn style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`[@neat-python]).
+`Tpot`/`gama`, `gplearn`/`pysr`, and `scikit-opt` follow the scikit-learn style, providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`).
 
 `DEAP` is feature-rich and mature. However, it primarily adopts a tedious meta-programming style. Some parts of the source code lack sufficient decoupling, limiting its extensibility. `Gaft` is a highly object-oriented software with excellent scalability, but is currently inactive.
 
-`Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, we have implemented a variety of optimization algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming [@fogel], particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing [@kirkpatrick].
+`Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, we have implemented a variety of optimization algorithms by `pyrimidine`, including adaptive GA, quantum GA, differential evolution, evolutionary programming, particle swarm optimization, as well as some local search algorithms, such as simulated annealing.
 
 To meet diverse demands, it provides enough encoding schemes for solutions to optimization problems, including Boolean, integer, real number types and their hybrid forms.
+
+## References(part)
+
+- Holland, J. Adaptation in Natural and Artificial Systems. The Univ. of Michigan, 1975. DOI: 10.7551/mitpress/1090.001.0001.
+- Simon, D. Evolutionary Optimization Algorithms: Biologically Inspired and Population - Based Approaches to Computer Intelligence. John Wiley & Sons, 2013. URL: https://api.semanticscholar.org/CorpusID:60429433.
+- Katoch, S., Chauhan, S. S., & Kumar, V. A review on genetic algorithm: past, present, and future. Multimed Tools Appl, 2021, 80, 8091–8126. DOI: 10.1007/s11042 - 020 - 10139 - 6.
+- Cheng, S., & Alkhalifah, T. Robust data driven discovery of a seismic wave equation. Geophysical Journal International, 2023, 236(1), 537 - 546. Nov. DOI: 10.1093/gji/ggad446. E - print: https://academic.oup.com/gji/article - pdf/236/1/537/53710009/ggad446.pdf.
+- Supasil, J., Pathumsoot, P., & Suwanna, S. Simulation of implementable quantum - assisted genetic algorithm. Journal of Physics: Conference Series, 2021, Jan., 1719(1), 012102. DOI: 10.1088/1742 - 6596/1719/1/012102. URL: https://dx.doi.org/10.1088/1742 - 6596/1719/1/012102.
+- Wang, D., Tan, D., & Liu, L. Particle Swarm Optimization Algorithm: An Overview. Soft Computing, 2018, 22(2), 387 - 408. DOI: 10.1007/s00500 - 016 - 2474 - 6.
+- Alam, T., Qamar, S., Dixit, A., & Benaida, M. Genetic Algorithm: Reviews, Implementations, and Applications. CompSciRN: Computer Principles (Topic), 2020. DOI: 10.22541/au.159164762.28487263.
+- McIntyre, A., Kallada, M., Miguel, C. G., & da Silva, C. F. Neat - python. CodeReclaimers/neat - python, 2019. URL: https://github.com/CodeReclaimers/neat - python.
+- Radtke, J. J., Bertoldo, G., & Marchi, C. H. DEPP - Differential Evolution Parallel Program. Journal of Open Source Software, 2020, 5(47), 1701. DOI: 10.21105/joss.01701. URL: 10.21105/joss.01701.
+- Kirkpatrick, S., Gelatt, C. D., & Vecchi, M. P. Optimization by Simulated Annealing. Science, 1983, 220, 671-680. DOI: 10.1126/science.220.4598.671.
+- Hinterding, R., Michalewicz, Z., & Eiben, A. E. Adaptation in evolutionary computation: a survey. In Proceedings of 1997 IEEE International Conference on Evolutionary Computation (ICEC '97) (pp. 65 - 69), 1997. DOI: 10.1109/ICEC.1997.592270.
+- Fogel, L. J., & Fogel, D. B. Artificial intelligence through evolutionary programming: Prediction and identification. U.S. Army Research Institute, 1986. Final Report. URL: https://apps.dtic.mil/sti/tr/pdf/ADA171544.pdf. DOI: 10.21236/ada171544. 

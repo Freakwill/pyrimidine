@@ -1,6 +1,6 @@
-# API Design
-
 .. _api-design:
+
+# API Design
 
 API design principles
 

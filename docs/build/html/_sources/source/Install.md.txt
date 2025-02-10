@@ -1,12 +1,10 @@
 # Installation and Getting Started
 
-**Pythons**: Python 3.8, 3.9, 3.10, 3.11, PyPy3
+**Pythons**: Python 3.8, 3.9, 3.10, 3.11, 3.12, PyPy3
 
 **Platforms**: Linux/Unix and Windows
 
 **PyPI package name**: pyrimidine
-
-**Documentation as PDF**: download latest
 
 `pyrimidine` stands as a versatile framework designed for GAs, offering exceptional extensibility for a wide array of evolutionary algorithms, including particle swarm optimization and difference evolution.
 
