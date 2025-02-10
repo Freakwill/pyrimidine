@@ -10,7 +10,7 @@ from dask import compute, delayed
 
 
 class ThreadWithResult(threading.Thread):
-    # The tread storing the computing results
+    # Thread capable of storing computation results
     
     def __init__(self, func, *args, **kwargs):
         super().__init__() 
