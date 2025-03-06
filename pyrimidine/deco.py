@@ -24,6 +24,7 @@ def clear_cache(func):
         return result
     return mthd
 
+
 def side_effect(func):
     """Decorator for methods with side effect
 

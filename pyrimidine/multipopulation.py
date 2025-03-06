@@ -8,6 +8,7 @@ classes for MultiPopulation GA
 from itertools import product
 import threading
 
+from .population import StandardPopulation
 from .base import BasePopulation, BaseMultiPopulation
 from .utils import *
 
@@ -19,6 +20,12 @@ class MultiPopulation(BaseMultiPopulation):
         # execute `mate` methods for each population
         for p in self:
             p.mate()
+
+    @classmethod
+    def create(cls, individual_cls, default_size=None, population_cls=None, n_individuals=10):
+        default_size = default_size or cls.default_size
+        if population_cls is None: population_cls = StandardPopulation
+        return cls[population_cls[individual_cls] // n_individuals] // default_size
 
 
 class DoublePopulation(MultiPopulation):

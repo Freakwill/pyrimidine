@@ -404,6 +404,20 @@ class MetaContainer(ParamType):
         cls._name = self.__name__
         return cls
 
+    def __idiv__(self, ns):
+        """ 
+        Keyword Arguments:
+            ns {list[number]} -- list of the numbers assigned to default_size
+
+        Returns:
+            The container class
+        """
+
+        return tuple(self.set(default_size=n) for n in ns)
+
+    def __div__(self, n):
+        return tuple(self // n for n in ns)
+
     def random(self, n_elements=None, *args, **kwargs):
         """Generate a container randomly
         

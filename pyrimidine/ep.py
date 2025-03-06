@@ -31,13 +31,13 @@ from .base import BasePopulation, BaseChromosome
 from .chromosome import FloatChromosome
 from .individual import MixedIndividual
 
-from .deco import side_effect, fitness_cache
+from .deco import side_effect
 
 
 class BaseEPIndividual(MixedIndividual):
-    """Base class of EP Individual Class
+    """Base class of EP Individual Class; A single solution in EP
 
-    A single solution in EP
+    consisted of a solution and a variance
     """
 
     params = {'c':0.1, 'epsilon':0.0001}
@@ -69,27 +69,27 @@ class EvolutionProgramming(BasePopulation):
     """Evolution Programming
     
     Extends:
-        PopulationMixin
+        BasePopulation
     """
     
     element_class = BaseEPIndividual
 
-    def select(self):
-        self.sort()
-        d = groupby(attrgetter('fitness'), self)
-        inds = []
-        ks = np.sort(list(d.keys()))[::-1]
-        flag = True
-        while flag:
-            for k in ks:
-                if d[k]:
-                    a = choice(d[k])
-                    inds.append(a)
-                    d[k].remove(a)
-                    if len(inds) <= self.default_size:
-                        flag = False
-                        break
-        self.individuals = inds
+    # def select(self):
+    #     self.sort()
+    #     d = groupby(attrgetter('fitness'), self)
+    #     inds = []
+    #     ks = np.sort(list(d.keys()))[::-1]
+    #     flag = True
+    #     while flag:
+    #         for k in ks:
+    #             if d[k]:
+    #                 a = choice(d[k])
+    #                 inds.append(a)
+    #                 d[k].remove(a)
+    #                 if len(inds) <= self.default_size:
+    #                     flag = False
+    #                     break
+    #     self.individuals = inds
 
     def transition(self, *args, **kwargs):
         cpy = self.clone()

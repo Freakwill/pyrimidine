@@ -22,7 +22,7 @@ _evaluate = Knapsack.random(n_bags)  # : 0-1 array -> float
 #         return _evaluate(self.chromosome)
 
 # Equiv. to
-MyIndividual = (BinaryChromosome // n_bags).set_fitness(_evaluate)
+MyIndividual = (BinaryChromosome // n_bags).set_fitness(_evaluate) @ fitness_cache
 
 
 # Define the population class
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     # Define statistics of population
     stat = {
         'Mean Fitness': 'mean_fitness',
-        'Best Fitness': 'max_fitness',
+        'Max Fitness': 'max_fitness',
         'Standard Deviation of Fitnesses': 'std_fitness',
         # 'number': lambda pop: len(pop.individuals)  # or `'n_individuals'`
         }
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax2 = ax.twinx()
-    data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+    data[['Mean Fitness', 'Max Fitness']].plot(ax=ax)
     ax.legend(loc='upper left')
     data['Standard Deviation of Fitnesses'].plot(ax=ax2, style='y-.')
     ax2.legend(loc='lower right')

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# from .linear_regression import *
+# from .cluster import *
+# from .neural_network import *
+
 from sklearn.base import BaseEstimator as BE
 
 import warnings, os

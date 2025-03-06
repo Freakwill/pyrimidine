@@ -44,8 +44,13 @@ class StandardPopulation(BasePopulation):
         super().transition(*args, **kwargs)
         self.extend(elder)
 
+    @classmethod
+    def create(cls, individual_cls, default_size=None):
+        default_size = default_size or cls.default_size
+        return cls[individual_cls] // default_size
 
-Population = StandardPopulation
+
+# Population = StandardPopulation
 
 
 class HOFPopulation(BasePopulation):

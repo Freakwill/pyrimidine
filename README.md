@@ -1,6 +1,7 @@
 # pyrimidine
 
 [![Package on PyPI](https://img.shields.io/pypi/pyversions/pyrimidine.svg)](https://pypi.python.org/pypi/pyrimidine)
+[![License](https://img.shields.io/badge/License-MIT-f5de53?&color=f5de53)](https://github.com/Freakwill/pyrimidine/blob/master/LICENSE)
 
 
 `pyrimidine` is an extensible framework of genetic/evolutionary algorithm by Python. See [pyrimidine's documentation](https://pyrimidine.readthedocs.io/) for more details.

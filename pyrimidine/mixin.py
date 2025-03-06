@@ -494,6 +494,10 @@ class PopulationMixin(FitnessMixin, CollectiveMixin):
         return list(self.map(attrgetter(key)), self)
 
     @property
+    def all_fitness(self):
+        return self.get_all_fitness()
+
+    @property
     def mean_fitness(self):
         return np.mean(self.get_all_fitness())
 
