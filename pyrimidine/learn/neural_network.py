@@ -19,7 +19,7 @@ class GAMLPRegressor(BaseEstimator, MLPRegressor):
 
     hidden_dim = 4
     max_iter = 100
-    n_layers = 3
+    n_layers = 3  # don‘t change it
 
     estimated_params = ('coefs_', 'intercepts_')
 
@@ -34,7 +34,7 @@ class GAMLPRegressor(BaseEstimator, MLPRegressor):
     def __init__(self, *args, **kwargs):
         super().__init__(hidden_layer_sizes=(self.hidden_dim,), max_iter=1, *args, **kwargs)
         self.out_activation_ = 'identity'
-        self.n_layers = 3
+        self.n_layers_ = 3
 
     @classmethod
     def config(cls, X, Y, n_individuals=10, *args, **kwargs):
@@ -51,7 +51,7 @@ class GAMLPRegressor(BaseEstimator, MLPRegressor):
                 model = self.decode()
                 return model.score(X, Y)
 
-            def decode(self):
+            def decode(self) -> MLPRegressor:
                 model = cls.create_model(*args, **kwargs)
                 model.coefs_ = tuple(map(np.asarray, self[::2]))
                 model.intercepts_ = tuple(map(np.asarray, self[1::2]))

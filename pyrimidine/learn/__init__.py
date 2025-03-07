@@ -53,11 +53,16 @@ class BaseEstimator(BE):
         return self
 
     def _fit(self):
-        # the fit method for dirty work
+        # the fit method for dirty work; get the solution after executing GA
         self.pop.ezolve(max_iter=self.max_iter)
-        model_ = self.pop.solution
+        self.solution = self.pop.solution
         for k in self.estimated_params:
-            setattr(self, k, getattr(model_, k))
+            setattr(self, k, getattr(self.solution, k))
+
+    def predict(self, X):
+        if not hasattr(self, 'solution'):
+            raise 'Get the solution by GA first!'
+        return self.solution.predict(X)
 
 
 # def ga_opt(model_class):
