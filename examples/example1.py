@@ -5,6 +5,8 @@ import numpy as np
 from pyrimidine.chromosome import BinaryChromosome
 from pyrimidine.population import HOFPopulation
 
+import seed
+
 
 t = np.random.randint(1, 5, 100)
 n = np.random.randint(1, 4, 100)

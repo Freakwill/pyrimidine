@@ -9,8 +9,11 @@ from pyrimidine.benchmarks.optimization import *
 
 from pyrimidine.deco import fitness_cache
 
+
 n_bags = 50
 _evaluate = Knapsack.random(n_bags)  # : 0-1 array -> float
+
+print(_evaluate.w)
 
 # Define the individual class
 # @fitness_cache

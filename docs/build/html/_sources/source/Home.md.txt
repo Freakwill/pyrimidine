@@ -69,11 +69,11 @@ Unlike the cache class decorator, the `memory` decorator (e.g., `@basic_memory`)
 
 ## Statement of need
 
-As one of the earliest developed optimization algorithms, the genetic algorithm (GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms. The principles of GA will not be reviewed in this article. For a detailed understanding, please refer to references and the associated literatures.
+As one of the earliest developed optimization algorithms, the genetic algorithm (GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms. The principles of GA will not be reviewed here. For a detailed understanding, please refer to references and the associated literatures.
 
 In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/). The evolutionary operators are defined and applied to these structures.
 
-A concise comparison between `pyrimidine` and other frameworks is provided in \autoref{frameworks}, such as [`DEAP`](https://deap.readthedocs.io/) and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
+A concise comparison between `pyrimidine` and other frameworks is provided in the following table, such as [`DEAP`](https://deap.readthedocs.io/) and [`gaft`](https://github.com/PytLab/gaft), which have significantly influenced the design of `pyrimidine`.
 
 <!-- +-------------------+------------+----------+----------+----------+ -->
 | Library   | Design Style      | Versatility | Extensibility | Visualization           |
@@ -88,7 +88,7 @@ A concise comparison between `pyrimidine` and other frameworks is provided in \a
 |[`scikit-optimize`](https://scikit-optimize.github.io/stable/)|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
 |[`NEAT`](https://neat-python.readthedocs.io/) | OOP  | Neuroevolution | Limited | use the visualization tools |
 
-: Comparison of the popular genetic algorithm frameworks. \label{frameworks}
+: Comparison of the popular genetic algorithm frameworks.
 
 `Tpot`/`gama`, `gplearn`/`pysr`, and `scikit-opt` follow the scikit-learn style, providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (as well as `NEAT`).
 

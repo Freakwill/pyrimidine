@@ -20,6 +20,10 @@ An ordinary example of the usage of `pyrimidine`
 from pyrimidine import MonoIndividual, BinaryChromosome, HOFPopulation
 from pyrimidine.benchmarks.optimization import *
 
+import numpy as np
+np.random.seed(6575)
+
+
 n_bags = 50
 _evaluate = Knapsack.random(n_bags)  # : 0-1 array -> float
 
@@ -93,54 +97,9 @@ t_i \in T, n_i \in N
 $$
 We encode a solution with binary chromosome, that means 0/1 presents to be unselected/selected.
 
-```python
-#!/usr/bin/env python3
-
-from pyrimidine import *
-import numpy as np
-
-
-t = np.random.randint(1, 5, 20)
-n = np.random.randint(1, 4, 20)
-M = 10
-
-import collections
-def max_repeat(x):
-    # Maximum repetition
-    c = collections.Counter(x)
-    return np.max([b for a, b in c.items()])
-
-
-class MyIndividual(MonoBinaryIndividual):
-
-    def _fitness(self):
-        """
-        Description:
-            select ti, ni from t, n
-            the sum of ni ~ 10, while ti repeat as little as possible
-        """
-        x, y = abs(np.sum([ni for ni, c in zip(n, self.chromosome) if c==1])-M), max_repeat(ti for ti, c in zip(t, self.chromosome) if c==1)
-        return - (x + y)
-
-MyPopulation = StandardPopulation[MyIndividual]
-
-if __name__ == '__main__':
-    pop = MyPopulation.random(n_individuals=20, size=20)
-    """stat={'Mean Fitness':'mean_fitness',
-    'Best Fitness':'max_fitness'} by default;
-    need not set `stat` explicitly.
-    """
-    data = pop.evolve(max_iter=100, history=True)
-
-    import matplotlib.pyplot as plt
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
-    ax.set_xlabel('Generations')
-    ax.set_ylabel('Fitness')
-    plt.show()
-
-```
+.. literalinclude:: example1.py
+    :language: python
+    :linenos:
 
 ![](example.png)
 
@@ -171,6 +130,10 @@ from pyrimidine.benchmarks.special import *
 from pyrimidine import *
 from digit_converter import *
 # require digit_converter for decoding chromosomes
+
+import numpy as np
+np.random.seed(6575)
+
 
 ndim = 10
 def evaluate(x):
@@ -257,6 +220,9 @@ plt.show()
 
 from .base import BasePopulation
 from .utils import randint2
+
+import numpy as np
+np.random.seed(6575)
 
 
 class EvolutionStrategy(BasePopulation):
@@ -349,6 +315,10 @@ class QuantumChromosome(CircleChromosome):
 
 from pyrimidine.deco import basic_memory, fitness_cache
 
+import numpy as np
+np.random.seed(6575)
+
+
 # generate a knapsack problem randomly
 n_bags = 50
 evaluate = Knapsack.random(n=n_bags)
@@ -419,6 +389,7 @@ It is extremely natural to implement multi-population GA by `pyrimidine`.
 #!/usr/bin/env python3
 
 # import statements
+# setting the seed
 
 # generate a knapsack problem randomly
 n_bags = 100
@@ -456,6 +427,9 @@ import numpy as np
 
 from pyrimidine import MultiPopulation, HOFPopulation, PolyIndividual, BinaryChromosome
 from pyrimidine.benchmarks.optimization import *
+
+import numpy as np
+np.random.seed(6575)
 
 
 # generate a knapsack problem randomly
@@ -518,6 +492,9 @@ import numpy as np
 
 from pyrimidine import HybridPopulation, HOFPopulation, BinaryChromosome
 from pyrimidine.benchmarks.optimization import *
+
+import numpy as np
+np.random.seed(6575)
 
 
 # generate a knapsack problem randomly

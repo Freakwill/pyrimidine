@@ -24,7 +24,9 @@ class uChromosome(BinaryChromosome):
 def _fitness(obj):
     return evaluate(obj.decode())
 
+
 ExampleIndividual = MultiIndividual[_Chromosome].set_fitness(_fitness)
+
 
 class MyIndividual(MixedIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fitness(_fitness)):
     """my own individual class
@@ -33,11 +35,9 @@ class MyIndividual(MixedIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fit
     """
     ranking = None
 
-
     @property
     def threshold(self):
         return self.chromosomes[-1].decode()
-
 
     def mate(self, other, mate_prob=None):
 

@@ -7,6 +7,7 @@ Test for methods/operators: A[B], set, set_fitness, //
 from pyrimidine import *
 from pyrimidine.benchmarks.optimization import *
 
+
 n_bags = 100
 _evaluate = Knapsack.random(n_bags)
 def _fitness(o):

@@ -72,6 +72,10 @@
 <span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="n">MonoIndividual</span><span class="p">,</span> <span class="n">BinaryChromosome</span><span class="p">,</span> <span class="n">HOFPopulation</span>
 <span class="kn">from</span> <span class="nn">pyrimidine.benchmarks.optimization</span> <span class="kn">import</span> <span class="o">*</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">6575</span><span class="p">)</span>
+
+
 <span class="n">n_bags</span> <span class="o">=</span> <span class="mi">50</span>
 <span class="n">_evaluate</span> <span class="o">=</span> <span class="n">Knapsack</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n_bags</span><span class="p">)</span>  <span class="c1"># : 0-1 array -&gt; float</span>
 
@@ -143,54 +147,9 @@ $<span class="math notranslate nohighlight">\(
 t_i \in T, n_i \in N
 \)</span>$
 We encode a solution with binary chromosome, that means 0/1 presents to be unselected/selected.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
-
-<span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-
-<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-<span class="n">M</span> <span class="o">=</span> <span class="mi">10</span>
-
-<span class="kn">import</span> <span class="nn">collections</span>
-<span class="k">def</span> <span class="nf">max_repeat</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="c1"># Maximum repetition</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
-
-
-<span class="k">class</span> <span class="nc">MyIndividual</span><span class="p">(</span><span class="n">MonoBinaryIndividual</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="nf">_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Description:</span>
-<span class="sd">            select ti, ni from t, n</span>
-<span class="sd">            the sum of ni ~ 10, while ti repeat as little as possible</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">ni</span> <span class="k">for</span> <span class="n">ni</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span><span class="o">==</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">M</span><span class="p">),</span> <span class="n">max_repeat</span><span class="p">(</span><span class="n">ti</span> <span class="k">for</span> <span class="n">ti</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chromosome</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="o">-</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span>
-
-<span class="n">MyPopulation</span> <span class="o">=</span> <span class="n">StandardPopulation</span><span class="p">[</span><span class="n">MyIndividual</span><span class="p">]</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">pop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n_individuals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;stat={&#39;Mean Fitness&#39;:&#39;mean_fitness&#39;,</span>
-<span class="sd">    &#39;Best Fitness&#39;:&#39;max_fitness&#39;} by default;</span>
-<span class="sd">    need not set `stat` explicitly.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-    <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Generations&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Fitness&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-</pre></div>
-</div>
+<p>… literalinclude:: example1.py
+:language: python
+:linenos:</p>
 <p><img alt="" src="../_images/example.png" /></p>
 <p>Print the statistical results:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">iteration</span> <span class="o">&amp;</span> <span class="n">solution</span> <span class="o">&amp;</span> <span class="n">Mean</span> <span class="n">Fitness</span> <span class="o">&amp;</span> <span class="n">Best</span> <span class="n">Fitness</span> <span class="o">&amp;</span> <span class="n">Standard</span> <span class="n">Deviation</span> <span class="n">of</span> <span class="n">Fitnesses</span> <span class="o">&amp;</span> <span class="n">number</span>
@@ -216,6 +175,10 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 <span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">digit_converter</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="c1"># require digit_converter for decoding chromosomes</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">6575</span><span class="p">)</span>
+
 
 <span class="n">ndim</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -300,6 +263,9 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">BasePopulation</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">randint2</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">6575</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">EvolutionStrategy</span><span class="p">(</span><span class="n">BasePopulation</span><span class="p">):</span>
@@ -391,6 +357,10 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 
 <span class="kn">from</span> <span class="nn">pyrimidine.deco</span> <span class="kn">import</span> <span class="n">basic_memory</span><span class="p">,</span> <span class="n">fitness_cache</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">6575</span><span class="p">)</span>
+
+
 <span class="c1"># generate a knapsack problem randomly</span>
 <span class="n">n_bags</span> <span class="o">=</span> <span class="mi">50</span>
 <span class="n">evaluate</span> <span class="o">=</span> <span class="n">Knapsack</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n_bags</span><span class="p">)</span>
@@ -460,6 +430,7 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
 
 <span class="c1"># import statements</span>
+<span class="c1"># setting the seed</span>
 
 <span class="c1"># generate a knapsack problem randomly</span>
 <span class="n">n_bags</span> <span class="o">=</span> <span class="mi">100</span>
@@ -495,6 +466,9 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 
 <span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="n">MultiPopulation</span><span class="p">,</span> <span class="n">HOFPopulation</span><span class="p">,</span> <span class="n">PolyIndividual</span><span class="p">,</span> <span class="n">BinaryChromosome</span>
 <span class="kn">from</span> <span class="nn">pyrimidine.benchmarks.optimization</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">6575</span><span class="p">)</span>
 
 
 <span class="c1"># generate a knapsack problem randomly</span>
@@ -552,6 +526,9 @@ We encode a solution with binary chromosome, that means 0/1 presents to be unsel
 
 <span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="n">HybridPopulation</span><span class="p">,</span> <span class="n">HOFPopulation</span><span class="p">,</span> <span class="n">BinaryChromosome</span>
 <span class="kn">from</span> <span class="nn">pyrimidine.benchmarks.optimization</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">6575</span><span class="p">)</span>
 
 
 <span class="c1"># generate a knapsack problem randomly</span>
