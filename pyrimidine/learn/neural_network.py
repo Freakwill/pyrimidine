@@ -63,7 +63,7 @@ class BaseGAMLP(BaseEstimator):
         return MyPopulation.random(n_individuals=n_individuals, size=((input_dim, cls.hidden_dim), cls.hidden_dim, (cls.hidden_dim, output_dim), output_dim))
 
 
-class GAMLPRegressor(BaseGAMLP):
+class GAMLPRegressor(BaseGAMLP, MLPRegressor):
 
     """GA for MLP Regression
     """
@@ -77,7 +77,7 @@ class GAMLPRegressor(BaseGAMLP):
         return model
 
 
-class GAMLPClassifier(BaseGAMLP):
+class GAMLPClassifier(BaseGAMLP, MLPClassifier):
 
     """GA for MLP Classification
     """
