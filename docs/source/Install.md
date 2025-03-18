@@ -1,6 +1,6 @@
 # Installation and Getting Started
 
-**Pythons**: Python 3.8, 3.9, 3.10, 3.11, 3.12, PyPy3
+**Pythons**: Python 3.9, 3.10, 3.11, 3.12, PyPy3 (even Python 3.13)
 
 **Platforms**: Linux/Unix and Windows
 
@@ -17,6 +17,8 @@ Run the following command to install `pyrimidine`:
 Check the version:
 
 `$ pyrimidine --version`
+
+Note that you shold use `sudo pip3 install pyrimidine` to avoid the permission error.
 
 ## Requirements
 

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pyrimidine"
-version = "1.7.2"
-description = "A competitive framework for GA, designed by thorough OOP"
+version = "1.7.3"
+description = "A competitive framework tailored for GA, crafted with an emphasis on OOP and Algebra-Inspired Programming."
 authors = ["William Song <30965609+Freakwill@users.noreply.github.com>"]
 
 license = "MIT"
@@ -19,12 +19,21 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.9"
+numpy = "^2.0.0"
+scipy = "^1.12.0"
+pandas = "^2.1.0"
+toolz = "^0.12.0"
+matplotlib = "^3.9.0"
+scikit-learn = "^1.4.0"
+# for Statistics (Optional)
+# ezstat = "2.2"
+# for encoding the numbers to genes (Optional)
+# digit_converter = "2.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.1"
 
 [build-system]
-requires = ["poetry>=0.12"]
+requires = ["poetry>=1.0"]
 # build-backend = "poetry.masonry.api"
-

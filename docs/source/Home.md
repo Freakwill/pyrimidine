@@ -69,7 +69,7 @@ Unlike the cache class decorator, the `memory` decorator (e.g., `@basic_memory`)
 
 ## Statement of need
 
-As one of the earliest developed optimization algorithms, the genetic algorithm (GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms. The principles of GA will not be reviewed here. For a detailed understanding, please refer to references and the associated literatures.
+As one of the earliest developed optimization algorithms, the genetic algorithm (GA) has found extensive application across various domains and has undergone modifications and integrations with new algorithms. The principles of GA will not be explained here. For a detailed understanding, please refer to references and the associated literatures.
 
 In a typical Python implementation, populations are initially defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/). The evolutionary operators are defined and applied to these structures.
 

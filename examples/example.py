@@ -16,16 +16,16 @@ _evaluate = Knapsack.random(n_bags)  # : 0-1 array -> float
 print(_evaluate.w)
 
 # Define the individual class
-# @fitness_cache
-# class MyIndividual(MonoIndividual):
+@fitness_cache
+class MyIndividual(MonoIndividual):
 
-#     element_class = BinaryChromosome.set(default_size=n_bags)
-#     def _fitness(self) -> float:
-#         # To evaluate an individual!
-#         return _evaluate(self.chromosome)
+    element_class = BinaryChromosome.set(default_size=n_bags)
+    def _fitness(self) -> float:
+        # To evaluate an individual!
+        return _evaluate(self.chromosome)
 
 # Equiv. to
-MyIndividual = (BinaryChromosome // n_bags).set_fitness(_evaluate) @ fitness_cache
+# MyIndividual = (BinaryChromosome // n_bags).set_fitness(_evaluate) @ fitness_cache
 
 
 # Define the population class
@@ -66,5 +66,5 @@ if __name__ == '__main__':
     ax2.legend(loc='lower right')
     ax.set_xlabel('Generations')
     ax.set_ylabel('Fitness')
-    # ax.set_title('Demo of solving the knapsack problem by GA')
+    ax.set_title('Demo of solving the knapsack problem by GA')
     plt.show()

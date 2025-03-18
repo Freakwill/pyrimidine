@@ -17,53 +17,70 @@ One of the well-known problem is the knapsack problem. It is a good example for 
 An ordinary example of the usage of `pyrimidine`
 """
 
-from pyrimidine import MonoIndividual, BinaryChromosome, HOFPopulation
+from pyrimidine import MonoIndividual, BinaryChromosome, StandardPopulation
 from pyrimidine.benchmarks.optimization import *
 
-import numpy as np
-np.random.seed(6575)
+from pyrimidine.deco import fitness_cache
 
 
 n_bags = 50
 _evaluate = Knapsack.random(n_bags)  # : 0-1 array -> float
 
+print(_evaluate.w)
+
 # Define the individual class
+@fitness_cache
 class MyIndividual(MonoIndividual):
-    element_class = BinaryChromosome // n_bags
+
+    element_class = BinaryChromosome.set(default_size=n_bags)
     def _fitness(self) -> float:
         # To evaluate an individual!
         return _evaluate(self.chromosome)
 
-""" Equiv. to
-    MyIndividual = MonoIndividual[BinaryChromosome//n_bags].set_fitness(_evaluate)
-"""
+# Equiv. to
+# MyIndividual = (BinaryChromosome // n_bags).set_fitness(_evaluate) @ fitness_cache
+
 
 # Define the population class
-class MyPopulation(HOFPopulation):
+class MyPopulation(StandardPopulation):
     element_class = MyIndividual
-    default_size = 10
+    default_size = 20
 
 """ Equiv. to
-    MyPopulation = HOFPopulation[MyIndividual] //10
+    MyPopulation = StandardPopulation[MyIndividual] // 20
     or, as a population of chromosomes
-    MyPopulation = HOFPopulation[(BinaryChromosome//n_bags).set_fitness(_evaluate)] //10
+    MyPopulation = StandardPopulation[(BinaryChromosome // n_bags).set_fitness(_evaluate)] // 8
 """
 
 pop = MyPopulation.random()
 
-# Define statistics of population
-stat = {
-    'Mean Fitness': 'fitness',
-    'Best Fitness': 'max_fitness',
-    'Standard Deviation of Fitnesses': 'std_fitness',
-    'number': lambda pop: len(pop.individuals)  # or `'n_individuals'`
-    }
 
-# Do statistical task and print the results through the evoluation
-data = pop.evolve(stat=stat, max_iter=100, history=True, verbose=True)
+if __name__ == '__main__':
 
-# Print the solution(the best individual in the population)
-print(pop.best_individual) # or print(pop.solution)
+    # Define statistics of population
+    stat = {
+        'Mean Fitness': 'mean_fitness',
+        'Max Fitness': 'max_fitness',
+        'Standard Deviation of Fitnesses': 'std_fitness',
+        # 'number': lambda pop: len(pop.individuals)  # or `'n_individuals'`
+        }
+
+    # Do statistical task and print the results through the evoluation
+    data = pop.evolve(stat=stat, max_iter=100, history=True)
+
+    # Visualize the data
+    import matplotlib.pyplot as plt
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax2 = ax.twinx()
+    data[['Mean Fitness', 'Max Fitness']].plot(ax=ax)
+    ax.legend(loc='upper left')
+    data['Standard Deviation of Fitnesses'].plot(ax=ax2, style='y-.')
+    ax2.legend(loc='lower right')
+    ax.set_xlabel('Generations')
+    ax.set_ylabel('Fitness')
+    ax.set_title('Demo of solving the knapsack problem by GA')
+    plt.show()
 ```
 
 #### Visualization
@@ -97,9 +114,67 @@ t_i \in T, n_i \in N
 $$
 We encode a solution with binary chromosome, that means 0/1 presents to be unselected/selected.
 
-.. literalinclude:: example1.py
-    :language: python
-    :linenos:
+```python
+#!/usr/bin/env python3
+
+import numpy as np
+
+from pyrimidine.chromosome import BinaryChromosome
+from pyrimidine.population import HOFPopulation
+
+import numpy as np
+np.random.seed(6575)
+
+
+t = np.random.randint(1, 5, 100)
+n = np.random.randint(1, 4, 100)
+
+import collections
+
+def max_repeat(x):
+    # maximum repetition
+    c = collections.Counter(x)
+    if c:
+        return np.max(list(c.values()))
+    else:
+        return 0
+
+
+def _evaluate(x):
+    """
+    select t_i, n_i from t, n resp.
+    the sum of n_i is approx. to a given number,
+    and t_i are repeated rarely
+    """
+
+    N = abs(np.sum([ni for ni, xi in zip(n, x) if xi==1]) - 30)
+    T = max_repeat(ti for ti, xi in zip(t, x) if xi==1)
+    return - (N + T*10)
+
+
+class MyIndividual(BinaryChromosome // 10):
+
+    def _fitness(self):
+        return _evaluate(self.decode())
+
+
+MyPopulation = HOFPopulation[MyIndividual] // 16
+
+pop = MyPopulation.random()
+stat = {'Mean Fitness':'mean_fitness', 'Best Fitness':'max_fitness'}
+data = pop.evolve(stat=stat, max_iter=50, history=True, verbose=True)
+
+if __name__ == '__main__':
+
+    import matplotlib.pyplot as plt
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
+    ax.set_xlabel('Generations')
+    ax.set_ylabel('Fitness')
+    ax.set_title('Demo for GA')
+    plt.show()
+```
 
 ![](example.png)
 
