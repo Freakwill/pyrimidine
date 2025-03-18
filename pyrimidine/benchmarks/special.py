@@ -7,6 +7,7 @@ Spcical functions for benchmark
 from math import sin, sqrt, pi
 import numpy as np
 
+
 def rosenbrock(x:np.ndarray):
     x = np.asarray(x)
     return np.sum( (100 * (x[1:]-x[:-1]**2)**2 + x[:-1]-1) ** 2 )

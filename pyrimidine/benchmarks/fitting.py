@@ -6,6 +6,7 @@ import numpy.linalg as LA
 
 from ..benchmarks import BaseProblem
 
+
 _basis = [lambda x: np.ones(len(x)), lambda x: x, lambda x: x**2, lambda x: x**3, lambda x: x**4, 
 np.sin, np.cos, np.tan, np.abs, lambda x:x>0, lambda x:x<0,
 np.exp, lambda x: np.log(np.abs(x)+0.1)]

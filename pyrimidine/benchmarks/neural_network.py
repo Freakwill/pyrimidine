@@ -4,7 +4,6 @@ import numpy as np
 import numpy.linalg as LA
 
 from ..benchmarks import BaseProblem
-
 from ..utils import max0
 
 
