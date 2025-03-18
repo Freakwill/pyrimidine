@@ -5,21 +5,21 @@
 
 import numpy as np
 
-from sklearn.neural_network import MLPRegressor
+from sklearn.neural_network import MLPRegressor, MLPClassifier
 
 from .. import MixedIndividual, FloatChromosome, FloatMatrixChromosome
 from ..population import StandardPopulation
 from ..learn import BaseEstimator
 
 
-class GAMLPRegressor(BaseEstimator, MLPRegressor):
+class BaseGAMLP(BaseEstimator):
 
-    """GA for MLP Regression
+    """GA for MLP
     """
 
     hidden_dim = 4
     max_iter = 100
-    n_layers = 3  # don‘t change it
+    n_layers = 3  # don't change it
 
     estimated_params = ('coefs_', 'intercepts_')
 
@@ -62,3 +62,32 @@ class GAMLPRegressor(BaseEstimator, MLPRegressor):
 
         return MyPopulation.random(n_individuals=n_individuals, size=((input_dim, cls.hidden_dim), cls.hidden_dim, (cls.hidden_dim, output_dim), output_dim))
 
+
+class GAMLPRegressor(BaseGAMLP):
+
+    """GA for MLP Regression
+    """
+
+    @classmethod
+    def create_model(cls, *args, **kwargs):
+        # create MLPRegressor object
+        model = MLPRegressor(hidden_layer_sizes=(cls.hidden_dim,), max_iter=1, *args, **kwargs)
+        model.out_activation_ = 'identity'
+        model.n_layers_ = cls.n_layers
+        return model
+
+
+class GAMLPClassifier(BaseGAMLP):
+
+    """GA for MLP Classification
+    """
+
+    @classmethod
+    def create_model(cls, *args, **kwargs):
+        # create MLPRegressor object
+        model = MLPClassifier(hidden_layer_sizes=(cls.hidden_dim,), max_iter=1, *args, **kwargs)
+        model.out_activation_ = 'identity'
+        model.n_layers_ = cls.n_layers
+        return model
+
+ 

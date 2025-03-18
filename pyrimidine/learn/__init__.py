@@ -25,11 +25,15 @@ class BaseEstimator(BE):
 
     @classmethod
     def config(cls, X, Y=None, *args, **kwargs):
-        """configure a population for GA based on the data X, Y
+        """Configure a population for GA based on the data X, Y;
+        Subclasses must implement this method.
         
         Args:
             X (array): input data
             Y (array, optional): output data
+
+        Returns:
+            Population of GA
         """
         raise NotImplementedError
 
@@ -45,16 +49,24 @@ class BaseEstimator(BE):
         Returns:
             the fitted estimator
         """
-        if warm_start:
-            self.pop = pop or self.pop or self.config(X, Y)
+
+        if pop is None:
+            if warm_start:
+                if not hasattr(self, 'pop'):
+                    self.pop = self.config(X, Y)
+                    if hasattr(self, 'ind'):
+                        self.pop.append(self.ind)
+            else:
+                self.pop = self.config(X, Y)
         else:
-            self.pop = pop or self.config(X, Y)
+            self.pop = pop
         self._fit()
         return self
 
     def _fit(self):
         # the fit method for dirty work; get the solution after executing GA
         self.pop.ezolve(max_iter=self.max_iter)
+        self.ind = self.pop.best_individual
         self.solution = self.pop.solution
         for k in self.estimated_params:
             setattr(self, k, getattr(self.solution, k))
@@ -63,6 +75,11 @@ class BaseEstimator(BE):
         if not hasattr(self, 'solution'):
             raise 'Get the solution by GA first!'
         return self.solution.predict(X)
+
+    def reset(self, include_ind=False):
+        del self.pop
+        if include_ind:
+            del self.ind
 
 
 # def ga_opt(model_class):

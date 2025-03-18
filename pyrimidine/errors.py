@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+Custom exception classes to handle specific error scenarios,
+during the object generation and attribute access processes.
+"""
 
 class UnknownSizeError(Exception):
     # raise the error, if the size of class is unknown.

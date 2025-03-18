@@ -4,6 +4,7 @@
 - update the notations of methods/functions 
 - update the documents
 - Allow the GA optimization function to accept an initial solution. see `examples/example-opt.py`
+- add GAMLPClassifer for classification
 
 ## v1.6
 

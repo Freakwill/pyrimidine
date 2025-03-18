@@ -139,9 +139,9 @@ class MyIndividual(MonoIndividual):
 Since the helper `makeIndividual(n_chromosomes=1, size=8)` could create such an individual, it is equivalent to
 
 ```python
-from pyrimidine.individual import binaryIndividual
+from pyrimidine.individual import makeIndividual
 
-class MyIndividual(binaryIndividual()):
+class MyIndividual(makeIndividual()):
     # only need to define the fitness
     def _fitness(self):
         ...

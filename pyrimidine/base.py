@@ -94,7 +94,25 @@ class BaseGene:
         return cls(np.random.choice(cls.values, *args, **kwargs))
 
 
-class BaseChromosome(FitnessMixin, metaclass=MetaArray):
+class SolutionLikeMixin(FitnessMixin):
+
+    def decode(self):
+        """Decoding of the solution/individual
+
+        Translate the solution/individual to (part of) solution, maybe a number.
+        """
+        return self
+
+    @classmethod
+    def encode(cls, sol):
+        """Encoding to the solution/individual, as inverse of `decode`
+
+        Transform the solution (e.g. a number) to the solution/individual.
+        """
+        raise NotImplementedError
+
+
+class BaseChromosome(SolutionLikeMixin, metaclass=MetaArray):
     """Base class of chromosomes
 
     Chromosome is an array of genes. It is the unit of the GA.
@@ -154,21 +172,6 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
         ind.mutate()
         return ind
 
-    def decode(self):
-        """Decoding of the chromesome
-
-        Translate the chromesome to (part of) solution, maybe a number.
-        """
-        return self
-
-    @classmethod
-    def encode(cls, sol):
-        """Encoding to the chromesome, as inverse of `decode`
-
-        Transform the solution (e.g. a number) to the chromesome.
-        """
-        raise NotImplementedError
-
     def equal_to(self, other):
         """Judge that self == other
         
@@ -185,7 +188,7 @@ class BaseChromosome(FitnessMixin, metaclass=MetaArray):
         raise NotImplementedError
 
 
-class BaseIndividual(FitnessMixin, metaclass=MetaContainer):
+class BaseIndividual(SolutionLikeMixin, metaclass=MetaContainer):
     """Base class of individuals
 
     It is essentially a sequence of chromosomes that may vary in sizes.
