@@ -94,25 +94,7 @@ class BaseGene:
         return cls(np.random.choice(cls.values, *args, **kwargs))
 
 
-class SolutionLikeMixin(FitnessMixin):
-
-    def decode(self):
-        """Decoding of the solution/individual
-
-        Translate the solution/individual to (part of) solution, maybe a number.
-        """
-        return self
-
-    @classmethod
-    def encode(cls, sol):
-        """Encoding to the solution/individual, as inverse of `decode`
-
-        Transform the solution (e.g. a number) to the solution/individual.
-        """
-        raise NotImplementedError
-
-
-class BaseChromosome(SolutionLikeMixin, metaclass=MetaArray):
+class BaseChromosome(SolutionMixin, metaclass=MetaArray):
     """Base class of chromosomes
 
     Chromosome is an array of genes. It is the unit of the GA.
@@ -188,7 +170,7 @@ class BaseChromosome(SolutionLikeMixin, metaclass=MetaArray):
         raise NotImplementedError
 
 
-class BaseIndividual(SolutionLikeMixin, metaclass=MetaContainer):
+class BaseIndividual(SolutionMixin, metaclass=MetaContainer):
     """Base class of individuals
 
     It is essentially a sequence of chromosomes that may vary in sizes.
@@ -232,7 +214,7 @@ class BaseIndividual(SolutionLikeMixin, metaclass=MetaContainer):
         if hasattr(self, 'environment'):
             return self.environment.evaluate(self)
         else:
-            raise NotImplementedError
+            raise NotImplementedError('The method to compute the fitness is undefined!')
 
     def transition(self, *args, **kwargs):
         # the defualt `transition` method for individual 

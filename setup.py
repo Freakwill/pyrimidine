@@ -8,7 +8,7 @@ with open("requirements.txt") as f:
 
 setup(
     name="pyrimidine",
-    version="1.7.3",
+    version="1.7.4",
     author="Freakwill",
     author_email="Williamxxoo@gmail.com",
     description="An extensible framework of genetic algorithm by Python. "

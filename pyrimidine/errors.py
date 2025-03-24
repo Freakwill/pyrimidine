@@ -16,7 +16,7 @@ class UnknownSizeError(Exception):
 
 
 class UnavalibleAttributeError(AttributeError):
-    # raise the error, if some special method is undefined.
+    # raise the error, if some special attribute is undefined.
 
     def __init__(self, cls, attr_name):
         self.cls = cls
@@ -27,7 +27,7 @@ class UnavalibleAttributeError(AttributeError):
 
 
 class RegesterError(AttributeError):
-    # raise the error, if some special method is undefined.
+    # raise the error, if try to redefine some special attribute.
 
     def __init__(self, cls, attr_name):
         self.cls = cls

@@ -9,13 +9,18 @@ IterativeMixin: base class for all iterative algorithms
 FitnessMixin: IterativeMixin with `fitness`
 CollectiveMixin: base class for all iterative algorithms with multi-objects
 PopulationMixin: subclass of FitnessMixin, population-like iterative algorithms
+SolutionMixin: to represent a solution
 
-Relation of the classes:
+The inheritance relationship of the classes:
 IterativeMixin  --->  CollectiveMixin
     |                      |
     |                      |
     v                      v
-FitnessMixin  --->  PopulationMixin
+FitnessMixin  --->  PopulationMixin  ---> MultiPopulationMixin
+    |
+    |
+    v
+SolutionMixin
 """
 
 
@@ -57,12 +62,6 @@ class IterativeMixin:
         or the moving method in Simulated Annealing.
         """
         raise NotImplementedError('`transition` (the core of the algorithm) is not defined yet!')
-
-    def local_search(self, *args, **kwargs):
-        """
-        The local search method for a global search algorithm.
-        """
-        raise NotImplementedError('If you apply a local search algorithm, you must define the `local_search` method.')
 
     def ezolve(self, max_iter=None, initialize=True):
         """Extremely eazy evolution method for lazybones
@@ -338,6 +337,24 @@ class FitnessMixin(IterativeMixin):
     def clone(self):
         # totally copy the object
         return self.__class__(list(map(methodcaller('clone'), self)))
+
+
+class SolutionMixin(FitnessMixin):
+
+    def decode(self):
+        """Decoding of the solution/individual
+
+        Translate the solution/individual to (part of) solution, maybe a number.
+        """
+        return self
+
+    @classmethod
+    def encode(cls, sol):
+        """Encoding to the solution/individual, as inverse of `decode`
+
+        Transform the solution (e.g. a number) to the solution/individual.
+        """
+        raise NotImplementedError
 
 
 class CollectiveMixin(IterativeMixin):
