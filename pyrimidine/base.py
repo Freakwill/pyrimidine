@@ -260,7 +260,7 @@ class BaseIndividual(SolutionMixin, metaclass=MetaContainer):
         For example, transform a 0-1 sequence to a real number.
 
         Returns:
-            list: a list of codes
+            list: a list of decoding results of its chromosomes
         """
         return [chromosome.decode() for chromosome in self]
 
@@ -278,6 +278,7 @@ class BaseIndividual(SolutionMixin, metaclass=MetaContainer):
         """
         
         assert isinstance(n, np.int32) and n > 0, 'n must be a positive integer'
+
         C = StandardPopulation[self.__class__]
         return C([self.copy() for _ in range(n)])
 
@@ -476,6 +477,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         Returns:
             BasePopulation: the offspring
         """
+
         mate_prob = mate_prob or self.mate_prob
         offspring = [individual.cross(other_individual) for individual, other_individual in product(self, other)
         if random() < mate_prob]
@@ -543,8 +545,7 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
 
         Args:
             other (BasePopulation): another population
-            n_sel (int|float): the number of individuals in the result population
-        
+
         Returns:
             BasePopulation: the result population
         """
@@ -557,7 +558,6 @@ class BasePopulation(PopulationMixin, metaclass=MetaContainer):
         
         Args:
             other (BasePopulation): another population
-            n_sel (int|float): the number of individuals in the result population
         """
 
         k = randint(1, self.n_individuals-2)
