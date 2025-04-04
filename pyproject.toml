@@ -1,39 +1,68 @@
-[tool.poetry]
+[project]
 name = "pyrimidine"
 version = "1.7.4"
+authors = [
+    { name = "William Song", email = "30965609+Freakwill@users.noreply.github.com"},
+]
 description = "A competitive framework tailored for GA, crafted with an emphasis on OOP and Algebra-Inspired Programming."
-authors = ["William Song <30965609+Freakwill@users.noreply.github.com>"]
-
+keywords = ["Genetic Algorithm", "Artificial Intelligence", "Intelligent Optimization"]
 license = "MIT"
-readme = "README.md"
+readme = {file = "README.md", content-type = "text/markdown"}
+
+[project.optional-dependencies]
+optional = [
+    "ezstat>=2.2",  # for Statistics
+    "digit_converter==2.0",  # for encoding the numbers to genes
+]
+
+[project.urls]
 homepage = "https://github.com/Freakwill/pyrimidine"
 repository = "https://github.com/Freakwill/pyrimidine"
-keywords = ["Genetic Algorithm", "Artificial Intelligence", "Intelligent Optimization"]
+documentation = "https://pyrimidine.readthedocs.io/en/latest/index.html#"
+
+[tool.poetry]
+keywords = [
+    "Genetic Algorithm",
+    "Artificial Intelligence",
+    "Intelligent Optimization",
+    "Evolutionary Algorithms",
+    "Stochastic Optimization",
+    "Iterative Algorithms",
+    "Algebra-insprited Programming",
+    "Meta Programming",
+]
 classifiers = [
     "Environment :: MacOS X",
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Artificial Life",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Development Status :: Mature",
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-numpy = "^2.0.0"
-scipy = "^1.12.0"
-pandas = "^2.1.0"
-toolz = "^0.12.0"
-matplotlib = "^3.9.0"
-scikit-learn = "^1.4.0"
-# for Statistics (Optional)
-# ezstat = "2.2"
-# for encoding the numbers to genes (Optional)
-# digit_converter = "2.0"
+python = ">=3.9"
+numpy = ">=2.0.0"
+scipy = ">=1.12.0"
+pandas = ">=2.1.0"
+toolz = ">=0.12.0"
+matplotlib = ">=3.9.0"
+scikit-learn = ">=1.4.0"
+dask = "*"
 
 [tool.poetry.dev-dependencies]
-pytest = "^7.1"
+pytest = ">=7.1"
 
 [build-system]
-requires = ["poetry>=1.0"]
-# build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=1.0"]
+build-backend = "poetry.core.masonry.api"

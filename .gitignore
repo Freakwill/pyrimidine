@@ -3,6 +3,11 @@
 examples/*.csv
 examples/*.mp4
 */__pycache__/
+*.pyc
+.coverage
 -*.md
 pyrimidine/-*.py
 *.pdf
+poetry.lock
+.idea/
+.python-version

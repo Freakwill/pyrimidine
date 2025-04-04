@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+from importlib.metadata import version
 
 from .base import *
 from .mixin import *
@@ -17,7 +17,7 @@ from .ep import *
 from .de import *
 
 
-__version__ = "1.7.3"
+__version__ = version("pyrimidine")
 
 __template__ = """
 from pyrimidine.chromosome import BinaryChromosome
