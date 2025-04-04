@@ -16,9 +16,9 @@ Run the following command to install `pyrimidine`:
 
 Check the version:
 
-`$ pyrimidine --version`
+`$ python -c "import pyrimidine; print(pyrimidine.__version__)"`
 
-Note that you shold use `sudo pip3 install pyrimidine` to avoid the permission error.
+Note that you should use `pip install pyrimidine` in a virtual environment to avoid potential permission errors.
 
 ## Requirements
 
