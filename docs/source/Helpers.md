@@ -18,7 +18,7 @@ An example of function optimization:
 ```python
 from pyrimidine import optimize
 
-solution = optimize.ga_minimzie(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+solution = optimize.ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
 print(solution)
 ```
 
@@ -45,7 +45,7 @@ from pyrimidine.optimize import Optimizer
 optimizer = Optimizer(StandardPopulation)
 optimizer(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
 
-# <==> optimize.ga_minimzie(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+# <==> optimize.ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
 ```
 
 ## Decorators
