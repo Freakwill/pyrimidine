@@ -110,93 +110,30 @@ Here we create Quantum GA.
 ### use `QuantumChromosome`
 Quantum GA is based on quantum chromosomes, `QuantumChromosome`. Let use have a look at the source code. It is recommended to use decorate `@basic_memory` to save the best measure result of a quantum chromosome.
 
-```python
-class QuantumChromosome(CircleChromosome):
-
-    measure_result = None
-
-    def decode(self):
-        self.measure()
-        return self.measure_result
-
-    def measure(self):
-        # measure a QuantumChromosome to get a binary sequence
-        rs = np.random.random(size=(len(self),))
-        self.measure_result = np.cos(self) ** 2 > rs
-        self.measure_result.astype(np.int_)
+```{literalinclude} ../../pyrimidine/chromosome.py
+:language: python
+:caption: pyrimidine/chromosome.py
+:lineno-start: 392
+:lines: 392-408
 ```
 
 ### Create quantum GA
 
-```python
-#!/usr/bin/env python3
 
-# import statements
-
-from pyrimidine.deco import basic_memory, fitness_cache
-
-import numpy as np
-np.random.seed(6575)
-
-
-# generate a knapsack problem randomly
-n_bags = 50
-evaluate = Knapsack.random(n=n_bags)
-
-
-@basic_memory
-class YourIndividual(BinaryChromosome // n_bags):
-
-    def _fitness(self):
-        return evaluate(self.decode())
-
-
-@basic_memory
-class MyIndividual(QuantumChromosome // n_bags):
-
-    def _fitness(self):
-        return evaluate(self.decode())
-
-
-class Population(HOFPopulation):
-    default_size = 20
-
-    def backup(self, check=True):
-        for i in self:
-            i.backup(check=check)
-
-    def update_hall_of_fame(self, *args, **kwargs):
-        """
-        Update the `hall_of_fame` after each step of evolution
-        """
-        self.backup()
-        super().update_hall_of_fame(*args, **kwargs)
-
-
-MyPopulation = Population[MyIndividual]
-YourPopulation = Population[YourIndividual]
+```{literalinclude} ../../examples/comparison-proba.py
+:language: python
+:caption: examples/comparison-proba.py
+:linenos:
+:lines: 1-59
 ```
 
 ### Visualization and comparison
 
-```python
-stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
-mypop = MyPopulation.random()
-yourpop = YourPopulation([YourIndividual(i.decode()) for i in mypop])
 
-mydata = mypop.evolve(max_iter=100, stat=stat, history=True)
-yourdata = yourpop.evolve(max_iter=100, stat=stat, history=True)
-
-import matplotlib.pyplot as plt
-fig = plt.figure()
-ax = fig.add_subplot(111)
-yourdata[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
-mydata[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
-ax.legend(('Mean Fitness', 'Best Fitness', 'Mean Fitness(Quantum)', 'Best Fitness(Quantum)'))
-ax.set_xlabel('Generations')
-ax.set_ylabel('Fitness')
-ax.set_title(f'Demo of (Quantum)GA: {n_bags}-Knapsack Problem')
-plt.show()
+```{literalinclude} ../../examples/comparison-proba.py
+:language: python
+:lineno-start: 62
+:lines: 62-
 ```
 
 ![](QGA.png)

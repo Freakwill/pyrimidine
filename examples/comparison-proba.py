@@ -5,6 +5,9 @@ from pyrimidine import *
 from pyrimidine.benchmarks.optimization import *
 from pyrimidine.deco import fitness_cache, basic_memory
 
+import numpy as np
+np.random.seed(6575)
+
 # generate a knapsack problem randomly
 
 n_bags = 100
@@ -56,6 +59,7 @@ class YourPopulation(_Mixin, HOFPopulation):
     default_size = 20
 
 
+stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
 mypop = MyPopulation.random()
 for i in mypop: i.measure()
 yourpop = MyPopulation([YourIndividual(i.measure_result) for i in mypop])
