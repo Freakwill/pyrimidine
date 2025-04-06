@@ -67,93 +67,22 @@ In the following example, the binary chromosomes should be decoded to floats. We
 
 We will use `MixedIndividual` to encode the `threshold` for a novel algorithm.
 
-```python
-#!/usr/bin/env python3
-
-from pyrimidine.benchmarks.special import *
-
-from pyrimidine import *
-from digit_converter import *
-# require digit_converter for decoding chromosomes
-
-import numpy as np
-np.random.seed(6575)
-
-
-ndim = 10
-def evaluate(x):
-    return -rosenbrock(x)
-
-
-class _Chromosome(BinaryChromosome):
-    def decode(self):
-        # transform the chromosome to a sequance of 0-1s
-        return IntervalConverter(-5,5)(self)
-
-
-class uChromosome(BinaryChromosome):
-    def decode(self):
-        return unitIntervalConverter(self)
-
-def _fitness(i):
-    return evaluate(i.decode())
-
-_Individual = MultiIndividual[_Chromosome].set_fitness(_fitness) // ndim
-
-class MyIndividual(MixedIndividual[(_Chromosome,)*ndim + (uChromosome,)].set_fitness(_fitness)):
-    """My own individual class
-    
-    The method `mate` is overriden.
-    """
-    ranking = None
-    threshold = 0.25
-
-    @property
-    def threshold(self):
-        return self.chromosomes[-1].decode()
-
-    def mate(self, other, mate_prob=None):
-        # mate with threshold and ranking
-        if other.ranking and self.ranking:
-            if self.threshold <= other.ranking:
-                if other.threshold <= self.ranking:
-                    return super().mate(other, mate_prob=0.95)
-                else:
-                    mate_prob = 1-other.threshold
-                    return super().mate(other, mate_prob)
-            else:
-                if other.threshold <= self.ranking:
-                    mate_prob = 1-self.threshold
-                    return super().mate(other, mate_prob=0.95)
-                else:
-                    mate_prob = 1-(self.threshold+other.threshold)/2
-                    return super().mate(other, mate_prob)
-        else:
-            return super().mate(other)
-
-MyPopulation = StandardPopulation[MyIndividual]
+```{literalinclude} ../../examples/example2.py
+:language: python
+:caption: examples/example2.py
+:linenos:
+:lines: 1-69
 ```
 
 
 ### Comparison of Algorithms
 
-```python
-stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'max_fitness'}
 
-import matplotlib.pyplot as plt
-fig = plt.figure()
-ax = fig.add_subplot(111)
-
-_Population = StandardPopulation[_Individual]
-pop = MyPopulation.random(n_individuals=20, sizes=[8]*ndim+[8])
-cpy = pop.copy(type_=_Population)
-d = cpy.evolve(stat=stat, max_iter=100, history=True)
-ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
-
-d = pop.history(max_iter=100, stat=stat, history=True)
-ax.plot(d.index, d['Mean Fitness'], d.index, d['Best Fitness'], '.-')
-ax.legend(('Traditional mean','Traditional best', 'New mean', 'New best'))
-plt.show()
+```{literalinclude} ../../examples/example2.py
+:language: python
+:lineno-start: 74
+:lines: 74-
+:dedent:
 ```
 
 ![](comparison.png)
