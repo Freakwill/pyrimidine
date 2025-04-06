@@ -6,7 +6,7 @@ import numpy as np
 from pyrimidine import HybridPopulation, HOFPopulation, BinaryChromosome
 from pyrimidine.benchmarks.optimization import *
 
-
+np.random.seed(6575)
 # generate a knapsack problem randomly
 n_bags = 100
 _evaluate = Knapsack.random(n_bags)
