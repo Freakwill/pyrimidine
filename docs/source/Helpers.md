@@ -18,7 +18,7 @@ An example of function optimization:
 ```python
 from pyrimidine import optimize
 
-solution = optimize.ga_minimzie(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+solution = optimize.ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
 print(solution)
 ```
 
@@ -41,11 +41,12 @@ Here an optimizer is a class to do optimization based on intelligent algorithms.
 Give an example:
 ```python
 from pyrimidine.optimize import Optimizer
+from pyrimidine.population import StandardPopulation
 
 optimizer = Optimizer(StandardPopulation)
 optimizer(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
 
-# <==> optimize.ga_minimzie(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
+# <==> optimize.ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
 ```
 
 ## Decorators
@@ -110,7 +111,7 @@ class MyPopulation(HOFPopulation):
 stat = {'Mean Fitness': 'mean_fitness', 'Best Fitness': 'best_fitness'}
 mypop = MyPopulation.random()
 
-yourpop = mypop.clone(type_=YourPopulation)
+yourpop = mypop.clone()
 mydata = mypop.evolve(max_iter=200, stat=stat, history=True)
 yourdata = yourpop.evolve(max_iter=200, stat=stat, history=True)
 
