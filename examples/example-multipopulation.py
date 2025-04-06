@@ -5,7 +5,7 @@ import numpy as np
 from pyrimidine import MultiPopulation, HOFPopulation, MonoIndividual, BinaryChromosome
 from pyrimidine.benchmarks.optimization import *
 
-
+np.random.seed(6575)
 # generate a knapsack problem randomly
 n_bags = 100
 _evaluate = Knapsack.random(n_bags)
@@ -28,8 +28,8 @@ class _MultiPopulation(MultiPopulation):
     default_size = 2
 
 
-sp = _MultiPopulation.random()
-data = sp.evolve(max_iter=100, history=True)
+mp = _MultiPopulation.random()
+data = mp.evolve(max_iter=100, history=True)
 
 
 import matplotlib.pyplot as plt

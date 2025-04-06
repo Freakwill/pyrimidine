@@ -142,77 +142,30 @@ Quantum GA is based on quantum chromosomes, `QuantumChromosome`. Let use have a 
 
 It is extremely natural to implement multi-population GA by `pyrimidine`.
 
-```python
-#!/usr/bin/env python3
-
-# import statements
-# setting the seed
-
-# generate a knapsack problem randomly
-n_bags = 100
-_evaluate = Knapsack.random(n_bags)
-
-class _Individual(MonoIndividual[BinaryChromosome // n_bags]):
-
-    def decode(self):
-        return self[0]
-
-    def _fitness(self):
-        return _evaluate(self.decode())
-
-
-class _Population(HOFPopulation):
-    element_class = _Individual
-    default_size = 10
-
-
-class _MultiPopulation(MultiPopulation):
-    element_class = _Population
-    default_size = 2
-
-
-mp = _MultiPopulation.random()
-data = mp.evolve(max_iter=100, history=True)
+```{literalinclude} ../../examples/example-multipopulation.py
+:language: python
+:caption: examples/example-multipopulation.py
+:linenos:
+:lines: 1-28
 ```
 
-Equivalently
-
+The classes can be defined equivalently
 ```python
-#!/usr/bin/env python3
-
-import numpy as np
-
-from pyrimidine import MultiPopulation, HOFPopulation, PolyIndividual, BinaryChromosome
-from pyrimidine.benchmarks.optimization import *
-
-import numpy as np
-np.random.seed(6575)
-
-
-# generate a knapsack problem randomly
-n_bags = 100
-_evaluate = Knapsack.random(n_bags)
-
 _Individual = (BinaryChromosome // n_bags).set_fitness(_evaluate)
 _Population = HOFPopulation[_Individual] // 10
 _MultiPopulation = MultiPopulation[_Population] // 2
+```
 
-# or in one line elegently,
-# _MultiPopulation = MultiPopulation[HOFPopulation[BinaryChromosome // n_bags] // 10].set_fitness(_evaluate) // 2
-
-mp = _MultiPopulation.random()
-data = mp.evolve(max_iter=100, history=True)
+or in one line elegantly
+```python
+_MultiPopulation = MultiPopulation[HOFPopulation[BinaryChromosome // n_bags] // 10].set_fitness(_evaluate) // 2
 ```
 
 Plot the fitness curves as usual.
-```python
-import matplotlib.pyplot as plt
-fig = plt.figure()
-ax = fig.add_subplot(111)
-data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
-ax.set_xlabel('Generations')
-ax.set_ylabel('Fitness')
-plt.show()
+```{literalinclude} ../../examples/example-multipopulation.py
+:language: python
+:lineno-start: 31
+:lines: 31-
 ```
 
 ### Source code
