@@ -89,73 +89,19 @@ We will use `MixedIndividual` to encode the `threshold` for a novel algorithm.
 
 ## Example 3 --- Evolution Strategy
 
-```python
-#!/usr/bin/env python
-
-from .base import BasePopulation
-from .utils import randint2
-
-import numpy as np
-np.random.seed(6575)
-
-
-class EvolutionStrategy(BasePopulation):
-    # Evolution Strategy
-
-    params ={
-        "mu" : 10,
-        "lambda_": 20,
-    }
-
-    def init(self):
-        super().init()
-        if 'mu' not in self.params:
-            self.set_params(mu=self.default_size) 
-
-    def transition(self, *args, **kwargs):
-        offspring = self.mate()
-        self.extend(offspring)
-        self.mate()
-        self.select_best_individuals(self.mu)
-
-    def mate(self, lambda_=None):
-        lambda_ = lambda_ or self.lambda_
-        offspring = []
-        n = len(self)
-        for _ in range(lambda_):
-            i, j = randint2(0, n-1)
-            child = self[i].cross(self[j])
-            offspring.append(child)
-        return offspring
-
-    def select_best_individuals(self, mu=None):
-        mu = mu or self.mu
-        self.individuals = self.get_best_individuals(mu)
+```{literalinclude} ../../pyrimidine/es.py
+:language: python
+:caption: pyrimidine/es.py
+:linenos:
+:lines: 1,10-
 ```
 
-```python
-#!/usr/bin/env python3
 
-# import statements
-
-n = 15
-f = lambda x: -rosenbrock(x)
-
-MyPopulation = EvolutionStrategy[FloatChromosome // n].set_fitness(f)
-
-
-ind = MyPopulation.random()
-data = ind.evolve(max_iter=100, history=True)
-
-
-import matplotlib.pyplot as plt
-fig = plt.figure()
-ax = fig.add_subplot(111)
-data[['Mean Fitness', 'Best Fitness']].plot(ax=ax)
-ax.set_xlabel('Generations')
-ax.set_ylabel('Fitness')
-ax.set_title('Demo of Evolution Strategy')
-plt.show()
+```{literalinclude} ../../examples/example-es.py
+:language: python
+:caption: examples/example-es.py
+:linenos:
+:lines: 1,3-
 ```
 
 ## Example 4 --- Quantum GA

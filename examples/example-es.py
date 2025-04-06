@@ -5,6 +5,8 @@ from pyrimidine import FloatChromosome, BasePopulation
 from pyrimidine.es import *
 from pyrimidine.benchmarks.special import rosenbrock
 
+import numpy as np
+np.random.seed(6575)
 
 n = 15
 f = lambda x: -rosenbrock(x)
