@@ -41,6 +41,7 @@ Here an optimizer is a class to do optimization based on intelligent algorithms.
 Give an example:
 ```python
 from pyrimidine.optimize import Optimizer
+from pyrimidine.population import StandardPopulation
 
 optimizer = Optimizer(StandardPopulation)
 optimizer(lambda x:x[0]**2+x[1], (-1,1), (-1,1))
