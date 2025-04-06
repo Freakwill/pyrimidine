@@ -110,7 +110,7 @@ class MyPopulation(HOFPopulation):
 stat = {'Mean Fitness': 'mean_fitness', 'Best Fitness': 'best_fitness'}
 mypop = MyPopulation.random()
 
-yourpop = mypop.clone(type_=YourPopulation)
+yourpop = mypop.clone()
 mydata = mypop.evolve(max_iter=200, stat=stat, history=True)
 yourdata = yourpop.evolve(max_iter=200, stat=stat, history=True)
 
