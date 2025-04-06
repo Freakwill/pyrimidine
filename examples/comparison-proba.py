@@ -63,8 +63,8 @@ stat={'Mean Fitness': 'mean_fitness', 'Best Fitness': 'max_fitness'}
 mypop = MyPopulation.random()
 for i in mypop: i.measure()
 yourpop = MyPopulation([YourIndividual(i.measure_result) for i in mypop])
-mydata = mypop.evolve(max_iter=50, history=True)
-yourdata = yourpop.evolve(max_iter=50, history=True)
+mydata = mypop.evolve(max_iter=50, stat=stat, history=True)
+yourdata = yourpop.evolve(max_iter=50, stat=stat, history=True)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()

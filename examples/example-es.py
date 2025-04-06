@@ -15,8 +15,8 @@ MyPopulation = EvolutionStrategy[FloatChromosome // n].set_fitness(f)
 
 
 ind = MyPopulation.random()
-
-data = ind.evolve(max_iter=100, history=True)
+stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'max_fitness'}
+data = ind.evolve(max_iter=100, stat=stat, history=True)
 
 
 import matplotlib.pyplot as plt

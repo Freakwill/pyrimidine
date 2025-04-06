@@ -27,9 +27,9 @@ class _MultiPopulation(MultiPopulation):
     element_class = _Population
     default_size = 2
 
-
+stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'max_fitness'}
 mp = _MultiPopulation.random()
-data = mp.evolve(max_iter=100, history=True)
+data = mp.evolve(max_iter=100, stat=stat, history=True)
 
 
 import matplotlib.pyplot as plt
