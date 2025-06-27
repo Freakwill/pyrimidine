@@ -40,6 +40,15 @@ from .deco import side_effect
 from .errors import *
 
 
+def _row(t, attrs, res, sep=" & "):
+    return sep.join(map(str, chain(("[%d]"%t,), (getattr(self, attr) for attr in attrs), res.values())))
+
+def _head(attrs, keys):
+    return f"""            ** History **
+{" & ".join(chain(("iteration",), attrs, keys))}
+-------------------------------------------------------------"""
+
+
 class IterativeMixin:
     # Mixin class for iterative algrithms
 
@@ -109,7 +118,7 @@ class IterativeMixin:
             res = stat(self)
             history = pd.DataFrame(data={k:[v] for k, v in res.items()})
             history_flag = True
-        elif history is False:
+        elif history is False or history is None:
             history_flag = False
         elif isinstance(history, pd.DataFrame):
             history_flag = True
@@ -117,24 +126,21 @@ class IterativeMixin:
             raise TypeError('The argument `history` should be an instance of `pandas.DataFrame` or `bool`.')
 
         if verbose:
-            def _row(t, attrs, res, sep=" & "):
-                return sep.join(map(str, chain(("[%d]"%t,), (getattr(self, attr) for attr in attrs), res.values())))
             if not history_flag:
                 res = stat(self)
-            print(f"""            ** History **
-{" & ".join(chain(("iteration",), attrs, res.keys()))}
--------------------------------------------------------------""")
+            print(_head(attrs, res.keys()))
             print(_row(0, attrs, res))
 
         for t in range(1, max_iter+1):
             self.transition(t)
+
+            # callback(self, t)
 
             if history_flag and (period == 1 or t % period ==0):
                 res = stat(self)
                 history = pd.concat([history,
                     pd.Series(res.values(), index=res.keys()).to_frame().T],
                     ignore_index=True)
-
             if verbose and (period == 1 or t % period ==0):
                 if not history_flag:
                     res = stat(self)
