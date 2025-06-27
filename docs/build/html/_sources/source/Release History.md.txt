@@ -5,6 +5,7 @@
 - update the documents
 - Allow the GA optimization function to accept an initial solution. see `examples/example-opt.py`
 - add GAMLPClassifer for classification
+- add `SolutionMixin` representing a solution
 
 ## v1.6
 

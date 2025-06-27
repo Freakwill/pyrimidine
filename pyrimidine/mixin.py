@@ -118,7 +118,7 @@ class IterativeMixin:
             res = stat(self)
             history = pd.DataFrame(data={k:[v] for k, v in res.items()})
             history_flag = True
-        elif history is False or history is None:
+        elif history is False:
             history_flag = False
         elif isinstance(history, pd.DataFrame):
             history_flag = True
@@ -134,7 +134,7 @@ class IterativeMixin:
         for t in range(1, max_iter+1):
             self.transition(t)
 
-            # callback(self, t)
+            # callback(self, t) # consider in future
 
             if history_flag and (period == 1 or t % period ==0):
                 res = stat(self)
