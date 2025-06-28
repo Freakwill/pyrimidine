@@ -1,22 +1,45 @@
-[tool.poetry]
+[project]
 name = "pyrimidine"
-version = "1.7.4"
-description = "A competitive framework tailored for GA, crafted with an emphasis on OOP and Algebra-Inspired Programming."
-authors = ["William Song <30965609+Freakwill@users.noreply.github.com>"]
-
-license = "MIT"
+dynamic = [ "version" ]
+requires-python = ">=3.9,<3.13"
+authors = [
+    { name = "Freakwill", email = "Williamxxoo@gmail.com" }
+]
+description = "An extensible framework of genetic algorithm by Python. It is designed based on OOP and 'Algebra-insprited' what I call it."
 readme = "README.md"
+license = { text = "MIT" }
+keywords = [
+    "Genetic algorithm",
+    "Evolutionary algorithms",
+    "Stochastic Optimization",
+    "Iterative algorithms",
+    "Algebra-insprited Programming",
+    "Meta Programming"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Artificial Life",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Development Status :: 5 - Production/Stable"
+]
+
+[project.urls]
 homepage = "https://github.com/Freakwill/pyrimidine"
 repository = "https://github.com/Freakwill/pyrimidine"
-keywords = ["Genetic Algorithm", "Artificial Intelligence", "Intelligent Optimization"]
-classifiers = [
-    "Environment :: MacOS X",
-    "Programming Language :: Python :: 3",
-    "Operating System :: OS Independent",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Intended Audience :: Science/Research",
-]
+
+[tool.poetry]
+version = "1.7.5"
+long_description_content_type = "text/markdown"
+requires-poetry = ">=2.0"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -35,5 +58,5 @@ scikit-learn = "^1.4.0"
 pytest = "^7.1"
 
 [build-system]
-requires = ["poetry>=1.0"]
-# build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=2.0"]
+# build-backend = "poetry.core.masonry.api"
