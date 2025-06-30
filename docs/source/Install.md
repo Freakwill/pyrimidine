@@ -28,6 +28,10 @@ It is recommended to use `digit_converter` for decoding chromosomes to the real 
 
 `ezstat` is also required for statistics which is also created by the author.
 
+Both of these can be installed by including the "optional" key when installing:
+
+`pip install pyrimidine[optional]`
+
 ## First test
 
 ```python
