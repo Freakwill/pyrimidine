@@ -156,9 +156,7 @@ class IterativeMixin:
                 stat_res = callback(self, t) # modify it in future
                 
                 if history_flag:
-                    history = pd.concat([history,
-                    pd.Series(stat_res.values(), index=stat_res.keys()).to_frame().T],
-                    ignore_index=True)
+                    history.loc[len(history)] = stat_res.values()
 
             if control:
                 if control(self):

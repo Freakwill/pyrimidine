@@ -74,8 +74,4 @@ pytest = ">=7.1"
 
 [build-system]
 requires = ["poetry-core>=1.0"]
-<<<<<<< HEAD
 build-backend = "poetry.core.masonry.api"
-=======
-build-backend = "poetry.core.masonry.api"
->>>>>>> 9fcf6ccced3235ff3d6bf11d9f0d1ee4005e9887
