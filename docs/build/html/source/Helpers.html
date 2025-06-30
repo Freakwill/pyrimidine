@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Helpers &#8212; pyrimidine 1.7 documentation</title>
+    <title>Helpers &#8212; pyrimidine 1.7.5 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4848ba22" />
     <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=310c80ee" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8f57d030" />
-    <script src="../_static/documentation_options.js?v=392da36c"></script>
+    <script src="../_static/documentation_options.js?v=5b045848"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -32,15 +32,12 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="Media.html" title="Media"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Customization.html" title="Customization"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.7.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Document of <cite>pyrimidine</cite></a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Helpers</a></li> 
       </ul>
@@ -67,7 +64,7 @@ x_1, x_2 \in [-1,1]
 <p><code class="docutils literal notranslate"><span class="pre">ga_minimize</span></code> encapsulates the GA algorithm. You need not use the classes of containers.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="n">optimize</span>
 
-<span class="n">solution</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">ga_minimzie</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">solution</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">ga_minimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -85,12 +82,13 @@ x_1, x_2 \in [-1,1]
 <h3>Optimizer<a class="headerlink" href="#optimizer" title="Link to this heading">¶</a></h3>
 <p>Here an optimizer is a class to do optimization based on intelligent algorithms.</p>
 <p>Give an example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrimidine.optimize</span> <span class="kn">import</span> <span class="n">Optimizer</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrimidine</span> <span class="kn">import</span> <span class="n">StandardPopulation</span>
+<span class="kn">from</span> <span class="nn">pyrimidine.optimize</span> <span class="kn">import</span> <span class="n">Optimizer</span>
 
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">Optimizer</span><span class="p">(</span><span class="n">StandardPopulation</span><span class="p">)</span>
 <span class="n">optimizer</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
 
-<span class="c1"># &lt;==&gt; optimize.ga_minimzie(lambda x:x[0]**2+x[1], (-1,1), (-1,1))</span>
+<span class="c1"># &lt;==&gt; optimize.ga_minimize(lambda x:x[0]**2+x[1], (-1,1), (-1,1))</span>
 </pre></div>
 </div>
 </section>
@@ -154,7 +152,7 @@ x_1, x_2 \in [-1,1]
 <span class="n">stat</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Mean Fitness&#39;</span><span class="p">:</span> <span class="s1">&#39;mean_fitness&#39;</span><span class="p">,</span> <span class="s1">&#39;Best Fitness&#39;</span><span class="p">:</span> <span class="s1">&#39;best_fitness&#39;</span><span class="p">}</span>
 <span class="n">mypop</span> <span class="o">=</span> <span class="n">MyPopulation</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
 
-<span class="n">yourpop</span> <span class="o">=</span> <span class="n">mypop</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">type_</span><span class="o">=</span><span class="n">YourPopulation</span><span class="p">)</span>
+<span class="n">yourpop</span> <span class="o">=</span> <span class="n">mypop</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">type_</span><span class="o">=</span><span class="n">YourPopulation</span><span class="p">)</span>  <span class="c1"># copy the population but as the instance of `YourPopulation`</span>
 <span class="n">mydata</span> <span class="o">=</span> <span class="n">mypop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">yourdata</span> <span class="o">=</span> <span class="n">yourpop</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -256,15 +254,12 @@ x_1, x_2 \in [-1,1]
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="Media.html" title="Media"
              >next</a> |</li>
         <li class="right" >
           <a href="Customization.html" title="Customization"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.7.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Document of <cite>pyrimidine</cite></a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Helpers</a></li> 
       </ul>

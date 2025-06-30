@@ -17,7 +17,8 @@ from .ep import *
 from .de import *
 
 
-__version__ = version("pyrimidine")
+__version__ = "1.7.5"
+
 
 __template__ = """
 from pyrimidine.chromosome import BinaryChromosome

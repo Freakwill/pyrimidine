@@ -48,7 +48,16 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
     "Development Status :: Mature",
-]
+
+[project.urls]
+homepage = "https://github.com/Freakwill/pyrimidine"
+repository = "https://github.com/Freakwill/pyrimidine"
+documentation = "https://pyrimidine.readthedocs.io/en/latest/"
+
+[tool.poetry]
+version = "1.7.5"
+long_description_content_type = "text/markdown"
+requires-poetry = ">=2.0"
 
 [tool.poetry.dependencies]
 python = ">=3.9"
