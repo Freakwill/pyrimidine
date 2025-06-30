@@ -128,14 +128,19 @@ class IterativeMixin:
         else:
             raise TypeError('The argument `history` should be an instance of `pandas.DataFrame` or `bool`.')
 
-        if history_flag or verbose:
-            def callback(self, t=0, data=None):
-                if data is None:        
-                    data = stat(self)
-                return data
+        if history_flag:
+            def callback(self, t=0):
+                stat_res = stat(self)
+                if verbose:
+                    print(_row(self, t, attrs, stat_res))
+                return stat_res
+        elif verbose:
+            def callback(self, t=0):
+                stat_res = stat(self)
+                print(_row(self, t, attrs, stat_res))
         else:
             print('If you do not want to get the history of evolution, then use `.ezolve` method instead!')
-            def callback(self, t, data):
+            def callback(self, t):
                 return None
 
         if verbose:
@@ -154,9 +159,6 @@ class IterativeMixin:
                     history = pd.concat([history,
                     pd.Series(stat_res.values(), index=stat_res.keys()).to_frame().T],
                     ignore_index=True)
-
-                if verbose:
-                    print(_row(self, t, attrs, stat_res))
 
             if control:
                 if control(self):
