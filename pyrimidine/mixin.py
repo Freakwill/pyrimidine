@@ -40,13 +40,15 @@ from .deco import side_effect
 from .errors import *
 
 
-def _row(self, t, attrs, res):
+def _row(t, attrs, values):
     sep=" & "
-    return sep.join(map(str, chain(("[%d]"%t,), (getattr(self, attr) for attr in attrs), res.values())))
+    items = chain(attrs, values)
+    return "[%d] "%t + sep.join(map(str, items))
 
 def _head(attrs, keys):
+    sep=" & "
     return f"""            ** History **
-{" & ".join(chain(("iteration",), attrs, keys))}
+[iteration] {sep.join(chain(attrs, keys))}
 -------------------------------------------------------------"""
 
 
@@ -54,11 +56,6 @@ class IterativeMixin:
     # Mixin class for iterative algrithms
 
     params = {'max_iter': 100}
-
-    # @property
-    # def _row(self):
-    #     best = self.solution
-    #     return f'{best} & {best.fitness}'
 
     def init(self):
         # initalize the object
@@ -129,15 +126,19 @@ class IterativeMixin:
             raise TypeError('The argument `history` should be an instance of `pandas.DataFrame` or `bool`.')
 
         if history_flag:
-            def callback(self, t=0):
-                stat_res = stat(self)
-                if verbose:
-                    print(_row(self, t, attrs, stat_res))
-                return stat_res
+            if verbose:
+                def callback(self, t=0):
+                    stat_res = stat(self)
+                    print(_row(t, (getattr(self, attr) for attr in attrs), stat_res.values()))
+                    return stat_res
+            else:
+                def callback(self, t=0):
+                    stat_res = stat(self)
+                    return stat_res
         elif verbose:
             def callback(self, t=0):
                 stat_res = stat(self)
-                print(_row(self, t, attrs, stat_res))
+                print(_row(self, t, (getattr(self, attr) for attr in attrs), stat_res.values()))
         else:
             print('If you do not want to get the history of evolution, then use `.ezolve` method instead!')
             def callback(self, t):
@@ -147,7 +148,7 @@ class IterativeMixin:
             if not history_flag:
                 stat_res = stat(self)
             print(_head(self, attrs, stat_res.keys()))
-            print(_row(self, 0, attrs, stat_res))
+            print(_row(self, 0, (getattr(self, attr) for attr in attrs), stat_res.values()))
 
         for t in range(1, max_iter+1):
             self.transition(t)
