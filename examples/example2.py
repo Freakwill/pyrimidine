@@ -3,7 +3,10 @@
 from pyrimidine.benchmarks.special import *
 from pyrimidine import *
 
-from digit_converter import *
+from digit_converter import *  # requires digit_converter for decoding chromosomes
+
+import numpy as np
+np.random.seed(6575)
 
 
 ndim = 12
@@ -68,8 +71,7 @@ class MyPopulation(HOFPopulation[MyIndividual]):
 
 if __name__ == '__main__':
 
-    stat = {'Mean Fitness':'mean_fitness',
-        'Best Fitness': 'max_fitness'}
+    stat = {'Mean Fitness':'mean_fitness', 'Best Fitness': 'max_fitness'}
 
     import matplotlib.pyplot as plt
     fig = plt.figure()
