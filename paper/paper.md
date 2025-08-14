@@ -58,9 +58,9 @@ A concise comparison between `pyrimidine` and other frameworks is provided in \a
 
 : Comparison of the popular genetic algorithm frameworks. \label{frameworks}
 
-`Tpot`/`gama`[@olson; @pieter], `gplearn`/`pysr`, and `scikit-opt` follow the scikit-learn style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (including `NEAT`[@neat-python]).
+`Tpot`/`gama` [@olson; @pieter], `gplearn`/`pysr`, and `scikit-opt` follow the scikit-learn style [@sklearn_api], providing fixed APIs with limited extensibility. They are merely serving their respective fields effectively (including `NEAT` [@neat-python]).
 
-`DEAP`[@fortin] is feature-rich and mature. However, it adopts a tedious meta-programming style and some parts of the code lack decoupling, limiting its extensibility. `Gaft` is highly object-oriented and scalable, but inactive now.
+`DEAP` [@fortin] is feature-rich and mature. However, it adopts a tedious meta-programming style and some parts of the code lack decoupling, limiting its extensibility. `Gaft` is highly object-oriented and scalable, but inactive now.
 
 `Pyrimidine` fully utilizes the OOP and meta-programming capabilities of Python, making the design of the APIs and the extension of the program more natural. So far, we have implemented a variety of optimization algorithms by `pyrimidine`, including adaptive GA [@hinterding], quantum GA [@supasil], differential evolution [@radtke], evolutionary programming [@fogel], particle swarm optimization [@wang], as well as some local search algorithms, such as simulated annealing [@kirkpatrick].
 
