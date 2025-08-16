@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pyrimidine package &#8212; pyrimidine 1.7.5 documentation</title>
+    <title>pyrimidine package &#8212; pyrimidine 1.8 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4848ba22" />
     <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=310c80ee" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8f57d030" />
-    <script src="../_static/documentation_options.js?v=5b045848"></script>
+    <script src="../_static/documentation_options.js?v=d13700ae"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -32,12 +32,15 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="pyrimidine.benchmarks.html" title="pyrimidine.benchmarks subpackage"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Developers.html" title="Developers"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.7.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.8 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine package</a></li> 
       </ul>
     </div>  
@@ -97,8 +100,168 @@
 <section id="pyrimidine-de-module">
 <h2>pyrimidine.de module<a class="headerlink" href="#pyrimidine-de-module" title="Link to this heading">¶</a></h2>
 </section>
-<section id="pyrimidine-deco-module">
-<h2>pyrimidine.deco module<a class="headerlink" href="#pyrimidine-deco-module" title="Link to this heading">¶</a></h2>
+<section id="module-pyrimidine.deco">
+<span id="pyrimidine-deco-module"></span><h2>pyrimidine.deco module<a class="headerlink" href="#module-pyrimidine.deco" title="Link to this heading">¶</a></h2>
+<p>Decorators</p>
+<p>Two main kinds of decorators:
+1. cache decorator: store the information of previous computing, to seep up the algorithm.
+Should clear it to suppress the side effect. It is used with <cite>&#64;side-effect</cite> decorator.
+Methods with <cite>&#64;side-effect</cite> will clear the cache after executing.
+2. memory decorator: As cache, it record some information, but it will chage the behavior of the algorithms.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.deco.Regester">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">Regester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.Regester" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.deco.add_cache">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">add_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">methods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.add_cache" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Handle with cache for class</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.deco.add_cache.attrs">
+<span class="sig-name descname"><span class="pre">attrs</span></span><a class="headerlink" href="#pyrimidine.deco.add_cache.attrs" title="Link to this definition">¶</a></dt>
+<dd><p>a tuple of attributes what will be cached</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.deco.add_cache.methods">
+<span class="sig-name descname"><span class="pre">methods</span></span><a class="headerlink" href="#pyrimidine.deco.add_cache.methods" title="Link to this definition">¶</a></dt>
+<dd><p>a tuple of method names that will be cached</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.deco.add_cache.cmd">
+<span class="sig-name descname"><span class="pre">cmd</span></span><a class="headerlink" href="#pyrimidine.deco.add_cache.cmd" title="Link to this definition">¶</a></dt>
+<dd><p>a dict of commands to handle with the cache</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.deco.add_memory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">add_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.add_memory" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>add the <cite>_memory</cite> dict to the cls/obj</p>
+<p>The memory dict stores the best solution,
+unlike the <cite>_cache</cite> dict which only records the last computing result.
+it will affect the behaviour of the algo.
+And it is not affected by any genetic operation.</p>
+<dl class="simple">
+<dt>_memory {dict[str]} – the memory for an object;</dt><dd><p>In general, the keys are the attributes of the object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.deco.basic_memory">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">basic_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.basic_memory" title="Link to this definition">¶</a></dt>
+<dd><p>special case of <cite>add_memory</cite>
+it adds <cite>_memory = {‘fitness’:None, ‘solution’: None}</cite> to an object</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.deco.clear_cache">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">clear_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.clear_cache" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.deco.clear_fitness">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">clear_fitness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.clear_fitness" title="Link to this definition">¶</a></dt>
+<dd><p>To clear fitness of the object after some changes have occurred
+such as executing the method in the list <cite>usual_side_effect</cite></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.deco.method_cache">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">method_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.method_cache" title="Link to this definition">¶</a></dt>
+<dd><p>make cache for the method</p>
+<p>If the attribute a is in the cache, then access it from the cache directly,
+else compute it again, and store it in the cache</p>
+<p>Please pre-define <cite>_cache</cite> as an attribute of the obj.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<em>TYPE</em>) – the original method</p></li>
+<li><p><strong>a</strong> (<em>TYPE</em>) – an attribute (or any value) computed by the method</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new method</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.deco.regester_map">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">regester_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mappings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map_=&lt;class</span> <span class="pre">'map'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.regester_map" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>To regester the map method for the class requiring <cite>map</cite> method</p>
+<p class="rubric">Example</p>
+<p>&#64;regester_map(mappsings=(‘f’, ‘g’))
+class C(metaclass=MetaContainor):</p>
+<blockquote>
+<div><p>element_class = D
+default_size = 8</p>
+</div></blockquote>
+<p>class D:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>def random(self):</dt><dd><p>pass</p>
+</dd>
+<dt>def f(self):</dt><dd><p>pass</p>
+</dd>
+<dt>def g(self):</dt><dd><p>pass</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>c = C.random()
+list(c.f()) == [d.f() for d in c]
+list(c.g()) == [d.g() for d in c]</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.deco.set_fitness">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">set_fitness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.set_fitness" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.deco.side_effect">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.deco.</span></span><span class="sig-name descname"><span class="pre">side_effect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.deco.side_effect" title="Link to this definition">¶</a></dt>
+<dd><p>Decorator for methods with side effect</p>
+<p>Apply the decorator to methods with side effects.
+If all the methods called by a particular method have the decorator applied,
+it is not advisable to include the decorator in that method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>func</strong> (<em>TYPE</em>) – a method</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Decorated method</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="pyrimidine-ep-module">
 <h2>pyrimidine.ep module<a class="headerlink" href="#pyrimidine-ep-module" title="Link to this heading">¶</a></h2>
@@ -106,17 +269,351 @@
 <section id="pyrimidine-es-module">
 <h2>pyrimidine.es module<a class="headerlink" href="#pyrimidine-es-module" title="Link to this heading">¶</a></h2>
 </section>
-<section id="pyrimidine-errors-module">
-<h2>pyrimidine.errors module<a class="headerlink" href="#pyrimidine-errors-module" title="Link to this heading">¶</a></h2>
+<section id="module-pyrimidine.errors">
+<span id="pyrimidine-errors-module"></span><h2>pyrimidine.errors module<a class="headerlink" href="#module-pyrimidine.errors" title="Link to this heading">¶</a></h2>
+<p>Custom exception classes to handle specific error scenarios,
+during the object generation and attribute access processes.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="pyrimidine.errors.RegesterError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.errors.</span></span><span class="sig-name descname"><span class="pre">RegesterError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.errors.RegesterError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AttributeError</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="pyrimidine.errors.UnavalibleAttributeError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.errors.</span></span><span class="sig-name descname"><span class="pre">UnavalibleAttributeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.errors.UnavalibleAttributeError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AttributeError</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="pyrimidine.errors.UnknownSizeError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.errors.</span></span><span class="sig-name descname"><span class="pre">UnknownSizeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.errors.UnknownSizeError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
 </section>
-<section id="pyrimidine-gene-module">
-<h2>pyrimidine.gene module<a class="headerlink" href="#pyrimidine-gene-module" title="Link to this heading">¶</a></h2>
+<section id="module-pyrimidine.gene">
+<span id="pyrimidine-gene-module"></span><h2>pyrimidine.gene module<a class="headerlink" href="#module-pyrimidine.gene" title="Link to this heading">¶</a></h2>
+<p>Gene classes: as the elements in the chromosome.</p>
+<p>The wrapper of data type of <cite>numpy</cite>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.gene.BinaryGene">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gene.</span></span><span class="sig-name descname"><span class="pre">BinaryGene</span></span><a class="headerlink" href="#pyrimidine.gene.BinaryGene" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">int64</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseGene</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.gene.BinaryGene.random">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gene.BinaryGene.random" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.gene.CircleGene">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gene.</span></span><span class="sig-name descname"><span class="pre">CircleGene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gene.CircleGene" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.gene.PeriodicGene" title="pyrimidine.gene.PeriodicGene"><code class="xref py py-class docutils literal notranslate"><span class="pre">PeriodicGene</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.CircleGene.lb">
+<span class="sig-name descname"><span class="pre">lb</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pyrimidine.gene.CircleGene.lb" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.CircleGene.period">
+<span class="sig-name descname"><span class="pre">period</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6.283185307179586</span></em><a class="headerlink" href="#pyrimidine.gene.CircleGene.period" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.CircleGene.ub">
+<span class="sig-name descname"><span class="pre">ub</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6.283185307179586</span></em><a class="headerlink" href="#pyrimidine.gene.CircleGene.ub" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.gene.DigitGene">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gene.</span></span><span class="sig-name descname"><span class="pre">DigitGene</span></span><a class="headerlink" href="#pyrimidine.gene.DigitGene" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.gene.NaturalGene" title="pyrimidine.gene.NaturalGene"><code class="xref py py-class docutils literal notranslate"><span class="pre">NaturalGene</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.gene.FloatGene">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gene.</span></span><span class="sig-name descname"><span class="pre">FloatGene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gene.FloatGene" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">float64</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseGene</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.FloatGene.lb">
+<span class="sig-name descname"><span class="pre">lb</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pyrimidine.gene.FloatGene.lb" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.gene.FloatGene.random">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gene.FloatGene.random" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.FloatGene.ub">
+<span class="sig-name descname"><span class="pre">ub</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#pyrimidine.gene.FloatGene.ub" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.gene.IntegerGene">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gene.</span></span><span class="sig-name descname"><span class="pre">IntegerGene</span></span><a class="headerlink" href="#pyrimidine.gene.IntegerGene" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">int64</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseGene</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.IntegerGene.lb">
+<span class="sig-name descname"><span class="pre">lb</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-10</span></em><a class="headerlink" href="#pyrimidine.gene.IntegerGene.lb" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.gene.IntegerGene.random">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gene.IntegerGene.random" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.IntegerGene.ub">
+<span class="sig-name descname"><span class="pre">ub</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#pyrimidine.gene.IntegerGene.ub" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.gene.NaturalGene">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gene.</span></span><span class="sig-name descname"><span class="pre">NaturalGene</span></span><a class="headerlink" href="#pyrimidine.gene.NaturalGene" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">int64</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseGene</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.NaturalGene.lb">
+<span class="sig-name descname"><span class="pre">lb</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pyrimidine.gene.NaturalGene.lb" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.gene.NaturalGene.random">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gene.NaturalGene.random" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.NaturalGene.ub">
+<span class="sig-name descname"><span class="pre">ub</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#pyrimidine.gene.NaturalGene.ub" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.gene.PeriodicGene">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gene.</span></span><span class="sig-name descname"><span class="pre">PeriodicGene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gene.PeriodicGene" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.gene.FloatGene" title="pyrimidine.gene.FloatGene"><code class="xref py py-class docutils literal notranslate"><span class="pre">FloatGene</span></code></a></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyrimidine.gene.PeriodicGene.period">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">period</span></span><a class="headerlink" href="#pyrimidine.gene.PeriodicGene.period" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.gene.SemiCircleGene">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gene.</span></span><span class="sig-name descname"><span class="pre">SemiCircleGene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gene.SemiCircleGene" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.gene.CircleGene" title="pyrimidine.gene.CircleGene"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircleGene</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.SemiCircleGene.lb">
+<span class="sig-name descname"><span class="pre">lb</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pyrimidine.gene.SemiCircleGene.lb" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.SemiCircleGene.ub">
+<span class="sig-name descname"><span class="pre">ub</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3.141592653589793</span></em><a class="headerlink" href="#pyrimidine.gene.SemiCircleGene.ub" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.gene.UnitFloatGene">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.gene.</span></span><span class="sig-name descname"><span class="pre">UnitFloatGene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.gene.UnitFloatGene" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.gene.FloatGene" title="pyrimidine.gene.FloatGene"><code class="xref py py-class docutils literal notranslate"><span class="pre">FloatGene</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.UnitFloatGene.lb">
+<span class="sig-name descname"><span class="pre">lb</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pyrimidine.gene.UnitFloatGene.lb" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrimidine.gene.UnitFloatGene.ub">
+<span class="sig-name descname"><span class="pre">ub</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#pyrimidine.gene.UnitFloatGene.ub" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="pyrimidine-individual-module">
 <h2>pyrimidine.individual module<a class="headerlink" href="#pyrimidine-individual-module" title="Link to this heading">¶</a></h2>
 </section>
-<section id="pyrimidine-meta-module">
-<h2>pyrimidine.meta module<a class="headerlink" href="#pyrimidine-meta-module" title="Link to this heading">¶</a></h2>
+<section id="module-pyrimidine.meta">
+<span id="pyrimidine-meta-module"></span><h2>pyrimidine.meta module<a class="headerlink" href="#module-pyrimidine.meta" title="Link to this heading">¶</a></h2>
+<p>Metaclasses</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.meta.MetaArray">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.meta.</span></span><span class="sig-name descname"><span class="pre">MetaArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.MetaArray" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.meta.ParamType" title="pyrimidine.meta.ParamType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParamType</span></code></a></p>
+<p>Metaclass for chromosomes</p>
+<p>Chromosomes could be seen as a container of genes. But we implement them
+by the arrays for convenience.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.meta.MetaContainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.meta.</span></span><span class="sig-name descname"><span class="pre">MetaContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.MetaContainer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.meta.ParamType" title="pyrimidine.meta.ParamType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParamType</span></code></a></p>
+<p>Meta class of containers</p>
+<p>A container is a algebric system with elements of some type
+and operators acting on the elements</p>
+<p>Example:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+from collections import UserString
+class C(metaclass=MetaContainer):</p>
+<blockquote>
+<div><p># container of strings
+element_class = UserString
+alias = {‘strings’: ‘elements’}</p>
+</div></blockquote>
+<p>c = C(strings=[UserString(‘I’), UserString(‘love’), UserString(‘you’)], lasting=’for ever’)
+print(c.element_class)
+print(c.strings)
+print(c.lasting)
+print(c.n_strings)
+print(c[1])
+for a in c:</p>
+<blockquote>
+<div><p>print(a)</p>
+</div></blockquote>
+<p>c.regester(‘upper’)
+print(c.upper())
+<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<p>Output:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">&lt;class</span> <span class="pre">'collections.UserString'&gt;</span>
+<span class="pre">&lt;property</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x1065715e0&gt;</span>
+<span class="pre">['I',</span> <span class="pre">'love',</span> <span class="pre">'you']</span>
+<span class="pre">for</span> <span class="pre">ever</span>
+<span class="pre">3</span>
+<span class="pre">love</span>
+<span class="pre">I</span>
+<span class="pre">love</span>
+<span class="pre">you</span>
+<span class="pre">['I',</span> <span class="pre">'LOVE',</span> <span class="pre">'YOU']</span>
+<span class="pre">`</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.meta.MetaContainer.random">
+<span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.MetaContainer.random" title="Link to this definition">¶</a></dt>
+<dd><p>Generate a container randomly</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_elements</strong> (<em>**kwargs -- set size</em><em> of </em><em>the container if use the alias of</em>)</p>
+</dd>
+<dt class="field-even">Keyword Arguments<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>(</strong><strong>default</strong> (<em>n_elements {number} -- the number</em><em> of </em><em>elements</em>) – {None})</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The container class</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.meta.MetaHighContainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.meta.</span></span><span class="sig-name descname"><span class="pre">MetaHighContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.MetaHighContainer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.meta.MetaContainer" title="pyrimidine.meta.MetaContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetaContainer</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.meta.MetaList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.meta.</span></span><span class="sig-name descname"><span class="pre">MetaList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.MetaList" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.meta.MetaContainer" title="pyrimidine.meta.MetaContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetaContainer</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.meta.MetaSingle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.meta.</span></span><span class="sig-name descname"><span class="pre">MetaSingle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.MetaSingle" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.meta.MetaContainer" title="pyrimidine.meta.MetaContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetaContainer</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.meta.MetaTuple">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.meta.</span></span><span class="sig-name descname"><span class="pre">MetaTuple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.MetaTuple" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.meta.MetaContainer" title="pyrimidine.meta.MetaContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetaContainer</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.meta.ParamType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.meta.</span></span><span class="sig-name descname"><span class="pre">ParamType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.ParamType" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></p>
+<p>Just a wrapper of <cite>type</cite></p>
+<p>The key-value pairs in <cite>params</cite> could be inherited from super classes, like attributes.
+It make users set and manage parameters of classes or instances more conveniently.</p>
+<p class="rubric">Example</p>
+<dl class="simple">
+<dt>class C(metaclass=ParamType):</dt><dd><p>alias = {“a”: “A”}
+params = {“A”: 1}</p>
+</dd>
+</dl>
+<p>c = C()
+assert c.a == c.A == 1</p>
+<dl class="simple">
+<dt>class D(C):</dt><dd><p>pass</p>
+</dd>
+</dl>
+<p>d = D()
+assert d.a == d.A == 1</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.meta.ParamType.mixin">
+<span class="sig-name descname"><span class="pre">mixin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bases</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.ParamType.mixin" title="Link to this definition">¶</a></dt>
+<dd><p>mixin other base classes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bases</strong> (<em>tuple</em>) – the base classes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.meta.ParamType.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.ParamType.set" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrimidine.meta.ParamType.set_params">
+<span class="sig-name descname"><span class="pre">set_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.ParamType.set_params" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrimidine.meta.System">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrimidine.meta.</span></span><span class="sig-name descname"><span class="pre">System</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.System" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrimidine.meta.MetaContainer" title="pyrimidine.meta.MetaContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetaContainer</span></code></a></p>
+<p>Metaclass of systems, considered in future!</p>
+<p>A system is a type of container, that defines operators on them.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrimidine.meta.inherit">
+<span class="sig-prename descclassname"><span class="pre">pyrimidine.meta.</span></span><span class="sig-name descname"><span class="pre">inherit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrimidine.meta.inherit" title="Link to this definition">¶</a></dt>
+<dd><p>Inherit attribute the attributes <cite>attr</cite> from the base classes <cite>bases</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attrs</strong> (<em>dict</em>) – The attribution dictionary of an object</p></li>
+<li><p><strong>attr</strong> (<em>string</em>) – An attribution whose value is a dict</p></li>
+<li><p><strong>bases</strong> (<em>tuple</em>) – The base classes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The updated dictionary of attributions</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="pyrimidine-multipopulation-module">
 <h2>pyrimidine.multipopulation module<a class="headerlink" href="#pyrimidine-multipopulation-module" title="Link to this heading">¶</a></h2>
@@ -158,13 +655,99 @@
 <li><a class="reference internal" href="#pyrimidine-base-module">pyrimidine.base module</a></li>
 <li><a class="reference internal" href="#pyrimidine-chromosome-module">pyrimidine.chromosome module</a></li>
 <li><a class="reference internal" href="#pyrimidine-de-module">pyrimidine.de module</a></li>
-<li><a class="reference internal" href="#pyrimidine-deco-module">pyrimidine.deco module</a></li>
+<li><a class="reference internal" href="#module-pyrimidine.deco">pyrimidine.deco module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.deco.Regester"><code class="docutils literal notranslate"><span class="pre">Regester</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.deco.add_cache"><code class="docutils literal notranslate"><span class="pre">add_cache</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.deco.add_cache.attrs"><code class="docutils literal notranslate"><span class="pre">add_cache.attrs</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.deco.add_cache.methods"><code class="docutils literal notranslate"><span class="pre">add_cache.methods</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.deco.add_cache.cmd"><code class="docutils literal notranslate"><span class="pre">add_cache.cmd</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.deco.add_memory"><code class="docutils literal notranslate"><span class="pre">add_memory</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.deco.basic_memory"><code class="docutils literal notranslate"><span class="pre">basic_memory()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.deco.clear_cache"><code class="docutils literal notranslate"><span class="pre">clear_cache()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.deco.clear_fitness"><code class="docutils literal notranslate"><span class="pre">clear_fitness()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.deco.method_cache"><code class="docutils literal notranslate"><span class="pre">method_cache()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.deco.regester_map"><code class="docutils literal notranslate"><span class="pre">regester_map</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.deco.set_fitness"><code class="docutils literal notranslate"><span class="pre">set_fitness</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.deco.side_effect"><code class="docutils literal notranslate"><span class="pre">side_effect()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#pyrimidine-ep-module">pyrimidine.ep module</a></li>
 <li><a class="reference internal" href="#pyrimidine-es-module">pyrimidine.es module</a></li>
-<li><a class="reference internal" href="#pyrimidine-errors-module">pyrimidine.errors module</a></li>
-<li><a class="reference internal" href="#pyrimidine-gene-module">pyrimidine.gene module</a></li>
+<li><a class="reference internal" href="#module-pyrimidine.errors">pyrimidine.errors module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.errors.RegesterError"><code class="docutils literal notranslate"><span class="pre">RegesterError</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.errors.UnavalibleAttributeError"><code class="docutils literal notranslate"><span class="pre">UnavalibleAttributeError</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.errors.UnknownSizeError"><code class="docutils literal notranslate"><span class="pre">UnknownSizeError</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pyrimidine.gene">pyrimidine.gene module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.BinaryGene"><code class="docutils literal notranslate"><span class="pre">BinaryGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.BinaryGene.random"><code class="docutils literal notranslate"><span class="pre">BinaryGene.random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.CircleGene"><code class="docutils literal notranslate"><span class="pre">CircleGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.CircleGene.lb"><code class="docutils literal notranslate"><span class="pre">CircleGene.lb</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.CircleGene.period"><code class="docutils literal notranslate"><span class="pre">CircleGene.period</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.CircleGene.ub"><code class="docutils literal notranslate"><span class="pre">CircleGene.ub</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.DigitGene"><code class="docutils literal notranslate"><span class="pre">DigitGene</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.FloatGene"><code class="docutils literal notranslate"><span class="pre">FloatGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.FloatGene.lb"><code class="docutils literal notranslate"><span class="pre">FloatGene.lb</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.FloatGene.random"><code class="docutils literal notranslate"><span class="pre">FloatGene.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.FloatGene.ub"><code class="docutils literal notranslate"><span class="pre">FloatGene.ub</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.IntegerGene"><code class="docutils literal notranslate"><span class="pre">IntegerGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.IntegerGene.lb"><code class="docutils literal notranslate"><span class="pre">IntegerGene.lb</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.IntegerGene.random"><code class="docutils literal notranslate"><span class="pre">IntegerGene.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.IntegerGene.ub"><code class="docutils literal notranslate"><span class="pre">IntegerGene.ub</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.NaturalGene"><code class="docutils literal notranslate"><span class="pre">NaturalGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.NaturalGene.lb"><code class="docutils literal notranslate"><span class="pre">NaturalGene.lb</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.NaturalGene.random"><code class="docutils literal notranslate"><span class="pre">NaturalGene.random()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.NaturalGene.ub"><code class="docutils literal notranslate"><span class="pre">NaturalGene.ub</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.PeriodicGene"><code class="docutils literal notranslate"><span class="pre">PeriodicGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.PeriodicGene.period"><code class="docutils literal notranslate"><span class="pre">PeriodicGene.period</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.SemiCircleGene"><code class="docutils literal notranslate"><span class="pre">SemiCircleGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.SemiCircleGene.lb"><code class="docutils literal notranslate"><span class="pre">SemiCircleGene.lb</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.SemiCircleGene.ub"><code class="docutils literal notranslate"><span class="pre">SemiCircleGene.ub</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.gene.UnitFloatGene"><code class="docutils literal notranslate"><span class="pre">UnitFloatGene</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.gene.UnitFloatGene.lb"><code class="docutils literal notranslate"><span class="pre">UnitFloatGene.lb</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.gene.UnitFloatGene.ub"><code class="docutils literal notranslate"><span class="pre">UnitFloatGene.ub</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#pyrimidine-individual-module">pyrimidine.individual module</a></li>
-<li><a class="reference internal" href="#pyrimidine-meta-module">pyrimidine.meta module</a></li>
+<li><a class="reference internal" href="#module-pyrimidine.meta">pyrimidine.meta module</a><ul>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaArray"><code class="docutils literal notranslate"><span class="pre">MetaArray</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaContainer"><code class="docutils literal notranslate"><span class="pre">MetaContainer</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaContainer.random"><code class="docutils literal notranslate"><span class="pre">MetaContainer.random()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaHighContainer"><code class="docutils literal notranslate"><span class="pre">MetaHighContainer</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaList"><code class="docutils literal notranslate"><span class="pre">MetaList</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaSingle"><code class="docutils literal notranslate"><span class="pre">MetaSingle</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.meta.MetaTuple"><code class="docutils literal notranslate"><span class="pre">MetaTuple</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.meta.ParamType"><code class="docutils literal notranslate"><span class="pre">ParamType</span></code></a><ul>
+<li><a class="reference internal" href="#pyrimidine.meta.ParamType.mixin"><code class="docutils literal notranslate"><span class="pre">ParamType.mixin()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.meta.ParamType.set"><code class="docutils literal notranslate"><span class="pre">ParamType.set()</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.meta.ParamType.set_params"><code class="docutils literal notranslate"><span class="pre">ParamType.set_params()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pyrimidine.meta.System"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li><a class="reference internal" href="#pyrimidine.meta.inherit"><code class="docutils literal notranslate"><span class="pre">inherit()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#pyrimidine-multipopulation-module">pyrimidine.multipopulation module</a></li>
 <li><a class="reference internal" href="#pyrimidine-optimize-module">pyrimidine.optimize module</a></li>
 <li><a class="reference internal" href="#pyrimidine-population-module">pyrimidine.population module</a></li>
@@ -216,12 +799,15 @@
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="pyrimidine.benchmarks.html" title="pyrimidine.benchmarks subpackage"
              >next</a> |</li>
         <li class="right" >
           <a href="Developers.html" title="Developers"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.7.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pyrimidine 1.8 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">pyrimidine package</a></li> 
       </ul>
     </div>

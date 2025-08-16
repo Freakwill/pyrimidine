@@ -1,6 +1,13 @@
 # Release History
 
+## v1.8
+
+For a new beginning; Merge the PRs 
+
+
+
 ## v1.7+
+
 - update the notations of methods/functions 
 - update the documents
 - Allow the GA optimization function to accept an initial solution. see `examples/example-opt.py`
@@ -25,4 +32,3 @@
 - update the decorator for cache
 
 ## before v1.5
-?

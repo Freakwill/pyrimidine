@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,24 +16,17 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - uses: actions/cache@v3
-        id: cache
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Upgrade pip
+      - name: Install Poetry
         run: |
-          python -m pip install --upgrade pip
+          curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Install dependencies
+        run: |
+          poetry install --no-root
 
       - name: Run tests
         if: >
-          (github.event_name == 'push' && ! contains(github.event.head_commit.message, '[skip test]')) ||
-          (github.event_name == 'pull_request' && ! contains(github.event.pull_request.title, '[skip test]'))
+          (github.event_name == 'push' &&! contains(github.event.head_commit.message, '[skip test]')) ||
+          (github.event_name == 'pull_request' &&! contains(github.event.pull_request.title, '[skip test]'))
         run: |
-          echo "Install dependencies"
-          pip install -r requirements.txt
-          pip install pytest
-          pytest
+          poetry run pytest

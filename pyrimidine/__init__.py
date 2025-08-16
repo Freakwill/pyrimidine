@@ -17,7 +17,7 @@ from .ep import *
 from .de import *
 
 
-__version__ = "1.7.5"
+__version__ = "1.8"
 
 
 __template__ = """

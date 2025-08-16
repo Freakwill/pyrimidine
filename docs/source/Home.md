@@ -16,6 +16,10 @@ Why is the package named as "pyrimidine"? Because it begins with "py".
 
 It has been uploaded to pypi, so download it with `pip install pyrimidine`, and also could download it from github.
 
+## Template
+
+Here's a lazy way to start your programming with `pyrimidine`: Print the template of code by `print(__template__)`
+
 ## Idea of algebra-inspired
 We view the population as a container of individuals, each individual as a container of chromosomes, and a chromosome as a container (array) of genes. This container could be represented as a list or an array. The Container class has an attribute `element_class`, which specifies the class of the elements within it.
 
