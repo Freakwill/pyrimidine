@@ -83,6 +83,45 @@ class IterativeMixin:
         for k in range(1, max_iter+1):
             self.transition(k)
 
+    def _evolve(self, initialize:bool=True, max_iter:int=100, period:int=1, callback=None, control=None):
+        """Let the population evolve automatically. (Deprecated currently)
+
+        Keyword Arguments:
+            initialize {bool} -- set True to call `init` method (default: {True})
+            max_iter {number} -- number of iterations (default: {None})
+            period {integer} -- the peroid of running callback (default: {1})
+            callback {function} -- callback function
+            control -- control information for the iteration
+        
+        Returns:
+            DataFrame | None
+        """
+
+        assert control is None or callable(control)
+ 
+        max_iter = max_iter or self.max_iter
+
+
+        if initialize:
+            self.init()
+
+        stat_res_list = []
+
+        for t in range(1, max_iter+1):
+            self.transition(t)
+
+            if period == 1 or t % period ==0:
+                stat_res = callback(self, t) # modify it in future
+                stat_res_list.append(stat_res)
+                
+            if control:
+                if control(self):
+                    # if it satisfies the control condition (such as convergence criterion)
+                    break
+
+        return pd.DataFrame(stat_res_list)
+
+
     def evolve(self, initialize:bool=True, max_iter:int=100, period:int=1, verbose:bool=False, history=False, stat=None, attrs=('solution',), control=None):
         """Let the population evolve automatically.
 

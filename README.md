@@ -79,11 +79,11 @@ The methods are the functions or operators defined on $s$.
 - BaseMultipopulation: a container of population for more complicated optimization
 
 
-### import
-
-Just use the command `from pyrimidine import *` to import all of the algorithms.
+### Import modules
 
 To import all algorithms for beginners, simply use the command `from pyrimidine import *`.
+
+Print the template of code by `print(__template__)`
 
 To speed the lib, use the following commands.
 
