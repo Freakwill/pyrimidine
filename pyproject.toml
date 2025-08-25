@@ -1,13 +1,13 @@
 [project]
 name = "pyrimidine"
 version = "1.8"
-authors = [
-    { name = "William Song", email = "30965609+Freakwill@users.noreply.github.com"},
-]
 description = "A competitive framework tailored for GA, crafted with an emphasis on OOP and Algebra-Inspired Programming."
 keywords = ["Genetic Algorithm", "Artificial Intelligence", "Intelligent Optimization"]
 license = "MIT"
 readme = {file = "README.md", content-type = "text/markdown"}
+authors = [
+    { name = "William Song", email = "30965609+Freakwill@users.noreply.github.com"}
+]
 
 [project.urls]
 homepage = "https://github.com/Freakwill/pyrimidine"
@@ -41,14 +41,8 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
-    "Development Status :: Mature",
-long_description_content_type = "text/markdown"
-requires-poetry = ">=2.0"
-
-[project.urls]
-homepage = "https://github.com/Freakwill/pyrimidine"
-repository = "https://github.com/Freakwill/pyrimidine"
-documentation = "https://pyrimidine.readthedocs.io/en/latest/"
+    "Development Status :: Mature"
+    ]
 
 [tool.poetry.dependencies]
 python = ">=3.9"
