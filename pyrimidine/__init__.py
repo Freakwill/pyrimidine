@@ -20,6 +20,7 @@ from .de import *
 __version__ = "1.8"
 
 
+# Template for implementing GA by pyrimidine
 __template__ = """
 from pyrimidine.chromosome import BinaryChromosome
 from pyrimidine.individual import MonoIndividual, binaryIndividual
@@ -59,7 +60,7 @@ pop = MyPopulation.random(size=n)
 stat={'Mean Fitness': 'fitness', 'Best Fitness': 'max_fitness',
   'Standard Deviation of Fitnesses': 'std_fitness'}
 data = pop.evolve(stat=stat, max_iter=200, history=True)
-# data = pop.ezolve(max_iter=200) # for eaziness
+# pop.ezolve(max_iter=200) # for eaziness
 
 # Visualization
 import matplotlib.pyplot as plt
@@ -74,3 +75,22 @@ ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
 plt.show()
 """
+
+__ez_template__ = """
+from pyrimidine.chromosome import BinaryChromosome
+from pyrimidine.individual import MonoIndividual, binaryIndividual
+from pyrimidine.population import StandardPopulation
+
+from pyrimidine.benchmarks.optimization import *
+
+n = 50
+_evaluate = Knapsack.random(n)
+
+# Define MyPopulation as a container of BinaryChromosome
+MyPopulation = StandardPopulation[BinaryChromosome//n].set_fitness(_evaluate) // 20
+
+pop = MyPopulation.random(size=n)
+pop.ezolve(max_iter=200) # for eaziness
+print(pop.solution)
+"""
+
