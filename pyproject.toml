@@ -53,8 +53,8 @@ toolz = ">=0.12.0"
 matplotlib = ">=3.9.0"
 scikit-learn = ">=1.4.0"
 dask = "*"
-ezstat
-digit-converter
+ezstat = "*"
+digit-converter = "*"
 
 # [project.optional-dependencies]
 # for Statistics and encoding the numbers to genes
