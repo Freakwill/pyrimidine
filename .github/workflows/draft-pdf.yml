@@ -2,11 +2,11 @@ on:
   push:
     branches:
       - main
-    if: github.event_name == 'push' && ! contains(github.event.head_commit.message, '[skip test]')
+    if: github.event_name == 'push' && ! contains(github.event.head_commit.message, '[skip pdf]')
   pull_request:
     branches:
       - main
-    if: github.event_name == 'pull_request' && ! contains(github.event.pull_request.title, '[skip test]')
+    if: github.event_name == 'pull_request' && ! contains(github.event.pull_request.title, '[skip pdf]')
 
 jobs:
   paper:
