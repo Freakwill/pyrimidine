@@ -58,7 +58,7 @@ dask = "*"
 # for Statistics and encoding the numbers to genes
 optional-dependencies = [
     "ezstat>=2.4",
-    "digit-converter>=2.2"
+    "digit-converter>=2.1"
 ]
 
 [tool.poetry.dev-dependencies]
