@@ -57,7 +57,7 @@ dask = "*"
 [project.optional-dependencies]
 # for Statistics and encoding the numbers to genes
 optional-dependencies = [
-    "ezstat>=2.2",
+    "ezstat>=2.3",
     "digit-converter>=2.0"
 ]
 
