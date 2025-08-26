@@ -57,9 +57,9 @@ dask = "*"
 [project.optional-dependencies]
 # for Statistics and encoding the numbers to genes
 optional-dependencies = [
-    "ezstat>=2.2"
+    "ezstat>=2.2",
+    "digit-converter>=2.0"
 ]
-digit-converter = {version = ">=2.1", python = ">=3.9,<4.0"}
 
 [tool.poetry.dev-dependencies]
 pytest = ">=7.1"
