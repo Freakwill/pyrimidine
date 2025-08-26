@@ -55,10 +55,10 @@ scikit-learn = ">=1.4.0"
 dask = "*"
 
 [project.optional-dependencies]
-# for Statistics and for encoding the numbers to genes
+# for Statistics and encoding the numbers to genes
 optional-dependencies = [
     "ezstat>=2.2",
-    digit-converter = {version = ">=2.1", python = ">=3.9,<4.0"}
+    "digit-converter>=2.1"
 ]
 
 [tool.poetry.dev-dependencies]
