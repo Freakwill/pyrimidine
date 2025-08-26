@@ -53,14 +53,14 @@ toolz = ">=0.12.0"
 matplotlib = ">=3.9.0"
 scikit-learn = ">=1.4.0"
 dask = "*"
-ezstat = "*"
-digit-converter = "*"
+ezstat = ">=2.3"
+digit-converter = ">=2.2"
 
 # [project.optional-dependencies]
 # for Statistics and encoding the numbers to genes
 # optional-dependencies = [
-#     "ezstat (>=2.2)",
-#     "digit-converter (>=2.1)"
+#     "ezstat (>=2.3)",
+#     "digit-converter (>=2.2)"
 # ]
 
 [tool.group.poetry.dev.dependencies]
