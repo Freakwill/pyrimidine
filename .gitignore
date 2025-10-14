@@ -11,3 +11,4 @@ pyrimidine/-*.py
 poetry.lock
 .idea/
 .python-version
+*.backup

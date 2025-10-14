@@ -15,6 +15,9 @@ from operator import methodcaller
 import copy
 
 
+USUAL_SIDE_EFFECT = ['mutate', 'extend', 'pop', 'remove', '__setitem__', '__setattr__', '__setstate__']
+
+
 def clear_cache(func):
     # clear the cache coersively
 
@@ -50,7 +53,7 @@ def side_effect(func):
 
 def clear_fitness(func):
     """To clear fitness of the object after some changes have occurred
-    such as executing the method in the list `usual_side_effect`
+    such as executing the method in the list `USUAL_SIDE_EFFECT`
     """
 
     def mthd(obj, *args, **kwargs):
@@ -58,9 +61,6 @@ def clear_fitness(func):
         obj.clear_cache('fitness')
         return result
     return mthd
-
-
-usual_side_effect = ['mutate', 'extend', 'pop', 'remove', '__setitem__', '__setattr__', '__setstate__']
 
 
 def method_cache(func, a):
