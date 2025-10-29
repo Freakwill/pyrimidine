@@ -27,7 +27,7 @@ output:
     number_sections: yes
 ---
 
-# `Pyrimidine`: An algebra-inspired Programming framework for evolutionary algorithms
+
 
 # Summary
 
@@ -39,22 +39,23 @@ Leveraging the principles of object-oriented programming (OOP) and the meta-prog
 
 GAs [@holland; @katoch] have found extensive application across various domains and have undergone modifications and integrations with new algorithms [@alam; @cheng; @katoch]. For details about the principles of GA, refer to the references [@holland; @simon].
 
-In a typical Python implementation, populations are defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`numpy`](https://numpy.org/) [@numpy]. The evolutionary operators are defined on these structures.
+In a typical Python implementation, populations are defined as lists of individuals, with each individual represented by a chromosome composed of a list of genes. Creating an individual can be achieved utilizing either the standard library's `array` or the widely-used third-party library [`NumPy`](https://numpy.org/) [@numpy]. The evolutionary operators are defined on these structures.
 
 A concise comparison between `pyrimidine` and other frameworks is provided in \autoref{frameworks}.
 
 <!-- +-------------------+------------+----------+----------+----------+ -->
-| Library   | Design Style      | Versatility | Extensibility | Visualization           |
-|:----------:|:-------|:--------|:--------|:----------|
-| `pyrimidine`| OOP, Meta-programming, Algebra-insprited | Universal | Extensible | export the data in `DataFrame` |
-| [`DEAP`](https://deap.readthedocs.io/) | OOP, Functional, Meta-programming        | Universal | Limited by its philosophy   | export the data in the class `LogBook`  |
-| [`gaft`](https://github.com/PytLab/gaft) | OOP, decoration pattern   | Universal | Extensible    | Easy to Implement       |
-| [`geppy`](https://geppy.readthedocs.io/) | based on `DEAP` | Symbolic Regression | Limited | - |
-| [`tpot`](https://github.com/EpistasisLab/tpot) /[`gama`](https://github.com/openml-labs/gama)  | [scikit-learn](https://scikit-learn.org/) Style | Hyperparameter Optimization | Limited | -                   |
-| [`gplearn`](https://gplearn.readthedocs.io/)/[`pysr`](https://astroautomata.com/PySR/)   | scikit-learn Style | Symbolic Regression | Limited | -                  |
-| [`scikit-opt`](https://github.com/guofei9987/scikit-opt)| scikit-learn Style | Numerical Optimization | Unextensible | Encapsulated as a data frame      |
-|[`scikit-optimize`](https://scikit-optimize.github.io/stable/)|scikit-learn Style  | Numerical Optimization | Very Limited | provide some plotting function |
-|[`NEAT`](https://neat-python.readthedocs.io/) | OOP  | Neuroevolution | Limited | use the visualization tools |
+
+| Library                                                                                       | Design Style                                    | Versatility                 | Extensibility             | Visualization                          |
+|:---------------------------------------------------------------------------------------------:|:----------------------------------------------- |:--------------------------- |:------------------------- |:-------------------------------------- |
+| `pyrimidine`                                                                                  | OOP, Meta-programming, Algebra-insprited        | Universal                   | Extensible                | export the data in `DataFrame`         |
+| [`DEAP`](https://deap.readthedocs.io/)                                                        | OOP, Functional, Meta-programming               | Universal                   | Limited by its philosophy | export the data in the class `LogBook` |
+| [`gaft`](https://github.com/PytLab/gaft)                                                      | OOP, decoration pattern                         | Universal                   | Extensible                | Easy to Implement                      |
+| [`geppy`](https://geppy.readthedocs.io/)                                                      | based on `DEAP`                                 | Symbolic Regression         | Limited                   | -                                      |
+| [`tpot`](https://github.com/EpistasisLab/tpot) /[`gama`](https://github.com/openml-labs/gama) | [scikit-learn](https://scikit-learn.org/) Style | Hyperparameter Optimization | Limited                   | -                                      |
+| [`gplearn`](https://gplearn.readthedocs.io/)/[`pysr`](https://astroautomata.com/PySR/)        | scikit-learn Style                              | Symbolic Regression         | Limited                   | -                                      |
+| [`scikit-opt`](https://github.com/guofei9987/scikit-opt)                                      | scikit-learn Style                              | Numerical Optimization      | Unextensible              | Encapsulated as a data frame           |
+| [`scikit-optimize`](https://scikit-optimize.github.io/stable/)                                | scikit-learn Style                              | Numerical Optimization      | Very Limited              | provide some plotting function         |
+| [`NEAT`](https://neat-python.readthedocs.io/)                                                 | OOP                                             | Neuroevolution              | Limited                   | use the visualization tools            |
 
 : Comparison of the popular genetic algorithm frameworks. \label{frameworks}
 
