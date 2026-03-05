@@ -27,8 +27,6 @@ output:
     number_sections: yes
 ---
 
-
-
 # Summary
 
 [`Pyrimidine`](https://github.com/Freakwill/pyrimidine) stands as a versatile framework designed for genetic algorithms (GAs), offering exceptional extensibility for a wide array of evolutionary algorithms.
